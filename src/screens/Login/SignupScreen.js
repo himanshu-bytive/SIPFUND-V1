@@ -10,7 +10,7 @@ import {
     Image,
     ActivityIndicator
 } from "react-native";
-import { colors } from '../common/theme';
+import { colors } from '../../common/theme';
 
 export default function SignupScreen(props) {
 

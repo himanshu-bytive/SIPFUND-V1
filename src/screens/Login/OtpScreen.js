@@ -5,7 +5,7 @@ import {
     TextInput,
     Text,
 } from "react-native";
-import { colors } from '../common/theme';
+import { colors } from '../../common/theme';
 import { Ionicons, AntDesign } from 'react-native-vector-icons';
 import { Image } from 'react-native-elements';
 
@@ -22,7 +22,7 @@ export default function OtpScreen(props) {
                     <View>
                         <Image
                             onPress={()=> props.navigation.navigate('password')}
-                            source={require('../../assets/logo.png')}
+                            source={require('../../../assets/logo.png')}
                             style={styles.logimg}
                         />
                     </View>
@@ -39,7 +39,7 @@ export default function OtpScreen(props) {
 
             <View>
                 <Image
-                    source={require('../../assets/nse.png')}
+                    source={require('../../../assets/nse.png')}
                     style={styles.nseimg}
                 />
             </View>
@@ -59,7 +59,8 @@ const styles = StyleSheet.create({
     slogan: {
         fontSize: 30,
         color: colors.BLACK,
-        marginTop: 100
+        marginTop: 100,
+        marginBottom:20
     },
     sloganRed: {
         color: colors.RED,

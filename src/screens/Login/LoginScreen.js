@@ -12,7 +12,7 @@ import {
     TouchableOpacity,
     ActivityIndicator
 } from "react-native";
-import { colors } from '../common/theme';
+import { colors } from '../../common/theme';
 import { MaterialIcons, AntDesign } from 'react-native-vector-icons';
 
 export default function LoginScreen(props) {
@@ -22,7 +22,7 @@ export default function LoginScreen(props) {
             <View style={styles.mainbox}>
                 <View style={{ alignItems: "center" }}>
                     <Image
-                        source={require('../../assets/logo.png')}
+                        source={require('../../../assets/logo.png')}
                         style={styles.logoimg}
                     />
                 </View>
@@ -56,7 +56,7 @@ export default function LoginScreen(props) {
             </View>
             <View>
                 <Image
-                    source={require('../../assets/nse.png')}
+                    source={require('../../../assets/nse.png')}
                     style={styles.nseimg}
                 />
             </View>

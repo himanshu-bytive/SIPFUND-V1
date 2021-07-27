@@ -5,7 +5,7 @@ import {
     Text,
     Image,
 } from "react-native";
-import { colors } from '../common/theme';
+import { colors } from '../../common/theme';
 
 export default function SplashScreen() {
     return (
@@ -15,7 +15,7 @@ export default function SplashScreen() {
             </View>
             <View>
                 <Image
-                    source={require('../../assets/icon.png')}
+                    source={require('../../../assets/icon.png')}
                     style={styles.imgeWidht}
                 />
             </View>
@@ -23,12 +23,12 @@ export default function SplashScreen() {
                 <Text style={styles.most_trusted}>Most trusted for</Text>
                 <Text style={styles.most_trusted}>Mutual Fund Investment</Text>
                 <Image
-                    source={require('../../assets/nse.png')}
+                    source={require('../../../assets/nse.png')}
                     style={styles.nseimg}
 
                 />
                 <Image
-                    source={require('../../assets/powerby.png')}
+                    source={require('../../../assets/powerby.png')}
                     style={styles.powerbyimg}
                 />
             </View>
