@@ -20,7 +20,7 @@ export default function Goals2Screen(props) {
         <View style={styles.container}>
             <View style={styles.Header_top}>
                 <Header
-                    leftComponent={<View style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={colors.RED} /></View>} backgroundColor={colors.PEACH}
+                    leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={colors.RED} /></TouchableOpacity>} backgroundColor={colors.PEACH}
                     centerComponent={<Image
                         source={require('../../../assets/icon.png')}
                         style={styles.logimg}
@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
         marginVertical: 10,
         padding: 5,
         paddingBottom: 0,
-        backgroundColor:colors.WHITE,
+        backgroundColor: colors.WHITE,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,

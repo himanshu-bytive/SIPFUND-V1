@@ -47,7 +47,7 @@ export default function PasswordScreen(props) {
                 </View>
 
                 <View style={styles.button}>
-                    <TouchableOpacity style={styles.botton_box}>
+                    <TouchableOpacity onPress={() => props.navigation.navigate('Goals')} style={styles.botton_box}>
                         <Text style={styles.get_otp}>CREATE</Text>
                     </TouchableOpacity>
                 </View>

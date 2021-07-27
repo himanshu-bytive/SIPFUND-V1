@@ -18,7 +18,7 @@ import { Image, Header, CheckBox } from 'react-native-elements';
 
 export default function HomePage1(props) {
     return (
-        <ScrollView style={{ width: '100%' }}>
+        <View>
             <Header
                 leftComponent={<View style={{ marginTop: 20 }}><Entypo name={"menu"} size={30} color={colors.RED} /></View>}
                 backgroundColor={colors.LIGHT_WHITE}
@@ -28,183 +28,185 @@ export default function HomePage1(props) {
                     style={styles.logimg}
                 />}
             />
-            <View style={styles.home_top}>
-                <Image
-                    source={require('../../assets/Hello.png')}
-                    style={styles.Helloimg}
-                />
-                <Text style={styles.HelloIinvestor}>Hello, Investor</Text>
-                <Text style={styles.HelloIinvestor1}>You’re almost ready to submit</Text>
-                <TouchableOpacity style={styles.botton_box}>
-                    <Text style={styles.get_otp}>COMPLETE ACCOUNT SETUP</Text>
-                </TouchableOpacity>
-            </View>
+            <ScrollView style={{ width: '100%' }}>
+                <View style={styles.home_top}>
+                    <Image
+                        source={require('../../assets/Hello.png')}
+                        style={styles.Helloimg}
+                    />
+                    <Text style={styles.HelloIinvestor}>Hello, Investor</Text>
+                    <Text style={styles.HelloIinvestor1}>You’re almost ready to submit</Text>
+                    <TouchableOpacity style={styles.botton_box}>
+                        <Text style={styles.get_otp}>COMPLETE ACCOUNT SETUP</Text>
+                    </TouchableOpacity>
+                </View>
 
-            <Text style={styles.Plan}>Plan Your GOALS</Text>
+                <Text style={styles.Plan}>Plan Your GOALS</Text>
 
-            <ScrollView horizontal={true}>
+                <ScrollView horizontal={true}>
 
-                <View style={styles.education}>
-                    <View style={styles.child_sec}>
-                        <Image
-                            source={require('../../assets/childimg.png')}
-                            style={styles.goals_2}
-                        />
+                    <View style={styles.education}>
+                        <View style={styles.child_sec}>
+                            <Image
+                                source={require('../../assets/childimg.png')}
+                                style={styles.goals_2}
+                            />
+                        </View>
+                        <View style={styles.education_sec}>
+                            <Text style={styles.child}>Car Purchase</Text>
+                            <Text style={styles.child_text}>Plan for that dream car you always wanted</Text>
+                        </View>
                     </View>
-                    <View style={styles.education_sec}>
-                        <Text style={styles.child}>Car Purchase</Text>
-                        <Text style={styles.child_text}>Plan for that dream car you always wanted</Text>
+
+                    <View style={styles.education}>
+                        <View style={styles.child_sec}>
+                            <Image
+                                source={require('../../assets/childimg.png')}
+                                style={styles.goals_2}
+                            />
+                        </View>
+                        <View style={styles.education_sec}>
+                            <Text style={styles.child}>Car Purchase</Text>
+                            <Text style={styles.child_text}>Plan for that dream car you always wanted</Text>
+                        </View>
+                    </View>
+
+
+                    <View style={styles.education}>
+                        <View style={styles.child_sec}>
+                            <Image
+                                source={require('../../assets/childimg.png')}
+                                style={styles.goals_2}
+                            />
+                        </View>
+                        <View style={styles.education_sec}>
+                            <Text style={styles.child}>Car Purchase</Text>
+                            <Text style={styles.child_text}>Plan for that dream car you always wanted</Text>
+                        </View>
+                    </View>
+
+                    <View style={styles.education}>
+                        <View style={styles.child_sec}>
+                            <Image
+                                source={require('../../assets/childimg.png')}
+                                style={styles.goals_2}
+                            />
+                        </View>
+                        <View style={styles.education_sec}>
+                            <Text style={styles.child}>Car Purchase</Text>
+                            <Text style={styles.child_text}>Plan for that dream car you always wanted</Text>
+                        </View>
+                    </View>
+                </ScrollView>
+
+                <View style={styles.border}></View>
+
+                <Text style={styles.Plan}>Investment Plans</Text>
+
+                <View style={styles.investment_sec}>
+
+                    <View style={styles.investment}>
+                        <Image
+                            source={require('../../assets/term1.png')}
+                            style={styles.term}
+                        />
+                        <Text style={styles.long}>Long Term</Text>
+                    </View>
+
+                    <View style={styles.investment}>
+                        <Image
+                            source={require('../../assets/term2.png')}
+                            style={styles.term}
+                        />
+                        <Text style={styles.long}>Tax Saving Funds
+                        </Text>
+                    </View>
+
+                    <View style={styles.investment}>
+                        <Image
+                            source={require('../../assets/term3.png')}
+                            style={styles.term}
+                        />
+                        <Text style={styles.long}>Better Than
+                            FD</Text>
+                    </View>
+
+                </View>
+
+                <View style={styles.investment_sec}>
+                    <View style={styles.investment}>
+                        <Image
+                            source={require('../../assets/term4.png')}
+                            style={styles.term}
+                        />
+                        <Text style={styles.long}>Aggressive
+                            Funds</Text>
+                    </View>
+                    <View style={styles.investment}>
+                        <Image
+                            source={require('../../assets/term5.png')}
+                            style={styles.term}
+                        />
+                        <Text style={styles.long}>Funds For
+                            SIP
+                        </Text>
+                    </View>
+                    <View style={styles.investment}>
+                        <Image
+                            source={require('../../assets/term6.png')}
+                            style={styles.term}
+                        />
+                        <Text style={styles.long}>Emergency
+                            Funds
+                        </Text>
+                    </View>
+
+                </View>
+
+
+                <View style={{ alignItems: "center" }}>
+                    <View style={styles.all_plan}>
+                        <Text style={styles.all_plan_text}>See All Investment Plan</Text>
+                        <AntDesign name="down" size={20} color="#C0392B" />
                     </View>
                 </View>
 
+                <View style={styles.border}></View>
+                <Text style={styles.roted_text}>Top Rated Funds</Text>
+
                 <View style={styles.education}>
                     <View style={styles.child_sec}>
                         <Image
-                            source={require('../../assets/childimg.png')}
-                            style={styles.goals_2}
+                            source={require('../../assets/term7.png')}
+                            style={styles.fund_img}
                         />
                     </View>
                     <View style={styles.education_sec}>
-                        <Text style={styles.child}>Car Purchase</Text>
-                        <Text style={styles.child_text}>Plan for that dream car you always wanted</Text>
+                        <Text style={styles.child}>Get Top Rated Funds</Text>
+                        <Text style={styles.child_text}>At SIPFund.com we help you in choosing the best for you!</Text>
                     </View>
                 </View>
+                <View style={styles.roted_border}></View>
 
+                <View style={styles.quick_sec}>
+                    <Text style={styles.quick_text}>Quick Access</Text>
 
-                <View style={styles.education}>
-                    <View style={styles.child_sec}>
-                        <Image
-                            source={require('../../assets/childimg.png')}
-                            style={styles.goals_2}
-                        />
-                    </View>
-                    <View style={styles.education_sec}>
-                        <Text style={styles.child}>Car Purchase</Text>
-                        <Text style={styles.child_text}>Plan for that dream car you always wanted</Text>
-                    </View>
-                </View>
-
-                <View style={styles.education}>
-                    <View style={styles.child_sec}>
-                        <Image
-                            source={require('../../assets/childimg.png')}
-                            style={styles.goals_2}
-                        />
-                    </View>
-                    <View style={styles.education_sec}>
-                        <Text style={styles.child}>Car Purchase</Text>
-                        <Text style={styles.child_text}>Plan for that dream car you always wanted</Text>
+                    <View style={styles.education}>
+                        <View style={styles.child_sec}>
+                            <Image
+                                source={require('../../assets/term8.png')}
+                                style={styles.quick_img}
+                            />
+                        </View>
+                        <View style={styles.education_sec}>
+                            <Text style={styles.earn}>Refer & Earn</Text>
+                            <Text style={styles.child_text}>Now earn upto
+                                Rs. 5,000/-</Text>
+                        </View>
                     </View>
                 </View>
             </ScrollView>
-
-            <View style={styles.border}></View>
-
-            <Text style={styles.Plan}>Investment Plans</Text>
-            
-            <View style={styles.investment_sec}>
-                
-                <View style={styles.investment}>
-                    <Image
-                        source={require('../../assets/term1.png')}
-                        style={styles.term}
-                    />
-                    <Text style={styles.long}>Long Term</Text>
-                </View>
-                
-                <View style={styles.investment}>
-                    <Image
-                        source={require('../../assets/term2.png')}
-                        style={styles.term}
-                    />
-                    <Text style={styles.long}>Tax Saving Funds
-                    </Text>
-                </View>
-                
-                <View style={styles.investment}>
-                    <Image
-                        source={require('../../assets/term3.png')}
-                        style={styles.term}
-                    />
-                    <Text style={styles.long}>Better Than
-                        FD</Text>
-                </View>
-
-            </View>
-
-            <View style={styles.investment_sec}>
-                <View style={styles.investment}>
-                    <Image
-                        source={require('../../assets/term4.png')}
-                        style={styles.term}
-                    />
-                    <Text style={styles.long}>Aggressive
-                        Funds</Text>
-                </View>
-                <View style={styles.investment}>
-                    <Image
-                        source={require('../../assets/term5.png')}
-                        style={styles.term}
-                    />
-                    <Text style={styles.long}>Funds For
-                        SIP
-                    </Text>
-                </View>
-                <View style={styles.investment}>
-                    <Image
-                        source={require('../../assets/term6.png')}
-                        style={styles.term}
-                    />
-                    <Text style={styles.long}>Emergency
-                        Funds
-                    </Text>
-                </View>
-
-            </View>
-          
-          
-            <View style={{alignItems: "center"}}>
-                <View style={styles.all_plan}>
-                    <Text style={styles.all_plan_text}>See All Investment Plan</Text>
-                    <AntDesign name="down" size={20} color="#C0392B" />
-                </View>
-            </View>
-           
-            <View style={styles.border}></View>
-            <Text style={styles.roted_text}>Top Rated Funds</Text>
-
-            <View style={styles.education}>
-                <View style={styles.child_sec}>
-                    <Image
-                        source={require('../../assets/term7.png')}
-                        style={styles.fund_img}
-                    />
-                </View>
-                <View style={styles.education_sec}>
-                    <Text style={styles.child}>Get Top Rated Funds</Text>
-                    <Text style={styles.child_text}>At SIPFund.com we help you in choosing the best for you!</Text>
-                </View>
-            </View>
-            <View style={styles.roted_border}></View>
-
-            <View style={styles.quick_sec}>
-                <Text style={styles.quick_text}>Quick Access</Text>
-
-                <View style={styles.education}>
-                    <View style={styles.child_sec}>
-                        <Image
-                            source={require('../../assets/term8.png')}
-                            style={styles.quick_img}
-                        />
-                    </View>
-                    <View style={styles.education_sec}>
-                        <Text style={styles.earn}>Refer & Earn</Text>
-                        <Text style={styles.child_text}>Now earn upto
-                            Rs. 5,000/-</Text>
-                    </View>
-                </View>
-            </View>
-        </ScrollView>
+        </View>
     );
 }
 
@@ -325,7 +327,7 @@ const styles = StyleSheet.create({
     investment: {
         backgroundColor: colors.WHITE,
         borderWidth: 2,
-        width:'30%',
+        width: '30%',
         alignItems: "center",
         margin: 7,
     },

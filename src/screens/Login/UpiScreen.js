@@ -33,7 +33,7 @@ export default function PasswordScreen(props) {
             </View>
             <View style={styles.mainbox}>
                 <View style={styles.button}>
-                    <TouchableOpacity onPress={() => props.navigation.navigate('otp')} style={[styles.botton_box, styles.botton_box_none]}>
+                    <TouchableOpacity onPress={() => props.navigation.navigate('Pan')} style={[styles.botton_box, styles.botton_box_none]}>
                         <Image
                             source={require('../../../assets/Upi_img.png')}
                             style={styles.upiImage}
@@ -42,13 +42,13 @@ export default function PasswordScreen(props) {
                 </View>
                 <View style={styles.button}>
 
-                    <TouchableOpacity onPress={() => props.navigation.navigate('otp')} style={styles.botton_box}>
+                    <TouchableOpacity onPress={() => props.navigation.navigate('Pan')} style={styles.botton_box}>
                         <Text style={styles.get_otp}>Internet Banking</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={styles.button}>
 
-                    <TouchableOpacity onPress={() => props.navigation.navigate('otp')} style={styles.botton_box}>
+                    <TouchableOpacity onPress={() => props.navigation.navigate('Pan')} style={styles.botton_box}>
                         <Text style={styles.get_otp}>e-Mandate</Text>
                     </TouchableOpacity>
                 </View>

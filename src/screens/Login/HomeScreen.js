@@ -37,7 +37,7 @@ export default function PasswordScreen(props) {
 
             <Text style={styles.HelloIinvestor1}>You’re almost ready to submit</Text>
 
-            <TouchableOpacity style={styles.botton_box}>
+            <TouchableOpacity onPress={()=> props.navigation.navigate('Faq')} style={styles.botton_box}>
                 <Text style={styles.get_otp}>COMPLETE ACCOUNT SETUP</Text>
             </TouchableOpacity>
 

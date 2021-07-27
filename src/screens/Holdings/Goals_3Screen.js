@@ -23,7 +23,7 @@ export default function Goals_3Screen(props) {
             <View style={styles.container}>
                 <View style={styles.Header_top}>
                     <Header
-                        leftComponent={{ icon: 'arrow-long-left', iconStyle: { color: '#CD2700', paddingTop: 30, } }}
+                        leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={colors.RED} /></TouchableOpacity>} backgroundColor={colors.PEACH}
                         backgroundColor={colors.PEACH}
                         centerComponent={<Image
                             source={require('../../../assets/icon.png')}

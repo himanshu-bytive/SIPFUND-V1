@@ -51,9 +51,8 @@ export default function PasswordScreen(props) {
                 </View>
 
 
-                <TouchableOpacity style={styles.botton_box}>
+                <TouchableOpacity onPress={()=> props.navigation.navigate('Upi')} style={styles.botton_box}>
                     <Text style={styles.get_otp}>MORE FAQ’s</Text>
-
                 </TouchableOpacity>
             </View>
         </View>
