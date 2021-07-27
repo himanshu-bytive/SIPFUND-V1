@@ -1,0 +1,144 @@
+import React, { useState, useRef, useEffect, useContext } from "react";
+import {
+    StyleSheet,
+    View,
+    ImageBackground,
+    Text,
+    Dimensions,
+    KeyboardAvoidingView,
+    TextInput,
+    Image,
+    ActivityIndicator
+} from "react-native";
+import { colors } from '../common/theme';
+
+export default function SignupScreen(props) {
+
+
+    return (
+
+        <View style={styles.overView}>
+            <Text>sign up sadfdsf ...</Text>
+        </View>
+    );
+}
+
+const styles = StyleSheet.create({
+    loading: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingBottom: 40
+    },
+    overView: {
+        flex: 1,
+        backgroundColor: 'rgba(70, 70, 70, 0.4)'
+    },
+    container: {
+        flex: 1
+    },
+    imagebg: {
+        position: 'absolute',
+        left: 0,
+        top: 0,
+        width: Dimensions.get('window').width,
+        height: Dimensions.get('window').height,
+    },
+    topBar: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 30,
+        marginBottom: 30
+    },
+    welcome: {
+        fontSize: 27,
+        fontFamily: "Roboto-Regular",
+        textAlign: "center",
+        paddingBottom: 10,
+        color: colors.WHITE
+    },
+    login: {
+        fontSize: 22,
+        fontFamily: "Roboto-Regular",
+        paddingBottom: 10,
+        textAlign: "center",
+        color: colors.WHITE
+    },
+    error: {
+        fontSize: 15,
+        fontFamily: "Roboto-Regular",
+        padding: 10,
+        textAlign: "center",
+        color: colors.WHITE
+    },
+    errorBorder: {
+        borderWidth: 1,
+        borderColor: colors.RED
+    },
+    box1: {
+        backgroundColor: colors.WHITE,
+        marginLeft: 20,
+        marginRight: 20,
+        marginTop: 20,
+        padding: 10,
+        paddingTop: 7,
+        paddingBottom: 13,
+        paddingLeft: 45,
+        borderWidth: 1,
+        borderColor: colors.GREY.border,
+        borderRadius: 25,
+        justifyContent: 'center'
+    },
+    iconContainer: {
+        position: 'absolute',
+        left: 15,
+        top: 10
+    },
+    textInput: {
+        color: colors.GREY.background,
+        fontSize: 20,
+        fontFamily: "Roboto-Regular",
+        textAlign: "left",
+        marginTop: 8,
+        marginLeft: 5
+    },
+    forgotLink: {
+        color: colors.GREY.background,
+        fontSize: 18,
+        fontFamily: "Roboto-Regular",
+        textAlign: "left",
+        marginTop: 8,
+        marginLeft: 30
+    },
+    barLinks: {
+        marginTop: 20,
+        alignSelf: "center",
+        fontSize: 18,
+        fontWeight: 'bold'
+    },
+    linkText: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: colors.WHITE,
+        fontFamily: "Roboto-Bold",
+    },
+    materialButtonDark: {
+        marginTop: 22,
+        marginLeft: 35,
+        marginRight: 35,
+        backgroundColor: colors.GREEN.bright,
+        borderWidth: 1,
+        borderColor: colors.WHITE,
+        borderRadius: 25,
+        padding: 10,
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    buttonTitle: {
+        fontSize: 22
+    }
+});

@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "mobile",
-    "slug": "mobile",
+    "name": "SIP Fund",
+    "slug": "sipfund",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/iconLogo.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -21,9 +21,10 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/iconLogo.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.sunita4u91.sipfund"
     },
     "web": {
       "favicon": "./assets/favicon.png"

@@ -1,21 +1,36 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import AppContainer from './src/navigation/AppNavigator';
 
 export default function App() {
+  const [assetsLoaded, setAssetsLoaded] = useState(false);
+  const [updateMsg, setUpdateMsg] = useState('');
+
+  useEffect(() => {
+    onLoad();
+  }, []);
+
+  const onLoad = async () => {
+    if (__DEV__) {
+      setUpdateMsg(language.loading_assets);
+      setAssetsLoaded(true);
+    } else {
+      try {
+        setUpdateMsg('Cecking Updates');
+        const update = await Updates.checkForUpdateAsync();
+        if (update.isAvailable) {
+          setUpdateMsg('Downloading Updates');
+          await Updates.fetchUpdateAsync();
+          await Updates.reloadAsync();
+        } else {
+          setAssetsLoaded(true);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  }
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <AppContainer />
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
