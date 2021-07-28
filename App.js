@@ -11,7 +11,7 @@ export default function App() {
 
   const onLoad = async () => {
     if (__DEV__) {
-      setUpdateMsg(language.loading_assets);
+      setUpdateMsg('Loading Assets');
       setAssetsLoaded(true);
     } else {
       try {
