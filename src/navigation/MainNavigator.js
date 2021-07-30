@@ -6,17 +6,21 @@ import { Fontisto, FontAwesome, AntDesign } from 'react-native-vector-icons';
 import {
     SplashScreen,
     LoginScreen,
+    SignupScreen,
     OtpScreen,
     PasswordScreen,
     HomeScreen,
     FaqScreen,
     UpiScreen,
     PanScreen,
+    Goals2Screen,
+    Goals3Screen,
+    Goals4Screen,
+    Goals5Screen,
+    Goals6Screen,
+    HomePage1,
     GoalsScreen,
     Goals1Screen,
-    Goals2Screen,
-    Goals_3Screen,
-    HomePage1,
 } from '../screens';
 import SideMenu from '../components/SideMenu';
 
@@ -70,7 +74,25 @@ export const AuthStack = createStackNavigator({
         }
     },
     Goals3: {
-        screen: Goals_3Screen,
+        screen: Goals3Screen,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    Goals4: {
+        screen: Goals4Screen,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    Goals5: {
+        screen: Goals5Screen,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    Goals6: {
+        screen: Goals6Screen,
         navigationOptions: {
             headerShown: false,
         }
@@ -105,7 +127,25 @@ export const ExploreStack = createStackNavigator({
         }
     },
     Goals3: {
-        screen: Goals_3Screen,
+        screen: Goals3Screen,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    Goals4: {
+        screen: Goals4Screen,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    Goals5: {
+        screen: Goals5Screen,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    Goals6: {
+        screen: Goals6Screen,
         navigationOptions: {
             headerShown: false,
         }
@@ -156,7 +196,7 @@ const DrawerRoutes = {
 //tab navigator for user end
 export const TabNavigator = createBottomTabNavigator({
     Explore: {
-        screen: HomeScreen,
+        screen: GoalsScreen,
         navigationOptions: {
             tabBarLabel: 'Explore',
             tabBarIcon: ({ focused, tintColor }) => {
@@ -166,7 +206,7 @@ export const TabNavigator = createBottomTabNavigator({
         }
     },
     Plan: {
-        screen: FaqScreen,
+        screen: Goals1Screen,
         navigationOptions: {
             tabBarIcon: ({ focused, tintColor }) => {
                 // const iconName = `ios-information-circle${focused ? '' : '-outline'}`;
@@ -175,7 +215,7 @@ export const TabNavigator = createBottomTabNavigator({
         }
     },
     Dashboard: {
-        screen: HomeScreen,
+        screen: Goals2Screen,
         navigationOptions: {
             tabBarIcon: ({ focused, tintColor }) => {
                 // const iconName = `ios-information-circle${focused ? '' : '-outline'}`;
@@ -184,7 +224,7 @@ export const TabNavigator = createBottomTabNavigator({
         }
     },
     You: {
-        screen: HomeScreen,
+        screen: Goals3Screen,
         navigationOptions: {
             tabBarIcon: ({ focused, tintColor }) => {
                 // const iconName = `ios-information-circle${focused ? '' : '-outline'}`;

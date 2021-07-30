@@ -17,7 +17,7 @@ import { Ionicons, AntDesign, FontAwesome, FontAwesome5, } from 'react-native-ve
 import { Image, Header, CheckBox } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
 
-export default function Goals_3Screen(props) {
+export default function Goals3Screen(props) {
     return (
         <ScrollView>
             <View style={styles.container}>
@@ -29,6 +29,7 @@ export default function Goals_3Screen(props) {
                             source={require('../../../assets/icon.png')}
                             style={styles.logimg}
                         />}
+                        rightComponent={<View style={{ marginTop: 20, borderWidth: 1, backgroundColor: colors.WHITE, borderColor: colors.RED, padding: 5, borderRadius: 7, }}><Text>KN</Text></View>}
                     />
                     <Image
                         source={require('../../../assets/childimg.png')}
@@ -41,10 +42,7 @@ export default function Goals_3Screen(props) {
                                 source={require('../../../assets/plan_img.png')}
                                 style={styles.plan_img}
                             />
-                            <View style={styles.price}>
-                                {<FontAwesome name="rupee" size={14} color="#020202" />}
-                                <Text style={styles.rate}>10,00,000/-</Text>
-                            </View>
+                            <Text style={styles.rate}>₹ 10,00,000/-</Text>
                             <Text style={styles.Target_Set}>Target Set</Text>
                         </View>
 
@@ -64,37 +62,34 @@ export default function Goals_3Screen(props) {
                     </View>
                 </View>
 
+
+
+
                 <View style={styles.valua_sec}>
                     <View style={styles.price}>
-                        {<FontAwesome name="rupee" size={17} color="#FFFFFF" />}
-                        <Text style={styles.rate_2}>10,00,000</Text>
+
+                        <Text style={styles.rate_2}>₹ 10,00,000</Text>
+                        <Text style={styles.Current_Value}>Current Value</Text>
                     </View>
-                    <Text style={styles.Current_Value}>Current Value</Text>
+
 
                     <View style={styles.Investment}>
-                        <View style={styles.box1}>
-
-                            <View style={styles.price}>
-                                {<FontAwesome name="rupee" size={17} color="#FFFFFF" />}
-                                <Text style={styles.rate_2}>10,00,000</Text>
-                            </View>
+                        <View style={styles.Investment_value}>
+                            <Text style={styles.rate_2}>₹ 10,00,000</Text>
                             <Text style={styles.Current_Value}>Investment</Text>
                         </View>
 
 
-                        <View style={styles.box1}>
-                            <View style={styles.price}>
-                                {<FontAwesome name="rupee" size={17} color="#FFFFFF" />}
-                                <Text style={styles.rate_2}>50,000</Text>
-                            </View>
+                        <View style={styles.Investment_value}>
+                            <Text style={styles.rate_2}>₹ 50,000</Text>
                             <Text style={styles.Current_Value}>Profit/Loss</Text>
                         </View>
 
-                        <View style={styles.box1}>
-                            <View style={styles.price}>
-                                <Text style={styles.rate_2}>17.01%</Text>
-                            </View>
+                        <View style={styles.Investment_value}>
+
+                            <Text style={styles.rate_2}>17.01%</Text>
                             <Text style={styles.Current_Value}>CAGR</Text>
+
                         </View>
                     </View>
                 </View>
@@ -102,29 +97,34 @@ export default function Goals_3Screen(props) {
                 <View style={styles.small_box}>
                     <Text style={styles.Hybrid}>Hybrid</Text>
                 </View>
-
-
-
                 <View style={styles.fund}>
+                    <View style={styles.SBI}>
 
-                    <Image
-                        source={require('../../../assets/Hybrid_img.png')}
-                        style={styles.Hybrid_img}
-                    />
-                    <Text style={styles.SBIEquity}>SBI Equity Hybrid Fund</Text>
+                        <Image
+                            source={require('../../../assets/Hybrid_img.png')}
+                            style={styles.Hybrid_img}
+                        />
+
+                        <Text style={styles.SBIEquity}>SBI Equity Hybrid Fund</Text>
+                    </View>
                     <Text style={styles.SBIEquity_rate}>4,000</Text>
                 </View>
+
+
+
 
                 <View style={styles.small_box}>
                     <Text style={styles.Hybrid}>Large Cap</Text>
                 </View>
                 <View style={styles.fund}>
+                    <View style={styles.SBI}>
 
-                    <Image
-                        source={require('../../../assets/LargeCap_img.png')}
-                        style={styles.Hybrid_img}
-                    />
-                    <Text style={styles.SBIEquity}>Mirae Asset Large Cap Fund</Text>
+                        <Image
+                            source={require('../../../assets/LargeCap_img.png')}
+                            style={styles.Hybrid_img}
+                        />
+                        <Text style={styles.SBIEquity}>Mirae Asset Large Cap Fund</Text>
+                    </View>
                     <Text style={styles.SBIEquity_rate}>5,000</Text>
                 </View>
 
@@ -132,12 +132,14 @@ export default function Goals_3Screen(props) {
                     <Text style={styles.Hybrid}>Multi Cap</Text>
                 </View>
                 <View style={styles.fund}>
+                    <View style={styles.SBI}>
 
-                    <Image
-                        source={require('../../../assets/MultiCap_img.png')}
-                        style={styles.Hybrid_img}
-                    />
-                    <Text style={styles.SBIEquity}>Kotak Standard Multicap Fund</Text>
+                        <Image
+                            source={require('../../../assets/MultiCap_img.png')}
+                            style={styles.Hybrid_img}
+                        />
+                        <Text style={styles.SBIEquity}>Kotak Standard Multicap Fund</Text>
+                    </View>
                     <Text style={styles.SBIEquity_rate}>4,000</Text>
                 </View>
 
@@ -145,12 +147,14 @@ export default function Goals_3Screen(props) {
                     <Text style={styles.Hybrid}>Mid Cap</Text>
                 </View>
                 <View style={styles.fund}>
+                    <View style={styles.SBI}>
 
-                    <Image
-                        source={require('../../../assets/MidCap_img.png')}
-                        style={styles.Hybrid_img}
-                    />
-                    <Text style={styles.SBIEquity}>BNP Paribas Mid Cap Fund</Text>
+                        <Image
+                            source={require('../../../assets/MidCap_img.png')}
+                            style={styles.Hybrid_img}
+                        />
+                        <Text style={styles.SBIEquity}>BNP Paribas Mid Cap Fund</Text>
+                    </View>
                     <Text style={styles.SBIEquity_rate}>4,000</Text>
                 </View>
 
@@ -190,7 +194,7 @@ const styles = StyleSheet.create({
     text_goals: {
         fontSize: 20,
         marginVertical: 15,
-        fontWeight: "bold",
+
     },
     education_plan: {
         flexDirection: "row",
@@ -206,7 +210,7 @@ const styles = StyleSheet.create({
         width: 69,
     },
     price: {
-        flexDirection: "row",
+
         alignItems: "center",
 
     },
@@ -238,26 +242,32 @@ const styles = StyleSheet.create({
         width: "90%",
         backgroundColor: colors.RED,
         alignItems: "center",
-        borderRadius: 10,
+        borderRadius: 30,
         marginTop: 30,
+
     },
     rate_2: {
         color: colors.WHITE,
         fontWeight: "bold",
         fontSize: 17,
+        marginTop: 10,
     },
     Current_Value: {
+
         color: colors.WHITE,
         fontWeight: "bold",
+        fontSize: 12,
     },
     Investment: {
         marginTop: 20,
         flexDirection: "row",
     },
-    box1: {
+    Investment_value: {
         width: "30%",
         alignItems: "center",
         paddingHorizontal: 5,
+        marginBottom: 20,
+
     },
     small_box: {
         backgroundColor: "#EFEFEF",
@@ -271,11 +281,23 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
     },
     fund: {
-        width: "90%",
-        borderWidth: 1,
+        marginHorizontal: 20,
         flexDirection: "row",
         paddingVertical: 10,
         marginTop: 10,
+        backgroundColor: colors.WHITE,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 5,
+        },
+        shadowOpacity: 0.23,
+        shadowRadius: 2.62,
+        elevation: 4,
+
+    },
+    SBI: {
+        flexDirection: "row",
     },
     Hybrid_img: {
         height: 44,
@@ -285,10 +307,15 @@ const styles = StyleSheet.create({
     SBIEquity: {
         marginLeft: 10,
         paddingTop: 15,
+        width: "74%",
+        fontSize: 18,
+
     },
     SBIEquity_rate: {
         paddingTop: 15,
-        paddingLeft: 90,
+        fontSize: 18,
+
+
     },
     botton_box: {
         width: "80%",
