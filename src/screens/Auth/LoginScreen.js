@@ -27,11 +27,12 @@ export default function LoginScreen(props) {
                     />
                 </View>
                 <Text style={styles.continue}>Continue with</Text>
-                <View style={styles.phone_number}>
-                    <MaterialIcons name="call" size={20} color="#838280" />
-                    {/* { <AntDesign name={"upcircle"} size={20} color={colors.RED} /> } */}
-                    <Text style={styles.number}>9850612345</Text>
-                </View>
+                <TouchableOpacity onPress={() => props.navigation.navigate('createpassword')}>
+                    <View style={styles.phone_number}>
+                        <MaterialIcons name="call" size={20} color="#838280" />
+                        <Text style={styles.number}>9850612345</Text>
+                    </View>
+                </TouchableOpacity>
                 <View style={styles.phone_number}>
                     <MaterialIcons name="call" size={20} color="#838280" />
                     <Text style={styles.number}>9850612345</Text>
@@ -46,7 +47,7 @@ export default function LoginScreen(props) {
                 </View>
 
                 <View style={styles.button}>
-                    <TouchableOpacity onPress={()=> props.navigation.navigate('otp')} style={styles.botton_box}>
+                    <TouchableOpacity onPress={() => props.navigation.navigate('otp')} style={styles.botton_box}>
                         <Text style={styles.get_otp}>GET OTP</Text>
                     </TouchableOpacity>
                 </View>

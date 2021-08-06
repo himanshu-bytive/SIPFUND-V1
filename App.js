@@ -1,5 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import AppContainer from './src/navigation/AppNavigator';
+import {
+  SplashScreen,
+  LoginScreen,
+  OtpScreen,
+  PasswordScreen,
+  CreatePasswordScreen,
+  ForgotPasswordScreen,
+  SignupScreen,
+  HomeScreen,
+  FaqScreen,
+  UpiScreen,
+  PanScreen,
+  Goals2Screen,
+  Goals3Screen,
+  Goals4Screen,
+  Goals5Screen,
+  Goals6Screen,
+  GoalsScreen,
+  Goals1Screen,
+  PlanYourGoalScreen,
+  Investment,
+  PlanScreen
+} from './src/screens/index'
 
 export default function App() {
   const [assetsLoaded, setAssetsLoaded] = useState(false);
@@ -32,5 +55,6 @@ export default function App() {
 
   return (
     <AppContainer />
+    // <PlanScreen />
   );
 }

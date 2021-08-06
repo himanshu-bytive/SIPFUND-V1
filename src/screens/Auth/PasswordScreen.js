@@ -50,7 +50,7 @@ export default function PasswordScreen(props) {
                     checkedColor={colors.BLACK}
                     uncheckedColor={colors.RED}
                 />
-                <TouchableOpacity onPress={()=> props.navigation.navigate('HomeList')} style={styles.botton_box}>
+                <TouchableOpacity onPress={()=> props.navigation.navigate('Home')} style={styles.botton_box}>
                     <Text style={styles.get_otp}>CONFIRM</Text>
                     <AntDesign name={"right"} size={26} color={colors.WHITE} />
                 </TouchableOpacity>

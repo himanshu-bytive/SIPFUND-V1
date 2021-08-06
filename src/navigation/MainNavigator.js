@@ -6,9 +6,10 @@ import { Fontisto, FontAwesome, AntDesign } from 'react-native-vector-icons';
 import {
     SplashScreen,
     LoginScreen,
-    SignupScreen,
     OtpScreen,
     PasswordScreen,
+    CreatePasswordScreen,
+    ForgotPasswordScreen,
     HomeScreen,
     FaqScreen,
     UpiScreen,
@@ -18,13 +19,18 @@ import {
     Goals4Screen,
     Goals5Screen,
     Goals6Screen,
-    HomePage1,
     GoalsScreen,
-    Goals1Screen,
+    Goals1Screen
 } from '../screens';
 import SideMenu from '../components/SideMenu';
 
 export const AuthStack = createStackNavigator({
+    splash: {
+        screen: SplashScreen,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
     login: {
         screen: LoginScreen,
         navigationOptions: {
@@ -39,6 +45,30 @@ export const AuthStack = createStackNavigator({
     },
     password: {
         screen: PasswordScreen,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    createpassword: {
+        screen: CreatePasswordScreen,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    forgotpassword: {
+        screen: ForgotPasswordScreen,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    
+}, {
+    initialRouteName: 'login',
+});
+
+export const OthersStack = createStackNavigator({
+    Home: {
+        screen: HomeScreen,
         navigationOptions: {
             headerShown: false,
         }
@@ -97,14 +127,8 @@ export const AuthStack = createStackNavigator({
             headerShown: false,
         }
     },
-    Home1: {
-        screen: HomePage1,
-        navigationOptions: {
-            headerShown: false,
-        }
-    },
 }, {
-    initialRouteName: 'login',
+    initialRouteName: 'Upi',
 });
 
 export const ExploreStack = createStackNavigator({
@@ -156,7 +180,7 @@ export const ExploreStack = createStackNavigator({
 
 export const PlanStack = createStackNavigator({
     Home1: {
-        screen: HomePage1,
+        screen: HomeScreen,
         navigationOptions: {
             headerShown: false,
         }
