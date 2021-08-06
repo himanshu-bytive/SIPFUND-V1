@@ -13,7 +13,7 @@ import {
     ActivityIndicator
 } from "react-native";
 import { colors } from '../../common/theme';
-import { Ionicons, AntDesign } from 'react-native-vector-icons';
+import { Entypo, AntDesign } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 
 export default function GoalsScreen(props) {
@@ -21,7 +21,7 @@ export default function GoalsScreen(props) {
         <View style={styles.container}>
             <View style={styles.header_top}>
                 <Header
-                    leftComponent={{ icon: 'menu', color: '#ccc', iconStyle: { color: colors.RED, paddingTop: 30, } }}
+                    leftComponent={<TouchableOpacity onPress={() => props.navigation.toggleDrawer()} style={{ marginTop: 20 }}><Entypo name={"menu"} size={30} color={colors.RED} /></TouchableOpacity>}
                     backgroundColor={colors.PEACH}
                     centerComponent={<Image
                         source={require('../../../assets/icon.png')}
@@ -82,6 +82,7 @@ export default function GoalsScreen(props) {
                 <View style={styles.education}>
                     <View style={styles.child_sec}>
                         <Image
+                            onPress={() => props.navigation.navigate('Goals4')}
                             source={require('../../../assets/childimg.png')}
                             style={styles.goals_2}
                         />
@@ -94,6 +95,20 @@ export default function GoalsScreen(props) {
                 <View style={styles.education}>
                     <View style={styles.child_sec}>
                         <Image
+                            onPress={() => props.navigation.navigate('Goals5')}
+                            source={require('../../../assets/car-purchase.png')}
+                            style={styles.goals_2}
+                        />
+                    </View>
+                    <View style={styles.education_sec}>
+                        <Text style={styles.child}>Car Purchase</Text>
+                        <Text style={styles.child_text}>Plan for that dream car you always wanted</Text>
+                    </View>
+                </View>
+                <View style={styles.education}>
+                    <View style={styles.child_sec}>
+                        <Image
+                            onPress={() => props.navigation.navigate('Goals6')}
                             source={require('../../../assets/car-purchase.png')}
                             style={styles.goals_2}
                         />
@@ -112,8 +127,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-
-
     },
     header_top: {
         alignItems: "center",

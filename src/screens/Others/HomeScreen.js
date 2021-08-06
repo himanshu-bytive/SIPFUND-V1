@@ -27,7 +27,7 @@ export default function HomeScreen(props) {
     return (
         <View style={styles.container}>
             <Header
-                leftComponent={<View style={{ marginTop: 20 }}><Entypo name={"menu"} size={30} color={colors.RED} /></View>}
+                leftComponent={<TouchableOpacity onPress={() => props.navigation.toggleDrawer()} style={{ marginTop: 20 }}><Entypo name={"menu"} size={30} color={colors.RED} /></TouchableOpacity>}
                 backgroundColor={colors.LIGHT_WHITE}
                 containerStyle={styles.header}
                 centerComponent={<Image

@@ -3,7 +3,6 @@ import { AuthStack, OthersStack, RootNavigator, TabNavigator } from './MainNavig
 
 const AppNavigator = createSwitchNavigator({
     Auth: AuthStack,
-    Other: OthersStack,
     Root: RootNavigator,
     Tab: TabNavigator
 },

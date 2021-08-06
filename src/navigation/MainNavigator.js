@@ -67,12 +67,6 @@ export const AuthStack = createStackNavigator({
 });
 
 export const OthersStack = createStackNavigator({
-    Home: {
-        screen: HomeScreen,
-        navigationOptions: {
-            headerShown: false,
-        }
-    },
     Upi: {
         screen: UpiScreen,
         navigationOptions: {
@@ -179,48 +173,37 @@ export const ExploreStack = createStackNavigator({
 });
 
 export const PlanStack = createStackNavigator({
-    Home1: {
-        screen: HomeScreen,
-        navigationOptions: {
-            headerShown: false,
-        }
-    },
-}, {
-    initialRouteName: 'Goals',
-});
-
-//app stack for user end
-export const AppStack = {
     Home: {
         screen: HomeScreen,
         navigationOptions: {
             headerShown: false,
         }
     },
-    Faq: {
-        screen: FaqScreen,
-        navigationOptions: {
-            headerShown: false,
-        }
-    },
-}
+}, {
+    initialRouteName: 'Home',
+});
+
 
 //drawer routes, you can add routes here for drawer or sidemenu
 const DrawerRoutes = {
-    'HomeList': {
-        name: 'HomeList',
-        screen: createStackNavigator(AppStack, { initialRouteName: 'Home', headerMode: 'none' })
+    Explore: {
+        name: 'Explore',
+        screen: ExploreStack
     },
-    'FaqList': {
-        name: 'FaqList',
-        screen: createStackNavigator(AppStack, { initialRouteName: 'Faq', headerMode: 'none' })
+    Plan: {
+        name: 'Plan',
+        screen: PlanStack
+    },
+    Others: {
+        name: 'Others',
+        screen: OthersStack
     },
 };
 
 //tab navigator for user end
 export const TabNavigator = createBottomTabNavigator({
     Explore: {
-        screen: GoalsScreen,
+        screen: ExploreStack,
         navigationOptions: {
             tabBarLabel: 'Explore',
             tabBarIcon: ({ focused, tintColor }) => {
@@ -230,7 +213,7 @@ export const TabNavigator = createBottomTabNavigator({
         }
     },
     Plan: {
-        screen: Goals1Screen,
+        screen: PlanStack,
         navigationOptions: {
             tabBarIcon: ({ focused, tintColor }) => {
                 // const iconName = `ios-information-circle${focused ? '' : '-outline'}`;
@@ -239,7 +222,7 @@ export const TabNavigator = createBottomTabNavigator({
         }
     },
     Dashboard: {
-        screen: Goals2Screen,
+        screen: PlanStack,
         navigationOptions: {
             tabBarIcon: ({ focused, tintColor }) => {
                 // const iconName = `ios-information-circle${focused ? '' : '-outline'}`;
@@ -263,6 +246,6 @@ export const RootNavigator = createDrawerNavigator(
     DrawerRoutes,
     {
         drawerWidth: 300,
-        initialRouteName: 'HomeList',
+        initialRouteName: 'Plan',
         contentComponent: SideMenu,
     });
