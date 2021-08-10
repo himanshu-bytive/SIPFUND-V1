@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect, useContext } from "react";
 import {
     StyleSheet,
     Button,
+    ScrollView,
     View,
     ImageBackground,
     Text,

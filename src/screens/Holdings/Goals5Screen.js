@@ -18,58 +18,102 @@ import { Image, Header, CheckBox } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
 
 export default function Goals5Screen(props) {
+
+    const [visibleBNP, setVisibleBNP] = useState(false);
+    const [visibleBOI, setVisibleBOI] = useState(false);
+
+    const toggleOverlayBNP = () => { setVisibleBNP(!visibleBNP) };
+    const toggleOverlayBOI = () => { setVisibleBOI(!visibleBOI) };
+
     return (
-        <ScrollView>
-            <View style={styles.container}>
+        <View style={styles.container}>
 
-                {/* Header_sec */}
+            {/* Header_sec */}
 
-                <View style={styles.Header_top}>
-                    <Header
-                        leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={colors.RED} /></TouchableOpacity>} backgroundColor={colors.PEACH}
-                        backgroundColor={colors.PEACH}
-                        centerComponent={<Image
-                            source={require('../../../assets/icon.png')}
-                            style={styles.logimg}
-                        />}
-                        rightComponent={<View style={{ marginTop: 20, marginRight: 10, borderWidth: 1, backgroundColor: colors.WHITE, borderColor: colors.RED, padding: 7, borderRadius: 7, }}><Text style={{ fontWeight: "bold", color: "#C0392B", fontSize: 22, }}>KN</Text></View>}
-                    />
-                    <Image
-                        source={require('../../../assets/goles5_img.png')}
-                        style={styles.goles5logo}
-                    />
-                    <Text style={styles.text_goals}>Top Rated Funds</Text>
+            <View style={styles.Header_top}>
+                <Header
+                    leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={colors.RED} /></TouchableOpacity>} backgroundColor={colors.PEACH}
+                    backgroundColor={colors.PEACH}
+                    centerComponent={<Image
+                        source={require('../../../assets/icon.png')}
+                        style={styles.logimg}
+                    />}
+                    rightComponent={<View style={{ marginTop: 20, marginRight: 10, borderWidth: 1, backgroundColor: colors.WHITE, borderColor: colors.RED, padding: 7, borderRadius: 7, }}><Text style={{ fontWeight: "bold", color: "#C0392B", fontSize: 22, }}>KN</Text></View>}
+                />
+                <Image
+                    source={require('../../../assets/goles5_img.png')}
+                    style={styles.goles5logo}
+                />
+                <Text style={styles.text_goals}>Top Rated Funds</Text>
 
-                </View>
+            </View>
 
-                {/* container_box_sec */}
-
+            {/* container_box_sec */}
+            <ScrollView style={styles.containerScroll}>
                 <Text style={styles.Investments}>My Investments</Text>
 
                 <View style={styles.mainbox}>
-                    <View style={styles.container_box}>
-                        <View style={styles.smallbox}>
-                            <Image
-                                source={require('../../../assets/Midcapimg.png')}
-                                style={styles.mid_capimg}
-                            />
 
-                            <Text style={styles.Longterm}>BNP Paribas Mid Cap Fund</Text>
+                    <TouchableOpacity onPress={toggleOverlayBNP}>
+                        <View style={styles.container_box}>
+                            <View style={styles.smallbox}>
+                                <Image
+                                    source={require('../../../assets/Midcapimg.png')}
+                                    style={styles.mid_capimg}
+                                />
+
+                                <Text style={styles.Longterm}>BNP Paribas Mid Cap Fund</Text>
+                            </View>
+                            <AntDesign name={visibleBNP ? "up" : "down"} size={20} color="#C0392B" />
                         </View>
-                        <AntDesign name="down" size={20} color="#C0392B" />
-                    </View>
+                    </TouchableOpacity>
+                    {visibleBNP && (
+                        <View style={styles.smallbox}></View>
+                    )}
 
-                    <View style={styles.container_box}>
-                        <View style={styles.smallbox}>
-                            <Image
-                                source={require('../../../assets/BOI_img.png')}
-                                style={styles.mid_capimg}
-                            />
 
-                            <Text style={styles.Longterm}>BOI AXA Investment Managers</Text>
+                    <TouchableOpacity onPress={toggleOverlayBOI}>
+                        <View style={styles.container_box}>
+                            <View style={styles.smallbox}>
+                                <Image
+                                    source={require('../../../assets/BOI_img.png')}
+                                    style={styles.mid_capimg}
+                                />
+
+                                <Text style={styles.Longterm}>BOI AXA Investment Managers</Text>
+                            </View>
+                            <AntDesign name={visibleBOI ? "up" : "down"} size={20} color="#C0392B" />
                         </View>
-                        <AntDesign name="down" size={20} color="#C0392B" />
-                    </View>
+                    </TouchableOpacity>
+
+                    {visibleBOI && (<View style={styles.valua_sec}>
+                        <View style={styles.price}>
+
+                            <Text style={styles.rate_2}>₹ 10,00,000</Text>
+                            <Text style={styles.Current_Value}>Current Value</Text>
+                        </View>
+
+
+                        <View style={styles.Investment}>
+                            <View style={styles.Investment_value}>
+                                <Text style={styles.rate_2}>₹  9,50,000</Text>
+                                <Text style={styles.Current_Value}>Investment</Text>
+                            </View>
+
+
+                            <View style={styles.Investment_value}>
+                                <Text style={styles.rate_2}>₹ 50,000</Text>
+                                <Text style={styles.Current_Value}>Profit/Loss</Text>
+                            </View>
+
+                            <View style={styles.Investment_value}>
+
+                                <Text style={styles.rate_2}>17.01%</Text>
+                                <Text style={styles.Current_Value}>CAGR</Text>
+
+                            </View>
+                        </View>
+                    </View>)}
 
 
                 </View>
@@ -225,41 +269,16 @@ export default function Goals5Screen(props) {
                             </View>
                         </View>
                         <View style={{ borderWidth: 1, borderColor: colors.GREY_1, marginTop: 10, }}></View>
-
-
                     </View>
 
                 </View>
 
-            </View>
-        </ScrollView>
+            </ScrollView>
+        </View>
 
     );
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 // StyleSheet
@@ -267,7 +286,6 @@ export default function Goals5Screen(props) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-
     },
     Header_top: {
         backgroundColor: colors.PEACH,
@@ -276,6 +294,9 @@ const styles = StyleSheet.create({
         borderRadius: 30,
         borderColor: colors.DARK_GREY,
         alignItems: "center",
+    },
+    containerScroll: {
+        width: '100%'
     },
     logimg: {
         height: 65,
@@ -303,7 +324,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     container_box: {
-        width: "90%",
+        width: Dimensions.get('window').width - 20,
         flexDirection: "row",
         alignItems: "center",
         marginBottom: 10,
@@ -320,7 +341,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: colors.GREY_1,
 
-    
+
     },
     mid_capimg: {
         height: 67,
@@ -351,7 +372,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 20,
 
     },
-    toprated: { flexDirection: "row", marginBottom: 30,},
+    toprated: { flexDirection: "row", marginBottom: 30, },
     top: {
         width: "73%",
         fontSize: 15,
@@ -415,33 +436,40 @@ const styles = StyleSheet.create({
         fontSize: 12,
     },
 
+    valua_sec: {
+        width: "90%",
+        borderRadius: 15,
+        backgroundColor: colors.RED,
+        alignItems: "center",
+    },
+    price: {
+        alignItems: "center",
 
+    },
+    rate_2: {
+        color: colors.WHITE,
+        fontWeight: "bold",
+        fontSize: 17,
+        marginTop: 10,
+    },
+    Current_Value: {
+
+        color: colors.WHITE,
+        fontWeight: "bold",
+        fontSize: 12,
+    },
+    Investment: {
+        marginTop: 20,
+        flexDirection: "row",
+    },
+    Investment_value: {
+        width: "30%",
+        alignItems: "center",
+        paddingHorizontal: 5,
+        marginBottom: 20,
+
+    },
 
 
 
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

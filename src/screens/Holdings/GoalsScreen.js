@@ -39,85 +39,82 @@ export default function GoalsScreen(props) {
             </View>
             <ScrollView showsHorizontalScrollIndicator={false} style={{ paddingHorizontal: 15 }}>
 
-                <View style={styles.education}>
-                    <View style={styles.child_sec}>
-                        <Image
-                            onPress={() => props.navigation.navigate('Goals1')}
-                            source={require('../../../assets/childimg.png')}
-                            style={styles.goals_2}
-                        />
-                    </View>
-                    <View style={styles.education_sec}>
-                        <Text style={styles.child}>Child’s Education</Text>
-                        <Text style={styles.child_text}>Secure your child’s future, invest for his education</Text>
-                    </View>
-                </View>
 
-                <View style={styles.education}>
-                    <View style={styles.child_sec}>
-                        <Image
-                            onPress={() => props.navigation.navigate('Goals2')}
-                            source={require('../../../assets/home.png')}
-                            style={styles.goals_2}
-                        />
+                <TouchableOpacity onPress={() => props.navigation.navigate('Goals1')}>
+                    <View style={styles.education}>
+                        <View style={styles.child_sec}>
+                            <Image
+                                source={require('../../../assets/childimg.png')}
+                                style={styles.goals_2}
+                            />
+                        </View>
+                        <View style={styles.education_sec}>
+                            <Text style={styles.child}>Child’s Education</Text>
+                            <Text style={styles.child_text}>Secure your child’s future, invest for his education</Text>
+                        </View>
                     </View>
-                    <View style={styles.education_sec}>
-                        <Text style={styles.child}>Dream Home</Text>
-                        <Text style={styles.child_text}>Plan your home down payment for the dream house</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => props.navigation.navigate('Goals1')}>
+                    <View style={styles.education}>
+                        <View style={styles.child_sec}>
+                            <Image
+                                source={require('../../../assets/home.png')}
+                                style={styles.goals_2}
+                            />
+                        </View>
+                        <View style={styles.education_sec}>
+                            <Text style={styles.child}>Dream Home</Text>
+                            <Text style={styles.child_text}>Plan your home down payment for the dream house</Text>
+                        </View>
                     </View>
-                </View>
-                <View style={styles.education}>
-                    <View style={styles.child_sec}>
-                        <Image
-                            onPress={() => props.navigation.navigate('Goals3')}
-                            source={require('../../../assets/retire.png')}
-                            style={styles.goals_2}
-                        />
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => props.navigation.navigate('Goals1')}>
+                    <View style={styles.education}>
+                        <View style={styles.child_sec}>
+                            <Image
+                                source={require('../../../assets/retire.png')}
+                                style={styles.goals_2}
+                            />
+                        </View>
+                        <View style={styles.education_sec}>
+                            <Text style={styles.child}>Retire Rich</Text>
+                            <Text style={styles.child_text}>Secure your post retirement expense, get income after retirement</Text>
+                        </View>
                     </View>
-                    <View style={styles.education_sec}>
-                        <Text style={styles.child}>Retire Rich</Text>
-                        <Text style={styles.child_text}>Secure your post retirement expense, get income after retirement</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => props.navigation.navigate('Goals1')}>
+                    <View style={styles.education}>
+                        <View style={styles.child_sec}>
+                            <Image
+                                source={require('../../../assets/childimg.png')}
+                                style={styles.goals_2}
+                            />
+                        </View>
+                        <View style={styles.education_sec}>
+                            <Text style={styles.child}>Child’s Marriage</Text>
+                            <Text style={styles.child_text}>Invest now for expenses of chid’s marriage in future</Text>
+                        </View>
                     </View>
-                </View>
-                <View style={styles.education}>
-                    <View style={styles.child_sec}>
-                        <Image
-                            onPress={() => props.navigation.navigate('Goals4')}
-                            source={require('../../../assets/childimg.png')}
-                            style={styles.goals_2}
-                        />
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => props.navigation.navigate('Goals1')}>
+                    <View style={styles.education}>
+                        <View style={styles.child_sec}>
+                            <Image
+                                source={require('../../../assets/car-purchase.png')}
+                                style={styles.goals_2}
+                            />
+                        </View>
+                        <View style={styles.education_sec}>
+                            <Text style={styles.child}>Car Purchase</Text>
+                            <Text style={styles.child_text}>Plan for that dream car you always wanted</Text>
+                        </View>
                     </View>
-                    <View style={styles.education_sec}>
-                        <Text style={styles.child}>Child’s Marriage</Text>
-                        <Text style={styles.child_text}>Invest now for expenses of chid’s marriage in future</Text>
-                    </View>
-                </View>
-                <View style={styles.education}>
-                    <View style={styles.child_sec}>
-                        <Image
-                            onPress={() => props.navigation.navigate('Goals5')}
-                            source={require('../../../assets/car-purchase.png')}
-                            style={styles.goals_2}
-                        />
-                    </View>
-                    <View style={styles.education_sec}>
-                        <Text style={styles.child}>Car Purchase</Text>
-                        <Text style={styles.child_text}>Plan for that dream car you always wanted</Text>
-                    </View>
-                </View>
-                <View style={styles.education}>
-                    <View style={styles.child_sec}>
-                        <Image
-                            onPress={() => props.navigation.navigate('Goals6')}
-                            source={require('../../../assets/car-purchase.png')}
-                            style={styles.goals_2}
-                        />
-                    </View>
-                    <View style={styles.education_sec}>
-                        <Text style={styles.child}>Car Purchase</Text>
-                        <Text style={styles.child_text}>Plan for that dream car you always wanted</Text>
-                    </View>
-                </View>
+                </TouchableOpacity>
+
             </ScrollView>
         </View>
     );

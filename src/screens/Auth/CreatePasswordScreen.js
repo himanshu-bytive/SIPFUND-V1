@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect, useContext } from "react";
 import {
     StyleSheet,
     Button,
+    ScrollView,
     View,
     ImageBackground,
     TouchableOpacity,
@@ -12,7 +13,7 @@ import {
     ActivityIndicator
 } from "react-native";
 import { colors } from '../../common/theme';
-import { Ionicons, AntDesign,MaterialIcons} from 'react-native-vector-icons';
+import { Ionicons, AntDesign, MaterialIcons } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 
 export default function CreatePasswordScreen(props) {
@@ -27,29 +28,31 @@ export default function CreatePasswordScreen(props) {
                     style={styles.logimg}
                 />}
             />
-            <View style={styles.mainBox}>
-                <Image
-                    source={require('../../../assets/luck.png')}
-                    style={styles.passwordimg2}
-                />
-            <View style={styles.phone_number}>
-                    <MaterialIcons name="call" size={20} color="#838280" />
-                    <Text style={styles.numbersec}>9856412345</Text>
-            </View>
-            
-                <Text style={styles.number}>Enter Password</Text>
-                <TextInput style={styles.inputsec} />
+            <ScrollView style={styles.containerScroll}>
+                <View style={styles.mainBox}>
+                    <Image
+                        source={require('../../../assets/luck.png')}
+                        style={styles.passwordimg2}
+                    />
+                    <View style={styles.phone_number}>
+                        <MaterialIcons name="call" size={20} color="#838280" />
+                        <Text style={styles.numbersec}>9856412345</Text>
+                    </View>
 
-                <TouchableOpacity onPress={()=> props.navigation.navigate('forgotpassword')}>
-                    <Text style={styles.refreshcode}>Forgot Your Password?</Text>
-                </TouchableOpacity>
+                    <Text style={styles.number}>Enter Password</Text>
+                    <TextInput style={styles.inputsec} />
 
-                <View style={styles.conform}>
-                <TouchableOpacity onPress={()=> props.navigation.navigate('Home')} style={styles.botton_box}>
-                    <Text style={styles.get_otp}>CONFIRM</Text>
-                    <AntDesign name={"right"} size={26} color={colors.WHITE} />
-                </TouchableOpacity></View>
-            </View>
+                    <TouchableOpacity onPress={() => props.navigation.navigate('forgotpassword')}>
+                        <Text style={styles.refreshcode}>Forgot Your Password?</Text>
+                    </TouchableOpacity>
+
+                    <View style={styles.conform}>
+                        <TouchableOpacity onPress={() => props.navigation.navigate('Home')} style={styles.botton_box}>
+                            <Text style={styles.get_otp}>CONFIRM</Text>
+                            <AntDesign name={"right"} size={26} color={colors.WHITE} />
+                        </TouchableOpacity></View>
+                </View>
+            </ScrollView>
         </View>
 
     );
@@ -64,9 +67,12 @@ const styles = StyleSheet.create({
         borderBottomColor: colors.BLACK,
         borderBottomWidth: 1
     },
+    containerScroll: {
+        width: '100%'
+    },
     mainBox: {
         alignItems: 'center',
-        width: '80%'
+        paddingHorizontal: 30
     },
     logimg: {
         height: 65,
@@ -75,7 +81,7 @@ const styles = StyleSheet.create({
     },
     passwordimg2: {
         marginTop: 20,
-        marginBottom:30,
+        marginBottom: 30,
         height: 136,
         width: 136,
     },
@@ -93,17 +99,18 @@ const styles = StyleSheet.create({
         backgroundColor: colors.LITTLE_WHITE,
     },
     refreshcode: {
-        textAlign:"center",
+        textAlign: "center",
         color: colors.RED,
         fontSize: 15,
-    },  
+    },
     botton_box: {
         flexDirection: 'row',
         backgroundColor: colors.RED,
         paddingVertical: 10,
+        paddingHorizontal: 20,
         marginTop: 20,
-        borderRadius: 10, 
-        justifyContent:"center",
+        borderRadius: 10,
+        justifyContent: "center",
     },
     get_otp: {
         color: colors.WHITE,
@@ -113,11 +120,14 @@ const styles = StyleSheet.create({
     },
     phone_number: {
         flexDirection: "row",
-        alignItems:"center",
-        paddingVertical:30,
+        alignItems: "center",
+        paddingVertical: 30,
     },
-    numbersec:{fontSize:17,
-    paddingLeft:10,},
-    conform:{ 
-width:'90%',},
+    numbersec: {
+        fontSize: 17,
+        paddingLeft: 10,
+    },
+    conform: {
+        width: '90%',
+    },
 });

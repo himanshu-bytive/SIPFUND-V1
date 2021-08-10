@@ -19,51 +19,50 @@ import { ScrollView } from "react-native-gesture-handler";
 
 export default function Goals3Screen(props) {
     return (
-        <ScrollView>
-            <View style={styles.container}>
-                <View style={styles.Header_top}>
-                    <Header
-                        leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={colors.RED} /></TouchableOpacity>} backgroundColor={colors.PEACH}
-                        backgroundColor={colors.PEACH}
-                        centerComponent={<Image
-                            source={require('../../../assets/icon.png')}
-                            style={styles.logimg}
-                        />}
-                        rightComponent={<View style={{ marginTop: 20, borderWidth: 1, backgroundColor: colors.WHITE, borderColor: colors.RED, padding: 5, borderRadius: 7, }}><Text>KN</Text></View>}
-                    />
-                    <Image
-                        source={require('../../../assets/childimg.png')}
-                        style={styles.Goalsimg}
-                    />
-                    <Text style={styles.text_goals}>Child’s Education Plan</Text>
-                    <View style={styles.education_plan}>
-                        <View style={styles.plan_1}>
-                            <Image
-                                source={require('../../../assets/plan_img.png')}
-                                style={styles.plan_img}
-                            />
-                            <Text style={styles.rate}>₹ 10,00,000/-</Text>
-                            <Text style={styles.Target_Set}>Target Set</Text>
-                        </View>
-
-
-                        <View style={styles.plan_2}>
-                            <Image
-                                source={require('../../../assets/Iconmaterial_img.png')}
-                                style={styles.plan2_img}
-                            />
-
-                            <Text style={styles.year}>12 Years</Text>
-
-                            <Text style={styles.Target_Set}>Time Left to Achieve</Text>
-                        </View>
-
-
+        <View style={styles.container}>
+            <View style={styles.Header_top}>
+                <Header
+                    leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={colors.RED} /></TouchableOpacity>} backgroundColor={colors.PEACH}
+                    backgroundColor={colors.PEACH}
+                    centerComponent={<Image
+                        source={require('../../../assets/icon.png')}
+                        style={styles.logimg}
+                    />}
+                    rightComponent={<View style={{ marginTop: 20, borderWidth: 1, backgroundColor: colors.WHITE, borderColor: colors.RED, padding: 5, borderRadius: 7, }}><Text>KN</Text></View>}
+                />
+                <Image
+                    source={require('../../../assets/childimg.png')}
+                    style={styles.Goalsimg}
+                />
+                <Text style={styles.text_goals}>Child’s Education Plan</Text>
+                <View style={styles.education_plan}>
+                    <View style={styles.plan_1}>
+                        <Image
+                            source={require('../../../assets/plan_img.png')}
+                            style={styles.plan_img}
+                        />
+                        <Text style={styles.rate}>₹ 10,00,000/-</Text>
+                        <Text style={styles.Target_Set}>Target Set</Text>
                     </View>
+
+
+                    <View style={styles.plan_2}>
+                        <Image
+                            source={require('../../../assets/Iconmaterial_img.png')}
+                            style={styles.plan2_img}
+                        />
+
+                        <Text style={styles.year}>12 Years</Text>
+
+                        <Text style={styles.Target_Set}>Time Left to Achieve</Text>
+                    </View>
+
+
                 </View>
+            </View>
 
 
-
+            <ScrollView style={styles.containerScroll}>
 
                 <View style={styles.valua_sec}>
                     <View style={styles.price}>
@@ -97,18 +96,19 @@ export default function Goals3Screen(props) {
                 <View style={styles.small_box}>
                     <Text style={styles.Hybrid}>Hybrid</Text>
                 </View>
-                <View style={styles.fund}>
-                    <View style={styles.SBI}>
 
-                        <Image
-                            source={require('../../../assets/Hybrid_img.png')}
-                            style={styles.Hybrid_img}
-                        />
-
-                        <Text style={styles.SBIEquity}>SBI Equity Hybrid Fund</Text>
+                <TouchableOpacity onPress={() => props.navigation.navigate('Goals4')}>
+                    <View style={styles.fund}>
+                        <View style={styles.SBI}>
+                            <Image
+                                source={require('../../../assets/Hybrid_img.png')}
+                                style={styles.Hybrid_img}
+                            />
+                            <Text style={styles.SBIEquity}>SBI Equity Hybrid Fund</Text>
+                        </View>
+                        <Text style={styles.SBIEquity_rate}>4,000</Text>
                     </View>
-                    <Text style={styles.SBIEquity_rate}>4,000</Text>
-                </View>
+                </TouchableOpacity>
 
 
 
@@ -116,55 +116,64 @@ export default function Goals3Screen(props) {
                 <View style={styles.small_box}>
                     <Text style={styles.Hybrid}>Large Cap</Text>
                 </View>
-                <View style={styles.fund}>
-                    <View style={styles.SBI}>
 
-                        <Image
-                            source={require('../../../assets/LargeCap_img.png')}
-                            style={styles.Hybrid_img}
-                        />
-                        <Text style={styles.SBIEquity}>Mirae Asset Large Cap Fund</Text>
+                <TouchableOpacity onPress={() => props.navigation.navigate('Goals4')}>
+                    <View style={styles.fund}>
+                        <View style={styles.SBI}>
+
+                            <Image
+                                source={require('../../../assets/LargeCap_img.png')}
+                                style={styles.Hybrid_img}
+                            />
+                            <Text style={styles.SBIEquity}>Mirae Asset Large Cap Fund</Text>
+                        </View>
+                        <Text style={styles.SBIEquity_rate}>5,000</Text>
                     </View>
-                    <Text style={styles.SBIEquity_rate}>5,000</Text>
-                </View>
+                </TouchableOpacity>
+
 
                 <View style={styles.small_box}>
                     <Text style={styles.Hybrid}>Multi Cap</Text>
                 </View>
-                <View style={styles.fund}>
-                    <View style={styles.SBI}>
 
-                        <Image
-                            source={require('../../../assets/MultiCap_img.png')}
-                            style={styles.Hybrid_img}
-                        />
-                        <Text style={styles.SBIEquity}>Kotak Standard Multicap Fund</Text>
+                <TouchableOpacity onPress={() => props.navigation.navigate('Goals4')}>
+                    <View style={styles.fund}>
+                        <View style={styles.SBI}>
+
+                            <Image
+                                source={require('../../../assets/MultiCap_img.png')}
+                                style={styles.Hybrid_img}
+                            />
+                            <Text style={styles.SBIEquity}>Kotak Standard Multicap Fund</Text>
+                        </View>
+                        <Text style={styles.SBIEquity_rate}>4,000</Text>
                     </View>
-                    <Text style={styles.SBIEquity_rate}>4,000</Text>
-                </View>
+                </TouchableOpacity>
 
                 <View style={styles.small_box}>
                     <Text style={styles.Hybrid}>Mid Cap</Text>
                 </View>
-                <View style={styles.fund}>
-                    <View style={styles.SBI}>
+                <TouchableOpacity onPress={() => props.navigation.navigate('Goals4')}>
+                    <View style={styles.fund}>
+                        <View style={styles.SBI}>
 
-                        <Image
-                            source={require('../../../assets/MidCap_img.png')}
-                            style={styles.Hybrid_img}
-                        />
-                        <Text style={styles.SBIEquity}>BNP Paribas Mid Cap Fund</Text>
+                            <Image
+                                source={require('../../../assets/MidCap_img.png')}
+                                style={styles.Hybrid_img}
+                            />
+                            <Text style={styles.SBIEquity}>BNP Paribas Mid Cap Fund</Text>
+                        </View>
+                        <Text style={styles.SBIEquity_rate}>4,000</Text>
                     </View>
-                    <Text style={styles.SBIEquity_rate}>4,000</Text>
-                </View>
+                </TouchableOpacity>
 
                 <TouchableOpacity style={styles.botton_box}>
                     <Text style={styles.get_otp}>SET OTHER GOALS</Text>
                 </TouchableOpacity>
+            </ScrollView>
 
+        </View>
 
-            </View>
-        </ScrollView>
 
     );
 }
@@ -173,6 +182,9 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: "center",
+    },
+    containerScroll: {
+        width: '100%'
     },
     Header_top: {
         backgroundColor: colors.PEACH,
@@ -199,7 +211,6 @@ const styles = StyleSheet.create({
     education_plan: {
         flexDirection: "row",
         width: '100%',
-
     },
     plan_1: {
         width: "50%",
@@ -239,7 +250,7 @@ const styles = StyleSheet.create({
         fontSize: 12,
     },
     valua_sec: {
-        width: "90%",
+        marginHorizontal: 10,
         backgroundColor: colors.RED,
         alignItems: "center",
         borderRadius: 30,
@@ -253,7 +264,6 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     Current_Value: {
-
         color: colors.WHITE,
         fontWeight: "bold",
         fontSize: 12,
@@ -307,18 +317,15 @@ const styles = StyleSheet.create({
     SBIEquity: {
         marginLeft: 10,
         paddingTop: 15,
-        width: "74%",
+        width: "70%",
         fontSize: 18,
-
     },
     SBIEquity_rate: {
         paddingTop: 15,
         fontSize: 18,
-
-
     },
     botton_box: {
-        width: "80%",
+        marginHorizontal: 10,
         backgroundColor: colors.RED,
         paddingVertical: 20,
         marginTop: 20,

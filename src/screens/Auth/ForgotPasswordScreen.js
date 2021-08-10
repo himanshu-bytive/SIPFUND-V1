@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect, useContext } from "react";
 import {
     StyleSheet,
     Button,
+    ScrollView,
     View,
     ImageBackground,
     TouchableOpacity,
@@ -26,22 +27,23 @@ export default function ForgotPasswordScreen(props) {
                     style={styles.logimg}
                 />}
             />
-            <View style={styles.mainBox}>
-                <Image
-                    source={require('../../../assets/lock.png')}
-                    style={styles.passwordimg2}
-                />
-                <Text style={styles.number}>Forgot Password?</Text>
-                <Text style={styles.confrom_button}>You can reset your password here</Text>
-            </View>
-            <Text style={styles.email}>Enter Email Address</Text>
-            <View style={styles.border}></View>
-            <View style={styles.bottom}>
-                <TouchableOpacity onPress={() => props.navigation.navigate('home')} style={styles.botton_box}>
-                    <Text style={styles.get_otp}>Send My Password</Text>
+            <ScrollView style={styles.containerScroll}>
+                <View style={styles.mainBox}>
+                    <Image
+                        source={require('../../../assets/lock.png')}
+                        style={styles.passwordimg2}
+                    />
+                    <Text style={styles.number}>Forgot Password?</Text>
+                    <Text style={styles.confrom_button}>You can reset your password here</Text>
+                </View>
+                <Text style={styles.email}>Enter Email Address</Text>
+                <View style={styles.border}></View>
+                <View style={styles.bottom}>
+                    <TouchableOpacity onPress={() => props.navigation.navigate('home')} style={styles.botton_box}>
+                        <Text style={styles.get_otp}>Send My Password</Text>
 
-                </TouchableOpacity></View>
-
+                    </TouchableOpacity></View>
+            </ScrollView>
         </View>
 
     );
@@ -50,10 +52,11 @@ export default function ForgotPasswordScreen(props) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-
         backgroundColor: colors.GRAY_LIGHT_2,
     },
-
+    containerScroll: {
+        width: '100%'
+    },
     mainBox: {
         alignItems: 'center',
         marginTop: 60,
@@ -95,8 +98,10 @@ const styles = StyleSheet.create({
         marginTop: 30,
         color: colors.GRAY_LIGHT_1,
     },
-    border:{ borderBottomWidth:2,
-    borderBottomColor:colors.GRAY_LIGHT,
-marginHorizontal:25,
-marginVertical:3,},
+    border: {
+        borderBottomWidth: 2,
+        borderBottomColor: colors.GRAY_LIGHT,
+        marginHorizontal: 25,
+        marginVertical: 3,
+    },
 });

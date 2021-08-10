@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect, useContext } from "react";
 import {
     StyleSheet,
     Button,
+    ScrollView,
     View,
     ImageBackground,
     TouchableOpacity,
@@ -33,123 +34,130 @@ export default function Goals2Screen(props) {
                 />
                 <Text style={styles.text_goals}>Goals</Text>
             </View>
+            <ScrollView style={styles.containerScroll}>
 
-            <View style={styles.education}>
-
-
-                <View style={styles.child_sec}>
-
-                    <Image
-                        source={require('../../../assets/childimg.png')}
-                        style={styles.goals_2}
-                    />
-                </View>
-
-                <View tyle={styles.education_sec}>
-                    <Text style={styles.child}>Child’s Education</Text>
-                    <Text style={styles.sip}>SIP Investment</Text>
-                    <View style={styles.img_sec}>
-                        <Image
-                            source={require('../../../assets/Goalsimg.png')}
-                            style={styles.goals_3}
-                        />
-
-                        <Text style={styles.price}>10,00,000/-</Text>
-
-                    </View>
-                    <Text style={styles.child_text}>Target Set</Text>
-                    <View style={styles.img_sec}>
-                        <Image
-                            source={require('../../../assets/clock_icon.png')}
-                            style={styles.clock_icon}
-                        />
-
-                        <Text style={styles.price}>10 Years</Text>
-                    </View>
-                    <Text style={styles.child_text}>Time to achieve</Text>
-
-                </View>
-
-            </View>
-
-            <View style={styles.education}>
+                <TouchableOpacity onPress={() => props.navigation.navigate('Goals3')}>
+                    <View style={styles.education}>
 
 
-                <View style={styles.child_sec}>
+                        <View style={styles.child_sec}>
 
-                    <Image
-                        source={require('../../../assets/Rich.png')}
-                        style={styles.goals_2}
-                    />
-                </View>
+                            <Image
+                                source={require('../../../assets/childimg.png')}
+                                style={styles.goals_2}
+                            />
+                        </View>
 
-                <View tyle={styles.education_sec}>
-                    <Text style={styles.child}>Retire Rich</Text>
-                    <Text style={styles.sip}>SIP Investment</Text>
-                    <View style={styles.img_sec}>
-                        <Image
-                            source={require('../../../assets/Goalsimg.png')}
-                            style={styles.goals_3}
-                        />
+                        <View tyle={styles.education_sec}>
+                            <Text style={styles.child}>Child’s Education</Text>
+                            <Text style={styles.sip}>SIP Investment</Text>
+                            <View style={styles.img_sec}>
+                                <Image
+                                    source={require('../../../assets/Goalsimg.png')}
+                                    style={styles.goals_3}
+                                />
 
-                        <Text style={styles.price}>10,00,000/-</Text>
+                                <Text style={styles.price}>10,00,000/-</Text>
+
+                            </View>
+                            <Text style={styles.child_text}>Target Set</Text>
+                            <View style={styles.img_sec}>
+                                <Image
+                                    source={require('../../../assets/clock_icon.png')}
+                                    style={styles.clock_icon}
+                                />
+
+                                <Text style={styles.price}>10 Years</Text>
+                            </View>
+                            <Text style={styles.child_text}>Time to achieve</Text>
+
+                        </View>
 
                     </View>
-                    <Text style={styles.child_text}>Target Set</Text>
-                    <View style={styles.img_sec}>
-                        <Image
-                            source={require('../../../assets/clock_icon.png')}
-                            style={styles.clock_icon}
-                        />
+                </TouchableOpacity>
 
-                        <Text style={styles.price}>10 Years</Text>
+                <TouchableOpacity onPress={() => props.navigation.navigate('Goals3')}>
+                    <View style={styles.education}>
+
+
+                        <View style={styles.child_sec}>
+
+                            <Image
+                                source={require('../../../assets/Rich.png')}
+                                style={styles.goals_2}
+                            />
+                        </View>
+
+                        <View tyle={styles.education_sec}>
+                            <Text style={styles.child}>Retire Rich</Text>
+                            <Text style={styles.sip}>SIP Investment</Text>
+                            <View style={styles.img_sec}>
+                                <Image
+                                    source={require('../../../assets/Goalsimg.png')}
+                                    style={styles.goals_3}
+                                />
+
+                                <Text style={styles.price}>10,00,000/-</Text>
+
+                            </View>
+                            <Text style={styles.child_text}>Target Set</Text>
+                            <View style={styles.img_sec}>
+                                <Image
+                                    source={require('../../../assets/clock_icon.png')}
+                                    style={styles.clock_icon}
+                                />
+
+                                <Text style={styles.price}>10 Years</Text>
+                            </View>
+                            <Text style={styles.child_text}>Time to achieve</Text>
+
+                        </View>
+
                     </View>
-                    <Text style={styles.child_text}>Time to achieve</Text>
+                </TouchableOpacity>
 
-                </View>
-
-            </View>
-
-            <View style={styles.education}>
+                <TouchableOpacity onPress={() => props.navigation.navigate('Goals3')}>
+                    <View style={styles.education}>
 
 
-                <View style={styles.child_sec}>
+                        <View style={styles.child_sec}>
 
-                    <Image
-                        source={require('../../../assets/marrige_img.png')}
-                        style={styles.goals_2}
-                    />
-                </View>
+                            <Image
+                                source={require('../../../assets/marrige_img.png')}
+                                style={styles.goals_2}
+                            />
+                        </View>
 
-                <View tyle={styles.education_sec}>
-                    <Text style={styles.child}>Child’s Marrige</Text>
-                    <Text style={styles.sip}>SIP Investment</Text>
-                    <View style={styles.img_sec}>
-                        <Image
-                            source={require('../../../assets/Goalsimg.png')}
-                            style={styles.goals_3}
-                        />
-                        <Text style={styles.price}>₹ 10,00,000/-</Text>
+                        <View tyle={styles.education_sec}>
+                            <Text style={styles.child}>Child’s Marrige</Text>
+                            <Text style={styles.sip}>SIP Investment</Text>
+                            <View style={styles.img_sec}>
+                                <Image
+                                    source={require('../../../assets/Goalsimg.png')}
+                                    style={styles.goals_3}
+                                />
+                                <Text style={styles.price}>₹ 10,00,000/-</Text>
+                            </View>
+                            <Text style={styles.child_text}>Target Set</Text>
+                            <View style={styles.img_sec}>
+                                <Image
+                                    source={require('../../../assets/clock_icon.png')}
+                                    style={styles.clock_icon}
+                                />
+                                <Text style={styles.price}>10 Years</Text>
+                            </View>
+                            <Text style={styles.child_text}>Time to achieve</Text>
+
+                        </View>
+
                     </View>
-                    <Text style={styles.child_text}>Target Set</Text>
-                    <View style={styles.img_sec}>
-                        <Image
-                            source={require('../../../assets/clock_icon.png')}
-                            style={styles.clock_icon}
-                        />
-                        <Text style={styles.price}>10 Years</Text>
-                    </View>
-                    <Text style={styles.child_text}>Time to achieve</Text>
+                </TouchableOpacity>
 
-                </View>
+                <TouchableOpacity style={styles.botton_box}>
+                    <Text style={styles.get_otp}>SET OTHER GOALS</Text>
+                </TouchableOpacity>
 
-            </View>
-            <TouchableOpacity style={styles.botton_box}>
-                <Text style={styles.get_otp}>SET OTHER GOALS</Text>
-
-            </TouchableOpacity>
-
-
+            </ScrollView>
 
         </View>
 
@@ -160,6 +168,9 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: "center",
+    },
+    containerScroll: {
+        width: '100%'
     },
     Header_top: {
         backgroundColor: colors.PEACH,
@@ -180,7 +191,7 @@ const styles = StyleSheet.create({
     },
     education: {
         flexDirection: "row",
-        width: '90%',
+        marginHorizontal: 20,
         borderWidth: 2,
         borderColor: colors.GRAY_LIGHT,
         borderRadius: 15,
@@ -236,26 +247,20 @@ const styles = StyleSheet.create({
         height: 15,
         width: 15,
     },
-
-
-
     logimg: {
         height: 65,
         width: 203,
         marginTop: 10,
     },
-
-
     goals_2: {
         height: 145,
         width: 145,
     },
     botton_box: {
-
         backgroundColor: colors.RED,
-        width: '70%',
         marginTop: 20,
         borderRadius: 10,
+        marginHorizontal: 20,
         borderWidth: 1,
         borderColor: colors.DEEP_GRAY,
         paddingVertical: 20,
@@ -267,7 +272,4 @@ const styles = StyleSheet.create({
         textAlign: "center",
 
     },
-
-
-
 });

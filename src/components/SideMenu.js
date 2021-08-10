@@ -36,7 +36,7 @@ export default function SideMenu(props) {
                     <View><Text style={styles.know_text}>Dashboard</Text></View>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => props.navigation.navigate('Home')} style={[styles.profile_sec, styles.profile]}>
+                <TouchableOpacity onPress={() => props.navigation.navigate('Profile')} style={[styles.profile_sec, styles.profile]}>
                     <View>
                         <FontAwesome name={"user-o"} size={30} color={colors.GRAY_LIGHT_4} />
                     </View>
@@ -78,7 +78,7 @@ export default function SideMenu(props) {
                     <View><Text style={[styles.know_text, styles.know]}>Relationship Manager</Text></View>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => props.navigation.navigate('Home')} style={[styles.profile_sec, styles.profile]}>
+                <TouchableOpacity onPress={() => props.navigation.navigate('Register')} style={[styles.profile_sec, styles.profile]}>
                     <View>
                         <FontAwesome name={"user-o"} size={30} color={colors.GRAY_LIGHT_4} />
                     </View>

@@ -54,40 +54,33 @@ export default function Goals1Screen(props) {
 
                 <View style={styles.value_sec}>
                     <View>
-                    <Image
-                        source={require('../../../assets/rupees.png')}
-                        style={styles.rupees_img1}
-                    />
+                        <Image
+                            source={require('../../../assets/rupees.png')}
+                            style={styles.rupees_img1}
+                        />
                         <Text style={styles.investment}> 1,00,00,000</Text>
                     </View>
                     <View>
-                    <Image
-                        source={require('../../../assets/rupees.png')}
-                        style={styles.rupees_img1}
-                    />
+                        <Image
+                            source={require('../../../assets/rupees.png')}
+                            style={styles.rupees_img1}
+                        />
                         <Text style={styles.investment}>2,50,000 </Text>
                     </View>
                 </View>
 
             </View>
-            <View style={styles.education}>
 
-                <Image
-                    source={require('../../../assets/goals1_img2.png')}
-                    style={styles.goals1_img3}
-                />
-
-                <Text style={styles.child}>Goals</Text>
-                <Text style={styles.child5}>3/5</Text>
-            </View>
-
-
-
-
-
-
-
-
+            <TouchableOpacity onPress={() => props.navigation.navigate('Goals2')}>
+                <View style={styles.education}>
+                    <Image
+                        source={require('../../../assets/goals1_img2.png')}
+                        style={styles.goals1_img3}
+                    />
+                    <Text style={styles.child}>Goals</Text>
+                    <Text style={styles.child5}>3/5</Text>
+                </View>
+            </TouchableOpacity>
 
         </View>
 
@@ -98,8 +91,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-
-
     },
     header_top: {
         alignItems: "center",
@@ -149,7 +140,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: 'space-between',
         alignItems: "center",
-        width: '90%',
+        width: '75%',
         borderWidth: 2,
         borderStyle: "solid",
         borderColor: colors.GRAY_LIGHT,
@@ -169,7 +160,6 @@ const styles = StyleSheet.create({
     },
 
     child: {
-
         fontSize: 20,
         fontWeight: "bold",
     },
@@ -186,7 +176,7 @@ const styles = StyleSheet.create({
     },
     value: {
         fontSize: 12,
-    paddingVertical:5,
+        paddingVertical: 5,
         color: colors.GREY_1,
     },
     value_sec: {
@@ -198,10 +188,14 @@ const styles = StyleSheet.create({
         height: 17,
         width: 12,
     },
-    rupees: { fontSize: 20, 
-    color:colors.RED,},
-    investment:{color:colors.RED,
-        fontSize: 20,},
+    rupees: {
+        fontSize: 20,
+        color: colors.RED,
+    },
+    investment: {
+        color: colors.RED,
+        fontSize: 20,
+    },
 
 
 

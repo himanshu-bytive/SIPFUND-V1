@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect, useContext } from "react";
 import {
     StyleSheet,
     Button,
+    ScrollView,
     View,
     ImageBackground,
     TouchableOpacity,
@@ -26,35 +27,37 @@ export default function PasswordScreen(props) {
                     style={styles.logimg}
                 />}
             />
-            <View style={styles.mainBox}>
-                <Image
-                    source={require('../../../assets/luck.png')}
-                    style={styles.passwordimg2}
-                />
+            <ScrollView style={styles.containerScroll}>
+                <View style={styles.mainBox}>
+                    <Image
+                        source={require('../../../assets/luck.png')}
+                        style={styles.passwordimg2}
+                    />
 
-                <Text style={styles.number}>Enter Password</Text>
-                <TextInput style={styles.inputsec} />
-                <Text style={styles.number}>Re-Enter Password</Text>
-                <TextInput style={styles.inputsec} />
+                    <Text style={styles.number}>Enter Password</Text>
+                    <TextInput style={styles.inputsec} />
+                    <Text style={styles.number}>Re-Enter Password</Text>
+                    <TextInput style={styles.inputsec} />
 
-                <TouchableOpacity style={{ alignSelf: 'flex-end' }}>
-                    <Text style={styles.refreshcode}>Have Referral Code?</Text>
-                </TouchableOpacity>
+                    <TouchableOpacity style={{ alignSelf: 'flex-end' }}>
+                        <Text style={styles.refreshcode}>Have Referral Code?</Text>
+                    </TouchableOpacity>
 
-                <Text style={styles.confrom_button}>By tapping confirm button ,you agreeing to the</Text>
-                <CheckBox
-                    title='Terms & Conditions'
-                    containerStyle={styles.checkbox_style}
-                    textStyle={{ color: colors.RED, fontSize: 14 }}
-                    checked={false}
-                    checkedColor={colors.BLACK}
-                    uncheckedColor={colors.RED}
-                />
-                <TouchableOpacity onPress={()=> props.navigation.navigate('Home')} style={styles.botton_box}>
-                    <Text style={styles.get_otp}>CONFIRM</Text>
-                    <AntDesign name={"right"} size={26} color={colors.WHITE} />
-                </TouchableOpacity>
-            </View>
+                    <Text style={styles.confrom_button}>By tapping confirm button ,you agreeing to the</Text>
+                    <CheckBox
+                        title='Terms & Conditions'
+                        containerStyle={styles.checkbox_style}
+                        textStyle={{ color: colors.RED, fontSize: 14 }}
+                        checked={false}
+                        checkedColor={colors.BLACK}
+                        uncheckedColor={colors.RED}
+                    />
+                    <TouchableOpacity onPress={() => props.navigation.navigate('Home')} style={styles.botton_box}>
+                        <Text style={styles.get_otp}>CONFIRM</Text>
+                        <AntDesign name={"right"} size={26} color={colors.WHITE} />
+                    </TouchableOpacity>
+                </View>
+            </ScrollView>
         </View>
 
     );
@@ -65,13 +68,16 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
     },
+    containerScroll: {
+        width: '100%'
+    },
     header: {
         borderBottomColor: colors.BLACK,
         borderBottomWidth: 1
     },
     mainBox: {
         alignItems: 'center',
-        width: '80%'
+        paddingHorizontal: 30
     },
     logimg: {
         height: 65,

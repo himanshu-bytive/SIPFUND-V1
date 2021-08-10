@@ -28,6 +28,7 @@ export default function HomeScreen(props) {
         <View style={styles.container}>
             <Header
                 leftComponent={<TouchableOpacity onPress={() => props.navigation.toggleDrawer()} style={{ marginTop: 20 }}><Entypo name={"menu"} size={30} color={colors.RED} /></TouchableOpacity>}
+                rightComponent={<TouchableOpacity onPress={() => props.navigation.navigate('Toprated')} style={{ marginTop: 20 }}><AntDesign name={"shoppingcart"} size={30} color={colors.RED} /></TouchableOpacity>}
                 backgroundColor={colors.LIGHT_WHITE}
                 containerStyle={styles.header}
                 centerComponent={<Image
@@ -35,7 +36,7 @@ export default function HomeScreen(props) {
                     style={styles.logimg}
                 />}
             />
-            <ScrollView style={{ width: '100%' }}>
+            <ScrollView style={styles.containerScroll}>
                 <View style={styles.home_top}>
                     <Image
                         source={require('../../../assets/Hello.png')}
@@ -52,58 +53,67 @@ export default function HomeScreen(props) {
 
                 <ScrollView horizontal={true}>
 
-                    <View style={styles.education}>
-                        <View style={styles.child_sec}>
-                            <Image
-                                source={require('../../../assets/childimg.png')}
-                                style={styles.goals_2}
-                            />
+                    <TouchableOpacity onPress={() => props.navigation.navigate('Goals')}>
+                        <View style={styles.education}>
+                            <View style={styles.child_sec}>
+                                <Image
+                                    source={require('../../../assets/childimg.png')}
+                                    style={styles.goals_2}
+                                />
+                            </View>
+                            <View style={styles.education_sec}>
+                                <Text style={styles.child}>Car Purchase</Text>
+                                <Text style={styles.child_text}>Plan for that dream car you always wanted</Text>
+                            </View>
                         </View>
-                        <View style={styles.education_sec}>
-                            <Text style={styles.child}>Car Purchase</Text>
-                            <Text style={styles.child_text}>Plan for that dream car you always wanted</Text>
-                        </View>
-                    </View>
+                    </TouchableOpacity>
 
-                    <View style={styles.education}>
-                        <View style={styles.child_sec}>
-                            <Image
-                                source={require('../../../assets/childimg.png')}
-                                style={styles.goals_2}
-                            />
+                    <TouchableOpacity onPress={() => props.navigation.navigate('Goals')}>
+                        <View style={styles.education}>
+                            <View style={styles.child_sec}>
+                                <Image
+                                    source={require('../../../assets/childimg.png')}
+                                    style={styles.goals_2}
+                                />
+                            </View>
+                            <View style={styles.education_sec}>
+                                <Text style={styles.child}>Car Purchase</Text>
+                                <Text style={styles.child_text}>Plan for that dream car you always wanted</Text>
+                            </View>
                         </View>
-                        <View style={styles.education_sec}>
-                            <Text style={styles.child}>Car Purchase</Text>
-                            <Text style={styles.child_text}>Plan for that dream car you always wanted</Text>
-                        </View>
-                    </View>
 
+                    </TouchableOpacity>
 
-                    <View style={styles.education}>
-                        <View style={styles.child_sec}>
-                            <Image
-                                source={require('../../../assets/childimg.png')}
-                                style={styles.goals_2}
-                            />
+                    <TouchableOpacity onPress={() => props.navigation.navigate('Goals')}>
+                        <View style={styles.education}>
+                            <View style={styles.child_sec}>
+                                <Image
+                                    source={require('../../../assets/childimg.png')}
+                                    style={styles.goals_2}
+                                />
+                            </View>
+                            <View style={styles.education_sec}>
+                                <Text style={styles.child}>Car Purchase</Text>
+                                <Text style={styles.child_text}>Plan for that dream car you always wanted</Text>
+                            </View>
                         </View>
-                        <View style={styles.education_sec}>
-                            <Text style={styles.child}>Car Purchase</Text>
-                            <Text style={styles.child_text}>Plan for that dream car you always wanted</Text>
-                        </View>
-                    </View>
+                    </TouchableOpacity>
 
-                    <View style={styles.education}>
-                        <View style={styles.child_sec}>
-                            <Image
-                                source={require('../../../assets/childimg.png')}
-                                style={styles.goals_2}
-                            />
+                    <TouchableOpacity onPress={() => props.navigation.navigate('Goals')}>
+                        <View style={styles.education}>
+                            <View style={styles.child_sec}>
+                                <Image
+                                    source={require('../../../assets/childimg.png')}
+                                    style={styles.goals_2}
+                                />
+                            </View>
+                            <View style={styles.education_sec}>
+                                <Text style={styles.child}>Car Purchase</Text>
+                                <Text style={styles.child_text}>Plan for that dream car you always wanted</Text>
+                            </View>
                         </View>
-                        <View style={styles.education_sec}>
-                            <Text style={styles.child}>Car Purchase</Text>
-                            <Text style={styles.child_text}>Plan for that dream car you always wanted</Text>
-                        </View>
-                    </View>
+                    </TouchableOpacity>
+
                 </ScrollView>
 
                 <View style={styles.border}></View>
@@ -356,6 +366,9 @@ const styles = StyleSheet.create({
     header: {
         borderBottomColor: colors.BLACK,
         borderBottomWidth: 1
+    },
+    containerScroll: {
+        width: '100%'
     },
     home_top: {
         alignItems: 'center',

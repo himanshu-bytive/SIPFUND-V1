@@ -19,20 +19,20 @@ import { ScrollView } from "react-native-gesture-handler";
 
 export default function ProfileScreen(props) {
     return (
-        <ScrollView>
-            <View style={styles.container}>
-                {/* header  */}
-                <Header
-                    leftComponent={{ icon: 'menu', color: '#fff', iconStyle: { color:colors.RED,paddingTop:25,fontSize:30, paddingLeft:10, } }}
-                    // leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={40} color={colors.RED} /></TouchableOpacity>}
-                    containerStyle={styles.header}
-                    backgroundColor={colors.LIGHT_WHITE}
-                    centerComponent={<Image
-                        source={require('../../../assets/icon.png')}
-                        style={styles.logimg}
-                    />}
-                    rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={colors.RED} /></View>}
-                />
+        <View style={styles.container}>
+            {/* header  */}
+            <Header
+                leftComponent={{ icon: 'menu', color: '#fff', iconStyle: { color: colors.RED, paddingTop: 25, fontSize: 30, paddingLeft: 10, } }}
+                // leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={40} color={colors.RED} /></TouchableOpacity>}
+                containerStyle={styles.header}
+                backgroundColor={colors.LIGHT_WHITE}
+                centerComponent={<Image
+                    source={require('../../../assets/icon.png')}
+                    style={styles.logimg}
+                />}
+                rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={colors.RED} /></View>}
+            />
+            <ScrollView style={styles.containerScroll}>
                 <View style={styles.banner}>
 
                     <Image
@@ -123,7 +123,7 @@ export default function ProfileScreen(props) {
                     <Text style={styles.customer}>Bank Address :</Text>
                     <Text style={styles.id_text}>16, SHIRISH, SOUTH AMBAZARI ROAD, LAXMI NAGAR</Text>
                 </View>
-                <View style={styles.mutual_sec}><Text style={styles.mutual_text}>BROKER</Text></View>      
+                <View style={styles.mutual_sec}><Text style={styles.mutual_text}>BROKER</Text></View>
                 <View style={styles.mutual_bottomsec}>
                     <View style={styles.mutual_left}>
                         <Text style={styles.customer}>Broker Name :</Text>
@@ -133,15 +133,15 @@ export default function ProfileScreen(props) {
                     <View style={styles.mutual_right}>
                         <Text style={styles.customer}>Code</Text>
                         <Text style={styles.id_text}>ARN-102683</Text>
-                       
+
                     </View>
                 </View>
 
 
 
 
-            </View>
-        </ScrollView>
+            </ScrollView>
+        </View>
 
     );
 }
@@ -149,6 +149,9 @@ export default function ProfileScreen(props) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+    },
+    containerScroll: {
+        width: '100%'
     },
     logimg: {
         height: 65,

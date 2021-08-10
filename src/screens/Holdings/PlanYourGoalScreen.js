@@ -27,10 +27,10 @@ export default function PlanYourGoalScreen(props) {
                     source={require('../../../assets/icon.png')}
                     style={styles.logimg}
                 />}
-                rightComponent={<View style={{ marginTop: 25, borderWidth: 1, backgroundColor: colors.WHITE, borderColor: colors.RED, padding: 5, borderRadius: 7, marginRight:10, }}><Text style={{ color:colors.RED,}}>KN</Text></View>}
+                rightComponent={<View style={{ marginTop: 25, borderWidth: 1, backgroundColor: colors.WHITE, borderColor: colors.RED, padding: 5, borderRadius: 7, marginRight: 10, }}><Text style={{ color: colors.RED, }}>KN</Text></View>}
             />
             <ScrollView style={{ width: '100%' }}>
-                
+
                 {/* plan your goals section */}
                 <Text style={styles.Plan}>Plan Your GOALS</Text>
 
@@ -256,7 +256,7 @@ export default function PlanYourGoalScreen(props) {
                             <Text style={styles.minimum}>Flexibility</Text>
                         </View>
                     </View>
-                    
+
                 </ScrollView>
 
                 <View style={styles.border}></View>
@@ -496,7 +496,7 @@ const styles = StyleSheet.create({
     quick_sec: {
         backgroundColor: colors.PINK,
         paddingBottom: 20,
-        marginVertical:30,
+        marginVertical: 30,
     },
 
     quick_text: {
@@ -639,11 +639,13 @@ const styles = StyleSheet.create({
         paddingBottom: 40,
         marginTop: 20,
     },
-    view:{ fontSize:15,
-    textAlign:"center",
-color:colors.RED,
-fontWeight:"bold",
-paddingBottom:5},
+    view: {
+        fontSize: 15,
+        textAlign: "center",
+        color: colors.RED,
+        fontWeight: "bold",
+        paddingBottom: 5
+    },
     // // qip_sec:{
     // //     backgroundColor:colors.WHITE,
     // //     shadowColor: "#000",
