@@ -26,6 +26,11 @@ import HomeScreen from './Others/HomeScreen'
 import FaqScreen from './Others/FaqScreen'
 import UpiScreen from './Others/UpiScreen'
 import PanScreen from './Others/PanScreen'
+import AMCScreen from './Others/AMCScreen'
+import EMandateScreen from './Others/EMandateScreen'
+import EnterScreen from './Others/EnterScreen'
+
+
 
 import Investment from './InvestmentsPlans/Investment'
 
@@ -62,6 +67,11 @@ import Investment5Screens from './InvestmentsPlans/Investment5Screens'
 import Investment6Screens from './InvestmentsPlans/Investment6Screens'
 import Investment7Screens from './InvestmentsPlans/Investment7Screens'
 
+import DashboardScreen from './HamburgerMenu/DashboardScreen'
+import HamburgerMenu2Screen from './HamburgerMenu/HamburgerMenu2Screen'
+import HamburgerMenu4Screen from './HamburgerMenu/HamburgerMenu4Screen'
+
+
 
 
 
@@ -77,7 +87,7 @@ export {
     CompleteDetails2Screen,
     CompleteDetails3Screen,
     CompleteDetails5Screen,
-   
+
     FundsHomeScreen,
     FundDetailScreen,
     ReturnsCalculator,
@@ -126,6 +136,16 @@ export {
     TopRoated2Screen,
     TopRoated6Screen,
     TopRoated8Screen,
-    AmountHistoryScreen
+    AmountHistoryScreen,
+
+    AMCScreen,
+    EMandateScreen,
+    EnterScreen,
+
+    DashboardScreen,
+    HamburgerMenu2Screen,
+    HamburgerMenu4Screen,
    
+
+
 };

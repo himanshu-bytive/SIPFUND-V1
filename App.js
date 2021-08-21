@@ -42,6 +42,14 @@ import {
   FundsHomeScreen,
 
   UpiScreen,
+  AMCScreen,
+  EMandateScreen,
+  EnterScreen,
+  DashboardScreen,
+  HamburgerMenu2Screen,
+  HamburgerMenu4Screen,
+  HamburgerMenu5Screen
+  
 
 } from './src/screens'
 
@@ -75,7 +83,7 @@ export default function App() {
   }
 
   return (
-    // <AppContainer />
-    <Investment3Screens />
+    <AppContainer />
+    
   );
 }
