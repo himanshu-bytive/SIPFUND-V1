@@ -14,11 +14,12 @@ import {
 } from "react-native";
 import { colors } from '../../common/theme';
 import { commonStyles } from '../../common/styles';
+import { MySlider } from '../../components';
 import { Ionicons, AntDesign, Entypo, FontAwesome5 } from 'react-native-vector-icons';
 import { Image, Header, CheckBox, Slider } from 'react-native-elements';
 
 export default function Plan1(props) {
-   
+
     const [selectTab, setSelectTab] = useState('SIP');
     const toggleTab = (value) => {
         setSelectTab(value);
@@ -67,37 +68,19 @@ export default function Plan1(props) {
                     <Text style={styles.childtext}>₹65,000</Text>
                 </View>
 
-                <Slider style={{ marginHorizontal: 20 }}
-                    maximumValue={50}
-                    minimumValue={5}
-                    value={21}
-                    thumbStyle={{ height: 20, width: 20 }}
-                    trackStyle={{ height: 5, backgroundColor: 'transparent' }}
-                />
+                <View style={{marginHorizontal:20}}><MySlider /></View>
                 <View style={[styles.vijay_sec, styles.vijay,]}>
                     <Text style={styles.child2}>Year when this is required</Text>
                     <Text style={styles.childtext}>15Y</Text>
                 </View>
 
-                <Slider style={{ marginHorizontal: 20 }}
-                    maximumValue={50}
-                    minimumValue={5}
-                    value={21}
-                    thumbStyle={{ height: 20, width: 20 }}
-                    trackStyle={{ height: 5, backgroundColor: 'transparent' }}
-                />
+                <View style={{marginHorizontal:20}}><MySlider /></View>
                 <View style={[styles.vijay_sec, styles.vijay,]}>
                     <Text style={styles.child2}>Current Investment Value (If Any)</Text>
                     <Text style={styles.childtext}>₹10,00,000</Text>
                 </View>
 
-                <Slider style={{ marginHorizontal: 20 }}
-                    maximumValue={50}
-                    minimumValue={5}
-                    value={21}
-                    thumbStyle={{ height: 20, width: 20 }}
-                    trackStyle={{ height: 5, backgroundColor: 'transparent' }}
-                />
+                <View style={{marginHorizontal:20}}><MySlider /></View>
 
                 <Text style={styles.note}>Note : Assuming current inflation rate at 2.49% and
                     expected return rate on saving as 5%.</Text>
@@ -105,13 +88,13 @@ export default function Plan1(props) {
 
 
                 <View style={styles.click_sec}>
-                    <View style={styles.buttom_botton}>
+                    <View style={(selectTab == 'SIP') ? styles.buttom_botton2 : styles.buttom_botton}>
                         <TouchableOpacity onPress={() => toggleTab('SIP')}>
-                            <Text style={styles.sip_text}>SIP</Text>
+                            <Text style={(selectTab == 'SIP') ? styles.sip_text2 : styles.sip_text}>SIP</Text>
                         </TouchableOpacity></View>
-                    <View style={styles.buttom_botton2}>
+                    <View style={(selectTab == 'LUMPSUM') ? styles.buttom_botton2 : styles.buttom_botton}>
                         <TouchableOpacity onPress={() => toggleTab('LUMPSUM')}>
-                            <Text style={styles.sip_text2}>Lumpsum</Text>
+                            <Text style={(selectTab == 'LUMPSUM') ? styles.sip_text2 : styles.sip_text}>Lumpsum</Text>
                         </TouchableOpacity>
                     </View>
                 </View>

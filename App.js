@@ -37,7 +37,7 @@ import {
   ReturnsCalculator,
   FundDetailScreen,
   PortfolioSummary,
-  AmountHistoryScreen,
+
 
   FundsHomeScreen,
 
@@ -76,6 +76,6 @@ export default function App() {
 
   return (
     // <AppContainer />
-    <Investment3Screens />
+    <Plan1 />
   );
 }

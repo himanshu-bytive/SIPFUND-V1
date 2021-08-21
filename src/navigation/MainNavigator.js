@@ -38,6 +38,7 @@ import {
     ProfileScreen,
     ExistingScreen,
     ReferEarnScreen,
+    AmountHistoryScreen,
     NotificationScreen,
     RelationshipScreen,
     ReportsScreen,
@@ -371,6 +372,12 @@ export const OthersStack = createStackNavigator({
     },
     CompleteDetail: {
         screen: CompleteDetailScreen,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    AmountHistory: {
+        screen: AmountHistoryScreen,
         navigationOptions: {
             headerShown: false,
         }

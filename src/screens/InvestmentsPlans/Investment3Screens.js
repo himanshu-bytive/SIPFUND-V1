@@ -59,23 +59,23 @@ export default function Investment3Screens(props) {
                 {/* button */}
 
                 <View style={styles.click_sec}>
-                    <View style={styles.buttom_botton2}>
-                        <TouchableOpacity>
-                            <Text style={styles.sip_text2}>SIP12</Text>
+                    <View style={(selectTab == 'SIP') ? styles.buttom_botton2 : styles.buttom_botton}>
+                        <TouchableOpacity onPress={() => toggleTab('SIP')}>
+                            <Text style={(selectTab == 'SIP') ? styles.sip_text2 : styles.sip_text}>SIP</Text>
                         </TouchableOpacity>
                     </View>
-                    <View style={styles.buttom_botton}>
-                        <TouchableOpacity>
-                            <Text style={styles.sip_text}>One Time</Text>
+                    <View style={(selectTab == 'One Time') ? styles.buttom_botton2 : styles.buttom_botton}>
+                        <TouchableOpacity onPress={() => toggleTab('One Time')}>
+                            <Text style={(selectTab == 'One Time') ? styles.sip_text2 : styles.sip_text}>One Time</Text>
                         </TouchableOpacity>
                     </View>
-                    <View style={styles.buttom_botton}>
-                        <TouchableOpacity>
-                            <Text style={styles.sip_text}>STP</Text>
+                    <View style={(selectTab == 'STP') ? styles.buttom_botton2 : styles.buttom_botton}>
+                        <TouchableOpacity onPress={() => toggleTab('STP')}>
+                            <Text style={(selectTab == 'STP') ? styles.sip_text2 : styles.sip_text}>STP</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
-   {/* button  end new*/}
+                {/* button  end new*/}
 
 
                 <Text style={styles.childtext}>Investment</Text>
@@ -99,7 +99,7 @@ export default function Investment3Screens(props) {
                         <Text style={styles.cost_botton}>In 10 Years</Text>
                     </View>
                 </View>
-                <Text style={styles.return}>Note : Assuming returns at 12%</Text>                
+                <Text style={styles.return}>Note : Assuming returns at 12%</Text>
 
                 {/* Axis Asset Management Company Ltd */}
 
@@ -158,12 +158,12 @@ const styles = StyleSheet.create({
         color: colors.DEEP_GRAY,
         paddingVertical: 10,
         fontWeight: "bold",
-        marginTop:30,
+        marginTop: 30,
     },
     botton_box: {
         backgroundColor: colors.RED,
         marginHorizontal: 30,
-        marginTop:120,
+        marginTop: 120,
         borderWidth: 1,
         borderRadius: 10,
         borderColor: colors.DEEP_GRAY,
@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
 
         flexDirection: "row",
         justifyContent: "space-between",
-        alignItems:"center",
+        alignItems: "center",
         padding: 20,
     },
 
@@ -190,7 +190,7 @@ const styles = StyleSheet.create({
         width: "30%",
         borderWidth: 1,
         borderColor: colors.DEEP_GRAY,
-        borderRadius: 8, 
+        borderRadius: 8,
         alignItems: "center",
         paddingVertical: 20,
         backgroundColor: colors.LIGHT_GRAY,
@@ -201,8 +201,8 @@ const styles = StyleSheet.create({
         backgroundColor: colors.RED,
         paddingVertical: 20,
         alignItems: "center",
-       
-        
+
+
     },
 
     sip_text: {
@@ -252,26 +252,27 @@ const styles = StyleSheet.create({
     },
     yearly_section: {
         backgroundColor: colors.PINK,
-        marginVertical:20,
-        paddingHorizontal:30,
-        paddingVertical:20,
-        flexDirection:"row",
-        justifyContent:"space-between",
+        marginVertical: 20,
+        paddingHorizontal: 30,
+        paddingVertical: 20,
+        flexDirection: "row",
+        justifyContent: "space-between",
     },
-    cost_top:{
-        fontSize: 20, 
+    cost_top: {
+        fontSize: 20,
         color: colors.RED,
-        fontWeight: "bold", 
+        fontWeight: "bold",
     },
-    cost_botton:{
-        fontSize: 15, 
+    cost_botton: {
+        fontSize: 15,
         color: colors.DEEP_GRAY,
-        fontWeight: "bold", 
+        fontWeight: "bold",
     },
-    return:{marginLeft:20,
-        fontWeight: "bold", 
+    return: {
+        marginLeft: 20,
+        fontWeight: "bold",
         color: colors.DEEP_GRAY,
-        fontSize: 18, 
+        fontSize: 18,
     },
 
 });

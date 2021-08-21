@@ -34,11 +34,12 @@ import PlanScreen from './Goals/Plan'
 import ProfileScreen from './Kyc/ProfileScreen'
 import ExistingScreen from './Kyc/ExistingScreen'
 import ReferEarnScreen from './Kyc/ReferEarnScreen'
+import AmountHistoryScreen from './Kyc/AmountHistoryScreen'
 import NotificationScreen from './Kyc/NotificationScreen'
 import RelationshipScreen from './Kyc/RelationshipScreen'
 import ReportsScreen from './Kyc/ReportsScreen'
 import CompleteDetailScreen from './Kyc/CompleteDetailScreen'
-import AmountHistoryScreen from './Kyc/AmountHistoryScreen'
+
 
 import Plan1 from './PlanYourGoals/Plan1'
 import Plan3 from './PlanYourGoals/Plan3'
@@ -112,6 +113,7 @@ export {
     ProfileScreen,
     ExistingScreen,
     ReferEarnScreen,
+    AmountHistoryScreen,
     NotificationScreen,
     RelationshipScreen,
     ReportsScreen,
@@ -126,6 +128,6 @@ export {
     TopRoated2Screen,
     TopRoated6Screen,
     TopRoated8Screen,
-    AmountHistoryScreen
+    
    
 };

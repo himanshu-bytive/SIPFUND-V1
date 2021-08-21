@@ -96,7 +96,7 @@ export default function ReferEarnScreen(props) {
 
                     </View>
 
-                    <View style={styles.earn_right}><MaterialIcons name={"keyboard-arrow-right"} size={50} color={colors.RED} /></View>
+                    <TouchableOpacity onPress={() => props.navigation.navigate('AmountHistory')} style={styles.earn_right}><MaterialIcons name={"keyboard-arrow-right"} size={50} color={colors.RED} /></TouchableOpacity>
                 </View>
 
                 {/* Share Your Referral Code start */}
