@@ -61,7 +61,7 @@ export default function Investment3Screens(props) {
                 <View style={styles.click_sec}>
                     <View style={styles.buttom_botton2}>
                         <TouchableOpacity>
-                            <Text style={styles.sip_text2}>SIP</Text>
+                            <Text style={styles.sip_text2}>SIP12</Text>
                         </TouchableOpacity>
                     </View>
                     <View style={styles.buttom_botton}>
