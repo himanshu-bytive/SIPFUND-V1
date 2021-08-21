@@ -70,7 +70,7 @@ import Investment7Screens from './InvestmentsPlans/Investment7Screens'
 import DashboardScreen from './HamburgerMenu/DashboardScreen'
 import HamburgerMenu2Screen from './HamburgerMenu/HamburgerMenu2Screen'
 import HamburgerMenu4Screen from './HamburgerMenu/HamburgerMenu4Screen'
-
+import HamburgerMenu5Screen from './HamburgerMenu/HamburgerMenu5Screen'
 
 
 
@@ -145,7 +145,7 @@ export {
     DashboardScreen,
     HamburgerMenu2Screen,
     HamburgerMenu4Screen,
-   
+    HamburgerMenu5Screen
 
 
 };
