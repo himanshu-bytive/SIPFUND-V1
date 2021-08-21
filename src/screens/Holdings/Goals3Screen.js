@@ -13,6 +13,7 @@ import {
 
 } from "react-native";
 import { colors } from '../../common/theme';
+import { commonStyles } from '../../common/styles';
 import { Ionicons, AntDesign, FontAwesome, FontAwesome5, } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
@@ -28,7 +29,7 @@ export default function Goals3Screen(props) {
                         source={require('../../../assets/icon.png')}
                         style={styles.logimg}
                     />}
-                    rightComponent={<View style={{ marginTop: 20, borderWidth: 1, backgroundColor: colors.WHITE, borderColor: colors.RED, padding: 5, borderRadius: 7, }}><Text>KN</Text></View>}
+                    rightComponent={<View style={commonStyles.headerkn}><Text style={commonStyles.textkn}>KN</Text></View>}
                 />
                 <Image
                     source={require('../../../assets/childimg.png')}

@@ -41,7 +41,7 @@ export default function Goals5Screen(props) {
                     rightComponent={<View style={{ marginTop: 20, marginRight: 10, borderWidth: 1, backgroundColor: colors.WHITE, borderColor: colors.RED, padding: 7, borderRadius: 7, }}><Text style={{ fontWeight: "bold", color: "#C0392B", fontSize: 22, }}>KN</Text></View>}
                 />
                 <Image
-                    source={require('../../../assets/goles5_img.png')}
+                    source={require('../../../assets/goles_new.png')}
                     style={styles.goles5logo}
                 />
                 <Text style={styles.text_goals}>Top Rated Funds</Text>
@@ -54,11 +54,11 @@ export default function Goals5Screen(props) {
 
                 <View style={styles.mainbox}>
 
-                    <TouchableOpacity onPress={toggleOverlayBNP}>
+                    <TouchableOpacity onPress={() => props.navigation.navigate('Goals6')}>
                         <View style={styles.container_box}>
                             <View style={styles.smallbox}>
                                 <Image
-                                    source={require('../../../assets/Midcapimg.png')}
+                                    source={require('../../../assets/MidCap_img_new.png')}
                                     style={styles.mid_capimg}
                                 />
 
@@ -67,9 +67,9 @@ export default function Goals5Screen(props) {
                             <AntDesign name={visibleBNP ? "up" : "down"} size={20} color="#C0392B" />
                         </View>
                     </TouchableOpacity>
-                    {visibleBNP && (
+                    {/* {visibleBNP && (
                         <View style={styles.smallbox}></View>
-                    )}
+                    )} */}
 
 
                     <TouchableOpacity onPress={toggleOverlayBOI}>

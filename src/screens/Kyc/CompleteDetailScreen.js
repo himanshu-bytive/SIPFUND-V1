@@ -19,16 +19,13 @@ import { ScrollView } from "react-native-gesture-handler";
 
 export default function CompleteDetailScreen(props) {
     return (
-        <ScrollView>
-            <View style={styles.container}>
-                {/* header  */}
-                <Header
-                    leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><Entypo name={"menu"} size={30} color={colors.WHITE} /></TouchableOpacity>} backgroundColor={colors.PEACH}
-                    backgroundColor={colors.RED}
-
-                    rightComponent={<Feather name={"gift"} size={30} color={colors.WHITE} />}
-                />
-
+        <View style={styles.container}>
+            {/* header  */}
+            <Header
+                leftComponent={<TouchableOpacity onPress={() => props.navigation.toggleDrawer()} style={{ marginTop: 20 }}><Entypo name={"menu"} size={30} color={colors.RED} /></TouchableOpacity>} backgroundColor={colors.RED}
+                rightComponent={<Feather name={"gift"} size={30} color={colors.WHITE} />}
+            />
+            <ScrollView>
                 {/* invest section */}
                 <View style={styles.invest_sec}>
                     <View style={styles.invest}>
@@ -183,8 +180,8 @@ export default function CompleteDetailScreen(props) {
 
                 </ScrollView>
 
-            </View>
-        </ScrollView>
+            </ScrollView>
+        </View>
 
     );
 }
@@ -238,8 +235,8 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         paddingBottom: 20,
     },
-        //  {/* mutual sec */}
-        
+    //  {/* mutual sec */}
+
     mutual_sec: {
         backgroundColor: colors.GRAY_DEEP_1,
         padding: 10,

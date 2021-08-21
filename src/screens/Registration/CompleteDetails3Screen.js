@@ -108,31 +108,29 @@ export default function CompleteDetails3Screen(props) {
 
 
                 {/* click_box */}
+            </ScrollView>
 
+            <View style={styles.footer}>
 
-                <View style={styles.footer}>
+                <View style={styles.click_box}>
 
-                    <View style={styles.click_box}>
+                    <TouchableOpacity onPress={() => props.navigation.navigate('Home')} style={styles.botton_box}>
+                        <Text style={styles.get_otp}>Previous</Text>
+                    </TouchableOpacity>
 
-                        <TouchableOpacity onPress={() => props.navigation.navigate('Home')} style={styles.botton_box}>
-                            <Text style={styles.get_otp}>Skip</Text>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity onPress={() => props.navigation.navigate('Register3')} style={styles.botton_box}>
-                            <Text style={styles.get_otp}>Next</Text>
-                        </TouchableOpacity>
-
-                    </View>
+                    <TouchableOpacity onPress={() => props.navigation.navigate('Register3')} style={styles.botton_box}>
+                        <Text style={styles.get_otp}>Next</Text>
+                    </TouchableOpacity>
 
                 </View>
 
-            </ScrollView>
+            </View>
 
             <Overlay isVisible={visible} overlayStyle={{ margin: 10, backgroundColor: '#fff' }}>
                 <View style={{ padding: 10 }}>
-                    <Text>Thank you for creating your investor account!</Text>
-                    <Text>Please check your email and approve the link sent by NSE for your account activation.</Text>
-                    <TouchableOpacity onPress={toggleOverlay}><Text style={{ color: '#ff0000' }}>OK</Text></TouchableOpacity>
+                    <Text style={{paddingVertical:5,fontSize:18,fontWeight:"bold", }}>Thank you for creating your investor account!</Text>
+                    <Text style={{paddingVertical:5,fontSize:15,fontWeight:"bold",color:'#7E7E7E' }}>Please check your email and approve the link sent by NSE for your account activation.</Text>
+                    <TouchableOpacity onPress={toggleOverlay}><Text style={{ color: '#ff0000',paddingTop:20, }}>OK</Text></TouchableOpacity>
                 </View>
             </Overlay>
 
@@ -196,15 +194,10 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     footer: {
-        backgroundColor: "#EAE9EE",
-        paddingTop: 20,
-        paddingBottom: 70,
-        marginTop: 20,
         alignItems: "center",
+        marginBottom: 20
     },
-
     click_box: {
-
         flexDirection: "row",
         marginHorizontal: 25,
     },

@@ -132,25 +132,24 @@ export default function CompleteDetailsScreen(props) {
                     uncheckedColor={colors.BLACK}
                 />
 
-
-                {/* click_box */}
-                <View style={{ alignItems: "center", }}>
-
-                    <View style={styles.click_box}>
-
-                        <TouchableOpacity onPress={() => props.navigation.navigate('Home')} style={styles.botton_box}>
-                            <Text style={styles.get_otp}>Skip</Text>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity onPress={() => props.navigation.navigate('Register1')} style={styles.botton_box}>
-                            <Text style={styles.get_otp}>Next</Text>
-                        </TouchableOpacity>
-
-
-                    </View>
-                </View>
-
             </ScrollView>
+            {/* click_box */}
+            <View style={styles.footer}>
+
+                <View style={styles.click_box}>
+                    <TouchableOpacity onPress={() => props.navigation.navigate('Home')} style={styles.botton_box}>
+                        <Text style={styles.get_otp}>Skip</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={() => props.navigation.navigate('Register1')} style={styles.botton_box}>
+                        <Text style={styles.get_otp}>Next</Text>
+                    </TouchableOpacity>
+
+
+                </View>
+            </View>
+
+
 
 
         </View>
@@ -217,6 +216,10 @@ const styles = StyleSheet.create({
     checkbox_style: {
         backgroundColor: colors.TRANSPARENT,
         borderColor: colors.TRANSPARENT,
+    },
+    footer: {
+        alignItems: "center",
+        marginBottom:20
     },
     click_box: {
 

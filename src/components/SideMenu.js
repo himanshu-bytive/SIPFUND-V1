@@ -43,39 +43,11 @@ export default function SideMenu(props) {
                     <View><Text style={[styles.know_text, styles.know]}>Profile</Text></View>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => props.navigation.navigate('Home')} style={[styles.profile_sec, styles.profile]}>
-                    <View>
-                        <MaterialCommunityIcons name={"file-upload"} size={30} color={colors.GRAY_LIGHT_4} />
-                    </View>
-                    <View><Text style={[styles.know_text, styles.know]}>Upload Documents</Text></View>
-                </TouchableOpacity>
-
-                <TouchableOpacity onPress={() => props.navigation.navigate('Home')} style={[styles.profile_sec, styles.profile]}>
-                    <View>
-                        <FontAwesome name={"bell"} size={30} color={colors.GRAY_LIGHT_4} />
-                    </View>
-                    <View><Text style={[styles.know_text, styles.know]}>Notification</Text></View>
-                </TouchableOpacity>
-
-                <TouchableOpacity onPress={() => props.navigation.navigate('Home')} style={[styles.profile_sec, styles.profile]}>
+                <TouchableOpacity onPress={() => props.navigation.navigate('ReferEarn')} style={[styles.profile_sec, styles.profile]}>
                     <View>
                         <MaterialCommunityIcons name={"wallet-giftcard"} size={30} color={colors.GRAY_LIGHT_4} />
                     </View>
                     <View><Text style={[styles.know_text, styles.know]}>Refer & Earn</Text></View>
-                </TouchableOpacity>
-
-                <TouchableOpacity onPress={() => props.navigation.navigate('Home')} style={[styles.profile_sec, styles.profile]}>
-                    <View>
-                        <AntDesign name={"filetext1"} size={30} color={colors.GRAY_LIGHT_4} />
-                    </View>
-                    <View><Text style={[styles.know_text, styles.know]}>Existing IIN</Text></View>
-                </TouchableOpacity>
-
-                <TouchableOpacity onPress={() => props.navigation.navigate('Home')} style={[styles.profile_sec, styles.profile]}>
-                    <View>
-                        <FontAwesome name={"stack-exchange"} size={30} color={colors.GRAY_LIGHT_4} />
-                    </View>
-                    <View><Text style={[styles.know_text, styles.know]}>Relationship Manager</Text></View>
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => props.navigation.navigate('Register')} style={[styles.profile_sec, styles.profile]}>
@@ -85,19 +57,67 @@ export default function SideMenu(props) {
                     <View><Text style={[styles.know_text, styles.know]}>Register</Text></View>
                 </TouchableOpacity>
 
+
+                <TouchableOpacity onPress={() => props.navigation.navigate('Existing')} style={[styles.profile_sec, styles.profile]}>
+                    <View>
+                        <AntDesign name={"filetext1"} size={30} color={colors.GRAY_LIGHT_4} />
+                    </View>
+                    <View><Text style={[styles.know_text, styles.know]}>Existing IIN</Text></View>
+                </TouchableOpacity>
+
+
+                <TouchableOpacity onPress={() => props.navigation.navigate('Relationship')} style={[styles.profile_sec, styles.profile]}>
+                    <View>
+                        <FontAwesome name={"stack-exchange"} size={30} color={colors.GRAY_LIGHT_4} />
+                    </View>
+                    <View><Text style={[styles.know_text, styles.know]}>Relationship Manager</Text></View>
+                </TouchableOpacity>
+
+
                 <TouchableOpacity onPress={() => props.navigation.navigate('Home')} style={[styles.profile_sec, styles.profile]}>
                     <View>
-                        <Octicons name={"primitive-dot"} size={30} color={colors.GRAY_LIGHT_4} />
+                        <MaterialCommunityIcons name={"file-upload"} size={30} color={colors.GRAY_LIGHT_4} />
                     </View>
-                    <View><Text style={[styles.know_text, styles.know]}>E-Mandate</Text></View>
+                    <View><Text style={[styles.know_text, styles.know]}>Upload Documents</Text></View>
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => props.navigation.navigate('Home')} style={[styles.profile_sec, styles.profile]}>
                     <View>
-                        <Octicons name={"primitive-dot"} size={30} color={colors.GRAY_LIGHT_4} />
+                        <MaterialCommunityIcons name={"account-search"} size={30} color={colors.GRAY_LIGHT_4} />
                     </View>
                     <View><Text style={[styles.know_text, styles.know]}>E-KYC</Text></View>
                 </TouchableOpacity>
+
+                    
+                <TouchableOpacity onPress={() => props.navigation.navigate('Home')} style={[styles.profile_sec, styles.profile]}>
+                    <View>
+                        <Entypo name={"hair-cross"} size={30} color={colors.GRAY_LIGHT_4} />
+                    </View>
+                    <View><Text style={[styles.know_text, styles.know]}>E-Mandate</Text></View>
+                </TouchableOpacity>
+
+           
+
+                <TouchableOpacity onPress={() => props.navigation.navigate('Notifications')} style={[styles.profile_sec, styles.profile]}>
+                    <View>
+                        <FontAwesome name={"bell"} size={30} color={colors.GRAY_LIGHT_4} />
+                    </View>
+                    <View><Text style={[styles.know_text, styles.know]}>Notification</Text></View>
+                </TouchableOpacity>
+
+
+                <TouchableOpacity onPress={() => props.navigation.navigate('Reports')} style={[styles.profile_sec, styles.profile]}>
+                    <View>
+                        <AntDesign name={"profile"} size={30} color={colors.GRAY_LIGHT_4} />
+                    </View>
+                    <View><Text style={[styles.know_text, styles.know]}>Reports</Text></View>
+                </TouchableOpacity>
+              
+
+             
+
+
+          
 
                 <View style={styles.border}></View>
                 <Text style={[styles.know_text, styles.know]}>Communicate</Text>

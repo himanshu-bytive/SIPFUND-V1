@@ -11,8 +11,6 @@ import {
     KeyboardAvoidingView,
     TextInput,
     ActivityIndicator,
-
-
 } from "react-native";
 import { colors } from '../../common/theme';
 import { Ionicons, AntDesign, MaterialIcons, Feather, Entypo, FontAwesome, FontAwesome5, } from 'react-native-vector-icons';
@@ -103,7 +101,8 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         marginBottom: 40,
     },
-    mini_tex: { fontSize: 15, },
+    mini_tex: { fontSize: 15,
+    fontWeight:"bold", },
     minimum_tex: {
         fontSize: 12,
         paddingVertical: 5

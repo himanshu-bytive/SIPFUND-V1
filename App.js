@@ -1,28 +1,49 @@
 import React, { useState, useEffect } from 'react';
 import AppContainer from './src/navigation/AppNavigator';
 import {
-  SplashScreen,
-  LoginScreen,
-  OtpScreen,
-  PasswordScreen,
-  CreatePasswordScreen,
-  ForgotPasswordScreen,
-  SignupScreen,
+  Plan1,
+  Plan3,
+  Plan4,
+  Plan5,
   HomeScreen,
-  FaqScreen,
-  UpiScreen,
-  PanScreen,
-  Goals2Screen,
-  Goals3Screen,
-  Goals4Screen,
-  Goals5Screen,
-  Goals6Screen,
-  GoalsScreen,
-  Goals1Screen,
-  PlanYourGoalScreen,
   Investment,
-  PlanScreen
-} from './src/screens/index'
+  Investment2Screens,
+  Investment3Screens,
+  Investment4Screens,
+  Investment6Screens,
+  Investment7Screens,
+  OtpScreen,
+  Goals3Screen,
+  Goals1Screen,
+  Goals5Screen,
+  Goals4Screen,
+  Goals6Screen,
+  Goals7Screen,
+  CompleteDetails2Screen,
+  CompleteDetails3Screen,
+  Investment5Screens,
+
+  TopratedFunds5Screen,
+  TopRoated2Screen,
+  TopRoated6Screen,
+  TopRoated8Screen,
+  ExistingScreen,
+  ReferEarnScreen,
+  NotificationScreen,
+  RelationshipScreen,
+  ReportsScreen,
+  CompleteDetailScreen,
+
+  ReturnsCalculator,
+  FundDetailScreen,
+  PortfolioSummary,
+  AmountHistoryScreen,
+
+  FundsHomeScreen,
+
+  UpiScreen,
+
+} from './src/screens'
 
 export default function App() {
   const [assetsLoaded, setAssetsLoaded] = useState(false);
@@ -54,7 +75,7 @@ export default function App() {
   }
 
   return (
-    <AppContainer />
-    // <PlanScreen />
+    // <AppContainer />
+    <Investment3Screens />
   );
 }

@@ -23,8 +23,11 @@ import Top10Holdings from './Top10Holdings'
 import MinimumInvestments from './MinimumInvestments'
 import PerformanceHistory from './PerformanceHistory'
 import PortfolioSummary from './PortfolioSummary'
+import RiskRating from './RiskRating'
+import ExpenseRatio from './ExpenseRatio'
+import FundManagers from './FundManagers'
 
-export default function FundDetail3Screen(props) {
+export default function FundDetailScreen(props) {
 
     const [fundType, setFundType] = useState([
         { text: 'Returns Calculator', show: true },
@@ -59,6 +62,15 @@ export default function FundDetail3Screen(props) {
             />
             <ScrollView style={styles.containerScroll}>
                 <View style={styles.contain_box}>
+                    <View style={styles.contain}>
+                        <View>
+                            <Image
+                                source={require('../../../assets/MidCap_img.png')}
+                                style={styles.detailimg}
+                            />
+                        </View>
+                        <View><Text style={styles.bnp}>BNP Paribas Mid Cap Fund</Text></View>
+                    </View>
 
                     {/* loop start */}
                     {fundType.map((item, key) => <View key={key}>
@@ -75,16 +87,15 @@ export default function FundDetail3Screen(props) {
                             {(item.text === 'Minimum Investments') && (<MinimumInvestments />)}
                             {(item.text === 'Performance History') && (<PerformanceHistory />)}
                             {(item.text === 'Portfolio Summary') && (<PortfolioSummary />)}
+                            {(item.text === 'Risk & Rating') && (<RiskRating />)}
+                            {(item.text === 'Expense Ratio - Exit Load - Tax') && (<ExpenseRatio />)}
+                            {(item.text === 'Fund Managers') && (<FundManagers />)}
                         </View>)}
                     </View>)}
-
-
                     {/* loop end */}
-
-                    <View style={styles.submit}><TouchableOpacity><Text style={styles.submit_text}>SELECT FUND</Text></TouchableOpacity></View>
                 </View>
-
             </ScrollView>
+            <View style={styles.submit}><TouchableOpacity><Text style={styles.submit_text}>SELECT FUND</Text></TouchableOpacity></View>
         </View>
 
     );
@@ -102,6 +113,20 @@ const styles = StyleSheet.create({
         width: 203,
         marginTop: 10,
     },
+    contain: {
+        flexDirection: "row",
+    },
+    bnp: {
+        fontSize: 20,
+        fontWeight: "bold",
+        paddingTop: 7,
+        paddingLeft: 20,
+    },
+    detailimg: {
+        height: 42,
+        width: 42,
+    },
+
     contain_box: { margin: 20, },
     bottom_sec: { paddingVertical: 10, },
     holding: {
@@ -120,11 +145,12 @@ const styles = StyleSheet.create({
         right: 0,
         marginTop: 5,
     },
-
     submit: {
         backgroundColor: colors.LIGHT_RED,
         alignItems: "center",
         borderRadius: 5,
+        marginHorizontal: 20,
+        marginBottom: 30
     },
     submit_text: {
         fontSize: 25,

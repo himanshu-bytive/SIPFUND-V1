@@ -1,8 +1,8 @@
 import { createSwitchNavigator, createAppContainer } from 'react-navigation';
-import { AuthStack, OthersStack, RootNavigator, TabNavigator } from './MainNavigator';
+import { LoginFlowStack, OthersStack, RootNavigator, TabNavigator } from './MainNavigator';
 
 const AppNavigator = createSwitchNavigator({
-    Auth: AuthStack,
+    Auth: LoginFlowStack,
     Root: RootNavigator,
     Tab: TabNavigator
 },

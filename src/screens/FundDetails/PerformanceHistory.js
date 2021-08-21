@@ -1,48 +1,25 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
 import {
     StyleSheet,
-    Button,
     View,
-    ImageBackground,
-    TouchableOpacity,
     Text,
-    Dimensions,
-    KeyboardAvoidingView,
-    TextInput,
-    ActivityIndicator,
-
-
 } from "react-native";
 import { colors } from '../../common/theme';
 import { Ionicons, AntDesign, MaterialIcons, Feather, Entypo, FontAwesome, FontAwesome5, } from 'react-native-vector-icons';
-import { Image, Header, ListItem, Overlay } from 'react-native-elements';
-import { ScrollView } from "react-native-gesture-handler";
-import { color } from "react-native-elements/dist/helpers";
-
 
 
 const fund_type = [
-    { text: 'History', number: '2016' },
+    { text: 'History', number: '2016', class: 'red' },
     { text: 'Axis Asset Management..', number: '5.3%' },
     { text: 'Category (Multi-cap)', number: '5.38' },
     { text: '+/- Category (Multi-Cap)', number: '-4.68' },
-
 ]
 
-
-
-
-
-
-
-
-
 export default function PerformanceHistory(props) {
-
     return (<View style={styles.history}>
         {fund_type.map((item) => <View style={styles.name_sec}>
-            <View style={styles.name_left}><Text style={styles.name}>{item.text}</Text></View>
-            <View style={styles.name_right}><Text style={styles.name_text}>{item.number}</Text></View>
+            <View style={styles.name_left}><Text style={[styles.name, (item.class === 'red' ? styles.name_text_red : '')]}>{item.text}</Text></View>
+            <View style={styles.name_right}><Text style={[styles.name_text, (item.class === 'red' ? styles.name_text_red : '')]}>{item.number}</Text></View>
         </View>)}
     </View>);
 }
@@ -103,6 +80,9 @@ const styles = StyleSheet.create({
     },
     name_text: {
         fontSize: 15,
+    },
+    name_text_red: {
+        color: colors.RED
     },
     name: { fontSize: 15, },
     current: { fontSize: 10, },

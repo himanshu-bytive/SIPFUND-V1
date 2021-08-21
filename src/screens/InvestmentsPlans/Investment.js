@@ -1,25 +1,34 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
 import {
     StyleSheet,
-    Button,
     View,
-    ImageBackground,
     TouchableOpacity,
     Text,
-    Dimensions,
-    KeyboardAvoidingView,
-    TextInput,
-    ActivityIndicator,
     ScrollView
 } from "react-native";
 import { colors } from '../../common/theme';
 import { Entypo, AntDesign } from 'react-native-vector-icons';
 import { Image, Header, Overlay } from 'react-native-elements';
+import Investments from '../../components/Investments'
+
+const investmentData = [
+    { title: 'Long Term', image: require('../../../assets/term1.png') },
+    { title: 'Tax Saving Funds', image: require('../../../assets/term2.png') },
+    { title: 'Better Than', image: require('../../../assets/term3.png') },
+    { title: 'Tax Saving Funds', image: require('../../../assets/term4.png') },
+    { title: 'Better Than FD', image: require('../../../assets/term5.png') },
+    { title: 'Aggressive Funds', image: require('../../../assets/term6.png') },
+    { title: 'Saving Funds', image: require('../../../assets/saving.png') },
+    { title: 'Moderate Funds', image: require('../../../assets/modirate.png') },
+    { title: 'NFO Funds', image: require('../../../assets/nfo.png') },
+    { title: 'Sector Funds', image: require('../../../assets/sector.png') },
+    { title: 'Buy Gold Plans', image: require('../../../assets/coins.png') },
+    { title: 'Foreign Funds', image: require('../../../assets/foregn.png') },
+]
 
 export default function Investment(props) {
-
     const [visible, setVisible] = useState(false);
-
+   
     const toggleOverlay = () => {
         setVisible(!visible);
     };
@@ -27,8 +36,7 @@ export default function Investment(props) {
     return (
         <View style={styles.container}>
             <Header
-                leftComponent={<View style={{ marginTop: 20 }}><Entypo name={"menu"} size={30} color={colors.RED} /></View>}
-                rightComponent={<View style={{ marginTop: 20 }}><Text>KE</Text></View>}
+                leftComponent={<TouchableOpacity onPress={() => props.navigation.toggleDrawer()} style={{ marginTop: 20 }}><Entypo name={"menu"} size={30} color={colors.RED} /></TouchableOpacity>}                rightComponent={<View style={{ marginTop: 20 }}><Text>KE</Text></View>}
                 backgroundColor={colors.LIGHT_WHITE}
                 containerStyle={styles.header}
                 centerComponent={<Image
@@ -36,73 +44,11 @@ export default function Investment(props) {
                     style={styles.logimg}
                 />}
             />
+          
             <ScrollView style={{ width: '100%' }}>
-
                 <Text style={styles.Plan}>Investment Plans</Text>
-
-                <View style={styles.investment_sec}>
-
-                    <View style={styles.investment}>
-                        <Image
-                            source={require('../../../assets/term1.png')}
-                            style={styles.term}
-                        />
-                        <Text style={styles.long}>Long Term</Text>
-                    </View>
-
-                    <View style={styles.investment}>
-                        <Image
-                            source={require('../../../assets/term2.png')}
-                            style={styles.term}
-                        />
-                        <Text style={styles.long}>Tax Saving Funds
-                        </Text>
-                    </View>
-
-                    <View style={styles.investment}>
-                        <Image
-                            source={require('../../../assets/term3.png')}
-                            style={styles.term}
-                        />
-                        <Text style={styles.long}>Better Than
-                            FD</Text>
-                    </View>
-
-                </View>
-
-                <View style={styles.investment_sec}>
-                    <View style={styles.investment}>
-                        <Image
-                            source={require('../../../assets/term4.png')}
-                            style={styles.term}
-                        />
-                        <Text style={styles.long}>Aggressive
-                            Funds</Text>
-                    </View>
-                    <View style={styles.investment}>
-                        <Image
-                            source={require('../../../assets/term5.png')}
-                            style={styles.term}
-                        />
-                        <Text style={styles.long}>Funds For
-                            SIP
-                        </Text>
-                    </View>
-                    <View style={styles.investment}>
-                        <Image
-                            source={require('../../../assets/term6.png')}
-                            style={styles.term}
-                        />
-                        <Text style={styles.long}>Emergency
-                            Funds
-                        </Text>
-                    </View>
-
-                </View>
-
+                <Investments data={investmentData} onPress={() => props.navigation.navigate('Invest2')} />
             </ScrollView>
-
-
 
         </View>
     );
@@ -437,16 +383,6 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         paddingBottom: 5
     },
-    // // qip_sec:{
-    // //     backgroundColor:colors.WHITE,
-    // //     shadowColor: "#000",
-    // //     shadowOffset: {
-    // //         width: 5,
-    // //         height: 5,
-    // //     },
-    // //     shadowOpacity: 0.23,
-    // //     shadowRadius: 2.62,
-    // //     elevation: 4,
-    // },
+
 
 });

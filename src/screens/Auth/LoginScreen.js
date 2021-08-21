@@ -16,6 +16,8 @@ import {
 import { colors } from '../../common/theme';
 import { MaterialIcons, AntDesign } from 'react-native-vector-icons';
 
+const width = Dimensions.get('window').width;
+
 export default function LoginScreen(props) {
     return (
         <View style={styles.container}>
@@ -83,11 +85,9 @@ const styles = StyleSheet.create({
         color: colors.RED
     },
     mainbox: {
-        borderWidth: 1,
-        borderColor: colors.DARK_GREY.border,
         borderRadius: 25,
         backgroundColor: colors.WHITE,
-        width: '90%',
+        width: width - 50,
     },
     logoimg: {
         marginTop: 30,
@@ -134,6 +134,7 @@ const styles = StyleSheet.create({
     },
     nseimg: {
         marginTop: 30,
+        width: width - 50,
     },
     otp: {
         marginTop: 10,

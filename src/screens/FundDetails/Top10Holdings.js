@@ -35,25 +35,32 @@ export default function Top10Holdings(props) {
         <View style={styles.nametop}>
             <View style={styles.name_sec}>
                 <View style={styles.name_left}><Text style={styles.name}>Avenue Supermarkets Ltd.</Text></View>
-                <View style={styles.name_right}><Text style={styles.name_text}>3.4%</Text></View>
+                <View style={styles.name_right}><Text style={styles.name_text}>5.3%</Text></View>
             </View>
         </View>
         <View style={styles.nametop}>
             <View style={styles.name_sec}>
                 <View style={styles.name_left}><Text style={styles.name}>Avenue Supermarkets Ltd.</Text></View>
-                <View style={styles.name_right}><Text style={styles.name_text}>3.4%</Text></View>
+                <View style={styles.name_right}><Text style={styles.name_text}>5.3%</Text></View>
             </View>
         </View>
         <View style={styles.nametop}>
             <View style={styles.name_sec}>
-                <View style={styles.name_left}><Text style={styles.name}>Avenue Supermarkets Ltd.</Text></View>
-                <View style={styles.name_right}><Text style={styles.name_text}>3.4%</Text></View>
+                <View style={styles.name_left}><Text style={styles.name}>Bata India Ltd</Text></View>
+                <View style={styles.name_right}><Text style={styles.name_text}>3.83%</Text></View>
             </View>
         </View>
         <View style={styles.nametop}>
             <View style={styles.name_sec}>
-                <View style={styles.name_left}><Text style={styles.name}>Avenue Supermarkets Ltd.</Text></View>
-                <View style={styles.name_right}><Text style={styles.name_text}>3.4%</Text></View>
+                <View style={styles.name_left}><Text style={styles.name}>PI Industries Ltd</Text></View>
+                <View style={styles.name_right}><Text style={styles.name_text}>3.79%</Text></View>
+            </View>
+        </View>
+
+        <View style={styles.nametop}>
+            <View style={styles.name_sec}>
+                <View style={styles.name_left}><Text style={styles.name}>Voltas Ltd</Text></View>
+                <View style={styles.name_right}><Text style={styles.name_text}>3.18%</Text></View>
             </View>
         </View>
 

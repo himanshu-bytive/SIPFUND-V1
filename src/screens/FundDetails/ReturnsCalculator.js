@@ -11,10 +11,9 @@ import {
     KeyboardAvoidingView,
     TextInput,
     ActivityIndicator,
-
-
 } from "react-native";
 import { colors } from '../../common/theme';
+import { MySlider } from '../../components';
 import { Ionicons, AntDesign, MaterialIcons, Feather, Entypo, FontAwesome, FontAwesome5, } from 'react-native-vector-icons';
 import { Image, Header, ListItem, Overlay, Slider } from 'react-native-elements';
 
@@ -22,34 +21,24 @@ export default function ReturnsCalculator(props) {
 
     return (<View style={styles.mainbox}>
         <Text style={styles.check}>Check if you would have invested in the past.</Text>
-        <View style={{ alignItems: "center", }}>
-            <View style={styles.click_box}>
-
-                <TouchableOpacity style={styles.botton_box}>
-                    <Text style={styles.get_otp}>SIP</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.botton_box2}>
-                    <Text style={styles.get_otp2}>Lumpsum</Text>
+        <View style={styles.click_sec}>
+            <View style={styles.buttom_botton}>
+                <TouchableOpacity>
+                    <Text style={styles.sip_text}>SIP</Text>
+                </TouchableOpacity></View>
+            <View style={styles.buttom_botton2}>
+                <TouchableOpacity style={styles.buttom_botton2}>
+                    <Text style={styles.sip_text2}>Lumpsum</Text>
                 </TouchableOpacity>
             </View>
         </View>
-
-
-        <View style={{ marginHorizontal: 20, }}>
-            <Slider
-                maximumValue={60}
-                minimumValue={5}
-                value={21}
-                trackStyle={{ height: 4, backgroundColor: 'transparent' }}
-            />
+        <View>
+            <MySlider />
         </View>
-
         <View style={styles.amount_box}>
             <Text style={styles.amount}>Amount Per Month</Text>
             <Text style={styles.price}>Rs.4000</Text>
         </View>
-
         <View style={styles.back_sec}>
             <View style={styles.back1}>
                 <Text style={styles.back_year}>1Y Back</Text>
@@ -74,111 +63,22 @@ export default function ReturnsCalculator(props) {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-    containerScroll: {
-        width: '100%'
-    },
-    logimg: {
-        height: 65,
-        width: 203,
-        marginTop: 10,
-    },
-    contain_box: { margin: 20, },
-    bottom_sec: { paddingVertical: 10, },
-    holding: {
-        flexDirection: "row",
-        borderBottomWidth: 1,
-        borderBottomColor: colors.RED,
-        paddingVertical: 5,
 
-    },
-    holding_text: {
-        fontSize: 18,
-        color: colors.RED,
-    },
-    holding_icon: {
-        position: 'absolute',
-        right: 0,
-        marginTop: 5,
-    },
 
-    submit: {
-        backgroundColor: colors.LIGHT_RED,
-        alignItems: "center",
-        borderRadius: 5,
-    },
-    submit_text: {
-        fontSize: 25,
-        color: colors.WHITE,
-        paddingVertical: 10,
-    },
 
-    get_otp: {
-        color: colors.WHITE,
-        fontSize: 16,
-        marginRight: 5,
-        textAlign: "center",
-    },
-    tax_left: {
-        flexDirection: "row",
-        width: '66%'
-    },
-    tax_left_text: {
-        fontSize: 18,
-        fontWeight: "bold",
-        paddingTop: 10,
-    },
+
     mainbox: {
-        margin: 5,
-        width: '100%',
         borderWidth: 1,
         borderColor: colors.GRAY_LIGHT,
         borderRadius: 20,
+        padding: 10,
     },
     check: {
         fontSize: 15,
-        marginLeft: 30,
         marginTop: 10,
     },
     click_box: {
         flexDirection: "row",
-        marginHorizontal: 20,
-    },
-    botton_box: {
-        width: "50%",
-        backgroundColor: colors.RED,
-        paddingVertical: 10,
-        marginTop: 20,
-        marginBottom: 20,
-
-        borderColor: colors.DEEP_GRAY,
-        borderRadius: 5,
-        marginHorizontal: 5,
-    },
-    get_otp: {
-        color: colors.WHITE,
-        fontSize: 18,
-        fontWeight: 'bold',
-        textAlign: "center",
-    },
-    botton_box2: {
-        width: "50%",
-        borderWidth: 1,
-        paddingVertical: 10,
-        marginTop: 20,
-        marginBottom: 20,
-
-        borderColor: colors.DEEP_GRAY,
-        borderRadius: 5,
-        marginHorizontal: 5,
-    },
-    get_otp2: {
-        color: colors.RED,
-        fontSize: 18,
-        fontWeight: 'bold',
-        textAlign: "center",
     },
     amount_box: {
         flexDirection: "row",
@@ -186,22 +86,19 @@ const styles = StyleSheet.create({
     },
     amount: {
         fontSize: 18,
-        marginLeft: 20,
-        width: "73%",
     },
     price: {
         fontSize: 18,
         color: colors.RED,
+        position: "absolute",
+        right: 0,
 
     },
     back_sec: {
         flexDirection: "row",
+        justifyContent: "space-between",
     },
-    back1: {
-        width: "20%",
-        marginHorizontal: 30,
 
-    },
     back_year: {
         fontSize: 18,
         color: colors.RED,
@@ -214,14 +111,50 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: colors.RED,
         marginTop: 10,
-        marginLeft: 15,
     },
 
     with: {
         fontSize: 15,
         marginTop: 10,
-        marginLeft: 20,
         marginBottom: 20,
+    },
+
+
+
+
+
+    click_sec: {
+        flexDirection: "row",
+        marginVertical: 20,
+
+    },
+
+    buttom_botton: {
+        width: "50%",
+        borderWidth: 1,
+        borderColor: colors.DEEP_GRAY,
+        marginRight: 2,
+        alignItems: "center",
+        paddingVertical: 7,
+        borderRadius: 5,
+    },
+    buttom_botton2: {
+        width: "50%",
+        backgroundColor: colors.RED,
+        marginLeft: 2,
+        alignItems: "center",
+        paddingVertical: 7,
+        borderRadius: 5,
+    },
+    sip_text: {
+        fontSize: 18,
+        color: colors.RED,
+        fontWeight: "bold"
+    },
+    sip_text2: {
+        fontSize: 18,
+        color: colors.WHITE,
+        fontWeight: "bold"
     },
 
 

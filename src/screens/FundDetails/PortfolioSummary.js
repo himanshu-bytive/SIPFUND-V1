@@ -39,30 +39,93 @@ const fund_type = [
 
 export default function PortfolioSummary(props) {
 
-    return (<View>
+    return (<View style={{ marginTop: 50, marginHorizontal: 5 }}>
         <Text style={styles.value}>Total Market Value - Rs. 845.6 cr</Text>
 
         <View style={styles.minimum}>
-            <View style={styles.minimum_sec}><Text style={styles.mini_tex}>No. Of{'\n'}
+            <View style={styles.minimum_sec}><View style={styles.mini_tex}><Text style={styles.mini_tex2}>No. Of{'\n'}
                 Holdings</Text></View>
-            <View style={styles.minimum_sec}><Text style={styles.mini_tex}>No. Of{'\n'}
-                Stock Holdings</Text></View>
-            <View style={styles.minimum_sec}><Text style={styles.mini_tex}>No. Of{'\n'}
-                Bond Holdings</Text></View>
-        </View>
-        <View style={styles.minimum}>
-            <View style={styles.minimum_sec}><Text style={styles.mini_tex}>40</Text></View>
-            <View style={styles.minimum_sec}><Text style={styles.mini_tex}>40</Text></View>
-            <View style={styles.minimum_sec}><Text style={styles.mini_tex}>0</Text></View>
+                <Text style={styles.mini_tex}>40</Text>
+            </View>
+            <View style={styles.minimum_sec}><View style={styles.mini_tex}><Text style={styles.mini_tex2}>No. Of{'\n'}
+            Stock Holdings</Text></View>
+                <Text style={styles.mini_tex}>40</Text>
+            </View>
+            <View style={styles.minimum_sec}><View style={styles.mini_tex}><Text style={styles.mini_tex2}>No. Of{'\n'}
+            Bond Holdings</Text></View>
+                <Text style={styles.mini_tex}>0</Text>
+            </View>
+
         </View>
 
-        <View style={styles.bottom_holding}>
+
+    
+        {/* <View style={styles.bottom_holding}>
 
             <View style={styles.bottom_holdingleft}>
                 <Text style={styles.mini_tex}>0</Text>
             </View>
             <View style={styles.bottom_holdingright}></View>
-        </View></View>);
+        </View> */}
+
+<View style={styles.graph_sec}>
+                <View style={styles.holding_sec}>
+                    <View style={styles.type_sec}>
+                        <Text style={styles.type}>Holding Type</Text>
+                    </View>
+                    <View style={styles.cr_sec}>
+                        <Text style={styles.cr}>E</Text>
+                    </View>
+                    <View style={styles.cr_sec}>
+                        <Text style={styles.cr}>CR</Text>
+                    </View>
+                    <View style={styles.cr_sec}>
+                        <Text style={styles.cr}>EW</Text>
+                    </View>
+                    <View style={styles.cr_sec}>
+                        <Text style={styles.cr}>C</Text>
+                    </View>
+
+                </View>
+
+                <View style={styles.holding_sec}>
+                    <View style={styles.type_sec}>
+                        <Text style={[styles.type, styles.red]}>%Net</Text>
+                    </View>
+                    <View style={styles.cr_sec}>
+                        <Text style={styles.cr}>85.14</Text>
+                    </View>
+                    <View style={styles.cr_sec}>
+                        <Text style={styles.cr}>11.85</Text>
+                    </View>
+                    <View style={styles.cr_sec}>
+                        <Text style={styles.cr}>2.01</Text>
+                    </View>
+                    <View style={styles.cr_sec}>
+                        <Text style={styles.cr}>1.00</Text>
+                    </View>
+
+                </View>
+                <View style={styles.allocation}>
+                    <Text style={styles.asset}>Asset Allocation</Text>
+
+                    <Image
+                        source={require('../../../assets/graph_img.png')}
+                        style={styles.graph_img}
+                    />
+
+                </View>
+            </View>
+
+
+
+
+
+
+
+
+    </View>
+    );
 }
 
 const styles = StyleSheet.create({
@@ -132,29 +195,96 @@ const styles = StyleSheet.create({
 
     minimum: {
         flexDirection: "row",
+        borderWidth: 1,
+        borderColor: colors.DEEP_GRAY_5,
+        
+        
 
 
     },
     minimum_sec: {
-        borderLeftWidth: 1,
-        borderBottomWidth: 1,
-        borderColor: colors.DEEP_GRAY_5,
-        alignItems: "center",
+        borderRightWidth: 1,
         width: '33.3333333%',
         paddingVertical: 5,
+        borderColor: colors.DEEP_GRAY_5,
 
     },
     mini_tex: {
         fontSize: 11,
         textAlign: "center",
+        borderBottomWidth: 1,
+        borderColor: colors.DEEP_GRAY_5,
+        paddingVertical:5,
     },
+    mini_tex2: { textAlign: "center", },
     bottom_holding: {
         borderWidth: 1,
         marginVertical: 20,
         borderColor: colors.DEEP_GRAY_5,
     },
     bottom_holdingleft: { width: '40%' },
-    bottom_holdingright: { width: '60%' }
+    bottom_holdingright: { width: '60%' },
+
+
+    port: { marginTop: 20, },
+    goals_2: {
+        width: 400,
+        height: 170,
+    },
+
+    graph_sec: {
+        flexDirection: "row",
+        borderColor: colors.DEEP_GRAY_5,
+        borderTopWidth: 1,
+        borderBottomWidth: 1,
+        borderLeftWidth: 1,
+        marginHorizontal: 5,
+        marginTop:30,
+    },
+    holding_sec: {
+        width: "18%",
+        alignItems: "center",
+    },
+    type_sec: {
+        borderRightWidth: 1, borderRightColor: colors.DEEP_GRAY, width: "100%",
+        alignItems: "center",
+    },
+    type: {
+        color: colors.RED,
+        fontSize: 11,
+        fontWeight: "bold",
+        marginTop: 5,
+        marginBottom: 10,
+
+    },
+    cr_sec: {
+        borderTopWidth: 1,
+        borderRightWidth: 1,
+        borderRightColor: colors.DEEP_GRAY,
+        borderTopColor: colors.DEEP_GRAY,
+        width: "100%",
+        alignItems: "center",
+        paddingVertical: 5,
+    },
+    cr: {
+        fontSize: 11,
+    }, red: {
+        marginBottom: 23,
+    },
+    allocation: {
+        width: "60%",
+        alignItems: "center",
+    },
+    asset: {
+        color: colors.RED,
+        fontSize: 12,
+        fontWeight: "bold",
+        marginTop: 10,
+    },
+    graph_img: {
+        height: 113,
+        width: 125,
+    },
 
 
 

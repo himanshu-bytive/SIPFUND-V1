@@ -14,11 +14,15 @@ import {
     CompleteDetails2Screen,
     CompleteDetails3Screen,
     CompleteDetails5Screen,
+
     TopratedFunds5Screen,
-    FundsDetails1Screen,
-    FundDetail3Screen,
+    TopRoated2Screen,
+    TopRoated6Screen,
+    TopRoated8Screen,
+
+    FundsHomeScreen,
+    FundDetailScreen,
     HomeScreen,
-    FaqScreen,
     UpiScreen,
     PanScreen,
     Goals2Screen,
@@ -26,13 +30,35 @@ import {
     Goals4Screen,
     Goals5Screen,
     Goals6Screen,
+    Goals7Screen,
     GoalsScreen,
     Goals1Screen,
-    ProfileScreen,
-} from '../screens';
-import SideMenu from '../components/SideMenu';
 
-export const AuthStack = createStackNavigator({
+
+    ProfileScreen,
+    ExistingScreen,
+    ReferEarnScreen,
+    NotificationScreen,
+    RelationshipScreen,
+    ReportsScreen,
+    CompleteDetailScreen,
+
+    Investment,
+    Investment2Screens,
+    Investment3Screens,
+    Investment7Screens,
+    Investment4Screens,
+    Investment5Screens,
+    Investment6Screens,
+
+    Plan1,
+    Plan3,
+    Plan4,
+    Plan5,
+} from '../screens';
+import { SideMenu } from '../components';
+
+export const LoginFlowStack = createStackNavigator({
     splash: {
         screen: SplashScreen,
         navigationOptions: {
@@ -74,6 +100,202 @@ export const AuthStack = createStackNavigator({
     initialRouteName: 'login',
 });
 
+export const HomePageStack = createStackNavigator({
+    Home: {
+        screen: HomeScreen,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    Pan: {
+        screen: PanScreen,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+}, {
+    initialRouteName: 'Home',
+});
+
+export const PlanYourGoalsStack = createStackNavigator({
+    Plan1: {
+        screen: Plan1,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    Plan3: {
+        screen: Plan3,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    Plan4: {
+        screen: Plan4,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    Plan5: {
+        screen: Plan5,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+}, {
+    initialRouteName: 'Plan1',
+});
+
+export const InvestmentPlansStack = createStackNavigator({
+    Invest1: {
+        screen: Investment,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    Invest2: {
+        screen: Investment2Screens,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    Invest3: {
+        screen: Investment3Screens,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    Invest7: {
+        screen: Investment7Screens,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    Invest4: {
+        screen: Investment4Screens,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    Invest5: {
+        screen: Investment5Screens,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    Invest6: {
+        screen: Investment6Screens,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+
+}, {
+    initialRouteName: 'Invest1',
+});
+
+export const TopRatedFundsStack = createStackNavigator({
+    Toprated1: {
+        screen: TopRoated2Screen,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    Toprated2: {
+        screen: TopratedFunds5Screen,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    Toprated3: {
+        screen: TopRoated6Screen,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    Toprated4: {
+        screen: TopRoated8Screen,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+
+}, {
+    initialRouteName: 'Toprated1',
+});
+
+export const HoldingsSummaryStack = createStackNavigator({
+    Goals: {
+        screen: GoalsScreen,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    Goals1: {
+        screen: Goals1Screen,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    Goals2: {
+        screen: Goals2Screen,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    Goals3: {
+        screen: Goals3Screen,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    Goals4: {
+        screen: Goals4Screen,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    Goals5: {
+        screen: Goals5Screen,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    Goals6: {
+        screen: Goals6Screen,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    Goals7: {
+        screen: Goals7Screen,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+
+}, {
+    initialRouteName: 'Goals',
+});
+
+export const FundsDetailsStack = createStackNavigator({
+    FundsDetails: {
+        screen: FundsHomeScreen,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    FundsDetails1: {
+        screen: FundDetailScreen,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+
+}, {
+    initialRouteName: 'FundsDetails',
+});
+
 export const RegisterStack = createStackNavigator({
     Register: {
         screen: CompleteDetailsScreen,
@@ -104,93 +326,9 @@ export const RegisterStack = createStackNavigator({
     initialRouteName: 'Register',
 });
 
-export const HoldingsStack = createStackNavigator({
-    Goals: {
-        screen: GoalsScreen,
-        navigationOptions: {
-            headerShown: false,
-        }
-    },
-    Goals1: {
-        screen: Goals1Screen,
-        navigationOptions: {
-            headerShown: false,
-        }
-    },
-    Goals2: {
-        screen: Goals2Screen,
-        navigationOptions: {
-            headerShown: false,
-        }
-    },
-    Goals3: {
-        screen: Goals3Screen,
-        navigationOptions: {
-            headerShown: false,
-        }
-    },
-    Goals4: {
-        screen: Goals4Screen,
-        navigationOptions: {
-            headerShown: false,
-        }
-    },
-    Goals5: {
-        screen: Goals5Screen,
-        navigationOptions: {
-            headerShown: false,
-        }
-    },
-    Goals6: {
-        screen: Goals6Screen,
-        navigationOptions: {
-            headerShown: false,
-        }
-    },
-
-}, {
-    initialRouteName: 'Goals',
-});
-
-export const TopratedStack = createStackNavigator({
-    Toprated: {
-        screen: TopratedFunds5Screen,
-        navigationOptions: {
-            headerShown: false,
-        }
-    },
-
-}, {
-    initialRouteName: 'Toprated',
-});
-
-export const FundsDetailsStack = createStackNavigator({
-    FundsDetails: {
-        screen: FundsDetails1Screen,
-        navigationOptions: {
-            headerShown: false,
-        }
-    },
-    FundsDetails1: {
-        screen: FundDetail3Screen,
-        navigationOptions: {
-            headerShown: false,
-        }
-    },
-
-}, {
-    initialRouteName: 'FundsDetails',
-});
-
 export const OthersStack = createStackNavigator({
     Upi: {
         screen: UpiScreen,
-        navigationOptions: {
-            headerShown: false,
-        }
-    },
-    Pan: {
-        screen: PanScreen,
         navigationOptions: {
             headerShown: false,
         }
@@ -201,94 +339,76 @@ export const OthersStack = createStackNavigator({
             headerShown: false,
         }
     },
+    Existing: {
+        screen: ExistingScreen,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    ReferEarn: {
+        screen: ReferEarnScreen,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    Notifications: {
+        screen: NotificationScreen,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    Relationship: {
+        screen: RelationshipScreen,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    Reports: {
+        screen: ReportsScreen,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    CompleteDetail: {
+        screen: CompleteDetailScreen,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
 }, {
     initialRouteName: 'Upi',
-});
-
-export const ExploreStack = createStackNavigator({
-    Goals: {
-        screen: GoalsScreen,
-        navigationOptions: {
-            headerShown: false,
-        }
-    },
-    Goals1: {
-        screen: Goals1Screen,
-        navigationOptions: {
-            headerShown: false,
-        }
-    },
-    Goals2: {
-        screen: Goals2Screen,
-        navigationOptions: {
-            headerShown: false,
-        }
-    },
-    Goals3: {
-        screen: Goals3Screen,
-        navigationOptions: {
-            headerShown: false,
-        }
-    },
-    Goals4: {
-        screen: Goals4Screen,
-        navigationOptions: {
-            headerShown: false,
-        }
-    },
-    Goals5: {
-        screen: Goals5Screen,
-        navigationOptions: {
-            headerShown: false,
-        }
-    },
-    Goals6: {
-        screen: Goals6Screen,
-        navigationOptions: {
-            headerShown: false,
-        }
-    },
-}, {
-    initialRouteName: 'Goals',
-});
-
-export const PlanStack = createStackNavigator({
-    Home: {
-        screen: HomeScreen,
-        navigationOptions: {
-            headerShown: false,
-        }
-    },
-}, {
-    initialRouteName: 'Home',
 });
 
 
 //drawer routes, you can add routes here for drawer or sidemenu
 const DrawerRoutes = {
-    Reg: {
-        name: 'Register',
-        screen: RegisterStack
+    HomePage: {
+        name: 'HomePage',
+        screen: HomePageStack
     },
-    Hold: {
-        name: 'Hold',
-        screen: HoldingsStack
+    Plans: {
+        name: 'Plans',
+        screen: PlanYourGoalsStack
+    },
+    Investment: {
+        name: 'Investment',
+        screen: InvestmentPlansStack
     },
     Top: {
         name: 'Top',
-        screen: TopratedStack
+        screen: TopRatedFundsStack
+    },
+    Hold: {
+        name: 'Hold',
+        screen: HoldingsSummaryStack
     },
     Funds: {
         name: 'Funds',
         screen: FundsDetailsStack
     },
-    Explore: {
-        name: 'Explore',
-        screen: ExploreStack
-    },
-    Plan: {
-        name: 'Plan',
-        screen: PlanStack
+    Reg: {
+        name: 'Register',
+        screen: RegisterStack
     },
     Others: {
         name: 'Others',
@@ -299,7 +419,7 @@ const DrawerRoutes = {
 //tab navigator for user end
 export const TabNavigator = createBottomTabNavigator({
     Explore: {
-        screen: ExploreStack,
+        screen: HomePageStack,
         navigationOptions: {
             tabBarLabel: 'Explore',
             tabBarIcon: ({ focused, tintColor }) => {
@@ -309,7 +429,7 @@ export const TabNavigator = createBottomTabNavigator({
         }
     },
     Plan: {
-        screen: PlanStack,
+        screen: PlanYourGoalsStack,
         navigationOptions: {
             tabBarIcon: ({ focused, tintColor }) => {
                 // const iconName = `ios-information-circle${focused ? '' : '-outline'}`;
@@ -318,7 +438,7 @@ export const TabNavigator = createBottomTabNavigator({
         }
     },
     Dashboard: {
-        screen: PlanStack,
+        screen: TopRatedFundsStack,
         navigationOptions: {
             tabBarIcon: ({ focused, tintColor }) => {
                 // const iconName = `ios-information-circle${focused ? '' : '-outline'}`;
@@ -327,7 +447,7 @@ export const TabNavigator = createBottomTabNavigator({
         }
     },
     You: {
-        screen: Goals3Screen,
+        screen: HoldingsSummaryStack,
         navigationOptions: {
             tabBarIcon: ({ focused, tintColor }) => {
                 // const iconName = `ios-information-circle${focused ? '' : '-outline'}`;
@@ -342,6 +462,6 @@ export const RootNavigator = createDrawerNavigator(
     DrawerRoutes,
     {
         drawerWidth: 300,
-        initialRouteName: 'Plan',
+        initialRouteName: 'HomePage',
         contentComponent: SideMenu,
     });

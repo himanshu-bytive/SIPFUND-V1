@@ -12,6 +12,7 @@ import {
     ActivityIndicator
 } from "react-native";
 import { colors } from '../../common/theme';
+import { FundType } from '../../components';
 import { Ionicons, AntDesign, Entypo, FontAwesome5 } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
@@ -31,24 +32,21 @@ export default function TopratedFunds5Screen(props) {
                 />}
                 rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={colors.RED} /></View>}
             />
-            <ScrollView style={styles.containerScroll}>
 
-                {/* SIP_sec */}
 
-                <View style={styles.sip_sec}>
+            {/* SIP_sec */}
 
-                    <View style={styles.sip_left}>
-                        <Text style={styles.sip}>SIP</Text>
-                    </View>
-
-                    <View style={styles.lumpsum}>
-                        <Text style={styles.lump}>LUMPSUM</Text>
-                    </View>
-
+            <View style={styles.sip_sec}>
+                <View style={styles.sip_left}>
+                    <Text style={styles.sip}>SIP</Text>
                 </View>
+                <View style={styles.lumpsum}>
+                    <Text style={styles.lump}>LUMPSUM</Text>
+                </View>
+            </View>
 
-                {/* My Selected Funds_sec */}
-
+            {/* My Selected Funds_sec */}
+            <ScrollView style={styles.containerScroll}>
                 <View style={styles.fund_sec}>
                     <Text style={styles.selected}>My Selected Funds</Text>
                     <Text style={styles.month}>SIP Per Month</Text>
@@ -74,150 +72,9 @@ export default function TopratedFunds5Screen(props) {
                 {/* Axis Asset Management Company Ltd */}
 
 
-                <View style={styles.axis_asset}>
-                    <View style={styles.company}>
-                        <Image
-                            source={require('../../../assets/axis_img.png')}
-                            style={styles.axisimg}
-                        />
-                        <View style={styles.management}>
-                            <Text style={styles.axis}>Axis Asset Management Company Ltd</Text>
-                            <Text style={styles.moderately}>Moderately High Risk</Text>
-                        </View>
+                <FundType />
 
-                        <View style={styles.checkbox}>
-                            <CheckBox
-                                title=''
-                                containerStyle={styles.checkbox_style}
-                                textStyle={{ color: colors.RED, fontSize: 14 }}
-                                checked={true}
-                                checkedColor={colors.BLACK}
-                                uncheckedColor={colors.RED}
-                            />
-                        </View>
-
-                    </View>
-
-                    {/* border_sec */}
-
-                    <View style={styles.border_sec}>
-                        <View style={styles.border}>
-                            <View style={{ borderWidth: 1, borderColor: colors.RED, }}></View>
-                        </View>
-                        <View style={styles.icons}>
-                            <TouchableOpacity onPress={() => props.navigation.navigate('FundsDetails')}>
-                                <AntDesign name="rightcircleo" size={30} color="#C0392B" />
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-
-
-                    {/* Select Folio No._sec */}
-
-                    <View style={styles.selectfolio_sec}>
-
-                        <View style={styles.select}>
-                            <Text style={styles.no}>Select Folio No.</Text>
-
-                            <View style={{ flexDirection: "row", borderBottomWidth: 1, borderBottomColor: "#707070", }}>
-                                <Text style={styles.new}>New Folio</Text>
-                                <AntDesign name="caretdown" size={20} color="#C0392B" />
-                            </View>
-                        </View>
-
-                        <View style={styles.select}>
-                            <Text style={styles.no}>SIP Date</Text>
-
-                            <View style={{ flexDirection: "row", }}>
-                                <Text style={styles.new}>5</Text>
-                                <AntDesign name="caretdown" size={20} color="#C0392B" />
-                            </View>
-
-
-                        </View>
-                        <View style={styles.select}>
-
-                            <Text style={styles.no}>SIP</Text>
-                            <Text style={styles.new}>4000</Text>
-                        </View>
-
-                    </View>
-                </View>
-
-                {/* axis_asset........2_sec */}
-
-                <View style={styles.axis_asset}>
-
-                    <View style={styles.company}>
-
-                        <Image
-                            source={require('../../../assets/axis_img.png')}
-                            style={styles.axisimg}
-                        />
-                        <View style={styles.management}>
-                            <Text style={styles.axis}>Axis Asset Management Company Ltd</Text>
-                            <Text style={styles.moderately}>Moderately High Risk</Text>
-                        </View>
-
-                        <View style={styles.checkbox}>
-                            <CheckBox
-                                title=''
-                                containerStyle={styles.checkbox_style}
-                                textStyle={{ color: colors.RED, fontSize: 14 }}
-                                checked={true}
-                                checkedColor={colors.BLACK}
-                                uncheckedColor={colors.RED}
-                            />
-                        </View>
-
-                    </View>
-
-                    {/* border_sec */}
-
-                    <View style={styles.border_sec}>
-                        <View style={styles.border}>
-                            <View style={{ borderWidth: 1, borderColor: colors.RED, }}></View>
-                        </View>
-                        <View style={styles.icons}>
-                            <TouchableOpacity>
-                                <AntDesign name="rightcircleo" size={30} color="#C0392B" />
-                            </TouchableOpacity>
-                        </View>
-
-                    </View>
-
-
-                    {/* Select Folio No._sec */}
-
-                    <View style={styles.selectfolio_sec}>
-
-                        <View style={styles.select}>
-                            <Text style={styles.no}>Select Folio No.</Text>
-
-                            <View style={{ flexDirection: "row", borderBottomWidth: 1, borderBottomColor: "#707070", }}>
-                                <Text style={styles.new}>New Folio</Text>
-                                <AntDesign name="caretdown" size={20} color="#C0392B" />
-                            </View>
-                        </View>
-
-                        <View style={styles.select}>
-                            <Text style={styles.no}>SIP Date</Text>
-
-                            <View style={{ flexDirection: "row", }}>
-                                <Text style={styles.new}>5</Text>
-                                <AntDesign name="caretdown" size={20} color="#C0392B" />
-                            </View>
-
-
-                        </View>
-                        <View style={styles.select}>
-
-                            <Text style={styles.no}>SIP</Text>
-                            <Text style={styles.new}>5000</Text>
-                        </View>
-
-                    </View>
-                </View>
+                <FundType />
 
 
                 {/* Hybrid_sec.....3 */}
@@ -228,87 +85,15 @@ export default function TopratedFunds5Screen(props) {
                     </View>
                 </View>
 
-                {/* axis_asset......4_sec */}
 
-                <View style={styles.axis_asset}>
+                <FundType />
 
-                    <View style={styles.company}>
-
-                        <Image
-                            source={require('../../../assets/axis_img.png')}
-                            style={styles.axisimg}
-                        />
-                        <View style={styles.management}>
-                            <Text style={styles.axis}>ICICI Prudential Asset Management…</Text>
-                            <Text style={styles.moderately}>Moderately High Risk</Text>
-                        </View>
-
-                        <View style={styles.checkbox}>
-                            <CheckBox
-                                title=''
-                                containerStyle={styles.checkbox_style}
-                                textStyle={{ color: colors.RED, fontSize: 14 }}
-                                checked={true}
-                                checkedColor={colors.BLACK}
-                                uncheckedColor={colors.RED}
-                            />
-                        </View>
-
-                    </View>
-
-                    {/* border_sec */}
-
-                    <View style={styles.border_sec}>
-                        <View style={styles.border}>
-                            <View style={{ borderWidth: 1, borderColor: colors.RED, }}></View>
-                        </View>
-                        <View style={styles.icons}>
-                            <AntDesign name="rightcircleo" size={30} color="#C0392B" />
-
-                        </View>
-
-                    </View>
-
-
-                    {/* Select Folio No._sec */}
-
-                    <View style={styles.selectfolio_sec}>
-
-                        <View style={styles.select}>
-                            <Text style={styles.no}>Select Folio No.</Text>
-
-                            <View style={{ flexDirection: "row", borderBottomWidth: 1, borderBottomColor: "#707070", }}>
-                                <Text style={styles.new}>New Folio</Text>
-                                <AntDesign name="caretdown" size={20} color="#C0392B" />
-                            </View>
-                        </View>
-
-                        <View style={styles.select}>
-                            <Text style={styles.no}>SIP Date</Text>
-
-                            <View style={{ flexDirection: "row", }}>
-                                <Text style={styles.new}>5</Text>
-                                <AntDesign name="caretdown" size={20} color="#C0392B" />
-                            </View>
-
-
-                        </View>
-                        <View style={styles.select}>
-
-                            <Text style={styles.no}>SIP</Text>
-                            <Text style={styles.new}>5000</Text>
-                        </View>
-
-                    </View>
-                </View>
-
-                <Text style={styles.more_funds}>I would like to add more funds</Text>
-
-                <TouchableOpacity style={styles.botton_box}>
-                    <Text style={styles.get_otp}>NEXT</Text>
-
-                </TouchableOpacity>
             </ScrollView>
+            <TouchableOpacity onPress={() => props.navigation.navigate('Toprated3')}><Text style={styles.more_funds}>I would like to add more funds</Text></TouchableOpacity>
+            <TouchableOpacity onPress={() => props.navigation.navigate('Toprated4')} style={styles.botton_box}>
+                <Text style={styles.get_otp}>NEXT</Text>
+            </TouchableOpacity>
+
         </View>
 
 
@@ -400,71 +185,6 @@ const styles = StyleSheet.create({
         color: colors.RED,
         marginVertical: 10,
         marginLeft: 10,
-    },
-    axis_asset: {
-        marginHorizontal: 20,
-        marginTop: 10,
-        backgroundColor: colors.WHITE,
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 5,
-        },
-        shadowOpacity: 0.23,
-        shadowRadius: 2.62,
-        elevation: 4,
-        padding: 10,
-        borderWidth: 1,
-        borderColor: colors.GREY_1,
-    },
-    company: {
-        flexDirection: "row",
-    },
-    management: {
-        marginLeft: 10,
-        width: "65%",
-    },
-    axis: {
-        fontSize: 15,
-
-    },
-    moderately: {
-        fontSize: 12,
-        color: colors.DEEP_GRAY,
-    },
-    axisimg: {
-        height: 39,
-        width: 39,
-    },
-    checkbox: {
-        position: "absolute",
-        right: -20,
-        top: -15
-    },
-    border_sec: {
-        flexDirection: "row",
-        marginTop: 10,
-    },
-    border: {
-        width: "80%",
-    },
-    icons: {
-        width: '10%',
-        marginTop: -15
-    },
-    selectfolio_sec: {
-        flexDirection: "row",
-    },
-    select: {
-        alignItems: "center",
-        width: "31%",
-    },
-    no: {
-        fontSize: 15,
-        color: colors.DEEP_GRAY,
-    },
-    new: {
-        fontSize: 18,
     },
     more_funds: {
         fontSize: 18,

@@ -27,8 +27,8 @@ export default function PlanScreen(props) {
     return (
         <View style={styles.container}>
             <Header
-                leftComponent={<View style={{ marginTop: 20 }}><Entypo name={"menu"} size={30} color={colors.RED} /></View>}
-                rightComponent={<View style={{ marginTop: 20 }}><Text>KE</Text></View>}
+            leftComponent={<TouchableOpacity onPress={() => props.navigation.toggleDrawer()} style={{ marginTop: 20 }}><Entypo name={"menu"} size={30} color={colors.RED} /></TouchableOpacity>}
+            rightComponent={<View style={{ marginTop: 20 }}><Text>KE</Text></View>}
                 backgroundColor={colors.LIGHT_WHITE}
                 containerStyle={styles.header}
                 centerComponent={<Image

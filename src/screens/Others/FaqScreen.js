@@ -20,8 +20,7 @@ export default function PasswordScreen(props) {
         <View style={styles.container}>
 
             <Header
-                leftComponent={<TouchableOpacity style={{ marginTop: 20 }} onPress={() => props.navigation.toggleDrawer()}><Entypo name={"menu"} size={30} color={colors.RED} /></TouchableOpacity>}
-                containerStyle={styles.header}
+leftComponent={<TouchableOpacity onPress={() => props.navigation.toggleDrawer()} style={{ marginTop: 20 }}><Entypo name={"menu"} size={30} color={colors.RED} /></TouchableOpacity>}                containerStyle={styles.header}
                 backgroundColor={colors.LIGHT_WHITE}
                 centerComponent={<Image
                     source={require('../../../assets/icon.png')}

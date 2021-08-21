@@ -9,70 +9,42 @@ import {
     Dimensions,
     KeyboardAvoidingView,
     TextInput,
-    ActivityIndicator,
-
+    ActivityIndicator
 } from "react-native";
 import { colors } from '../../common/theme';
-import { Ionicons, AntDesign, FontAwesome, FontAwesome5, } from 'react-native-vector-icons';
+import { Ionicons, AntDesign, Entypo, FontAwesome5 } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
 
-export default function Goals_6Screen(props) {
+export default function Goals6Screen(props) {
     return (
-        <ScrollView>
-            <View style={styles.container}>
 
-                {/* Header_sec */}
+        <View style={styles.container}>
 
-                <View style={styles.Header_top}>
-                    <Header
-                        leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={colors.RED} /></TouchableOpacity>} backgroundColor={colors.PEACH}
-                        backgroundColor={colors.PEACH}
-                        centerComponent={<Image
-                            source={require('../../../assets/icon.png')}
-                            style={styles.logimg}
-                        />}
-                        rightComponent={<View style={{ marginTop: 20, marginRight: 10, borderWidth: 1, backgroundColor: colors.WHITE, borderColor: colors.RED, padding: 7, borderRadius: 7, }}><Text style={{ fontWeight: "bold", color: "#C0392B", fontSize: 22, }}>KN</Text></View>}
-                    />
-                    <Image
-                        source={require('../../../assets/goles5_img.png')}
-                        style={styles.goles5logo}
-                    />
-                    <Text style={styles.text_goals}>Top Rated Funds</Text>
+            <Header
+                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={40} color={colors.RED} /></TouchableOpacity>}
+                containerStyle={styles.header}
+                backgroundColor={colors.LIGHT_WHITE}
+                centerComponent={<Image
+                    source={require('../../../assets/icon.png')}
+                    style={styles.logimg}
+                />}
+                rightComponent={<View style={styles.headerkn}><AntDesign name={"shoppingcart"} size={40} color={colors.RED} /></View>}
+            />
+            {/* container_sec */}
+            <ScrollView style={styles.containerScroll}>
+                <View style={styles.container_sec}>
+                    <TouchableOpacity onPress={() => props.navigation.navigate('Goals7')}>
+                        <View style={styles.container_box}>
 
-                </View>
-
-                {/* container_box_sec */}
-
-                <Text style={styles.Investments}>My Investments</Text>
-
-                <View style={styles.mainbox}>
-                    <View style={styles.container_box}>
-                        <View style={styles.smallbox}>
                             <Image
-                                source={require('../../../assets/Midcapimg.png')}
+                                source={require('../../../assets/MidCap_img.png')}
                                 style={styles.mid_capimg}
                             />
 
                             <Text style={styles.Longterm}>BNP Paribas Mid Cap Fund</Text>
                         </View>
-                        <AntDesign name="down" size={20} color="#C0392B" />
-                    </View>
-
-                    <View style={styles.container_box}>
-                        <View style={styles.smallbox}>
-                            <Image
-                                source={require('../../../assets/BOI_img.png')}
-                                style={styles.mid_capimg}
-                            />
-
-                            <Text style={styles.Longterm}>BOI AXA Investment Managers</Text>
-                        </View>
-                        <AntDesign name="up" size={20} color="#C0392B" />
-                    </View>
-
-                    {/* valua_sec */}
-
+                    </TouchableOpacity>
                     <View style={styles.valua_sec}>
                         <View style={styles.price}>
 
@@ -83,7 +55,7 @@ export default function Goals_6Screen(props) {
 
                         <View style={styles.Investment}>
                             <View style={styles.Investment_value}>
-                                <Text style={styles.rate_2}>₹  9,50,000</Text>
+                                <Text style={styles.rate_2}>₹ 9,50,000</Text>
                                 <Text style={styles.Current_Value}>Investment</Text>
                             </View>
 
@@ -101,207 +73,181 @@ export default function Goals_6Screen(props) {
                             </View>
                         </View>
                     </View>
-
-
                 </View>
 
-                <Text style={styles.Investments}>Invest Now</Text>
 
-                {/* Invest Now sec */}
 
-                <View style={styles.Investnow_sec}>
-                    <Text style={styles.Equity}>Equity</Text>
-                    <Text style={styles.Debt}>Debt</Text>
-                    <Text style={styles.Debt}>Balanced</Text>
-                    <Text style={styles.Debt}>Liquid</Text>
-                    <Text style={styles.Debt}>Overnite</Text>
-                    <Text style={styles.Debt}>Multicap</Text>
-                    <Text style={styles.Debt}>Mid Cap</Text>
+                {/* Report_sec */}
+
+                <View style={styles.report_sec}>
+                    <Text style={styles.Report}>Report</Text>
+
+                    <View style={styles.investment_summary}>
+                        <Text style={styles.schemetype}>Scheme Type Wise Investment Summary</Text>
+                        <AntDesign name="up" size={30} color="#C0392B" />
+                    </View>
+
+                    <View style={{ borderWidth: 1, borderColor: colors.GREY_1, }}></View>
                 </View>
-                <View style={{ borderWidth: 1, borderColor: colors.GREY_1, }}></View>
+                {/* fund_sec */}
+                <View style={styles.fund_sec}>
 
-                {/* Topratedfunds_sec */}
+                    <View style={styles.fund_house}>
+                        <View style={[styles.house, styles.house1]}>
+                            <Text style={styles.fund}>Fund House</Text>
+                        </View>
 
-                <View style={styles.topratedmainbox}>
-
-                    <View style={styles.toprated}>
-                        <Text style={styles.top}>Top Rated Funds</Text>
-
-
-                        <View style={styles.returnsright}>
-                            <View style={styles.returnsbox}>
-
-                                <Text style={styles.return}>5Y Returns</Text>
-
-
-                                <AntDesign name="caretdown" size={15} color="#C0392B" />
-                            </View>
-                            <View style={{ borderWidth: 1, borderColor: colors.RED, }}></View>
+                        <View style={styles.axis_sec}>
+                            <Text style={styles.axis}>Axis Mutual Fund</Text>
+                        </View>
+                        <View style={styles.axis_sec}>
+                            <Text style={styles.axis}>ICICI Prudential Mutual Fund</Text>
+                        </View>
+                        <View style={styles.axis_sec}>
+                            <Text style={styles.axis}>Mirare Assets Mutual Fund</Text>
+                        </View>
+                        <View style={styles.axis_sec}>
+                            <Text style={styles.axis}>SBI Mutual Fund</Text>
                         </View>
 
 
                     </View>
 
-
-                    {/* Axis Asset Management Company */}
-
-                    <View style={styles.axis_asset}>
-
-                        <View style={styles.company}>
-
-                            <Image
-                                source={require('../../../assets/axis_img.png')}
-                                style={styles.axisimg}
-                            />
-                            <Text style={styles.axis}>Axis Asset Management Company</Text>
-                            <TouchableOpacity style={styles.botton_box}>
-                                <Text style={styles.get_otp}>INVEST</Text>
-                            </TouchableOpacity>
-
+                    <View style={styles.inv_cost}>
+                        <View style={styles.house}>
+                            <Text style={styles.fund}>Inv Cost</Text>
                         </View>
-                        <View style={styles.value_sec}>
 
-
-                            <View style={styles.mininvestment}>
-                                <Text style={styles.min}>Min. Investment</Text>
-                                <Text style={styles.min}>1000</Text>
-                            </View>
-
-                            <View style={styles.mininvestment}>
-                                <Text style={styles.min}>AUM</Text>
-                                <Text style={styles.min}>2097 Cr</Text>
-
-                            </View>
-                            <View style={styles.mininvestment}>
-                                <Text style={styles.min}>Returns</Text>
-                                <Text style={styles.min}>16.0%</Text>
-                            </View>
+                        <View style={styles.axis_sec2}>
+                            <Text style={styles.axis}>6.500.00</Text>
                         </View>
-                        <View style={{ borderWidth: 1, borderColor: colors.GREY_1, marginTop: 10, }}></View>
-
+                        <View style={styles.axis_sec2}>
+                            <Text style={styles.axis}>22.062.00</Text>
+                        </View>
+                        <View style={styles.axis_sec2}>
+                            <Text style={styles.axis}>4.000.00</Text>
+                        </View>
+                        <View style={styles.axis_sec2}>
+                            <Text style={styles.axis}>56.056.00</Text>
+                        </View>
 
                     </View>
 
-                    {/* Aditya Birla Sun Life AMC Limited_ sec */}
-
-                    <View style={styles.axis_asset}>
-
-                        <View style={styles.company}>
-
-                            <Image
-                                source={require('../../../assets/adityabirlaimg.png')}
-                                style={styles.adityaimg}
-                            />
-                            <Text style={styles.axis}>Aditya Birla Sun Life AMC Limited</Text>
-                            <TouchableOpacity style={styles.botton_box}>
-                                <Text style={styles.get_otp}>INVEST</Text>
-                            </TouchableOpacity>
-
+                    <View style={styles.inv_cost}>
+                        <View style={styles.house}>
+                            <Text style={styles.fund}>Cur Value</Text>
                         </View>
-                        <View style={styles.value_sec}>
 
-
-                            <View style={styles.mininvestment}>
-                                <Text style={styles.min}>Min. Investment</Text>
-                                <Text style={styles.min}>1000</Text>
-                            </View>
-
-                            <View style={styles.mininvestment}>
-                                <Text style={styles.min}>AUM</Text>
-                                <Text style={styles.min}>2097 Cr</Text>
-
-                            </View>
-                            <View style={styles.mininvestment}>
-                                <Text style={styles.min}>Returns</Text>
-                                <Text style={styles.min}>16.0%</Text>
-                            </View>
+                        <View style={styles.axis_sec2}>
+                            <Text style={styles.axis}>5.672.97.00</Text>
                         </View>
-                        <View style={{ borderWidth: 1, borderColor: colors.GREY_1, marginTop: 10, }}></View>
-
+                        <View style={styles.axis_sec2}>
+                            <Text style={styles.axis}>20.580.87</Text>
+                        </View>
+                        <View style={styles.axis_sec2}>
+                            <Text style={styles.axis}>3.296.27</Text>
+                        </View>
+                        <View style={styles.axis_sec2}>
+                            <Text style={styles.axis}>48.783.00</Text>
+                        </View>
 
                     </View>
 
-                 
+                    <View style={styles.dividends}>
+                        <View style={[styles.house, styles.house2]}>
+                            <Text style={[styles.fund, styles.bonus]}>Dividends/Bonus</Text>
+                        </View>
 
-                    
+                        <View style={styles.axis_sec2}>
+                            <Text style={styles.axis}>0.00</Text>
+                        </View>
+                        <View style={styles.axis_sec2}>
+                            <Text style={styles.axis}>0.00</Text>
+                        </View>
+                        <View style={styles.axis_sec2}>
+                            <Text style={styles.axis}>0.00</Text>
+                        </View>
+                        <View style={styles.axis_sec2}>
+                            <Text style={styles.axis}>0.00</Text>
+                        </View>
+
+                    </View>
+
 
                 </View>
 
-            </View>
-        </ScrollView>
+
+                {/* Report_2_sec */}
+
+
+                <View style={styles.report_sec}>
+                    <View style={styles.investment_summary}>
+                        <Text style={styles.schemetype1}>Scheme Type Wise Investment Summary</Text>
+                        <AntDesign name="down" size={30} color="#C0392B" />
+                    </View>
+
+                    <View style={{ borderWidth: 1, borderColor: colors.GREY_1, marginTop: 10, marginBottom: 10, }}></View>
+
+
+                    <View style={styles.investment_summary}>
+                        <Text style={styles.schemetype1}>Scheme of Past Performance</Text>
+                        <AntDesign name="down" size={30} color="#C0392B" />
+                    </View>
+
+                    <View style={{ borderWidth: 1, borderColor: colors.GREY_1, marginTop: 10, marginBottom: 10, }}></View>
+
+                    <View style={styles.investment_summary}>
+                        <Text style={styles.schemetype1}>Goal Wise Investment Summary</Text>
+                        <AntDesign name="down" size={30} color="#C0392B" />
+                    </View>
+
+                    <View style={{ borderWidth: 1, borderColor: colors.GREY_1, marginTop: 10, marginBottom: 10, }}></View>
+
+                    <View style={styles.investment_summary}>
+                        <Text style={styles.schemetype1}>Top 10 Equity Holding</Text>
+                        <AntDesign name="down" size={30} color="#C0392B" />
+                    </View>
+
+                    <View style={{ borderWidth: 1, borderColor: colors.GREY_1, marginTop: 10, marginBottom: 10, }}></View>
+
+                    <View style={styles.investment_summary}>
+                        <Text style={styles.schemetype1}>Top 10 Sector Exposure</Text>
+                        <AntDesign name="down" size={30} color="#C0392B" />
+                    </View>
+
+                    <View style={{ borderWidth: 1, borderColor: colors.GREY_1, marginTop: 10, marginBottom: 10, }}></View>
+                </View>
+            </ScrollView>
+        </View>
 
     );
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// StyleSheet
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+    },
+    header: {
+        borderBottomColor: colors.BLACK,
+        borderBottomWidth: 1
+    },
+    container_sec: {
+        margin: 10,
 
     },
-    Header_top: {
-        backgroundColor: colors.PEACH,
-        width: '100%',
-        borderWidth: 2,
-        borderRadius: 30,
-        borderColor: colors.DARK_GREY,
-        alignItems: "center",
+    containerScroll: {
+        width: '100%'
     },
     logimg: {
         height: 65,
         width: 203,
         marginTop: 10,
     },
-    goles5logo: {
-        height: 126,
-        width: 126,
-    },
-    text_goals: {
-        fontSize: 25,
-        marginVertical: 15,
-        fontWeight: "bold",
-
-    },
-    Investments: {
-        fontSize: 22,
-        fontWeight: "bold",
-        marginLeft: 30,
-        marginVertical: 10,
-
-    },
-    mainbox: {
-        alignItems: "center",
-    },
     container_box: {
-        width: "90%",
+
         flexDirection: "row",
         alignItems: "center",
+        padding: 10,
         marginTop: 10,
         backgroundColor: colors.WHITE,
         shadowColor: "#000",
@@ -312,128 +258,40 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.23,
         shadowRadius: 2.62,
         elevation: 4,
-        borderRadius: 20,
+
         borderWidth: 1,
         borderColor: colors.GREY_1,
 
 
     },
-    mid_capimg: {
-        height: 67,
-        width: 73,
-    },
     Longterm: {
         marginLeft: 10,
-        fontSize: 15,
+        fontSize: 20,
         color: colors.BLACK,
     },
-    smallbox: {
-        flexDirection: "row",
-        alignItems: "center",
-        width: "90%",
-    },
-    Investnow_sec: {
-        flexDirection: "row",
-        marginLeft: 20,
 
-
-    },
-    Debt: { marginHorizontal: 5, fontSize: 13, color: "#696565", },
-
-    Equity: { fontSize: 13, color: colors.RED, fontWeight: "bold", },
-
-    topratedmainbox: {
-        marginTop: 20,
-        marginHorizontal: 20,
-
-    },
-    toprated: { flexDirection: "row", marginBottom: 30, },
-    top: {
-        width: "73%",
-        fontSize: 15,
-        fontWeight: "bold",
-        color: "#696565",
-    },
-    return: { fontSize: 15, },
-
-    returnsbox: { flexDirection: "row", },
-
-    //  Axis Asset Management Company 
-
-    axis_asset: {
-
-        marginTop: 20,
-        paddingBottom: 10,
-
-    },
-
-    company: {
-        flexDirection: "row",
-
-    },
-    axis: {
-        marginLeft: 10,
-        fontSize: 15,
-        width: "65%",
-    },
-    axisimg: {
-        height: 39,
-        width: 39,
-    },
-    botton_box: {
-        width: 80,
-        backgroundColor: colors.RED,
-        height: 20,
-
-
-
-
-    },
-    get_otp: {
-        color: colors.WHITE,
-        fontSize: 10,
-        fontWeight: 'bold',
-        textAlign: "center",
-        paddingTop: 4,
-    },
-    value_sec: {
-        flexDirection: "row",
-        marginLeft: 50,
-
-
-    },
-    mininvestment: {
-        width: "33%",
-        alignItems: "center",
-
-    },
-    min: {
-        fontSize: 12,
-    },
-    adityaimg: {
-        height: 24,
-        width: 47
+    mid_capimg: {
+        height: 42,
+        width: 42,
     },
     valua_sec: {
-        width: "90%",
-        backgroundColor: colors.RED,
         alignItems: "center",
-        },
-    price: {
-
-        alignItems: "center",
+        borderRadius: 30,
+        borderWidth: 1,
+        marginTop: 10,
 
     },
+    price: {
+        alignItems: "center",
+    },
     rate_2: {
-        color: colors.WHITE,
+
         fontWeight: "bold",
         fontSize: 17,
         marginTop: 10,
     },
     Current_Value: {
 
-        color: colors.WHITE,
-        fontWeight: "bold",
         fontSize: 12,
     },
     Investment: {
@@ -441,40 +299,101 @@ const styles = StyleSheet.create({
         flexDirection: "row",
     },
     Investment_value: {
-        width: "30%",
+        width: "33%",
         alignItems: "center",
-        paddingHorizontal: 5,
         marginBottom: 20,
 
     },
+    report_sec: {
+        margin: 30,
+    },
+    Report: {
+        fontSize: 22,
+
+    },
+    investment_summary: {
+        flexDirection: "row",
+        marginTop: 20,
+
+    },
+    schemetype: {
+        fontSize: 15,
+        width: "90%",
+        color: colors.RED,
+        paddingTop: 3,
 
 
+    },
+    fundsimg_sec: { alignItems: "center", },
+    fundsmg: {
+        height: 133,
+        width: 373,
+    },
+    schemetype1: {
+        color: colors.BLACK,
+        width: "90%",
+        marginTop: 10,
+        fontSize: 15,
+    },
 
+    // fundsec
 
+    fund_sec: {
+        flexDirection: "row",
+        borderWidth: 1,
+        borderColor:'#E0BAAF',
+        borderRadius: 10,
+        marginHorizontal: 20,
+    },
+    fund_house: {
+        width: "40%",
+        borderRightWidth: 1,
+        borderRightColor: '#E0BAAF',
+    },
+    house: {
 
+        alignItems: "center",
+        backgroundColor: "#F4C6AF",
+    },
+    house1: {
+        borderTopLeftRadius: 10,
+    },
+    house2: { borderTopRightRadius: 10, },
+    fund: {
+        fontSize: 14,
+        fontWeight: "bold",
+        color: "#C44935",
+        marginVertical: 10,
+    },
+    axis: {
+        fontSize: 9,
+        fontWeight: "bold",
+        color: colors.DEEP_GRAY,
+        marginVertical: 10,
+
+    },
+    axis_sec: {
+        borderBottomWidth: 1,
+        borderBottomColor: "#E0BAAF",
+        width: "100%",
+        paddingLeft: 10,
+
+    },
+    axis_sec2: {
+        borderBottomWidth: 1,
+        borderBottomColor: "#E0BAAF",
+        width: "100%",
+        alignItems: "center",
+    },
+    inv_cost: {
+        width: "20%",
+        borderRightWidth: 1,
+        borderRightColor: '#E0BAAF',
+    },
+    dividends: {
+        width: "20%",
+    },
+    bonus: {
+        marginVertical: 2,
+    },
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

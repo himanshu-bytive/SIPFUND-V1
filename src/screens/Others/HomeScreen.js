@@ -3,6 +3,7 @@ import {
     StyleSheet,
     Button,
     View,
+    Image,
     ImageBackground,
     TouchableOpacity,
     Text,
@@ -10,16 +11,27 @@ import {
     KeyboardAvoidingView,
     TextInput,
     ActivityIndicator,
-    ScrollView
+    ScrollView,
 } from "react-native";
 import { colors } from '../../common/theme';
 import { Entypo, AntDesign } from 'react-native-vector-icons';
-import { Image, Header, Overlay } from 'react-native-elements';
+import { Header, Overlay } from 'react-native-elements';
+import Investments from '../../components/Investments'
+const width = Dimensions.get('window').width;
+const height = Dimensions.get('window').height;
+
+const investmentData = [
+    { title: 'Long Term', image: require('../../../assets/term1.png') },
+    { title: 'Tax Saving Funds', image: require('../../../assets/term2.png') },
+    { title: 'Better Than', image: require('../../../assets/term3.png') },
+    { title: 'Tax Saving Funds', image: require('../../../assets/term4.png') },
+    { title: 'Better Than FD', image: require('../../../assets/term5.png') },
+    { title: 'Aggressive Funds', image: require('../../../assets/term6.png') },
+]
 
 export default function HomeScreen(props) {
 
     const [visible, setVisible] = useState(false);
-
     const toggleOverlay = () => {
         setVisible(!visible);
     };
@@ -53,7 +65,7 @@ export default function HomeScreen(props) {
 
                 <ScrollView horizontal={true}>
 
-                    <TouchableOpacity onPress={() => props.navigation.navigate('Goals')}>
+                    <TouchableOpacity onPress={() => props.navigation.navigate('Plan1')}>
                         <View style={styles.education}>
                             <View style={styles.child_sec}>
                                 <Image
@@ -62,48 +74,72 @@ export default function HomeScreen(props) {
                                 />
                             </View>
                             <View style={styles.education_sec}>
-                                <Text style={styles.child}>Car Purchase</Text>
-                                <Text style={styles.child_text}>Plan for that dream car you always wanted</Text>
+                                <Text style={styles.child}>Child’s Education</Text>
+                                <Text style={styles.child_text}>Secure your child’s
+                                    future, invest for
+                                    his education</Text>
                             </View>
                         </View>
                     </TouchableOpacity>
 
-                    <TouchableOpacity onPress={() => props.navigation.navigate('Goals')}>
+                    <TouchableOpacity onPress={() => props.navigation.navigate('Plan1')}>
                         <View style={styles.education}>
                             <View style={styles.child_sec}>
                                 <Image
-                                    source={require('../../../assets/childimg.png')}
+                                    source={require('../../../assets/plan_img2.png')}
                                     style={styles.goals_2}
                                 />
                             </View>
                             <View style={styles.education_sec}>
-                                <Text style={styles.child}>Car Purchase</Text>
-                                <Text style={styles.child_text}>Plan for that dream car you always wanted</Text>
+                                <Text style={styles.child}>Dream Home</Text>
+                                <Text style={styles.child_text}>Plan your home down
+                                    payment for the
+                                    dream house</Text>
                             </View>
                         </View>
 
                     </TouchableOpacity>
 
-                    <TouchableOpacity onPress={() => props.navigation.navigate('Goals')}>
+                    <TouchableOpacity onPress={() => props.navigation.navigate('Plan1')}>
                         <View style={styles.education}>
                             <View style={styles.child_sec}>
                                 <Image
-                                    source={require('../../../assets/childimg.png')}
+                                    source={require('../../../assets/plan_img3.png')}
                                     style={styles.goals_2}
                                 />
                             </View>
                             <View style={styles.education_sec}>
-                                <Text style={styles.child}>Car Purchase</Text>
-                                <Text style={styles.child_text}>Plan for that dream car you always wanted</Text>
+                                <Text style={styles.child}>Retire Rich</Text>
+                                <Text style={styles.child_text}>Secure your post
+                                    retirement expense,
+                                    get income after
+                                    retirement</Text>
                             </View>
                         </View>
                     </TouchableOpacity>
 
-                    <TouchableOpacity onPress={() => props.navigation.navigate('Goals')}>
+                    <TouchableOpacity onPress={() => props.navigation.navigate('Plan1')}>
                         <View style={styles.education}>
                             <View style={styles.child_sec}>
                                 <Image
-                                    source={require('../../../assets/childimg.png')}
+                                    source={require('../../../assets/plan_img4.png')}
+                                    style={styles.goals_2}
+                                />
+                            </View>
+                            <View style={styles.education_sec}>
+                                <Text style={styles.child}>Child’s Marriage</Text>
+                                <Text style={styles.child_text}>Invest now for
+                                    expenses of chid’s
+                                    marriage in future</Text>
+                            </View>
+                        </View>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={() => props.navigation.navigate('Plan1')}>
+                        <View style={styles.education}>
+                            <View style={styles.child_sec}>
+                                <Image
+                                    source={require('../../../assets/plan_img4.png')}
                                     style={styles.goals_2}
                                 />
                             </View>
@@ -122,72 +158,15 @@ export default function HomeScreen(props) {
 
                 <Text style={styles.Plan}>Investment Plans</Text>
 
-                <View style={styles.investment_sec}>
-
-                    <View style={styles.investment}>
-                        <Image
-                            source={require('../../../assets/term1.png')}
-                            style={styles.term}
-                        />
-                        <Text style={styles.long}>Long Term</Text>
-                    </View>
-
-                    <View style={styles.investment}>
-                        <Image
-                            source={require('../../../assets/term2.png')}
-                            style={styles.term}
-                        />
-                        <Text style={styles.long}>Tax Saving Funds
-                        </Text>
-                    </View>
-
-                    <View style={styles.investment}>
-                        <Image
-                            source={require('../../../assets/term3.png')}
-                            style={styles.term}
-                        />
-                        <Text style={styles.long}>Better Than
-                            FD</Text>
-                    </View>
-
-                </View>
-
-                <View style={styles.investment_sec}>
-                    <View style={styles.investment}>
-                        <Image
-                            source={require('../../../assets/term4.png')}
-                            style={styles.term}
-                        />
-                        <Text style={styles.long}>Aggressive
-                            Funds</Text>
-                    </View>
-                    <View style={styles.investment}>
-                        <Image
-                            source={require('../../../assets/term5.png')}
-                            style={styles.term}
-                        />
-                        <Text style={styles.long}>Funds For
-                            SIP
-                        </Text>
-                    </View>
-                    <View style={styles.investment}>
-                        <Image
-                            source={require('../../../assets/term6.png')}
-                            style={styles.term}
-                        />
-                        <Text style={styles.long}>Emergency
-                            Funds
-                        </Text>
-                    </View>
-
-                </View>
-
+                <Investments data={investmentData} onPress={() => props.navigation.navigate('Invest2')} />
 
                 <View style={{ alignItems: "center" }}>
-                    <View style={styles.all_plan}>
-                        <Text style={styles.all_plan_text}>See All Investment Plan</Text>
-                        <AntDesign name="down" size={20} color="#C0392B" />
-                    </View>
+                    <TouchableOpacity onPress={() => props.navigation.navigate('Invest1')}>
+                        <View style={styles.all_plan}>
+                            <Text style={styles.all_plan_text}>See All Investment Plan</Text>
+                            <AntDesign name="down" size={20} color="#C0392B" />
+                        </View>
+                    </TouchableOpacity>
                 </View>
 
                 <View style={styles.border}></View>
@@ -195,7 +174,7 @@ export default function HomeScreen(props) {
                 {/* Top roted fund section */}
 
                 <Text style={styles.roted_text}>Top Rated Funds</Text>
-
+                <TouchableOpacity onPress={() =>  props.navigation.navigate('Toprated1')}>
                 <View style={[styles.education, styles.education_roted]}>
                     <View style={styles.child_sec}>
                         <Image
@@ -208,6 +187,7 @@ export default function HomeScreen(props) {
                         <Text style={styles.child_text}>At SIPFund.com we help you in choosing the best for you!</Text>
                     </View>
                 </View>
+</TouchableOpacity>
                 <View style={styles.roted_border}></View>
                 <View style={styles.border}></View>
 
@@ -235,14 +215,29 @@ export default function HomeScreen(props) {
                             <View style={[styles.education, styles.quick_access]}>
                                 <View style={styles.child_sec}>
                                     <Image
-                                        source={require('../../../assets/term8.png')}
-                                        style={styles.quick_img}
+                                        source={require('../../../assets/quick_img2.png')}
+                                        style={styles.quick_img2}
                                     />
                                 </View>
                                 <View style={styles.education_sec}>
-                                    <Text style={styles.earn}>Refer & Earn</Text>
-                                    <Text style={styles.child_text}>Now earn upto
-                                        Rs. 5,000/-</Text>
+                                    <Text style={styles.earn}>Smart Save</Text>
+                                    <Text style={styles.child_text}>Earn more in Debt
+                                        Fund than FD</Text>
+                                </View>
+                            </View>
+
+                            <View style={[styles.education, styles.quick_access]}>
+                                <View style={styles.child_sec}>
+                                    <Image
+                                        source={require('../../../assets/quick_img3.png')}
+                                        style={styles.quick_img3}
+                                    />
+                                </View>
+                                <View style={styles.education_sec}>
+                                    <Text style={styles.earn}>Talk To Experts</Text>
+                                    <Text style={styles.child_text}>Get best advice
+                                        while investing
+                                        money</Text>
                                 </View>
                             </View>
                         </View>
@@ -251,7 +246,9 @@ export default function HomeScreen(props) {
 
                 {/* top roted fund */}
                 <View style={styles.border}></View>
-                <Text style={styles.roted_text}>Top Rated Funds</Text>
+                <TouchableOpacity onPress={() => props.navigation.navigate('Goals')}>
+                    <Text style={styles.roted_text}>Any questions?</Text>
+                </TouchableOpacity>
                 <Text style={styles.child_text}>We would love to have your questions!</Text>
                 <Text style={[styles.child_text, styles.ship_text]}>SIPFund.com brings 5 things you must know
                     before investing.</Text>
@@ -273,19 +270,45 @@ export default function HomeScreen(props) {
 
 
                         <View style={styles.amount_sec}>
-                            <Image
-                                source={require('../../../assets/term10.png')}
-                                style={styles.term9}
-                            />
-                            <Text style={styles.minimum}>Lock-ins</Text>
+                            <TouchableOpacity onPress={toggleOverlay} style={{ alignItems: 'center' }}>
+                                <Image
+                                    source={require('../../../assets/term10.png')}
+                                    style={styles.term9}
+                                />
+                                <Text style={styles.minimum}>Lock-ins</Text>
+                            </TouchableOpacity>
                         </View>
+
                         <View style={styles.amount_sec}>
-                            <Image
-                                source={require('../../../assets/term11.png')}
-                                style={styles.Flexibility}
-                            />
-                            <Text style={styles.minimum}>Flexibility</Text>
+                            <TouchableOpacity onPress={toggleOverlay} style={{ alignItems: 'center' }}>
+                                <Image
+                                    source={require('../../../assets/term11.png')}
+                                    style={styles.Flexibility}
+                                />
+                                <Text style={styles.minimum}>Flexibility</Text>
+                            </TouchableOpacity>
                         </View>
+
+                        <View style={styles.amount_sec}>
+                            <TouchableOpacity onPress={toggleOverlay} style={{ alignItems: 'center' }}>
+                                <Image
+                                    source={require('../../../assets/term12.png')}
+                                    style={styles.Flexibility}
+                                />
+                                <Text style={styles.minimum}>Payment Methods</Text>
+                            </TouchableOpacity>
+                        </View>
+
+                        <View style={styles.amount_sec}>
+                            <TouchableOpacity onPress={toggleOverlay} style={{ alignItems: 'center' }}>
+                                <Image
+                                    source={require('../../../assets/term13.png')}
+                                    style={styles.Flexibility}
+                                />
+                                <Text style={styles.minimum}>Easy Withdrawal</Text>
+                            </TouchableOpacity>
+                        </View>
+
                     </View>
 
                 </ScrollView>
@@ -344,15 +367,26 @@ export default function HomeScreen(props) {
                 <View style={styles.border}></View>
             </ScrollView>
 
-            <Overlay isVisible={visible} overlayStyle={{ margin: 10, backgroundColor: '#fff' }}>
-                <View style={{ padding: 10 }}>
-                    <Text>Both Equity and Debt Mutual Funds
+            <Overlay isVisible={visible} overlayStyle={{ margin: 10, padding: 0, backgroundColor: '#fff' }}>
+                <View style={{ backgroundColor: '#12478D', alignItems: "center", paddingVertical: 5, }}>
+                    <Image
+                        source={require('../../../assets/overlay_img.png')}
+                        style={{ width: 56, height: 51, }}
+                    />
+
+                </View>
+                <View style={{ padding: 20, }}>
+                    <Text style={styles.mutual}>Do Mutual Funds allow <Text style={styles.view}>easy withdrawal
+                        of amount?</Text></Text>
+                    <Text style={{ paddingTop: 10, fontSize: 15, }}>Both Equity and Debt Mutual Funds
                         can be technically withdrawn as soon
                         as fund is available for daily sale and repurchase. Of course liquidity is one
                         of the biggest advantages of investing
                         in Mutual Funds which is not available
                         in many other asset classes. Amount redeemed or withdrawn will be credited to investor's bank account within 1-4 working days depending on the type of mutual funds.</Text>
-                    <TouchableOpacity onPress={toggleOverlay}><Text style={{ color: '#ff0000' }}>CLOSE</Text></TouchableOpacity>
+                    <TouchableOpacity onPress={toggleOverlay}>
+                        <Text style={{ color: '#ff0000', paddingTop: 10, fontSize: 15, textAlign: "right" }}>CLOSE</Text>
+                    </TouchableOpacity>
                 </View>
             </Overlay>
 
@@ -392,32 +426,14 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: colors.GRAY_DEEP,
         fontWeight: "bold",
-        marginVertical: 30,
+        marginTop: 30,
     },
-    botton_box: {
-        backgroundColor: colors.RED,
-        paddingHorizontal: 50,
-        paddingVertical: 20,
-        marginTop: 20,
-        borderRadius: 10,
-        borderWidth: 1,
-        borderColor: colors.GRAY_DEEP,
-        width: '85%',
-        fontWeight: "bold",
 
-    },
-    get_otp: {
-        color: colors.WHITE,
-        fontSize: 17,
-        fontWeight: 'bold',
-        marginRight: 5,
-        textAlign: "center"
-    },
+
     Plan: {
         fontSize: 20,
         color: colors.DEEP_GRAY,
         fontWeight: "bold",
-        marginTop: 30,
         paddingHorizontal: 10,
     },
     education_top: {
@@ -496,6 +512,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
     },
     investment: {
+        borderRadius: 20,
         backgroundColor: colors.WHITE,
         width: '30%',
         alignItems: "center",
@@ -510,8 +527,10 @@ const styles = StyleSheet.create({
         elevation: 4,
     },
     term: {
-        width: 112,
+        width: '100%',
         height: 113,
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
     },
     long: {
         textAlign: "center",
@@ -555,6 +574,14 @@ const styles = StyleSheet.create({
     quick_img: {
         height: 94,
         width: 82,
+    },
+    quick_img2: {
+        height: 96,
+        width: 96,
+    },
+    quick_img3: {
+        height: 95,
+        width: 86,
     },
     earn: {
         color: colors.RED,
@@ -610,7 +637,8 @@ const styles = StyleSheet.create({
     },
     /* Faq screen */
     mainbox: {
-        padding: 40,
+        alignItems: "center",
+        paddingVertical: 40,
     },
     logimg: {
         height: 65,
@@ -644,12 +672,13 @@ const styles = StyleSheet.create({
     botton_box: {
         alignItems: "center",
         backgroundColor: colors.RED,
-        paddingHorizontal: 70,
+        width: width - 50,
         paddingVertical: 20,
-        marginTop: 80,
+       marginVertical:50,
         borderRadius: 10,
         borderWidth: 2,
         borderColor: colors.DEEP_GRAY,
+        marginHorizontal: 10,
 
     },
     get_otp: {
@@ -692,16 +721,10 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         paddingBottom: 5
     },
-    // // qip_sec:{
-    // //     backgroundColor:colors.WHITE,
-    // //     shadowColor: "#000",
-    // //     shadowOffset: {
-    // //         width: 5,
-    // //         height: 5,
-    // //     },
-    // //     shadowOpacity: 0.23,
-    // //     shadowRadius: 2.62,
-    // //     elevation: 4,
-    // },
+    mutual: {
+        fontSize: 14,
+        fontWeight: "bold",
+    },
+
 
 });

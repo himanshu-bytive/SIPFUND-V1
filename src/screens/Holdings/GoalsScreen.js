@@ -21,8 +21,7 @@ export default function GoalsScreen(props) {
         <View style={styles.container}>
             <View style={styles.header_top}>
                 <Header
-                    leftComponent={<TouchableOpacity onPress={() => props.navigation.toggleDrawer()} style={{ marginTop: 20 }}><Entypo name={"menu"} size={30} color={colors.RED} /></TouchableOpacity>}
-                    backgroundColor={colors.PEACH}
+leftComponent={<TouchableOpacity onPress={() => props.navigation.toggleDrawer()} style={{ marginTop: 20 }}><Entypo name={"menu"} size={30} color={colors.RED} /></TouchableOpacity>}                    backgroundColor={colors.PEACH}
                     centerComponent={<Image
                         source={require('../../../assets/icon.png')}
                         style={styles.logimg}

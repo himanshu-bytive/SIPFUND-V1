@@ -16,13 +16,11 @@ import { colors } from '../../common/theme';
 import { MaterialIcons, AntDesign, Entypo, FontAwesome5, FontAwesome, Foundation } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 
-export default function FundsDetails1Screen(props) {
+export default function FundsHomeScreen(props) {
     return (
-
         <View style={styles.container}>
-
             <Header
-                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={40} color={colors.RED} /></TouchableOpacity>}
+                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={colors.RED} /></TouchableOpacity>}
                 containerStyle={styles.header}
                 backgroundColor={colors.LIGHT_WHITE}
                 centerComponent={<Image
@@ -34,10 +32,10 @@ export default function FundsDetails1Screen(props) {
             <ScrollView style={styles.containerScroll}>
 
                 <View style={styles.management_company}>
-                    {/* <Image
-                    source={require('../../../assets/axis_img.png')}
-                    style={styles.axis_img}
-                /> */}
+                    <Image
+                        source={require('../../../assets/axis_img.png')}
+                        style={styles.axis_img}
+                    />
 
                     <TouchableOpacity onPress={() => props.navigation.navigate('FundsDetails1')}>
                         <View style={styles.axis}>
@@ -48,7 +46,7 @@ export default function FundsDetails1Screen(props) {
 
                 </View>
 
-                <View style={{ padding: 10, }}>
+                <View style={{padding:20 }}>
 
                     <View style={styles.fund_returns}>
                         <Text style={styles.fund}>Fund Returns</Text>
@@ -57,58 +55,63 @@ export default function FundsDetails1Screen(props) {
                             <Text style={styles.since}>Since Inception</Text>
 
                         </View>
-
-
                     </View>
 
-                    {/* <Image
-                    source={require('../../../assets/linechart_img.png')}
-                    style={styles.linechartimg}
-                /> */}
+                    <Image
+                        source={require('../../../assets/linechart_img.png')}
+                        style={styles.linechartimg}
+                    />
 
                     <View style={{ borderWidth: 1, borderColor: colors.DEEP_GRAY, }}></View>
 
 
                     {/* imges_sec */}
 
-                    <View style={styles.img_sec}>
-
-                        {/* <Image
-                        source={require('../../../assets/layer_img.png')}
-                        style={styles.layer_img}
-                    />
-                    <Image
-                        source={require('../../../assets/layer_img.png')}
-                        style={styles.layer_img}
-                    />
-                    <Image
-                        source={require('../../../assets/layer_img.png')}
-                        style={styles.layer_img}
-                    />
-                    <Image
-                        source={require('../../../assets/layer_img.png')}
-                        style={styles.layer_img}
-                    />
-                    <Image
-                        source={require('../../../assets/layer_img2.png')}
-                        style={styles.layer_img}
-                    /> */}
 
 
 
+                    <View style={styles.footer_sec}>
+                        <View style={styles.rupees_sec}>
+                            <Image
+                                source={require('../../../assets/layer_img.png')}
+                                style={styles.rupees}
+                            />
+                            <Text style={styles.rupees_text}>1M</Text>
+                        </View>
 
+                        <View style={styles.rupees_sec}>
+                            <Image
+                                source={require('../../../assets/layer_img.png')}
+                                style={styles.rupees}
+                            />
+                            <Text style={styles.rupees_text}>1Y</Text>
+                        </View>
 
+                        <View style={styles.rupees_sec}>
+                            <Image
+                                source={require('../../../assets/layer_img.png')}
+                                style={styles.rupees}
+                            />
+                            <Text style={styles.rupees_text}>3Y</Text>
+                        </View>
+
+                        <View style={styles.rupees_sec}>
+                            <Image
+                                source={require('../../../assets/layer_img.png')}
+                                style={styles.rupees}
+                            />
+                            <Text style={styles.rupees_text}>5Y</Text>
+                        </View>
+
+                        <View style={styles.rupees_sec}>
+                            <Image
+                                source={require('../../../assets/layer_img2.png')}
+                                style={styles.rupees}
+                            />
+                            <Text style={styles.rupees_text}>ALL</Text>
+                        </View>
                     </View>
 
-                    <View style={styles.time_sec}>
-
-                        <Text style={styles.year}>1M</Text>
-                        <Text style={styles.year}>1Y</Text>
-                        <Text style={styles.year}>3Y</Text>
-                        <Text style={styles.year}>5Y</Text>
-                        <Text style={styles.year1}>All</Text>
-
-                    </View>
 
                     {/* Min Investment_sec */}
 
@@ -135,22 +138,6 @@ export default function FundsDetails1Screen(props) {
 
                     </View>
                 </View>
-
-                <View style={{ marginHorizontal: 30, marginTop: 30, }}>
-                    <View style={styles.private_sector}>
-
-                        <Text style={styles.private}>Returns Calculator</Text>
-                        <AntDesign name="down" size={22} color="#C0392B" />
-                    </View>
-                    <View style={{ borderWidth: 1, borderColor: colors.RED, }}></View>
-
-                </View>
-
-
-
-
-
-
 
 
 
@@ -210,19 +197,20 @@ const styles = StyleSheet.create({
 
     midcap: {
         fontSize: 13,
+        color: colors.DEEP_GRAY,
     },
 
     fund_returns: {
         flexDirection: "row",
+        justifyContent:"space-between",
     },
 
     fund: {
-        width: "77%",
         fontSize: 15,
     },
     number: {
         fontSize: 15,
-        marginLeft: 47,
+        textAlign:"right",
         color: colors.RED,
         fontWeight: "bold",
     },
@@ -264,9 +252,11 @@ const styles = StyleSheet.create({
     investment_sec: {
         flexDirection: "row",
         marginTop: 30,
+        justifyContent:"space-between",
+        marginHorizontal:10,
     },
     investment: {
-        marginHorizontal: 30,
+    
         alignItems: "center",
     },
     price: {
@@ -293,6 +283,18 @@ const styles = StyleSheet.create({
     },
 
 
+    footer_sec: {
+        flexDirection: "row",
+        marginHorizontal: 40,
+        marginVertical: 30,
+        justifyContent: "space-between"
+    },
+    rupees: {
+        width: 40,
+        height: 37,
+    },
+    rupees_sec: { alignItems: "center", },
+    rupees_text: { fontSize: 12, },
 
 
 });

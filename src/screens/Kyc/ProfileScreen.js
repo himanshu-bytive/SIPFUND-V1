@@ -22,9 +22,7 @@ export default function ProfileScreen(props) {
         <View style={styles.container}>
             {/* header  */}
             <Header
-                leftComponent={{ icon: 'menu', color: '#fff', iconStyle: { color: colors.RED, paddingTop: 25, fontSize: 30, paddingLeft: 10, } }}
-                // leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={40} color={colors.RED} /></TouchableOpacity>}
-                containerStyle={styles.header}
+leftComponent={<TouchableOpacity onPress={() => props.navigation.toggleDrawer()} style={{ marginTop: 20 }}><Entypo name={"menu"} size={30} color={colors.RED} /></TouchableOpacity>}                containerStyle={styles.header}
                 backgroundColor={colors.LIGHT_WHITE}
                 centerComponent={<Image
                     source={require('../../../assets/icon.png')}
@@ -220,7 +218,7 @@ const styles = StyleSheet.create({
     },
     bottomicon_sec: { marginTop: 50, },
     mutual_sec: {
-        backgroundColor: colors.LITTLE_WHITE2,
+        backgroundColor: colors.LIGHT_WHITE,
         paddingHorizontal: 10,
         paddingVertical: 10,
         marginTop: 30,

@@ -19,21 +19,20 @@ export default function PasswordScreen(props) {
     return (
         <View style={styles.container}>
             <Header
-                leftComponent={<View style={{ marginTop: 20 }}><Entypo name={"menu"} size={30} color={colors.RED} /></View>}
-                containerStyle={styles.header}
+leftComponent={<TouchableOpacity onPress={() => props.navigation.toggleDrawer()} style={{ marginTop: 25 }}><Entypo name={"menu"} size={30} color={colors.RED} /></TouchableOpacity>}                containerStyle={styles.header}
                 backgroundColor={colors.LIGHT_WHITE}
                 centerComponent={<Image
                     source={require('../../../assets/icon.png')}
                     style={styles.logimg}
                 />}
-                rightComponent={<View style={{ marginTop: 20, borderWidth: 1, backgroundColor: colors.WHITE, borderColor: colors.RED, padding: 5, borderRadius: 7, }}><Text>KN</Text></View>}
+                rightComponent={<View style={{ marginTop: 25, borderWidth: 1, backgroundColor: colors.WHITE, borderColor: colors.RED, padding: 5, borderRadius: 7, }}><Text>KN</Text></View>}
             />
             <View>
                 <Text style={styles.payusing}>Pay Using</Text>
             </View>
             <View style={styles.mainbox}>
                 <View style={styles.button}>
-                    <TouchableOpacity onPress={() => props.navigation.navigate('Pan')} style={[styles.botton_box, styles.botton_box_none]}>
+                    <TouchableOpacity onPress={() => props.navigation.navigate('Home')} style={[styles.botton_box, styles.botton_box_none]}>
                         <Image
                             source={require('../../../assets/Upi_img.png')}
                             style={styles.upiImage}
@@ -42,13 +41,13 @@ export default function PasswordScreen(props) {
                 </View>
                 <View style={styles.button}>
 
-                    <TouchableOpacity onPress={() => props.navigation.navigate('Pan')} style={styles.botton_box}>
+                    <TouchableOpacity onPress={() => props.navigation.navigate('Home')} style={styles.botton_box}>
                         <Text style={styles.get_otp}>Internet Banking</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={styles.button}>
 
-                    <TouchableOpacity onPress={() => props.navigation.navigate('Pan')} style={styles.botton_box}>
+                    <TouchableOpacity onPress={() => props.navigation.navigate('Home')} style={styles.botton_box}>
                         <Text style={styles.get_otp}>e-Mandate</Text>
                     </TouchableOpacity>
                 </View>

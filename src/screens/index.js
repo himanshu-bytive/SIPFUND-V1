@@ -10,11 +10,16 @@ import CompleteDetails2Screen from './Registration/CompleteDetails2Screen'
 import CompleteDetails3Screen from './Registration/CompleteDetails3Screen'
 import CompleteDetails5Screen from './Registration/CompleteDetails5Screen'
 
-
 import TopratedFunds5Screen from './TOPRatedFunds/TopratedFunds5Screen'
+import TopRoated2Screen from './TOPRatedFunds/TopRoated2Screen'
+import TopRoated6Screen from './TOPRatedFunds/TopRoated6Screen'
+import TopRoated8Screen from './TOPRatedFunds/TopRoated8Screen'
 
-import FundsDetails1Screen from './FundDetails/FundsDetails1Screen'
-import FundDetail3Screen from './FundDetails/FundDetail3Screen'
+
+import FundsHomeScreen from './FundDetails/FundsHomeScreen'
+import FundDetailScreen from './FundDetails/FundDetailScreen'
+import ReturnsCalculator from './FundDetails/ReturnsCalculator'
+import PortfolioSummary from './FundDetails/PortfolioSummary'
 
 import SignupScreen from './Others/SignupScreen'
 import HomeScreen from './Others/HomeScreen'
@@ -22,11 +27,23 @@ import FaqScreen from './Others/FaqScreen'
 import UpiScreen from './Others/UpiScreen'
 import PanScreen from './Others/PanScreen'
 
-import Investment from './Investments/Investment'
+import Investment from './InvestmentsPlans/Investment'
 
 import PlanScreen from './Goals/Plan'
 
 import ProfileScreen from './Kyc/ProfileScreen'
+import ExistingScreen from './Kyc/ExistingScreen'
+import ReferEarnScreen from './Kyc/ReferEarnScreen'
+import NotificationScreen from './Kyc/NotificationScreen'
+import RelationshipScreen from './Kyc/RelationshipScreen'
+import ReportsScreen from './Kyc/ReportsScreen'
+import CompleteDetailScreen from './Kyc/CompleteDetailScreen'
+import AmountHistoryScreen from './Kyc/AmountHistoryScreen'
+
+import Plan1 from './PlanYourGoals/Plan1'
+import Plan3 from './PlanYourGoals/Plan3'
+import Plan4 from './PlanYourGoals/Plan4'
+import Plan5 from './PlanYourGoals/Plan5'
 
 import GoalsScreen from './Holdings/GoalsScreen'
 import Goals1Screen from './Holdings/Goals1Screen'
@@ -35,7 +52,18 @@ import Goals3Screen from './Holdings/Goals3Screen'
 import Goals4Screen from './Holdings/Goals4Screen'
 import Goals5Screen from './Holdings/Goals5Screen'
 import Goals6Screen from './Holdings/Goals6Screen'
+import Goals7Screen from './Holdings/Goals7Screen'
 import PlanYourGoalScreen from './Holdings/PlanYourGoalScreen'
+
+import Investment2Screens from './InvestmentsPlans/Investment2Screens'
+import Investment3Screens from './InvestmentsPlans/Investment3Screens'
+import Investment4Screens from './InvestmentsPlans/Investment4Screens'
+import Investment5Screens from './InvestmentsPlans/Investment5Screens'
+import Investment6Screens from './InvestmentsPlans/Investment6Screens'
+import Investment7Screens from './InvestmentsPlans/Investment7Screens'
+
+
+
 
 export {
     SplashScreen,
@@ -44,13 +72,19 @@ export {
     PasswordScreen,
     CreatePasswordScreen,
     ForgotPasswordScreen,
+
     CompleteDetailsScreen,
     CompleteDetails2Screen,
     CompleteDetails3Screen,
     CompleteDetails5Screen,
-    TopratedFunds5Screen,
-    FundsDetails1Screen,
-    FundDetail3Screen,
+   
+    FundsHomeScreen,
+    FundDetailScreen,
+    ReturnsCalculator,
+    PortfolioSummary,
+
+
+
     SignupScreen,
     HomeScreen,
     FaqScreen,
@@ -61,10 +95,37 @@ export {
     Goals4Screen,
     Goals5Screen,
     Goals6Screen,
+    Goals7Screen,
     GoalsScreen,
     Goals1Screen,
     PlanYourGoalScreen,
     Investment,
+    Investment2Screens,
+    Investment3Screens,
+    Investment7Screens,
+    Investment4Screens,
+    Investment5Screens,
+    Investment6Screens,
+
     PlanScreen,
+
     ProfileScreen,
+    ExistingScreen,
+    ReferEarnScreen,
+    NotificationScreen,
+    RelationshipScreen,
+    ReportsScreen,
+    CompleteDetailScreen,
+
+    Plan1,
+    Plan3,
+    Plan4,
+    Plan5,
+
+    TopratedFunds5Screen,
+    TopRoated2Screen,
+    TopRoated6Screen,
+    TopRoated8Screen,
+    AmountHistoryScreen
+   
 };

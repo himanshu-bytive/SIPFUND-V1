@@ -68,22 +68,21 @@ export default function CompleteDetails2Screen(props) {
                     <View style={{ borderWidth: 1, borderColor: colors.DEEP_GRAY, }}></View>
                 </View>
 
-
-                {/* click_box */}
-                <View style={styles.footer}>
-                    <View style={styles.click_box}>
-
-                        <TouchableOpacity onPress={() => props.navigation.navigate('Home')} style={styles.botton_box}>
-                            <Text style={styles.get_otp}>Skip</Text>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity onPress={() => props.navigation.navigate('Register2')} style={styles.botton_box}>
-                            <Text style={styles.get_otp}>Next</Text>
-                        </TouchableOpacity>
-
-                    </View>
-                </View>
             </ScrollView>
+            {/* click_box */}
+            <View style={styles.footer}>
+                <View style={styles.click_box}>
+
+                    <TouchableOpacity onPress={() => props.navigation.navigate('Home')} style={styles.botton_box}>
+                        <Text style={styles.get_otp}>Previous</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={() => props.navigation.navigate('Register2')} style={styles.botton_box}>
+                        <Text style={styles.get_otp}>Next</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+
         </View>
     );
 }
@@ -135,17 +134,13 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     footer: {
-        paddingTop: 90,
-        height: 392,
         alignItems: "center",
+        marginBottom:20
     },
 
     click_box: {
-
         flexDirection: "row",
         marginHorizontal: 25,
-
-        marginTop: 90,
     },
     botton_box: {
         width: "50%",
