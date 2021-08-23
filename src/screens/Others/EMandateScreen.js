@@ -16,59 +16,36 @@ import { Ionicons, AntDesign } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 
 export default function EMandateScreen(props) {
-    return (
-        <View style={styles.container}>
-
-            <View style={styles.mainbox}>
-                <Text style={styles.amc}>Choose E-Mandate Option:</Text>
-                <Text style={styles.mutual_fund}>Debit Card - Do it now</Text>
-                <Text style={styles.mutual_fund}>Net Banking - Do it now</Text>
-                <Text style={styles.mutual_fund}>Debit Card - Send me email</Text>
-                <Text style={styles.mutual_fund}>Net Banking - Send me email</Text>
-
-                <Text style={styles.cancel}>Cancel</Text>
-
-
-            </View>
-
-
-        </View>
-
-    );
+    return (<View style={styles.emaMainbox}>
+        <Text style={styles.emaAmc}>Choose AMC Option:</Text>
+        <Text style={styles.emaMutual_fund}>Birla Sun Life Mutual Fund</Text>
+        <Text style={styles.emaMutual_fund}>HDFC Mutual Fund</Text>
+        <Text style={styles.emaMutual_fund}>HSBC Asset Management (India) Pvt Ltd</Text>
+        <Text style={styles.emaMutual_fund}>IDFC Asset Management Company Pvt Ltd</Text>
+        <Text style={styles.emaMutual_fund}>Kotak Mahindra Mutual Fund</Text>
+        <Text style={styles.emaMutual_fund}>nion Asset Management Company Private  Limited</Text>
+        <Text style={styles.emaCancel}>Cancel</Text>
+    </View>);
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-
-    mainbox: {
-
-        marginHorizontal: 45,
-        borderRadius: 20,
-        borderWidth: 2,
-        borderStyle: "solid",
-        borderColor: colors.GRAY_LIGHT,
-        marginVertical: 30,
+    emaMainbox: {
+        margin: 10,
         padding: 10,
     },
-    amc: {
+    emaAmc: {
         fontSize: 18,
+        marginLeft: 15,
+        marginVertical: 10,
         fontWeight: "bold",
-
     },
-    mutual_fund: {
+    emaMutual_fund: {
         fontSize: 15,
         marginVertical: 10,
-        marginLeft: 15,
     },
-    cancel: {
+    emaCancel: {
         fontSize: 15,
+        marginTop: 15,
         color: colors.RED,
-
     },
-
-
-
-
 });

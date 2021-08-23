@@ -84,6 +84,6 @@ export default function App() {
 
   return (
     <AppContainer />
-    // <Plan1 />
+    // <HomeScreen />
   );
 }

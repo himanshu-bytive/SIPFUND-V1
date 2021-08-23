@@ -1,21 +1,16 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
 import {
     StyleSheet,
-    Button,
     View,
     Image,
-    ImageBackground,
     TouchableOpacity,
     Text,
     Dimensions,
-    KeyboardAvoidingView,
-    TextInput,
-    ActivityIndicator,
     ScrollView,
 } from "react-native";
 import { colors } from '../../common/theme';
 import { Entypo, AntDesign } from 'react-native-vector-icons';
-import { Header, Overlay } from 'react-native-elements';
+import { Header, Overlay, CheckBox, Input } from 'react-native-elements';
 import Investments from '../../components/Investments'
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -34,6 +29,11 @@ export default function HomeScreen(props) {
     const [visible, setVisible] = useState(false);
     const toggleOverlay = () => {
         setVisible(!visible);
+    };
+
+    const [eMandateType, setEMandateType] = useState(null);
+    const toggleEMandate = (type) => {
+        setEMandateType(type);
     };
 
     return (
@@ -56,7 +56,7 @@ export default function HomeScreen(props) {
                     />
                     <Text style={styles.HelloIinvestor}>Hello, Investor</Text>
                     <Text style={styles.HelloIinvestor1}>You’re almost ready to submit</Text>
-                    <TouchableOpacity onPress={() => props.navigation.navigate('Pan')} style={styles.botton_box}>
+                    <TouchableOpacity onPress={() => toggleEMandate('one')} style={styles.botton_box}>
                         <Text style={styles.get_otp}>COMPLETE ACCOUNT SETUP</Text>
                     </TouchableOpacity>
                 </View>
@@ -174,20 +174,20 @@ export default function HomeScreen(props) {
                 {/* Top roted fund section */}
 
                 <Text style={styles.roted_text}>Top Rated Funds</Text>
-                <TouchableOpacity onPress={() =>  props.navigation.navigate('Toprated1')}>
-                <View style={[styles.education, styles.education_roted]}>
-                    <View style={styles.child_sec}>
-                        <Image
-                            source={require('../../../assets/term7.png')}
-                            style={styles.fund_img}
-                        />
+                <TouchableOpacity onPress={() => props.navigation.navigate('Toprated1')}>
+                    <View style={[styles.education, styles.education_roted]}>
+                        <View style={styles.child_sec}>
+                            <Image
+                                source={require('../../../assets/term7.png')}
+                                style={styles.fund_img}
+                            />
+                        </View>
+                        <View style={styles.education_sec}>
+                            <Text style={styles.child}>Get Top Rated Funds</Text>
+                            <Text style={styles.child_text}>At SIPFund.com we help you in choosing the best for you!</Text>
+                        </View>
                     </View>
-                    <View style={styles.education_sec}>
-                        <Text style={styles.child}>Get Top Rated Funds</Text>
-                        <Text style={styles.child_text}>At SIPFund.com we help you in choosing the best for you!</Text>
-                    </View>
-                </View>
-</TouchableOpacity>
+                </TouchableOpacity>
                 <View style={styles.roted_border}></View>
                 <View style={styles.border}></View>
 
@@ -317,7 +317,6 @@ export default function HomeScreen(props) {
 
                 {/* Faq screen */}
                 <View style={styles.mainbox}>
-
                     <View>
                         <Text style={styles.faqs}>FAQ’s</Text>
                     </View>
@@ -390,6 +389,43 @@ export default function HomeScreen(props) {
                 </View>
             </Overlay>
 
+            <Overlay isVisible={eMandateType === 'one' ? true : false}>
+                <View style={styles.emaMainbox}>
+                    <TouchableOpacity onPress={() => toggleEMandate('two')}><Text style={styles.emaAmc}>Choose AMC Option:</Text>
+                        <Text style={styles.emaMutual_fund}>Birla Sun Life Mutual Fund</Text></TouchableOpacity>
+                    <Text style={styles.emaMutual_fund}>HDFC Mutual Fund</Text>
+                    <Text style={styles.emaMutual_fund}>HSBC Asset Management (India) Pvt Ltd</Text>
+                    <Text style={styles.emaMutual_fund}>IDFC Asset Management Company Pvt Ltd</Text>
+                    <Text style={styles.emaMutual_fund}>Kotak Mahindra Mutual Fund</Text>
+                    <Text style={styles.emaMutual_fund}>nion Asset Management Company Private  Limited</Text>
+                    <TouchableOpacity onPress={() => toggleEMandate(null)}><Text style={styles.emaCancel}>Cancel</Text></TouchableOpacity>
+                </View>
+            </Overlay>
+
+            <Overlay isVisible={eMandateType === 'two' ? true : false}>
+                <View style={styles.emaMainbox}>
+                    <Text style={styles.emaAmc}>Choose E-Mandate Option:</Text>
+                    <CheckBox onPress={() => toggleEMandate('three')} containerStyle={styles.emaAmcCheck} textStyle={styles.emaAmcCheckFont} title='Debit Card - Do it now' checkedIcon='dot-circle-o' uncheckedIcon='circle-o' />
+                    <CheckBox containerStyle={styles.emaAmcCheck} textStyle={styles.emaAmcCheckFont} title='Net Banking - Do it now' checkedIcon='dot-circle-o' uncheckedIcon='circle-o' />
+                    <CheckBox containerStyle={styles.emaAmcCheck} textStyle={styles.emaAmcCheckFont} title='Debit Card - Send me email' checkedIcon='dot-circle-o' uncheckedIcon='circle-o' />
+                    <CheckBox containerStyle={styles.emaAmcCheck} textStyle={styles.emaAmcCheckFont} title='Net Banking - Send me email' checkedIcon='dot-circle-o' uncheckedIcon='circle-o' />
+                    <TouchableOpacity onPress={() => toggleEMandate(null)}><Text style={styles.emaCancel}>Cancel</Text></TouchableOpacity>
+                </View>
+            </Overlay>
+
+            <Overlay isVisible={eMandateType === 'three' ? true : false}>
+                <View style={styles.emaMainbox}>
+                    <Text style={styles.emaAmc}>ENTER ACH-MANDATE AMOUNT</Text>
+                    <Input placeholder='3000' />
+                    <View style={{ alignItems: 'flex-end' }}>
+                        <View style={{ flexDirection: 'row' }}>
+                            <TouchableOpacity onPress={() => toggleEMandate(null)}><Text style={styles.emaCancel}>CANCEL</Text></TouchableOpacity>
+                            <TouchableOpacity onPress={() => toggleEMandate(null)}><Text style={styles.emaCancel}>SUBMIT</Text></TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
+            </Overlay>
+
         </View>
     );
 }
@@ -435,7 +471,7 @@ const styles = StyleSheet.create({
         color: colors.DEEP_GRAY,
         fontWeight: "bold",
         paddingHorizontal: 10,
-        paddingVertical:15,
+        paddingVertical: 15,
     },
     education_top: {
         paddingLeft: 20,
@@ -596,7 +632,6 @@ const styles = StyleSheet.create({
         paddingTop: 10,
 
     },
-    /* top roted fund sec2 */
     roted_bottom: {
         flexDirection: "row",
         paddingLeft: 20,
@@ -675,7 +710,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.RED,
         width: width - 50,
         paddingVertical: 20,
-       marginVertical:50,
+        marginVertical: 50,
         borderRadius: 10,
         borderWidth: 2,
         borderColor: colors.DEEP_GRAY,
@@ -726,6 +761,36 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontWeight: "bold",
     },
-
-
+    emaMainbox: {
+        margin: 10,
+        padding: 10,
+    },
+    emaAmc: {
+        fontSize: 18,
+        marginLeft: 15,
+        marginVertical: 10,
+        fontWeight: "bold",
+    },
+    emaMutual_fund: {
+        fontSize: 15,
+        marginVertical: 10,
+    },
+    emaAmcCheck: {
+        backgroundColor: colors.TRANSPARENT,
+        fontSize: 15,
+        borderWidth: 0,
+        margin: 0,
+        marginLeft: -10,
+        padding: 0,
+        paddingVertical: 5
+    },
+    emaAmcCheckFont: {
+        fontSize: 17,
+    },
+    emaCancel: {
+        fontSize: 15,
+        marginTop: 15,
+        marginLeft: 15,
+        color: colors.RED,
+    },
 });
