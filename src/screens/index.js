@@ -34,7 +34,7 @@ import EnterScreen from './Others/EnterScreen'
 
 import Investment from './InvestmentsPlans/Investment'
 
-import PlanScreen from './Goals/Plan'
+
 
 import ProfileScreen from './Kyc/ProfileScreen'
 import ExistingScreen from './Kyc/ExistingScreen'
@@ -118,7 +118,7 @@ export {
     Investment5Screens,
     Investment6Screens,
 
-    PlanScreen,
+  
 
     ProfileScreen,
     ExistingScreen,
