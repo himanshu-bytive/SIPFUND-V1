@@ -138,19 +138,13 @@ export {
     TopRoated2Screen,
     TopRoated6Screen,
     TopRoated8Screen,
-<<<<<<< HEAD
     
-=======
-    AmountHistoryScreen,
-
     AMCScreen,
     EMandateScreen,
     EnterScreen,
-
     DashboardScreen,
     HamburgerMenu2Screen,
     HamburgerMenu4Screen,
->>>>>>> 02ac34ae3aeae48fab91dce475c2bf13fd984131
    
 
 

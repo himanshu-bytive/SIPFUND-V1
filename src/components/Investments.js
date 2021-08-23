@@ -27,14 +27,17 @@ export default function Investments(props) {
 const styles = StyleSheet.create({
     investment_sec: {
         flexDirection: "row",
-        flexWrap: 'wrap'
+        flexWrap: 'wrap',
+        marginHorizontal:10,
+
     },
     investment: {
-        borderRadius: 20,
+        borderTopRightRadius:20,
+        borderTopLeftRadius:20,
         backgroundColor: colors.WHITE,
-        width: '30%',
+        width: '29.333%',
         alignItems: "center",
-        margin: 7,
+        margin: '2%',
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -47,12 +50,12 @@ const styles = StyleSheet.create({
     term: {
         width: '100%',
         height: 113,
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20,
+        borderRadius:20,
     },
     long: {
         textAlign: "center",
         paddingVertical: 10,
+        paddingHorizontal:15,
         fontSize: 16,
         fontWeight: "bold"
     },

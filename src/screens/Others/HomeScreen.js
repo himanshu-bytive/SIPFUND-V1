@@ -435,9 +435,10 @@ const styles = StyleSheet.create({
         color: colors.DEEP_GRAY,
         fontWeight: "bold",
         paddingHorizontal: 10,
+        paddingVertical:15,
     },
     education_top: {
-        paddingLeft: 50,
+        paddingLeft: 20,
         flexDirection: "row",
     },
     education: {
@@ -598,7 +599,7 @@ const styles = StyleSheet.create({
     /* top roted fund sec2 */
     roted_bottom: {
         flexDirection: "row",
-        paddingLeft: 40,
+        paddingLeft: 20,
         marginVertical: 30,
     },
     amount_sec: {

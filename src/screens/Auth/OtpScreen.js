@@ -39,7 +39,7 @@ export default function OtpScreen(props) {
                         </View>
                     </View>
                 </View>
-                <View>
+                <View style={{ alignItems: "center" }}>
                     <Image
                         source={require('../../../assets/nse.png')}
                         style={styles.nseimg}
@@ -110,6 +110,8 @@ const styles = StyleSheet.create({
         paddingTop: 4,
         paddingBottom: 4,
     },
-
+    containerScroll: {
+        width: '100%'
+    },
 
 });

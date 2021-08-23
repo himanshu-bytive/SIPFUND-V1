@@ -83,12 +83,7 @@ export default function App() {
   }
 
   return (
-<<<<<<< HEAD
-    // <AppContainer />
-    <Plan1 />
-=======
     <AppContainer />
-    
->>>>>>> 02ac34ae3aeae48fab91dce475c2bf13fd984131
+    // <Plan1 />
   );
 }
