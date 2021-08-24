@@ -71,9 +71,11 @@ import DashboardScreen from './HamburgerMenu/DashboardScreen'
 import HamburgerMenu2Screen from './HamburgerMenu/HamburgerMenu2Screen'
 import HamburgerMenu4Screen from './HamburgerMenu/HamburgerMenu4Screen'
 import HamburgerMenu5Screen from './HamburgerMenu/HamburgerMenu5Screen'
-
-
-
+import HamburgerMenu6Screen from './HamburgerMenu/HamburgerMenu6Screen'
+import HamburgerMenu7Screen from './HamburgerMenu/HamburgerMenu7Screen'
+import HamburgerMenu8Screen from './HamburgerMenu/HamburgerMenu8Screen'
+import HamburgerMenu9Screen from './HamburgerMenu/HamburgerMenu9Screen'
+import HamburgerMenu10Screen from './HamburgerMenu/HamburgerMenu10Screen'
 
 export {
     SplashScreen,
@@ -145,7 +147,11 @@ export {
     DashboardScreen,
     HamburgerMenu2Screen,
     HamburgerMenu4Screen,
-    HamburgerMenu5Screen
-
+    HamburgerMenu5Screen,
+    HamburgerMenu6Screen,
+    HamburgerMenu7Screen,
+    HamburgerMenu8Screen,
+    HamburgerMenu9Screen,
+    HamburgerMenu10Screen
 
 };
