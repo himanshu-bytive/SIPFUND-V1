@@ -17,11 +17,10 @@ export const colors = {
   LITTLE_WHITE: '#FBFBFB',
   GRAY_LIGHT: "#C9C9C9",
   MERUN_RED: '#83120F',
-  PINK: '#FFF5F3',
+  PINK: '#FEF4F2',
   LITTLE_WHITE: '#FBFBFB',
   GRAY_LIGHT: "#C9C9C9",
   MERUN_RED: '#83120F',
-  PINK: '#FEF4F2',
   GRAY_LIGHT_1: '#838280',
   YELLOW_LIGHT: '#E8B7AD',
   GRAY_DEEP_1: '#E0E0E0',
@@ -49,7 +48,6 @@ export const colors = {
   DEEP_GRAY: '#7E7E7E',
   LIGHT_GRAY: '#F8F8F8',
   BLUE_1: '#0E94F8',
-  PINK: '#EF3B78',
   GREEN_1: '#19A799',
 
 

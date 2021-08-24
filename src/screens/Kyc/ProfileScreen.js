@@ -22,7 +22,7 @@ export default function ProfileScreen(props) {
         <View style={styles.container}>
             {/* header  */}
             <Header
-leftComponent={<TouchableOpacity onPress={() => props.navigation.toggleDrawer()} style={{ marginTop: 20 }}><Entypo name={"menu"} size={30} color={colors.RED} /></TouchableOpacity>}                containerStyle={styles.header}
+                leftComponent={<TouchableOpacity onPress={() => props.navigation.toggleDrawer()} style={{ marginTop: 20 }}><Entypo name={"menu"} size={30} color={colors.RED} /></TouchableOpacity>} containerStyle={styles.header}
                 backgroundColor={colors.LIGHT_WHITE}
                 centerComponent={<Image
                     source={require('../../../assets/icon.png')}
@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
     },
     icon_sec: {
-        marginHorizontal: 20,
+        marginHorizontal: 60,
         marginTop: 30,
         marginBottom: 10,
         flexDirection: "row",
@@ -196,33 +196,36 @@ const styles = StyleSheet.create({
     border: {
         marginTop: 20,
         height: 4,
-        width: 70,
+        width: '20%',
         backgroundColor: colors.LIGHTYELLOW,
-    },
-    icon_text: {
-        paddingHorizontal: 14,
-        fontSize: 10,
     },
     text_sec: {
         flexDirection: "row",
-        justifyContent: "center",
-        marginHorizontal: 10,
+        justifyContent:"space-between",
+        marginHorizontal: 20,
     },
-    border1: {
-        width: 122,
+    icon_text: {
+        width: '23%',
+        textAlign:'center',
+        fontSize: 8,
     },
     bottom_text: {
-        paddingHorizontal: 30,
-        fontSize: 10,
-
+        width: '30%',
+        textAlign:'center',
+        fontSize: 8,
     },
-    bottomicon_sec: { marginTop: 50, },
+    border1: {
+        width: '75%',
+    },
+    bottomicon_sec: { 
+        marginTop: 50,
+        marginHorizontal: 150,
+     },
     mutual_sec: {
         backgroundColor: colors.LIGHT_WHITE,
         paddingHorizontal: 10,
         paddingVertical: 10,
         marginTop: 30,
-
     },
     mutual_text: {
         fontSize: 20,

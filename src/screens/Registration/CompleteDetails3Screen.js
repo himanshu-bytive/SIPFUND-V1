@@ -114,7 +114,7 @@ export default function CompleteDetails3Screen(props) {
 
                 <View style={styles.click_box}>
 
-                    <TouchableOpacity onPress={() => props.navigation.navigate('Home')} style={styles.botton_box}>
+                    <TouchableOpacity onPress={() => props.navigation.navigate('Register2')} style={styles.botton_box}>
                         <Text style={styles.get_otp}>Previous</Text>
                     </TouchableOpacity>
 

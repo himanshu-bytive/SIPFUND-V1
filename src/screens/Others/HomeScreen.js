@@ -435,7 +435,8 @@ export default function HomeScreen(props) {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        backgroundColor: colors.WHITE
     },
     header: {
         borderBottomColor: colors.BLACK,

@@ -73,7 +73,7 @@ export default function CompleteDetails2Screen(props) {
             <View style={styles.footer}>
                 <View style={styles.click_box}>
 
-                    <TouchableOpacity onPress={() => props.navigation.navigate('Home')} style={styles.botton_box}>
+                    <TouchableOpacity onPress={() => props.navigation.navigate('Register1')} style={styles.botton_box}>
                         <Text style={styles.get_otp}>Previous</Text>
                     </TouchableOpacity>
 
