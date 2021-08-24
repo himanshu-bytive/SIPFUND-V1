@@ -38,7 +38,7 @@ import {
   ReturnsCalculator,
   FundDetailScreen,
   PortfolioSummary,
-
+  AmountHistoryScreen,
 
   FundsHomeScreen,
 
@@ -49,8 +49,12 @@ import {
   DashboardScreen,
   HamburgerMenu2Screen,
   HamburgerMenu4Screen,
-  HamburgerMenu5Screen
-  
+  HamburgerMenu5Screen,
+  HamburgerMenu6Screen,
+  HamburgerMenu7Screen,
+  HamburgerMenu8Screen,
+  HamburgerMenu9Screen,
+  HamburgerMenu10Screen
 
 } from './src/screens'
 

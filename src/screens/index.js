@@ -39,12 +39,11 @@ import Investment from './InvestmentsPlans/Investment'
 import ProfileScreen from './Kyc/ProfileScreen'
 import ExistingScreen from './Kyc/ExistingScreen'
 import ReferEarnScreen from './Kyc/ReferEarnScreen'
-import AmountHistoryScreen from './Kyc/AmountHistoryScreen'
 import NotificationScreen from './Kyc/NotificationScreen'
 import RelationshipScreen from './Kyc/RelationshipScreen'
 import ReportsScreen from './Kyc/ReportsScreen'
 import CompleteDetailScreen from './Kyc/CompleteDetailScreen'
-
+import AmountHistoryScreen from './Kyc/AmountHistoryScreen'
 
 import Plan1 from './PlanYourGoals/Plan1'
 import Plan3 from './PlanYourGoals/Plan3'
@@ -71,10 +70,12 @@ import Investment7Screens from './InvestmentsPlans/Investment7Screens'
 import DashboardScreen from './HamburgerMenu/DashboardScreen'
 import HamburgerMenu2Screen from './HamburgerMenu/HamburgerMenu2Screen'
 import HamburgerMenu4Screen from './HamburgerMenu/HamburgerMenu4Screen'
-
-
-
-
+import HamburgerMenu5Screen from './HamburgerMenu/HamburgerMenu5Screen'
+import HamburgerMenu6Screen from './HamburgerMenu/HamburgerMenu6Screen'
+import HamburgerMenu7Screen from './HamburgerMenu/HamburgerMenu7Screen'
+import HamburgerMenu8Screen from './HamburgerMenu/HamburgerMenu8Screen'
+import HamburgerMenu9Screen from './HamburgerMenu/HamburgerMenu9Screen'
+import HamburgerMenu10Screen from './HamburgerMenu/HamburgerMenu10Screen'
 
 export {
     SplashScreen,
@@ -123,7 +124,6 @@ export {
     ProfileScreen,
     ExistingScreen,
     ReferEarnScreen,
-    AmountHistoryScreen,
     NotificationScreen,
     RelationshipScreen,
     ReportsScreen,
@@ -138,6 +138,8 @@ export {
     TopRoated2Screen,
     TopRoated6Screen,
     TopRoated8Screen,
+    AmountHistoryScreen,
+
     
     AMCScreen,
     EMandateScreen,
@@ -145,7 +147,11 @@ export {
     DashboardScreen,
     HamburgerMenu2Screen,
     HamburgerMenu4Screen,
-   
-
+    HamburgerMenu5Screen,
+    HamburgerMenu6Screen,
+    HamburgerMenu7Screen,
+    HamburgerMenu8Screen,
+    HamburgerMenu9Screen,
+    HamburgerMenu10Screen
 
 };

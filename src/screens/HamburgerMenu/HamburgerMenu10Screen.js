@@ -29,7 +29,7 @@ const investmentData = [
     { title: 'Aggressive Funds', image: require('../../../assets/term6.png') },
 ]
 
-export default function HamburgerMenu4Screen(props) {
+export default function HamburgerMenu10Screen(props) {
 
     const [visible, setVisible] = useState(false);
 
@@ -49,53 +49,32 @@ export default function HamburgerMenu4Screen(props) {
                     style={styles.logimg}
                 />}
             />
+
             <ScrollView style={styles.containerScroll}>
 
                 <View style={styles.switch_sec}>
-                    <Text style={styles.transaction}>Transaction History</Text>
-                </View>
+                    <Text style={styles.transaction}>Cart</Text>
 
-                <View style={styles.main_box}>
+                    <View style={styles.tab_sec}>
 
-                    <View style={styles.transaction_history}>
-
-                        <View style={styles.fund_sec}>
-                            <Text style={styles.Fund}>Fund</Text>
-                            <Text style={styles.axis}>Axis Mutual Fund</Text>
-                        </View>
-                        <View style={styles.fund_sec}>
-                            <Text style={styles.Fund}>Folio No</Text>
+                        <View style={styles.tab1}>
+                            <Text style={styles.switch}>SIP</Text>
 
                         </View>
-                        <View style={styles.fund_sec}>
-                            <Text style={styles.Fund}>Scheme Name</Text>
-                            <Text style={styles.axis}>TAGPGGR / Axis Treasury Advantage</Text>
-                        </View>
-                        <View style={styles.fund_sec}>
-                            <Text style={styles.Fund}>Trxn Type</Text>
-                            <Text style={styles.axis}>Switch</Text>
-                        </View>
-                        <View style={styles.fund_sec}>
-                            <Text style={styles.Fund}>Trxn Status</Text>
-                            <Text style={styles.axis}>Pending Authorization</Text>
-                        </View>
-                        <View style={styles.fund_sec}>
-                            <Text style={styles.Fund}>Amount</Text>
-                            <Text style={styles.axis}>1000</Text>
-                        </View>
-                        <View style={styles.fund_sec}>
-                            <Text style={styles.Fund}>Unit</Text>
 
+                        <View style={styles.tab1}>
+                            <Text style={styles.switch}>LUMP SUM</Text>
                         </View>
-                        <View style={styles.fund_sec}>
-                            <Text style={styles.Fund}>Date</Text>
-                            <Text style={styles.axis}>09-JUL-2021</Text>
-                        </View>
+
                     </View>
                 </View>
             </ScrollView>
-
-
+            <View style={styles.footer_box}>
+                <Text style={styles.total}>Total ₹ 0.00</Text>
+                <TouchableOpacity style={styles.botton_box}>
+                    <Text style={styles.proceed}>CHECKOUT</Text>
+                </TouchableOpacity>
+            </View>
 
         </View>
     );
@@ -120,34 +99,37 @@ const styles = StyleSheet.create({
         marginVertical: 20,
         color: colors.WHITE,
     },
-    main_box: {
-        backgroundColor: colors.GREY_1
-    },
-    transaction_history: {
-        backgroundColor: colors.WHITE,
-        margin: 15,
-        padding: 10,
-
-    },
-    fund_sec: {
+    tab_sec: {
         flexDirection: "row",
-        marginBottom: 5,
+        marginVertical: 10,
     },
-    Fund: {
-        width: "40%",
-        fontSize: 10,
-        fontWeight: "bold",
+    tab1: {
+        width: "50%",
+        alignItems: "center",
     },
-    axis: {
-        fontSize: 10,
-        fontWeight: "bold",
-        color: colors.DEEP_GRAY,
+    switch: {
+        color: colors.WHITE,
+        fontSize: 13,
     },
 
+    botton_box: {
+        backgroundColor: colors.RED,
+        paddingVertical: 15,
+        marginTop: 5,
+    },
+    proceed: {
+        color: colors.WHITE,
+        fontSize: 18,
+        fontWeight: 'bold',
+        textAlign: "center",
+    },
+    footer_box: {
+        backgroundColor: colors.WHITE,
+        padding: 20,
 
-
-
-
-
-
+    },
+    total: {
+        fontSize: 23,
+        textAlign: "center",
+    },
 });
