@@ -50,13 +50,15 @@ export default function HomeScreen(props) {
             />
             <ScrollView style={styles.containerScroll}>
                 <View style={styles.home_top}>
-                    <Image
-                        source={require('../../../assets/Hello.png')}
-                        style={styles.Helloimg}
-                    />
+                    <TouchableOpacity onPress={() => toggleEMandate('one')}>
+                        <Image
+                            source={require('../../../assets/Hello.png')}
+                            style={styles.Helloimg}
+                        />
+                    </TouchableOpacity>
                     <Text style={styles.HelloIinvestor}>Hello, Investor</Text>
                     <Text style={styles.HelloIinvestor1}>You’re almost ready to submit</Text>
-                    <TouchableOpacity onPress={() => toggleEMandate('one')} style={styles.botton_box}>
+                    <TouchableOpacity onPress={() => props.navigation.navigate('Goals')} style={styles.botton_box}>
                         <Text style={styles.get_otp}>COMPLETE ACCOUNT SETUP</Text>
                     </TouchableOpacity>
                 </View>
@@ -432,7 +434,9 @@ export default function HomeScreen(props) {
 
 
 const styles = StyleSheet.create({
-    container: { marginBottom: 200, },
+    container: {
+        flex: 1
+    },
     header: {
         borderBottomColor: colors.BLACK,
         borderBottomWidth: 1
@@ -712,8 +716,8 @@ const styles = StyleSheet.create({
         paddingVertical: 20,
         marginVertical: 50,
         borderRadius: 10,
-        borderWidth: 2,
-        borderColor: colors.DEEP_GRAY,
+        // borderWidth: 2,
+        // borderColor: colors.DEEP_GRAY,
         marginHorizontal: 10,
 
     },
@@ -721,7 +725,6 @@ const styles = StyleSheet.create({
         color: colors.WHITE,
         fontSize: 20,
         fontWeight: 'bold',
-
     },
     // gallary
     gallary: {
