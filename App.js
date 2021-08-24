@@ -29,6 +29,7 @@ import {
   TopRoated8Screen,
   ExistingScreen,
   ReferEarnScreen,
+  AmountHistoryScreen,
   NotificationScreen,
   RelationshipScreen,
   ReportsScreen,
@@ -84,6 +85,6 @@ export default function App() {
 
   return (
     <AppContainer />
-    // <Plan1 />
+    // <Investment />
   );
 }

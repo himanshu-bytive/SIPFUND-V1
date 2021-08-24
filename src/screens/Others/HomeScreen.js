@@ -677,8 +677,6 @@ const styles = StyleSheet.create({
         paddingVertical: 20,
        marginVertical:50,
         borderRadius: 10,
-        borderWidth: 2,
-        borderColor: colors.DEEP_GRAY,
         marginHorizontal: 10,
 
     },

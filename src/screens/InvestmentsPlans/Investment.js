@@ -36,13 +36,14 @@ export default function Investment(props) {
     return (
         <View style={styles.container}>
             <Header
-                leftComponent={<TouchableOpacity onPress={() => props.navigation.toggleDrawer()} style={{ marginTop: 20 }}><Entypo name={"menu"} size={30} color={colors.RED} /></TouchableOpacity>}                rightComponent={<View style={{ marginTop: 20 }}><Text>KE</Text></View>}
+                leftComponent={<TouchableOpacity onPress={() => props.navigation.toggleDrawer()} style={{ marginTop: 25 }}><Entypo name={"menu"} size={30} color={colors.RED} /></TouchableOpacity>}             
                 backgroundColor={colors.LIGHT_WHITE}
                 containerStyle={styles.header}
                 centerComponent={<Image
                     source={require('../../../assets/icon.png')}
                     style={styles.logimg}
                 />}
+                rightComponent={<View style={{ marginTop: 25, marginRight: 10, borderWidth: 1, backgroundColor: colors.WHITE, borderColor: colors.RED, padding: 7, borderRadius: 7, }}><Text style={{color:colors.RED,fontWeight:"bold"}}>KN</Text></View>}
             />
           
             <ScrollView style={{ width: '100%' }}>
