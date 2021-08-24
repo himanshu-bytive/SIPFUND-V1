@@ -68,19 +68,19 @@ export default function Plan1(props) {
                     <Text style={styles.childtext}>₹65,000</Text>
                 </View>
 
-                <View style={{marginHorizontal:20}}><MySlider /></View>
+                <View style={{ marginHorizontal: 20 }}><MySlider /></View>
                 <View style={[styles.vijay_sec, styles.vijay,]}>
                     <Text style={styles.child2}>Year when this is required</Text>
                     <Text style={styles.childtext}>15Y</Text>
                 </View>
 
-                <View style={{marginHorizontal:20}}><MySlider /></View>
+                <View style={{ marginHorizontal: 20 }}><MySlider /></View>
                 <View style={[styles.vijay_sec, styles.vijay,]}>
                     <Text style={styles.child2}>Current Investment Value (If Any)</Text>
                     <Text style={styles.childtext}>₹10,00,000</Text>
                 </View>
 
-                <View style={{marginHorizontal:20}}><MySlider /></View>
+                <View style={{ marginHorizontal: 20 }}><MySlider /></View>
 
                 <Text style={styles.note}>Note : Assuming current inflation rate at 2.49% and
                     expected return rate on saving as 5%.</Text>
@@ -188,11 +188,11 @@ export default function Plan1(props) {
 
                         <View style={styles.border_sec}>
                             <View style={styles.border}>
-                                <View style={{ borderWidth: 1, borderColor: colors.RED, }}></View>
+                                <View style={{ borderWidth: 1, borderColor: colors.DEEP_GRAY, }}></View>
                             </View>
                             <View style={styles.icons}>
-                                <TouchableOpacity onPress={() => props.navigation.navigate('FundsDetails')}>
-                                    <AntDesign name="rightcircleo" size={30} color="#C0392B" />
+                                <TouchableOpacity style={styles.circle} onPress={() => props.navigation.navigate('FundsDetails')}>
+                                    <AntDesign name="right" size={30} color="#C0392B" />
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -249,11 +249,11 @@ export default function Plan1(props) {
 
                         <View style={styles.border_sec}>
                             <View style={styles.border}>
-                                <View style={{ borderWidth: 1, borderColor: colors.RED, }}></View>
+                                <View style={{ borderWidth: 1, borderColor: colors.DEEP_GRAY, }}></View>
                             </View>
                             <View style={styles.icons}>
-                                <TouchableOpacity onPress={() => props.navigation.navigate('FundsDetails')}>
-                                    <AntDesign name="rightcircleo" size={30} color="#C0392B" />
+                                <TouchableOpacity style={styles.circle} onPress={() => props.navigation.navigate('FundsDetails')}>
+                                    <AntDesign name="right" size={30} color="#C0392B" />
                                 </TouchableOpacity>
                             </View>
 
@@ -320,11 +320,11 @@ export default function Plan1(props) {
 
                         <View style={styles.border_sec}>
                             <View style={styles.border}>
-                                <View style={{ borderWidth: 1, borderColor: colors.RED, }}></View>
+                                <View style={{ borderWidth: 1, borderColor: colors.DEEP_GRAY, }}></View>
                             </View>
                             <View style={styles.icons}>
-                                <TouchableOpacity onPress={() => props.navigation.navigate('FundsDetails')}>
-                                    <AntDesign name="rightcircleo" size={30} color="#C0392B" />
+                                <TouchableOpacity style={styles.circle} onPress={() => props.navigation.navigate('FundsDetails')}>
+                                    <AntDesign name="right" size={30} color="#C0392B" />
                                 </TouchableOpacity>
 
                             </View>
@@ -391,11 +391,11 @@ export default function Plan1(props) {
 
                         <View style={styles.border_sec}>
                             <View style={styles.border}>
-                                <View style={{ borderWidth: 1, borderColor: colors.RED, }}></View>
+                                <View style={{ borderWidth: 1, borderColor: colors.DEEP_GRAY, }}></View>
                             </View>
                             <View style={styles.icons}>
-                                <TouchableOpacity onPress={() => props.navigation.navigate('FundsDetails')}>
-                                    <AntDesign name="rightcircleo" size={30} color="#C0392B" />
+                                <TouchableOpacity style={styles.circle} onPress={() => props.navigation.navigate('FundsDetails')}>
+                                    <AntDesign name="right" size={30} color="#C0392B" />
                                 </TouchableOpacity>
 
                             </View>
@@ -433,14 +433,15 @@ export default function Plan1(props) {
 
                     {/* multicap end */}
 
-                    <TouchableOpacity onPress={() => props.navigation.navigate('Plan3')}><Text style={styles.more_funds}>I would like to add more funds</Text></TouchableOpacity>
 
-                    <TouchableOpacity onPress={() => props.navigation.navigate('Plan4')} style={styles.botton_box}>
-                        <Text style={styles.get_otp}>START GOAL</Text>
-
-                    </TouchableOpacity>
                 </View>
             </ScrollView>
+            <TouchableOpacity onPress={() => props.navigation.navigate('Plan3')}><Text style={styles.more_funds}>I would like to add more funds</Text></TouchableOpacity>
+
+            <TouchableOpacity onPress={() => props.navigation.navigate('Plan4')} style={styles.botton_box}>
+                <Text style={styles.get_otp}>START GOAL</Text>
+
+            </TouchableOpacity>
         </View>
 
 
@@ -699,31 +700,31 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: colors.RED,
         borderRadius: 5,
-        marginHorizontal:2,
+        marginHorizontal: 2,
         alignItems: "center",
-      
+
     },
     buttom_botton2: {
         width: "50%",
         borderRadius: 5,
         backgroundColor: colors.RED,
-        marginHorizontal:2,
+        marginHorizontal: 2,
         alignItems: "center",
-       
+
     },
     sip_text: {
         fontSize: 20,
         color: colors.RED,
         fontWeight: "bold",
         paddingVertical: 7,
-    paddingHorizontal:40,
+        paddingHorizontal: 40,
     },
     sip_text2: {
         fontSize: 20,
         color: colors.WHITE,
         fontWeight: "bold",
         paddingVertical: 7,
-    paddingHorizontal:40,
+        paddingHorizontal: 40,
     },
 
     // calender
@@ -785,5 +786,12 @@ const styles = StyleSheet.create({
         marginHorizontal: 10,
         paddingBottom: 40,
     },
-
+    circle: {
+        height: 35,
+        width: 35,
+        borderRadius: 100,
+        borderWidth: 2,
+        borderColor: colors.DEEP_GRAY,
+        paddingLeft: 2
+    },
 });

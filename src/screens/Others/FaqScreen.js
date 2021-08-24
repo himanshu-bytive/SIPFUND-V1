@@ -12,6 +12,7 @@ import {
     ActivityIndicator
 } from "react-native";
 import { colors } from '../../common/theme';
+import { commonStyles } from '../../common/styles';
 import { Ionicons, AntDesign, Entypo } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 
@@ -26,7 +27,7 @@ leftComponent={<TouchableOpacity onPress={() => props.navigation.toggleDrawer()}
                     source={require('../../../assets/icon.png')}
                     style={styles.logimg}
                 />}
-                rightComponent={<View style={{ marginTop: 20, borderWidth: 1, backgroundColor: colors.WHITE, borderColor: colors.RED, padding: 5, borderRadius: 7, }}><Text>KN</Text></View>}
+                rightComponent={<View style={commonStyles.headerkn}><Text style={commonStyles.textkn}>KN</Text></View>}
             />
             <View style={styles.mainbox}>
 

@@ -13,6 +13,7 @@ import {
     ActivityIndicator
 } from "react-native";
 import { colors } from '../../common/theme';
+import { commonStyles } from '../../common/styles';
 import { Entypo, AntDesign } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 
@@ -26,7 +27,7 @@ leftComponent={<TouchableOpacity onPress={() => props.navigation.toggleDrawer()}
                         source={require('../../../assets/icon.png')}
                         style={styles.logimg}
                     />}
-                    rightComponent={{ text: 'KN', color: '#CD2700' }}
+                    rightComponent={<View style={commonStyles.headerkn}><Text style={commonStyles.textkn}>KN</Text></View>}
                 />
                 <Image
                     onPress={() => props.navigation.navigate('Home1')}

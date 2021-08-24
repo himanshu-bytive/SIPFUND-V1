@@ -93,7 +93,7 @@ export default function Goals6Screen(props) {
                 </View>
                 {/* fund_sec */}
                 {/* <ScrollView horizontal> */}
-                        {/* <DataTable style={styles.dataTable}>
+                {/* <DataTable style={styles.dataTable}>
                             <DataTable.Header style={styles.headerbg}>
                                 <DataTable.Title style={styles.headerCell}>Fund House</DataTable.Title>
                                 <DataTable.Title style={styles.headerCell}>Inv Cost</DataTable.Title>
@@ -131,7 +131,7 @@ export default function Goals6Screen(props) {
 
 
                         </DataTable> */}
-                    {/* </ScrollView> */}
+                {/* </ScrollView> */}
 
 
 
@@ -393,7 +393,7 @@ const styles = StyleSheet.create({
     fund_sec: {
         flexDirection: "row",
         borderWidth: 1,
-        borderColor:'#E0BAAF',
+        borderColor: '#E0BAAF',
         borderRadius: 10,
         marginHorizontal: 20,
     },
@@ -459,9 +459,9 @@ const styles = StyleSheet.create({
         borderColor: '#B88C7D',
         // borderBottomWidth: 1,
         // borderBottomColor: '#B88C7D',
-        marginHorizontal:20,
-        borderRadius:10,
-        
+        marginHorizontal: 20,
+        borderRadius: 10,
+
     },
     headerCell: {
         // width: 90,
@@ -475,15 +475,16 @@ const styles = StyleSheet.create({
         borderRightColor: '#B88C7D',
         paddingLeft: 15,
     },
-    headerbg:{backgroundColor:'#F8D9CC',
-borderTopLeftRadius:10,
-borderTopRightRadius:10,
-borderBottomWidth:1,
-borderBottomColor:'#B88C7D',
-},
-headersec:{ 
-    borderBottomWidth:1,
-borderBottomColor:'#B88C7D',
-},
+    headerbg: {
+        backgroundColor: '#F8D9CC',
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+        borderBottomWidth: 1,
+        borderBottomColor: '#B88C7D',
+    },
+    headersec: {
+        borderBottomWidth: 1,
+        borderBottomColor: '#B88C7D',
+    },
 
 });

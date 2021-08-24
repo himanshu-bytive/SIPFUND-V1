@@ -84,7 +84,7 @@ export default function App() {
   }
 
   return (
-    <AppContainer />
-    // <Investment />
+    // <AppContainer />
+    <HomeScreen />
   );
 }

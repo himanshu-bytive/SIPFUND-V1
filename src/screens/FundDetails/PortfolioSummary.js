@@ -1,4 +1,6 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
+import { DataTable } from 'react-native-paper';
+
 import {
     StyleSheet,
     Button,
@@ -39,8 +41,33 @@ const fund_type = [
 
 export default function PortfolioSummary(props) {
 
-    return (<View style={{ marginTop: 50, marginHorizontal: 5 }}>
+    return (
+    <View style={{ marginTop: 50, marginHorizontal: 5}}>
         <Text style={styles.value}>Total Market Value - Rs. 845.6 cr</Text>
+
+{/* <ScrollView horizontal>
+                        <DataTable style={styles.dataTable}>
+                            <DataTable.Header style={styles.headerbg}>
+                                <DataTable.Title style={styles.headerCell}>No. Of Holdings</DataTable.Title>
+                                <DataTable.Title style={styles.headerCell}>No. Of Stock Holdings</DataTable.Title>
+                                <DataTable.Title style={styles.headerCell} >No. Of Bond Holdings</DataTable.Title>
+                            </DataTable.Header>
+
+                            <DataTable.Row style={styles.headersec}>
+                                <DataTable.Cell style={styles.bodyCell}>41</DataTable.Cell>
+                                <DataTable.Cell style={styles.bodyCell} >40</DataTable.Cell>
+                                <DataTable.Cell style={styles.bodyCell} >0</DataTable.Cell>
+                            </DataTable.Row>
+
+
+                        </DataTable>
+                    </ScrollView> */}
+
+
+
+
+
+
 
         <View style={styles.minimum}>
             <View style={styles.minimum_sec}><View style={styles.mini_tex}><Text style={styles.mini_tex2}>No. Of{'\n'}
@@ -60,13 +87,7 @@ export default function PortfolioSummary(props) {
 
 
     
-        {/* <View style={styles.bottom_holding}>
-
-            <View style={styles.bottom_holdingleft}>
-                <Text style={styles.mini_tex}>0</Text>
-            </View>
-            <View style={styles.bottom_holdingright}></View>
-        </View> */}
+        
 
 <View style={styles.graph_sec}>
                 <View style={styles.holding_sec}>
@@ -284,9 +305,34 @@ const styles = StyleSheet.create({
     graph_img: {
         height: 113,
         width: 125,
+
     },
+    dataTable: {
+        borderWidth: 1,
+        borderColor: colors.DEEP_GRAY,
+        marginHorizontal:5,
+        
+        
+    },
+    headerCell: {
+        width: 100,
+        borderRightWidth: 1,
+        borderRightColor:colors.DEEP_GRAY,
+        paddingLeft: 15,
+        
+    },
+    bodyCell: {
+        width: 125,
+        borderRightWidth: 1,
+        borderRightColor: colors.DEEP_GRAY,
+        paddingLeft: 15,
 
-
+    },
+    headerbg: {
+        borderBottomWidth: 1,
+        borderBottomColor: colors.DEEP_GRAY,
+    },
+ 
 
 
 

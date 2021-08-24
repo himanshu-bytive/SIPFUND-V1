@@ -31,6 +31,13 @@ const roted = [
 
 
 export default function TopRoated2Screen(props) {
+// tab start
+    const [selectTab, setSelectTab] = useState('SIP');
+    const toggleTab = (value) => {
+        setSelectTab(value);
+    };
+// tab end
+
     // overlay start
     const [visible, setVisible] = useState(false);
 
@@ -167,22 +174,24 @@ export default function TopRoated2Screen(props) {
 
             <Overlay isVisible={visible} onBackdropPress={toggleOverlay}>
                 <View style={styles.pop_top}>
-                    <View style={styles.click_sec}>
-                        <View style={styles.buttom_botton}>
-                            <TouchableOpacity>
-                                <Text style={styles.sip_text}>SIP</Text>
-                            </TouchableOpacity>
-                        </View>
-                        <View style={styles.buttom_botton2}>
-                            <TouchableOpacity>
-                                <Text style={styles.sip_text2}>Lumpsum</Text>
-                            </TouchableOpacity>
-                        </View>
+
+
+                <View style={styles.click_sec}>
+                    <View style={(selectTab == 'SIP') ? styles.buttom_botton2 : styles.buttom_botton}>
+                        <TouchableOpacity onPress={() => toggleTab('SIP')}>
+                            <Text style={(selectTab == 'SIP') ? styles.sip_text2 : styles.sip_text}>SIP</Text>
+                        </TouchableOpacity></View>
+                    <View style={(selectTab == 'LUMPSUM') ? styles.buttom_botton2 : styles.buttom_botton}>
+                        <TouchableOpacity onPress={() => toggleTab('LUMPSUM')}>
+                            <Text style={(selectTab == 'LUMPSUM') ? styles.sip_text2 : styles.sip_text}>Lumpsum</Text>
+                        </TouchableOpacity>
                     </View>
+                </View>
+
                     <View style={styles.amount_sec}>
                         <Text style={styles.amount_tex}>Amount</Text>
                         <View style={styles.bordersec}>
-                            <TextInput style={styles.amount_tex2} />
+                            <TextInput  placeholder='5000' style={styles.amount_tex2} />
                         </View>
                     </View>
 
@@ -301,38 +310,47 @@ const styles = StyleSheet.create({
     rupees_sec: { alignItems: "center", },
     rupees_text: { fontSize: 12, },
 
-    // popup
+// tab
+    pop_top:{marginHorizontal:30,},
     click_sec: {
         flexDirection: "row",
-        width: width - 50,
-        justifyContent: 'space-between',
-        padding: 20,
+        paddingVertical:20,
+        
     },
     buttom_botton: {
+        width: "45%",
         borderWidth: 1,
         borderColor: colors.RED,
         borderRadius: 5,
-        marginRight: 2,
+        marginHorizontal:2,
         alignItems: "center",
-        width: "45%",
-        paddingVertical: 10,
+      
     },
     buttom_botton2: {
+        width: "45%",
         borderRadius: 5,
         backgroundColor: colors.RED,
-        marginLeft: 2,
+        marginHorizontal:2,
         alignItems: "center",
-        width: "45%",
-        paddingVertical: 10,
+       
     },
     sip_text: {
-        fontSize: 18,
+        fontSize: 20,
         color: colors.RED,
+        fontWeight: "bold",
+        paddingVertical: 12,
+    paddingHorizontal:20,
     },
     sip_text2: {
-        fontSize: 18,
+        fontSize: 20,
         color: colors.WHITE,
+        fontWeight: "bold",
+        paddingVertical: 12,
+    paddingHorizontal:20,
     },
+
+
+
 
     amount_sec: { alignItems: "center", },
     bordersec: {
@@ -348,17 +366,18 @@ const styles = StyleSheet.create({
         backgroundColor: colors.RED,
         marginLeft: 2,
         alignItems: "center",
-        paddingVertical: 5,
+       
         marginVertical: 30,
-        paddingHorizontal: 40,
-        paddingVertical: 10
-
-
+        paddingHorizontal: 30,
+    
     },
     amount_tex2: {
         color: colors.DEEP_GRAY,
-        width: 100
+        width: 100,
+        textAlign:"center",
+        fontSize:18,
     },
+    amount_tex:{fontSize:18,},
 
 });
 

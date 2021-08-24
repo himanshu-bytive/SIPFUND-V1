@@ -103,13 +103,12 @@ export default function Investment3Screens(props) {
 
                 {/* Axis Asset Management Company Ltd */}
 
-                <TouchableOpacity onPress={() => props.navigation.navigate('Invest4')} style={styles.botton_box}>
+            </ScrollView>
+
+            <TouchableOpacity onPress={() => props.navigation.navigate('Invest4')} style={styles.botton_box}>
                     <Text style={styles.get_otp}>NEXT</Text>
 
                 </TouchableOpacity>
-
-
-            </ScrollView>
         </View>
 
 
@@ -163,7 +162,7 @@ const styles = StyleSheet.create({
     botton_box: {
         backgroundColor: colors.RED,
         marginHorizontal: 30,
-        marginTop: 120,
+    marginBottom:30,
         borderWidth: 1,
         borderRadius: 10,
         borderColor: colors.DEEP_GRAY,

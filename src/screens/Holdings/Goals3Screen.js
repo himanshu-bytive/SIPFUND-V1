@@ -212,6 +212,7 @@ const styles = StyleSheet.create({
     education_plan: {
         flexDirection: "row",
         width: '100%',
+        paddingBottom:10,
     },
     plan_1: {
         width: "50%",

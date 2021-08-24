@@ -7,6 +7,7 @@ import {
     ScrollView
 } from "react-native";
 import { colors } from '../../common/theme';
+import { commonStyles } from '../../common/styles';
 import { Entypo, AntDesign } from 'react-native-vector-icons';
 import { Image, Header, Overlay } from 'react-native-elements';
 import Investments from '../../components/Investments'
@@ -43,7 +44,7 @@ export default function Investment(props) {
                     source={require('../../../assets/icon.png')}
                     style={styles.logimg}
                 />}
-                rightComponent={<View style={{ marginTop: 25, marginRight: 10, borderWidth: 1, backgroundColor: colors.WHITE, borderColor: colors.RED, padding: 7, borderRadius: 7, }}><Text style={{color:colors.RED,fontWeight:"bold"}}>KN</Text></View>}
+                rightComponent={<View style={commonStyles.headerkn}><Text>KN</Text></View>}
             />
           
             <ScrollView style={{ width: '100%' }}>
