@@ -11,6 +11,7 @@ export default function MySlider(props) {
         thumbStyle={{ height: 20, width: 20 }}
         maximumTrackTintColor={'#EDEDED'}
         minimumTrackTintColor={'#C0392B'}
+        thumbTintColor={'#C0392B'}
     />)
 }
 

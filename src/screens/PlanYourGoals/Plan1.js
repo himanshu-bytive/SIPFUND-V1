@@ -699,27 +699,31 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: colors.RED,
         borderRadius: 5,
-        marginRight: 2,
+        marginHorizontal:2,
         alignItems: "center",
-        paddingVertical: 7,
+      
     },
     buttom_botton2: {
         width: "50%",
         borderRadius: 5,
         backgroundColor: colors.RED,
-        marginLeft: 2,
+        marginHorizontal:2,
         alignItems: "center",
-        paddingVertical: 7,
+       
     },
     sip_text: {
         fontSize: 20,
         color: colors.RED,
         fontWeight: "bold",
+        paddingVertical: 7,
+    paddingHorizontal:40,
     },
     sip_text2: {
         fontSize: 20,
         color: colors.WHITE,
         fontWeight: "bold",
+        paddingVertical: 7,
+    paddingHorizontal:40,
     },
 
     // calender

@@ -386,45 +386,7 @@ export const OthersStack = createStackNavigator({
     initialRouteName: 'Upi',
 });
 
-
-//drawer routes, you can add routes here for drawer or sidemenu
-const DrawerRoutes = {
-    HomePage: {
-        name: 'HomePage',
-        screen: HomePageStack
-    },
-    Plans: {
-        name: 'Plans',
-        screen: PlanYourGoalsStack
-    },
-    Investment: {
-        name: 'Investment',
-        screen: InvestmentPlansStack
-    },
-    Top: {
-        name: 'Top',
-        screen: TopRatedFundsStack
-    },
-    Hold: {
-        name: 'Hold',
-        screen: HoldingsSummaryStack
-    },
-    Funds: {
-        name: 'Funds',
-        screen: FundsDetailsStack
-    },
-    Reg: {
-        name: 'Register',
-        screen: RegisterStack
-    },
-    Others: {
-        name: 'Others',
-        screen: OthersStack
-    },
-};
-
-//tab navigator for user end
-export const TabNavigator = createBottomTabNavigator({
+const TabNavigator = createBottomTabNavigator({
     Explore: {
         screen: HomePageStack,
         navigationOptions: {
@@ -454,21 +416,55 @@ export const TabNavigator = createBottomTabNavigator({
         }
     },
     You: {
-        screen: HoldingsSummaryStack,
+        screen: OthersStack,
         navigationOptions: {
             tabBarIcon: ({ focused, tintColor }) => {
                 // const iconName = `ios-information-circle${focused ? '' : '-outline'}`;
                 return <AntDesign name={"user"} size={30} color={tintColor} />
             }
         }
-    },
+    }
+}, {
+    tabBarOptions: {
+        // activeTintColor: '#000',
+        // inactiveTintColor: 'gray',
+        // style: {
+        //     backgroundColor: '#fff',
+        // },
+        // indicatorStyle: {
+        //     backgroundColor: '#000',
+        // },
+    }
 });
 
+
+
 //main navigator for user end
-export const RootNavigator = createDrawerNavigator(
-    DrawerRoutes,
+export const RootNavigator = createDrawerNavigator({
+    HomeTab: {
+        name: 'HomeTab',
+        screen: TabNavigator
+    },
+    Investment: {
+        name: 'Investment',
+        screen: InvestmentPlansStack
+    },
+    Hold: {
+        name: 'Hold',
+        screen: HoldingsSummaryStack
+    },
+    Funds: {
+        name: 'Funds',
+        screen: FundsDetailsStack
+    },
+    Reg: {
+        name: 'Register',
+        screen: RegisterStack
+    },
+
+},
     {
         drawerWidth: 300,
-        initialRouteName: 'HomePage',
+        initialRouteName: 'HomeTab',
         contentComponent: SideMenu,
     });
