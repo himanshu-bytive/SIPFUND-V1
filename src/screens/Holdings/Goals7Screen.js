@@ -12,6 +12,7 @@ import {
     ActivityIndicator
 } from "react-native";
 import { colors } from '../../common/theme';
+import { commonStyles } from '../../common/styles';
 import { Ionicons, AntDesign, Entypo, FontAwesome5 } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
@@ -19,10 +20,9 @@ import { ScrollView } from "react-native-gesture-handler";
 export default function Goals7Screen(props) {
     return (
         <View style={styles.container}>
-
             <Header
                 leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={40} color={colors.RED} /></TouchableOpacity>}
-                containerStyle={styles.header}
+                containerStyle={commonStyles.header}
                 backgroundColor={colors.LIGHT_WHITE}
                 centerComponent={<Image
                     source={require('../../../assets/icon.png')}
@@ -94,19 +94,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
-    header: {
-        borderBottomColor: colors.GRAY_LIGHT,
-        borderBottomWidth: 1,
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 5,
-        },
-        shadowOpacity: 0.23,
-        shadowRadius: 2.62,
-        elevation: 4,
-
-    },
+  
     container_sec: {
         margin: 10,
 

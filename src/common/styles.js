@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 import { colors } from './theme';
 export const commonStyles = StyleSheet.create({
     header: {
-        borderBottomColor: colors.BLACK,
+        borderBottomColor: "#707070",
         borderBottomWidth: 1,
     },
     containerScroll: {
@@ -13,12 +13,16 @@ export const commonStyles = StyleSheet.create({
         width: 203,
         marginTop: 10,
     },
-    headerkn: { marginTop: 20,
-         borderWidth: 1, 
-         backgroundColor: colors.WHITE,
-          borderColor: colors.RED, padding: 5,
-           borderRadius: 7, },
-           textkn:{fontSize:22,
-        color:colors.RED,
-    fontWeight:"bold",},
+    headerkn: {
+        marginTop: 20,
+        borderWidth: 1,
+        backgroundColor: colors.WHITE,
+        borderColor: colors.RED, padding: 5,
+        borderRadius: 7,
+    },
+    textkn: {
+        fontSize: 22,
+        color: colors.RED,
+        fontWeight: "bold",
+    },
 });

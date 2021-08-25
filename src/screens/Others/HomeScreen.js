@@ -9,6 +9,7 @@ import {
     ScrollView,
 } from "react-native";
 import { colors } from '../../common/theme';
+import { commonStyles } from '../../common/styles';
 import { Entypo, AntDesign } from 'react-native-vector-icons';
 import { Header, Overlay, CheckBox, Input } from 'react-native-elements';
 import Investments from '../../components/Investments'
@@ -42,7 +43,7 @@ export default function HomeScreen(props) {
                 leftComponent={<TouchableOpacity onPress={() => props.navigation.toggleDrawer()} style={{ marginTop: 20 }}><Entypo name={"menu"} size={30} color={colors.RED} /></TouchableOpacity>}
                 rightComponent={<TouchableOpacity onPress={() => props.navigation.navigate('Toprated')} style={{ marginTop: 20 }}><AntDesign name={"shoppingcart"} size={30} color={colors.RED} /></TouchableOpacity>}
                 backgroundColor={colors.LIGHT_WHITE}
-                containerStyle={styles.header}
+                containerStyle={commonStyles.header}
                 centerComponent={<Image
                     source={require('../../../assets/icon.png')}
                     style={styles.logimg}
@@ -437,10 +438,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: colors.WHITE
-    },
-    header: {
-        borderBottomColor: colors.BLACK,
-        borderBottomWidth: 1
     },
     containerScroll: {
         width: '100%'

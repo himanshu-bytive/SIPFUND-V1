@@ -49,7 +49,7 @@ export const colors = {
   LIGHT_GRAY: '#F8F8F8',
   BLUE_1: '#0E94F8',
   GREEN_1: '#19A799',
-
+LIGHT_PINK:'#EF3B78',
 
   GREY: {
     default: '#243235',

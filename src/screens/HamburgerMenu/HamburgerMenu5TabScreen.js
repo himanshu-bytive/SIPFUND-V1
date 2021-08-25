@@ -51,170 +51,34 @@ export default function HamburgerMenu5Screen(props) {
             />
             <ScrollView style={styles.containerScroll}>
 
-                <View style={styles.switch_sec}>
-                    <Text style={styles.transaction}>Holdings</Text>
+               
+                
 
-                    <View style={styles.tab_sec}>
 
-                        <View style={styles.tab1}>
-                            <Text style={styles.switch}>HOLDINGS</Text>
+                {/* External Holding_ tab sec */}
 
-                        </View>
 
-                        <View style={styles.tab1}>
-                            <Text style={styles.switch}>EXTERNAL HOLDINGS</Text>
-                        </View>
-
-                    </View>
+                <View style={styles.holding_sec}>
+                    <Text style={styles.transaction}>External Holding</Text>
                 </View>
-
-                {/* Total Investment_sec... */}
-
                 <View style={styles.main_box}>
-
                     <View style={styles.investment_sec}>
                         <View style={styles.blue_sec}>
                             <Text style={styles.total_investment}>Total Investment</Text>
-                            <Text style={styles.price}>₹ 3,23,930.00</Text>
+                            <Text style={styles.price}>₹ 999.95</Text>
                         </View>
                         <View style={styles.red_sec}>
                             <Text style={styles.total_investment}>Current Value</Text>
-                            <Text style={styles.price}>₹ 4,13,550.94</Text>
+                            <Text style={styles.price}>₹ 1,532.69</Text>
                         </View>
                         <View style={styles.green_sec}>
                             <Text style={styles.total_investment}>Unrealized Profit</Text>
-                            <Text style={styles.price}>₹ 89,620.94</Text>
+                            <Text style={styles.price}>₹ 532.74</Text>
 
                         </View>
                     </View>
 
-                    {/* FRANKLIN TEMPLETON MUTUAL FUND_SEC... */}
-
-                    <View style={styles.fund_sec}>
-
-                        <View style={styles.axis_sec}>
-                            <Text style={styles.axis}>FRANKLIN TEMPLETON MUTUAL FUND</Text>
-
-                        </View>
-
-                        <View style={styles.growth_sec}>
-                            <Text style={styles.axis_treasury}>Franklin India Ultra Short Bond Fund - Super Institutional Plan </Text>
-
-                            {/* value_sec */}
-
-                            <View style={styles.value_sec}>
-                                <View style={styles.folio_sec}>
-
-                                    <Text style={styles.folio}>18.639</Text>
-                                    <Text style={styles.folio}>Units</Text>
-                                </View>
-
-                                <View style={styles.folio_sec}>
-
-                                    <Text style={styles.folio}>500.762</Text>
-                                    <Text style={styles.folio}>Invested Amount</Text>
-                                </View>
-
-                                <View style={styles.folio_sec}>
-                                    <Text style={styles.folio}>6.4</Text>
-                                    <Text style={styles.folio}>CAGR %</Text>
-
-                                </View>
-                            </View>
-
-                            {/* value_sec_end */}
-
-                            {/* value_sec2_start */}
-
-                            <View style={styles.value_sec}>
-                                <View style={styles.folio_sec}>
-
-                                    <Text style={styles.folio}>567.904</Text>
-                                    <Text style={styles.folio}>Market Value</Text>
-                                    <Text style={styles.folio}>On 13-Jul-2021</Text>
-                                </View>
-
-                                <View style={styles.folio_sec}>
-                                    <View style={{ flexDirection: "row", }}>
-                                        <Text style={[styles.folio, styles.green]}>67.142</Text>
-                                        <AntDesign name="caretup" size={15} color="#5DA753" />
-                                    </View>
-                                    <Text style={styles.folio}>Unrealized Profit</Text>
-                                </View>
-
-                                <View style={styles.folio_sec}>
-                                    <Text style={[styles.folio, styles.green]}>13.408</Text>
-                                    <Text style={styles.folio}>Unrealized Profit %</Text>
-
-                                </View>
-                            </View>
-
-                        </View>
-                    </View>
-
-                    {/* Axis Mutual Fund_sec.. */}
-
-                    <View style={styles.fund_sec}>
-
-                        <View style={styles.axis_sec}>
-                            <Text style={styles.axis}>Axis Mutual Fund</Text>
-
-                        </View>
-
-                        <View style={styles.growth_sec}>
-                            <Text style={styles.axis_treasury}>Axis Long Term Equilty Fund - Regular Growth</Text>
-
-                            {/* value_sec */}
-
-                            <View style={styles.value_sec}>
-                                <View style={styles.folio_sec}>
-
-                                    <Text style={styles.folio}>3089.835</Text>
-                                    <Text style={styles.folio}>Units</Text>
-                                </View>
-
-                                <View style={styles.folio_sec}>
-
-                                    <Text style={styles.folio}>151996.56</Text>
-                                    <Text style={styles.folio}>Invested Amount</Text>
-                                </View>
-
-                                <View style={styles.folio_sec}>
-                                    <Text style={styles.folio}>17.86</Text>
-                                    <Text style={styles.folio}>CAGR %</Text>
-
-                                </View>
-                            </View>
-
-                            {/* value_sec_end */}
-
-                            <View style={styles.value_sec}>
-                                <View style={styles.folio_sec}>
-
-                                    <Text style={styles.folio}>208998.61</Text>
-                                    <Text style={styles.folio}>Market Value</Text>
-                                    <Text style={styles.folio}>On 13-Jul-2021</Text>
-                                </View>
-
-                                <View style={styles.folio_sec}>
-                                    <View style={{ flexDirection: "row", }}>
-                                        <Text style={[styles.folio, styles.green]}>57002.047</Text>
-                                        <AntDesign name="caretup" size={15} color="#5DA753" />
-                                    </View>
-                                    <Text style={styles.folio}>Unrealized Profit</Text>
-                                </View>
-
-                                <View style={styles.folio_sec}>
-                                    <Text style={[styles.folio, styles.green]}>37.502</Text>
-                                    <Text style={styles.folio}>Unrealized Profit %</Text>
-
-                                </View>
-                            </View>
-
-                        </View>
-                    </View>
-
-                    {/* SBI Mutual Fund_sec */}
+                    {/* SBI Mutual Fund_2_sec */}
 
                     <View style={styles.fund_sec}>
 
@@ -224,37 +88,77 @@ export default function HamburgerMenu5Screen(props) {
                         </View>
 
                         <View style={styles.growth_sec}>
-                            <Text style={styles.axis_treasury}>SBI Flexicap Fund - Regular Plan - Growth</Text>
+                            <Text style={styles.axis_treasury}>SBI BANKING & FINANCIAL SERVICES FUND</Text>
 
-                            {/* value_sec */}
+
 
                             <View style={styles.value_sec}>
                                 <View style={styles.folio_sec}>
 
-                                    <Text style={styles.folio}>328.609</Text>
+                                    <Text style={styles.folio}>64.159</Text>
                                     <Text style={styles.folio}>Units</Text>
                                 </View>
 
                                 <View style={styles.folio_sec}>
 
-                                    <Text style={styles.folio}>20999.08</Text>
+                                    <Text style={styles.folio}>999.95</Text>
                                     <Text style={styles.folio}>Invested Amount</Text>
                                 </View>
 
                                 <View style={styles.folio_sec}>
-                                    <Text style={styles.folio}>14.43</Text>
+                                    <Text style={styles.folio}>57.12</Text>
                                     <Text style={styles.folio}>CAGR %</Text>
+
+                                </View>
+                            </View>
+
+                            {/* value_sec_end */}
+
+                            <View style={styles.value_sec}>
+                                <View style={styles.folio_sec}>
+
+                                    <Text style={styles.folio}>1532.691</Text>
+                                    <Text style={styles.folio}>Market Value</Text>
+                                    <Text style={styles.folio}>On 13-Jul-2021</Text>
+                                </View>
+
+                                <View style={styles.folio_sec}>
+                                    <View style={{ flexDirection: "row", }}>
+                                        <Text style={[styles.folio, styles.green]}>532.741</Text>
+                                        <AntDesign name="caretup" size={15} color="#5DA753" />
+                                    </View>
+                                    <Text style={styles.folio}>Unrealized Profit</Text>
+                                </View>
+
+                                <View style={styles.folio_sec}>
+                                    <Text style={[styles.folio, styles.green]}>53.277</Text>
+                                    <Text style={styles.folio}>Unrealized Profit %</Text>
 
                                 </View>
                             </View>
 
                         </View>
                     </View>
+
+                    
+                    {/* External Holding_ end */}
                 </View>
-
-               
             </ScrollView>
+            <View style={styles.bottonsec}>
+                        <TouchableOpacity style={styles.botton_box}>
+                            <Text style={styles.proceed}>DOWNLOAD YOUR STATEMENT</Text>
+                        </TouchableOpacity>
 
+                        <View style={styles.footer_box}>
+                            <TouchableOpacity onPress={() => props.navigation.navigate('HamburgerMenu7')} style={styles.botton_box2}>
+                                <Text style={styles.proceed}>ADD HOLDING</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.botton_box2}>
+                                <Text style={styles.proceed}>ADD HOLDING PDF</Text>
+                            </TouchableOpacity>
+
+                        </View>
+                    </View>
 
 
         </View>
@@ -263,7 +167,9 @@ export default function HamburgerMenu5Screen(props) {
 
 
 const styles = StyleSheet.create({
-    container: { flex: 1, },
+    container: { flex: 1, 
+        backgroundColor:'#D3D6DB'
+    },
 
     logimg: {
         height: 65,
@@ -293,7 +199,6 @@ const styles = StyleSheet.create({
         fontSize: 13,
     },
     main_box: {
-        backgroundColor: colors.GREY_1,
         padding: 15,
     },
     investment_sec: {
@@ -392,7 +297,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.RED,
         paddingVertical: 20,
     },
-
+    bottonsec:{marginBottom:10},
 
 
 });

@@ -15,6 +15,7 @@ import { colors } from '../../common/theme';
 import { commonStyles } from '../../common/styles';
 import { Ionicons, AntDesign } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
+import { ScrollView } from "react-native-gesture-handler";
 
 export default function Goals1Screen(props) {
     return (
@@ -29,6 +30,8 @@ export default function Goals1Screen(props) {
                 />}
                 rightComponent={<View style={commonStyles.headerkn}><Text style={commonStyles.textkn}>KN</Text></View>}
             />
+
+            <ScrollView>
             <View style={styles.header_top}>
                 <Image
                     source={require('../../../assets/goals1_img1.png')}
@@ -132,6 +135,7 @@ export default function Goals1Screen(props) {
                     <Text style={styles.number}><Text style={styles.red_color}>3</Text>/8</Text>
                 </View>
             </TouchableOpacity>
+            </ScrollView>
         </View>
 
     );

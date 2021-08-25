@@ -56,6 +56,15 @@ import {
     Plan3,
     Plan4,
     Plan5,
+
+    DashboardScreen,
+    HamburgerMenu2Screen,
+    HamburgerMenu4Screen,
+    HamburgerMenu5Screen,
+    HamburgerMenu5TabScreen,
+    HamburgerMenu7Screen,
+    HamburgerMenu9Screen,
+
 } from '../screens';
 import { SideMenu } from '../components';
 
@@ -99,6 +108,54 @@ export const LoginFlowStack = createStackNavigator({
 
 }, {
     initialRouteName: 'login',
+});
+export const Hamburgmenu = createStackNavigator({
+    dashboard: {
+        screen: DashboardScreen,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    hamburgermenu2: {
+        screen: HamburgerMenu2Screen,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    hamburgermenu4: {
+        screen: HamburgerMenu4Screen,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    HamburgerMenu5: {
+        screen: HamburgerMenu5Screen,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    HamburgerMenu5Tab: {
+        screen: HamburgerMenu5TabScreen,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    HamburgerMenu7: {
+        screen: HamburgerMenu7Screen,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    HamburgerMenu7: {
+        screen: HamburgerMenu9Screen,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+  
+
+}, {
+    initialRouteName: 'dashboard',
 });
 
 export const HomePageStack = createStackNavigator({
@@ -460,6 +517,10 @@ export const RootNavigator = createDrawerNavigator({
     Reg: {
         name: 'Register',
         screen: RegisterStack
+    },
+    Hamburg: {
+        name: 'Hamburg',
+        screen: Hamburgmenu
     },
 
 },

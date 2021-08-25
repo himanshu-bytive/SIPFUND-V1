@@ -40,7 +40,7 @@ export default function HamburgerMenu4Screen(props) {
     return (
         <View style={styles.container}>
             <Header
-                leftComponent={<TouchableOpacity onPress={() => props.navigation.toggleDrawer()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={colors.RED} /></TouchableOpacity>}
+                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={colors.RED} /></TouchableOpacity>}
                 rightComponent={<TouchableOpacity onPress={() => props.navigation.navigate('Toprated')} style={{ marginTop: 20 }}><AntDesign name={"shoppingcart"} size={30} color={colors.RED} /></TouchableOpacity>}
                 backgroundColor={colors.LIGHT_WHITE}
                 containerStyle={styles.header}
@@ -54,8 +54,6 @@ export default function HamburgerMenu4Screen(props) {
                 <View style={styles.switch_sec}>
                     <Text style={styles.transaction}>Transaction History</Text>
                 </View>
-
-                <View style={styles.main_box}>
 
                     <View style={styles.transaction_history}>
 
@@ -92,7 +90,151 @@ export default function HamburgerMenu4Screen(props) {
                             <Text style={styles.axis}>09-JUL-2021</Text>
                         </View>
                     </View>
-                </View>
+               
+
+                    <View style={styles.transaction_history}>
+
+                        <View style={styles.fund_sec}>
+                            <Text style={styles.Fund}>Fund</Text>
+                            <Text style={styles.axis}>Axis Mutual Fund</Text>
+                        </View>
+                        <View style={styles.fund_sec}>
+                            <Text style={styles.Fund}>Folio No</Text>
+
+                        </View>
+                        <View style={styles.fund_sec}>
+                            <Text style={styles.Fund}>Scheme Name</Text>
+                            <Text style={styles.axis}>TAGPGGR / Axis Treasury Advantage</Text>
+                        </View>
+                        <View style={styles.fund_sec}>
+                            <Text style={styles.Fund}>Trxn Type</Text>
+                            <Text style={styles.axis}>Switch</Text>
+                        </View>
+                        <View style={styles.fund_sec}>
+                            <Text style={styles.Fund}>Trxn Status</Text>
+                            <Text style={styles.axis}>Pending Authorization</Text>
+                        </View>
+                        <View style={styles.fund_sec}>
+                            <Text style={styles.Fund}>Amount</Text>
+                            <Text style={styles.axis}>1000</Text>
+                        </View>
+                        <View style={styles.fund_sec}>
+                            <Text style={styles.Fund}>Unit</Text>
+
+                        </View>
+                        <View style={styles.fund_sec}>
+                            <Text style={styles.Fund}>Date</Text>
+                            <Text style={styles.axis}>09-JUL-2021</Text>
+                        </View>
+                    </View>
+                    <View style={styles.transaction_history}>
+
+                        <View style={styles.fund_sec}>
+                            <Text style={styles.Fund}>Fund</Text>
+                            <Text style={styles.axis}>Axis Mutual Fund</Text>
+                        </View>
+                        <View style={styles.fund_sec}>
+                            <Text style={styles.Fund}>Folio No</Text>
+
+                        </View>
+                        <View style={styles.fund_sec}>
+                            <Text style={styles.Fund}>Scheme Name</Text>
+                            <Text style={styles.axis}>TAGPGGR / Axis Treasury Advantage</Text>
+                        </View>
+                        <View style={styles.fund_sec}>
+                            <Text style={styles.Fund}>Trxn Type</Text>
+                            <Text style={styles.axis}>Switch</Text>
+                        </View>
+                        <View style={styles.fund_sec}>
+                            <Text style={styles.Fund}>Trxn Status</Text>
+                            <Text style={styles.axis}>Pending Authorization</Text>
+                        </View>
+                        <View style={styles.fund_sec}>
+                            <Text style={styles.Fund}>Amount</Text>
+                            <Text style={styles.axis}>1000</Text>
+                        </View>
+                        <View style={styles.fund_sec}>
+                            <Text style={styles.Fund}>Unit</Text>
+
+                        </View>
+                        <View style={styles.fund_sec}>
+                            <Text style={styles.Fund}>Date</Text>
+                            <Text style={styles.axis}>09-JUL-2021</Text>
+                        </View>
+                    </View>
+                    <View style={styles.transaction_history}>
+
+                        <View style={styles.fund_sec}>
+                            <Text style={styles.Fund}>Fund</Text>
+                            <Text style={styles.axis}>Axis Mutual Fund</Text>
+                        </View>
+                        <View style={styles.fund_sec}>
+                            <Text style={styles.Fund}>Folio No</Text>
+
+                        </View>
+                        <View style={styles.fund_sec}>
+                            <Text style={styles.Fund}>Scheme Name</Text>
+                            <Text style={styles.axis}>TAGPGGR / Axis Treasury Advantage</Text>
+                        </View>
+                        <View style={styles.fund_sec}>
+                            <Text style={styles.Fund}>Trxn Type</Text>
+                            <Text style={styles.axis}>Switch</Text>
+                        </View>
+                        <View style={styles.fund_sec}>
+                            <Text style={styles.Fund}>Trxn Status</Text>
+                            <Text style={styles.axis}>Pending Authorization</Text>
+                        </View>
+                        <View style={styles.fund_sec}>
+                            <Text style={styles.Fund}>Amount</Text>
+                            <Text style={styles.axis}>1000</Text>
+                        </View>
+                        <View style={styles.fund_sec}>
+                            <Text style={styles.Fund}>Unit</Text>
+
+                        </View>
+                        <View style={styles.fund_sec}>
+                            <Text style={styles.Fund}>Date</Text>
+                            <Text style={styles.axis}>09-JUL-2021</Text>
+                        </View>
+                    </View>
+                    <View style={styles.transaction_history}>
+
+                        <View style={styles.fund_sec}>
+                            <Text style={styles.Fund}>Fund</Text>
+                            <Text style={styles.axis}>Axis Mutual Fund</Text>
+                        </View>
+                        <View style={styles.fund_sec}>
+                            <Text style={styles.Fund}>Folio No</Text>
+
+                        </View>
+                        <View style={styles.fund_sec}>
+                            <Text style={styles.Fund}>Scheme Name</Text>
+                            <Text style={styles.axis}>TAGPGGR / Axis Treasury Advantage</Text>
+                        </View>
+                        <View style={styles.fund_sec}>
+                            <Text style={styles.Fund}>Trxn Type</Text>
+                            <Text style={styles.axis}>Switch</Text>
+                        </View>
+                        <View style={styles.fund_sec}>
+                            <Text style={styles.Fund}>Trxn Status</Text>
+                            <Text style={styles.axis}>Pending Authorization</Text>
+                        </View>
+                        <View style={styles.fund_sec}>
+                            <Text style={styles.Fund}>Amount</Text>
+                            <Text style={styles.axis}>1000</Text>
+                        </View>
+                        <View style={styles.fund_sec}>
+                            <Text style={styles.Fund}>Unit</Text>
+
+                        </View>
+                        <View style={styles.fund_sec}>
+                            <Text style={styles.Fund}>Date</Text>
+                            <Text style={styles.axis}>09-JUL-2021</Text>
+                        </View>
+                    </View>
+                
+
+
             </ScrollView>
 
 
@@ -103,7 +245,8 @@ export default function HamburgerMenu4Screen(props) {
 
 
 const styles = StyleSheet.create({
-    container: { flex: 1, },
+    container: { flex: 1,
+    backgroundColor:'#D3D6DB' },
 
     logimg: {
         height: 65,
@@ -120,12 +263,11 @@ const styles = StyleSheet.create({
         marginVertical: 20,
         color: colors.WHITE,
     },
-    main_box: {
-        backgroundColor: colors.GREY_1
-    },
+   
     transaction_history: {
         backgroundColor: colors.WHITE,
-        margin: 15,
+        marginHorizontal:15,
+        marginTop:10,
         padding: 10,
 
     },

@@ -15,18 +15,14 @@ import {
 } from "react-native";
 import { colors } from '../../common/theme';
 import { Entypo, AntDesign } from 'react-native-vector-icons';
-import { Header, Overlay } from 'react-native-elements';
+import { Header, Overlay,CheckBox } from 'react-native-elements';
 import Investments from '../../components/Investments'
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
-const investmentData = [
-    { title: 'Long Term', image: require('../../../assets/term1.png') },
-    { title: 'Tax Saving Funds', image: require('../../../assets/term2.png') },
-    { title: 'Better Than', image: require('../../../assets/term3.png') },
-    { title: 'Tax Saving Funds', image: require('../../../assets/term4.png') },
-    { title: 'Better Than FD', image: require('../../../assets/term5.png') },
-    { title: 'Aggressive Funds', image: require('../../../assets/term6.png') },
+const mutualfund = [
+    { title: 'Axis Treasury Advantage Fund - Growth',text:'Folio',number:'91075739541',text1:'Units',number1:'9.211',text2:'Value',number2:'22372.87',text3:'Switch To',text4:'Select Scheme',button:'ADD', },
+    { title: 'Axis Treasury Advantage Fund - Growth',text:'Folio',number:'91075739541',text1:'Units',number1:'9.211',text2:'Value',number2:'22372.87',text3:'Switch To',text4:'Select Scheme',button:'ADD', },
 ]
 
 export default function HamburgerMenu2Screen(props) {
@@ -40,7 +36,7 @@ export default function HamburgerMenu2Screen(props) {
     return (
         <View style={styles.container}>
             <Header
-                leftComponent={<TouchableOpacity onPress={() => props.navigation.toggleDrawer()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={colors.RED} /></TouchableOpacity>}
+                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={colors.RED} /></TouchableOpacity>}
                 rightComponent={<TouchableOpacity onPress={() => props.navigation.navigate('Toprated')} style={{ marginTop: 20 }}><AntDesign name={"shoppingcart"} size={30} color={colors.RED} /></TouchableOpacity>}
                 backgroundColor={colors.LIGHT_WHITE}
                 containerStyle={styles.header}
@@ -68,52 +64,52 @@ export default function HamburgerMenu2Screen(props) {
                     </View>
                 </View>
 
-                <View style={styles.main_box}>
 
                     {/* Axis Mutual Fund_sec... */}
 
-                    <View style={styles.fund_sec}>
+                    {mutualfund.map((item) =>  <View style={styles.fund_sec}>
 
                         <View style={styles.axis_sec}>
                             <Text style={styles.axis}>Axis Mutual Fund</Text>
 
                         </View>
 
+                            
                         <View style={styles.growth_sec}>
-                            <Text style={styles.axis_treasury}>Axis Treasury Advantage Fund - Growth</Text>
+                            <Text style={styles.axis_treasury}>{item.title}</Text>
 
                             <View style={styles.value_sec}>
                                 <View style={styles.folio_sec}>
 
-                                    <Text style={styles.folio}>Folio</Text>
-                                    <Text style={styles.folio}>91075739541</Text>
+                                    <Text style={styles.folio}>{item.text}</Text>
+                                    <Text style={styles.folio}>{item.number}</Text>
                                 </View>
 
                                 <View style={styles.folio_sec}>
 
-                                    <Text style={styles.folio}>Units</Text>
-                                    <Text style={styles.folio}>9.211</Text>
+                                    <Text style={styles.folio}>{item.text1}</Text>
+                                    <Text style={styles.folio}>{item.number1}</Text>
                                 </View>
 
                                 <View style={styles.folio_sec}>
-                                    <Text style={styles.folio}>Value</Text>
-                                    <Text style={styles.folio}>22372.87</Text>
+                                    <Text style={styles.folio}>{item.text2}</Text>
+                                    <Text style={styles.folio}>{item.number2}</Text>
 
                                 </View>
                             </View>
 
-                            <Text style={styles.folio}>Switch To</Text>
+                            <Text style={styles.folio}>{item.text3}</Text>
                             <View style={styles.scheme_sec}>
 
-                                <Text style={styles.select}>Select Scheme</Text>
+                                <Text style={styles.select}>{item.text4}</Text>
                                 <AntDesign name="right" size={15} />
 
                             </View>
 
                             <View style={styles.units_sec}>
+                            <CheckBox title='Amount' checkedIcon='dot-circle-o' uncheckedIcon='circle-o' />
+                            <CheckBox title='All Units' checkedIcon='dot-circle-o' uncheckedIcon='circle-o' />
 
-                                <Text style={styles.amount}>Amount</Text>
-                                <Text style={styles.amount}>All Units</Text>
                             </View>
 
                             <View style={styles.input_box}>
@@ -123,21 +119,19 @@ export default function HamburgerMenu2Screen(props) {
                                 />
 
                                 <TouchableOpacity style={styles.botton_box}>
-                                    <Text style={styles.get_otp}>ADD</Text>
+                                    <Text style={styles.get_otp}>{item.button}</Text>
                                 </TouchableOpacity>
                             </View>
 
                         </View>
 
-                        <TouchableOpacity style={styles.botton_box2}>
-                            <Text style={styles.proceed}>PROCED</Text>
-                        </TouchableOpacity>
+                        
 
 
 
-                    </View>
+                    </View>)}
 
-                </View>
+        
 
 
 
@@ -155,7 +149,9 @@ export default function HamburgerMenu2Screen(props) {
 
 
             </ScrollView>
-
+            <TouchableOpacity style={styles.botton_box2}>
+                            <Text style={styles.proceed}>PROCED</Text>
+                        </TouchableOpacity>
 
 
         </View>
@@ -164,7 +160,8 @@ export default function HamburgerMenu2Screen(props) {
 
 
 const styles = StyleSheet.create({
-    container: { flex: 1, },
+    container: { flex: 1,
+        backgroundColor:'#D3D6DB' },
 
     logimg: {
         height: 65,
@@ -193,13 +190,11 @@ const styles = StyleSheet.create({
         color: colors.WHITE,
         fontSize: 13,
     },
-    main_box: {
-        backgroundColor: colors.GREY_1,
 
-    },
     fund_sec: {
         backgroundColor: colors.WHITE,
-        margin: 15,
+       marginHorizontal:15,
+       marginTop:10,
 
     },
     axis_sec: {
@@ -273,49 +268,15 @@ const styles = StyleSheet.create({
     botton_box2: {
         backgroundColor: colors.RED,
         paddingVertical: 10,
+        marginBottom:20,
+        marginHorizontal:15,
     },
     proceed: {
         color: colors.WHITE,
         fontSize: 16,
-        fontWeight: 'bold',
         textAlign: "center",
     },
-    // history_sec: {
-    //     flexDirection: "row",
-    //     justifyContent: "space-between",
-    //     marginVertical: 15,
-    //     marginHorizontal: 10,
-    // },
-    // Switch_sec: {
-    //     alignItems: "center",
-
-    // },
-    // box: {
-    //     backgroundColor: colors.WHITE,
-    //     marginHorizontal: 10,
-    //     padding: 30,
-    //     shadowColor: "#000",
-    //     shadowOffset: {
-    //         width: 0,
-    //         height: 2,
-
-    //     },
-    //     shadowOpacity: 0.20,
-    //     shadowRadius: 2.62,
-    //     elevation: 4,
-    // },
-    // fundsmg: {
-    //     height: 32,
-    //     width: 36,
-    // },
-    // holdings_sec: {
-    //     flexDirection: "row",
-    //     marginHorizontal: 70,
-
-    //     marginVertical: 40,
-    //     justifyContent: "space-between",
-    // },
-
+ 
 
 
 });

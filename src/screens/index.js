@@ -71,6 +71,7 @@ import DashboardScreen from './HamburgerMenu/DashboardScreen'
 import HamburgerMenu2Screen from './HamburgerMenu/HamburgerMenu2Screen'
 import HamburgerMenu4Screen from './HamburgerMenu/HamburgerMenu4Screen'
 import HamburgerMenu5Screen from './HamburgerMenu/HamburgerMenu5Screen'
+import HamburgerMenu5TabScreen from './HamburgerMenu/HamburgerMenu5TabScreen'
 import HamburgerMenu6Screen from './HamburgerMenu/HamburgerMenu6Screen'
 import HamburgerMenu7Screen from './HamburgerMenu/HamburgerMenu7Screen'
 import HamburgerMenu8Screen from './HamburgerMenu/HamburgerMenu8Screen'
@@ -148,6 +149,7 @@ export {
     HamburgerMenu2Screen,
     HamburgerMenu4Screen,
     HamburgerMenu5Screen,
+    HamburgerMenu5TabScreen,
     HamburgerMenu6Screen,
     HamburgerMenu7Screen,
     HamburgerMenu8Screen,

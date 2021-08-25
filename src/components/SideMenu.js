@@ -29,7 +29,7 @@ export default function SideMenu(props) {
                         <Text style={styles.profileText}>000000000</Text>
                     </View>}
                 />
-                <TouchableOpacity onPress={() => props.navigation.navigate('Home')} style={styles.profile_sec}>
+                <TouchableOpacity onPress={() => props.navigation.navigate('dashboard')} style={styles.profile_sec}>
                     <View>
                         <AntDesign name={"appstore1"} size={30} color={colors.RED} />
                     </View>

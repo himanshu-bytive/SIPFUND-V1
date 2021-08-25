@@ -40,7 +40,7 @@ export default function HamburgerMenu7Screen(props) {
     return (
         <View style={styles.container}>
             <Header
-                leftComponent={<TouchableOpacity onPress={() => props.navigation.toggleDrawer()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={colors.RED} /></TouchableOpacity>}
+                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={colors.RED} /></TouchableOpacity>}
                 rightComponent={<TouchableOpacity onPress={() => props.navigation.navigate('Toprated')} style={{ marginTop: 20 }}><AntDesign name={"shoppingcart"} size={30} color={colors.RED} /></TouchableOpacity>}
                 backgroundColor={colors.LIGHT_WHITE}
                 containerStyle={styles.header}
@@ -104,7 +104,7 @@ export default function HamburgerMenu7Screen(props) {
                         <TextInput style={styles.top_inpuut} placeholder="10000" style={{ borderBottomWidth: 1, fontSize: 14, borderColor: colors.RED,}} />
                     </View>
 
-                    <TouchableOpacity style={styles.botton_box}>
+                    <TouchableOpacity onPress={() => props.navigation.navigate('HamburgerMenu5Tab')} style={styles.botton_box}>
                         <Text style={styles.proceed}>Add To My Holding</Text>
                     </TouchableOpacity>
                 </View>

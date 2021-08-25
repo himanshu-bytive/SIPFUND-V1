@@ -39,12 +39,12 @@ export default function Investment(props) {
             <Header
                 leftComponent={<TouchableOpacity onPress={() => props.navigation.toggleDrawer()} style={{ marginTop: 25 }}><Entypo name={"menu"} size={30} color={colors.RED} /></TouchableOpacity>}             
                 backgroundColor={colors.LIGHT_WHITE}
-                containerStyle={styles.header}
+                containerStyle={commonStyles.header}
                 centerComponent={<Image
                     source={require('../../../assets/icon.png')}
                     style={styles.logimg}
                 />}
-                rightComponent={<View style={commonStyles.headerkn}><Text>KN</Text></View>}
+                rightComponent={<View style={commonStyles.headerkn}><Text  style={commonStyles.textkn}>KN</Text></View>}
             />
           
             <ScrollView style={{ width: '100%' }}>
@@ -59,10 +59,7 @@ export default function Investment(props) {
 
 const styles = StyleSheet.create({
     container: { marginBottom: 200, },
-    header: {
-        borderBottomColor: colors.BLACK,
-        borderBottomWidth: 1
-    },
+   
     home_top: {
         alignItems: 'center',
     },

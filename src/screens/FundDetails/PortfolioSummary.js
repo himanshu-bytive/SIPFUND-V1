@@ -20,6 +20,7 @@ import { Ionicons, AntDesign, MaterialIcons, Feather, Entypo, FontAwesome, FontA
 import { Image, Header, ListItem, Overlay } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
 import { color } from "react-native-elements/dist/helpers";
+// import { VictoryBar, VictoryChart, VictoryTheme } from "victory-native";
 
 
 
@@ -33,7 +34,12 @@ const fund_type = [
 
 
 
-
+const data = [
+    { quarter: 1, earnings: 13000 },
+    { quarter: 2, earnings: 16500 },
+    { quarter: 3, earnings: 14250 },
+    { quarter: 4, earnings: 19000 }
+];
 
 
 
@@ -42,110 +48,73 @@ const fund_type = [
 export default function PortfolioSummary(props) {
 
     return (
-    <View style={{ marginTop: 50, marginHorizontal: 5}}>
-        <Text style={styles.value}>Total Market Value - Rs. 845.6 cr</Text>
-
-{/* <ScrollView horizontal>
-                        <DataTable style={styles.dataTable}>
-                            <DataTable.Header style={styles.headerbg}>
-                                <DataTable.Title style={styles.headerCell}>No. Of Holdings</DataTable.Title>
-                                <DataTable.Title style={styles.headerCell}>No. Of Stock Holdings</DataTable.Title>
-                                <DataTable.Title style={styles.headerCell} >No. Of Bond Holdings</DataTable.Title>
-                            </DataTable.Header>
-
-                            <DataTable.Row style={styles.headersec}>
-                                <DataTable.Cell style={styles.bodyCell}>41</DataTable.Cell>
-                                <DataTable.Cell style={styles.bodyCell} >40</DataTable.Cell>
-                                <DataTable.Cell style={styles.bodyCell} >0</DataTable.Cell>
-                            </DataTable.Row>
+        <View style={{ marginHorizontal: 5 }}>
+            <Text style={styles.value}>Total Market Value - Rs. 845.6 cr</Text>
 
 
-                        </DataTable>
-                    </ScrollView> */}
+            <DataTable style={styles.dataTable}>
+                <DataTable.Header style={styles.headerbg}>
+                    <DataTable.Title numberOfLines={4} style={styles.headerCell}>No. Of Holdings</DataTable.Title>
+                    <DataTable.Title numberOfLines={4} style={styles.headerCell}>No. Of Stock Holdings</DataTable.Title>
+                    <DataTable.Title numberOfLines={4} style={[styles.headerCell, { borderRightWidth: 0 }]} >No. Of Bond Holdings</DataTable.Title>
+                </DataTable.Header>
+
+                <DataTable.Row style={styles.headersec}>
+                    <DataTable.Cell style={styles.bodyCell}>41</DataTable.Cell>
+                    <DataTable.Cell style={styles.bodyCell} >40</DataTable.Cell>
+                    <DataTable.Cell style={[styles.bodyCell, { borderRightWidth: 0 }]} >0</DataTable.Cell>
+                </DataTable.Row>
+            </DataTable>
 
 
 
 
 
 
-
-        <View style={styles.minimum}>
-            <View style={styles.minimum_sec}><View style={styles.mini_tex}><Text style={styles.mini_tex2}>No. Of{'\n'}
-                Holdings</Text></View>
-                <Text style={styles.mini_tex}>40</Text>
-            </View>
-            <View style={styles.minimum_sec}><View style={styles.mini_tex}><Text style={styles.mini_tex2}>No. Of{'\n'}
-            Stock Holdings</Text></View>
-                <Text style={styles.mini_tex}>40</Text>
-            </View>
-            <View style={styles.minimum_sec}><View style={styles.mini_tex}><Text style={styles.mini_tex2}>No. Of{'\n'}
-            Bond Holdings</Text></View>
-                <Text style={styles.mini_tex}>0</Text>
-            </View>
-
-        </View>
+            <View style={styles.graph_sec}>
 
 
-    
-        
-
-<View style={styles.graph_sec}>
-                <View style={styles.holding_sec}>
-                    <View style={styles.type_sec}>
-                        <Text style={styles.type}>Holding Type</Text>
-                    </View>
-                    <View style={styles.cr_sec}>
-                        <Text style={styles.cr}>E</Text>
-                    </View>
-                    <View style={styles.cr_sec}>
-                        <Text style={styles.cr}>CR</Text>
-                    </View>
-                    <View style={styles.cr_sec}>
-                        <Text style={styles.cr}>EW</Text>
-                    </View>
-                    <View style={styles.cr_sec}>
-                        <Text style={styles.cr}>C</Text>
-                    </View>
-
-                </View>
 
                 <View style={styles.holding_sec}>
-                    <View style={styles.type_sec}>
-                        <Text style={[styles.type, styles.red]}>%Net</Text>
-                    </View>
-                    <View style={styles.cr_sec}>
-                        <Text style={styles.cr}>85.14</Text>
-                    </View>
-                    <View style={styles.cr_sec}>
-                        <Text style={styles.cr}>11.85</Text>
-                    </View>
-                    <View style={styles.cr_sec}>
-                        <Text style={styles.cr}>2.01</Text>
-                    </View>
-                    <View style={styles.cr_sec}>
-                        <Text style={styles.cr}>1.00</Text>
-                    </View>
+                    <DataTable style={styles.dataTable}>
+                        <DataTable.Header style={styles.headerbg}>
+                            <DataTable.Title numberOfLines={4} style={styles.headerCell}><Text style={styles.type}>Holding Type</Text></DataTable.Title>
+                            <DataTable.Title numberOfLines={4} style={[styles.headerCell, { borderRightWidth: 0 }]} ><Text style={styles.type}>%Net</Text></DataTable.Title>
+                        </DataTable.Header>
 
+                        <DataTable.Row style={styles.headersec}>
+                            <DataTable.Cell style={styles.bodyCell}>E</DataTable.Cell>
+                            <DataTable.Cell style={[styles.bodyCell, { borderRightWidth: 0 }]} >85.14</DataTable.Cell>
+                        </DataTable.Row>
+                        <DataTable.Row style={styles.headersec}>
+                            <DataTable.Cell style={styles.bodyCell}>CR</DataTable.Cell>
+                            <DataTable.Cell style={[styles.bodyCell, { borderRightWidth: 0 }]} >85.14</DataTable.Cell>
+                        </DataTable.Row>
+                        <DataTable.Row style={styles.headersec}>
+                            <DataTable.Cell style={styles.bodyCell}>EW</DataTable.Cell>
+                            <DataTable.Cell style={[styles.bodyCell, { borderRightWidth: 0 }]} >85.14</DataTable.Cell>
+                        </DataTable.Row>
+                        <DataTable.Row style={styles.headersec}>
+                            <DataTable.Cell style={styles.bodyCell}>C</DataTable.Cell>
+                            <DataTable.Cell style={[styles.bodyCell, { borderRightWidth: 0 }]} >85.14</DataTable.Cell>
+                        </DataTable.Row>
+                    </DataTable>
                 </View>
+
+
                 <View style={styles.allocation}>
                     <Text style={styles.asset}>Asset Allocation</Text>
+                    {/* <VictoryChart width={350} theme={VictoryTheme.material}>
+                        <VictoryBar data={data} x="quarter" y="earnings" />
+                    </VictoryChart> */}
 
                     <Image
                         source={require('../../../assets/graph_img.png')}
                         style={styles.graph_img}
                     />
-
                 </View>
             </View>
-
-
-
-
-
-
-
-
-    </View>
+        </View>
     );
 }
 
@@ -218,8 +187,8 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         borderWidth: 1,
         borderColor: colors.DEEP_GRAY_5,
-        
-        
+
+
 
 
     },
@@ -235,7 +204,7 @@ const styles = StyleSheet.create({
         textAlign: "center",
         borderBottomWidth: 1,
         borderColor: colors.DEEP_GRAY_5,
-        paddingVertical:5,
+        paddingVertical: 5,
     },
     mini_tex2: { textAlign: "center", },
     bottom_holding: {
@@ -258,12 +227,12 @@ const styles = StyleSheet.create({
         borderColor: colors.DEEP_GRAY_5,
         borderTopWidth: 1,
         borderBottomWidth: 1,
-        borderLeftWidth: 1,
+        borderRightWidth: 1,
         marginHorizontal: 5,
-        marginTop:30,
+        marginTop: 30,
     },
     holding_sec: {
-        width: "18%",
+        width: "35%",
         alignItems: "center",
     },
     type_sec: {
@@ -305,55 +274,25 @@ const styles = StyleSheet.create({
     graph_img: {
         height: 113,
         width: 125,
-
     },
     dataTable: {
         borderWidth: 1,
         borderColor: colors.DEEP_GRAY,
-        marginHorizontal:5,
-        
-        
-    },
-    headerCell: {
-        width: 100,
-        borderRightWidth: 1,
-        borderRightColor:colors.DEEP_GRAY,
-        paddingLeft: 15,
-        
-    },
-    bodyCell: {
-        width: 125,
-        borderRightWidth: 1,
-        borderRightColor: colors.DEEP_GRAY,
-        paddingLeft: 15,
-
     },
     headerbg: {
         borderBottomWidth: 1,
         borderBottomColor: colors.DEEP_GRAY,
     },
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    headerCell: {
+        // padding: 10,
+        borderRightWidth: 1,
+        borderRightColor: colors.DEEP_GRAY,
+        justifyContent: 'center',
+    },
+    bodyCell: {
+        // padding: 10,
+        borderRightWidth: 1,
+        borderRightColor: colors.DEEP_GRAY,
+        justifyContent: 'center',
+    },
 });

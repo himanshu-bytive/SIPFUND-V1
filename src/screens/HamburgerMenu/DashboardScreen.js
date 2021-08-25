@@ -61,19 +61,20 @@ export default function DashboardScreen(props) {
 
                 <View style={styles.history_sec}>
 
-                    <View style={styles.Switch_sec}>
+                    <TouchableOpacity onPress={() => props.navigation.navigate('hamburgermenu2')}>
+                        <View style={styles.Switch_sec}>
+                            <View style={styles.box}>
+                                <Image
+                                    source={require('../../../assets/mutual_10.png')}
+                                    style={styles.fundsmg}
+                                />
 
-                        <View style={styles.box}>
-                            <Image
-                                source={require('../../../assets/mutual_10.png')}
-                                style={styles.fundsmg}
-                            />
-
+                            </View>
+                            <Text style={styles.transaction}>Switch</Text>
                         </View>
-                        <Text style={styles.transaction}>Switch</Text>
+                    </TouchableOpacity>
 
-                    </View>
-
+                    <TouchableOpacity onPress={() => props.navigation.navigate('hamburgermenu2')}>
                     <View style={styles.Switch_sec}>
                         <View style={styles.box}>
                             <Image
@@ -84,7 +85,9 @@ export default function DashboardScreen(props) {
                         </View>
                         <Text style={styles.transaction}>Redeem</Text>
                     </View>
+                    </TouchableOpacity>
 
+                    <TouchableOpacity onPress={() => props.navigation.navigate('hamburgermenu4')}>
                     <View style={styles.Switch_sec}>
 
                         <View style={styles.box}>
@@ -96,7 +99,7 @@ export default function DashboardScreen(props) {
                         </View>
                         <Text style={styles.transaction}>Transaction {'\n'}History</Text>
                     </View>
-
+                    </TouchableOpacity>
 
                 </View>
 
@@ -109,6 +112,7 @@ export default function DashboardScreen(props) {
 
                 <View style={styles.holdings_sec}>
 
+                <TouchableOpacity onPress={() => props.navigation.navigate('HamburgerMenu5')}>
                     <View style={styles.Switch_sec}>
 
                         <View style={styles.box}>
@@ -121,7 +125,9 @@ export default function DashboardScreen(props) {
                         <Text style={styles.transaction}>Holdings</Text>
 
                     </View>
+                    </TouchableOpacity>
 
+                    <TouchableOpacity onPress={() => props.navigation.navigate('HamburgerMenu5Tab')}>
                     <View style={styles.Switch_sec}>
                         <View style={styles.box}>
                             <Image
@@ -132,10 +138,7 @@ export default function DashboardScreen(props) {
                         </View>
                         <Text style={styles.transaction}>External</Text>
                     </View>
-
-
-
-
+</TouchableOpacity>
                 </View>
 
 
@@ -159,7 +162,7 @@ export default function DashboardScreen(props) {
 
 const styles = StyleSheet.create({
     container: { flex: 1, },
-    
+
     logimg: {
         height: 65,
         width: 203,
@@ -207,11 +210,11 @@ const styles = StyleSheet.create({
     holdings_sec: {
         flexDirection: "row",
         marginHorizontal: 70,
-       
+
         marginVertical: 40,
         justifyContent: "space-between",
     },
-    
+
 
 
 });
