@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
-import { DataTable } from 'react-native-paper';
 
 import {
     StyleSheet,
@@ -14,24 +13,37 @@ import {
     ActivityIndicator
 } from "react-native";
 import { colors } from '../../common/theme';
+import { commonStyles } from '../../common/styles';
 import { Ionicons, AntDesign, Entypo, FontAwesome5 } from 'react-native-vector-icons';
-import { Image, Header, CheckBox } from 'react-native-elements';
+import { Image, Header, CheckBox, Overlay } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
+import GoalsTable from './GoalsTable'
 
 export default function Goals6Screen(props) {
+
+    // overlay start
+    const [visible, setVisible] = useState(null);
+    const toggleOverlay = (val) => {
+        if (visible === val) {
+            setVisible(null);
+        } else {
+            setVisible(val);
+        }
+    };
+    // overlay end
     return (
 
         <View style={styles.container}>
 
             <Header
                 leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={40} color={colors.RED} /></TouchableOpacity>}
-                containerStyle={styles.header}
+                containerStyle={commonStyles.header}
                 backgroundColor={colors.LIGHT_WHITE}
                 centerComponent={<Image
                     source={require('../../../assets/icon.png')}
                     style={styles.logimg}
                 />}
-                rightComponent={<View style={styles.headerkn}><AntDesign name={"shoppingcart"} size={40} color={colors.RED} /></View>}
+                rightComponent={<View style={commonStyles.carticon}><AntDesign name={"shoppingcart"} size={40} color={colors.RED} /></View>}
             />
             {/* container_sec */}
             <ScrollView style={styles.containerScroll}>
@@ -40,7 +52,7 @@ export default function Goals6Screen(props) {
                         <View style={styles.container_box}>
 
                             <Image
-                                source={require('../../../assets/MidCap_img.png')}
+                                source={require('../../../assets/MidCap_img2.png')}
                                 style={styles.mid_capimg}
                             />
 
@@ -77,197 +89,60 @@ export default function Goals6Screen(props) {
                     </View>
                 </View>
 
-
-
                 {/* Report_sec */}
 
                 <View style={styles.report_sec}>
                     <Text style={styles.Report}>Report</Text>
-
-                    <View style={styles.investment_summary}>
-                        <Text style={styles.schemetype}>Scheme Type Wise Investment Summary</Text>
-                        <AntDesign name="up" size={30} color="#C0392B" />
-                    </View>
-
-                    <View style={{ borderWidth: 1, borderColor: colors.GREY_1, }}></View>
                 </View>
-                {/* fund_sec */}
-                {/* <ScrollView horizontal> */}
-                {/* <DataTable style={styles.dataTable}>
-                            <DataTable.Header style={styles.headerbg}>
-                                <DataTable.Title style={styles.headerCell}>Fund House</DataTable.Title>
-                                <DataTable.Title style={styles.headerCell}>Inv Cost</DataTable.Title>
-                                <DataTable.Title style={styles.headerCell} >Cur Value</DataTable.Title>
-                                <DataTable.Title style={styles.headerCell} >Dividends/Bonus</DataTable.Title>
-                            </DataTable.Header>
-
-                            <DataTable.Row style={styles.headersec}>
-                                <DataTable.Cell style={styles.bodyCell}>Axis Mutual Fund</DataTable.Cell>
-                                <DataTable.Cell style={styles.bodyCell} >6.500.00</DataTable.Cell>
-                                <DataTable.Cell style={styles.bodyCell} >5.672.97.00</DataTable.Cell>
-                                <DataTable.Cell style={styles.bodyCell} >0.00</DataTable.Cell>
-                            </DataTable.Row>
-
-                            <DataTable.Row style={styles.headersec}>
-                                <DataTable.Cell style={styles.bodyCell}>ICICI Prudential Mutual Fund</DataTable.Cell>
-                                <DataTable.Cell style={styles.bodyCell} >22.062.00</DataTable.Cell>
-                                <DataTable.Cell style={styles.bodyCell} >20.580.87</DataTable.Cell>
-                                <DataTable.Cell style={styles.bodyCell} >0.00</DataTable.Cell>
-                            </DataTable.Row>
-                            
-                            <DataTable.Row style={styles.headersec}>
-                                <DataTable.Cell style={styles.bodyCell}>ICICI Prudential Mutual Fund</DataTable.Cell>
-                                <DataTable.Cell style={styles.bodyCell} >22.062.00</DataTable.Cell>
-                                <DataTable.Cell style={styles.bodyCell} >20.580.87</DataTable.Cell>
-                                <DataTable.Cell style={styles.bodyCell} >0.00</DataTable.Cell>
-                            </DataTable.Row>
-
-                            <DataTable.Row>
-                                <DataTable.Cell style={styles.bodyCell}>ICICI Prudential Mutual Fund</DataTable.Cell>
-                                <DataTable.Cell style={styles.bodyCell} >22.062.00</DataTable.Cell>
-                                <DataTable.Cell style={styles.bodyCell} >20.580.87</DataTable.Cell>
-                                <DataTable.Cell style={styles.bodyCell} >0.00</DataTable.Cell>
-                            </DataTable.Row>
-
-
-                        </DataTable> */}
-                {/* </ScrollView> */}
-
-
-
-
-
-
-
-
-
-
-                <View style={styles.fund_sec}>
-
-                    <View style={styles.fund_house}>
-                        <View style={[styles.house, styles.house1]}>
-                            <Text style={styles.fund}>Fund House</Text>
-                        </View>
-
-                        <View style={styles.axis_sec}>
-                            <Text style={styles.axis}>Axis Mutual Fund</Text>
-                        </View>
-                        <View style={styles.axis_sec}>
-                            <Text style={styles.axis}>ICICI Prudential Mutual Fund</Text>
-                        </View>
-                        <View style={styles.axis_sec}>
-                            <Text style={styles.axis}>Mirare Assets Mutual Fund</Text>
-                        </View>
-                        <View style={styles.axis_sec}>
-                            <Text style={styles.axis}>SBI Mutual Fund</Text>
-                        </View>
-
-
-                    </View>
-
-                    <View style={styles.inv_cost}>
-                        <View style={styles.house}>
-                            <Text style={styles.fund}>Inv Cost</Text>
-                        </View>
-
-                        <View style={styles.axis_sec2}>
-                            <Text style={styles.axis}>6.500.00</Text>
-                        </View>
-                        <View style={styles.axis_sec2}>
-                            <Text style={styles.axis}>22.062.00</Text>
-                        </View>
-                        <View style={styles.axis_sec2}>
-                            <Text style={styles.axis}>4.000.00</Text>
-                        </View>
-                        <View style={styles.axis_sec2}>
-                            <Text style={styles.axis}>56.056.00</Text>
-                        </View>
-
-                    </View>
-
-                    <View style={styles.inv_cost}>
-                        <View style={styles.house}>
-                            <Text style={styles.fund}>Cur Value</Text>
-                        </View>
-
-                        <View style={styles.axis_sec2}>
-                            <Text style={styles.axis}>5.672.97.00</Text>
-                        </View>
-                        <View style={styles.axis_sec2}>
-                            <Text style={styles.axis}>20.580.87</Text>
-                        </View>
-                        <View style={styles.axis_sec2}>
-                            <Text style={styles.axis}>3.296.27</Text>
-                        </View>
-                        <View style={styles.axis_sec2}>
-                            <Text style={styles.axis}>48.783.00</Text>
-                        </View>
-
-                    </View>
-
-                    <View style={styles.dividends}>
-                        <View style={[styles.house, styles.house2]}>
-                            <Text style={[styles.fund, styles.bonus]}>Dividends/Bonus</Text>
-                        </View>
-
-                        <View style={styles.axis_sec2}>
-                            <Text style={styles.axis}>0.00</Text>
-                        </View>
-                        <View style={styles.axis_sec2}>
-                            <Text style={styles.axis}>0.00</Text>
-                        </View>
-                        <View style={styles.axis_sec2}>
-                            <Text style={styles.axis}>0.00</Text>
-                        </View>
-                        <View style={styles.axis_sec2}>
-                            <Text style={styles.axis}>0.00</Text>
-                        </View>
-
-                    </View>
-
-
-                </View>
-
-
-                {/* Report_2_sec */}
 
 
                 <View style={styles.report_sec}>
-                    <View style={styles.investment_summary}>
-                        <Text style={styles.schemetype1}>Scheme Type Wise Investment Summary</Text>
-                        <AntDesign name="down" size={30} color="#C0392B" />
+
+                    <View>
+                        <View style={styles.investment_summary}>
+                            <Text style={(visible === 'investment') ? styles.schemetype : styles.schemetype1}>Scheme Type Wise Investment Summary</Text>
+                            <TouchableOpacity onPress={() => toggleOverlay('investment')}><AntDesign name={(visible === 'investment') ? "up" : "down"} size={30} color="#C0392B" /></TouchableOpacity>
+                        </View>
+                        <View style={{ borderWidth: 1, borderColor: colors.GREY_1, marginTop: 10, marginBottom: 10, }}></View>
+                        {visible === 'investment' && (<GoalsTable />)}
                     </View>
 
-                    <View style={{ borderWidth: 1, borderColor: colors.GREY_1, marginTop: 10, marginBottom: 10, }}></View>
-
-
-                    <View style={styles.investment_summary}>
-                        <Text style={styles.schemetype1}>Scheme of Past Performance</Text>
-                        <AntDesign name="down" size={30} color="#C0392B" />
+                    <View>
+                        <View style={styles.investment_summary}>
+                            <Text style={(visible === 'performance') ? styles.schemetype : styles.schemetype1}>Scheme of Past Performance</Text>
+                            <TouchableOpacity onPress={() => toggleOverlay('performance')}><AntDesign name={(visible === 'performance') ? "up" : "down"} size={30} color="#C0392B" /></TouchableOpacity>
+                        </View>
+                        <View style={{ borderWidth: 1, borderColor: colors.GREY_1, marginTop: 10, marginBottom: 10, }}></View>
+                        {visible === 'performance' && (<GoalsTable />)}
                     </View>
 
-                    <View style={{ borderWidth: 1, borderColor: colors.GREY_1, marginTop: 10, marginBottom: 10, }}></View>
-
-                    <View style={styles.investment_summary}>
-                        <Text style={styles.schemetype1}>Goal Wise Investment Summary</Text>
-                        <AntDesign name="down" size={30} color="#C0392B" />
+                    <View>
+                        <View style={styles.investment_summary}>
+                            <Text style={(visible === 'wiseInvestment') ? styles.schemetype : styles.schemetype1}>Goal Wise Investment Summary</Text>
+                            <TouchableOpacity onPress={() => toggleOverlay('wiseInvestment')}><AntDesign name={(visible === 'wiseInvestment') ? "up" : "down"} size={30} color="#C0392B" /></TouchableOpacity>
+                        </View>
+                        <View style={{ borderWidth: 1, borderColor: colors.GREY_1, marginTop: 10, marginBottom: 10, }}></View>
+                        {visible === 'wiseInvestment' && (<GoalsTable />)}
                     </View>
 
-                    <View style={{ borderWidth: 1, borderColor: colors.GREY_1, marginTop: 10, marginBottom: 10, }}></View>
-
-                    <View style={styles.investment_summary}>
-                        <Text style={styles.schemetype1}>Top 10 Equity Holding</Text>
-                        <AntDesign name="down" size={30} color="#C0392B" />
+                    <View>
+                        <View style={styles.investment_summary}>
+                            <Text style={(visible === 'equity') ? styles.schemetype : styles.schemetype1}>Top 10 Equity Holding</Text>
+                            <TouchableOpacity onPress={() => toggleOverlay('equity')}><AntDesign name={(visible === 'equity') ? "up" : "down"} size={30} color="#C0392B" /></TouchableOpacity>
+                        </View>
+                        <View style={{ borderWidth: 1, borderColor: colors.GREY_1, marginTop: 10, marginBottom: 10, }}></View>
+                        {visible === 'equity' && (<GoalsTable />)}
                     </View>
 
-                    <View style={{ borderWidth: 1, borderColor: colors.GREY_1, marginTop: 10, marginBottom: 10, }}></View>
-
-                    <View style={styles.investment_summary}>
-                        <Text style={styles.schemetype1}>Top 10 Sector Exposure</Text>
-                        <AntDesign name="down" size={30} color="#C0392B" />
+                    <View>
+                        <View style={styles.investment_summary}>
+                            <Text style={(visible === 'exposure') ? styles.schemetype : styles.schemetype1}>Top 10 Sector Exposure</Text>
+                            <TouchableOpacity onPress={() => toggleOverlay('exposure')}><AntDesign name={(visible === 'exposure') ? "up" : "down"} size={30} color="#C0392B" /></TouchableOpacity>
+                        </View>
+                        <View style={{ borderWidth: 1, borderColor: colors.GREY_1, marginTop: 10, marginBottom: 10, }}></View>
+                        {visible === 'exposure' && (<GoalsTable />)}
                     </View>
 
-                    <View style={{ borderWidth: 1, borderColor: colors.GREY_1, marginTop: 10, marginBottom: 10, }}></View>
                 </View>
             </ScrollView>
         </View>
@@ -323,8 +198,8 @@ const styles = StyleSheet.create({
     },
 
     mid_capimg: {
-        height: 42,
-        width: 42,
+        height: 66,
+        width: 73,
     },
     valua_sec: {
         alignItems: "center",
@@ -357,7 +232,8 @@ const styles = StyleSheet.create({
 
     },
     report_sec: {
-        margin: 30,
+        marginHorizontal: 30,
+        marginVertical: 10,
     },
     Report: {
         fontSize: 22,
@@ -365,7 +241,7 @@ const styles = StyleSheet.create({
     },
     investment_summary: {
         flexDirection: "row",
-        marginTop: 20,
+        marginTop: 15,
 
     },
     schemetype: {
@@ -395,7 +271,9 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#E0BAAF',
         borderRadius: 10,
-        marginHorizontal: 20,
+        width: '95%',
+
+
     },
     fund_house: {
         width: "40%",
@@ -448,11 +326,6 @@ const styles = StyleSheet.create({
     bonus: {
         marginVertical: 2,
     },
-
-
-
-
-
 
     dataTable: {
         borderWidth: 1,

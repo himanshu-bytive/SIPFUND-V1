@@ -38,7 +38,7 @@ export default function Goals4Screen(props) {
                     source={require('../../../assets/Goles_4logo.png')}
                     style={styles.Goles_4logo}
                 />
-                <Text style={styles.text_goals}>NO GOALS SET AS OF NOW</Text>
+                <Text style={styles.text_goals}>INVESTMENT PLAN SET AS OF NOW</Text>
 
             </View>
 

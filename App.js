@@ -89,6 +89,6 @@ export default function App() {
 
   return (
     <AppContainer />
-    // <HamburgerMenu9Screen/>
+    // <Goals6Screen/>
 );
 }

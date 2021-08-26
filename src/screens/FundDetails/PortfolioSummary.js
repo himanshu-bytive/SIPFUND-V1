@@ -76,21 +76,21 @@ export default function PortfolioSummary(props) {
 
 
                 <View style={styles.holding_sec}>
-                    <DataTable style={styles.dataTable}>
+                    <DataTable style={styles.dataTablebottom}>
                         <DataTable.Header style={styles.headerbg}>
                             <DataTable.Title numberOfLines={4} style={styles.headerCell}><Text style={styles.type}>Holding Type</Text></DataTable.Title>
                             <DataTable.Title numberOfLines={4} style={[styles.headerCell, { borderRightWidth: 0 }]} ><Text style={styles.type}>%Net</Text></DataTable.Title>
                         </DataTable.Header>
 
-                        <DataTable.Row style={styles.headersec}>
+                        <DataTable.Row style={styles.headerbg}>
                             <DataTable.Cell style={styles.bodyCell}>E</DataTable.Cell>
                             <DataTable.Cell style={[styles.bodyCell, { borderRightWidth: 0 }]} >85.14</DataTable.Cell>
                         </DataTable.Row>
-                        <DataTable.Row style={styles.headersec}>
+                        <DataTable.Row style={styles.headerbg}>
                             <DataTable.Cell style={styles.bodyCell}>CR</DataTable.Cell>
                             <DataTable.Cell style={[styles.bodyCell, { borderRightWidth: 0 }]} >85.14</DataTable.Cell>
                         </DataTable.Row>
-                        <DataTable.Row style={styles.headersec}>
+                        <DataTable.Row style={styles.headerbg}>
                             <DataTable.Cell style={styles.bodyCell}>EW</DataTable.Cell>
                             <DataTable.Cell style={[styles.bodyCell, { borderRightWidth: 0 }]} >85.14</DataTable.Cell>
                         </DataTable.Row>
@@ -225,9 +225,7 @@ const styles = StyleSheet.create({
     graph_sec: {
         flexDirection: "row",
         borderColor: colors.DEEP_GRAY_5,
-        borderTopWidth: 1,
-        borderBottomWidth: 1,
-        borderRightWidth: 1,
+    borderWidth:1,
         marginHorizontal: 5,
         marginTop: 30,
     },
@@ -277,6 +275,10 @@ const styles = StyleSheet.create({
     },
     dataTable: {
         borderWidth: 1,
+        borderColor: colors.DEEP_GRAY,
+    },
+    dataTablebottom:{
+        borderRightWidth:1,
         borderColor: colors.DEEP_GRAY,
     },
     headerbg: {

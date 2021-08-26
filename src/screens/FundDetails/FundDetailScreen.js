@@ -15,6 +15,7 @@ import {
 
 } from "react-native";
 import { colors } from '../../common/theme';
+import { commonStyles } from '../../common/styles';
 import { Ionicons, AntDesign, MaterialIcons, Feather, Entypo, FontAwesome, FontAwesome5, } from 'react-native-vector-icons';
 import { Image, Header, ListItem, Overlay, Slider } from 'react-native-elements';
 import ReturnsCalculator from './ReturnsCalculator'
@@ -53,6 +54,7 @@ export default function FundDetailScreen(props) {
             <Header
                 leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={colors.RED} /></TouchableOpacity>} backgroundColor={colors.PEACH}
                 backgroundColor={colors.LIGHT_WHITE}
+                containerStyle={commonStyles.header}
                 centerComponent={<Image
                     source={require('../../../assets/icon.png')}
                     style={styles.logimg}

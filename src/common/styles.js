@@ -25,4 +25,8 @@ export const commonStyles = StyleSheet.create({
         color: colors.RED,
         fontWeight: "bold",
     },
+    carticon:{
+        marginTop: 20, 
+        marginRight: 10,
+    },
 });
