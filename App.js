@@ -13,8 +13,11 @@ import {
   Investment6Screens,
   Investment7Screens,
   OtpScreen,
+  PlanYourGoalScreen,
   Goals3Screen,
+  GoalsScreen,
   Goals1Screen,
+  Goals2Screen,
   Goals5Screen,
   Goals4Screen,
   Goals6Screen,
@@ -88,7 +91,7 @@ export default function App() {
   }
 
   return (
-    <AppContainer />
-    // <Goals6Screen/>
+    // <AppContainer />
+    <Goals3Screen/>
 );
 }
