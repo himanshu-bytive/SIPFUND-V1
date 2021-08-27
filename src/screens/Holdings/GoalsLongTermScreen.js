@@ -19,7 +19,7 @@ import { Image, Header, CheckBox } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
 import { HoldingFundType } from "../../components";
 
-export default function Goals3Screen(props) {
+export default function GoalsLongTermScreen(props) {
     return (
         <View style={styles.container}>
             <View style={commonStyles.Header_top}>
@@ -33,42 +33,21 @@ export default function Goals3Screen(props) {
                     rightComponent={<View style={commonStyles.headerkn}><Text style={commonStyles.textkn}>KN</Text></View>}
                 />
                 <Image
-                    source={require('../../../assets/childimg.png')}
+                    source={require('../../../assets/term1.png')}
                     style={styles.Goalsimg}
                 />
-                <Text style={styles.text_goals}>Child’s Education Plan</Text>
-                <View style={styles.education_plan}>
-                    <View style={styles.plan_1}>
-                        <Image
-                            source={require('../../../assets/plan_img.png')}
-                            style={styles.plan_img}
-                        />
-                        <Text style={styles.rate}>₹ 10,00,000/-</Text>
-                        <Text style={styles.Target_Set}>Target Set</Text>
-                    </View>
-
-
-                    <View style={styles.plan_2}>
-                        <Image
-                            source={require('../../../assets/Iconmaterial_img.png')}
-                            style={styles.plan2_img}
-                        />
-
-                        <Text style={styles.year}>12 Years</Text>
-
-                        <Text style={styles.Target_Set}>Time Left to Achieve</Text>
-                    </View>
-
-
-                </View>
+                <Text style={styles.text_goals}>Long Term</Text>
+                
             </View>
 
 
             <ScrollView style={styles.containerScroll}>
 
-               <HoldingFundType/>
+                <HoldingFundType/>
+
 
             </ScrollView>
+
             <TouchableOpacity style={styles.botton_box}>
                     <Text style={styles.get_otp}>SET OTHER GOALS</Text>
                 </TouchableOpacity>
@@ -87,57 +66,29 @@ const styles = StyleSheet.create({
     containerScroll: {
         width: '100%'
     },
-
+ 
     logimg: {
         height: 65,
         width: 203,
         marginTop: 10,
     },
+      Goalsimg: {
+        height: 87,
+        width: 94,
+        borderRadius:10,
+    },
     Goalsimg: {
         height: 87,
         width: 94,
+        borderRadius:10,
     },
     text_goals: {
         fontSize: 20,
         marginVertical: 15,
+        fontWeight:"bold",
 
     },
-    education_plan: {
-        flexDirection: "row",
-        width: '100%',
-        paddingBottom:10,
-    },
-    plan_1: {
-        width: "50%",
-        alignItems: "center",
-    },
-    plan_img: {
-        height: 64,
-        width: 69,
-    },
-    price: {
-
-        alignItems: "center",
-
-    },
-    rate: {
-        fontSize: 14,
-        fontWeight: "bold",
-        paddingLeft: 5,
-
-    },
-    plan_2: {
-        alignItems: "center",
-        width: "50%",
-        paddingLeft: 40,
-
-    },
-    plan2_img: {
-        height: 60,
-        width: 60,
-    },
-    
-   
+  
     botton_box: {
         marginHorizontal: 10,
         backgroundColor: colors.RED,

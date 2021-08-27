@@ -12,9 +12,11 @@ import {
     ActivityIndicator
 } from "react-native";
 import { colors } from '../../common/theme';
+import { commonStyles } from '../../common/styles';
 import { Ionicons, AntDesign, Entypo, FontAwesome5 } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
+import { PlanYourGoalFundType } from "../../components";
 
 export default function Plan4(props) {
 
@@ -23,7 +25,7 @@ export default function Plan4(props) {
 
             <Header
                 leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={40} color={colors.RED} /></TouchableOpacity>}
-                containerStyle={styles.header}
+                containerStyle={commonStyles.header}
                 backgroundColor={colors.LIGHT_WHITE}
                 centerComponent={<Image
                     source={require('../../../assets/icon.png')}
@@ -69,66 +71,7 @@ export default function Plan4(props) {
                 {/* Axis Asset Management Company Ltd */}
 
 
-                <View style={styles.axis_asset}>
-                    <View style={styles.company}>
-                        <Image
-                            source={require('../../../assets/Hybrid_img.png')}
-                            style={styles.axisimg}
-                        />
-                        <View style={styles.management}>
-                            <Text style={styles.axis}>Axis Asset Management Company Ltd</Text>
-                            <Text style={styles.moderately}>Moderately High Risk</Text>
-                        </View>
-
-
-
-                    </View>
-
-                    {/* border_sec */}
-
-                    <View style={styles.border_sec}>
-                        <View style={styles.border}>
-                            <View style={{ borderWidth: 1, borderColor: colors.DEEP_GRAY, }}></View>
-                        </View>
-                        <View style={styles.icons}>
-                            <TouchableOpacity onPress={() => props.navigation.navigate('FundsDetails')}>
-                                <AntDesign name="rightcircleo" size={30} color="#C0392B" />
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-
-
-                    {/* Select Folio No._sec */}
-
-                    <View style={styles.selectfolio_sec}>
-
-                        <View style={styles.select}>
-                            <Text style={styles.no}>Select Folio No.</Text>
-
-
-                            <Text style={styles.new}>1000</Text>
-
-
-                        </View>
-
-                        <View style={styles.select}>
-                            <Text style={styles.no}>SIP Date</Text>
-
-                            <View style={{ flexDirection: "row", }}>
-                                <Text style={styles.new}>5</Text>
-                                <AntDesign name="caretdown" size={20} color="#C0392B" />
-                            </View>
-
-
-                        </View>
-                        <View style={styles.select}>
-
-                            <Text style={styles.no}>SIP</Text>
-                            <Text style={styles.new}>4000</Text>
-                        </View>
-
-                    </View>
-                </View>
+                <PlanYourGoalFundType />
 
                 <View style={styles.hybrid_sec}>
                     <View style={{ backgroundColor: "#EFEFEF", }}>
@@ -138,66 +81,7 @@ export default function Plan4(props) {
 
                 {/* axis_asset........2_sec */}
 
-                <View style={styles.axis_asset}>
-                    <View style={styles.company}>
-                        <Image
-                            source={require('../../../assets/Hybrid_img.png')}
-                            style={styles.axisimg}
-                        />
-                        <View style={styles.management}>
-                            <Text style={styles.axis}>Axis Asset Management Company Ltd</Text>
-                            <Text style={styles.moderately}>Moderately High Risk</Text>
-                        </View>
-
-
-
-                    </View>
-
-                    {/* border_sec */}
-
-                    <View style={styles.border_sec}>
-                        <View style={styles.border}>
-                            <View style={{ borderWidth: 1, borderColor: colors.DEEP_GRAY, }}></View>
-                        </View>
-                        <View style={styles.icons}>
-                            <TouchableOpacity onPress={() => props.navigation.navigate('FundsDetails')}>
-                                <AntDesign name="rightcircleo" size={30} color="#C0392B" />
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-
-
-                    {/* Select Folio No._sec */}
-
-                    <View style={styles.selectfolio_sec}>
-
-                        <View style={styles.select}>
-                            <Text style={styles.no}>Select Folio No.</Text>
-
-
-                            <Text style={styles.new}>1000</Text>
-
-
-                        </View>
-
-                        <View style={styles.select}>
-                            <Text style={styles.no}>SIP Date</Text>
-
-                            <View style={{ flexDirection: "row", }}>
-                                <Text style={styles.new}>5</Text>
-                                <AntDesign name="caretdown" size={20} color="#C0392B" />
-                            </View>
-
-
-                        </View>
-                        <View style={styles.select}>
-
-                            <Text style={styles.no}>SIP</Text>
-                            <Text style={styles.new}>4000</Text>
-                        </View>
-
-                    </View>
-                </View>
+                <PlanYourGoalFundType />
 
 
                 {/* Hybrid_sec.....3 */}
@@ -210,66 +94,7 @@ export default function Plan4(props) {
 
                 {/* axis_asset......4_sec */}
 
-                <View style={styles.axis_asset}>
-                    <View style={styles.company}>
-                        <Image
-                            source={require('../../../assets/LargeCap_img.png')}
-                            style={styles.axisimg}
-                        />
-                        <View style={styles.management}>
-                            <Text style={styles.axis}>Axis Asset Management Company Ltd</Text>
-                            <Text style={styles.moderately}>Moderately High Risk</Text>
-                        </View>
-
-
-
-                    </View>
-
-                    {/* border_sec */}
-
-                    <View style={styles.border_sec}>
-                        <View style={styles.border}>
-                            <View style={{ borderWidth: 1, borderColor: colors.DEEP_GRAY, }}></View>
-                        </View>
-                        <View style={styles.icons}>
-                            <TouchableOpacity onPress={() => props.navigation.navigate('FundsDetails')}>
-                                <AntDesign name="rightcircleo" size={30} color="#C0392B" />
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-
-
-                    {/* Select Folio No._sec */}
-
-                    <View style={styles.selectfolio_sec}>
-
-                        <View style={styles.select}>
-                            <Text style={styles.no}>Select Folio No.</Text>
-
-
-                            <Text style={styles.new}>1000</Text>
-
-
-                        </View>
-
-                        <View style={styles.select}>
-                            <Text style={styles.no}>SIP Date</Text>
-
-                            <View style={{ flexDirection: "row", }}>
-                                <Text style={styles.new}>5</Text>
-                                <AntDesign name="caretdown" size={20} color="#C0392B" />
-                            </View>
-
-
-                        </View>
-                        <View style={styles.select}>
-
-                            <Text style={styles.no}>SIP</Text>
-                            <Text style={styles.new}>4000</Text>
-                        </View>
-
-                    </View>
-                </View>
+                <PlanYourGoalFundType />
 
 
                 <View style={styles.hybrid_sec}>
@@ -279,72 +104,13 @@ export default function Plan4(props) {
                 </View>
 
 
-                <View style={styles.axis_asset}>
-                    <View style={styles.company}>
-                        <Image
-                            source={require('../../../assets/MidCap_img.png')}
-                            style={styles.axisimg}
-                        />
-                        <View style={styles.management}>
-                            <Text style={styles.axis}>Axis Asset Management Company Ltd</Text>
-                            <Text style={styles.moderately}>Moderately High Risk</Text>
-                        </View>
+                <PlanYourGoalFundType />
 
-
-
-                    </View>
-
-                    {/* border_sec */}
-
-                    <View style={styles.border_sec}>
-                        <View style={styles.border}>
-                            <View style={{ borderWidth: 1, borderColor: colors.DEEP_GRAY, }}></View>
-                        </View>
-                        <View style={styles.icons}>
-                            <TouchableOpacity onPress={() => props.navigation.navigate('FundsDetails')}>
-                                <AntDesign name="rightcircleo" size={30} color="#C0392B" />
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-
-
-                    {/* Select Folio No._sec */}
-
-                    <View style={styles.selectfolio_sec}>
-
-                        <View style={styles.select}>
-                            <Text style={styles.no}>Select Folio No.</Text>
-
-
-                            <Text style={styles.new}>1000</Text>
-
-
-                        </View>
-
-                        <View style={styles.select}>
-                            <Text style={styles.no}>SIP Date</Text>
-
-                            <View style={{ flexDirection: "row", }}>
-                                <Text style={styles.new}>5</Text>
-                                <AntDesign name="caretdown" size={20} color="#C0392B" />
-                            </View>
-
-
-                        </View>
-                        <View style={styles.select}>
-
-                            <Text style={styles.no}>SIP</Text>
-                            <Text style={styles.new}>4000</Text>
-                        </View>
-
-                    </View>
-                </View>
-                <TouchableOpacity onPress={() => props.navigation.navigate('Plan3')}><Text style={styles.add}>I would like to add more funds</Text></TouchableOpacity>
-                <TouchableOpacity onPress={() => props.navigation.navigate('Plan5')} style={styles.botton_box}>
-                    <Text style={styles.get_otp}>NEXT</Text>
-
-                </TouchableOpacity>
             </ScrollView>
+            <TouchableOpacity onPress={() => props.navigation.navigate('Plan3')}><Text style={styles.add}>I would like to add more funds</Text></TouchableOpacity>
+            <TouchableOpacity onPress={() => props.navigation.navigate('Plan5')} style={styles.botton_box}>
+                <Text style={styles.get_otp}>NEXT</Text>
+            </TouchableOpacity>
         </View>
 
 
@@ -404,7 +170,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         marginHorizontal: 25,
         marginTop: 20,
-        marginBottom:30,
+        marginBottom: 30,
     },
     selected: {
 
@@ -489,7 +255,7 @@ const styles = StyleSheet.create({
     },
     border: {
         width: "85%",
-        marginRight:7,
+        marginRight: 7,
     },
     icons: {
         width: '10%',
@@ -535,7 +301,7 @@ const styles = StyleSheet.create({
 
     education: {
         flexDirection: "row",
-       paddingHorizontal:20,
+        paddingHorizontal: 20,
         backgroundColor: colors.WHITE,
         shadowColor: "#000",
         shadowOffset: {

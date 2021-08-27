@@ -20,7 +20,7 @@ import { Image, Header, CheckBox } from 'react-native-elements';
 export default function GoalsScreen(props) {
     return (
         <View style={styles.container}>
-            <View style={styles.header_top}>
+            <View style={commonStyles.Header_top}>
                 <Header
 leftComponent={<TouchableOpacity onPress={() => props.navigation.toggleDrawer()} style={{ marginTop: 20 }}><Entypo name={"menu"} size={30} color={colors.RED} /></TouchableOpacity>}                    backgroundColor={colors.PEACH}
                     centerComponent={<Image
@@ -125,14 +125,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
     },
-    header_top: {
-        alignItems: "center",
-        backgroundColor: colors.PEACH,
-        width: '100%',
-        borderRadius: 30,
-        borderWidth: 2,
-        borderColor: colors.GREY_1,
-    },
+ 
     header: {
         width: '100%',
         borderWidth: 1,

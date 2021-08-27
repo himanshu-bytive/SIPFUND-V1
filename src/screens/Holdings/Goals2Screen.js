@@ -20,7 +20,7 @@ import { Image, Header, CheckBox } from 'react-native-elements';
 export default function Goals2Screen(props) {
     return (
         <View style={styles.container}>
-            <View style={styles.Header_top}>
+            <View style={commonStyles.Header_top}>
                 <Header
                     leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={colors.RED} /></TouchableOpacity>} backgroundColor={colors.PEACH}
                     centerComponent={<Image
@@ -173,14 +173,7 @@ const styles = StyleSheet.create({
     containerScroll: {
         width: '100%'
     },
-    Header_top: {
-        backgroundColor: colors.PEACH,
-        width: '100%',
-        borderWidth: 2,
-        borderRadius: 30,
-        borderColor: colors.DARK_GREY,
-        alignItems: "center",
-    },
+  
     Goalsimg: {
         height: 87,
         width: 94,

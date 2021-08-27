@@ -22,6 +22,7 @@ import {
   Goals4Screen,
   Goals6Screen,
   Goals7Screen,
+  GoalsLongTermScreen,
   CompleteDetails2Screen,
   CompleteDetails3Screen,
   Investment5Screens,
@@ -92,6 +93,6 @@ export default function App() {
 
   return (
     // <AppContainer />
-    <Goals3Screen/>
+    <Investment/>
 );
 }
