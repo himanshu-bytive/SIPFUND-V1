@@ -20,8 +20,7 @@ import { Ionicons, AntDesign, MaterialIcons, Feather, Entypo, FontAwesome, FontA
 import { Image, Header, ListItem, Overlay } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
 import { color } from "react-native-elements/dist/helpers";
-// import { VictoryBar, VictoryChart, VictoryTheme } from "victory-native";
-
+import { VictoryBar, VictoryChart, VictoryTheme, VictoryPie } from "victory-native";
 
 
 const fund_type = [
@@ -67,13 +66,7 @@ export default function PortfolioSummary(props) {
             </DataTable>
 
 
-
-
-
-
             <View style={styles.graph_sec}>
-
-
 
                 <View style={styles.holding_sec}>
                     <DataTable style={styles.dataTablebottom}>
@@ -104,13 +97,14 @@ export default function PortfolioSummary(props) {
 
                 <View style={styles.allocation}>
                     <Text style={styles.asset}>Asset Allocation</Text>
-                    {/* <VictoryChart width={350} theme={VictoryTheme.material}>
-                        <VictoryBar data={data} x="quarter" y="earnings" />
-                    </VictoryChart> */}
-
-                    <Image
-                        source={require('../../../assets/graph_img.png')}
-                        style={styles.graph_img}
+                    <VictoryPie
+                        width={200}
+                        colorScale={["tomato", "orange", "gold", "cyan", "navy"]}
+                        data={[
+                            { x: "", y: 35 },
+                            { x: "", y: 40 },
+                            { x: "", y: 55 }
+                        ]}
                     />
                 </View>
             </View>
@@ -225,7 +219,7 @@ const styles = StyleSheet.create({
     graph_sec: {
         flexDirection: "row",
         borderColor: colors.DEEP_GRAY_5,
-    borderWidth:1,
+        borderWidth: 1,
         marginHorizontal: 5,
         marginTop: 30,
     },
@@ -277,8 +271,8 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: colors.DEEP_GRAY,
     },
-    dataTablebottom:{
-        borderRightWidth:1,
+    dataTablebottom: {
+        borderRightWidth: 1,
         borderColor: colors.DEEP_GRAY,
     },
     headerbg: {

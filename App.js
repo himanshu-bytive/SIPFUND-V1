@@ -88,7 +88,7 @@ export default function App() {
   }
 
   return (
-    <AppContainer />
-    // <Goals6Screen/>
+    // <AppContainer />
+    <PortfolioSummary/>
 );
 }
