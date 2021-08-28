@@ -24,7 +24,7 @@ export default function Goals4Screen(props) {
 
             {/* Header_sec */}
 
-            <View style={styles.Header_top}>
+            <View style={commonStyles.Header_top}>
                 <Header
                     leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 25 }}><AntDesign name={"arrowleft"} size={30} color={colors.RED} /></TouchableOpacity>} backgroundColor={colors.PEACH}
                     backgroundColor={colors.PEACH}
@@ -124,14 +124,6 @@ export default function Goals4Screen(props) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-    },
-    Header_top: {
-        backgroundColor: colors.PEACH,
-        width: '100%',
-        borderWidth: 2,
-        borderRadius: 30,
-        borderColor: colors.DARK_GREY,
-        alignItems: "center",
     },
     containerScroll: {
         width: '100%'

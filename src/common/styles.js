@@ -29,4 +29,17 @@ export const commonStyles = StyleSheet.create({
         marginTop: 20, 
         marginRight: 10,
     },
+
+    Header_top: {
+        backgroundColor: colors.PEACH,
+        width: '100%',
+        borderWidth: 2,
+        borderRadius: 30,
+        borderColor: colors.DARK_GREY,
+        alignItems: "center",
+        marginTop:-2,
+    },
+
+
+
 });

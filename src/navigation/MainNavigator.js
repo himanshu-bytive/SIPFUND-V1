@@ -1,4 +1,7 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
+import {
+    Image,
+} from "react-native";
 import { createStackNavigator } from 'react-navigation-stack';
 import { createDrawerNavigator } from 'react-navigation-drawer';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
@@ -109,6 +112,7 @@ export const LoginFlowStack = createStackNavigator({
 }, {
     initialRouteName: 'login',
 });
+
 export const Hamburgmenu = createStackNavigator({
     dashboard: {
         screen: DashboardScreen,
@@ -152,7 +156,7 @@ export const Hamburgmenu = createStackNavigator({
             headerShown: false,
         }
     },
-  
+
 
 }, {
     initialRouteName: 'dashboard',
@@ -450,7 +454,8 @@ const TabNavigator = createBottomTabNavigator({
             tabBarLabel: 'Explore',
             tabBarIcon: ({ focused, tintColor }) => {
                 // const iconName = `ios-information-circle${focused ? '' : '-outline'}`;
-                return <Fontisto name={"expressionless"} size={30} color={tintColor} />
+                // return <Fontisto name={"expressionless"} size={30} color={tintColor} />
+                return <Image source={require('../../assets/explore.png')} />
             }
         }
     },
@@ -459,7 +464,8 @@ const TabNavigator = createBottomTabNavigator({
         navigationOptions: {
             tabBarIcon: ({ focused, tintColor }) => {
                 // const iconName = `ios-information-circle${focused ? '' : '-outline'}`;
-                return <FontAwesome name={"rupee"} size={30} color={tintColor} />
+                // return <FontAwesome name={"rupee"} size={30} color={tintColor} />
+                return <Image source={require('../../assets/plan.png')} />
             }
         }
     },
@@ -468,7 +474,8 @@ const TabNavigator = createBottomTabNavigator({
         navigationOptions: {
             tabBarIcon: ({ focused, tintColor }) => {
                 // const iconName = `ios-information-circle${focused ? '' : '-outline'}`;
-                return <FontAwesome name={"signal"} size={30} color={tintColor} />
+                // return <FontAwesome name={"signal"} size={30} color={tintColor} />
+                return <Image source={require('../../assets/dashboard.png')} />
             }
         }
     },
@@ -477,7 +484,8 @@ const TabNavigator = createBottomTabNavigator({
         navigationOptions: {
             tabBarIcon: ({ focused, tintColor }) => {
                 // const iconName = `ios-information-circle${focused ? '' : '-outline'}`;
-                return <AntDesign name={"user"} size={30} color={tintColor} />
+                // return <FontAwesome name={"user-circle-o"} size={30} color={tintColor} />
+                return <Image source={require('../../assets/user.png')} />
             }
         }
     }
@@ -493,8 +501,6 @@ const TabNavigator = createBottomTabNavigator({
         // },
     }
 });
-
-
 
 //main navigator for user end
 export const RootNavigator = createDrawerNavigator({

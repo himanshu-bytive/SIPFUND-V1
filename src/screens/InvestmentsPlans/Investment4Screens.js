@@ -12,10 +12,12 @@ import {
     ActivityIndicator
 } from "react-native";
 import { colors } from '../../common/theme';
+import { commonStyles } from '../../common/styles';
 import { Ionicons, AntDesign, EvilIcons, Entypo, FontAwesome5 } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
 import { color } from "react-native-elements/dist/helpers";
+import { PlanYourGoalFundType } from "../../components";
 
 export default function Investment4Screens(props) {
 
@@ -26,7 +28,7 @@ export default function Investment4Screens(props) {
 
             <Header
                 leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={40} color={colors.RED} /></TouchableOpacity>}
-                containerStyle={styles.header}
+                containerStyle={commonStyles.header}
                 backgroundColor={colors.LIGHT_WHITE}
                 centerComponent={<Image
                     source={require('../../../assets/icon.png')}
@@ -66,128 +68,11 @@ export default function Investment4Screens(props) {
                     {/* Axis Asset Management Company Ltd */}
 
 
-                    <View style={styles.axis_asset}>
-                        <View style={styles.company}>
-                            <Image
-                                source={require('../../../assets/idbi_img.png')}
-                                style={styles.axisimg}
-                            />
-                            <View style={styles.management}>
-                                <Text style={styles.axis}>IDBI Hybrid Equity Fund</Text>
-                                <Text style={styles.moderately}>Moderately High Risk</Text>
-                            </View>
-
-                        </View>
-
-                        {/* border_sec */}
-
-                        <View style={styles.border_sec}>
-                            <View style={styles.border}>
-                                <View style={{ borderWidth: 1, borderColor: colors.DEEP_GRAY, }}></View>
-                            </View>
-                            <View style={styles.icons}>
-                                <TouchableOpacity onPress={() => props.navigation.navigate('FundsDetails')}>
-                                    <AntDesign name="rightcircleo" size={30} color="#C0392B" />
-                                </TouchableOpacity>
-                            </View>
-                        </View>
-
-
-                        {/* Select Folio No._sec */}
-
-                        <View style={styles.selectfolio_sec}>
-
-                            <View style={styles.select}>
-                                <Text style={styles.no}>Min Investment</Text>
-                                <Text style={styles.no}>1000</Text>
-
-
-                                
-                            </View>
-
-                            <View style={styles.select}>
-                                <Text style={styles.no}>SIP Date</Text>
-
-                                <View style={{ flexDirection: "row", }}>
-                                    <Text style={styles.new}>5</Text>
-                                    <AntDesign name="caretdown" size={20} color="#C0392B" />
-                                </View>
-
-
-                            </View>
-                            <View style={styles.select}>
-
-                                <Text style={styles.no}>SIP</Text>
-                                <Text style={styles.new}>4000</Text>
-                            </View>
-
-                        </View>
-                    </View>
+                    <PlanYourGoalFundType/>
 
                     {/* axis_asset........2_sec */}
 
-                    <View style={styles.axis_asset}>
-
-                        <View style={styles.company}>
-
-                            <Image
-                                source={require('../../../assets/Hybrid_img.png')}
-                                style={styles.hybridimg}
-                            />
-                            <View style={styles.management}>
-                                <Text style={styles.axis}>SBI Equity Hybrid Fund</Text>
-                                <Text style={styles.moderately}>Moderately High Risk</Text>
-                            </View>
-
-                           
-
-                        </View>
-
-                        {/* border_sec */}
-
-                        <View style={styles.border_sec}>
-                            <View style={styles.border}>
-                                <View style={{ borderWidth: 1, borderColor: colors.DEEP_GRAY, }}></View>
-                            </View>
-                            <View style={styles.icons}>
-                                <TouchableOpacity onPress={() => props.navigation.navigate('FundsDetails')}>
-                                    <AntDesign name="rightcircleo" size={30} color="#C0392B" />
-                                </TouchableOpacity>
-                            </View>
-
-                        </View>
-
-
-                        {/* Select Folio No._sec */}
-
-                        <View style={styles.selectfolio_sec}>
-
-                            <View style={styles.select}>
-                                <Text style={styles.no}>Min Investment</Text>
-                                <Text style={styles.no}>1000</Text>
-
-
-                                
-                            </View>
-
-                            <View style={styles.select}>
-                                <Text style={styles.no}>SIP Date</Text>
-
-                                <View style={{ flexDirection: "row", }}>
-                                    <Text style={styles.new}>5</Text>
-                                    <AntDesign name="caretdown" size={20} color="#C0392B" />
-                                </View>
-
-
-                            </View>
-                            <View style={styles.select}>
-
-                                <Text style={styles.no}>SIP</Text>
-                                <Text style={styles.new}>5000</Text>
-                            </View>
-
-                        </View>
-                    </View>
+                    <PlanYourGoalFundType/>
 
 
                     {/* Hybrid_sec.....3 */}
@@ -200,68 +85,7 @@ export default function Investment4Screens(props) {
 
                     {/* axis_asset......4_sec */}
 
-                    <View style={styles.axis_asset}>
-
-                        <View style={styles.company}>
-
-                            <Image
-                                source={require('../../../assets/LargeCap_img.png')}
-                                style={styles.axisimg}
-                            />
-                            <View style={styles.management}>
-                                <Text style={styles.axis}>Mirae Asset Large Cap Fund</Text>
-                                <Text style={styles.moderately}>Moderately High Risk</Text>
-                            </View>
-
-                           
-
-                        </View>
-
-                        {/* border_sec */}
-
-                        <View style={styles.border_sec}>
-                            <View style={styles.border}>
-                                <View style={{ borderWidth: 1, borderColor: colors.DEEP_GRAY, }}></View>
-                            </View>
-                            <View style={styles.icons}>
-                                <TouchableOpacity onPress={() => props.navigation.navigate('FundsDetails')}>
-                                    <AntDesign name="rightcircleo" size={30} color="#C0392B" />
-                                </TouchableOpacity>
-
-                            </View>
-
-                        </View>
-
-
-                        {/* Select Folio No._sec */}
-
-                        <View style={styles.selectfolio_sec}>
-
-                            <View style={styles.select}>
-                                <Text style={styles.no}>Min Investment</Text>
-                                <Text style={styles.no}>1000</Text>
-
-                                
-                            </View>
-
-                            <View style={styles.select}>
-                                <Text style={styles.no}>SIP Date</Text>
-
-                                <View style={{ flexDirection: "row", }}>
-                                    <Text style={styles.new}>5</Text>
-                                    <AntDesign name="caretdown" size={20} color="#C0392B" />
-                                </View>
-
-
-                            </View>
-                            <View style={styles.select}>
-
-                                <Text style={styles.no}>SIP</Text>
-                                <Text style={styles.new}>5000</Text>
-                            </View>
-
-                        </View>
-                    </View>
+                    <PlanYourGoalFundType/>
 
                     {/* multicap */}
 
@@ -273,92 +97,16 @@ export default function Investment4Screens(props) {
 
                     {/* axis_asset......4_sec */}
 
-                    <View style={styles.axis_asset}>
+                    <PlanYourGoalFundType/>
 
-                        <View style={styles.company}>
+            </ScrollView>
 
-                            <Image
-                                source={require('../../../assets/MultiCap_img.png')}
-                                style={styles.axisimg}
-                            />
-                            <View style={styles.management}>
-                                <Text style={styles.axis}>Kotak Standard Multicap Fund</Text>
-                                <Text style={styles.moderately}>Moderately High Risk</Text>
-                            </View>
-
-                           
-
-                        </View>
-
-                        {/* border_sec */}
-
-                        <View style={styles.border_sec}>
-                            <View style={styles.border}>
-                                <View style={{ borderWidth: 1, borderColor: colors.DEEP_GRAY, }}></View>
-                            </View>
-                            <View style={styles.icons}>
-                                <TouchableOpacity onPress={() => props.navigation.navigate('FundsDetails')}>
-                                    <AntDesign name="rightcircleo" size={30} color="#C0392B" />
-                                </TouchableOpacity>
-
-                            </View>
-
-                        </View>
-
-
-                        {/* Select Folio No._sec */}
-
-                        <View style={styles.selectfolio_sec}>
-
-                            <View style={styles.select}>
-                                <Text style={styles.no}>Min Investment</Text>
-                                <Text style={styles.no}>1000</Text>
-
-
-                                
-                            </View>
-
-                            <View style={styles.select}>
-                                <Text style={styles.no}>SIP Date</Text>
-
-                                <View style={{ flexDirection: "row", }}>
-                                    <Text style={styles.new}>5</Text>
-                                    <AntDesign name="caretdown" size={20} color="#C0392B" />
-                                </View>
-
-
-                            </View>
-                            <View style={styles.select}>
-
-                                <Text style={styles.no}>SIP</Text>
-                                <Text style={styles.new}>5000</Text>
-                            </View>
-
-                        </View>
-                    </View>
-
-                    {/* multicap end */}
-
-                    <TouchableOpacity onPress={() => props.navigation.navigate('Invest5')}><Text style={styles.more_funds}>I would like to add more funds</Text></TouchableOpacity> 
-
-                
-
-                               
-
-                {/* Axis Asset Management Company Ltd */}
-
+            <TouchableOpacity onPress={() => props.navigation.navigate('Invest5')}><Text style={styles.more_funds}>I would like to add more funds</Text></TouchableOpacity> 
                 <TouchableOpacity onPress={() => props.navigation.navigate('Invest7')} style={styles.botton_box}>
                     <Text style={styles.get_otp}>NEXT</Text>
 
                 </TouchableOpacity>
 
-
-
-
-
-
-
-            </ScrollView>
         </View>
 
 
@@ -375,13 +123,6 @@ const styles = StyleSheet.create({
         width: 203,
         marginTop: 10,
     },
-
-    header: {
-        borderBottomColor: colors.BLACK,
-        borderBottomWidth: 1,
-    },
-
-
     education: {
         flexDirection: "row",
         marginHorizontal: 10,
@@ -418,6 +159,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         borderColor: colors.DEEP_GRAY,
         paddingVertical: 10,
+        marginBottom:20,
     },
     get_otp: {
         color: colors.WHITE,

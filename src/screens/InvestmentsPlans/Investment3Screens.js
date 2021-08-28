@@ -12,6 +12,7 @@ import {
     ActivityIndicator
 } from "react-native";
 import { colors } from '../../common/theme';
+import { commonStyles } from '../../common/styles';
 import { Ionicons, AntDesign, EvilIcons, Entypo, FontAwesome5 } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
@@ -32,7 +33,7 @@ export default function Investment3Screens(props) {
 
             <Header
                 leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={40} color={colors.RED} /></TouchableOpacity>}
-                containerStyle={styles.header}
+                containerStyle={commonStyles.header}
                 backgroundColor={colors.LIGHT_WHITE}
                 centerComponent={<Image
                     source={require('../../../assets/icon.png')}
@@ -125,13 +126,6 @@ const styles = StyleSheet.create({
         width: 203,
         marginTop: 10,
     },
-
-    header: {
-        borderBottomColor: colors.BLACK,
-        borderBottomWidth: 1,
-    },
-
-
     education: {
         flexDirection: "row",
         marginVertical: 20,

@@ -32,7 +32,7 @@ export default function Goals1Screen(props) {
             />
 
             <ScrollView>
-            <View style={styles.header_top}>
+            <View style={commonStyles.header_top}>
                 <Image
                     source={require('../../../assets/goals1_img1.png')}
                     style={styles.goals1_img1}
@@ -146,15 +146,7 @@ const styles = StyleSheet.create({
         flex: 1,
 
     },
-    header_top: {
-        alignItems: "center",
-        backgroundColor: colors.PEACH,
-        borderBottomWidth: 2,
-        borderBottomColor: colors.DEEP_GRAY,
-        paddingBottom: 100,
-        borderBottomEndRadius: 30,
-        borderBottomLeftRadius: 30,
-    },
+ 
     header: {
         width: '100%',
         borderWidth: 1,
