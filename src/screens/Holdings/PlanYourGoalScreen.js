@@ -17,11 +17,11 @@ import { Styles, Config, Colors, FormValidate } from '@common'
 import { Entypo, AntDesign } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 
-export default function PlanYourGoalScreen(props) {
+function PlanYourGoalScreen(props) {
     return (
         <View style={styles.container}>
             <Header
-leftComponent={<TouchableOpacity onPress={() => props.navigation.toggleDrawer()} style={{ marginTop: 20 }}><Entypo name={"menu"} size={30} color={Colors.RED} /></TouchableOpacity>}                backgroundColor={Colors.LIGHT_WHITE}
+                leftComponent={<TouchableOpacity onPress={() => props.navigation.toggleDrawer()} style={{ marginTop: 20 }}><Entypo name={"menu"} size={30} color={Colors.RED} /></TouchableOpacity>} backgroundColor={Colors.LIGHT_WHITE}
                 containerStyle={styles.header}
                 centerComponent={<Image
                     source={require('../../../assets/icon.png')}
@@ -659,3 +659,18 @@ const styles = StyleSheet.create({
     // },
 
 });
+const mapStateToProps = (state) => ({
+    ticket: state.auth.ticket,
+    users: state.auth.users,
+})
+
+const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
+    const { dispatch } = dispatchProps;
+    const { AuthActions } = require('../../store/AuthRedux')
+    return {
+        ...stateProps,
+        ...ownProps,
+        logOut: () => { AuthActions.logOut(dispatch) },
+    }
+}
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(PlanYourGoalScreen)

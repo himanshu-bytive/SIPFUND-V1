@@ -31,7 +31,7 @@ const roted = [
 
 
 
-export default function TopRoated2Screen(props) {
+function TopRoated2Screen(props) {
 // tab start
     const [selectTab, setSelectTab] = useState('SIP');
     const toggleTab = (value) => {
@@ -381,28 +381,18 @@ const styles = StyleSheet.create({
     amount_tex:{fontSize:18,},
 
 });
+const mapStateToProps = (state) => ({
+    ticket: state.auth.ticket,
+    users: state.auth.users,
+})
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
+    const { dispatch } = dispatchProps;
+    const { AuthActions } = require('../../store/AuthRedux')
+    return {
+        ...stateProps,
+        ...ownProps,
+        logOut: () => { AuthActions.logOut(dispatch) },
+    }
+}
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(TopRoated2Screen)

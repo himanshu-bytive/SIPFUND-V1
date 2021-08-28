@@ -18,7 +18,7 @@ import { MySlider } from '../../components';
 import { Ionicons, AntDesign, MaterialIcons, Feather, Entypo, FontAwesome, FontAwesome5, } from 'react-native-vector-icons';
 import { Image, Header, ListItem, Overlay, Slider } from 'react-native-elements';
 
-export default function ReturnsCalculator(props) {
+function ReturnsCalculator(props) {
 
     return (<View style={styles.mainbox}>
         <Text style={styles.check}>Check if you would have invested in the past.</Text>
@@ -160,3 +160,19 @@ const styles = StyleSheet.create({
 
 
 });
+
+const mapStateToProps = (state) => ({
+    ticket: state.auth.ticket,
+    users: state.auth.users,
+})
+
+const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
+    const { dispatch } = dispatchProps;
+    const { AuthActions } = require('../../store/AuthRedux')
+    return {
+        ...stateProps,
+        ...ownProps,
+        logOut: () => { AuthActions.logOut(dispatch) },
+    }
+}
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(ReturnsCalculator)

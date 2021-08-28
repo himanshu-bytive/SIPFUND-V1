@@ -13,7 +13,7 @@ import {
 import { connect } from 'react-redux'
 import { Styles, Config, Colors, FormValidate } from '@common'
 
-export default function SignupScreen(props) {
+function SignupScreen(props) {
 
 
     return (
@@ -143,3 +143,18 @@ const styles = StyleSheet.create({
         fontSize: 22
     }
 });
+const mapStateToProps = (state) => ({
+    ticket: state.auth.ticket,
+    users: state.auth.users,
+})
+
+const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
+    const { dispatch } = dispatchProps;
+    const { AuthActions } = require('../../store/AuthRedux')
+    return {
+        ...stateProps,
+        ...ownProps,
+        logOut: () => { AuthActions.logOut(dispatch) },
+    }
+}
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(SignupScreen)

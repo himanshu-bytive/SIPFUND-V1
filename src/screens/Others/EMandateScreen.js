@@ -16,7 +16,7 @@ import { Styles, Config, Colors, FormValidate } from '@common'
 import { Ionicons, AntDesign } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 
-export default function EMandateScreen(props) {
+function EMandateScreen(props) {
     return (<View style={styles.emaMainbox}>
         <Text style={styles.emaAmc}>Choose AMC Option:</Text>
         <Text style={styles.emaMutual_fund}>Birla Sun Life Mutual Fund</Text>
@@ -50,3 +50,18 @@ const styles = StyleSheet.create({
         color: Colors.RED,
     },
 });
+const mapStateToProps = (state) => ({
+    ticket: state.auth.ticket,
+    users: state.auth.users,
+})
+
+const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
+    const { dispatch } = dispatchProps;
+    const { AuthActions } = require('../../store/AuthRedux')
+    return {
+        ...stateProps,
+        ...ownProps,
+        logOut: () => { AuthActions.logOut(dispatch) },
+    }
+}
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(EMandateScreen)

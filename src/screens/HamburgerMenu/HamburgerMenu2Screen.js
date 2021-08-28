@@ -26,7 +26,7 @@ const mutualfund = [
     { title: 'Axis Treasury Advantage Fund - Growth',text:'Folio',number:'91075739541',text1:'Units',number1:'9.211',text2:'Value',number2:'22372.87',text3:'Switch To',text4:'Select Scheme',button:'ADD', },
 ]
 
-export default function HamburgerMenu2Screen(props) {
+function HamburgerMenu2Screen(props) {
 
     const [visible, setVisible] = useState(false);
 
@@ -281,3 +281,19 @@ const styles = StyleSheet.create({
 
 
 });
+
+const mapStateToProps = (state) => ({
+    ticket: state.auth.ticket,
+    users: state.auth.users,
+})
+
+const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
+    const { dispatch } = dispatchProps;
+    const { AuthActions } = require('../../store/AuthRedux')
+    return {
+        ...stateProps,
+        ...ownProps,
+        logOut: () => { AuthActions.logOut(dispatch) },
+    }
+}
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(HamburgerMenu2Screen)

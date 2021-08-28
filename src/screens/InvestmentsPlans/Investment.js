@@ -28,7 +28,7 @@ const investmentData = [
     { title: 'Foreign Funds', image: require('../../../assets/foregn.png') },
 ]
 
-export default function Investment(props) {
+function Investment(props) {
     const [visible, setVisible] = useState(false);
    
     const toggleOverlay = () => {
@@ -386,3 +386,18 @@ const styles = StyleSheet.create({
 
 
 });
+const mapStateToProps = (state) => ({
+    ticket: state.auth.ticket,
+    users: state.auth.users,
+})
+
+const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
+    const { dispatch } = dispatchProps;
+    const { AuthActions } = require('../../store/AuthRedux')
+    return {
+        ...stateProps,
+        ...ownProps,
+        logOut: () => { AuthActions.logOut(dispatch) },
+    }
+}
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(Investment)

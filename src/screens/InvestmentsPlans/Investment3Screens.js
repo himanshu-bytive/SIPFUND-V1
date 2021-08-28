@@ -19,7 +19,7 @@ import { Image, Header, CheckBox } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
 import { color } from "react-native-elements/dist/helpers";
 
-export default function Investment3Screens(props) {
+function Investment3Screens(props) {
     const [selectTab, setSelectTab] = useState('SIP');
     const toggleTab = (value) => {
         setSelectTab(value);
@@ -270,3 +270,18 @@ const styles = StyleSheet.create({
     },
 
 });
+const mapStateToProps = (state) => ({
+    ticket: state.auth.ticket,
+    users: state.auth.users,
+})
+
+const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
+    const { dispatch } = dispatchProps;
+    const { AuthActions } = require('../../store/AuthRedux')
+    return {
+        ...stateProps,
+        ...ownProps,
+        logOut: () => { AuthActions.logOut(dispatch) },
+    }
+}
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(Investment3Screens)

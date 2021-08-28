@@ -18,7 +18,7 @@ import { Styles, Config, Colors, FormValidate } from '@common'
 import { Entypo, AntDesign } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 
-export default function GoalsScreen(props) {
+function GoalsScreen(props) {
     return (
         <View style={styles.container}>
             <View style={Styles.Header_top}>
@@ -194,3 +194,18 @@ const styles = StyleSheet.create({
         paddingLeft: 20,
     },
 });
+const mapStateToProps = (state) => ({
+    ticket: state.auth.ticket,
+    users: state.auth.users,
+})
+
+const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
+    const { dispatch } = dispatchProps;
+    const { AuthActions } = require('../../store/AuthRedux')
+    return {
+        ...stateProps,
+        ...ownProps,
+        logOut: () => { AuthActions.logOut(dispatch) },
+    }
+}
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(GoalsScreen)

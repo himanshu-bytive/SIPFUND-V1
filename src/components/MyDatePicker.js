@@ -1,0 +1,64 @@
+import React, { useState } from 'react';
+import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import moment from 'moment';
+import { AntDesign } from 'react-native-vector-icons';
+import { Styles, Config, Colors, FormValidate } from '@common'
+
+const MyDatePicker = (props) => {
+  const { defultValue, error, onChange } = props
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [date, setDate] = useState(defultValue ? new Date(defultValue) : new Date());
+
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+
+  const handleConfirm = (date) => {
+    setDate(date)
+    onChange(date)
+    hideDatePicker();
+  };
+
+  return (
+    <View style={styles.container}>
+      <TouchableOpacity onPress={showDatePicker}>
+        <Text style={styles.custom}>{moment(date).format('DD-MM-YYYY')}</Text>
+        <AntDesign style={{ position: 'absolute', right: 10, top: 20 }} name="calendar" color={"#444"} size={18} />
+      </TouchableOpacity>
+      <DateTimePickerModal
+        isVisible={isDatePickerVisible}
+        mode="date"
+        date={date}
+        maximumDate={new Date()}
+        onConfirm={handleConfirm}
+        onCancel={hideDatePicker}
+      />
+      {error && (<Text style={styles.error}>{error}</Text>)}
+    </View>
+  );
+}
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  custom: {
+    borderWidth: 2,
+    backgroundColor: Colors.TRANSPARENT,
+    borderColor: Colors.GRAY_LIGHT,
+    fontSize: 22,
+    marginTop: 5,
+    borderRadius: 4,
+    padding: 10,
+    textAlign: 'left',
+  },
+  error: {
+    color: '#ff0000',
+    padding: 5,
+  },
+});
+export default MyDatePicker

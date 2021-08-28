@@ -18,7 +18,7 @@ import { Ionicons, AntDesign, Feather, Entypo, FontAwesome, FontAwesome5, } from
 import { Image, Header, CheckBox } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
 
-export default function CompleteDetailScreen(props) {
+function CompleteDetailScreen(props) {
     return (
         <View style={styles.container}>
             {/* header  */}
@@ -349,3 +349,18 @@ const styles = StyleSheet.create({
         marginVertical: 10,
     },
 });
+const mapStateToProps = (state) => ({
+    ticket: state.auth.ticket,
+    users: state.auth.users,
+})
+
+const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
+    const { dispatch } = dispatchProps;
+    const { AuthActions } = require('../../store/AuthRedux')
+    return {
+        ...stateProps,
+        ...ownProps,
+        logOut: () => { AuthActions.logOut(dispatch) },
+    }
+}
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(CompleteDetailScreen)

@@ -502,27 +502,45 @@ const TabNavigator = createBottomTabNavigator({
 export const RootNavigator = createDrawerNavigator({
     HomeTab: {
         name: 'HomeTab',
-        screen: TabNavigator
+        screen: TabNavigator,
+        navigationOptions: {
+            headerShown: false,
+        }
     },
     Investment: {
         name: 'Investment',
-        screen: InvestmentPlansStack
+        screen: InvestmentPlansStack,
+        navigationOptions: {
+            headerShown: false,
+        }
     },
     Hold: {
         name: 'Hold',
-        screen: HoldingsSummaryStack
+        screen: HoldingsSummaryStack,
+        navigationOptions: {
+            headerShown: false,
+        }
     },
     Funds: {
         name: 'Funds',
-        screen: FundsDetailsStack
+        screen: FundsDetailsStack,
+        navigationOptions: {
+            headerShown: false,
+        }
     },
     Reg: {
         name: 'Register',
-        screen: RegisterStack
+        screen: RegisterStack,
+        navigationOptions: {
+            headerShown: false,
+        }
     },
     Hamburg: {
         name: 'Hamburg',
-        screen: Hamburgmenu
+        screen: Hamburgmenu,
+        navigationOptions: {
+            headerShown: false,
+        }
     },
 
 },
@@ -530,4 +548,7 @@ export const RootNavigator = createDrawerNavigator({
         drawerWidth: 300,
         initialRouteName: 'HomeTab',
         contentComponent: SideMenu,
-    });
+        navigationOptions: {
+            headerShown: false,
+        }
+});

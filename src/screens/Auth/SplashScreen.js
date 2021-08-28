@@ -8,7 +8,7 @@ import {
 import { connect } from 'react-redux'
 import { Styles, Config, Colors, FormValidate } from '@common'
 
-export default function SplashScreen() {
+function SplashScreen() {
     return (
         <View style={styles.container}>
             <View style={{ marginTop: 30 }}>
@@ -65,3 +65,19 @@ const styles = StyleSheet.create({
         marginVertical: 20,
     },
 });
+
+const mapStateToProps = (state) => ({
+    ticket: state.auth.ticket,
+    users: state.auth.users,
+})
+
+const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
+    const { dispatch } = dispatchProps;
+    const { AuthActions } = require('../../store/AuthRedux')
+    return {
+        ...stateProps,
+        ...ownProps,
+        logOut: () => { AuthActions.logOut(dispatch) },
+    }
+}
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(SplashScreen)

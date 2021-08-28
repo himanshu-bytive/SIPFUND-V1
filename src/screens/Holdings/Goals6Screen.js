@@ -20,7 +20,7 @@ import { Image, Header, CheckBox, Overlay } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
 import GoalsTable from './GoalsTable'
 
-export default function Goals6Screen(props) {
+function Goals6Screen(props) {
 
     // overlay start
     const [visible, setVisible] = useState(null);
@@ -362,3 +362,18 @@ const styles = StyleSheet.create({
     },
 
 });
+const mapStateToProps = (state) => ({
+    ticket: state.auth.ticket,
+    users: state.auth.users,
+})
+
+const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
+    const { dispatch } = dispatchProps;
+    const { AuthActions } = require('../../store/AuthRedux')
+    return {
+        ...stateProps,
+        ...ownProps,
+        logOut: () => { AuthActions.logOut(dispatch) },
+    }
+}
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(Goals6Screen)

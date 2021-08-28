@@ -17,7 +17,7 @@ import { Styles, Config, Colors, FormValidate } from '@common'
 import { Ionicons, AntDesign, MaterialIcons, Feather, Entypo, FontAwesome, FontAwesome5, } from 'react-native-vector-icons';
 import { Image, Header, ListItem, Overlay, Slider } from 'react-native-elements';
 
-export default function FundManagers(props) {
+function FundManagers(props) {
     return (<View style={styles.mainbox}>
     </View>);
 }
@@ -28,3 +28,19 @@ const styles = StyleSheet.create({
         width: '100%',
     },
 });
+
+const mapStateToProps = (state) => ({
+    ticket: state.auth.ticket,
+    users: state.auth.users,
+})
+
+const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
+    const { dispatch } = dispatchProps;
+    const { AuthActions } = require('../../store/AuthRedux')
+    return {
+        ...stateProps,
+        ...ownProps,
+        logOut: () => { AuthActions.logOut(dispatch) },
+    }
+}
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(FundManagers)

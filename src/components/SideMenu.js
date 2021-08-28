@@ -19,16 +19,16 @@ import { ScrollView } from "react-native-gesture-handler";
 
 export default function SideMenu(props) {
     return (
-        <ScrollView>
-            <View style={styles.container}>
-                <Header
-                    leftComponent={<TouchableOpacity><Entypo name={"user"} size={30} color={Colors.WHITE} /></TouchableOpacity>}
-                    backgroundColor={Colors.RED}
-                    centerComponent={<View>
-                        <Text style={styles.profileText}>Name</Text>
-                        <Text style={styles.profileText}>000000000</Text>
-                    </View>}
-                />
+        <View style={styles.container}>
+            <Header
+                leftComponent={<TouchableOpacity><Entypo name={"user"} size={30} color={Colors.WHITE} /></TouchableOpacity>}
+                backgroundColor={Colors.RED}
+                centerComponent={<View>
+                    <Text style={styles.profileText}>Name</Text>
+                    <Text style={styles.profileText}>000000000</Text>
+                </View>}
+            />
+            <ScrollView>
                 <TouchableOpacity onPress={() => props.navigation.navigate('dashboard')} style={styles.profile_sec}>
                     <View>
                         <AntDesign name={"appstore1"} size={30} color={Colors.RED} />
@@ -88,7 +88,7 @@ export default function SideMenu(props) {
                     <View><Text style={[styles.know_text, styles.know]}>E-KYC</Text></View>
                 </TouchableOpacity>
 
-                    
+
                 <TouchableOpacity onPress={() => props.navigation.navigate('Home')} style={[styles.profile_sec, styles.profile]}>
                     <View>
                         <Entypo name={"hair-cross"} size={30} color={Colors.GRAY_LIGHT_4} />
@@ -96,7 +96,7 @@ export default function SideMenu(props) {
                     <View><Text style={[styles.know_text, styles.know]}>E-Mandate</Text></View>
                 </TouchableOpacity>
 
-           
+
 
                 <TouchableOpacity onPress={() => props.navigation.navigate('Notifications')} style={[styles.profile_sec, styles.profile]}>
                     <View>
@@ -112,12 +112,12 @@ export default function SideMenu(props) {
                     </View>
                     <View><Text style={[styles.know_text, styles.know]}>Reports</Text></View>
                 </TouchableOpacity>
-              
-
-             
 
 
-          
+
+
+
+
 
                 <View style={styles.border}></View>
                 <Text style={[styles.know_text, styles.know]}>Communicate</Text>
@@ -142,9 +142,9 @@ export default function SideMenu(props) {
                     </View>
                     <View><Text style={[styles.know_text, styles.know]}>About Us</Text></View>
                 </TouchableOpacity>
+            </ScrollView>
+        </View>
 
-            </View>
-        </ScrollView>
     )
 }
 const styles = StyleSheet.create({

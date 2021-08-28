@@ -17,7 +17,7 @@ import { Styles, Config, Colors, FormValidate } from '@common'
 import { Ionicons, AntDesign, Entypo, FontAwesome5 } from 'react-native-vector-icons';
 import { Image, Header, Overlay, CheckBox } from 'react-native-elements';
 
-export default function CompleteDetails3Screen(props) {
+function CompleteDetails3Screen(props) {
 
     const [visible, setVisible] = useState(false);
 
@@ -221,3 +221,18 @@ const styles = StyleSheet.create({
 
 
 });
+const mapStateToProps = (state) => ({
+    ticket: state.auth.ticket,
+    users: state.auth.users,
+})
+
+const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
+    const { dispatch } = dispatchProps;
+    const { AuthActions } = require('../../store/AuthRedux')
+    return {
+        ...stateProps,
+        ...ownProps,
+        logOut: () => { AuthActions.logOut(dispatch) },
+    }
+}
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(CompleteDetails3Screen)

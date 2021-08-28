@@ -19,7 +19,7 @@ import { Ionicons, AntDesign, FontAwesome, FontAwesome5, } from 'react-native-ve
 import { Image, Header, CheckBox } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
 
-export default function Goals5Screen(props) {
+function Goals5Screen(props) {
 
     const [visibleBNP, setVisibleBNP] = useState(false);
     const [visibleBOI, setVisibleBOI] = useState(false);
@@ -468,3 +468,19 @@ const styles = StyleSheet.create({
 
 
 });
+
+const mapStateToProps = (state) => ({
+    ticket: state.auth.ticket,
+    users: state.auth.users,
+})
+
+const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
+    const { dispatch } = dispatchProps;
+    const { AuthActions } = require('../../store/AuthRedux')
+    return {
+        ...stateProps,
+        ...ownProps,
+        logOut: () => { AuthActions.logOut(dispatch) },
+    }
+}
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(Goals5Screen)

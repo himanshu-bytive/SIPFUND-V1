@@ -19,7 +19,7 @@ import { Styles, Config, Colors, FormValidate } from '@common'
 import { Ionicons, AntDesign, MaterialIcons, Feather, Entypo, FontAwesome, FontAwesome5, } from 'react-native-vector-icons';
 import { Image, Header, ListItem, Overlay, Slider } from 'react-native-elements';
 
-export default function Top10Holdings(props) {
+function Top10Holdings(props) {
 
     return (<View style={styles.contain_box}>
 
@@ -138,3 +138,19 @@ const styles = StyleSheet.create({
 
 
 });
+
+const mapStateToProps = (state) => ({
+    ticket: state.auth.ticket,
+    users: state.auth.users,
+})
+
+const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
+    const { dispatch } = dispatchProps;
+    const { AuthActions } = require('../../store/AuthRedux')
+    return {
+        ...stateProps,
+        ...ownProps,
+        logOut: () => { AuthActions.logOut(dispatch) },
+    }
+}
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(Top10Holdings)

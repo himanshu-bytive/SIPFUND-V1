@@ -20,7 +20,7 @@ import { Image, Header, CheckBox } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
 import { HoldingFundType } from "../../components";
 
-export default function GoalsLongTermScreen(props) {
+function GoalsLongTermScreen(props) {
     return (
         <View style={styles.container}>
             <View style={Styles.Header_top}>
@@ -109,3 +109,18 @@ const styles = StyleSheet.create({
         
     },
 });
+const mapStateToProps = (state) => ({
+    ticket: state.auth.ticket,
+    users: state.auth.users,
+})
+
+const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
+    const { dispatch } = dispatchProps;
+    const { AuthActions } = require('../../store/AuthRedux')
+    return {
+        ...stateProps,
+        ...ownProps,
+        logOut: () => { AuthActions.logOut(dispatch) },
+    }
+}
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(GoalsLongTermScreen)

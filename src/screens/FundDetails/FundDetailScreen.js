@@ -29,7 +29,7 @@ import RiskRating from './RiskRating'
 import ExpenseRatio from './ExpenseRatio'
 import FundManagers from './FundManagers'
 
-export default function FundDetailScreen(props) {
+function FundDetailScreen(props) {
 
     const [fundType, setFundType] = useState([
         { text: 'Returns Calculator', show: true },
@@ -273,3 +273,19 @@ const styles = StyleSheet.create({
 
 
 });
+
+const mapStateToProps = (state) => ({
+    ticket: state.auth.ticket,
+    users: state.auth.users,
+})
+
+const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
+    const { dispatch } = dispatchProps;
+    const { AuthActions } = require('../../store/AuthRedux')
+    return {
+        ...stateProps,
+        ...ownProps,
+        logOut: () => { AuthActions.logOut(dispatch) },
+    }
+}
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(FundDetailScreen)

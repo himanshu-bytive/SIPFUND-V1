@@ -13,7 +13,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import { color } from "react-native-elements/dist/helpers";
 import { VictoryPie } from "victory-native";
 
-export default function PortfolioSummary(props) {
+function PortfolioSummary(props) {
 
     return (
         <View style={{ marginHorizontal: 5 }}>
@@ -262,3 +262,19 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
 });
+
+const mapStateToProps = (state) => ({
+    ticket: state.auth.ticket,
+    users: state.auth.users,
+})
+
+const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
+    const { dispatch } = dispatchProps;
+    const { AuthActions } = require('../../store/AuthRedux')
+    return {
+        ...stateProps,
+        ...ownProps,
+        logOut: () => { AuthActions.logOut(dispatch) },
+    }
+}
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(PortfolioSummary)

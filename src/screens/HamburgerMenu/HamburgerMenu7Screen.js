@@ -30,7 +30,7 @@ const investmentData = [
     { title: 'Aggressive Funds', image: require('../../../assets/term6.png') },
 ]
 
-export default function HamburgerMenu7Screen(props) {
+function HamburgerMenu7Screen(props) {
 
     const [visible, setVisible] = useState(false);
 
@@ -187,3 +187,19 @@ const styles = StyleSheet.create({
         textAlign: "center",
     },
 });
+
+const mapStateToProps = (state) => ({
+    ticket: state.auth.ticket,
+    users: state.auth.users,
+})
+
+const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
+    const { dispatch } = dispatchProps;
+    const { AuthActions } = require('../../store/AuthRedux')
+    return {
+        ...stateProps,
+        ...ownProps,
+        logOut: () => { AuthActions.logOut(dispatch) },
+    }
+}
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(HamburgerMenu7Screen)

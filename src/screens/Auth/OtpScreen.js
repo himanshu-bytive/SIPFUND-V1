@@ -14,8 +14,7 @@ import { Image } from 'react-native-elements';
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
-export default function OtpScreen(props) {
-
+function OtpScreen(props) {
 
     return (
         <View style={styles.container}>
@@ -116,3 +115,19 @@ const styles = StyleSheet.create({
     },
 
 });
+
+const mapStateToProps = (state) => ({
+    ticket: state.auth.ticket,
+    users: state.auth.users,
+})
+
+const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
+    const { dispatch } = dispatchProps;
+    const { AuthActions } = require('../../store/AuthRedux')
+    return {
+        ...stateProps,
+        ...ownProps,
+        logOut: () => { AuthActions.logOut(dispatch) },
+    }
+}
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(OtpScreen)

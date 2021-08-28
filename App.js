@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import AppContainer from './src/navigation/AppNavigator';
-
+import { Statusbar } from "elements";
 import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 import reducers from './src/store'

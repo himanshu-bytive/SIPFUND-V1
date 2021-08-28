@@ -19,7 +19,7 @@ import { MySlider, PlanYourGoalFundType } from '../../components';
 import { Ionicons, AntDesign, Entypo, FontAwesome5 } from 'react-native-vector-icons';
 import { Image, Header, CheckBox, Slider } from 'react-native-elements';
 
-export default function Plan1(props) {
+function Plan1(props) {
 
     const [selectTab, setSelectTab] = useState('SIP');
     const toggleTab = (value) => {
@@ -500,3 +500,18 @@ const styles = StyleSheet.create({
         paddingLeft: 2
     },
 });
+const mapStateToProps = (state) => ({
+    ticket: state.auth.ticket,
+    users: state.auth.users,
+})
+
+const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
+    const { dispatch } = dispatchProps;
+    const { AuthActions } = require('../../store/AuthRedux')
+    return {
+        ...stateProps,
+        ...ownProps,
+        logOut: () => { AuthActions.logOut(dispatch) },
+    }
+}
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(Plan1)

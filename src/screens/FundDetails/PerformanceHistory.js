@@ -16,7 +16,7 @@ const fund_type = [
     { text: '+/- Category (Multi-Cap)', number: '-4.68' },
 ]
 
-export default function PerformanceHistory(props) {
+function PerformanceHistory(props) {
     return (<View style={styles.history}>
         {fund_type.map((item) => <View style={styles.name_sec}>
             <View style={styles.name_left}><Text style={[styles.name, (item.class === 'red' ? styles.name_text_red : '')]}>{item.text}</Text></View>
@@ -120,27 +120,20 @@ const styles = StyleSheet.create({
     bottom_holdingright: { width: '60%' }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 });
+
+const mapStateToProps = (state) => ({
+    ticket: state.auth.ticket,
+    users: state.auth.users,
+})
+
+const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
+    const { dispatch } = dispatchProps;
+    const { AuthActions } = require('../../store/AuthRedux')
+    return {
+        ...stateProps,
+        ...ownProps,
+        logOut: () => { AuthActions.logOut(dispatch) },
+    }
+}
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(PerformanceHistory)
