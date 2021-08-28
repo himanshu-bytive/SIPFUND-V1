@@ -6,7 +6,7 @@ import {
     ImageBackground,
     TouchableOpacity,
     Text,
-    Dimensions,
+    ScrollView,
     KeyboardAvoidingView,
     TextInput,
     ActivityIndicator
@@ -20,7 +20,7 @@ function UpiScreen(props) {
     return (
         <View style={styles.container}>
             <Header
-leftComponent={<TouchableOpacity onPress={() => props.navigation.toggleDrawer()} style={{ marginTop: 25 }}><Entypo name={"menu"} size={30} color={Colors.RED} /></TouchableOpacity>}                containerStyle={styles.header}
+                leftComponent={<TouchableOpacity onPress={() => props.navigation.toggleDrawer()} style={{ marginTop: 25 }}><Entypo name={"menu"} size={30} color={Colors.RED} /></TouchableOpacity>} containerStyle={styles.header}
                 backgroundColor={Colors.LIGHT_WHITE}
                 centerComponent={<Image
                     source={require('../../../assets/icon.png')}
@@ -28,34 +28,35 @@ leftComponent={<TouchableOpacity onPress={() => props.navigation.toggleDrawer()}
                 />}
                 rightComponent={<View style={{ marginTop: 25, borderWidth: 1, backgroundColor: Colors.WHITE, borderColor: Colors.RED, padding: 5, borderRadius: 7, }}><Text>KN</Text></View>}
             />
-            <View>
-                <Text style={styles.payusing}>Pay Using</Text>
-            </View>
-            <View style={styles.mainbox}>
-                <View style={styles.button}>
-                    <TouchableOpacity onPress={() => props.navigation.navigate('Home')} style={[styles.botton_box, styles.botton_box_none]}>
-                        <Image
-                            source={require('../../../assets/Upi_img.png')}
-                            style={styles.upiImage}
-                        />
-                    </TouchableOpacity>
+            <ScrollView style={Styles.containerScroll}>
+                <View style={styles.container}>
+                    <View>
+                        <Text style={styles.payusing}>Pay Using</Text>
+                    </View>
+                    <View style={styles.mainbox}>
+                        <View style={styles.button}>
+                            <TouchableOpacity onPress={() => props.navigation.navigate('Home')} style={[styles.botton_box, styles.botton_box_none]}>
+                                <Image
+                                    source={require('../../../assets/Upi_img.png')}
+                                    style={styles.upiImage}
+                                />
+                            </TouchableOpacity>
+                        </View>
+                        <View style={styles.button}>
+
+                            <TouchableOpacity onPress={() => props.navigation.navigate('Home')} style={styles.botton_box}>
+                                <Text style={styles.get_otp}>Internet Banking</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={styles.button}>
+
+                            <TouchableOpacity onPress={() => props.navigation.navigate('Home')} style={styles.botton_box}>
+                                <Text style={styles.get_otp}>e-Mandate</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
                 </View>
-                <View style={styles.button}>
-
-                    <TouchableOpacity onPress={() => props.navigation.navigate('Home')} style={styles.botton_box}>
-                        <Text style={styles.get_otp}>Internet Banking</Text>
-                    </TouchableOpacity>
-                </View>
-                <View style={styles.button}>
-
-                    <TouchableOpacity onPress={() => props.navigation.navigate('Home')} style={styles.botton_box}>
-                        <Text style={styles.get_otp}>e-Mandate</Text>
-                    </TouchableOpacity>
-                </View>
-
-
-            </View>
-
+            </ScrollView>
         </View>
 
     );
@@ -65,8 +66,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-
-
     },
     header: {
         borderBottomColor: Colors.BLACK,
@@ -107,9 +106,9 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         marginTop: 20,
     },
-    botton_box_none:{
-        marginTop:5,
-        marginBottom:5
+    botton_box_none: {
+        marginTop: 5,
+        marginBottom: 5
     },
     get_otp: {
         color: Colors.BLACK,

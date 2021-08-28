@@ -6,7 +6,7 @@ import {
     ImageBackground,
     TouchableOpacity,
     Text,
-    Dimensions,
+    ScrollView,
     KeyboardAvoidingView,
     TextInput,
     ActivityIndicator
@@ -19,39 +19,38 @@ import { Image, Header, CheckBox } from 'react-native-elements';
 function PanScreen(props) {
     return (
         <View style={styles.container}>
-
             <Header
-leftComponent={<TouchableOpacity onPress={() => props.navigation.toggleDrawer()} style={{ marginTop: 20 }}><Entypo name={"menu"} size={30} color={Colors.RED} /></TouchableOpacity>}                containerStyle={styles.header}
+                leftComponent={<TouchableOpacity onPress={() => props.navigation.toggleDrawer()} style={{ marginTop: 20 }}><Entypo name={"menu"} size={30} color={Colors.RED} /></TouchableOpacity>} containerStyle={styles.header}
                 backgroundColor={Colors.LIGHT_WHITE}
                 centerComponent={<Image
                     source={require('../../../assets/icon.png')}
                     style={styles.logimg}
                 />}
             />
-            <View style={styles.mainbox}>
+            <ScrollView style={Styles.containerScroll}>
+                <View style={styles.mainbox}>
+                    <View style={styles.imgbox}>
 
+                        <Image
+                            source={require('../../../assets/Pancard.png')}
+                            style={styles.Panimg}
+                        />
+                    </View>
 
-                <View style={styles.imgbox}>
+                    <Text style={styles.pan}>PAN Number</Text>
 
-                    <Image
-                        source={require('../../../assets/Pancard.png')}
-                        style={styles.Panimg}
-                    />
+                    <View style={styles.text_box}>
+                        {<FontAwesome5 name="credit-card" size={20} color="#838280" />}
+                        <TextInput style={{ borderBottomWidth: 1, borderColor: '#828282', width: "100%" }} />
+                    </View>
+
+                    <View style={styles.button}>
+                        <TouchableOpacity onPress={() => props.navigation.navigate('Goals')} style={styles.botton_box}>
+                            <Text style={styles.get_otp}>CREATE</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
-
-                <Text style={styles.pan}>PAN Number</Text>
-
-                <View style={styles.text_box}>
-                    {<FontAwesome5 name="credit-card" size={20} color="#838280" />}
-                    <TextInput style={{ borderBottomWidth: 1, borderColor: '#828282', width: "100%" }} />
-                </View>
-
-                <View style={styles.button}>
-                    <TouchableOpacity onPress={() => props.navigation.navigate('Goals')} style={styles.botton_box}>
-                        <Text style={styles.get_otp}>CREATE</Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
+            </ScrollView>
         </View>
 
     );
