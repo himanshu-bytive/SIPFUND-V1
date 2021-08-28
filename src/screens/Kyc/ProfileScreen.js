@@ -12,7 +12,8 @@ import {
     ActivityIndicator,
 
 } from "react-native";
-import { colors } from '../../common/theme';
+import { connect } from 'react-redux'
+import { Styles, Config, Colors, FormValidate } from '@common'
 import { Ionicons, AntDesign, Feather, Entypo, MaterialCommunityIcons, FontAwesome, Octicons, FontAwesome5, } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
@@ -22,13 +23,13 @@ export default function ProfileScreen(props) {
         <View style={styles.container}>
             {/* header  */}
             <Header
-                leftComponent={<TouchableOpacity onPress={() => props.navigation.toggleDrawer()} style={{ marginTop: 20 }}><Entypo name={"menu"} size={30} color={colors.RED} /></TouchableOpacity>} containerStyle={styles.header}
-                backgroundColor={colors.LIGHT_WHITE}
+                leftComponent={<TouchableOpacity onPress={() => props.navigation.toggleDrawer()} style={{ marginTop: 20 }}><Entypo name={"menu"} size={30} color={Colors.RED} /></TouchableOpacity>} containerStyle={styles.header}
+                backgroundColor={Colors.LIGHT_WHITE}
                 centerComponent={<Image
                     source={require('../../../assets/icon.png')}
                     style={styles.logimg}
                 />}
-                rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={colors.RED} /></View>}
+                rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={Colors.RED} /></View>}
             />
             <ScrollView style={styles.containerScroll}>
                 <View style={styles.banner}>
@@ -41,13 +42,13 @@ export default function ProfileScreen(props) {
                     <Text style={styles.profile_text2}>ACCOUNT ACTIVE</Text>
                 </View>
                 <View style={styles.icon_sec}>
-                    <View style={styles.icon_bg}><FontAwesome name={"phone"} size={25} color={colors.WHITE} /></View>
+                    <View style={styles.icon_bg}><FontAwesome name={"phone"} size={25} color={Colors.WHITE} /></View>
                     <View style={styles.border}></View>
-                    <View style={styles.icon_bg}><FontAwesome name={"user-o"} size={25} color={colors.WHITE} /></View>
+                    <View style={styles.icon_bg}><FontAwesome name={"user-o"} size={25} color={Colors.WHITE} /></View>
                     <View style={styles.border}></View>
-                    <View style={styles.icon_bg}><Entypo name={"squared-minus"} size={25} color={colors.WHITE} /></View>
+                    <View style={styles.icon_bg}><Entypo name={"squared-minus"} size={25} color={Colors.WHITE} /></View>
                     <View style={styles.border}></View>
-                    <View style={styles.icon_bg}><Octicons name={"primitive-dot"} size={25} color={colors.WHITE} /></View>
+                    <View style={styles.icon_bg}><Octicons name={"primitive-dot"} size={25} color={Colors.WHITE} /></View>
                 </View>
 
                 <View style={styles.text_sec}>
@@ -58,11 +59,11 @@ export default function ProfileScreen(props) {
                 </View>
 
                 <View style={[styles.icon_sec, styles.bottomicon_sec]}>
-                    <View style={styles.icon_bg}><AntDesign name={"filetext1"} size={25} color={colors.WHITE} /></View>
+                    <View style={styles.icon_bg}><AntDesign name={"filetext1"} size={25} color={Colors.WHITE} /></View>
                     <View style={[styles.border, styles.border1]}></View>
-                    <View style={styles.icon_bg}><Feather name={"check-circle"} size={25} color={colors.WHITE} /></View>
+                    <View style={styles.icon_bg}><Feather name={"check-circle"} size={25} color={Colors.WHITE} /></View>
                     <View style={[styles.border, styles.border1]}></View>
-                    <View style={styles.icon_bg}><FontAwesome name={"rupee"} size={25} color={colors.WHITE} /></View>
+                    <View style={styles.icon_bg}><FontAwesome name={"rupee"} size={25} color={Colors.WHITE} /></View>
                 </View>
 
                 <View style={styles.text_sec}>
@@ -157,7 +158,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     banner: {
-        backgroundColor: colors.GRAY_LIGHT_5,
+        backgroundColor: Colors.GRAY_LIGHT_5,
         alignItems: "center",
     },
     bannerimg: {
@@ -167,7 +168,7 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     profile_text: {
-        color: colors.WHITE,
+        color: Colors.WHITE,
         fontSize: 20,
         fontWeight: "bold",
 
@@ -188,7 +189,7 @@ const styles = StyleSheet.create({
     icon_bg: {
         height: 40,
         width: 40,
-        backgroundColor: colors.DEEPGREEN,
+        backgroundColor: Colors.DEEPGREEN,
         borderRadius: 100,
         alignItems: "center",
         paddingTop: 7,
@@ -197,7 +198,7 @@ const styles = StyleSheet.create({
         marginTop: 20,
         height: 4,
         width: '20%',
-        backgroundColor: colors.LIGHTYELLOW,
+        backgroundColor: Colors.LIGHTYELLOW,
     },
     text_sec: {
         flexDirection: "row",
@@ -222,7 +223,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 150,
      },
     mutual_sec: {
-        backgroundColor: colors.LIGHT_WHITE,
+        backgroundColor: Colors.LIGHT_WHITE,
         paddingHorizontal: 10,
         paddingVertical: 10,
         marginTop: 30,
@@ -230,7 +231,7 @@ const styles = StyleSheet.create({
     mutual_text: {
         fontSize: 20,
         fontWeight: "bold",
-        color: colors.RED,
+        color: Colors.RED,
     },
     // mutual_bottomsec
     mutual_bottomsec: {
@@ -241,7 +242,7 @@ const styles = StyleSheet.create({
     mutual_left: { width: '50%' },
     mutual_right: { width: '50%' },
     id_text: {
-        color: colors.DEEP_GRAY,
+        color: Colors.DEEP_GRAY,
         fontSize: 15,
         paddingVertical: 10,
     },

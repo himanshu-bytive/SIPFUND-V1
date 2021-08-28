@@ -5,10 +5,10 @@ import {
     TouchableOpacity,
     Text,
 } from "react-native";
-import { colors } from '../common/theme';
+
 import { AntDesign } from 'react-native-vector-icons';
 import { Image, CheckBox } from 'react-native-elements';
-
+import { Styles, Config, Colors, FormValidate } from '@common'
 
 export default function FundType(props) {
     return (<View style={styles.axis_asset}>
@@ -26,10 +26,10 @@ export default function FundType(props) {
                 <CheckBox
                     title=''
                     containerStyle={styles.checkbox_style}
-                    textStyle={{ color: colors.RED, fontSize: 14 }}
+                    textStyle={{ color: Colors.RED, fontSize: 14 }}
                     checked={true}
-                    checkedColor={colors.RED}
-                    uncheckedColor={colors.DARK_GREY}
+                    checkedColor={Colors.RED}
+                    uncheckedColor={Colors.DARK_GREY}
                 />
             </View>
 
@@ -39,10 +39,10 @@ export default function FundType(props) {
 
         <View style={styles.border_sec}>
             <View style={styles.border}>
-                <View style={{ borderWidth: 1, borderColor: colors.DEEP_GRAY, }}></View>
+                <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY, }}></View>
             </View>
             <View style={styles.icons}>
-                <TouchableOpacity style={styles.circle} onPress={() => props.navigation.navigate('FundsDetails')}>
+                <TouchableOpacity style={styles.circle} onPress={props.onPress}>
                     <AntDesign name="right" size={30} color="#C0392B" />
                 </TouchableOpacity>
             </View>
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     axis_asset: {
         marginHorizontal: 20,
         marginTop: 10,
-        backgroundColor: colors.WHITE,
+        backgroundColor: Colors.WHITE,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
         elevation: 4,
         padding: 10,
         borderWidth: 1,
-        borderColor: colors.GREY_1,
+        borderColor: Colors.GREY_1,
     },
     company: {
         flexDirection: "row",
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     },
     moderately: {
         fontSize: 12,
-        color: colors.DEEP_GRAY,
+        color: Colors.DEEP_GRAY,
     },
     axisimg: {
         height: 39,
@@ -145,13 +145,13 @@ const styles = StyleSheet.create({
     },
     no: {
         fontSize: 15,
-        color: colors.DEEP_GRAY,
+        color: Colors.DEEP_GRAY,
     },
     new: {
         fontSize: 18,
     },
     circle:{borderWidth:2,
-    borderColor:colors.GRAY_LIGHT_1,
+    borderColor:Colors.GRAY_LIGHT_1,
 borderRadius:100,
 height:35,
 width:35,

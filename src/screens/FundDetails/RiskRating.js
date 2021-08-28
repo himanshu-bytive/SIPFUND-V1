@@ -14,7 +14,8 @@ import {
 
 
 } from "react-native";
-import { colors } from '../../common/theme';
+import { connect } from 'react-redux'
+import { Styles, Config, Colors, FormValidate } from '@common'
 import { Ionicons, AntDesign, MaterialIcons, Feather, Entypo, FontAwesome, FontAwesome5, } from 'react-native-vector-icons';
 import { Image, Header, ListItem, Overlay, Slider } from 'react-native-elements';
 
@@ -27,7 +28,7 @@ export default function RiskRating(props) {
             <View style={styles.back_sec}>
                 <View style={styles.back1}>
                     <Text style={styles.back_year}>3 Years</Text>
-                    <View style={{ borderWidth: 1, borderColor: colors.RED, marginTop: 5, }}></View>
+                    <View style={{ borderWidth: 1, borderColor: Colors.RED, marginTop: 5, }}></View>
 
                 </View>
                 <View style={styles.back1}>
@@ -42,7 +43,7 @@ export default function RiskRating(props) {
 
             </View>
 
-            <View style={{ borderWidth: 1, borderColor: colors.DEEP_GRAY, }}></View>
+            <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY, }}></View>
 
             {/* Invesco India_sec */}
 
@@ -69,21 +70,21 @@ export default function RiskRating(props) {
                     <Text style={styles.index}>Currency</Text>
 
                 </View>
-                <View style={{ borderWidth: 1, borderColor: colors.DEEP_GRAY, }}></View>
+                <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY, }}></View>
 
                 <View style={styles.bse}>
                     <View style={{ alignItems: "center", }}>
 
                         <Text style={styles.index1}>S&P BSE 500
                             India TR INR</Text>
-                        <View style={{ borderWidth: 2, borderColor: colors.DEEP_GRAY, }}></View>
+                        <View style={{ borderWidth: 2, borderColor: Colors.DEEP_GRAY, }}></View>
                         <Text style={styles.index}>0.99</Text>
                         <Text style={styles.index}>4.33</Text>
                         <Text style={styles.index}>8.22</Text>
                         <Text style={styles.index}>INR</Text>
                     </View>
                 </View>
-                <View style={{ borderWidth: 1, borderColor: colors.DEEP_GRAY, }}></View>
+                <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY, }}></View>
 
                 <View style={styles.bse}>
 
@@ -91,7 +92,7 @@ export default function RiskRating(props) {
 
                         <Text style={styles.index1}>S&P BSE 500
                             India TR INR</Text>
-                        <View style={{ borderWidth: 2, borderColor: colors.DEEP_GRAY, }}></View>
+                        <View style={{ borderWidth: 2, borderColor: Colors.DEEP_GRAY, }}></View>
                         <Text style={styles.index}>0.97</Text>
                         <Text style={styles.index}>0.74</Text>
                         <Text style={styles.index}>4.46</Text>
@@ -109,7 +110,7 @@ export default function RiskRating(props) {
             <View style={styles.back_sec}>
                 <View style={styles.back1}>
                     <Text style={styles.back_year}>3 Years</Text>
-                    <View style={{ borderWidth: 1, borderColor: colors.RED, marginTop: 5, }}></View>
+                    <View style={{ borderWidth: 1, borderColor: Colors.RED, marginTop: 5, }}></View>
 
                 </View>
                 <View style={styles.back1}>
@@ -124,7 +125,7 @@ export default function RiskRating(props) {
                 </View>
 
             </View>
-            <View style={{ borderWidth: 1, borderColor: colors.DEEP_GRAY, }}></View>
+            <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY, }}></View>
 
             {/* Invesco India_sec_2 */}
 
@@ -151,7 +152,7 @@ export default function RiskRating(props) {
                     <Text style={styles.index}>Sortino Ratio</Text>
 
                 </View>
-                <View style={{ borderWidth: 1, borderColor: colors.DEEP_GRAY, }}></View>
+                <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY, }}></View>
 
                 <View style={styles.bse}>
                     <View style={{ alignItems: "center", }}>
@@ -163,7 +164,7 @@ export default function RiskRating(props) {
 
                     </View>
                 </View>
-                <View style={{ borderWidth: 1, borderColor: colors.DEEP_GRAY, }}></View>
+                <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY, }}></View>
 
                 <View style={styles.bse}>
 
@@ -190,7 +191,7 @@ const styles = StyleSheet.create({
 
 
     header: {
-        borderBottomColor: colors.BLACK,
+        borderBottomColor: Colors.BLACK,
         borderBottomWidth: 1,
     },
     private_sector: {
@@ -205,7 +206,7 @@ const styles = StyleSheet.create({
         marginBottom: 2,
         marginLeft: 10,
         fontWeight: "bold",
-        color: colors.RED,
+        color: Colors.RED,
     },
 
 
@@ -213,7 +214,7 @@ const styles = StyleSheet.create({
 
     Upside: {
         fontSize: 20,
-        color: colors.RED,
+        color: Colors.RED,
         fontWeight: "bold",
         textAlign: "center",
         marginVertical: 10,
@@ -229,7 +230,7 @@ const styles = StyleSheet.create({
     back_year: {
         fontSize: 20,
         fontWeight: "bold",
-        color: colors.RED,
+        color: Colors.RED,
     },
     back_year2: {
         fontSize: 20,
@@ -246,7 +247,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: "bold",
         width: "50%",
-        color: colors.RED,
+        color: Colors.RED,
         marginLeft: 30,
 
     },
@@ -261,13 +262,13 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: "bold",
         textAlign: "center",
-        color: colors.DEEP_GRAY,
+        color: Colors.DEEP_GRAY,
         marginBottom: 15,
     },
     index: {
         fontSize: 18,
         fontWeight: "bold",
-        color: colors.DEEP_GRAY,
+        color: Colors.DEEP_GRAY,
         marginVertical: 5,
     },
 

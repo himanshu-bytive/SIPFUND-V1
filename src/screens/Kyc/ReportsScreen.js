@@ -13,7 +13,8 @@ import {
 
 
 } from "react-native";
-import { colors } from '../../common/theme';
+import { connect } from 'react-redux'
+import { Styles, Config, Colors, FormValidate } from '@common'
 import { Ionicons, AntDesign, MaterialIcons, Feather, Entypo, FontAwesome, FontAwesome5, } from 'react-native-vector-icons';
 import { Image, Header, ListItem, Overlay } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
@@ -36,14 +37,14 @@ export default function ReportsScreen(props) {
         <View style={styles.container}>
             {/* header  */}
             <Header
-                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={colors.RED} /></TouchableOpacity>} backgroundColor={colors.PEACH}
-                backgroundColor={colors.LIGHT_WHITE}
+                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={Colors.RED} /></TouchableOpacity>} backgroundColor={Colors.PEACH}
+                backgroundColor={Colors.LIGHT_WHITE}
                 centerComponent={<Image
                     source={require('../../../assets/icon.png')}
                     style={styles.logimg}
                 />}
 
-                rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={colors.RED} /></View>}
+                rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={Colors.RED} /></View>}
             />
             <ScrollView>
                 <View style={styles.contain}>
@@ -109,7 +110,7 @@ const styles = StyleSheet.create({
     },
     contain: {
         alignItems: "center",
-        backgroundColor: colors.DEEP_GRAY_4,
+        backgroundColor: Colors.DEEP_GRAY_4,
     },
     nametext: {
         fontSize: 23,
@@ -128,7 +129,7 @@ const styles = StyleSheet.create({
 
     },
     botton_box: {
-        backgroundColor: colors.LIGHT_RED,
+        backgroundColor: Colors.LIGHT_RED,
         paddingHorizontal: 30,
         paddingVertical: 15,
         borderRadius: 5,
@@ -136,7 +137,7 @@ const styles = StyleSheet.create({
 
     },
     get_otp: {
-        color: colors.WHITE,
+        color: Colors.WHITE,
         fontSize: 16,
         marginRight: 5,
         textAlign: "center",

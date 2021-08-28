@@ -12,7 +12,8 @@ import {
     ActivityIndicator,
 
 } from "react-native";
-import { colors } from '../../common/theme';
+import { connect } from 'react-redux'
+import { Styles, Config, Colors, FormValidate } from '@common'
 import { Ionicons, AntDesign, Feather, Entypo, FontAwesome, FontAwesome5, } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
@@ -22,8 +23,8 @@ export default function CompleteDetailScreen(props) {
         <View style={styles.container}>
             {/* header  */}
             <Header
-                leftComponent={<TouchableOpacity onPress={() => props.navigation.toggleDrawer()} style={{ marginTop: 20 }}><Entypo name={"menu"} size={30} color={colors.RED} /></TouchableOpacity>} backgroundColor={colors.RED}
-                rightComponent={<Feather name={"gift"} size={30} color={colors.WHITE} />}
+                leftComponent={<TouchableOpacity onPress={() => props.navigation.toggleDrawer()} style={{ marginTop: 20 }}><Entypo name={"menu"} size={30} color={Colors.RED} /></TouchableOpacity>} backgroundColor={Colors.RED}
+                rightComponent={<Feather name={"gift"} size={30} color={Colors.WHITE} />}
             />
             <ScrollView>
                 {/* invest section */}
@@ -199,7 +200,7 @@ const styles = StyleSheet.create({
     invest_sec: {
         marginVertical: 20,
         alignItems: 'center',
-        backgroundColor: colors.WHITE,
+        backgroundColor: Colors.WHITE,
         marginHorizontal: 20,
 
         shadowColor: "#000",
@@ -230,7 +231,7 @@ const styles = StyleSheet.create({
 
     },
     Goals_text: {
-        color: colors.RED,
+        color: Colors.RED,
         fontSize: 17,
         fontWeight: "bold",
         paddingBottom: 20,
@@ -238,7 +239,7 @@ const styles = StyleSheet.create({
     //  {/* mutual sec */}
 
     mutual_sec: {
-        backgroundColor: colors.GRAY_DEEP_1,
+        backgroundColor: Colors.GRAY_DEEP_1,
         padding: 10,
         marginHorizontal: 20,
     },
@@ -248,7 +249,7 @@ const styles = StyleSheet.create({
     },
     mutual: {
         paddingVertical: 20,
-        backgroundColor: colors.WHITE,
+        backgroundColor: Colors.WHITE,
         marginHorizontal: 20,
 
         shadowColor: "#000",
@@ -322,7 +323,7 @@ const styles = StyleSheet.create({
         marginVertical: 20,
         marginHorizontal: 5,
         padding: 10,
-        backgroundColor: colors.WHITE,
+        backgroundColor: Colors.WHITE,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -335,7 +336,7 @@ const styles = StyleSheet.create({
     },
     minimum: {
         fontSize: 13,
-        color: colors.BLACK,
+        color: Colors.BLACK,
     },
     term9: {
         width: 50,

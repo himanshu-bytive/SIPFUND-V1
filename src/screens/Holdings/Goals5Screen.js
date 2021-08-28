@@ -12,8 +12,9 @@ import {
     ActivityIndicator,
 
 } from "react-native";
-import { colors } from '../../common/theme';
-import { commonStyles } from '../../common/styles';
+import { connect } from 'react-redux'
+import { Styles, Config, Colors, FormValidate } from '@common'
+
 import { Ionicons, AntDesign, FontAwesome, FontAwesome5, } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
@@ -31,15 +32,15 @@ export default function Goals5Screen(props) {
 
             {/* Header_sec */}
 
-            <View style={commonStyles.Header_top}>
+            <View style={Styles.Header_top}>
                 <Header
-                    leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={colors.RED} /></TouchableOpacity>} backgroundColor={colors.PEACH}
-                    backgroundColor={colors.PEACH}
+                    leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={Colors.RED} /></TouchableOpacity>} backgroundColor={Colors.PEACH}
+                    backgroundColor={Colors.PEACH}
                     centerComponent={<Image
                         source={require('../../../assets/icon.png')}
                         style={styles.logimg}
                     />}
-                    rightComponent={<View style={commonStyles.headerkn}><Text style={commonStyles.textkn}>KN</Text></View>}
+                    rightComponent={<View style={Styles.headerkn}><Text style={Styles.textkn}>KN</Text></View>}
 
                 />
                 <Image
@@ -133,7 +134,7 @@ export default function Goals5Screen(props) {
                     <Text style={styles.Debt}>Multicap</Text>
                     <Text style={styles.Debt}>Mid Cap</Text>
                 </View>
-                <View style={{ borderWidth: 1, borderColor: colors.GREY_1, }}></View>
+                <View style={{ borderWidth: 1, borderColor: Colors.GREY_1, }}></View>
 
                 {/* Topratedfunds_sec */}
 
@@ -151,7 +152,7 @@ export default function Goals5Screen(props) {
 
                                 <AntDesign name="caretdown" size={15} color="#C0392B" />
                             </View>
-                            <View style={{ borderWidth: 1, borderColor: colors.RED, }}></View>
+                            <View style={{ borderWidth: 1, borderColor: Colors.RED, }}></View>
                         </View>
 
 
@@ -192,7 +193,7 @@ export default function Goals5Screen(props) {
                                 <Text style={styles.min}>16.0%</Text>
                             </View>
                         </View>
-                        <View style={{ borderWidth: 1, borderColor: colors.GREY_1, marginTop: 10, }}></View>
+                        <View style={{ borderWidth: 1, borderColor: Colors.GREY_1, marginTop: 10, }}></View>
 
 
                     </View>
@@ -231,7 +232,7 @@ export default function Goals5Screen(props) {
                                 <Text style={styles.min}>16.0%</Text>
                             </View>
                         </View>
-                        <View style={{ borderWidth: 1, borderColor: colors.GREY_1, marginTop: 10, }}></View>
+                        <View style={{ borderWidth: 1, borderColor: Colors.GREY_1, marginTop: 10, }}></View>
 
 
                     </View>
@@ -270,7 +271,7 @@ export default function Goals5Screen(props) {
                                 <Text style={styles.min}>16.0%</Text>
                             </View>
                         </View>
-                        <View style={{ borderWidth: 1, borderColor: colors.GREY_1, marginTop: 10, }}></View>
+                        <View style={{ borderWidth: 1, borderColor: Colors.GREY_1, marginTop: 10, }}></View>
                     </View>
 
                 </View>
@@ -322,7 +323,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         marginBottom: 10,
-        backgroundColor: colors.WHITE,
+        backgroundColor: Colors.WHITE,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -333,7 +334,7 @@ const styles = StyleSheet.create({
         elevation: 4,
         borderRadius: 20,
         borderWidth: 1,
-        borderColor: colors.GREY_1,
+        borderColor: Colors.GREY_1,
 
 
     },
@@ -344,7 +345,7 @@ const styles = StyleSheet.create({
     Longterm: {
         marginLeft: 10,
         fontSize: 15,
-        color: colors.BLACK,
+        color: Colors.BLACK,
     },
     smallbox: {
         flexDirection: "row",
@@ -359,7 +360,7 @@ const styles = StyleSheet.create({
     },
     Debt: { marginHorizontal: 5, fontSize: 13, color: "#696565", },
 
-    Equity: { fontSize: 13, color: colors.RED, fontWeight: "bold", },
+    Equity: { fontSize: 13, color: Colors.RED, fontWeight: "bold", },
 
     topratedmainbox: {
         marginTop: 20,
@@ -401,7 +402,7 @@ const styles = StyleSheet.create({
     },
     botton_box: {
         width: 80,
-        backgroundColor: colors.RED,
+        backgroundColor: Colors.RED,
         height: 20,
 
 
@@ -409,7 +410,7 @@ const styles = StyleSheet.create({
 
     },
     get_otp: {
-        color: colors.WHITE,
+        color: Colors.WHITE,
         fontSize: 10,
         fontWeight: 'bold',
         textAlign: "center",
@@ -433,7 +434,7 @@ const styles = StyleSheet.create({
     valua_sec: {
         width: "90%",
         borderRadius: 15,
-        backgroundColor: colors.RED,
+        backgroundColor: Colors.RED,
         alignItems: "center",
     },
     price: {
@@ -441,14 +442,14 @@ const styles = StyleSheet.create({
 
     },
     rate_2: {
-        color: colors.WHITE,
+        color: Colors.WHITE,
         fontWeight: "bold",
         fontSize: 17,
         marginTop: 10,
     },
     Current_Value: {
 
-        color: colors.WHITE,
+        color: Colors.WHITE,
         fontWeight: "bold",
         fontSize: 12,
     },

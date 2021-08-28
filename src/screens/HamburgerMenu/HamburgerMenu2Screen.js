@@ -13,7 +13,8 @@ import {
     ActivityIndicator,
     ScrollView,
 } from "react-native";
-import { colors } from '../../common/theme';
+import { connect } from 'react-redux'
+import { Styles, Config, Colors, FormValidate } from '@common'
 import { Entypo, AntDesign } from 'react-native-vector-icons';
 import { Header, Overlay,CheckBox } from 'react-native-elements';
 import Investments from '../../components/Investments'
@@ -36,9 +37,9 @@ export default function HamburgerMenu2Screen(props) {
     return (
         <View style={styles.container}>
             <Header
-                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={colors.RED} /></TouchableOpacity>}
-                rightComponent={<TouchableOpacity onPress={() => props.navigation.navigate('Toprated')} style={{ marginTop: 20 }}><AntDesign name={"shoppingcart"} size={30} color={colors.RED} /></TouchableOpacity>}
-                backgroundColor={colors.LIGHT_WHITE}
+                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={Colors.RED} /></TouchableOpacity>}
+                rightComponent={<TouchableOpacity onPress={() => props.navigation.navigate('Toprated')} style={{ marginTop: 20 }}><AntDesign name={"shoppingcart"} size={30} color={Colors.RED} /></TouchableOpacity>}
+                backgroundColor={Colors.LIGHT_WHITE}
                 containerStyle={styles.header}
                 centerComponent={<Image
                     source={require('../../../assets/icon.png')}
@@ -169,14 +170,14 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     switch_sec: {
-        backgroundColor: colors.RED,
+        backgroundColor: Colors.RED,
     },
     transaction: {
         fontSize: 21,
         fontWeight: "bold",
         textAlign: "center",
         marginVertical: 20,
-        color: colors.WHITE,
+        color: Colors.WHITE,
     },
     tab_sec: {
         flexDirection: "row",
@@ -187,12 +188,12 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     switch: {
-        color: colors.WHITE,
+        color: Colors.WHITE,
         fontSize: 13,
     },
 
     fund_sec: {
-        backgroundColor: colors.WHITE,
+        backgroundColor: Colors.WHITE,
        marginHorizontal:15,
        marginTop:10,
 
@@ -202,7 +203,7 @@ const styles = StyleSheet.create({
     },
     axis: {
         fontSize: 16,
-        color: colors.WHITE,
+        color: Colors.WHITE,
         marginLeft: 10,
         marginVertical: 10,
     },
@@ -221,7 +222,7 @@ const styles = StyleSheet.create({
     },
     folio: {
         fontSize: 15,
-        color: colors.DEEP_GRAY,
+        color: Colors.DEEP_GRAY,
     },
     scheme_sec: {
         flexDirection: "row",
@@ -231,7 +232,7 @@ const styles = StyleSheet.create({
     select: {
         fontSize: 14,
         fontWeight: "bold",
-        color: colors.DEEP_GRAY,
+        color: Colors.DEEP_GRAY,
     },
     units_sec: {
         flexDirection: "row",
@@ -241,7 +242,7 @@ const styles = StyleSheet.create({
     },
     amount: {
         fontSize: 12,
-        color: colors.DEEP_GRAY,
+        color: Colors.DEEP_GRAY,
     },
     input_box: {
         flexDirection: "row",
@@ -250,29 +251,29 @@ const styles = StyleSheet.create({
     },
     inputsec: {
         borderBottomWidth: 1,
-        borderColor: colors.DEEP_GRAY,
+        borderColor: Colors.DEEP_GRAY,
         width: '60%',
         fontSize: 16,
     },
     botton_box: {
         width: "30%",
-        backgroundColor: colors.RED,
+        backgroundColor: Colors.RED,
         paddingVertical: 10,
     },
     get_otp: {
-        color: colors.WHITE,
+        color: Colors.WHITE,
         fontSize: 16,
         fontWeight: 'bold',
         textAlign: "center",
     },
     botton_box2: {
-        backgroundColor: colors.RED,
+        backgroundColor: Colors.RED,
         paddingVertical: 10,
         marginBottom:20,
         marginHorizontal:15,
     },
     proceed: {
-        color: colors.WHITE,
+        color: Colors.WHITE,
         fontSize: 16,
         textAlign: "center",
     },

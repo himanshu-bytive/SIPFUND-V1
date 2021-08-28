@@ -10,7 +10,8 @@ import {
     Image,
     ActivityIndicator
 } from "react-native";
-import { colors } from '../../common/theme';
+import { connect } from 'react-redux'
+import { Styles, Config, Colors, FormValidate } from '@common'
 
 export default function SignupScreen(props) {
 
@@ -59,28 +60,28 @@ const styles = StyleSheet.create({
         fontFamily: "Roboto-Regular",
         textAlign: "center",
         paddingBottom: 10,
-        color: colors.WHITE
+        color: Colors.WHITE
     },
     login: {
         fontSize: 22,
         fontFamily: "Roboto-Regular",
         paddingBottom: 10,
         textAlign: "center",
-        color: colors.WHITE
+        color: Colors.WHITE
     },
     error: {
         fontSize: 15,
         fontFamily: "Roboto-Regular",
         padding: 10,
         textAlign: "center",
-        color: colors.WHITE
+        color: Colors.WHITE
     },
     errorBorder: {
         borderWidth: 1,
-        borderColor: colors.RED
+        borderColor: Colors.RED
     },
     box1: {
-        backgroundColor: colors.WHITE,
+        backgroundColor: Colors.WHITE,
         marginLeft: 20,
         marginRight: 20,
         marginTop: 20,
@@ -89,7 +90,7 @@ const styles = StyleSheet.create({
         paddingBottom: 13,
         paddingLeft: 45,
         borderWidth: 1,
-        borderColor: colors.GREY.border,
+        borderColor: Colors.GREY.border,
         borderRadius: 25,
         justifyContent: 'center'
     },
@@ -99,7 +100,7 @@ const styles = StyleSheet.create({
         top: 10
     },
     textInput: {
-        color: colors.GREY.background,
+        color: Colors.GREY.background,
         fontSize: 20,
         fontFamily: "Roboto-Regular",
         textAlign: "left",
@@ -107,7 +108,7 @@ const styles = StyleSheet.create({
         marginLeft: 5
     },
     forgotLink: {
-        color: colors.GREY.background,
+        color: Colors.GREY.background,
         fontSize: 18,
         fontFamily: "Roboto-Regular",
         textAlign: "left",
@@ -123,16 +124,16 @@ const styles = StyleSheet.create({
     linkText: {
         fontSize: 16,
         fontWeight: 'bold',
-        color: colors.WHITE,
+        color: Colors.WHITE,
         fontFamily: "Roboto-Bold",
     },
     materialButtonDark: {
         marginTop: 22,
         marginLeft: 35,
         marginRight: 35,
-        backgroundColor: colors.GREEN.bright,
+        backgroundColor: Colors.GREEN.bright,
         borderWidth: 1,
-        borderColor: colors.WHITE,
+        borderColor: Colors.WHITE,
         borderRadius: 25,
         padding: 10,
         alignItems: "center",

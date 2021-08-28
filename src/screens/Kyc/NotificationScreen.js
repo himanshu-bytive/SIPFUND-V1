@@ -13,7 +13,8 @@ import {
 
 
 } from "react-native";
-import { colors } from '../../common/theme';
+import { connect } from 'react-redux'
+import { Styles, Config, Colors, FormValidate } from '@common'
 import { Ionicons, AntDesign, MaterialIcons, Feather, Entypo, FontAwesome, FontAwesome5, } from 'react-native-vector-icons';
 import { Image, Header, ListItem, Overlay } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
@@ -27,14 +28,14 @@ export default function NotificationScreen(props) {
         <View style={styles.container}>
             {/* header  */}
             <Header
-                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={colors.RED} /></TouchableOpacity>} backgroundColor={colors.PEACH}
-                backgroundColor={colors.LIGHT_WHITE}
+                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={Colors.RED} /></TouchableOpacity>} backgroundColor={Colors.PEACH}
+                backgroundColor={Colors.LIGHT_WHITE}
                 centerComponent={<Image
                     source={require('../../../assets/icon.png')}
                     style={styles.logimg}
                 />}
 
-                rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={colors.RED} /></View>}
+                rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={Colors.RED} /></View>}
             />
             <ScrollView>
                 <View style={styles.contain}>
@@ -70,20 +71,20 @@ const styles = StyleSheet.create({
     },
     contain: { marginHorizontal: 10, },
     sipfund_sec: {
-        backgroundColor: colors.GRAY_LIGHT_5,
+        backgroundColor: Colors.GRAY_LIGHT_5,
         paddingHorizontal: 10,
         paddingVertical: 15,
     },
-    nametext: { color: colors.WHITE, },
+    nametext: { color: Colors.WHITE, },
     Transaction: {
-        backgroundColor: colors.LIGHT_WHITE,
+        backgroundColor: Colors.LIGHT_WHITE,
         alignItems: "center",
         marginHorizontal: 10,
         paddingBottom: 10,
     },
     Transaction_text: {
         fontSize: 18,
-        color: colors.BLACK,
+        color: Colors.BLACK,
         paddingVertical: 10,
     },
     bottomlogimg: {

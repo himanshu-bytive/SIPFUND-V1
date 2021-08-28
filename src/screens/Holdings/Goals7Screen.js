@@ -11,8 +11,9 @@ import {
     TextInput,
     ActivityIndicator
 } from "react-native";
-import { colors } from '../../common/theme';
-import { commonStyles } from '../../common/styles';
+import { connect } from 'react-redux'
+import { Styles, Config, Colors, FormValidate } from '@common'
+
 import { Ionicons, AntDesign, Entypo, FontAwesome5 } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
@@ -21,14 +22,14 @@ export default function Goals7Screen(props) {
     return (
         <View style={styles.container}>
             <Header
-                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={40} color={colors.RED} /></TouchableOpacity>}
-                containerStyle={commonStyles.header}
-                backgroundColor={colors.LIGHT_WHITE}
+                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={40} color={Colors.RED} /></TouchableOpacity>}
+                containerStyle={Styles.header}
+                backgroundColor={Colors.LIGHT_WHITE}
                 centerComponent={<Image
                     source={require('../../../assets/icon.png')}
                     style={styles.logimg}
                 />}
-                rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={colors.RED} /></View>}
+                rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={Colors.RED} /></View>}
             />
 
             <ScrollView style={styles.containerScroll}>
@@ -111,11 +112,11 @@ const styles = StyleSheet.create({
     investment_summary: {
         flexDirection: "row",
         borderBottomWidth: 1,
-        borderBottomColor: colors.DEEP_GRAY,
+        borderBottomColor: Colors.DEEP_GRAY,
     },
 
     schemetype1: {
-        color: colors.DEEP_GRAY,
+        color: Colors.DEEP_GRAY,
         marginVertical: 20,
         fontSize: 14,
         fontWeight: "bold",
@@ -123,12 +124,12 @@ const styles = StyleSheet.create({
     },
     botton_box: {
         paddingHorizontal: 20,
-        backgroundColor: colors.RED,
+        backgroundColor: Colors.RED,
         marginLeft:5,
 
     },
     get_otp: {
-        color: colors.WHITE,
+        color: Colors.WHITE,
         fontSize: 14,
         fontWeight: 'bold',
         textAlign: "center",

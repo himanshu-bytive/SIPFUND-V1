@@ -12,7 +12,7 @@ import {
     ActivityIndicator,
 
 } from "react-native";
-import { colors } from '../common/theme';
+import { Styles, Config, Colors, FormValidate } from '@common'
 import { Ionicons, AntDesign, Feather, Entypo, MaterialCommunityIcons, FontAwesome, Octicons, FontAwesome5, } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
@@ -22,8 +22,8 @@ export default function SideMenu(props) {
         <ScrollView>
             <View style={styles.container}>
                 <Header
-                    leftComponent={<TouchableOpacity><Entypo name={"user"} size={30} color={colors.WHITE} /></TouchableOpacity>}
-                    backgroundColor={colors.RED}
+                    leftComponent={<TouchableOpacity><Entypo name={"user"} size={30} color={Colors.WHITE} /></TouchableOpacity>}
+                    backgroundColor={Colors.RED}
                     centerComponent={<View>
                         <Text style={styles.profileText}>Name</Text>
                         <Text style={styles.profileText}>000000000</Text>
@@ -31,28 +31,28 @@ export default function SideMenu(props) {
                 />
                 <TouchableOpacity onPress={() => props.navigation.navigate('dashboard')} style={styles.profile_sec}>
                     <View>
-                        <AntDesign name={"appstore1"} size={30} color={colors.RED} />
+                        <AntDesign name={"appstore1"} size={30} color={Colors.RED} />
                     </View>
                     <View><Text style={styles.know_text}>Dashboard</Text></View>
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => props.navigation.navigate('Profile')} style={[styles.profile_sec, styles.profile]}>
                     <View>
-                        <FontAwesome name={"user-o"} size={30} color={colors.GRAY_LIGHT_4} />
+                        <FontAwesome name={"user-o"} size={30} color={Colors.GRAY_LIGHT_4} />
                     </View>
                     <View><Text style={[styles.know_text, styles.know]}>Profile</Text></View>
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => props.navigation.navigate('ReferEarn')} style={[styles.profile_sec, styles.profile]}>
                     <View>
-                        <MaterialCommunityIcons name={"wallet-giftcard"} size={30} color={colors.GRAY_LIGHT_4} />
+                        <MaterialCommunityIcons name={"wallet-giftcard"} size={30} color={Colors.GRAY_LIGHT_4} />
                     </View>
                     <View><Text style={[styles.know_text, styles.know]}>Refer & Earn</Text></View>
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => props.navigation.navigate('Register')} style={[styles.profile_sec, styles.profile]}>
                     <View>
-                        <FontAwesome name={"user-o"} size={30} color={colors.GRAY_LIGHT_4} />
+                        <FontAwesome name={"user-o"} size={30} color={Colors.GRAY_LIGHT_4} />
                     </View>
                     <View><Text style={[styles.know_text, styles.know]}>Register</Text></View>
                 </TouchableOpacity>
@@ -60,7 +60,7 @@ export default function SideMenu(props) {
 
                 <TouchableOpacity onPress={() => props.navigation.navigate('Existing')} style={[styles.profile_sec, styles.profile]}>
                     <View>
-                        <AntDesign name={"filetext1"} size={30} color={colors.GRAY_LIGHT_4} />
+                        <AntDesign name={"filetext1"} size={30} color={Colors.GRAY_LIGHT_4} />
                     </View>
                     <View><Text style={[styles.know_text, styles.know]}>Existing IIN</Text></View>
                 </TouchableOpacity>
@@ -68,7 +68,7 @@ export default function SideMenu(props) {
 
                 <TouchableOpacity onPress={() => props.navigation.navigate('Relationship')} style={[styles.profile_sec, styles.profile]}>
                     <View>
-                        <FontAwesome name={"stack-exchange"} size={30} color={colors.GRAY_LIGHT_4} />
+                        <FontAwesome name={"stack-exchange"} size={30} color={Colors.GRAY_LIGHT_4} />
                     </View>
                     <View><Text style={[styles.know_text, styles.know]}>Relationship Manager</Text></View>
                 </TouchableOpacity>
@@ -76,14 +76,14 @@ export default function SideMenu(props) {
 
                 <TouchableOpacity onPress={() => props.navigation.navigate('Home')} style={[styles.profile_sec, styles.profile]}>
                     <View>
-                        <MaterialCommunityIcons name={"file-upload"} size={30} color={colors.GRAY_LIGHT_4} />
+                        <MaterialCommunityIcons name={"file-upload"} size={30} color={Colors.GRAY_LIGHT_4} />
                     </View>
                     <View><Text style={[styles.know_text, styles.know]}>Upload Documents</Text></View>
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => props.navigation.navigate('Home')} style={[styles.profile_sec, styles.profile]}>
                     <View>
-                        <MaterialCommunityIcons name={"account-search"} size={30} color={colors.GRAY_LIGHT_4} />
+                        <MaterialCommunityIcons name={"account-search"} size={30} color={Colors.GRAY_LIGHT_4} />
                     </View>
                     <View><Text style={[styles.know_text, styles.know]}>E-KYC</Text></View>
                 </TouchableOpacity>
@@ -91,7 +91,7 @@ export default function SideMenu(props) {
                     
                 <TouchableOpacity onPress={() => props.navigation.navigate('Home')} style={[styles.profile_sec, styles.profile]}>
                     <View>
-                        <Entypo name={"hair-cross"} size={30} color={colors.GRAY_LIGHT_4} />
+                        <Entypo name={"hair-cross"} size={30} color={Colors.GRAY_LIGHT_4} />
                     </View>
                     <View><Text style={[styles.know_text, styles.know]}>E-Mandate</Text></View>
                 </TouchableOpacity>
@@ -100,7 +100,7 @@ export default function SideMenu(props) {
 
                 <TouchableOpacity onPress={() => props.navigation.navigate('Notifications')} style={[styles.profile_sec, styles.profile]}>
                     <View>
-                        <FontAwesome name={"bell"} size={30} color={colors.GRAY_LIGHT_4} />
+                        <FontAwesome name={"bell"} size={30} color={Colors.GRAY_LIGHT_4} />
                     </View>
                     <View><Text style={[styles.know_text, styles.know]}>Notification</Text></View>
                 </TouchableOpacity>
@@ -108,7 +108,7 @@ export default function SideMenu(props) {
 
                 <TouchableOpacity onPress={() => props.navigation.navigate('Reports')} style={[styles.profile_sec, styles.profile]}>
                     <View>
-                        <AntDesign name={"profile"} size={30} color={colors.GRAY_LIGHT_4} />
+                        <AntDesign name={"profile"} size={30} color={Colors.GRAY_LIGHT_4} />
                     </View>
                     <View><Text style={[styles.know_text, styles.know]}>Reports</Text></View>
                 </TouchableOpacity>
@@ -124,21 +124,21 @@ export default function SideMenu(props) {
 
                 <TouchableOpacity onPress={() => props.navigation.navigate('Home')} style={[styles.profile_sec, styles.profile]}>
                     <View>
-                        <Entypo name={"mail"} size={30} color={colors.GRAY_LIGHT_4} />
+                        <Entypo name={"mail"} size={30} color={Colors.GRAY_LIGHT_4} />
                     </View>
                     <View><Text style={[styles.know_text, styles.know]}>Mail Us</Text></View>
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => props.navigation.navigate('Home')} style={[styles.profile_sec, styles.profile]}>
                     <View>
-                        <FontAwesome name={"phone"} size={30} color={colors.GRAY_LIGHT_4} />
+                        <FontAwesome name={"phone"} size={30} color={Colors.GRAY_LIGHT_4} />
                     </View>
                     <View><Text style={[styles.know_text, styles.know]}>Call Us</Text></View>
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => props.navigation.navigate('Home')} style={[styles.profile_sec, styles.profile]}>
                     <View>
-                        <FontAwesome name={"address-book"} size={30} color={colors.GRAY_LIGHT_4} />
+                        <FontAwesome name={"address-book"} size={30} color={Colors.GRAY_LIGHT_4} />
                     </View>
                     <View><Text style={[styles.know_text, styles.know]}>About Us</Text></View>
                 </TouchableOpacity>
@@ -153,12 +153,12 @@ const styles = StyleSheet.create({
     },
     profile_sec: {
         flexDirection: "row",
-        backgroundColor: colors.GRAY_LIGHT_3,
+        backgroundColor: Colors.GRAY_LIGHT_3,
         paddingHorizontal: 20,
         paddingVertical: 7,
         marginVertical: 5,
     },
-    profile: { backgroundColor: colors.WHITE, },
+    profile: { backgroundColor: Colors.WHITE, },
     mutual1: {
         width: 100,
         height: 100,
@@ -167,16 +167,16 @@ const styles = StyleSheet.create({
         paddingLeft: 20,
         paddingTop: 3,
         fontSize: 18,
-        color: colors.RED,
+        color: Colors.RED,
     },
-    profileText: { color: colors.WHITE, fontSize: 18, },
-    know: { color: colors.BLACK, },
+    profileText: { color: Colors.WHITE, fontSize: 18, },
+    know: { color: Colors.BLACK, },
     border: {
         marginTop: 10,
         marginBottom: 10,
         height: 4,
         marginHorizontal: 20,
-        backgroundColor: colors.GRAY_LIGHT,
+        backgroundColor: Colors.GRAY_LIGHT,
 
     },
 })

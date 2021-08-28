@@ -12,7 +12,8 @@ import {
     TextInput,
     ActivityIndicator
 } from "react-native";
-import { colors } from '../../common/theme';
+import { connect } from 'react-redux'
+import { Styles, Config, Colors, FormValidate } from '@common'
 import { Ionicons, AntDesign } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 
@@ -20,7 +21,7 @@ export default function ForgotPasswordScreen(props) {
     return (
         <View style={styles.container}>
             <Header
-                backgroundColor={colors.LIGHT_WHITE}
+                backgroundColor={Colors.LIGHT_WHITE}
                 containerStyle={styles.header}
                 centerComponent={<Image
                     source={require('../../../assets/icon.png')}
@@ -52,7 +53,7 @@ export default function ForgotPasswordScreen(props) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: colors.GRAY_LIGHT_2,
+        backgroundColor: Colors.GRAY_LIGHT_2,
     },
     containerScroll: {
         width: '100%'
@@ -78,7 +79,7 @@ const styles = StyleSheet.create({
     confrom_button: { fontSize: 15, },
     bottom: { alignItems: "center", },
     botton_box: {
-        backgroundColor: colors.LIGHT_RED,
+        backgroundColor: Colors.LIGHT_RED,
         paddingHorizontal: 30,
         paddingVertical: 10,
         marginTop: 20,
@@ -87,7 +88,7 @@ const styles = StyleSheet.create({
 
     },
     get_otp: {
-        color: colors.WHITE,
+        color: Colors.WHITE,
         fontSize: 16,
         marginRight: 5,
         textAlign: "center",
@@ -96,11 +97,11 @@ const styles = StyleSheet.create({
         fontSize: 16,
         paddingHorizontal: 25,
         marginTop: 30,
-        color: colors.GRAY_LIGHT_1,
+        color: Colors.GRAY_LIGHT_1,
     },
     border: {
         borderBottomWidth: 2,
-        borderBottomColor: colors.GRAY_LIGHT,
+        borderBottomColor: Colors.GRAY_LIGHT,
         marginHorizontal: 25,
         marginVertical: 3,
     },

@@ -12,7 +12,8 @@ import {
     ActivityIndicator,
 
 } from "react-native";
-import { colors } from '../../common/theme';
+import { connect } from 'react-redux'
+import { Styles, Config, Colors, FormValidate } from '@common'
 import { Ionicons, AntDesign, MaterialIcons, Feather, Entypo, FontAwesome, FontAwesome5, } from 'react-native-vector-icons';
 import { Image, Header, ListItem, Overlay } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
@@ -64,14 +65,14 @@ export default function ReferEarnScreen(props) {
         <View style={styles.container}>
             {/* header  */}
             <Header
-                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={colors.RED} /></TouchableOpacity>} backgroundColor={colors.PEACH}
-                backgroundColor={colors.WHITE}
+                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={Colors.RED} /></TouchableOpacity>} backgroundColor={Colors.PEACH}
+                backgroundColor={Colors.WHITE}
                 centerComponent={<Image
                     source={require('../../../assets/icon.png')}
                     style={styles.logimg}
                 />}
 
-                rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={colors.RED} /></View>}
+                rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={Colors.RED} /></View>}
             />
             <ScrollView>
                 {/* invest section */}
@@ -96,7 +97,7 @@ export default function ReferEarnScreen(props) {
 
                     </View>
 
-                    <TouchableOpacity onPress={() => props.navigation.navigate('AmountHistory')} style={styles.earn_right}><MaterialIcons name={"keyboard-arrow-right"} size={50} color={colors.RED} /></TouchableOpacity>
+                    <TouchableOpacity onPress={() => props.navigation.navigate('AmountHistory')} style={styles.earn_right}><MaterialIcons name={"keyboard-arrow-right"} size={50} color={Colors.RED} /></TouchableOpacity>
                 </View>
 
                 {/* Share Your Referral Code start */}
@@ -106,14 +107,14 @@ export default function ReferEarnScreen(props) {
                     <Text style={styles.earn_text}>HKJVWCMNB</Text>
                     <View style={styles.invite_sec}>
                         <View><Text style={styles.text_code}>Start Inviting Friends</Text></View>
-                        <View style={styles.share_icon}><Entypo name={"share"} size={30} color={colors.GREEN_2} /></View>
+                        <View style={styles.share_icon}><Entypo name={"share"} size={30} color={Colors.GREEN_2} /></View>
                     </View>
                     <View style={styles.social}>
-                        <FontAwesome style={styles.social_icon} name={"whatsapp"} size={40} color={colors.DEEP_GRAY_1} />
-                        <Entypo style={styles.social_icon} name={"facebook-with-circle"} size={40} color={colors.DEEP_GRAY_1} />
-                        <Entypo style={styles.social_icon} name={"mail-with-circle"} size={40} color={colors.DEEP_GRAY_1} />
-                        <Entypo style={styles.social_icon} name={"twitter-with-circle"} size={40} color={colors.DEEP_GRAY_1} />
-                        <FontAwesome style={styles.social_icon} name={"stack-exchange"} size={40} color={colors.DEEP_GRAY_1} />
+                        <FontAwesome style={styles.social_icon} name={"whatsapp"} size={40} color={Colors.DEEP_GRAY_1} />
+                        <Entypo style={styles.social_icon} name={"facebook-with-circle"} size={40} color={Colors.DEEP_GRAY_1} />
+                        <Entypo style={styles.social_icon} name={"mail-with-circle"} size={40} color={Colors.DEEP_GRAY_1} />
+                        <Entypo style={styles.social_icon} name={"twitter-with-circle"} size={40} color={Colors.DEEP_GRAY_1} />
+                        <FontAwesome style={styles.social_icon} name={"stack-exchange"} size={40} color={Colors.DEEP_GRAY_1} />
                     </View>
                     <View style={styles.border}></View>
                 </View>
@@ -145,7 +146,7 @@ export default function ReferEarnScreen(props) {
                     {listTop.map((l, i) => (
                         <View key={i} style={styles.paragraph_sec}>
                             <View style={styles.paragraph_left}>
-                                <Entypo style={{ margin: 0 }} name={"dot-single"} size={20} color={colors.DEEP_GRAY_1} />
+                                <Entypo style={{ margin: 0 }} name={"dot-single"} size={20} color={Colors.DEEP_GRAY_1} />
                             </View>
                             <View style={styles.paragraph_right}><Text style={styles.paragraph_text}>{l.name}</Text></View>
                         </View>
@@ -158,7 +159,7 @@ export default function ReferEarnScreen(props) {
                     {list.map((l, i) => (
                         <View key={i} style={styles.paragraph_sec}>
                             <View style={styles.paragraph_left}>
-                                <Entypo style={{ margin: 0 }} name={"dot-single"} size={20} color={colors.DEEP_GRAY_1} />
+                                <Entypo style={{ margin: 0 }} name={"dot-single"} size={20} color={Colors.DEEP_GRAY_1} />
                             </View>
                             <View style={styles.paragraph_right}><Text style={styles.paragraph_text}>{l.name}</Text></View>
                         </View>
@@ -193,7 +194,7 @@ const styles = StyleSheet.create({
     invest_sec: {
         marginVertical: 8,
         alignItems: 'center',
-        backgroundColor: colors.WHITE,
+        backgroundColor: Colors.WHITE,
         marginHorizontal: 20,
 
         shadowColor: "#000",
@@ -214,17 +215,17 @@ const styles = StyleSheet.create({
     },
     text_code: {
         fontSize: 13,
-        color: colors.GRAY_2,
+        color: Colors.GRAY_2,
         paddingTop: 10,
     },
     earn_text: {
         fontSize: 16,
-        color: colors.BLUE_1,
+        color: Colors.BLUE_1,
         paddingVertical: 10,
     },
     view_text: {
         fontSize: 12,
-        color: colors.RED,
+        color: Colors.RED,
         paddingBottom: 20,
         textDecorationLine: 'underline',
     },
@@ -245,12 +246,12 @@ const styles = StyleSheet.create({
     },
     repees_text_left: {
         fontSize: 12,
-        color: colors.GRAY_2,
+        color: Colors.GRAY_2,
     },
     zero_text: { fontSize: 27, },
     rupees_text: {
         fontSize: 27,
-        color: colors.GREEN_2,
+        color: Colors.GREEN_2,
     },
 
     /* Share Your Referral Code start */
@@ -266,7 +267,7 @@ const styles = StyleSheet.create({
         width: '80%',
         height: 1,
         marginHorizontal: 20,
-        backgroundColor: colors.DEEP_GRAY_1,
+        backgroundColor: Colors.DEEP_GRAY_1,
         marginTop: 5,
         marginBottom: 30,
     },
@@ -280,7 +281,7 @@ const styles = StyleSheet.create({
     // How You Earn section
     earn_sec_text: {
         fontSize: 15,
-        color: colors.DEEP_GRAY_1,
+        color: Colors.DEEP_GRAY_1,
     },
     receive: {
         flexDirection: "row",
@@ -295,22 +296,22 @@ const styles = StyleSheet.create({
     receive_right: { width: '80%' },
     text_receive: {
         fontSize: 14,
-        color: colors.DEEP_GRAY_1,
+        color: Colors.DEEP_GRAY_1,
     },
     // paragraph_sec
     paragraph_sec: { flexDirection: "row", marginVertical: 5 },
     paragraph_left: { width: '10%' },
     paragraph_right: { width: '90%' },
-    paragraph_text: { color: colors.DEEP_GRAY_1, },
+    paragraph_text: { color: Colors.DEEP_GRAY_1, },
 
     sipfund_text: {
         paddingVertical: 10,
-        color: colors.DEEP_GRAY_1,
+        color: Colors.DEEP_GRAY_1,
     },
 
     condition:{ fontSize:14,
     fontWeight:"bold",
-    color: colors.DEEP_GRAY,
+    color: Colors.DEEP_GRAY,
     paddingVertical:10,
 
 },

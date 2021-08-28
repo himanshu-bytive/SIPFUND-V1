@@ -12,7 +12,8 @@ import {
     TextInput,
     ActivityIndicator
 } from "react-native";
-import { colors } from '../../common/theme';
+import { connect } from 'react-redux'
+import { Styles, Config, Colors, FormValidate } from '@common'
 import { Ionicons, AntDesign, MaterialIcons } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 
@@ -20,8 +21,8 @@ export default function CreatePasswordScreen(props) {
     return (
         <View style={styles.container}>
             <Header
-                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={colors.RED} /></TouchableOpacity>}
-                backgroundColor={colors.LIGHT_WHITE}
+                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={Colors.RED} /></TouchableOpacity>}
+                backgroundColor={Colors.LIGHT_WHITE}
                 containerStyle={styles.header}
                 centerComponent={<Image
                     source={require('../../../assets/icon.png')}
@@ -49,7 +50,7 @@ export default function CreatePasswordScreen(props) {
                     <View style={styles.conform}>
                         <TouchableOpacity onPress={() => props.navigation.navigate('Home')} style={styles.botton_box}>
                             <Text style={styles.get_otp}>CONFIRM</Text>
-                            <AntDesign name={"right"} size={26} color={colors.WHITE} />
+                            <AntDesign name={"right"} size={26} color={Colors.WHITE} />
                         </TouchableOpacity></View>
                 </View>
             </ScrollView>
@@ -64,7 +65,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     header: {
-        borderBottomColor: colors.BLACK,
+        borderBottomColor: Colors.BLACK,
         borderBottomWidth: 1
     },
     containerScroll: {
@@ -88,7 +89,7 @@ const styles = StyleSheet.create({
     number: { fontSize: 20, },
     inputsec: {
         borderWidth: 2,
-        borderColor: colors.GRAY_LIGHT,
+        borderColor: Colors.GRAY_LIGHT,
         width: '90%',
         height: 50,
         fontSize: 20,
@@ -96,16 +97,16 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         borderRadius: 10,
         paddingHorizontal: 10,
-        backgroundColor: colors.LITTLE_WHITE,
+        backgroundColor: Colors.LITTLE_WHITE,
     },
     refreshcode: {
         textAlign: "center",
-        color: colors.RED,
+        color: Colors.RED,
         fontSize: 15,
     },
     botton_box: {
         flexDirection: 'row',
-        backgroundColor: colors.RED,
+        backgroundColor: Colors.RED,
         paddingVertical: 10,
         paddingHorizontal: 20,
         marginTop: 20,
@@ -113,7 +114,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
     get_otp: {
-        color: colors.WHITE,
+        color: Colors.WHITE,
         fontSize: 22,
         fontWeight: 'bold',
         marginRight: 5,

@@ -13,7 +13,8 @@ import {
     ActivityIndicator,
     ScrollView,
 } from "react-native";
-import { colors } from '../../common/theme';
+import { connect } from 'react-redux'
+import { Styles, Config, Colors, FormValidate } from '@common'
 import { Entypo, AntDesign } from 'react-native-vector-icons';
 import { Header, Overlay } from 'react-native-elements';
 import Investments from '../../components/Investments'
@@ -40,9 +41,9 @@ export default function HamburgerMenu5Screen(props) {
     return (
         <View style={styles.container}>
             <Header
-                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={colors.RED} /></TouchableOpacity>}
-                rightComponent={<TouchableOpacity onPress={() => props.navigation.navigate('Toprated')} style={{ marginTop: 20 }}><AntDesign name={"shoppingcart"} size={30} color={colors.RED} /></TouchableOpacity>}
-                backgroundColor={colors.LIGHT_WHITE}
+                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={Colors.RED} /></TouchableOpacity>}
+                rightComponent={<TouchableOpacity onPress={() => props.navigation.navigate('Toprated')} style={{ marginTop: 20 }}><AntDesign name={"shoppingcart"} size={30} color={Colors.RED} /></TouchableOpacity>}
+                backgroundColor={Colors.LIGHT_WHITE}
                 containerStyle={styles.header}
                 centerComponent={<Image
                     source={require('../../../assets/icon.png')}
@@ -177,14 +178,14 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     switch_sec: {
-        backgroundColor: colors.RED,
+        backgroundColor: Colors.RED,
     },
     transaction: {
         fontSize: 21,
         fontWeight: "bold",
         textAlign: "center",
         marginVertical: 20,
-        color: colors.WHITE,
+        color: Colors.WHITE,
     },
     tab_sec: {
         flexDirection: "row",
@@ -195,7 +196,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     switch: {
-        color: colors.WHITE,
+        color: Colors.WHITE,
         fontSize: 13,
     },
     main_box: {
@@ -207,34 +208,34 @@ const styles = StyleSheet.create({
 
     },
     blue_sec: {
-        backgroundColor: colors.BLUE_1,
+        backgroundColor: Colors.BLUE_1,
         alignItems: "center",
 
         width: "32%",
     },
     red_sec: {
-        backgroundColor: colors.LIGHT_PINK,
+        backgroundColor: Colors.LIGHT_PINK,
         alignItems: "center",
 
         width: "32%",
     },
     green_sec: {
-        backgroundColor: colors.GREEN_1,
+        backgroundColor: Colors.GREEN_1,
         alignItems: "center",
         width: "32%",
     },
     total_investment: {
         fontSize: 10,
         marginTop: 15,
-        color: colors.WHITE,
+        color: Colors.WHITE,
     },
     price: {
         fontSize: 10,
         marginBottom: 15,
-        color: colors.WHITE,
+        color: Colors.WHITE,
     },
     fund_sec: {
-        backgroundColor: colors.WHITE,
+        backgroundColor: Colors.WHITE,
         marginTop: 20,
     },
     axis_sec: {
@@ -242,7 +243,7 @@ const styles = StyleSheet.create({
     },
     axis: {
         fontSize: 16,
-        color: colors.WHITE,
+        color: Colors.WHITE,
         marginLeft: 10,
         marginVertical: 10,
     },
@@ -252,7 +253,7 @@ const styles = StyleSheet.create({
     axis_treasury: {
         fontSize: 12,
         fontWeight: "bold",
-        color: colors.DEEP_GRAY,
+        color: Colors.DEEP_GRAY,
         marginBottom: 10,
         width: "80%",
     },
@@ -266,7 +267,7 @@ const styles = StyleSheet.create({
     },
     folio: {
         fontSize: 15,
-        color: colors.BLACK,
+        color: Colors.BLACK,
     },
     green: { color: "#5DA753" },
 
@@ -274,15 +275,15 @@ const styles = StyleSheet.create({
 
 
     holding_sec: {
-        backgroundColor: colors.RED,
+        backgroundColor: Colors.RED,
         alignItems: "center",
     },
     botton_box: {
-        backgroundColor: colors.RED,
+        backgroundColor: Colors.RED,
         paddingVertical: 20,
     },
     proceed: {
-        color: colors.WHITE,
+        color: Colors.WHITE,
         fontSize: 12,
         fontWeight: 'bold',
         textAlign: "center",
@@ -294,7 +295,7 @@ const styles = StyleSheet.create({
     },
     botton_box2: {
         width: "49%",
-        backgroundColor: colors.RED,
+        backgroundColor: Colors.RED,
         paddingVertical: 20,
     },
     bottonsec:{marginBottom:10},

@@ -14,8 +14,9 @@ import {
 
 
 } from "react-native";
-import { colors } from '../../common/theme';
-import { commonStyles } from '../../common/styles';
+import { connect } from 'react-redux'
+import { Styles, Config, Colors, FormValidate } from '@common'
+
 import { Ionicons, AntDesign, MaterialIcons, Feather, Entypo, FontAwesome, FontAwesome5, } from 'react-native-vector-icons';
 import { Image, Header, ListItem, Overlay, Slider } from 'react-native-elements';
 import ReturnsCalculator from './ReturnsCalculator'
@@ -52,15 +53,15 @@ export default function FundDetailScreen(props) {
         <View style={styles.container}>
             {/* header  */}
             <Header
-                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={colors.RED} /></TouchableOpacity>} backgroundColor={colors.PEACH}
-                backgroundColor={colors.LIGHT_WHITE}
-                containerStyle={commonStyles.header}
+                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={Colors.RED} /></TouchableOpacity>} backgroundColor={Colors.PEACH}
+                backgroundColor={Colors.LIGHT_WHITE}
+                containerStyle={Styles.header}
                 centerComponent={<Image
                     source={require('../../../assets/icon.png')}
                     style={styles.logimg}
                 />}
 
-                rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={colors.RED} /></View>}
+                rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={Colors.RED} /></View>}
             />
             <ScrollView style={styles.containerScroll}>
                 <View style={styles.contain_box}>
@@ -79,7 +80,7 @@ export default function FundDetailScreen(props) {
                         <View style={styles.bottom_sec}>
                             <View style={styles.holding}>
                                 <View><Text style={styles.holding_text}>{item.text} {(item.text === 'Portfolio Summary') && (<Text style={styles.current}>(Current Date)</Text>)} </Text></View>
-                                <View style={styles.holding_icon}><TouchableOpacity onPress={() => toggleFundType(key)}><AntDesign name={item.show ? "up" : "down"} size={20} color={colors.RED} /></TouchableOpacity></View>
+                                <View style={styles.holding_icon}><TouchableOpacity onPress={() => toggleFundType(key)}><AntDesign name={item.show ? "up" : "down"} size={20} color={Colors.RED} /></TouchableOpacity></View>
                             </View>
                         </View>
                         {item.show && (<View>
@@ -134,13 +135,13 @@ const styles = StyleSheet.create({
     holding: {
         flexDirection: "row",
         borderBottomWidth: 1,
-        borderBottomColor: colors.RED,
+        borderBottomColor: Colors.RED,
         paddingVertical: 5,
 
     },
     holding_text: {
         fontSize: 18,
-        color: colors.RED,
+        color: Colors.RED,
     },
     holding_icon: {
         position: 'absolute',
@@ -148,7 +149,7 @@ const styles = StyleSheet.create({
         marginTop: 5,
     },
     submit: {
-        backgroundColor: colors.LIGHT_RED,
+        backgroundColor: Colors.LIGHT_RED,
         alignItems: "center",
         borderRadius: 5,
         marginHorizontal: 20,
@@ -156,12 +157,12 @@ const styles = StyleSheet.create({
     },
     submit_text: {
         fontSize: 25,
-        color: colors.WHITE,
+        color: Colors.WHITE,
         paddingVertical: 10,
     },
 
     get_otp: {
-        color: colors.WHITE,
+        color: Colors.WHITE,
         fontSize: 16,
         marginRight: 5,
         textAlign: "center",
@@ -179,7 +180,7 @@ const styles = StyleSheet.create({
         margin: 5,
         width: '100%',
         borderWidth: 1,
-        borderColor: colors.GRAY_LIGHT,
+        borderColor: Colors.GRAY_LIGHT,
         borderRadius: 20,
     },
     check: {
@@ -194,17 +195,17 @@ const styles = StyleSheet.create({
     current: { fontSize: 10, },
     botton_box: {
         width: "50%",
-        backgroundColor: colors.RED,
+        backgroundColor: Colors.RED,
         paddingVertical: 10,
         marginTop: 20,
         marginBottom: 20,
 
-        borderColor: colors.DEEP_GRAY,
+        borderColor: Colors.DEEP_GRAY,
         borderRadius: 5,
         marginHorizontal: 5,
     },
     get_otp: {
-        color: colors.WHITE,
+        color: Colors.WHITE,
         fontSize: 18,
         fontWeight: 'bold',
         textAlign: "center",
@@ -216,12 +217,12 @@ const styles = StyleSheet.create({
         marginTop: 20,
         marginBottom: 20,
 
-        borderColor: colors.DEEP_GRAY,
+        borderColor: Colors.DEEP_GRAY,
         borderRadius: 5,
         marginHorizontal: 5,
     },
     get_otp2: {
-        color: colors.RED,
+        color: Colors.RED,
         fontSize: 18,
         fontWeight: 'bold',
         textAlign: "center",
@@ -237,7 +238,7 @@ const styles = StyleSheet.create({
     },
     price: {
         fontSize: 18,
-        color: colors.RED,
+        color: Colors.RED,
 
     },
     back_sec: {
@@ -250,7 +251,7 @@ const styles = StyleSheet.create({
     },
     back_year: {
         fontSize: 18,
-        color: colors.RED,
+        color: Colors.RED,
     },
     back_year2: {
         fontSize: 18,
@@ -258,7 +259,7 @@ const styles = StyleSheet.create({
     },
     rs: {
         fontSize: 20,
-        color: colors.RED,
+        color: Colors.RED,
         marginTop: 10,
         marginLeft: 15,
     },

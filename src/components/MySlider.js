@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
 import { StyleSheet } from "react-native";
-import { colors } from '../common/theme';
+import { Styles, Config, Colors, FormValidate } from '@common'
 import { Slider } from 'react-native-elements';
 
 export default function MySlider(props) {

@@ -8,8 +8,9 @@ import {
     Dimensions,
     ScrollView,
 } from "react-native";
-import { colors } from '../../common/theme';
-import { commonStyles } from '../../common/styles';
+import { connect } from 'react-redux'
+import { Styles, Config, Colors, FormValidate } from '@common'
+
 import { Entypo, AntDesign } from 'react-native-vector-icons';
 import { Header, Overlay, CheckBox, Input } from 'react-native-elements';
 import Investments from '../../components/Investments'
@@ -40,10 +41,10 @@ export default function HomeScreen(props) {
     return (
         <View style={styles.container}>
             <Header
-                leftComponent={<TouchableOpacity onPress={() => props.navigation.toggleDrawer()} style={{ marginTop: 20 }}><Entypo name={"menu"} size={30} color={colors.RED} /></TouchableOpacity>}
-                rightComponent={<TouchableOpacity onPress={() => props.navigation.navigate('Toprated')} style={{ marginTop: 20 }}><AntDesign name={"shoppingcart"} size={30} color={colors.RED} /></TouchableOpacity>}
-                backgroundColor={colors.LIGHT_WHITE}
-                containerStyle={commonStyles.header}
+                leftComponent={<TouchableOpacity onPress={() => props.navigation.toggleDrawer()} style={{ marginTop: 20 }}><Entypo name={"menu"} size={30} color={Colors.RED} /></TouchableOpacity>}
+                rightComponent={<TouchableOpacity onPress={() => props.navigation.navigate('Toprated')} style={{ marginTop: 20 }}><AntDesign name={"shoppingcart"} size={30} color={Colors.RED} /></TouchableOpacity>}
+                backgroundColor={Colors.LIGHT_WHITE}
+                containerStyle={Styles.header}
                 centerComponent={<Image
                     source={require('../../../assets/icon.png')}
                     style={styles.logimg}
@@ -437,7 +438,7 @@ export default function HomeScreen(props) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: colors.WHITE
+        backgroundColor: Colors.WHITE
     },
     containerScroll: {
         width: '100%'
@@ -462,7 +463,7 @@ const styles = StyleSheet.create({
     },
     HelloIinvestor1: {
         fontSize: 16,
-        color: colors.GRAY_DEEP,
+        color: Colors.GRAY_DEEP,
         fontWeight: "bold",
         marginTop: 30,
     },
@@ -470,7 +471,7 @@ const styles = StyleSheet.create({
 
     Plan: {
         fontSize: 20,
-        color: colors.DEEP_GRAY,
+        color: Colors.DEEP_GRAY,
         fontWeight: "bold",
         paddingHorizontal: 10,
         paddingVertical: 15,
@@ -484,12 +485,12 @@ const styles = StyleSheet.create({
         width: 370,
         borderWidth: 2,
         borderStyle: "solid",
-        borderColor: colors.GRAY_LIGHT,
+        borderColor: Colors.GRAY_LIGHT,
         borderRadius: 15,
         marginVertical: 20,
         marginHorizontal: 5,
         padding: 20,
-        backgroundColor: colors.WHITE,
+        backgroundColor: Colors.WHITE,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -506,7 +507,7 @@ const styles = StyleSheet.create({
     },
     quick_access: {
         borderRadius: 0,
-        borderColor: colors.BLACK,
+        borderColor: Colors.BLACK,
         borderWidth: 1,
         width: 340,
 
@@ -529,7 +530,7 @@ const styles = StyleSheet.create({
     },
     child_text: {
         fontSize: 18,
-        color: colors.GRAY_LIGHT_1,
+        color: Colors.GRAY_LIGHT_1,
         paddingTop: 15,
         paddingLeft: 20,
     },
@@ -537,7 +538,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
         height: 4,
         marginHorizontal: 20,
-        backgroundColor: colors.GRAY_LIGHT,
+        backgroundColor: Colors.GRAY_LIGHT,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -552,7 +553,7 @@ const styles = StyleSheet.create({
     },
     investment: {
         borderRadius: 20,
-        backgroundColor: colors.WHITE,
+        backgroundColor: Colors.WHITE,
         width: '30%',
         alignItems: "center",
         margin: 7,
@@ -584,12 +585,12 @@ const styles = StyleSheet.create({
     },
     all_plan_text: {
         fontSize: 16,
-        color: colors.RED,
+        color: Colors.RED,
         fontWeight: "bold",
     },
     roted_text: {
         fontSize: 20,
-        color: colors.DEEP_GRAY,
+        color: Colors.DEEP_GRAY,
         fontWeight: "bold",
         paddingLeft: 20,
         marginTop: 20,
@@ -599,13 +600,13 @@ const styles = StyleSheet.create({
         width: 126,
     },
     quick_sec: {
-        backgroundColor: colors.PINK,
+        backgroundColor: Colors.PINK,
         paddingBottom: 20,
     },
 
     quick_text: {
         fontSize: 20,
-        color: colors.RED,
+        color: Colors.RED,
         fontWeight: "bold",
         paddingLeft: 20,
         marginVertical: 20,
@@ -623,13 +624,13 @@ const styles = StyleSheet.create({
         width: 86,
     },
     earn: {
-        color: colors.RED,
+        color: Colors.RED,
         fontSize: 20,
         fontWeight: "bold",
         paddingLeft: 20,
     },
     ship_text: {
-        color: colors.BLACK,
+        color: Colors.BLACK,
         textAlign: "center",
         paddingTop: 10,
 
@@ -644,11 +645,11 @@ const styles = StyleSheet.create({
         width: 150,
         borderWidth: 3,
         borderStyle: "solid",
-        borderColor: colors.YELLOW_LIGHT,
+        borderColor: Colors.YELLOW_LIGHT,
         marginVertical: 20,
         marginHorizontal: 5,
         padding: 10,
-        backgroundColor: colors.WHITE,
+        backgroundColor: Colors.WHITE,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -661,7 +662,7 @@ const styles = StyleSheet.create({
     },
     minimum: {
         fontSize: 13,
-        color: colors.BLACK,
+        color: Colors.BLACK,
     },
     term9: {
         width: 50,
@@ -705,22 +706,22 @@ const styles = StyleSheet.create({
     Mutualfund: {
         fontSize: 20,
         marginTop: 9,
-        color: colors.GREY_1,
+        color: Colors.GREY_1,
     },
     botton_box: {
         alignItems: "center",
-        backgroundColor: colors.RED,
+        backgroundColor: Colors.RED,
         width: width - 50,
         paddingVertical: 20,
         marginVertical: 50,
         borderRadius: 10,
         // borderWidth: 2,
-        // borderColor: colors.DEEP_GRAY,
+        // borderColor: Colors.DEEP_GRAY,
         marginHorizontal: 10,
 
     },
     get_otp: {
-        color: colors.WHITE,
+        color: Colors.WHITE,
         fontSize: 20,
         fontWeight: 'bold',
     },
@@ -745,7 +746,7 @@ const styles = StyleSheet.create({
     },
     knowledge: {
         fontSize: 22,
-        color: colors.DEEP_GRAY,
+        color: Colors.DEEP_GRAY,
         fontWeight: "bold",
         paddingLeft: 20,
         paddingBottom: 40,
@@ -754,7 +755,7 @@ const styles = StyleSheet.create({
     view: {
         fontSize: 15,
         textAlign: "center",
-        color: colors.RED,
+        color: Colors.RED,
         fontWeight: "bold",
         paddingBottom: 5
     },
@@ -777,7 +778,7 @@ const styles = StyleSheet.create({
         marginVertical: 10,
     },
     emaAmcCheck: {
-        backgroundColor: colors.TRANSPARENT,
+        backgroundColor: Colors.TRANSPARENT,
         fontSize: 15,
         borderWidth: 0,
         margin: 0,
@@ -792,6 +793,6 @@ const styles = StyleSheet.create({
         fontSize: 15,
         marginTop: 15,
         marginLeft: 15,
-        color: colors.RED,
+        color: Colors.RED,
     },
 });

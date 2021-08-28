@@ -12,7 +12,8 @@ import {
     TextInput,
     ActivityIndicator
 } from "react-native";
-import { colors } from '../../common/theme';
+import { connect } from 'react-redux'
+import { Styles, Config, Colors, FormValidate } from '@common'
 import { Ionicons, AntDesign, Entypo, FontAwesome5 } from 'react-native-vector-icons';
 import { Image, Header, Overlay, CheckBox } from 'react-native-elements';
 
@@ -27,14 +28,14 @@ export default function CompleteDetails3Screen(props) {
     return (
         <View style={styles.container}>
             <Header
-                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={40} color={colors.RED} /></TouchableOpacity>}
+                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={40} color={Colors.RED} /></TouchableOpacity>}
                 containerStyle={styles.header}
-                backgroundColor={colors.LIGHT_WHITE}
+                backgroundColor={Colors.LIGHT_WHITE}
                 centerComponent={<Image
                     source={require('../../../assets/icon.png')}
                     style={styles.logimg}
                 />}
-                rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={colors.RED} /></View>}
+                rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={Colors.RED} /></View>}
             />
             <ScrollView>
                 <View style={styles.heading_sec}>
@@ -49,7 +50,7 @@ export default function CompleteDetails3Screen(props) {
                         <Text style={styles.private}>Saving Account</Text>
                         <AntDesign name="right" size={20} color="#000000" />
                     </View>
-                    <View style={{ borderWidth: 1, borderColor: colors.DEEP_GRAY, }}></View>
+                    <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY, }}></View>
 
                     {/* address_sec */}
 
@@ -57,14 +58,14 @@ export default function CompleteDetails3Screen(props) {
                     <Text style={styles.occupation}>Account No.</Text>
                     <Text style={styles.example}>4093101003831</Text>
 
-                    <View style={{ borderWidth: 1, borderColor: colors.DEEP_GRAY, }}></View>
+                    <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY, }}></View>
 
                     {/* pincode_sec */}
 
                     <Text style={styles.Pincode}>IFSC Code</Text>
                     <Text style={styles.example}>CNRB0004093</Text>
 
-                    <View style={{ borderWidth: 1, borderColor: colors.RED, }}></View>
+                    <View style={{ borderWidth: 1, borderColor: Colors.RED, }}></View>
 
                     <View style={{ alignItems: "center", }}>
 
@@ -90,18 +91,18 @@ export default function CompleteDetails3Screen(props) {
                         <Text style={styles.private}>Canara Bank</Text>
                         <AntDesign name="right" size={20} color="#000000" />
                     </View>
-                    <View style={{ borderWidth: 1, borderColor: colors.DEEP_GRAY, }}></View>
+                    <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY, }}></View>
 
 
                     <Text style={styles.occupation}>Branch Name</Text>
                     <Text style={styles.example}>COTAI</Text>
 
-                    <View style={{ borderWidth: 1, borderColor: colors.DEEP_GRAY, }}></View>
+                    <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY, }}></View>
 
                     <Text style={styles.occupation}>Branch Address</Text>
                     <Text style={styles.example}>Kishor Nagar PO</Text>
 
-                    <View style={{ borderWidth: 1, borderColor: colors.DEEP_GRAY, }}></View>
+                    <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY, }}></View>
 
                 </View>
 
@@ -146,7 +147,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#EAE9EE",
     },
     header: {
-        borderBottomColor: colors.BLACK,
+        borderBottomColor: Colors.BLACK,
         borderBottomWidth: 1
     },
     container_sec: {
@@ -167,7 +168,7 @@ const styles = StyleSheet.create({
     },
     occupation: {
         fontSize: 15,
-        color: colors.DEEP_GRAY,
+        color: Colors.DEEP_GRAY,
         fontWeight: "bold",
         marginTop: 10,
 
@@ -189,7 +190,7 @@ const styles = StyleSheet.create({
         marginLeft: 10,
     },
     Pincode: {
-        color: colors.RED,
+        color: Colors.RED,
         fontSize: 15,
         marginTop: 10,
     },
@@ -203,13 +204,13 @@ const styles = StyleSheet.create({
     },
     botton_box: {
         width: "50%",
-        backgroundColor: colors.RED,
+        backgroundColor: Colors.RED,
         paddingVertical: 10,
         marginTop: 10,
         marginHorizontal: 5,
     },
     get_otp: {
-        color: colors.WHITE,
+        color: Colors.WHITE,
         fontSize: 18,
         fontWeight: 'bold',
         textAlign: "center",

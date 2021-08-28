@@ -12,7 +12,8 @@ import {
     TextInput,
     ActivityIndicator
 } from "react-native";
-import { colors } from '../../common/theme';
+import { connect } from 'react-redux'
+import { Styles, Config, Colors, FormValidate } from '@common'
 import { Ionicons, AntDesign } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 
@@ -20,7 +21,7 @@ export default function PasswordScreen(props) {
     return (
         <View style={styles.container}>
             <Header
-                backgroundColor={colors.LIGHT_WHITE}
+                backgroundColor={Colors.LIGHT_WHITE}
                 containerStyle={styles.header}
                 centerComponent={<Image
                     source={require('../../../assets/icon.png')}
@@ -47,14 +48,14 @@ export default function PasswordScreen(props) {
                     <CheckBox
                         title='Terms & Conditions'
                         containerStyle={styles.checkbox_style}
-                        textStyle={{ color: colors.RED, fontSize: 14 }}
+                        textStyle={{ color: Colors.RED, fontSize: 14 }}
                         checked={false}
-                        checkedColor={colors.BLACK}
-                        uncheckedColor={colors.RED}
+                        checkedColor={Colors.BLACK}
+                        uncheckedColor={Colors.RED}
                     />
                     <TouchableOpacity onPress={() => props.navigation.navigate('Home')} style={styles.botton_box}>
                         <Text style={styles.get_otp}>CONFIRM</Text>
-                        <AntDesign name={"right"} size={26} color={colors.WHITE} />
+                        <AntDesign name={"right"} size={26} color={Colors.WHITE} />
                     </TouchableOpacity>
                 </View>
             </ScrollView>
@@ -72,7 +73,7 @@ const styles = StyleSheet.create({
         width: '100%'
     },
     header: {
-        borderBottomColor: colors.BLACK,
+        borderBottomColor: Colors.BLACK,
         borderBottomWidth: 1
     },
     mainBox: {
@@ -105,7 +106,7 @@ const styles = StyleSheet.create({
     number: { fontSize: 22, },
     inputsec: {
         borderWidth: 2,
-        borderColor: colors.GRAY_LIGHT,
+        borderColor: Colors.GRAY_LIGHT,
         width: '100%',
         height: 50,
         fontSize: 20,
@@ -113,11 +114,11 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         borderRadius: 10,
         paddingHorizontal: 10,
-        backgroundColor: colors.LITTLE_WHITE,
+        backgroundColor: Colors.LITTLE_WHITE,
     },
     refreshcode: {
         textAlign: "right",
-        color: colors.RED,
+        color: Colors.RED,
         fontSize: 15,
     },
     confrom_button: {
@@ -126,19 +127,19 @@ const styles = StyleSheet.create({
     },
 
     checkbox_style: {
-        backgroundColor: colors.TRANSPARENT,
-        borderColor: colors.TRANSPARENT,
+        backgroundColor: Colors.TRANSPARENT,
+        borderColor: Colors.TRANSPARENT,
     },
     botton_box: {
         flexDirection: 'row',
-        backgroundColor: colors.RED,
+        backgroundColor: Colors.RED,
         paddingHorizontal: 70,
         paddingVertical: 10,
         marginTop: 20,
         borderRadius: 10,
     },
     get_otp: {
-        color: colors.WHITE,
+        color: Colors.WHITE,
         fontSize: 22,
         fontWeight: 'bold',
         marginRight: 5,

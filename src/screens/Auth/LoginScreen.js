@@ -1,24 +1,20 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
 import {
     StyleSheet,
-    Button,
-    ScrollView,
     View,
-    ImageBackground,
     Text,
     Dimensions,
-    KeyboardAvoidingView,
     TextInput,
     Image,
     TouchableOpacity,
     ActivityIndicator
 } from "react-native";
-import { colors } from '../../common/theme';
+import { connect } from 'react-redux'
+import { Styles, Config, Colors, FormValidate } from '@common'
 import { MaterialIcons, AntDesign } from 'react-native-vector-icons';
-
 const width = Dimensions.get('window').width;
 
-export default function LoginScreen(props) {
+function LoginScreen(props) {
     return (
         <View style={styles.container}>
             <View><Text style={styles.slogan}>Achieve Your <Text style={styles.sloganRed}>Dreams</Text></Text></View>
@@ -72,21 +68,21 @@ export default function LoginScreen(props) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: colors.GREY_1,
+        backgroundColor: Colors.GREY_1,
         alignItems: 'center',
         justifyContent: 'center',
     },
     slogan: {
         fontSize: 30,
-        color: colors.BLACK,
+        color: Colors.BLACK,
         marginBottom: 30
     },
     sloganRed: {
-        color: colors.RED
+        color: Colors.RED
     },
     mainbox: {
         borderRadius: 25,
-        backgroundColor: colors.WHITE,
+        backgroundColor: Colors.WHITE,
         width: width - 50,
     },
     logoimg: {
@@ -122,14 +118,14 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     botton_box: {
-        backgroundColor: colors.RED,
+        backgroundColor: Colors.RED,
         paddingHorizontal: 50,
         paddingVertical: 10,
         marginTop: 20,
         borderRadius: 10,
     },
     get_otp: {
-        color: colors.WHITE,
+        color: Colors.WHITE,
         fontSize: 15,
     },
     nseimg: {
@@ -140,7 +136,23 @@ const styles = StyleSheet.create({
         marginTop: 10,
         marginBottom: 20,
         fontSize: 12,
-        color: colors.GREY_1,
+        color: Colors.GREY_1,
         alignItems: "center",
     },
 });
+
+const mapStateToProps = (state) => ({
+    ticket: state.auth.ticket,
+    users: state.auth.users,
+})
+
+const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
+    const { dispatch } = dispatchProps;
+    const { AuthActions } = require('../../store/AuthRedux')
+    return {
+        ...stateProps,
+        ...ownProps,
+        logOut: () => { AuthActions.logOut(dispatch) },
+    }
+}
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(LoginScreen)

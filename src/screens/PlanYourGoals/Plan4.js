@@ -11,8 +11,9 @@ import {
     TextInput,
     ActivityIndicator
 } from "react-native";
-import { colors } from '../../common/theme';
-import { commonStyles } from '../../common/styles';
+import { connect } from 'react-redux'
+import { Styles, Config, Colors, FormValidate } from '@common'
+
 import { Ionicons, AntDesign, Entypo, FontAwesome5 } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
@@ -24,14 +25,14 @@ export default function Plan4(props) {
         <View style={styles.container}>
 
             <Header
-                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={40} color={colors.RED} /></TouchableOpacity>}
-                containerStyle={commonStyles.header}
-                backgroundColor={colors.LIGHT_WHITE}
+                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={40} color={Colors.RED} /></TouchableOpacity>}
+                containerStyle={Styles.header}
+                backgroundColor={Colors.LIGHT_WHITE}
                 centerComponent={<Image
                     source={require('../../../assets/icon.png')}
                     style={styles.logimg}
                 />}
-                rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={colors.RED} /></View>}
+                rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={Colors.RED} /></View>}
             />
             <ScrollView style={styles.containerScroll}>
 
@@ -71,7 +72,7 @@ export default function Plan4(props) {
                 {/* Axis Asset Management Company Ltd */}
 
 
-                <PlanYourGoalFundType />
+                <PlanYourGoalFundType onPress={() => props.navigation.navigate('FundsDetails')}  />
 
                 <View style={styles.hybrid_sec}>
                     <View style={{ backgroundColor: "#EFEFEF", }}>
@@ -81,7 +82,7 @@ export default function Plan4(props) {
 
                 {/* axis_asset........2_sec */}
 
-                <PlanYourGoalFundType />
+                <PlanYourGoalFundType onPress={() => props.navigation.navigate('FundsDetails')}  />
 
 
                 {/* Hybrid_sec.....3 */}
@@ -94,7 +95,7 @@ export default function Plan4(props) {
 
                 {/* axis_asset......4_sec */}
 
-                <PlanYourGoalFundType />
+                <PlanYourGoalFundType onPress={() => props.navigation.navigate('FundsDetails')}  />
 
 
                 <View style={styles.hybrid_sec}>
@@ -104,7 +105,7 @@ export default function Plan4(props) {
                 </View>
 
 
-                <PlanYourGoalFundType />
+                <PlanYourGoalFundType onPress={() => props.navigation.navigate('FundsDetails')}  />
 
             </ScrollView>
             <TouchableOpacity onPress={() => props.navigation.navigate('Plan3')}><Text style={styles.add}>I would like to add more funds</Text></TouchableOpacity>
@@ -128,7 +129,7 @@ const styles = StyleSheet.create({
     },
 
     header: {
-        borderBottomColor: colors.BLACK,
+        borderBottomColor: Colors.BLACK,
         borderBottomWidth: 1,
     },
     containerScroll: {
@@ -142,19 +143,19 @@ const styles = StyleSheet.create({
     sip_left: {
         width: "50%",
         borderBottomWidth: 1,
-        borderBottomColor: colors.RED,
+        borderBottomColor: Colors.RED,
     },
     lumpsum: {
         width: "50%",
         borderBottomWidth: 1,
-        borderBottomColor: colors.DEEP_GRAY,
+        borderBottomColor: Colors.DEEP_GRAY,
     },
     sip: {
         fontSize: 18,
         fontWeight: "bold",
         textAlign: "center",
         marginBottom: 10,
-        color: colors.RED,
+        color: Colors.RED,
     },
     lump: {
         fontSize: 18,
@@ -176,12 +177,12 @@ const styles = StyleSheet.create({
 
         fontSize: 15,
         fontWeight: "bold",
-        color: colors.DEEP_GRAY,
+        color: Colors.DEEP_GRAY,
     },
     month: {
         fontSize: 13,
         fontWeight: "bold",
-        color: colors.DEEP_GRAY,
+        color: Colors.DEEP_GRAY,
         position: "absolute",
         right: 0,
 
@@ -191,12 +192,12 @@ const styles = StyleSheet.create({
     investment: {
         fontSize: 15,
         fontWeight: "bold",
-        color: colors.DEEP_GRAY,
+        color: Colors.DEEP_GRAY,
     },
     price: {
         fontSize: 20,
         fontWeight: "bold",
-        color: colors.RED,
+        color: Colors.RED,
         position: "absolute",
         right: 0,
     },
@@ -207,14 +208,14 @@ const styles = StyleSheet.create({
     hybrid: {
         fontSize: 18,
         fontWeight: "bold",
-        color: colors.RED,
+        color: Colors.RED,
         marginVertical: 10,
         marginLeft: 10,
     },
     axis_asset: {
         marginHorizontal: 20,
         marginTop: 10,
-        backgroundColor: colors.WHITE,
+        backgroundColor: Colors.WHITE,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -238,7 +239,7 @@ const styles = StyleSheet.create({
     },
     moderately: {
         fontSize: 12,
-        color: colors.DEEP_GRAY,
+        color: Colors.DEEP_GRAY,
     },
     axisimg: {
         height: 44,
@@ -270,29 +271,29 @@ const styles = StyleSheet.create({
     },
     no: {
         fontSize: 15,
-        color: colors.DEEP_GRAY,
+        color: Colors.DEEP_GRAY,
     },
     new: {
         fontSize: 18,
     },
     more_funds: {
         fontSize: 18,
-        color: colors.RED,
+        color: Colors.RED,
         textAlign: "center",
         marginTop: 10,
     },
     botton_box: {
 
-        backgroundColor: colors.RED,
+        backgroundColor: Colors.RED,
         marginHorizontal: 30,
         marginVertical: 20,
         borderWidth: 1,
         borderRadius: 5,
-        borderColor: colors.DEEP_GRAY,
+        borderColor: Colors.DEEP_GRAY,
         paddingVertical: 10,
     },
     get_otp: {
-        color: colors.WHITE,
+        color: Colors.WHITE,
         fontSize: 20,
         fontWeight: 'bold',
         textAlign: "center",
@@ -302,7 +303,7 @@ const styles = StyleSheet.create({
     education: {
         flexDirection: "row",
         paddingHorizontal: 20,
-        backgroundColor: colors.WHITE,
+        backgroundColor: Colors.WHITE,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -328,11 +329,11 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: "bold",
         paddingLeft: 20,
-        color: colors.DEEP_GRAY,
+        color: Colors.DEEP_GRAY,
     },
     child_text: {
         fontSize: 16,
-        color: colors.RED,
+        color: Colors.RED,
         paddingTop: 10,
         paddingLeft: 20,
         fontWeight: "bold",
@@ -344,7 +345,7 @@ const styles = StyleSheet.create({
     add: {
         marginVertical: 20,
         textAlign: "center",
-        color: colors.RED,
+        color: Colors.RED,
         fontSize: 18,
     },
 

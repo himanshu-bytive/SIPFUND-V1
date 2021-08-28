@@ -11,7 +11,8 @@ import {
     TextInput,
     ActivityIndicator
 } from "react-native";
-import { colors } from '../../common/theme';
+import { connect } from 'react-redux'
+import { Styles, Config, Colors, FormValidate } from '@common'
 import { Ionicons, AntDesign } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 
@@ -107,7 +108,7 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         borderWidth: 2,
         borderStyle: "solid",
-        borderColor: colors.GRAY_LIGHT,
+        borderColor: Colors.GRAY_LIGHT,
         marginVertical: 30,
         padding: 10,
     },
@@ -118,14 +119,14 @@ const styles = StyleSheet.create({
     },
     inputsec: {
         borderBottomWidth: 1,
-        borderColor: colors.GRAY_LIGHT,
+        borderColor: Colors.GRAY_LIGHT,
         width: '95%',
         marginTop: 5,
     },
 
     refreshcode: {
         textAlign: "right",
-        color: colors.RED,
+        color: Colors.RED,
         fontSize: 15,
         marginHorizontal: 10,
         marginVertical: 20,
@@ -138,7 +139,7 @@ const styles = StyleSheet.create({
 
     graph_sec: {
         flexDirection: "row",
-        borderColor: colors.GREY_1,
+        borderColor: Colors.GREY_1,
         borderTopWidth: 1,
         borderBottomWidth: 1,
         borderLeftWidth: 1,
@@ -149,11 +150,11 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     type_sec: {
-        borderRightWidth: 1, borderRightColor: colors.DEEP_GRAY, width: "100%",
+        borderRightWidth: 1, borderRightColor: Colors.DEEP_GRAY, width: "100%",
         alignItems: "center",
     },
     type: {
-        color: colors.RED,
+        color: Colors.RED,
         fontSize: 11,
         fontWeight: "bold",
         marginTop: 5,
@@ -163,8 +164,8 @@ const styles = StyleSheet.create({
     cr_sec: {
         borderTopWidth: 1,
         borderRightWidth: 1,
-        borderRightColor: colors.DEEP_GRAY,
-        borderTopColor: colors.DEEP_GRAY,
+        borderRightColor: Colors.DEEP_GRAY,
+        borderTopColor: Colors.DEEP_GRAY,
         width: "100%",
         alignItems: "center",
         paddingVertical: 5,
@@ -179,7 +180,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     asset: {
-        color: colors.RED,
+        color: Colors.RED,
         fontSize: 12,
         fontWeight: "bold",
         marginTop: 10,

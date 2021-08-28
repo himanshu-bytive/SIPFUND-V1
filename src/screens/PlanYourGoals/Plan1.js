@@ -12,8 +12,9 @@ import {
     TextInput,
     ActivityIndicator
 } from "react-native";
-import { colors } from '../../common/theme';
-import { commonStyles } from '../../common/styles';
+import { connect } from 'react-redux'
+import { Styles, Config, Colors, FormValidate } from '@common'
+
 import { MySlider, PlanYourGoalFundType } from '../../components';
 import { Ionicons, AntDesign, Entypo, FontAwesome5 } from 'react-native-vector-icons';
 import { Image, Header, CheckBox, Slider } from 'react-native-elements';
@@ -28,16 +29,16 @@ export default function Plan1(props) {
     return (
         <View style={styles.container}>
             <Header
-                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={40} color={colors.RED} /></TouchableOpacity>}
-                containerStyle={commonStyles.header}
-                backgroundColor={colors.LIGHT_WHITE}
+                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={40} color={Colors.RED} /></TouchableOpacity>}
+                containerStyle={Styles.header}
+                backgroundColor={Colors.LIGHT_WHITE}
                 centerComponent={<Image
                     source={require('../../../assets/icon.png')}
-                    style={commonStyles.headerImg}
+                    style={Styles.headerImg}
                 />}
-                rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={colors.RED} /></View>}
+                rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={Colors.RED} /></View>}
             />
-            <ScrollView style={commonStyles.containerScroll}>
+            <ScrollView style={Styles.containerScroll}>
 
                 {/* SIP_sec */}
 
@@ -101,21 +102,21 @@ export default function Plan1(props) {
 
                 {/* image_sec end */}
                 <View style={{ marginHorizontal: 20 }}>
-                    <View style={{ borderWidth: 2, borderColor: colors.GRAY_LIGHT, }}></View>
+                    <View style={{ borderWidth: 2, borderColor: Colors.GRAY_LIGHT, }}></View>
                 </View>
 
                 {/* SIP */}
                 {(selectTab == 'SIP') && (<View>
                     <View style={styles.calender}>
                         <View style={styles.date}>
-                            <FontAwesome5 name={"calendar-alt"} size={30} color={colors.RED} />
+                            <FontAwesome5 name={"calendar-alt"} size={30} color={Colors.RED} />
                             <Text style={styles.datered}>2028</Text>
                         </View>
-                        <View style={{ borderWidth: 1, marginLeft: 10, borderColor: colors.GRAY_LIGHT, }}></View>
+                        <View style={{ borderWidth: 1, marginLeft: 10, borderColor: Colors.GRAY_LIGHT, }}></View>
                         <Text style={styles.datered}>₹27,38,816</Text>
                     </View>
                     <Text style={styles.requird}>Required amount to achieve your GOAL</Text>
-                    <View style={{ borderWidth: 1, marginHorizontal: 20, marginVertical: 10, borderColor: colors.GRAY_LIGHT, }}></View>
+                    <View style={{ borderWidth: 1, marginHorizontal: 20, marginVertical: 10, borderColor: Colors.GRAY_LIGHT, }}></View>
                     <Text style={styles.rupeestext}>₹16,000</Text>
                     <Text style={styles.requird}>Monthly SIP required</Text>
                     <View style={styles.want}><Text style={styles.want_text}>I want to know total monthly amount to be invested to achieve my goal</Text></View>
@@ -125,15 +126,15 @@ export default function Plan1(props) {
                 {(selectTab == 'LUMPSUM') && (<View>
                     <View style={styles.calender}>
                         <View style={styles.date}>
-                            <FontAwesome5 name={"calendar-alt"} size={30} color={colors.RED} />
+                            <FontAwesome5 name={"calendar-alt"} size={30} color={Colors.RED} />
                             <Text style={styles.datered}>2028</Text>
                         </View>
-                        <View style={{ borderWidth: 1, marginLeft: 10, borderColor: colors.GRAY_LIGHT, }}></View>
+                        <View style={{ borderWidth: 1, marginLeft: 10, borderColor: Colors.GRAY_LIGHT, }}></View>
                         <Text style={styles.datered}>₹27,38,816</Text>
                     </View>
 
                     <Text style={styles.requird}>Required amount to achieve your GOAL</Text>
-                    <View style={{ borderWidth: 1, marginHorizontal: 20, marginVertical: 10, borderColor: colors.GRAY_LIGHT, }}></View>
+                    <View style={{ borderWidth: 1, marginHorizontal: 20, marginVertical: 10, borderColor: Colors.GRAY_LIGHT, }}></View>
                     <Text style={styles.rupeestext}>₹20,000</Text>
                     <Text style={styles.requird}>Lumpsum Amount</Text>
                 </View>)}
@@ -169,11 +170,11 @@ export default function Plan1(props) {
                     {/* Axis Asset Management Company Ltd */}
 
 
-                    <PlanYourGoalFundType/>
+                    <PlanYourGoalFundType onPress={() => props.navigation.navigate('FundsDetails')} />
 
                     {/* axis_asset........2_sec */}
 
-                    <PlanYourGoalFundType/>
+                    <PlanYourGoalFundType onPress={() => props.navigation.navigate('FundsDetails')} />
 
 
                     {/* Hybrid_sec.....3 */}
@@ -186,7 +187,7 @@ export default function Plan1(props) {
 
                     {/* axis_asset......4_sec */}
 
-                    <PlanYourGoalFundType/>
+                    <PlanYourGoalFundType onPress={() => props.navigation.navigate('FundsDetails')} />
 
                     {/* multicap */}
 
@@ -198,7 +199,7 @@ export default function Plan1(props) {
 
                     {/* axis_asset......4_sec */}
 
-                    <PlanYourGoalFundType/>
+                    <PlanYourGoalFundType onPress={() => props.navigation.navigate('FundsDetails')} />
 
                     {/* multicap end */}
 
@@ -229,19 +230,19 @@ const styles = StyleSheet.create({
     sip_left: {
         width: "50%",
         borderBottomWidth: 1,
-        borderBottomColor: colors.RED,
+        borderBottomColor: Colors.RED,
     },
     lumpsum: {
         width: "50%",
         borderBottomWidth: 1,
-        borderBottomColor: colors.DEEP_GRAY,
+        borderBottomColor: Colors.DEEP_GRAY,
     },
     sip: {
         fontSize: 18,
         fontWeight: "bold",
         textAlign: "center",
         marginBottom: 10,
-        color: colors.RED,
+        color: Colors.RED,
     },
     lump: {
         fontSize: 18,
@@ -257,12 +258,12 @@ const styles = StyleSheet.create({
 
         fontSize: 15,
         fontWeight: "bold",
-        color: colors.DEEP_GRAY,
+        color: Colors.DEEP_GRAY,
     },
     month: {
         fontSize: 13,
         fontWeight: "bold",
-        color: colors.DEEP_GRAY,
+        color: Colors.DEEP_GRAY,
         position: "absolute",
         right: 0,
 
@@ -270,12 +271,12 @@ const styles = StyleSheet.create({
     investment: {
         fontSize: 15,
         fontWeight: "bold",
-        color: colors.RED,
+        color: Colors.RED,
     },
     price: {
         fontSize: 20,
         fontWeight: "bold",
-        color: colors.RED,
+        color: Colors.RED,
         position: "absolute",
         right: 0,
     },
@@ -286,29 +287,29 @@ const styles = StyleSheet.create({
     hybrid: {
         fontSize: 18,
         fontWeight: "bold",
-        color: colors.RED,
+        color: Colors.RED,
         marginVertical: 10,
         marginLeft: 10,
     },
    
     more_funds: {
         fontSize: 18,
-        color: colors.RED,
+        color: Colors.RED,
         textAlign: "center",
         marginTop: 10,
     },
     botton_box: {
 
-        backgroundColor: colors.RED,
+        backgroundColor: Colors.RED,
         marginHorizontal: 30,
         marginVertical: 20,
         borderWidth: 1,
         borderRadius: 10,
-        borderColor: colors.DEEP_GRAY,
+        borderColor: Colors.DEEP_GRAY,
         paddingVertical: 15,
     },
     get_otp: {
-        color: colors.WHITE,
+        color: Colors.WHITE,
         fontSize: 20,
         fontWeight: 'bold',
         textAlign: "center",
@@ -317,12 +318,12 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         borderWidth: 2,
         borderStyle: "solid",
-        borderColor: colors.GRAY_LIGHT,
+        borderColor: Colors.GRAY_LIGHT,
         borderRadius: 5,
         marginVertical: 10,
         marginHorizontal: 20,
         padding: 20,
-        backgroundColor: colors.WHITE,
+        backgroundColor: Colors.WHITE,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -347,11 +348,11 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: "bold",
         paddingLeft: 20,
-        color: colors.DEEP_GRAY,
+        color: Colors.DEEP_GRAY,
     },
     child_text: {
         fontSize: 20,
-        color: colors.RED,
+        color: Colors.RED,
         paddingTop: 15,
         paddingLeft: 20,
         fontWeight: "bold",
@@ -367,13 +368,13 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         marginHorizontal: 20,
         borderBottomWidth: 1,
-        borderColor: colors.GREY_1,
+        borderColor: Colors.GREY_1,
         paddingVertical: 10,
     },
     child2: {
         fontSize: 15,
         fontWeight: "bold",
-        color: colors.DEEP_GRAY
+        color: Colors.DEEP_GRAY
     },
     childtext: {
         position: "absolute",
@@ -391,7 +392,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 20,
         fontWeight: "bold",
         fontSize: 15,
-        color: colors.DEEP_GRAY,
+        color: Colors.DEEP_GRAY,
         marginTop: 10,
     },
 
@@ -402,7 +403,7 @@ const styles = StyleSheet.create({
     buttom_botton: {
         width: "50%",
         borderWidth: 1,
-        borderColor: colors.RED,
+        borderColor: Colors.RED,
         borderRadius: 5,
         marginHorizontal: 2,
         alignItems: "center",
@@ -411,21 +412,21 @@ const styles = StyleSheet.create({
     buttom_botton2: {
         width: "50%",
         borderRadius: 5,
-        backgroundColor: colors.RED,
+        backgroundColor: Colors.RED,
         marginHorizontal: 2,
         alignItems: "center",
 
     },
     sip_text: {
         fontSize: 20,
-        color: colors.RED,
+        color: Colors.RED,
         fontWeight: "bold",
         paddingVertical: 7,
         paddingHorizontal: 40,
     },
     sip_text2: {
         fontSize: 20,
-        color: colors.WHITE,
+        color: Colors.WHITE,
         fontWeight: "bold",
         paddingVertical: 7,
         paddingHorizontal: 40,
@@ -441,7 +442,7 @@ const styles = StyleSheet.create({
     },
     date: { flexDirection: "row", },
     datered: {
-        color: colors.RED,
+        color: Colors.RED,
         fontSize: 20,
         paddingLeft: 10,
         paddingTop: 5,
@@ -450,18 +451,18 @@ const styles = StyleSheet.create({
     requird: {
         textAlign: "center",
         fontSize: 15,
-        color: colors.RED,
+        color: Colors.RED,
     },
     rupeestext: {
         fontSize: 20,
         fontWeight: "bold",
         textAlign: "center",
-        color: colors.RED,
+        color: Colors.RED,
         paddingBottom: 20,
     },
 
     want: {
-        backgroundColor: colors.LIGHT_WHITE,
+        backgroundColor: Colors.LIGHT_WHITE,
         marginVertical: 20,
 
     },
@@ -471,14 +472,14 @@ const styles = StyleSheet.create({
         paddingVertical: 20,
         fontSize: 16,
         fontWeight: "bold",
-        color: colors.DEEP_GRAY,
+        color: Colors.DEEP_GRAY,
     },
     hybridimg: {
         width: 39,
         height: 43,
     },
     fund_sec_top: {
-        backgroundColor: colors.WHITE,
+        backgroundColor: Colors.WHITE,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -495,7 +496,7 @@ const styles = StyleSheet.create({
         width: 35,
         borderRadius: 100,
         borderWidth: 2,
-        borderColor: colors.DEEP_GRAY,
+        borderColor: Colors.DEEP_GRAY,
         paddingLeft: 2
     },
 });

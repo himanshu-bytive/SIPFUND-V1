@@ -11,7 +11,8 @@ import {
     TextInput,
     ActivityIndicator
 } from "react-native";
-import { colors } from '../../common/theme';
+import { connect } from 'react-redux'
+import { Styles, Config, Colors, FormValidate } from '@common'
 import { Ionicons, AntDesign, EvilIcons, Entypo, FontAwesome5 } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
@@ -25,14 +26,14 @@ export default function Investment7Screens(props) {
         <View style={styles.container}>
 
             <Header
-                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={40} color={colors.RED} /></TouchableOpacity>}
+                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={40} color={Colors.RED} /></TouchableOpacity>}
                 containerStyle={styles.header}
-                backgroundColor={colors.LIGHT_WHITE}
+                backgroundColor={Colors.LIGHT_WHITE}
                 centerComponent={<Image
                     source={require('../../../assets/icon.png')}
                     style={styles.logimg}
                 />}
-                rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={colors.RED} /></View>}
+                rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={Colors.RED} /></View>}
             />
 
             <ScrollView>
@@ -135,7 +136,7 @@ const styles = StyleSheet.create({
     },
 
     header: {
-        borderBottomColor: colors.BLACK,
+        borderBottomColor: Colors.BLACK,
         borderBottomWidth: 1,
     },
 
@@ -160,11 +161,11 @@ const styles = StyleSheet.create({
     child: {
         fontSize: 22,
         fontWeight: "bold",
-        color: colors.DEEP_GRAY,
+        color: Colors.DEEP_GRAY,
     },
     child_text: {
         fontSize: 18,
-        color: colors.RED,
+        color: Colors.RED,
         paddingVertical: 10,
         fontWeight: "bold",
     },
@@ -172,7 +173,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         borderWidth: 1,
         borderRadius: 50,
-        borderColor: colors.DEEP_GRAY,
+        borderColor: Colors.DEEP_GRAY,
         marginHorizontal: 20,
         padding: 10,
     },
@@ -184,14 +185,14 @@ const styles = StyleSheet.create({
         fontSize: 12,
         marginLeft: 50,
         marginTop: 5,
-        color: colors.DEEP_GRAY,
+        color: Colors.DEEP_GRAY,
     },
     sbi_sec:
     {
         flexDirection: "row",
         marginHorizontal: 20,
         borderBottomWidth: 1,
-        borderColor: colors.DEEP_GRAY,
+        borderColor: Colors.DEEP_GRAY,
         paddingBottom: 10,
         marginVertical: 5,
     },
@@ -213,7 +214,7 @@ const styles = StyleSheet.create({
     },
     fund_sec: {
         flexDirection: "row",
-        backgroundColor: colors.LIGHT_GRAY,
+        backgroundColor: Colors.LIGHT_GRAY,
         marginHorizontal: 20,
         paddingVertical: 10,
         paddingHorizontal: 10,
@@ -234,31 +235,31 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: "bold",
         marginHorizontal: 20,
-        color: colors.RED,
+        color: Colors.RED,
         marginBottom: 20,
     },
     my_goal: {
-        color: colors.DEEP_GRAY,
+        color: Colors.DEEP_GRAY,
         fontWeight: "normal"
     },
     add: {
         marginVertical: 20,
         textAlign: "center",
-        color: colors.RED,
+        color: Colors.RED,
         fontSize: 18,
     },
     botton_box: {
 
-        backgroundColor: colors.RED,
+        backgroundColor: Colors.RED,
         marginHorizontal: 30,
         marginVertical: 20,
         borderWidth: 1,
         borderRadius: 10,
-        borderColor: colors.DEEP_GRAY,
+        borderColor: Colors.DEEP_GRAY,
         paddingVertical: 10,
     },
     get_otp: {
-        color: colors.WHITE,
+        color: Colors.WHITE,
         fontSize: 20,
         fontWeight: 'bold',
         textAlign: "center",

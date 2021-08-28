@@ -4,7 +4,8 @@ import {
     View,
     Text,
 } from "react-native";
-import { colors } from '../../common/theme';
+import { connect } from 'react-redux'
+import { Styles, Config, Colors, FormValidate } from '@common'
 import { Ionicons, AntDesign, MaterialIcons, Feather, Entypo, FontAwesome, FontAwesome5, } from 'react-native-vector-icons';
 
 
@@ -42,13 +43,13 @@ const styles = StyleSheet.create({
     holding: {
         flexDirection: "row",
         borderBottomWidth: 2,
-        borderBottomColor: colors.RED,
+        borderBottomColor: Colors.RED,
         paddingVertical: 5,
 
     },
     holding_text: {
         fontSize: 20,
-        color: colors.RED,
+        color: Colors.RED,
     },
     holding_icon: {
         position: 'absolute',
@@ -57,19 +58,19 @@ const styles = StyleSheet.create({
     },
     history: {
         borderWidth: 1,
-        borderColor: colors.DEEP_GRAY_5,
+        borderColor: Colors.DEEP_GRAY_5,
     },
 
     name_sec: {
         flexDirection: "row",
 
         borderBottomWidth: 1,
-        borderColor: colors.DEEP_GRAY_5,
+        borderColor: Colors.DEEP_GRAY_5,
     },
     name_left: {
         width: '70%',
         borderRightWidth: 1,
-        borderColor: colors.DEEP_GRAY_5,
+        borderColor: Colors.DEEP_GRAY_5,
         paddingVertical: 5,
         paddingLeft: 20,
     },
@@ -82,7 +83,7 @@ const styles = StyleSheet.create({
         fontSize: 15,
     },
     name_text_red: {
-        color: colors.RED
+        color: Colors.RED
     },
     name: { fontSize: 15, },
     current: { fontSize: 10, },
@@ -100,7 +101,7 @@ const styles = StyleSheet.create({
     minimum_sec: {
         borderLeftWidth: 1,
         borderBottomWidth: 1,
-        borderColor: colors.DEEP_GRAY_5,
+        borderColor: Colors.DEEP_GRAY_5,
         alignItems: "center",
         width: '33.3333333%',
         paddingVertical: 5,
@@ -113,7 +114,7 @@ const styles = StyleSheet.create({
     bottom_holding: {
         borderWidth: 1,
         marginVertical: 20,
-        borderColor: colors.DEEP_GRAY_5,
+        borderColor: Colors.DEEP_GRAY_5,
     },
     bottom_holdingleft: { width: '40%' },
     bottom_holdingright: { width: '60%' }

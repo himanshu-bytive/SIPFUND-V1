@@ -11,8 +11,9 @@ import {
     TextInput,
     ActivityIndicator
 } from "react-native";
-import { colors } from '../../common/theme';
-import { commonStyles } from '../../common/styles';
+import { connect } from 'react-redux'
+import { Styles, Config, Colors, FormValidate } from '@common'
+
 import { Ionicons, AntDesign } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
@@ -22,17 +23,17 @@ export default function Goals1Screen(props) {
         <View style={styles.container}>
 
             <Header
-                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={colors.RED} /></TouchableOpacity>}
-                backgroundColor={colors.PEACH}
+                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={Colors.RED} /></TouchableOpacity>}
+                backgroundColor={Colors.PEACH}
                 centerComponent={<Image
                     source={require('../../../assets/icon.png')}
                     style={styles.logimg}
                 />}
-                rightComponent={<View style={commonStyles.headerkn}><Text style={commonStyles.textkn}>KN</Text></View>}
+                rightComponent={<View style={Styles.headerkn}><Text style={Styles.textkn}>KN</Text></View>}
             />
 
             <ScrollView>
-            <View style={commonStyles.header_top}>
+            <View style={Styles.header_top}>
                 <Image
                     source={require('../../../assets/goals1_img1.png')}
                     style={styles.goals1_img1}
@@ -151,10 +152,10 @@ const styles = StyleSheet.create({
         width: '100%',
         borderWidth: 1,
         borderStyle: "solid",
-        borderColor: colors.GREY_1,
+        borderColor: Colors.GREY_1,
         backgroundColor: '#F9F9F9',
         alignItems: "center",
-        backgroundColor: colors.LIGHT_WHITE,
+        backgroundColor: Colors.LIGHT_WHITE,
         paddingTop: 10,
         paddingBottom: 10,
     },
@@ -190,7 +191,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         borderWidth: 2,
         borderStyle: "solid",
-        borderColor: colors.GRAY_LIGHT,
+        borderColor: Colors.GRAY_LIGHT,
         marginVertical: 10,
         marginHorizontal: 20,
         alignItems: "center",
@@ -199,7 +200,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         borderWidth: 1,
         borderStyle: "solid",
-        borderColor: colors.RED,
+        borderColor: Colors.RED,
         marginVertical: 10,
         marginHorizontal: 20,
         alignItems: "center",
@@ -216,10 +217,10 @@ const styles = StyleSheet.create({
         marginHorizontal: 20,
         borderWidth: 2,
         borderStyle: "solid",
-        borderColor: colors.GRAY_LIGHT,
+        borderColor: Colors.GRAY_LIGHT,
         marginVertical: 20,
         padding: 10,
-        backgroundColor: colors.WHITE,
+        backgroundColor: Colors.WHITE,
     },
 
     child: {
@@ -240,7 +241,7 @@ const styles = StyleSheet.create({
         fontSize: 12,
         fontWeight: "bold",
         paddingVertical: 5,
-        color: colors.DEEP_GRAY,
+        color: Colors.DEEP_GRAY,
     },
     value_sec: {
         flexDirection: "row",
@@ -249,11 +250,11 @@ const styles = StyleSheet.create({
     },
     rupees: {
         fontSize: 20,
-        color: colors.RED,
+        color: Colors.RED,
         fontWeight: "bold",
     },
     investment: {
-        color: colors.RED,
+        color: Colors.RED,
         fontSize: 20,
         fontWeight: "bold",
     },
@@ -263,7 +264,7 @@ const styles = StyleSheet.create({
     investment2: {
         fontSize: 12,
         fontWeight: "bold",
-        color: colors.DEEP_GRAY,
+        color: Colors.DEEP_GRAY,
         marginVertical: 10,
     },
     Goals: {
@@ -279,7 +280,7 @@ const styles = StyleSheet.create({
 
     },
     red_color: {
-        color: colors.RED,
+        color: Colors.RED,
     },
 
 });

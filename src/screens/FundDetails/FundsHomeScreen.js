@@ -4,30 +4,36 @@ import {
     Button,
     ScrollView,
     View,
-    ImageBackground,
     TouchableOpacity,
     Text,
-    Dimensions,
-    KeyboardAvoidingView,
-    TextInput,
-    ActivityIndicator
 } from "react-native";
-import { colors } from '../../common/theme';
+import { connect } from 'react-redux'
+import { Styles, Config, Colors, FormValidate } from '@common'
 import { MaterialIcons, AntDesign, Entypo, FontAwesome5, FontAwesome, Foundation } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
+import { VictoryChart, VictoryLine, VictoryScatter, VictoryAxis } from "victory-native";
+
+const data = [
+    { x: 0, y: 0 },
+    { x: 1, y: 2 },
+    { x: 2, y: 1 },
+    { x: 3, y: 4 },
+    { x: 4, y: 3 },
+    { x: 5, y: 5 }
+];
 
 export default function FundsHomeScreen(props) {
     return (
         <View style={styles.container}>
             <Header
-                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={colors.RED} /></TouchableOpacity>}
+                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={Colors.RED} /></TouchableOpacity>}
                 containerStyle={styles.header}
-                backgroundColor={colors.LIGHT_WHITE}
+                backgroundColor={Colors.LIGHT_WHITE}
                 centerComponent={<Image
                     source={require('../../../assets/icon.png')}
                     style={styles.logimg}
                 />}
-                rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={colors.RED} /></View>}
+                rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={Colors.RED} /></View>}
             />
             <ScrollView style={styles.containerScroll}>
 
@@ -46,7 +52,7 @@ export default function FundsHomeScreen(props) {
 
                 </View>
 
-                <View style={{padding:20 }}>
+                <View style={{ padding: 20 }}>
 
                     <View style={styles.fund_returns}>
                         <Text style={styles.fund}>Fund Returns</Text>
@@ -56,19 +62,32 @@ export default function FundsHomeScreen(props) {
 
                         </View>
                     </View>
-
-                    <Image
-                        source={require('../../../assets/linechart_img.png')}
-                        style={styles.linechartimg}
-                    />
-
-                    <View style={{ borderWidth: 1, borderColor: colors.DEEP_GRAY, }}></View>
+                    <VictoryChart polar={false} height={390}>
+                        <VictoryLine
+                            interpolation={'linear'} data={data}
+                            style={{ data: { stroke: "#c43a31" } }}
+                        />
+                        <VictoryScatter data={data}
+                            size={5}
+                            style={{ data: { fill: "#c43a31" } }}
+                        />
+                        <VictoryAxis
+                            style={{
+                                axis: { stroke: "transparent" },
+                                ticks: { stroke: "transparent", size: 15 },
+                                tickLabels: {
+                                    fontSize: 9,
+                                    padding: 5,
+                                    fill: "white",
+                                },
+                            }
+                            }
+                        />
+                    </VictoryChart>
+                    <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY, }}></View>
 
 
                     {/* imges_sec */}
-
-
-
 
                     <View style={styles.footer_sec}>
                         <View style={styles.rupees_sec}>
@@ -164,7 +183,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     header: {
-        borderBottomColor: colors.BLACK,
+        borderBottomColor: Colors.BLACK,
         borderBottomWidth: 1,
     },
     axis_img: {
@@ -175,7 +194,7 @@ const styles = StyleSheet.create({
     management_company: {
 
         flexDirection: "row",
-        backgroundColor: colors.WHITE,
+        backgroundColor: Colors.WHITE,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -197,12 +216,12 @@ const styles = StyleSheet.create({
 
     midcap: {
         fontSize: 13,
-        color: colors.DEEP_GRAY,
+        color: Colors.DEEP_GRAY,
     },
 
     fund_returns: {
         flexDirection: "row",
-        justifyContent:"space-between",
+        justifyContent: "space-between",
     },
 
     fund: {
@@ -210,8 +229,8 @@ const styles = StyleSheet.create({
     },
     number: {
         fontSize: 15,
-        textAlign:"right",
-        color: colors.RED,
+        textAlign: "right",
+        color: Colors.RED,
         fontWeight: "bold",
     },
     since: {
@@ -243,7 +262,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 30,
     },
     year1: {
-        color: colors.RED,
+        color: Colors.RED,
         marginLeft: 33,
         fontSize: 12,
 
@@ -252,15 +271,15 @@ const styles = StyleSheet.create({
     investment_sec: {
         flexDirection: "row",
         marginTop: 30,
-        justifyContent:"space-between",
-        marginHorizontal:10,
+        justifyContent: "space-between",
+        marginHorizontal: 10,
     },
     investment: {
-    
+
         alignItems: "center",
     },
     price: {
-        color: colors.RED,
+        color: Colors.RED,
         fontSize: 18,
         fontWeight: "bold",
     },
@@ -279,7 +298,7 @@ const styles = StyleSheet.create({
         marginBottom: 2,
         marginLeft: 10,
         fontWeight: "bold",
-        color: colors.RED,
+        color: Colors.RED,
     },
 
 

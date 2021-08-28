@@ -5,7 +5,8 @@ import {
     Text,
     Image,
 } from "react-native";
-import { colors } from '../../common/theme';
+import { connect } from 'react-redux'
+import { Styles, Config, Colors, FormValidate } from '@common'
 
 export default function SplashScreen() {
     return (
@@ -50,10 +51,10 @@ const styles = StyleSheet.create({
     slogan: {
         fontSize: 30,
         marginBottom: 15,
-        color: colors.BLACK,
+        color: Colors.BLACK,
     },
     sloganRed: {
-        color: colors.RED,
+        color: Colors.RED,
     },
     most_trusted: {
         textAlign: "center",

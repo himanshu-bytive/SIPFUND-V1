@@ -1,9 +1,17 @@
-import { StyleSheet } from "react-native";
-import { colors } from './theme';
-export const commonStyles = StyleSheet.create({
+import { Dimensions, Platform } from 'react-native';
+import Colors from './Colors';
+
+const { height, width } = Dimensions.get('window');
+let Styles = {
+    width: Dimensions.get('window').width,
+    height: Platform.OS !== 'ios' ? height : (height - 20),
     header: {
         borderBottomColor: "#707070",
         borderBottomWidth: 1,
+    },
+    container:{
+        flex: 1,
+        backgroundColor: Colors.WHITE,
     },
     containerScroll: {
         width: '100%'
@@ -16,30 +24,28 @@ export const commonStyles = StyleSheet.create({
     headerkn: {
         marginTop: 20,
         borderWidth: 1,
-        backgroundColor: colors.WHITE,
-        borderColor: colors.RED, padding: 5,
+        backgroundColor: Colors.WHITE,
+        borderColor: Colors.RED, padding: 5,
         borderRadius: 7,
     },
     textkn: {
         fontSize: 22,
-        color: colors.RED,
+        color: Colors.RED,
         fontWeight: "bold",
     },
-    carticon:{
-        marginTop: 20, 
+    carticon: {
+        marginTop: 20,
         marginRight: 10,
     },
 
     Header_top: {
-        backgroundColor: colors.PEACH,
+        backgroundColor: Colors.PEACH,
         width: '100%',
         borderWidth: 2,
         borderRadius: 30,
-        borderColor: colors.DARK_GREY,
+        borderColor: Colors.DARK_GREY,
         alignItems: "center",
-        marginTop:-2,
+        marginTop: -2,
     },
-
-
-
-});
+}
+export default Styles;

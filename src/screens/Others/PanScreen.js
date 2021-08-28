@@ -11,7 +11,8 @@ import {
     TextInput,
     ActivityIndicator
 } from "react-native";
-import { colors } from '../../common/theme';
+import { connect } from 'react-redux'
+import { Styles, Config, Colors, FormValidate } from '@common'
 import { Ionicons, AntDesign, Entypo, FontAwesome5 } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 
@@ -20,8 +21,8 @@ export default function PasswordScreen(props) {
         <View style={styles.container}>
 
             <Header
-leftComponent={<TouchableOpacity onPress={() => props.navigation.toggleDrawer()} style={{ marginTop: 20 }}><Entypo name={"menu"} size={30} color={colors.RED} /></TouchableOpacity>}                containerStyle={styles.header}
-                backgroundColor={colors.LIGHT_WHITE}
+leftComponent={<TouchableOpacity onPress={() => props.navigation.toggleDrawer()} style={{ marginTop: 20 }}><Entypo name={"menu"} size={30} color={Colors.RED} /></TouchableOpacity>}                containerStyle={styles.header}
+                backgroundColor={Colors.LIGHT_WHITE}
                 centerComponent={<Image
                     source={require('../../../assets/icon.png')}
                     style={styles.logimg}
@@ -61,7 +62,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     header: {
-        borderBottomColor: colors.BLACK,
+        borderBottomColor: Colors.BLACK,
         borderBottomWidth: 1
     },
     mainbox: {
@@ -100,7 +101,7 @@ const styles = StyleSheet.create({
     },
     botton_box: {
         alignItems: "center",
-        backgroundColor: colors.RED,
+        backgroundColor: Colors.RED,
         width: "80%",
         paddingVertical: 10,
         marginTop: 20,
@@ -108,7 +109,7 @@ const styles = StyleSheet.create({
 
     },
     get_otp: {
-        color: colors.WHITE,
+        color: Colors.WHITE,
         fontSize: 20,
         fontWeight: 'bold',
 

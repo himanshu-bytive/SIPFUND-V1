@@ -12,7 +12,8 @@ import {
     ActivityIndicator,
 
 } from "react-native";
-import { colors } from '../../common/theme';
+import { connect } from 'react-redux'
+import { Styles, Config, Colors, FormValidate } from '@common'
 import { Ionicons, AntDesign, FontAwesome, FontAwesome5, } from 'react-native-vector-icons';
 import { Image, Header, CheckBox, Overlay } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
@@ -52,13 +53,13 @@ export default function TopRoated2Screen(props) {
 
             {/* Header_sec */}
             <Header
-                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={colors.RED} /></TouchableOpacity>} backgroundColor={colors.PEACH}
-                backgroundColor={colors.LIGHT_WHITE}
+                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={Colors.RED} /></TouchableOpacity>} backgroundColor={Colors.PEACH}
+                backgroundColor={Colors.LIGHT_WHITE}
                 centerComponent={<Image
                     source={require('../../../assets/icon.png')}
                     style={styles.logimg}
                 />}
-                rightComponent={<TouchableOpacity onPress={() => props.navigation.navigate('Toprated2')} style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={colors.RED} /></TouchableOpacity>}
+                rightComponent={<TouchableOpacity onPress={() => props.navigation.navigate('Toprated2')} style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={Colors.RED} /></TouchableOpacity>}
             />
 
             {/* Invest Now sec */}
@@ -72,7 +73,7 @@ export default function TopRoated2Screen(props) {
                     <Text style={styles.Debt}>Multicap</Text>
                     <Text style={styles.Debt}>Mid Cap</Text>
                 </View>
-                <View style={{ borderWidth: 1, borderColor: colors.GREY_1, }}></View>
+                <View style={{ borderWidth: 1, borderColor: Colors.GREY_1, }}></View>
 
                 {/* Topratedfunds_sec */}
 
@@ -83,7 +84,7 @@ export default function TopRoated2Screen(props) {
                             <Text style={styles.return}>5Y Returns</Text>
                             <AntDesign name="caretdown" size={15} color="#C0392B" />
                         </View>
-                        <View style={{ borderWidth: 1, borderColor: colors.RED, }}></View>
+                        <View style={{ borderWidth: 1, borderColor: Colors.RED, }}></View>
                     </View>
                 </View>
 
@@ -123,7 +124,7 @@ export default function TopRoated2Screen(props) {
                             <Text style={styles.min}>{item.returntext2}</Text>
                         </View>
                     </View>
-                    <View style={{ borderWidth: 1, borderColor: colors.GREY_1, marginTop: 10, }}>
+                    <View style={{ borderWidth: 1, borderColor: Colors.GREY_1, marginTop: 10, }}>
                     </View>
 
                 </View>
@@ -235,7 +236,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 5, fontSize: 13, color: "#696565", paddingBottom: 2,
     },
 
-    Equity: { fontSize: 13, color: colors.RED, fontWeight: "bold", },
+    Equity: { fontSize: 13, color: Colors.RED, fontWeight: "bold", },
 
     toprated: { flexDirection: "row", marginBottom: 30, marginTop: 30, },
     top: {
@@ -266,7 +267,7 @@ const styles = StyleSheet.create({
     axis2: {
         marginLeft: 10,
         fontSize: 12,
-        color: colors.DEEP_GRAY,
+        color: Colors.DEEP_GRAY,
         paddingTop: 3,
 
     },
@@ -276,11 +277,11 @@ const styles = StyleSheet.create({
     },
     botton_box: {
         width: 80,
-        backgroundColor: colors.RED,
+        backgroundColor: Colors.RED,
         height: 20,
     },
     get_otp: {
-        color: colors.WHITE,
+        color: Colors.WHITE,
         fontSize: 10,
         fontWeight: 'bold',
         textAlign: "center",
@@ -320,7 +321,7 @@ const styles = StyleSheet.create({
     buttom_botton: {
         width: "45%",
         borderWidth: 1,
-        borderColor: colors.RED,
+        borderColor: Colors.RED,
         borderRadius: 5,
         marginHorizontal:2,
         alignItems: "center",
@@ -329,21 +330,21 @@ const styles = StyleSheet.create({
     buttom_botton2: {
         width: "45%",
         borderRadius: 5,
-        backgroundColor: colors.RED,
+        backgroundColor: Colors.RED,
         marginHorizontal:2,
         alignItems: "center",
        
     },
     sip_text: {
         fontSize: 20,
-        color: colors.RED,
+        color: Colors.RED,
         fontWeight: "bold",
         paddingVertical: 12,
     paddingHorizontal:20,
     },
     sip_text2: {
         fontSize: 20,
-        color: colors.WHITE,
+        color: Colors.WHITE,
         fontWeight: "bold",
         paddingVertical: 12,
     paddingHorizontal:20,
@@ -355,7 +356,7 @@ const styles = StyleSheet.create({
     amount_sec: { alignItems: "center", },
     bordersec: {
         borderWidth: 1,
-        borderColor: colors.GRAY_DEEP_1,
+        borderColor: Colors.GRAY_DEEP_1,
         paddingVertical: 5,
         paddingHorizontal: 10,
         marginTop: 3,
@@ -363,7 +364,7 @@ const styles = StyleSheet.create({
     buttom_botton2box: {
         alignItems: "center",
         borderRadius: 5,
-        backgroundColor: colors.RED,
+        backgroundColor: Colors.RED,
         marginLeft: 2,
         alignItems: "center",
        
@@ -372,7 +373,7 @@ const styles = StyleSheet.create({
     
     },
     amount_tex2: {
-        color: colors.DEEP_GRAY,
+        color: Colors.DEEP_GRAY,
         width: 100,
         textAlign:"center",
         fontSize:18,

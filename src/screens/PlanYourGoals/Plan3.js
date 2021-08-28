@@ -11,8 +11,9 @@ import {
     TextInput,
     ActivityIndicator
 } from "react-native";
-import { colors } from '../../common/theme';
-import { commonStyles } from '../../common/styles';
+import { connect } from 'react-redux'
+import { Styles, Config, Colors, FormValidate } from '@common'
+
 import { Ionicons, AntDesign, EvilIcons, Entypo, FontAwesome5 } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
@@ -22,14 +23,14 @@ export default function Plan3(props) {
     return (
         <View style={styles.container}>
             <Header
-                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={40} color={colors.RED} /></TouchableOpacity>}
-                containerStyle={commonStyles.header}
-                backgroundColor={colors.LIGHT_WHITE}
+                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={40} color={Colors.RED} /></TouchableOpacity>}
+                containerStyle={Styles.header}
+                backgroundColor={Colors.LIGHT_WHITE}
                 centerComponent={<Image
                     source={require('../../../assets/icon.png')}
-                    style={commonStyles.headerImg}
+                    style={Styles.headerImg}
                 />}
-                rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={colors.RED} /></View>}
+                rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={Colors.RED} /></View>}
             />
             <ScrollView>
                 <View style={styles.education}>
@@ -68,7 +69,7 @@ export default function Plan3(props) {
                             <Text style={styles.axis}>Axis Asset Management Company Ltd</Text>
                             <View style={styles.midcap}>
                                 <Text style={styles.moderately}>Midcap</Text>
-                                <View style={{ borderWidth: 1, borderColor: colors.DARK_GREY, }}></View>
+                                <View style={{ borderWidth: 1, borderColor: Colors.DARK_GREY, }}></View>
                                 <Text style={styles.moderately}>Diversified</Text>
                             </View>
 
@@ -98,7 +99,7 @@ export default function Plan3(props) {
                             <Text style={styles.axis}>Aditya Birla Sun Life AMC Limited</Text>
                             <View style={styles.midcap}>
                                 <Text style={styles.moderately}>Midcap</Text>
-                                <View style={{ borderWidth: 1, borderColor: colors.DARK_GREY, }}></View>
+                                <View style={{ borderWidth: 1, borderColor: Colors.DARK_GREY, }}></View>
                                 <Text style={styles.moderately}>Diversified</Text>
                             </View>
 
@@ -131,7 +132,7 @@ export default function Plan3(props) {
                             <Text style={styles.axis}>Baroda Asset Management India…</Text>
                             <View style={styles.midcap}>
                                 <Text style={styles.moderately}>Midcap</Text>
-                                <View style={{ borderWidth: 1, borderColor: colors.DARK_GREY, }}></View>
+                                <View style={{ borderWidth: 1, borderColor: Colors.DARK_GREY, }}></View>
                                 <Text style={styles.moderately}>Diversified</Text>
                             </View>
 
@@ -162,7 +163,7 @@ export default function Plan3(props) {
                             <Text style={styles.axis}>BNP Paribas Mid Cap Fund</Text>
                             <View style={styles.midcap}>
                                 <Text style={styles.moderately}>Midcap</Text>
-                                <View style={{ borderWidth: 1, borderColor: colors.DARK_GREY, }}></View>
+                                <View style={{ borderWidth: 1, borderColor: Colors.DARK_GREY, }}></View>
                                 <Text style={styles.moderately}>Diversified</Text>
                             </View>
 
@@ -199,7 +200,7 @@ const styles = StyleSheet.create({
     axis_asset: {
         marginHorizontal: 20,
         marginTop: 20,
-        backgroundColor: colors.WHITE,
+        backgroundColor: Colors.WHITE,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -228,7 +229,7 @@ const styles = StyleSheet.create({
     },
     moderately: {
         fontSize: 12,
-        color: colors.DEEP_GRAY,
+        color: Colors.DEEP_GRAY,
         marginHorizontal: 5,
     },
     axisimg: {
@@ -248,10 +249,10 @@ const styles = StyleSheet.create({
         flexDirection: "row",
 
      
-        borderColor: colors.GRAY_LIGHT,
+        borderColor: Colors.GRAY_LIGHT,
         marginBottom:20,
         padding: 20,
-        backgroundColor: colors.WHITE,
+        backgroundColor: Colors.WHITE,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -277,11 +278,11 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: "bold",
         paddingLeft: 20,
-        color: colors.DEEP_GRAY,
+        color: Colors.DEEP_GRAY,
     },
     child_text: {
         fontSize: 16,
-        color: colors.RED,
+        color: Colors.RED,
         paddingTop: 15,
         paddingLeft: 20,
         fontWeight: "bold",
@@ -290,7 +291,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         borderWidth: 1,
         borderRadius: 50,
-        borderColor: colors.DEEP_GRAY,
+        borderColor: Colors.DEEP_GRAY,
         marginHorizontal: 20,
         padding: 15,
     },
@@ -302,7 +303,7 @@ const styles = StyleSheet.create({
         fontSize: 12,
         marginLeft: 50,
         marginTop: 10,
-        color: colors.DEEP_GRAY,
+        color: Colors.DEEP_GRAY,
         marginBottom:20,
     },
 

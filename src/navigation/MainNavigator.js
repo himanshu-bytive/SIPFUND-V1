@@ -5,7 +5,6 @@ import {
 import { createStackNavigator } from 'react-navigation-stack';
 import { createDrawerNavigator } from 'react-navigation-drawer';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
-import { Fontisto, FontAwesome, AntDesign } from 'react-native-vector-icons';
 import {
     SplashScreen,
     LoginScreen,
@@ -453,9 +452,8 @@ const TabNavigator = createBottomTabNavigator({
         navigationOptions: {
             tabBarLabel: 'Explore',
             tabBarIcon: ({ focused, tintColor }) => {
-                // const iconName = `ios-information-circle${focused ? '' : '-outline'}`;
-                // return <Fontisto name={"expressionless"} size={30} color={tintColor} />
-                return <Image source={require('../../assets/explore.png')} />
+                const imgSource = focused ? require('../../assets/explore.png') : require('../../assets/explore.png');
+                return <Image source={imgSource} />
             }
         }
     },
@@ -463,9 +461,8 @@ const TabNavigator = createBottomTabNavigator({
         screen: PlanYourGoalsStack,
         navigationOptions: {
             tabBarIcon: ({ focused, tintColor }) => {
-                // const iconName = `ios-information-circle${focused ? '' : '-outline'}`;
-                // return <FontAwesome name={"rupee"} size={30} color={tintColor} />
-                return <Image source={require('../../assets/plan.png')} />
+                const imgSource = focused ? require('../../assets/plan.png') : require('../../assets/plan.png');
+                return <Image source={imgSource} />
             }
         }
     },
@@ -473,9 +470,8 @@ const TabNavigator = createBottomTabNavigator({
         screen: TopRatedFundsStack,
         navigationOptions: {
             tabBarIcon: ({ focused, tintColor }) => {
-                // const iconName = `ios-information-circle${focused ? '' : '-outline'}`;
-                // return <FontAwesome name={"signal"} size={30} color={tintColor} />
-                return <Image source={require('../../assets/dashboard.png')} />
+                const imgSource = focused ? require('../../assets/dashboard.png') : require('../../assets/dashboard.png');
+                return <Image source={imgSource} />
             }
         }
     },
@@ -483,22 +479,22 @@ const TabNavigator = createBottomTabNavigator({
         screen: OthersStack,
         navigationOptions: {
             tabBarIcon: ({ focused, tintColor }) => {
-                // const iconName = `ios-information-circle${focused ? '' : '-outline'}`;
-                // return <FontAwesome name={"user-circle-o"} size={30} color={tintColor} />
-                return <Image source={require('../../assets/user.png')} />
+                const imgSource = focused ? require('../../assets/user.png') : require('../../assets/user.png');
+                return <Image source={imgSource} />
             }
         }
     }
 }, {
     tabBarOptions: {
-        // activeTintColor: '#000',
-        // inactiveTintColor: 'gray',
-        // style: {
-        //     backgroundColor: '#fff',
-        // },
-        // indicatorStyle: {
-        //     backgroundColor: '#000',
-        // },
+        tabStyle: {
+            marginTop: 10,
+            marginBottom: -20
+        },
+        labelStyle: {
+            marginTop: 10,
+        },
+        activeTintColor: '#ff0000',
+        inactiveTintColor: '#000'
     }
 });
 

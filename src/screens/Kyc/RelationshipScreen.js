@@ -13,7 +13,8 @@ import {
     ActivityIndicator,
 
 } from "react-native";
-import { colors } from '../../common/theme';
+import { connect } from 'react-redux'
+import { Styles, Config, Colors, FormValidate } from '@common'
 import { Ionicons, AntDesign, MaterialIcons, Feather, Entypo, FontAwesome, FontAwesome5, } from 'react-native-vector-icons';
 import { Image, Header, ListItem, Overlay } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
@@ -26,14 +27,14 @@ export default function RelationshipScreen(props) {
         <View style={styles.container}>
             {/* header  */}
             <Header
-                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={colors.RED} /></TouchableOpacity>} backgroundColor={colors.PEACH}
-                backgroundColor={colors.WHITE}
+                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={Colors.RED} /></TouchableOpacity>} backgroundColor={Colors.PEACH}
+                backgroundColor={Colors.WHITE}
                 centerComponent={<Image
                     source={require('../../../assets/icon.png')}
                     style={styles.logimg}
                 />}
 
-                rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={colors.RED} /></View>}
+                rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={Colors.RED} /></View>}
             />
             <ScrollView>
                 <Image
@@ -93,7 +94,7 @@ const styles = StyleSheet.create({
     nametext: {
         paddingVertical: 5,
         fontSize: 16,
-        color: colors.DEEP_GRAY_3,
+        color: Colors.DEEP_GRAY_3,
         fontWeight: "bold",
 
     },
@@ -101,7 +102,7 @@ const styles = StyleSheet.create({
     addtext: {
         fontSize: 14,
         fontWeight: "bold",
-        color: colors.DEEP_GRAY_3,
+        color: Colors.DEEP_GRAY_3,
         paddingBottom: 5,
     },
     social: { flexDirection: "row", },
@@ -112,7 +113,7 @@ const styles = StyleSheet.create({
 
     bottom: { alignItems: "center", },
     botton_box: {
-        backgroundColor: colors.LIGHT_RED,
+        backgroundColor: Colors.LIGHT_RED,
         paddingHorizontal: 30,
         paddingVertical: 10,
         marginTop: 20,
@@ -120,7 +121,7 @@ const styles = StyleSheet.create({
 
     },
     get_otp: {
-        color: colors.WHITE,
+        color: Colors.WHITE,
         fontSize: 16,
         marginRight: 5,
         textAlign: "center",

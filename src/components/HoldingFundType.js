@@ -5,10 +5,10 @@ import {
     TouchableOpacity,
     Text,
 } from "react-native";
-import { colors } from '../common/theme';
+
 import { AntDesign } from 'react-native-vector-icons';
 import { Image, CheckBox } from 'react-native-elements';
-
+import { Styles, Config, Colors, FormValidate } from '@common'
 
 export default function HoldingFundType(props) {
     return (
@@ -47,7 +47,7 @@ export default function HoldingFundType(props) {
                     <Text style={styles.Hybrid}>Hybrid</Text>
                 </View>
 
-                <TouchableOpacity onPress={() => props.navigation.navigate('Goals4')}>
+                <TouchableOpacity onPress={props.onPress}>
                     <View style={styles.fund}>
                         <View style={styles.SBI}>
                             <Image
@@ -67,7 +67,7 @@ export default function HoldingFundType(props) {
                     <Text style={styles.Hybrid}>Large Cap</Text>
                 </View>
 
-                <TouchableOpacity onPress={() => props.navigation.navigate('Goals4')}>
+                <TouchableOpacity onPress={props.onPress}>
                     <View style={styles.fund}>
                         <View style={styles.SBI}>
 
@@ -86,7 +86,7 @@ export default function HoldingFundType(props) {
                     <Text style={styles.Hybrid}>Multi Cap</Text>
                 </View>
 
-                <TouchableOpacity onPress={() => props.navigation.navigate('Goals4')}>
+                <TouchableOpacity onPress={props.onPress}>
                     <View style={styles.fund}>
                         <View style={styles.SBI}>
 
@@ -103,7 +103,7 @@ export default function HoldingFundType(props) {
                 <View style={styles.small_box}>
                     <Text style={styles.Hybrid}>Mid Cap</Text>
                 </View>
-                <TouchableOpacity onPress={() => props.navigation.navigate('Goals4')}>
+                <TouchableOpacity onPress={props.onPress}>
                     <View style={styles.fund}>
                         <View style={styles.SBI}>
 
@@ -172,20 +172,20 @@ const styles = StyleSheet.create({
     },
     valua_sec: {
         marginHorizontal: 10,
-        backgroundColor: colors.RED,
+        backgroundColor: Colors.RED,
         alignItems: "center",
         borderRadius: 30,
         marginTop: 30,
 
     },
     rate_2: {
-        color: colors.WHITE,
+        color: Colors.WHITE,
         fontWeight: "bold",
         fontSize: 17,
         marginTop: 10,
     },
     Current_Value: {
-        color: colors.WHITE,
+        color: Colors.WHITE,
         fontWeight: "bold",
         fontSize: 12,
     },
@@ -207,7 +207,7 @@ const styles = StyleSheet.create({
     },
     Hybrid: {
         fontSize: 20,
-        color: colors.RED,
+        color: Colors.RED,
         marginLeft: 20,
         paddingVertical: 10,
     },
@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         paddingVertical: 10,
         marginTop: 10,
-        backgroundColor: colors.WHITE,
+        backgroundColor: Colors.WHITE,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,

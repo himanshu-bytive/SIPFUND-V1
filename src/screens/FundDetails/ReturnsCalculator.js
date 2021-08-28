@@ -12,7 +12,8 @@ import {
     TextInput,
     ActivityIndicator,
 } from "react-native";
-import { colors } from '../../common/theme';
+import { connect } from 'react-redux'
+import { Styles, Config, Colors, FormValidate } from '@common'
 import { MySlider } from '../../components';
 import { Ionicons, AntDesign, MaterialIcons, Feather, Entypo, FontAwesome, FontAwesome5, } from 'react-native-vector-icons';
 import { Image, Header, ListItem, Overlay, Slider } from 'react-native-elements';
@@ -42,17 +43,17 @@ export default function ReturnsCalculator(props) {
         <View style={styles.back_sec}>
             <View style={styles.back1}>
                 <Text style={styles.back_year}>1Y Back</Text>
-                <View style={{ borderWidth: 1, borderColor: colors.RED, marginTop: 5, }}></View>
+                <View style={{ borderWidth: 1, borderColor: Colors.RED, marginTop: 5, }}></View>
 
             </View>
             <View style={styles.back1}>
                 <Text style={styles.back_year2}>3Y Back</Text>
-                <View style={{ borderWidth: 1, borderColor: colors.DEEP_GRAY, marginTop: 5, }}></View>
+                <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY, marginTop: 5, }}></View>
             </View>
 
             <View style={styles.back1}>
                 <Text style={styles.back_year2}>5Y Back</Text>
-                <View style={{ borderWidth: 1, borderColor: colors.DEEP_GRAY, marginTop: 5, }}></View>
+                <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY, marginTop: 5, }}></View>
             </View>
 
         </View>
@@ -69,7 +70,7 @@ const styles = StyleSheet.create({
 
     mainbox: {
         borderWidth: 1,
-        borderColor: colors.GRAY_LIGHT,
+        borderColor: Colors.GRAY_LIGHT,
         borderRadius: 20,
         padding: 10,
     },
@@ -89,7 +90,7 @@ const styles = StyleSheet.create({
     },
     price: {
         fontSize: 18,
-        color: colors.RED,
+        color: Colors.RED,
         position: "absolute",
         right: 0,
 
@@ -101,7 +102,7 @@ const styles = StyleSheet.create({
 
     back_year: {
         fontSize: 18,
-        color: colors.RED,
+        color: Colors.RED,
     },
     back_year2: {
         fontSize: 18,
@@ -109,7 +110,7 @@ const styles = StyleSheet.create({
     },
     rs: {
         fontSize: 20,
-        color: colors.RED,
+        color: Colors.RED,
         marginTop: 10,
     },
 
@@ -132,7 +133,7 @@ const styles = StyleSheet.create({
     buttom_botton: {
         width: "50%",
         borderWidth: 1,
-        borderColor: colors.DEEP_GRAY,
+        borderColor: Colors.DEEP_GRAY,
         marginRight: 2,
         alignItems: "center",
         paddingVertical: 7,
@@ -140,7 +141,7 @@ const styles = StyleSheet.create({
     },
     buttom_botton2: {
         width: "50%",
-        backgroundColor: colors.RED,
+        backgroundColor: Colors.RED,
         marginLeft: 2,
         alignItems: "center",
         paddingVertical: 7,
@@ -148,12 +149,12 @@ const styles = StyleSheet.create({
     },
     sip_text: {
         fontSize: 18,
-        color: colors.RED,
+        color: Colors.RED,
         fontWeight: "bold"
     },
     sip_text2: {
         fontSize: 18,
-        color: colors.WHITE,
+        color: Colors.WHITE,
         fontWeight: "bold"
     },
 

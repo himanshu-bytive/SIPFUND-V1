@@ -12,22 +12,23 @@ import {
     TextInput,
     ActivityIndicator
 } from "react-native";
-import { colors } from '../../common/theme';
-import { commonStyles } from '../../common/styles';
+import { connect } from 'react-redux'
+import { Styles, Config, Colors, FormValidate } from '@common'
+
 import { Ionicons, AntDesign, Entypo, FontAwesome5 } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 
 export default function Goals2Screen(props) {
     return (
         <View style={styles.container}>
-            <View style={commonStyles.Header_top}>
+            <View style={Styles.Header_top}>
                 <Header
-                    leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={colors.RED} /></TouchableOpacity>} backgroundColor={colors.PEACH}
+                    leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={Colors.RED} /></TouchableOpacity>} backgroundColor={Colors.PEACH}
                     centerComponent={<Image
                         source={require('../../../assets/icon.png')}
                         style={styles.logimg}
                     />}
-                    rightComponent={<View style={commonStyles.headerkn}><Text style={commonStyles.textkn}>KN</Text></View>}
+                    rightComponent={<View style={Styles.headerkn}><Text style={Styles.textkn}>KN</Text></View>}
                 />
                 <Image
                     source={require('../../../assets/Goalsimg.png')}
@@ -187,12 +188,12 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         marginHorizontal: 20,
         borderWidth: 2,
-        borderColor: colors.GRAY_LIGHT,
+        borderColor: Colors.GRAY_LIGHT,
         borderRadius: 15,
         marginVertical: 10,
         padding: 5,
         paddingBottom: 0,
-        backgroundColor: colors.WHITE,
+        backgroundColor: Colors.WHITE,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -218,7 +219,7 @@ const styles = StyleSheet.create({
     child_text: {
         fontSize: 10,
         fontWeight: "bold",
-        color: colors.LIGHT_BLACK,
+        color: Colors.LIGHT_BLACK,
         marginVertical: 3,
         paddingLeft: 20,
 
@@ -251,16 +252,16 @@ const styles = StyleSheet.create({
         width: 145,
     },
     botton_box: {
-        backgroundColor: colors.RED,
+        backgroundColor: Colors.RED,
         marginTop: 20,
         borderRadius: 10,
         marginHorizontal: 20,
         borderWidth: 1,
-        borderColor: colors.DEEP_GRAY,
+        borderColor: Colors.DEEP_GRAY,
         paddingVertical: 20,
     },
     get_otp: {
-        color: colors.WHITE,
+        color: Colors.WHITE,
         fontSize: 18,
         fontWeight: 'bold',
         textAlign: "center",

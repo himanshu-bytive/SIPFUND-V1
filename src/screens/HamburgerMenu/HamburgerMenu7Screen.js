@@ -13,7 +13,8 @@ import {
     ActivityIndicator,
     ScrollView,
 } from "react-native";
-import { colors } from '../../common/theme';
+import { connect } from 'react-redux'
+import { Styles, Config, Colors, FormValidate } from '@common'
 import { Entypo, AntDesign } from 'react-native-vector-icons';
 import { Header, Overlay } from 'react-native-elements';
 import Investments from '../../components/Investments'
@@ -40,9 +41,9 @@ export default function HamburgerMenu7Screen(props) {
     return (
         <View style={styles.container}>
             <Header
-                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={colors.RED} /></TouchableOpacity>}
-                rightComponent={<TouchableOpacity onPress={() => props.navigation.navigate('Toprated')} style={{ marginTop: 20 }}><AntDesign name={"shoppingcart"} size={30} color={colors.RED} /></TouchableOpacity>}
-                backgroundColor={colors.LIGHT_WHITE}
+                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={Colors.RED} /></TouchableOpacity>}
+                rightComponent={<TouchableOpacity onPress={() => props.navigation.navigate('Toprated')} style={{ marginTop: 20 }}><AntDesign name={"shoppingcart"} size={30} color={Colors.RED} /></TouchableOpacity>}
+                backgroundColor={Colors.LIGHT_WHITE}
                 containerStyle={styles.header}
                 centerComponent={<Image
                     source={require('../../../assets/icon.png')}
@@ -97,11 +98,11 @@ export default function HamburgerMenu7Screen(props) {
 
                     <View>
                         <Text style={styles.folio_no}>Folio No</Text>
-                        <TextInput style={styles.top_inpuut} placeholder="12345" style={{ borderBottomWidth: 1, fontSize: 14, borderColor: colors.DEEP_GRAY, }} />
+                        <TextInput style={styles.top_inpuut} placeholder="12345" style={{ borderBottomWidth: 1, fontSize: 14, borderColor: Colors.DEEP_GRAY, }} />
                     </View>
                     <View>
                         <Text style={styles.amount}>Amount INR</Text>
-                        <TextInput style={styles.top_inpuut} placeholder="10000" style={{ borderBottomWidth: 1, fontSize: 14, borderColor: colors.RED,}} />
+                        <TextInput style={styles.top_inpuut} placeholder="10000" style={{ borderBottomWidth: 1, fontSize: 14, borderColor: Colors.RED,}} />
                     </View>
 
                     <TouchableOpacity onPress={() => props.navigation.navigate('HamburgerMenu5Tab')} style={styles.botton_box}>
@@ -123,14 +124,14 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     switch_sec: {
-        backgroundColor: colors.RED,
+        backgroundColor: Colors.RED,
     },
     transaction: {
         fontSize: 21,
         fontWeight: "bold",
         textAlign: "center",
         marginVertical: 20,
-        color: colors.WHITE,
+        color: Colors.WHITE,
     },
     tab_sec: {
         flexDirection: "row",
@@ -141,7 +142,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     switch: {
-        color: colors.WHITE,
+        color: Colors.WHITE,
         fontSize: 13,
     },
     main_box: {
@@ -150,12 +151,12 @@ const styles = StyleSheet.create({
     },
     select_amc: {
         borderBottomWidth: 1,
-        borderBottomColor: colors.GREY_1,
+        borderBottomColor: Colors.GREY_1,
     },
     select: {
         fontSize: 13,
         marginVertical: 10,
-        color: colors.DEEP_GRAY,
+        color: Colors.DEEP_GRAY,
     },
     amc: {
         flexDirection: "row",
@@ -171,16 +172,16 @@ const styles = StyleSheet.create({
     },
     amount: {
         fontSize: 11,
-        color: colors.RED,
+        color: Colors.RED,
         marginVertical: 10,
     },
     botton_box: {
-        backgroundColor: colors.RED,
+        backgroundColor: Colors.RED,
         paddingVertical: 15,
         marginTop: 20,
     },
     proceed: {
-        color: colors.WHITE,
+        color: Colors.WHITE,
         fontSize: 16,
         fontWeight: 'bold',
         textAlign: "center",

@@ -12,22 +12,23 @@ import {
     TextInput,
     ActivityIndicator
 } from "react-native";
-import { colors } from '../../common/theme';
-import { commonStyles } from '../../common/styles';
+import { connect } from 'react-redux'
+import { Styles, Config, Colors, FormValidate } from '@common'
+
 import { Entypo, AntDesign } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 
 export default function GoalsScreen(props) {
     return (
         <View style={styles.container}>
-            <View style={commonStyles.Header_top}>
+            <View style={Styles.Header_top}>
                 <Header
-leftComponent={<TouchableOpacity onPress={() => props.navigation.toggleDrawer()} style={{ marginTop: 20 }}><Entypo name={"menu"} size={30} color={colors.RED} /></TouchableOpacity>}                    backgroundColor={colors.PEACH}
+leftComponent={<TouchableOpacity onPress={() => props.navigation.toggleDrawer()} style={{ marginTop: 20 }}><Entypo name={"menu"} size={30} color={Colors.RED} /></TouchableOpacity>}                    backgroundColor={Colors.PEACH}
                     centerComponent={<Image
                         source={require('../../../assets/icon.png')}
                         style={styles.logimg}
                     />}
-                    rightComponent={<View style={commonStyles.headerkn}><Text style={commonStyles.textkn}>KN</Text></View>}
+                    rightComponent={<View style={Styles.headerkn}><Text style={Styles.textkn}>KN</Text></View>}
                 />
                 <Image
                     onPress={() => props.navigation.navigate('Home1')}
@@ -130,10 +131,10 @@ const styles = StyleSheet.create({
         width: '100%',
         borderWidth: 1,
         borderStyle: "solid",
-        borderColor: colors.GREY_1,
+        borderColor: Colors.GREY_1,
         backgroundColor: '#F9F9F9',
         alignItems: "center",
-        backgroundColor: colors.LIGHT_WHITE,
+        backgroundColor: Colors.LIGHT_WHITE,
         paddingTop: 10,
         paddingBottom: 10,
 
@@ -174,7 +175,7 @@ const styles = StyleSheet.create({
         width: '100%',
         borderWidth: 2,
         borderStyle: "solid",
-        borderColor: colors.GRAY_LIGHT,
+        borderColor: Colors.GRAY_LIGHT,
         borderRadius: 15,
         marginVertical: 20,
         padding: 20,
@@ -188,7 +189,7 @@ const styles = StyleSheet.create({
     child_text: {
 
         fontSize: 18,
-        color: colors.GRAY_LIGHT_1,
+        color: Colors.GRAY_LIGHT_1,
         paddingTop: 15,
         paddingLeft: 20,
     },

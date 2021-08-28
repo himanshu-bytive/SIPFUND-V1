@@ -11,7 +11,8 @@ import {
     TextInput,
     ActivityIndicator
 } from "react-native";
-import { colors } from '../../common/theme';
+import { connect } from 'react-redux'
+import { Styles, Config, Colors, FormValidate } from '@common'
 import { Ionicons, Entypo } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 
@@ -19,13 +20,13 @@ export default function PasswordScreen(props) {
     return (
         <View style={styles.container}>
             <Header
-leftComponent={<TouchableOpacity onPress={() => props.navigation.toggleDrawer()} style={{ marginTop: 25 }}><Entypo name={"menu"} size={30} color={colors.RED} /></TouchableOpacity>}                containerStyle={styles.header}
-                backgroundColor={colors.LIGHT_WHITE}
+leftComponent={<TouchableOpacity onPress={() => props.navigation.toggleDrawer()} style={{ marginTop: 25 }}><Entypo name={"menu"} size={30} color={Colors.RED} /></TouchableOpacity>}                containerStyle={styles.header}
+                backgroundColor={Colors.LIGHT_WHITE}
                 centerComponent={<Image
                     source={require('../../../assets/icon.png')}
                     style={styles.logimg}
                 />}
-                rightComponent={<View style={{ marginTop: 25, borderWidth: 1, backgroundColor: colors.WHITE, borderColor: colors.RED, padding: 5, borderRadius: 7, }}><Text>KN</Text></View>}
+                rightComponent={<View style={{ marginTop: 25, borderWidth: 1, backgroundColor: Colors.WHITE, borderColor: Colors.RED, padding: 5, borderRadius: 7, }}><Text>KN</Text></View>}
             />
             <View>
                 <Text style={styles.payusing}>Pay Using</Text>
@@ -68,7 +69,7 @@ const styles = StyleSheet.create({
 
     },
     header: {
-        borderBottomColor: colors.BLACK,
+        borderBottomColor: Colors.BLACK,
         borderBottomWidth: 1
     },
     logimg: {
@@ -96,7 +97,7 @@ const styles = StyleSheet.create({
     button: {
         width: "90%",
         borderWidth: 1,
-        borderColor: colors.RED,
+        borderColor: Colors.RED,
         borderStyle: "solid",
         marginVertical: 30,
     },
@@ -111,7 +112,7 @@ const styles = StyleSheet.create({
         marginBottom:5
     },
     get_otp: {
-        color: colors.BLACK,
+        color: Colors.BLACK,
         fontSize: 20,
         fontWeight: 'bold',
 

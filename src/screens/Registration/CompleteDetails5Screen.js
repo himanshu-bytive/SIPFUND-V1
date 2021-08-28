@@ -12,10 +12,10 @@ import {
     TextInput,
     ActivityIndicator
 } from "react-native";
-import { colors } from '../../common/theme';
+import { connect } from 'react-redux'
+import { Styles, Config, Colors, FormValidate } from '@common'
 import { MaterialIcons, AntDesign, Entypo, FontAwesome5, FontAwesome, Foundation } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
-import { Colors } from "react-native/Libraries/NewAppScreen";
 
 export default function CompleteDetails5Screen(props) {
     return (
@@ -23,14 +23,14 @@ export default function CompleteDetails5Screen(props) {
         <View style={styles.container}>
 
             <Header
-                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={40} color={colors.RED} /></TouchableOpacity>}
+                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={40} color={Colors.RED} /></TouchableOpacity>}
                 containerStyle={styles.header}
-                backgroundColor={colors.LIGHT_WHITE}
+                backgroundColor={Colors.LIGHT_WHITE}
                 centerComponent={<Image
                     source={require('../../../assets/icon.png')}
                     style={styles.logimg}
                 />}
-                rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={colors.RED} /></View>}
+                rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={Colors.RED} /></View>}
             />
             <ScrollView>
                 <View style={{ alignItems: "center", }}>
@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
     pending: {
         fontSize: 14,
         paddingLeft: 20,
-        color: colors.LIGHT_YELLOW,
+        color: Colors.LIGHT_YELLOW,
         fontWeight: "bold",
     },
     container_sec: {
@@ -227,7 +227,7 @@ const styles = StyleSheet.create({
     review: {
         fontSize: 20,
         fontWeight: "bold",
-        color: colors.RED,
+        color: Colors.RED,
         marginVertical: 20,
         paddingLeft: 20,
     },

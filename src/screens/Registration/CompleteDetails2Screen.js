@@ -12,7 +12,8 @@ import {
     TextInput,
     ActivityIndicator
 } from "react-native";
-import { colors } from '../../common/theme';
+import { connect } from 'react-redux'
+import { Styles, Config, Colors, FormValidate } from '@common'
 import { Ionicons, AntDesign, Entypo, FontAwesome5 } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 
@@ -20,14 +21,14 @@ export default function CompleteDetails2Screen(props) {
     return (
         <View style={styles.container}>
             <Header
-                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={40} color={colors.RED} /></TouchableOpacity>}
+                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={40} color={Colors.RED} /></TouchableOpacity>}
                 containerStyle={styles.header}
-                backgroundColor={colors.LIGHT_WHITE}
+                backgroundColor={Colors.LIGHT_WHITE}
                 centerComponent={<Image
                     source={require('../../../assets/icon.png')}
                     style={styles.logimg}
                 />}
-                rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={colors.RED} /></View>}
+                rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={Colors.RED} /></View>}
             />
             <ScrollView>
                 {/* container_sec */}
@@ -36,14 +37,14 @@ export default function CompleteDetails2Screen(props) {
                     <Text style={styles.occupation}>Address1 (As per address proof)</Text>
                     <Text style={styles.example}>Example Address</Text>
 
-                    <View style={{ borderWidth: 1, borderColor: colors.DEEP_GRAY, }}></View>
+                    <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY, }}></View>
 
                     {/* DOB/DOI_sec */}
 
                     <Text style={styles.Pincode}>Pincode</Text>
                     <Text style={styles.example}>701401</Text>
 
-                    <View style={{ borderWidth: 1, borderColor: colors.RED, }}></View>
+                    <View style={{ borderWidth: 1, borderColor: Colors.RED, }}></View>
 
 
 
@@ -55,7 +56,7 @@ export default function CompleteDetails2Screen(props) {
                         <Text style={styles.private}>West Bengal</Text>
                         <AntDesign name="right" size={20} color="#000000" />
                     </View>
-                    <View style={{ borderWidth: 1, borderColor: colors.DEEP_GRAY, }}></View>
+                    <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY, }}></View>
 
                     {/* Investor Name_sec */}
 
@@ -65,7 +66,7 @@ export default function CompleteDetails2Screen(props) {
                         <Text style={styles.private}>CONTAI</Text>
                         <AntDesign name="right" size={20} color="#000000" />
                     </View>
-                    <View style={{ borderWidth: 1, borderColor: colors.DEEP_GRAY, }}></View>
+                    <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY, }}></View>
                 </View>
 
             </ScrollView>
@@ -93,7 +94,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#EAE9EE",
     },
     header: {
-        borderBottomColor: colors.BLACK,
+        borderBottomColor: Colors.BLACK,
         borderBottomWidth: 1
     },
     container_sec: {
@@ -108,7 +109,7 @@ const styles = StyleSheet.create({
     },
     occupation: {
         fontSize: 15,
-        color: colors.DEEP_GRAY,
+        color: Colors.DEEP_GRAY,
         fontWeight: "bold",
         marginTop: 10,
     },
@@ -129,7 +130,7 @@ const styles = StyleSheet.create({
 
     },
     Pincode: {
-        color: colors.RED,
+        color: Colors.RED,
         fontSize: 15,
         marginTop: 10,
     },
@@ -144,16 +145,16 @@ const styles = StyleSheet.create({
     },
     botton_box: {
         width: "50%",
-        backgroundColor: colors.RED,
+        backgroundColor: Colors.RED,
         paddingVertical: 10,
         marginTop: 20,
 
-        borderColor: colors.DEEP_GRAY,
+        borderColor: Colors.DEEP_GRAY,
 
         marginHorizontal: 5,
     },
     get_otp: {
-        color: colors.WHITE,
+        color: Colors.WHITE,
         fontSize: 18,
         fontWeight: 'bold',
         textAlign: "center",

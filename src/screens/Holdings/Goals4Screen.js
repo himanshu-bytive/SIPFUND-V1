@@ -12,8 +12,9 @@ import {
     ActivityIndicator,
 
 } from "react-native";
-import { colors } from '../../common/theme';
-import { commonStyles } from '../../common/styles';
+import { connect } from 'react-redux'
+import { Styles, Config, Colors, FormValidate } from '@common'
+
 import { Ionicons, AntDesign, FontAwesome, FontAwesome5, } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
@@ -24,15 +25,15 @@ export default function Goals4Screen(props) {
 
             {/* Header_sec */}
 
-            <View style={commonStyles.Header_top}>
+            <View style={Styles.Header_top}>
                 <Header
-                    leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 25 }}><AntDesign name={"arrowleft"} size={30} color={colors.RED} /></TouchableOpacity>} backgroundColor={colors.PEACH}
-                    backgroundColor={colors.PEACH}
+                    leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 25 }}><AntDesign name={"arrowleft"} size={30} color={Colors.RED} /></TouchableOpacity>} backgroundColor={Colors.PEACH}
+                    backgroundColor={Colors.PEACH}
                     centerComponent={<Image
                         source={require('../../../assets/icon.png')}
                         style={styles.logimg}
                     />}
-                    rightComponent={<View style={commonStyles.headerkn}><Text style={commonStyles.textkn}>KN</Text></View>}
+                    rightComponent={<View style={Styles.headerkn}><Text style={Styles.textkn}>KN</Text></View>}
                 />
                 <Image
                     source={require('../../../assets/Goles_4logo.png')}
@@ -160,7 +161,7 @@ const styles = StyleSheet.create({
         borderColor: "#F7EDED",
         borderWidth: 1,
         borderRadius: 10,
-        backgroundColor: colors.WHITE,
+        backgroundColor: Colors.WHITE,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -178,7 +179,7 @@ const styles = StyleSheet.create({
     Longterm: {
         marginLeft: 50,
         fontSize: 22,
-        color: colors.BLACK,
+        color: Colors.BLACK,
     },
 
 

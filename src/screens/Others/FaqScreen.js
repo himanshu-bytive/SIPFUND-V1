@@ -11,8 +11,9 @@ import {
     TextInput,
     ActivityIndicator
 } from "react-native";
-import { colors } from '../../common/theme';
-import { commonStyles } from '../../common/styles';
+import { connect } from 'react-redux'
+import { Styles, Config, Colors, FormValidate } from '@common'
+
 import { Ionicons, AntDesign, Entypo } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 
@@ -21,13 +22,13 @@ export default function PasswordScreen(props) {
         <View style={styles.container}>
 
             <Header
-leftComponent={<TouchableOpacity onPress={() => props.navigation.toggleDrawer()} style={{ marginTop: 20 }}><Entypo name={"menu"} size={30} color={colors.RED} /></TouchableOpacity>}                containerStyle={styles.header}
-                backgroundColor={colors.LIGHT_WHITE}
+leftComponent={<TouchableOpacity onPress={() => props.navigation.toggleDrawer()} style={{ marginTop: 20 }}><Entypo name={"menu"} size={30} color={Colors.RED} /></TouchableOpacity>}                containerStyle={styles.header}
+                backgroundColor={Colors.LIGHT_WHITE}
                 centerComponent={<Image
                     source={require('../../../assets/icon.png')}
                     style={styles.logimg}
                 />}
-                rightComponent={<View style={commonStyles.headerkn}><Text style={commonStyles.textkn}>KN</Text></View>}
+                rightComponent={<View style={Styles.headerkn}><Text style={Styles.textkn}>KN</Text></View>}
             />
             <View style={styles.mainbox}>
 
@@ -65,7 +66,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     header: {
-        borderBottomColor: colors.BLACK,
+        borderBottomColor: Colors.BLACK,
         borderBottomWidth: 1
     },
     mainbox: {
@@ -98,11 +99,11 @@ const styles = StyleSheet.create({
     Mutualfund: {
         fontSize: 20,
         marginTop:9,
-        color: colors.GREY_1,
+        color: Colors.GREY_1,
     },
     botton_box: {
         alignItems: "center",
-        backgroundColor: colors.RED,
+        backgroundColor: Colors.RED,
         paddingHorizontal: 70,
         paddingVertical: 20,
         marginTop: 20,
@@ -110,7 +111,7 @@ const styles = StyleSheet.create({
 
     },
     get_otp: {
-        color: colors.WHITE,
+        color: Colors.WHITE,
         fontSize: 20,
         fontWeight: 'bold',
 

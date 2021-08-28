@@ -6,8 +6,7 @@ import {
     TouchableOpacity,
     Text,
 } from "react-native";
-import { colors } from '../common/theme';
-
+import { Styles, Config, Colors, FormValidate } from '@common'
 
 export default function Investments(props) {
     return (<View style={styles.investment_sec}>
@@ -34,7 +33,7 @@ const styles = StyleSheet.create({
     investment: {
         borderTopRightRadius:20,
         borderTopLeftRadius:20,
-        backgroundColor: colors.WHITE,
+        backgroundColor: Colors.WHITE,
         width: '29.333%',
         alignItems: "center",
         margin: '2%',

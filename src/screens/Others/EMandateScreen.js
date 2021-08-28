@@ -11,7 +11,8 @@ import {
     TextInput,
     ActivityIndicator
 } from "react-native";
-import { colors } from '../../common/theme';
+import { connect } from 'react-redux'
+import { Styles, Config, Colors, FormValidate } from '@common'
 import { Ionicons, AntDesign } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 
@@ -46,6 +47,6 @@ const styles = StyleSheet.create({
     emaCancel: {
         fontSize: 15,
         marginTop: 15,
-        color: colors.RED,
+        color: Colors.RED,
     },
 });

@@ -11,8 +11,9 @@ import {
     TextInput,
     ActivityIndicator
 } from "react-native";
-import { colors } from '../../common/theme';
-import { commonStyles } from '../../common/styles';
+import { connect } from 'react-redux'
+import { Styles, Config, Colors, FormValidate } from '@common'
+
 import { Ionicons, AntDesign, EvilIcons, Entypo, FontAwesome5 } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
@@ -32,14 +33,14 @@ export default function Investment3Screens(props) {
         <View style={styles.container}>
 
             <Header
-                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={40} color={colors.RED} /></TouchableOpacity>}
-                containerStyle={commonStyles.header}
-                backgroundColor={colors.LIGHT_WHITE}
+                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={40} color={Colors.RED} /></TouchableOpacity>}
+                containerStyle={Styles.header}
+                backgroundColor={Colors.LIGHT_WHITE}
                 centerComponent={<Image
                     source={require('../../../assets/icon.png')}
                     style={styles.logimg}
                 />}
-                rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={colors.RED} /></View>}
+                rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={Colors.RED} /></View>}
             />
 
             <ScrollView>
@@ -144,26 +145,26 @@ const styles = StyleSheet.create({
     child: {
         fontSize: 22,
         fontWeight: "bold",
-        color: colors.RED,
+        color: Colors.RED,
     },
     child_text: {
         fontSize: 18,
-        color: colors.DEEP_GRAY,
+        color: Colors.DEEP_GRAY,
         paddingVertical: 10,
         fontWeight: "bold",
         marginTop: 30,
     },
     botton_box: {
-        backgroundColor: colors.RED,
+        backgroundColor: Colors.RED,
         marginHorizontal: 30,
     marginBottom:30,
         borderWidth: 1,
         borderRadius: 10,
-        borderColor: colors.DEEP_GRAY,
+        borderColor: Colors.DEEP_GRAY,
         paddingVertical: 10,
     },
     get_otp: {
-        color: colors.WHITE,
+        color: Colors.WHITE,
         fontSize: 20,
         fontWeight: 'bold',
         textAlign: "center",
@@ -182,16 +183,16 @@ const styles = StyleSheet.create({
     buttom_botton: {
         width: "30%",
         borderWidth: 1,
-        borderColor: colors.DEEP_GRAY,
+        borderColor: Colors.DEEP_GRAY,
         borderRadius: 8,
         alignItems: "center",
         paddingVertical: 20,
-        backgroundColor: colors.LIGHT_GRAY,
+        backgroundColor: Colors.LIGHT_GRAY,
     },
     buttom_botton2: {
         width: "30%",
         borderRadius: 8,
-        backgroundColor: colors.RED,
+        backgroundColor: Colors.RED,
         paddingVertical: 20,
         alignItems: "center",
 
@@ -200,17 +201,17 @@ const styles = StyleSheet.create({
 
     sip_text: {
         fontSize: 20,
-        color: colors.DEEP_GRAY,
+        color: Colors.DEEP_GRAY,
         fontWeight: "bold",
     },
     sip_text2: {
         fontSize: 20,
-        color: colors.WHITE,
+        color: Colors.WHITE,
         fontWeight: "bold",
     },
     childtext: {
         fontSize: 20,
-        color: colors.RED,
+        color: Colors.RED,
         paddingVertical: 10,
         fontWeight: "bold",
         marginLeft: 20,
@@ -218,7 +219,7 @@ const styles = StyleSheet.create({
     investcost_sec: {
         marginHorizontal: 30,
         marginTop: 10,
-        backgroundColor: colors.WHITE,
+        backgroundColor: Colors.WHITE,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -229,22 +230,22 @@ const styles = StyleSheet.create({
         elevation: 4,
         padding: 15,
         borderWidth: 1,
-        borderColor: colors.GREY_1,
+        borderColor: Colors.GREY_1,
         borderRadius: 5,
     },
     cost: {
         fontSize: 21,
-        color: colors.DEEP_GRAY,
+        color: Colors.DEEP_GRAY,
         paddingLeft: 10,
     },
     number: {
         paddingLeft: 50,
         paddingVertical: 15,
         fontSize: 15,
-        color: colors.DEEP_GRAY,
+        color: Colors.DEEP_GRAY,
     },
     yearly_section: {
-        backgroundColor: colors.PINK,
+        backgroundColor: Colors.PINK,
         marginVertical: 20,
         paddingHorizontal: 30,
         paddingVertical: 20,
@@ -253,18 +254,18 @@ const styles = StyleSheet.create({
     },
     cost_top: {
         fontSize: 20,
-        color: colors.RED,
+        color: Colors.RED,
         fontWeight: "bold",
     },
     cost_botton: {
         fontSize: 15,
-        color: colors.DEEP_GRAY,
+        color: Colors.DEEP_GRAY,
         fontWeight: "bold",
     },
     return: {
         marginLeft: 20,
         fontWeight: "bold",
-        color: colors.DEEP_GRAY,
+        color: Colors.DEEP_GRAY,
         fontSize: 18,
     },
 

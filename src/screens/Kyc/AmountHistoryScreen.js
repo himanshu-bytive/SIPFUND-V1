@@ -13,7 +13,8 @@ import {
     ActivityIndicator,
 
 } from "react-native";
-import { colors } from '../../common/theme';
+import { connect } from 'react-redux'
+import { Styles, Config, Colors, FormValidate } from '@common'
 import { Ionicons, AntDesign, MaterialIcons, Feather, Entypo, FontAwesome, FontAwesome5, } from 'react-native-vector-icons';
 import { Image, Header, ListItem, Overlay } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
@@ -25,14 +26,14 @@ export default function AmountHistoryScreen(props) {
         <View style={styles.container}>
             {/* header  */}
             <Header
-                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={colors.RED} /></TouchableOpacity>} backgroundColor={colors.PEACH}
-                backgroundColor={colors.WHITE}
+                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={Colors.RED} /></TouchableOpacity>} backgroundColor={Colors.PEACH}
+                backgroundColor={Colors.WHITE}
                 centerComponent={<Image
                     source={require('../../../assets/icon.png')}
                     style={styles.logimg}
                 />}
 
-                rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={colors.RED} /></View>}
+                rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={Colors.RED} /></View>}
             />
             <ScrollView>
                 {/* Amount History section */}
@@ -53,7 +54,7 @@ export default function AmountHistoryScreen(props) {
                         </TouchableOpacity>
 
                     </View>
-                    <View style={{ borderWidth: 1, borderColor: colors.GREY_1, marginVertical: 20, marginHorizontal: 10, }}></View>
+                    <View style={{ borderWidth: 1, borderColor: Colors.GREY_1, marginVertical: 20, marginHorizontal: 10, }}></View>
                     <ScrollView horizontal>
                         <DataTable style={styles.dataTable}>
                             <DataTable.Header>
@@ -121,20 +122,20 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     amount_sec: {
-        backgroundColor: colors.RED,
+        backgroundColor: Colors.RED,
 
     },
     amount: {
         fontSize: 20,
         fontWeight: "bold",
-        color: colors.WHITE,
+        color: Colors.WHITE,
         textAlign: "center",
         marginVertical: 10,
     },
 
     invest_sec: {
         marginTop: 20,
-        backgroundColor: colors.WHITE,
+        backgroundColor: Colors.WHITE,
         marginHorizontal: 10,
 
         shadowColor: "#000",
@@ -156,10 +157,10 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
 
     },
-    rupees_text: { color: colors.GREEN_2, },
+    rupees_text: { color: Colors.GREEN_2, },
     botton_box: {
         width: "70%",
-        backgroundColor: colors.RED,
+        backgroundColor: Colors.RED,
         position: "absolute",
         right: 0,
 
@@ -183,7 +184,7 @@ const styles = StyleSheet.create({
         paddingLeft: 15,
     },
     get_otp: {
-        color: colors.WHITE,
+        color: Colors.WHITE,
         fontSize: 13,
         fontWeight: 'bold',
         textAlign: "center",
@@ -191,13 +192,13 @@ const styles = StyleSheet.create({
     },
     mainbox: {
         borderTopWidth: 1,
-        borderColor: colors.GREY_1,
+        borderColor: Colors.GREY_1,
         borderBottomWidth: 1,
         flexDirection: "row",
     },
     date_sec: {
         borderRightWidth: 1,
-        borderColor: colors.GREY_1,
+        borderColor: Colors.GREY_1,
     },
 
 

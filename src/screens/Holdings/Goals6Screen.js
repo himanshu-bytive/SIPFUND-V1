@@ -12,8 +12,9 @@ import {
     TextInput,
     ActivityIndicator
 } from "react-native";
-import { colors } from '../../common/theme';
-import { commonStyles } from '../../common/styles';
+import { connect } from 'react-redux'
+import { Styles, Config, Colors, FormValidate } from '@common'
+
 import { Ionicons, AntDesign, Entypo, FontAwesome5 } from 'react-native-vector-icons';
 import { Image, Header, CheckBox, Overlay } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
@@ -36,14 +37,14 @@ export default function Goals6Screen(props) {
         <View style={styles.container}>
 
             <Header
-                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={40} color={colors.RED} /></TouchableOpacity>}
-                containerStyle={commonStyles.header}
-                backgroundColor={colors.LIGHT_WHITE}
+                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={40} color={Colors.RED} /></TouchableOpacity>}
+                containerStyle={Styles.header}
+                backgroundColor={Colors.LIGHT_WHITE}
                 centerComponent={<Image
                     source={require('../../../assets/icon.png')}
                     style={styles.logimg}
                 />}
-                rightComponent={<View style={commonStyles.carticon}><AntDesign name={"shoppingcart"} size={40} color={colors.RED} /></View>}
+                rightComponent={<View style={Styles.carticon}><AntDesign name={"shoppingcart"} size={40} color={Colors.RED} /></View>}
             />
             {/* container_sec */}
             <ScrollView style={styles.containerScroll}>
@@ -103,7 +104,7 @@ export default function Goals6Screen(props) {
                             <Text style={(visible === 'investment') ? styles.schemetype : styles.schemetype1}>Scheme Type Wise Investment Summary</Text>
                             <TouchableOpacity onPress={() => toggleOverlay('investment')}><AntDesign name={(visible === 'investment') ? "up" : "down"} size={30} color="#C0392B" /></TouchableOpacity>
                         </View>
-                        <View style={{ borderWidth: 1, borderColor: colors.GREY_1, marginTop: 10, marginBottom: 10, }}></View>
+                        <View style={{ borderWidth: 1, borderColor: Colors.GREY_1, marginTop: 10, marginBottom: 10, }}></View>
                         {visible === 'investment' && (<GoalsTable />)}
                     </View>
 
@@ -112,7 +113,7 @@ export default function Goals6Screen(props) {
                             <Text style={(visible === 'performance') ? styles.schemetype : styles.schemetype1}>Scheme of Past Performance</Text>
                             <TouchableOpacity onPress={() => toggleOverlay('performance')}><AntDesign name={(visible === 'performance') ? "up" : "down"} size={30} color="#C0392B" /></TouchableOpacity>
                         </View>
-                        <View style={{ borderWidth: 1, borderColor: colors.GREY_1, marginTop: 10, marginBottom: 10, }}></View>
+                        <View style={{ borderWidth: 1, borderColor: Colors.GREY_1, marginTop: 10, marginBottom: 10, }}></View>
                         {visible === 'performance' && (<GoalsTable />)}
                     </View>
 
@@ -121,7 +122,7 @@ export default function Goals6Screen(props) {
                             <Text style={(visible === 'wiseInvestment') ? styles.schemetype : styles.schemetype1}>Goal Wise Investment Summary</Text>
                             <TouchableOpacity onPress={() => toggleOverlay('wiseInvestment')}><AntDesign name={(visible === 'wiseInvestment') ? "up" : "down"} size={30} color="#C0392B" /></TouchableOpacity>
                         </View>
-                        <View style={{ borderWidth: 1, borderColor: colors.GREY_1, marginTop: 10, marginBottom: 10, }}></View>
+                        <View style={{ borderWidth: 1, borderColor: Colors.GREY_1, marginTop: 10, marginBottom: 10, }}></View>
                         {visible === 'wiseInvestment' && (<GoalsTable />)}
                     </View>
 
@@ -130,7 +131,7 @@ export default function Goals6Screen(props) {
                             <Text style={(visible === 'equity') ? styles.schemetype : styles.schemetype1}>Top 10 Equity Holding</Text>
                             <TouchableOpacity onPress={() => toggleOverlay('equity')}><AntDesign name={(visible === 'equity') ? "up" : "down"} size={30} color="#C0392B" /></TouchableOpacity>
                         </View>
-                        <View style={{ borderWidth: 1, borderColor: colors.GREY_1, marginTop: 10, marginBottom: 10, }}></View>
+                        <View style={{ borderWidth: 1, borderColor: Colors.GREY_1, marginTop: 10, marginBottom: 10, }}></View>
                         {visible === 'equity' && (<GoalsTable />)}
                     </View>
 
@@ -139,7 +140,7 @@ export default function Goals6Screen(props) {
                             <Text style={(visible === 'exposure') ? styles.schemetype : styles.schemetype1}>Top 10 Sector Exposure</Text>
                             <TouchableOpacity onPress={() => toggleOverlay('exposure')}><AntDesign name={(visible === 'exposure') ? "up" : "down"} size={30} color="#C0392B" /></TouchableOpacity>
                         </View>
-                        <View style={{ borderWidth: 1, borderColor: colors.GREY_1, marginTop: 10, marginBottom: 10, }}></View>
+                        <View style={{ borderWidth: 1, borderColor: Colors.GREY_1, marginTop: 10, marginBottom: 10, }}></View>
                         {visible === 'exposure' && (<GoalsTable />)}
                     </View>
 
@@ -155,7 +156,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     header: {
-        borderBottomColor: colors.BLACK,
+        borderBottomColor: Colors.BLACK,
         borderBottomWidth: 1
     },
     container_sec: {
@@ -176,7 +177,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         padding: 10,
         marginTop: 10,
-        backgroundColor: colors.WHITE,
+        backgroundColor: Colors.WHITE,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -187,14 +188,14 @@ const styles = StyleSheet.create({
         elevation: 4,
 
         borderWidth: 1,
-        borderColor: colors.GREY_1,
+        borderColor: Colors.GREY_1,
 
 
     },
     Longterm: {
         marginLeft: 10,
         fontSize: 20,
-        color: colors.BLACK,
+        color: Colors.BLACK,
     },
 
     mid_capimg: {
@@ -247,7 +248,7 @@ const styles = StyleSheet.create({
     schemetype: {
         fontSize: 15,
         width: "90%",
-        color: colors.RED,
+        color: Colors.RED,
         paddingTop: 3,
 
 
@@ -258,7 +259,7 @@ const styles = StyleSheet.create({
         width: 373,
     },
     schemetype1: {
-        color: colors.BLACK,
+        color: Colors.BLACK,
         width: "90%",
         marginTop: 10,
         fontSize: 15,
@@ -298,7 +299,7 @@ const styles = StyleSheet.create({
     axis: {
         fontSize: 9,
         fontWeight: "bold",
-        color: colors.DEEP_GRAY,
+        color: Colors.DEEP_GRAY,
         marginVertical: 10,
 
     },

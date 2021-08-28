@@ -7,7 +7,8 @@ import {
     ScrollView,
     Text,
 } from "react-native";
-import { colors } from '../../common/theme';
+import { connect } from 'react-redux'
+import { Styles, Config, Colors, FormValidate } from '@common'
 import { Ionicons, AntDesign } from 'react-native-vector-icons';
 import { Image } from 'react-native-elements';
 const width = Dimensions.get('window').width;
@@ -55,16 +56,16 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'space-between',
-        backgroundColor: colors.GREY_1,
+        backgroundColor: Colors.GREY_1,
     },
     slogan: {
         fontSize: 30,
-        color: colors.BLACK,
+        color: Colors.BLACK,
         marginTop: 100,
         marginBottom: 20
     },
     sloganRed: {
-        color: colors.RED,
+        color: Colors.RED,
     },
     containBox: {
         alignItems: "center",
@@ -76,8 +77,8 @@ const styles = StyleSheet.create({
         borderStyle: "solid",
         alignItems: "center",
         width: width - 50,
-        borderColor: colors.GREY_1,
-        backgroundColor: colors.WHITE,
+        borderColor: Colors.GREY_1,
+        backgroundColor: Colors.WHITE,
         paddingBottom: 120,
         paddingTop: 30,
     },
@@ -95,7 +96,7 @@ const styles = StyleSheet.create({
     inputsec: {
         borderBottomWidth: 4,
         width: 35,
-        borderColor: colors.GREY_1,
+        borderColor: Colors.GREY_1,
         marginLeft: 4,
         marginRight: 4,
     },

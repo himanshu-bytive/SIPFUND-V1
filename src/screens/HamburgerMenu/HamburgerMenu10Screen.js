@@ -13,7 +13,8 @@ import {
     ActivityIndicator,
     ScrollView,
 } from "react-native";
-import { colors } from '../../common/theme';
+import { connect } from 'react-redux'
+import { Styles, Config, Colors, FormValidate } from '@common'
 import { Entypo, AntDesign } from 'react-native-vector-icons';
 import { Header, Overlay } from 'react-native-elements';
 import Investments from '../../components/Investments'
@@ -40,9 +41,9 @@ export default function HamburgerMenu10Screen(props) {
     return (
         <View style={styles.container}>
             <Header
-                leftComponent={<TouchableOpacity onPress={() => props.navigation.toggleDrawer()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={colors.RED} /></TouchableOpacity>}
-                rightComponent={<TouchableOpacity onPress={() => props.navigation.navigate('Toprated')} style={{ marginTop: 20 }}><AntDesign name={"shoppingcart"} size={30} color={colors.RED} /></TouchableOpacity>}
-                backgroundColor={colors.LIGHT_WHITE}
+                leftComponent={<TouchableOpacity onPress={() => props.navigation.toggleDrawer()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={Colors.RED} /></TouchableOpacity>}
+                rightComponent={<TouchableOpacity onPress={() => props.navigation.navigate('Toprated')} style={{ marginTop: 20 }}><AntDesign name={"shoppingcart"} size={30} color={Colors.RED} /></TouchableOpacity>}
+                backgroundColor={Colors.LIGHT_WHITE}
                 containerStyle={styles.header}
                 centerComponent={<Image
                     source={require('../../../assets/icon.png')}
@@ -90,14 +91,14 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     switch_sec: {
-        backgroundColor: colors.RED,
+        backgroundColor: Colors.RED,
     },
     transaction: {
         fontSize: 21,
         fontWeight: "bold",
         textAlign: "center",
         marginVertical: 20,
-        color: colors.WHITE,
+        color: Colors.WHITE,
     },
     tab_sec: {
         flexDirection: "row",
@@ -108,23 +109,23 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     switch: {
-        color: colors.WHITE,
+        color: Colors.WHITE,
         fontSize: 13,
     },
 
     botton_box: {
-        backgroundColor: colors.RED,
+        backgroundColor: Colors.RED,
         paddingVertical: 15,
         marginTop: 5,
     },
     proceed: {
-        color: colors.WHITE,
+        color: Colors.WHITE,
         fontSize: 18,
         fontWeight: 'bold',
         textAlign: "center",
     },
     footer_box: {
-        backgroundColor: colors.WHITE,
+        backgroundColor: Colors.WHITE,
         padding: 20,
 
     },

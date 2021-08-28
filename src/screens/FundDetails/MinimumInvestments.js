@@ -12,7 +12,8 @@ import {
     TextInput,
     ActivityIndicator,
 } from "react-native";
-import { colors } from '../../common/theme';
+import { connect } from 'react-redux'
+import { Styles, Config, Colors, FormValidate } from '@common'
 import { Ionicons, AntDesign, MaterialIcons, Feather, Entypo, FontAwesome, FontAwesome5, } from 'react-native-vector-icons';
 import { Image, Header, ListItem, Overlay, Slider } from 'react-native-elements';
 
@@ -53,13 +54,13 @@ const styles = StyleSheet.create({
     holding: {
         flexDirection: "row",
         borderBottomWidth: 1,
-        borderBottomColor: colors.RED,
+        borderBottomColor: Colors.RED,
         paddingVertical: 5,
 
     },
     holding_text: {
         fontSize: 20,
-        color: colors.RED,
+        color: Colors.RED,
     },
     holding_icon: {
         position: 'absolute',
@@ -67,14 +68,14 @@ const styles = StyleSheet.create({
         marginTop: 5,
     },
     submit: {
-        backgroundColor: colors.LIGHT_RED,
+        backgroundColor: Colors.LIGHT_RED,
         alignItems: "center",
         borderRadius: 5,
         marginTop: 120,
     },
     submit_text: {
         fontSize: 25,
-        color: colors.WHITE,
+        color: Colors.WHITE,
         paddingVertical: 10,
     },
     name_sec: {
@@ -83,7 +84,7 @@ const styles = StyleSheet.create({
     },
     name: { fontSize: 15, },
     name_text: {
-        color: colors.RED,
+        color: Colors.RED,
         fontSize: 15,
 
 

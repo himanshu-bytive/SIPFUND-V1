@@ -11,7 +11,8 @@ import {
     TextInput,
     ActivityIndicator
 } from "react-native";
-import { colors } from '../../common/theme';
+import { connect } from 'react-redux'
+import { Styles, Config, Colors, FormValidate } from '@common'
 import { Ionicons, AntDesign, Entypo, FontAwesome5 } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
@@ -20,14 +21,14 @@ export default function CompleteDetailsScreen(props) {
     return (
         <View style={styles.container}>
             <Header
-                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={40} color={colors.RED} /></TouchableOpacity>}
+                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={40} color={Colors.RED} /></TouchableOpacity>}
                 containerStyle={styles.header}
-                backgroundColor={colors.LIGHT_WHITE}
+                backgroundColor={Colors.LIGHT_WHITE}
                 centerComponent={<Image
                     source={require('../../../assets/icon.png')}
                     style={styles.logimg}
                 />}
-                rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={colors.RED} /></View>}
+                rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={Colors.RED} /></View>}
             />
             <ScrollView>
                 {/* container_sec */}
@@ -38,7 +39,7 @@ export default function CompleteDetailsScreen(props) {
                         <Text style={styles.private}>Private Sector Office</Text>
                         <AntDesign name="right" size={20} color="#000000" />
                     </View>
-                    <View style={{ borderWidth: 1, borderColor: colors.DEEP_GRAY, }}></View>
+                    <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY, }}></View>
 
                     {/* DOB/DOI_sec */}
 
@@ -47,7 +48,7 @@ export default function CompleteDetailsScreen(props) {
                         <AntDesign name="calendar" size={20} color="#C0392B" />
                         <Text style={styles.dd}>DD/MM/YYYY</Text>
                     </View>
-                    <View style={{ borderWidth: 1, borderColor: colors.DEEP_GRAY, marginLeft: 30, }}></View>
+                    <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY, marginLeft: 30, }}></View>
 
                     {/* TITLE_sec */}
 
@@ -57,35 +58,35 @@ export default function CompleteDetailsScreen(props) {
                         <Text style={styles.private}>Select Title</Text>
                         <AntDesign name="down" size={20} color="#000000" />
                     </View>
-                    <View style={{ borderWidth: 1, borderColor: colors.DEEP_GRAY, }}></View>
+                    <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY, }}></View>
 
                     {/* Investor Name_sec */}
 
                     <Text style={styles.occupation}>Investor Name</Text>
 
-                    <View style={{ borderWidth: 1, borderColor: colors.DEEP_GRAY, marginTop: 5, }}></View>
+                    <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY, marginTop: 5, }}></View>
 
                     {/* Individual PAN_sec */}
 
                     <Text style={styles.occupation}>Individual PAN</Text>
                     <Text style={styles.AVVPJ6708P}>AVVPJ6708P</Text>
 
-                    <View style={{ borderWidth: 1, borderColor: colors.DEEP_GRAY, marginTop: 5, }}></View>
+                    <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY, marginTop: 5, }}></View>
 
                     {/* Email Id_sec */}
 
                     <Text style={styles.occupation}>Email Id</Text>
                     <Text style={styles.AVVPJ6708P}>anik@gmail.com</Text>
 
-                    <View style={{ borderWidth: 1, borderColor: colors.DEEP_GRAY, marginTop: 5, }}></View>
+                    <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY, marginTop: 5, }}></View>
 
 
 
                     <Text style={styles.occupation}>Father Name</Text>
-                    <View style={{ borderWidth: 1, borderColor: colors.DEEP_GRAY, marginTop: 5, }}></View>
+                    <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY, marginTop: 5, }}></View>
 
                     <Text style={styles.occupation}>Mother Name</Text>
-                    <View style={{ borderWidth: 1, borderColor: colors.DEEP_GRAY, marginTop: 5, }}></View>
+                    <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY, marginTop: 5, }}></View>
 
 
                 </View>
@@ -103,7 +104,7 @@ export default function CompleteDetailsScreen(props) {
                         <Text style={styles.private}>5 =10 Lacs</Text>
                         <AntDesign name="right" size={20} color="#000000" />
                     </View>
-                    <View style={{ borderWidth: 1, borderColor: colors.DEEP_GRAY, }}></View>
+                    <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY, }}></View>
 
 
                     <Text style={styles.occupation}>PEP (Politically Exposed Person)</Text>
@@ -113,7 +114,7 @@ export default function CompleteDetailsScreen(props) {
                         <Text style={styles.private}>No</Text>
                         <AntDesign name="down" size={20} color="#000000" />
                     </View>
-                    <View style={{ borderWidth: 1, borderColor: colors.DEEP_GRAY, }}></View>
+                    <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY, }}></View>
                 </View>
                 <View style={{ borderWidth: 5, borderColor: "#EAE9EE", marginTop: 5, }}></View>
 
@@ -126,10 +127,10 @@ export default function CompleteDetailsScreen(props) {
                 <CheckBox
                     title='Do you want to nominate some one?'
                     containerStyle={styles.checkbox_style}
-                    textStyle={{ color: colors.BLACK, fontSize: 12, marginLeft: 5, }}
+                    textStyle={{ color: Colors.BLACK, fontSize: 12, marginLeft: 5, }}
                     checked={false}
-                    checkedColor={colors.BLACK}
-                    uncheckedColor={colors.BLACK}
+                    checkedColor={Colors.BLACK}
+                    uncheckedColor={Colors.BLACK}
                 />
 
             </ScrollView>
@@ -163,7 +164,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     header: {
-        borderBottomColor: colors.BLACK,
+        borderBottomColor: Colors.BLACK,
         borderBottomWidth: 1
     },
     container_sec: {
@@ -179,7 +180,7 @@ const styles = StyleSheet.create({
     },
     occupation: {
         fontSize: 15,
-        color: colors.DEEP_GRAY,
+        color: Colors.DEEP_GRAY,
         fontWeight: "bold",
         marginTop: 10,
     },
@@ -214,8 +215,8 @@ const styles = StyleSheet.create({
         marginVertical: 10,
     },
     checkbox_style: {
-        backgroundColor: colors.TRANSPARENT,
-        borderColor: colors.TRANSPARENT,
+        backgroundColor: Colors.TRANSPARENT,
+        borderColor: Colors.TRANSPARENT,
     },
     footer: {
         alignItems: "center",
@@ -228,16 +229,16 @@ const styles = StyleSheet.create({
     },
     botton_box: {
         width: "50%",
-        backgroundColor: colors.RED,
+        backgroundColor: Colors.RED,
         paddingVertical: 10,
         marginTop: 20,
 
-        borderColor: colors.DEEP_GRAY,
+        borderColor: Colors.DEEP_GRAY,
 
         marginHorizontal: 5,
     },
     get_otp: {
-        color: colors.WHITE,
+        color: Colors.WHITE,
         fontSize: 18,
         fontWeight: 'bold',
         textAlign: "center",

@@ -11,7 +11,8 @@ import {
     TextInput,
     ActivityIndicator
 } from "react-native";
-import { colors } from '../../common/theme';
+import { connect } from 'react-redux'
+import { Styles, Config, Colors, FormValidate } from '@common'
 import { FundType } from '../../components';
 import { Ionicons, AntDesign, Entypo, FontAwesome5 } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
@@ -23,14 +24,14 @@ export default function TopratedFunds5Screen(props) {
         <View style={styles.container}>
 
             <Header
-                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={40} color={colors.RED} /></TouchableOpacity>}
+                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={40} color={Colors.RED} /></TouchableOpacity>}
                 containerStyle={styles.header}
-                backgroundColor={colors.LIGHT_WHITE}
+                backgroundColor={Colors.LIGHT_WHITE}
                 centerComponent={<Image
                     source={require('../../../assets/icon.png')}
                     style={styles.logimg}
                 />}
-                rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={colors.RED} /></View>}
+                rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={Colors.RED} /></View>}
             />
 
 
@@ -72,9 +73,9 @@ export default function TopratedFunds5Screen(props) {
                 {/* Axis Asset Management Company Ltd */}
 
 
-                <FundType />
+                <FundType onPress={() => props.navigation.navigate('FundsDetails')}  />
 
-                <FundType />
+                <FundType onPress={() => props.navigation.navigate('FundsDetails')}  />
 
 
                 {/* Hybrid_sec.....3 */}
@@ -86,7 +87,7 @@ export default function TopratedFunds5Screen(props) {
                 </View>
 
 
-                <FundType />
+                <FundType onPress={() => props.navigation.navigate('FundsDetails')}  />
 
             </ScrollView>
             <TouchableOpacity onPress={() => props.navigation.navigate('Toprated3')}><Text style={styles.more_funds}>I would like to add more funds</Text></TouchableOpacity>
@@ -111,7 +112,7 @@ const styles = StyleSheet.create({
     },
 
     header: {
-        borderBottomColor: colors.BLACK,
+        borderBottomColor: Colors.BLACK,
         borderBottomWidth: 1,
     },
     containerScroll: {
@@ -125,19 +126,19 @@ const styles = StyleSheet.create({
     sip_left: {
         width: "50%",
         borderBottomWidth: 1,
-        borderBottomColor: colors.RED,
+        borderBottomColor: Colors.RED,
     },
     lumpsum: {
         width: "50%",
         borderBottomWidth: 1,
-        borderBottomColor: colors.DEEP_GRAY,
+        borderBottomColor: Colors.DEEP_GRAY,
     },
     sip: {
         fontSize: 18,
         fontWeight: "bold",
         textAlign: "center",
         marginBottom: 10,
-        color: colors.RED,
+        color: Colors.RED,
     },
     lump: {
         fontSize: 18,
@@ -153,12 +154,12 @@ const styles = StyleSheet.create({
 
         fontSize: 15,
         fontWeight: "bold",
-        color: colors.DEEP_GRAY,
+        color: Colors.DEEP_GRAY,
     },
     month: {
         fontSize: 13,
         fontWeight: "bold",
-        color: colors.DEEP_GRAY,
+        color: Colors.DEEP_GRAY,
         position: "absolute",
         right: 0,
 
@@ -166,12 +167,12 @@ const styles = StyleSheet.create({
     investment: {
         fontSize: 15,
         fontWeight: "bold",
-        color: colors.RED,
+        color: Colors.RED,
     },
     price: {
         fontSize: 20,
         fontWeight: "bold",
-        color: colors.RED,
+        color: Colors.RED,
         position: "absolute",
         right: 0,
     },
@@ -182,28 +183,28 @@ const styles = StyleSheet.create({
     hybrid: {
         fontSize: 18,
         fontWeight: "bold",
-        color: colors.RED,
+        color: Colors.RED,
         marginVertical: 10,
         marginLeft: 10,
     },
     more_funds: {
         fontSize: 18,
-        color: colors.RED,
+        color: Colors.RED,
         textAlign: "center",
         marginTop: 10,
     },
     botton_box: {
 
-        backgroundColor: colors.RED,
+        backgroundColor: Colors.RED,
         marginHorizontal: 30,
         marginVertical: 20,
         borderWidth: 1,
         borderRadius: 5,
-        borderColor: colors.DEEP_GRAY,
+        borderColor: Colors.DEEP_GRAY,
         paddingVertical: 10,
     },
     get_otp: {
-        color: colors.WHITE,
+        color: Colors.WHITE,
         fontSize: 20,
         fontWeight: 'bold',
         textAlign: "center",

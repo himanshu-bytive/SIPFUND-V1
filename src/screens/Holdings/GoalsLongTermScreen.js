@@ -12,8 +12,9 @@ import {
     ActivityIndicator,
 
 } from "react-native";
-import { colors } from '../../common/theme';
-import { commonStyles } from '../../common/styles';
+import { connect } from 'react-redux'
+import { Styles, Config, Colors, FormValidate } from '@common'
+
 import { Ionicons, AntDesign, FontAwesome, FontAwesome5, } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
@@ -22,15 +23,15 @@ import { HoldingFundType } from "../../components";
 export default function GoalsLongTermScreen(props) {
     return (
         <View style={styles.container}>
-            <View style={commonStyles.Header_top}>
+            <View style={Styles.Header_top}>
                 <Header
-                    leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={colors.RED} /></TouchableOpacity>} backgroundColor={colors.PEACH}
-                    backgroundColor={colors.PEACH}
+                    leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={Colors.RED} /></TouchableOpacity>} backgroundColor={Colors.PEACH}
+                    backgroundColor={Colors.PEACH}
                     centerComponent={<Image
                         source={require('../../../assets/icon.png')}
                         style={styles.logimg}
                     />}
-                    rightComponent={<View style={commonStyles.headerkn}><Text style={commonStyles.textkn}>KN</Text></View>}
+                    rightComponent={<View style={Styles.headerkn}><Text style={Styles.textkn}>KN</Text></View>}
                 />
                 <Image
                     source={require('../../../assets/term1.png')}
@@ -43,7 +44,7 @@ export default function GoalsLongTermScreen(props) {
 
             <ScrollView style={styles.containerScroll}>
 
-                <HoldingFundType/>
+                <HoldingFundType onPress={() => props.navigation.navigate('Goals4')} />
 
 
             </ScrollView>
@@ -91,16 +92,16 @@ const styles = StyleSheet.create({
   
     botton_box: {
         marginHorizontal: 10,
-        backgroundColor: colors.RED,
+        backgroundColor: Colors.RED,
         paddingVertical: 20,
         marginTop: 20,
         borderRadius: 10,
-        borderColor: colors.DEEP_GRAY,
+        borderColor: Colors.DEEP_GRAY,
         borderWidth: 1,
         marginBottom:20
     },
     get_otp: {
-        color: colors.WHITE,
+        color: Colors.WHITE,
         fontSize: 18,
         fontWeight: 'bold',
         textAlign: "center",
