@@ -133,25 +133,9 @@ function HamburgerMenu2Screen(props) {
                     </View>)}
 
         
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             </ScrollView>
             <TouchableOpacity style={styles.botton_box2}>
-                            <Text style={styles.proceed}>PROCED</Text>
+                            <Text style={styles.proceed}>PROCEED</Text>
                         </TouchableOpacity>
 
 

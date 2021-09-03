@@ -204,10 +204,12 @@ function HomeScreen(props) {
                         <View style={styles.education_top}>
                             <View style={[styles.education, styles.quick_access]}>
                                 <View style={styles.child_sec}>
-                                    <Image
-                                        source={require('../../../assets/term8.png')}
-                                        style={styles.quick_img}
-                                    />
+                                    <TouchableOpacity onPress={() => props.navigation.navigate('ReferEarn')}>
+                                        <Image
+                                            source={require('../../../assets/term8.png')}
+                                            style={styles.quick_img}
+                                        />
+                                    </TouchableOpacity>
                                 </View>
                                 <View style={styles.education_sec}>
                                     <Text style={styles.earn}>Refer & Earn</Text>
@@ -216,26 +218,16 @@ function HomeScreen(props) {
                                 </View>
                             </View>
 
-                            <View style={[styles.education, styles.quick_access]}>
-                                <View style={styles.child_sec}>
-                                    <Image
-                                        source={require('../../../assets/quick_img2.png')}
-                                        style={styles.quick_img2}
-                                    />
-                                </View>
-                                <View style={styles.education_sec}>
-                                    <Text style={styles.earn}>Smart Save</Text>
-                                    <Text style={styles.child_text}>Earn more in Debt
-                                        Fund than FD</Text>
-                                </View>
-                            </View>
+
 
                             <View style={[styles.education, styles.quick_access]}>
                                 <View style={styles.child_sec}>
-                                    <Image
-                                        source={require('../../../assets/quick_img3.png')}
-                                        style={styles.quick_img3}
-                                    />
+                                    <TouchableOpacity onPress={() => props.navigation.navigate('Relationship')}>
+                                        <Image
+                                            source={require('../../../assets/quick_img3.png')}
+                                            style={styles.quick_img3}
+                                        />
+                                    </TouchableOpacity>
                                 </View>
                                 <View style={styles.education_sec}>
                                     <Text style={styles.earn}>Talk To Experts</Text>

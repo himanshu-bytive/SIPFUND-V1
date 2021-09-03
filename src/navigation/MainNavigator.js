@@ -452,8 +452,8 @@ const TabNavigator = createBottomTabNavigator({
         navigationOptions: {
             tabBarLabel: 'Explore',
             tabBarIcon: ({ focused, tintColor }) => {
-                const imgSource = focused ? require('../../assets/explore.png') : require('../../assets/explore.png');
-                return <Image source={imgSource} />
+                const imgSource = focused ? require('../../assets/exploreAct.png') : require('../../assets/explore.png');
+                return <Image style={{width:32, height:32}} source={imgSource} />
             }
         }
     },
@@ -461,8 +461,8 @@ const TabNavigator = createBottomTabNavigator({
         screen: PlanYourGoalsStack,
         navigationOptions: {
             tabBarIcon: ({ focused, tintColor }) => {
-                const imgSource = focused ? require('../../assets/plan.png') : require('../../assets/plan.png');
-                return <Image source={imgSource} />
+                const imgSource = focused ? require('../../assets/planAct.png') : require('../../assets/plan.png');
+                return <Image style={{width:32, height:32}} source={imgSource} />
             }
         }
     },
@@ -470,8 +470,8 @@ const TabNavigator = createBottomTabNavigator({
         screen: TopRatedFundsStack,
         navigationOptions: {
             tabBarIcon: ({ focused, tintColor }) => {
-                const imgSource = focused ? require('../../assets/dashboard.png') : require('../../assets/dashboard.png');
-                return <Image source={imgSource} />
+                const imgSource = focused ? require('../../assets/dashboardAct.png') : require('../../assets/dashboard.png');
+                return <Image style={{width:32, height:32}} source={imgSource} />
             }
         }
     },
@@ -479,8 +479,8 @@ const TabNavigator = createBottomTabNavigator({
         screen: OthersStack,
         navigationOptions: {
             tabBarIcon: ({ focused, tintColor }) => {
-                const imgSource = focused ? require('../../assets/user.png') : require('../../assets/user.png');
-                return <Image source={imgSource} />
+                const imgSource = focused ? require('../../assets/userAct.png') : require('../../assets/user.png');
+                return <Image style={{width:32, height:32}} source={imgSource} />
             }
         }
     }

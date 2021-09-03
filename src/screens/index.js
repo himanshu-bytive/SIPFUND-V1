@@ -57,7 +57,7 @@ import Goals3Screen from './Holdings/Goals3Screen'
 import Goals4Screen from './Holdings/Goals4Screen'
 import Goals5Screen from './Holdings/Goals5Screen'
 import Goals6Screen from './Holdings/Goals6Screen'
-import Goals7Screen from './Holdings/Goals7Screen'
+import Goals7Screen from './HamburgerMenu/Goals7Screen'
 import GoalsLongTermScreen from './Holdings/GoalsLongTermScreen'
 import PlanYourGoalScreen from './Holdings/PlanYourGoalScreen'
 

@@ -278,11 +278,11 @@ const styles = StyleSheet.create({
     },
     Fund: {
         width: "40%",
-        fontSize: 10,
+        fontSize: 12,
         fontWeight: "bold",
     },
     axis: {
-        fontSize: 10,
+        fontSize: 12,
         fontWeight: "bold",
         color: Colors.DEEP_GRAY,
     },

@@ -102,6 +102,23 @@ function DashboardScreen(props) {
                     </View>
                     </TouchableOpacity>
 
+                    
+
+                </View>
+                <View style={styles.history_sec2}>
+                <TouchableOpacity onPress={() => props.navigation.navigate('Goals7')}>
+                    <View style={styles.Switch_sec}>
+
+                        <View style={styles.box}>
+                            <Image
+                                source={require('../../../assets/choice.png')}
+                                style={styles.fundsmg}
+                            />
+
+                        </View>
+                        <Text style={styles.transaction}>Own{'\n'} Choice</Text>
+                    </View>
+                    </TouchableOpacity>
                 </View>
 
                 {/* Holdings_sec....... */}
@@ -184,6 +201,12 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         marginVertical: 15,
+        marginHorizontal: 10,
+    },
+    history_sec2: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        marginVertical: 7,
         marginHorizontal: 10,
     },
     Switch_sec: {

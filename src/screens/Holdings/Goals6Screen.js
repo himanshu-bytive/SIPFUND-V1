@@ -49,7 +49,7 @@ function Goals6Screen(props) {
             {/* container_sec */}
             <ScrollView style={styles.containerScroll}>
                 <View style={styles.container_sec}>
-                    <TouchableOpacity onPress={() => props.navigation.navigate('Goals7')}>
+                    <TouchableOpacity>
                         <View style={styles.container_box}>
 
                             <Image

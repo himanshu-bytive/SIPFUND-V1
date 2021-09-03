@@ -225,12 +225,12 @@ const styles = StyleSheet.create({
         width: "32%",
     },
     total_investment: {
-        fontSize: 10,
+        fontSize: 12,
         marginTop: 15,
         color: Colors.WHITE,
     },
     price: {
-        fontSize: 10,
+        fontSize: 12,
         marginBottom: 15,
         color: Colors.WHITE,
     },
