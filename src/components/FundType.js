@@ -11,6 +11,7 @@ import { Image, CheckBox } from 'react-native-elements';
 import { Styles, Config, Colors, FormValidate } from '@common'
 
 export default function FundType(props) {
+    const { onPress, type } = props
     return (<View style={styles.axis_asset}>
         <View style={styles.company}>
             <Image
@@ -27,22 +28,20 @@ export default function FundType(props) {
                     title=''
                     containerStyle={styles.checkbox_style}
                     textStyle={{ color: Colors.RED, fontSize: 14 }}
-                    checked={true}
+                    checked={type}
                     checkedColor={Colors.RED}
                     uncheckedColor={Colors.DARK_GREY}
                 />
             </View>
-
         </View>
 
         {/* border_sec */}
-
         <View style={styles.border_sec}>
             <View style={styles.border}>
                 <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY, }}></View>
             </View>
             <View style={styles.icons}>
-                <TouchableOpacity style={styles.circle} onPress={props.onPress}>
+                <TouchableOpacity style={styles.circle} onPress={onPress}>
                     <AntDesign name="right" size={30} color="#C0392B" />
                 </TouchableOpacity>
             </View>
@@ -150,12 +149,13 @@ const styles = StyleSheet.create({
     new: {
         fontSize: 18,
     },
-    circle:{borderWidth:2,
-    borderColor:Colors.GRAY_LIGHT_1,
-borderRadius:100,
-height:35,
-width:35,
-paddingLeft:2,
-},
+    circle: {
+        borderWidth: 2,
+        borderColor: Colors.GRAY_LIGHT_1,
+        borderRadius: 100,
+        height: 35,
+        width: 35,
+        paddingLeft: 2,
+    },
 
 })

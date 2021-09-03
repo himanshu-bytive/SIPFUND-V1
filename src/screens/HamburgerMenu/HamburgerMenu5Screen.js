@@ -32,10 +32,9 @@ const investmentData = [
 
 function HamburgerMenu5Screen(props) {
 
-    const [visible, setVisible] = useState(false);
-
-    const toggleOverlay = () => {
-        setVisible(!visible);
+    const [selectTab, setSelectTab] = useState('HOLDINGS');
+    const toggleTab = (value) => {
+        setSelectTab(value);
     };
 
     return (
@@ -56,23 +55,19 @@ function HamburgerMenu5Screen(props) {
                     <Text style={styles.transaction}>Holdings</Text>
 
                     <View style={styles.tab_sec}>
-
-                        <View style={styles.tab1}>
-                            <Text style={styles.switch}>HOLDINGS</Text>
-
-                        </View>
-
-                        <View style={styles.tab1}>
-                            <Text style={styles.switch}>EXTERNAL HOLDINGS</Text>
-                        </View>
-
+                        <TouchableOpacity onPress={() => toggleTab('HOLDINGS')} style={(selectTab == 'HOLDINGS') ? styles.tab1 : styles.tab2}>
+                            <Text style={(selectTab == 'HOLDINGS') ? styles.switch : styles.switchAct}>HOLDINGS</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => toggleTab('EXTERNAL')} style={(selectTab == 'EXTERNAL') ? styles.tab1 : styles.tab2}>
+                            <Text style={(selectTab == 'EXTERNAL') ? styles.switch : styles.switchAct}>EXTERNAL SWITCH</Text>
+                        </TouchableOpacity>
                     </View>
+
                 </View>
 
                 {/* Total Investment_sec... */}
 
                 <View style={styles.main_box}>
-
                     <View style={styles.investment_sec}>
                         <View style={styles.blue_sec}>
                             <Text style={styles.total_investment}>Total Investment</Text>
@@ -253,7 +248,7 @@ function HamburgerMenu5Screen(props) {
                     </View>
                 </View>
 
-               
+
             </ScrollView>
 
 
@@ -283,14 +278,27 @@ const styles = StyleSheet.create({
     },
     tab_sec: {
         flexDirection: "row",
-        marginVertical: 10,
     },
     tab1: {
         width: "50%",
         alignItems: "center",
+        paddingBottom: 10,
+        borderBottomWidth: 1,
+        borderBottomColor: Colors.WHITE,
+    },
+    tab2: {
+        width: "50%",
+        alignItems: "center",
+        paddingBottom: 10,
+        borderBottomWidth: 1,
+        borderBottomColor: Colors.RED,
     },
     switch: {
         color: Colors.WHITE,
+        fontSize: 13,
+    },
+    switchAct: {
+        color: Colors.GREY_1,
         fontSize: 13,
     },
     main_box: {
@@ -320,12 +328,12 @@ const styles = StyleSheet.create({
         width: "32%",
     },
     total_investment: {
-        fontSize: 10,
+        fontSize: 12,
         marginTop: 15,
         color: Colors.WHITE,
     },
     price: {
-        fontSize: 10,
+        fontSize: 12,
         marginBottom: 15,
         color: Colors.WHITE,
     },

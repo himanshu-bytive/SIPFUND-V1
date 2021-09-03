@@ -20,6 +20,11 @@ import { ScrollView } from "react-native-gesture-handler";
 
 function TopratedFunds5Screen(props) {
 
+    const [selectTab, setSelectTab] = useState('SIP');
+    const toggleTab = (value) => {
+        setSelectTab(value);
+    };
+
     return (
         <View style={styles.container}>
 
@@ -38,12 +43,12 @@ function TopratedFunds5Screen(props) {
             {/* SIP_sec */}
 
             <View style={styles.sip_sec}>
-                <View style={styles.sip_left}>
-                    <Text style={styles.sip}>SIP</Text>
-                </View>
-                <View style={styles.lumpsum}>
-                    <Text style={styles.lump}>LUMPSUM</Text>
-                </View>
+                <TouchableOpacity onPress={() => toggleTab('SIP')} style={(selectTab == 'SIP') ? styles.sip_left : styles.lumpsum}>
+                    <Text style={(selectTab == 'SIP') ? styles.sip : styles.lump}>SIP</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => toggleTab('LUMPSUM')} style={(selectTab == 'LUMPSUM') ? styles.sip_left : styles.lumpsum}>
+                    <Text style={(selectTab == 'LUMPSUM') ? styles.sip : styles.lump}>LUMPSUM</Text>
+                </TouchableOpacity>
             </View>
 
             {/* My Selected Funds_sec */}
@@ -73,9 +78,8 @@ function TopratedFunds5Screen(props) {
                 {/* Axis Asset Management Company Ltd */}
 
 
-                <FundType onPress={() => props.navigation.navigate('FundsDetails')}  />
-
-                <FundType onPress={() => props.navigation.navigate('FundsDetails')}  />
+                <FundType type={true} onPress={() => props.navigation.navigate('FundsDetails')} />
+                <FundType type={false} onPress={() => props.navigation.navigate('FundsDetails')} />
 
 
                 {/* Hybrid_sec.....3 */}
@@ -87,7 +91,7 @@ function TopratedFunds5Screen(props) {
                 </View>
 
 
-                <FundType onPress={() => props.navigation.navigate('FundsDetails')}  />
+                <FundType onPress={() => props.navigation.navigate('FundsDetails')} />
 
             </ScrollView>
             <TouchableOpacity onPress={() => props.navigation.navigate('Toprated3')}><Text style={styles.more_funds}>I would like to add more funds</Text></TouchableOpacity>

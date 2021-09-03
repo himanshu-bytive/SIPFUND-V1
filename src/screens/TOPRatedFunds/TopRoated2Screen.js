@@ -25,19 +25,16 @@ const roted = [
     { images: require('../../../assets/barodaimg.png'), text: 'Baroda Asset Management India', text2: 'Moderately High Risk', button: 'INVEST', mintext: 'Min. Investment', maxtext: '1000', aumtext: 'AUM', aumtext2: '2097 Cr', returntext: 'Ruturns', returntext2: '16.0%', },
     { images: require('../../../assets/MidCap_img.png'), text: 'BNP Paribas Asset Management', text2: 'Moderately High Risk', button: 'INVEST', mintext: 'Min. Investment', maxtext: '1000', aumtext: 'AUM', aumtext2: '2097 Cr', returntext: 'Ruturns', returntext2: '16.0%', },
     { images: require('../../../assets/bioaxa.png'), text: 'BOI AXA Investment Managers Pr…', text2: 'Moderately High Risk', button: 'INVEST', mintext: 'Min. Investment', maxtext: '1000', aumtext: 'AUM', aumtext2: '2097 Cr', returntext: 'Ruturns', returntext2: '16.0%', },
-
-
 ]
 
 
-
 function TopRoated2Screen(props) {
-// tab start
+    // tab start
     const [selectTab, setSelectTab] = useState('SIP');
     const toggleTab = (value) => {
         setSelectTab(value);
     };
-// tab end
+    // tab end
 
     // overlay start
     const [visible, setVisible] = useState(false);
@@ -177,31 +174,57 @@ function TopRoated2Screen(props) {
                 <View style={styles.pop_top}>
 
 
-                <View style={styles.click_sec}>
-                    <View style={(selectTab == 'SIP') ? styles.buttom_botton2 : styles.buttom_botton}>
-                        <TouchableOpacity onPress={() => toggleTab('SIP')}>
-                            <Text style={(selectTab == 'SIP') ? styles.sip_text2 : styles.sip_text}>SIP</Text>
-                        </TouchableOpacity></View>
-                    <View style={(selectTab == 'LUMPSUM') ? styles.buttom_botton2 : styles.buttom_botton}>
-                        <TouchableOpacity onPress={() => toggleTab('LUMPSUM')}>
-                            <Text style={(selectTab == 'LUMPSUM') ? styles.sip_text2 : styles.sip_text}>Lumpsum</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-
-                    <View style={styles.amount_sec}>
-                        <Text style={styles.amount_tex}>Amount</Text>
-                        <View style={styles.bordersec}>
-                            <TextInput  placeholder='5000' style={styles.amount_tex2} />
+                    <View style={styles.click_sec}>
+                        <View style={(selectTab == 'SIP') ? styles.buttom_botton2 : styles.buttom_botton}>
+                            <TouchableOpacity onPress={() => toggleTab('SIP')}>
+                                <Text style={(selectTab == 'SIP') ? styles.sip_text2 : styles.sip_text}>SIP</Text>
+                            </TouchableOpacity></View>
+                        <View style={(selectTab == 'LUMPSUM') ? styles.buttom_botton2 : styles.buttom_botton}>
+                            <TouchableOpacity onPress={() => toggleTab('LUMPSUM')}>
+                                <Text style={(selectTab == 'LUMPSUM') ? styles.sip_text2 : styles.sip_text}>Lumpsum</Text>
+                            </TouchableOpacity>
                         </View>
                     </View>
 
-                    <View style={{ alignItems: "center" }}>
-                        <TouchableOpacity style={styles.buttom_botton2box}>
-                            <Text style={styles.sip_text2}>Add To Cart</Text>
-                        </TouchableOpacity>
+                    {(selectTab == 'SIP') && (<View>
+                        <View style={styles.amount_sec}>
+                            <Text style={styles.amount_tex}>Amount</Text>
+                            <View style={styles.bordersec}>
+                                <TextInput placeholder='5000' style={styles.amount_tex2} />
+                            </View>
+                        </View>
 
-                    </View>
+                        <View style={{ alignItems: "center" }}>
+                            <TouchableOpacity style={styles.buttom_botton2box}>
+                                <Text style={styles.sip_text2}>Add To Cart</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>)}
+
+                    {(selectTab == 'LUMPSUM') && (<View>
+                        <View style={{ flexDirection: 'row', justifyContent: "space-between", paddingHorizontal: 50 }}>
+                            <View style={styles.amount_sec}>
+                                <Text style={styles.amount_tex}>Amount</Text>
+                                <View style={styles.bordersec}>
+                                    <TextInput placeholder='5000' style={styles.amount_tex2} />
+                                </View>
+                            </View>
+                            <View style={styles.amount_sec}>
+                                <Text style={styles.amount_tex}>Date</Text>
+                                <View style={styles.bordersec}>
+                                    <TextInput keyboardType='numeric' placeholder='5' style={[styles.amount_tex2, { width: 50 }]} />
+                                </View>
+                            </View>
+                        </View>
+
+                        <View style={{ alignItems: "center" }}>
+                            <TouchableOpacity style={styles.buttom_botton2box}>
+                                <Text style={styles.sip_text2}>Add To Cart</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>)}
+
+
                 </View>
             </Overlay>
 
@@ -311,43 +334,43 @@ const styles = StyleSheet.create({
     rupees_sec: { alignItems: "center", },
     rupees_text: { fontSize: 12, },
 
-// tab
-    pop_top:{marginHorizontal:30,},
+    // tab
+    pop_top: { marginHorizontal: 30, },
     click_sec: {
         flexDirection: "row",
-        paddingVertical:20,
-        
+        paddingVertical: 20,
+
     },
     buttom_botton: {
         width: "45%",
         borderWidth: 1,
         borderColor: Colors.RED,
         borderRadius: 5,
-        marginHorizontal:2,
+        marginHorizontal: 2,
         alignItems: "center",
-      
+
     },
     buttom_botton2: {
         width: "45%",
         borderRadius: 5,
         backgroundColor: Colors.RED,
-        marginHorizontal:2,
+        marginHorizontal: 2,
         alignItems: "center",
-       
+
     },
     sip_text: {
         fontSize: 20,
         color: Colors.RED,
         fontWeight: "bold",
         paddingVertical: 12,
-    paddingHorizontal:20,
+        paddingHorizontal: 20,
     },
     sip_text2: {
         fontSize: 20,
         color: Colors.WHITE,
         fontWeight: "bold",
         paddingVertical: 12,
-    paddingHorizontal:20,
+        paddingHorizontal: 20,
     },
 
 
@@ -367,18 +390,18 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.RED,
         marginLeft: 2,
         alignItems: "center",
-       
+
         marginVertical: 30,
         paddingHorizontal: 30,
-    
+
     },
     amount_tex2: {
         color: Colors.DEEP_GRAY,
         width: 100,
-        textAlign:"center",
-        fontSize:18,
+        textAlign: "center",
+        fontSize: 18,
     },
-    amount_tex:{fontSize:18,},
+    amount_tex: { fontSize: 18, },
 
 });
 const mapStateToProps = (state) => ({

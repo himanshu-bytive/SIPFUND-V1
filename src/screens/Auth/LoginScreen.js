@@ -38,6 +38,7 @@ function LoginScreen(props) {
     });
 
     const onAction = async (ph) => {
+        props.navigation.navigate('otp')
         let phone = ph ? ph : state.phone
         if (phone) {
             login(phone);

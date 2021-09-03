@@ -51,21 +51,15 @@ function HamburgerMenu6Screen(props) {
                 />}
             />
             <ScrollView style={styles.containerScroll}>
-
                 <View style={styles.switch_sec}>
                     <Text style={styles.transaction}>Holdings</Text>
-
                     <View style={styles.tab_sec}>
-
                         <View style={styles.tab1}>
                             <Text style={styles.switch}>LUMPSUM</Text>
-
                         </View>
-
                         <View style={styles.tab1}>
                             <Text style={styles.switch}>SIP</Text>
                         </View>
-
                     </View>
                 </View>
                 <View style={styles.main_box}>

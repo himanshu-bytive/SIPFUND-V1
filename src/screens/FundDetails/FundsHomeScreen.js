@@ -22,7 +22,28 @@ const data = [
     { x: 5, y: 5 }
 ];
 
+const investment = [
+    { price: 1000, min: 'Min Investment' },
+    { price: '2700 Cr', min: 'AUM' },
+    { price: '60.28', min: 'Lumpsum' },
+]
+
+const rupees = [
+    { text: '1M' },
+    { text: '1Y' },
+    { text: '2Y' },
+    { text: '3Y' },
+    { text: '4Y' },
+    { text: '5Y' },
+    { text: '6Y' },
+    { text: 'ALL' },
+]
+
 function FundsHomeScreen(props) {
+    const [selectTab, setSelectTab] = useState('1M');
+    const toggleTab = (value) => {
+        setSelectTab(value);
+    };
     return (
         <View style={styles.container}>
             <Header
@@ -86,75 +107,23 @@ function FundsHomeScreen(props) {
                     </VictoryChart>
                     <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY, }}></View>
 
-
                     {/* imges_sec */}
-
                     <View style={styles.footer_sec}>
-                        <View style={styles.rupees_sec}>
+                        {rupees.map((item, key) => <TouchableOpacity onPress={() => toggleTab(item.text)} key={key} style={styles.rupees_sec}>
                             <Image
-                                source={require('../../../assets/layer_img.png')}
+                                source={(selectTab == item.text) ? require('../../../assets/layer_img2.png') : require('../../../assets/layer_img.png')}
                                 style={styles.rupees}
                             />
-                            <Text style={styles.rupees_text}>1M</Text>
-                        </View>
-
-                        <View style={styles.rupees_sec}>
-                            <Image
-                                source={require('../../../assets/layer_img.png')}
-                                style={styles.rupees}
-                            />
-                            <Text style={styles.rupees_text}>1Y</Text>
-                        </View>
-
-                        <View style={styles.rupees_sec}>
-                            <Image
-                                source={require('../../../assets/layer_img.png')}
-                                style={styles.rupees}
-                            />
-                            <Text style={styles.rupees_text}>3Y</Text>
-                        </View>
-
-                        <View style={styles.rupees_sec}>
-                            <Image
-                                source={require('../../../assets/layer_img.png')}
-                                style={styles.rupees}
-                            />
-                            <Text style={styles.rupees_text}>5Y</Text>
-                        </View>
-
-                        <View style={styles.rupees_sec}>
-                            <Image
-                                source={require('../../../assets/layer_img2.png')}
-                                style={styles.rupees}
-                            />
-                            <Text style={styles.rupees_text}>ALL</Text>
-                        </View>
+                            <Text style={styles.rupees_text}>{item.text}</Text>
+                        </TouchableOpacity>)}
                     </View>
 
-
                     {/* Min Investment_sec */}
-
                     <View style={styles.investment_sec}>
-
-                        <View style={styles.investment}>
-                            <Text style={styles.price}>1000</Text>
-                            <Text style={styles.min}>Min Investment</Text>
-
-                        </View>
-
-                        <View style={styles.investment}>
-                            <Text style={styles.price}>2700 Cr</Text>
-                            <Text style={styles.min}>AUM</Text>
-
-                        </View>
-
-                        <View style={styles.investment}>
-                            <Text style={styles.price}>60.28</Text>
-
-                            <Text style={styles.min}>Lumpsum</Text>
-                        </View>
-
-
+                        {investment.map((item, key) => <View key={key} style={styles.investment}>
+                            <Text style={styles.price}>{item.price}</Text>
+                            <Text style={styles.min}>{item.min}</Text>
+                        </View>)}
                     </View>
                 </View>
 
@@ -290,7 +259,6 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         marginTop: 10,
         marginBottom: 5,
-
     },
     private: {
         fontSize: 25,
@@ -300,22 +268,18 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         color: Colors.RED,
     },
-
-
     footer_sec: {
         flexDirection: "row",
-        marginHorizontal: 40,
+        marginHorizontal: 10,
         marginVertical: 30,
         justifyContent: "space-between"
     },
     rupees: {
-        width: 40,
-        height: 37,
+        width: 30,
+        height: 30,
     },
     rupees_sec: { alignItems: "center", },
     rupees_text: { fontSize: 12, },
-
-
 });
 
 const mapStateToProps = (state) => ({

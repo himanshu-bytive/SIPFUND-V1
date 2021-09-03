@@ -16,22 +16,21 @@ import {
 import { connect } from 'react-redux'
 import { Styles, Config, Colors, FormValidate } from '@common'
 import { Entypo, AntDesign } from 'react-native-vector-icons';
-import { Header, Overlay,CheckBox } from 'react-native-elements';
+import { Header, Overlay, CheckBox } from 'react-native-elements';
 import Investments from '../../components/Investments'
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
 const mutualfund = [
-    { title: 'Axis Treasury Advantage Fund - Growth',text:'Folio',number:'91075739541',text1:'Units',number1:'9.211',text2:'Value',number2:'22372.87',text3:'Switch To',text4:'Select Scheme',button:'ADD', },
-    { title: 'Axis Treasury Advantage Fund - Growth',text:'Folio',number:'91075739541',text1:'Units',number1:'9.211',text2:'Value',number2:'22372.87',text3:'Switch To',text4:'Select Scheme',button:'ADD', },
+    { title: 'Axis Treasury Advantage Fund - Growth', text: 'Folio', number: '91075739541', text1: 'Units', number1: '9.211', text2: 'Value', number2: '22372.87', text3: 'Switch To', text4: 'Select Scheme', button: 'ADD', },
+    { title: 'Axis Treasury Advantage Fund - Growth', text: 'Folio', number: '91075739541', text1: 'Units', number1: '9.211', text2: 'Value', number2: '22372.87', text3: 'Switch To', text4: 'Select Scheme', button: 'ADD', },
 ]
 
 function HamburgerMenu2Screen(props) {
 
-    const [visible, setVisible] = useState(false);
-
-    const toggleOverlay = () => {
-        setVisible(!visible);
+    const [selectTab, setSelectTab] = useState('SWITCH');
+    const toggleTab = (value) => {
+        setSelectTab(value);
     };
 
     return (
@@ -47,96 +46,67 @@ function HamburgerMenu2Screen(props) {
                 />}
             />
             <ScrollView style={styles.containerScroll}>
-
                 <View style={styles.switch_sec}>
                     <Text style={styles.transaction}>Switch</Text>
-
                     <View style={styles.tab_sec}>
-
-                        <View style={styles.tab1}>
-                            <Text style={styles.switch}>SWITCH</Text>
-
-                        </View>
-
-                        <View style={styles.tab1}>
-                            <Text style={styles.switch}>EXTERNAL SWITCH</Text>
-                        </View>
-
+                        <TouchableOpacity onPress={() => toggleTab('SWITCH')} style={(selectTab == 'SWITCH') ? styles.tab1 : styles.tab2}>
+                            <Text style={(selectTab == 'SWITCH') ? styles.switch : styles.switchAct}>SWITCH</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => toggleTab('EXTERNAL')} style={(selectTab == 'EXTERNAL') ? styles.tab1 : styles.tab2}>
+                            <Text style={(selectTab == 'EXTERNAL') ? styles.switch : styles.switchAct}>EXTERNAL SWITCH</Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
 
 
-                    {/* Axis Mutual Fund_sec... */}
+                {/* Axis Mutual Fund_sec... */}
+                {mutualfund.map((item) => <View style={styles.fund_sec}>
+                    <View style={styles.axis_sec}>
+                        <Text style={styles.axis}>Axis Mutual Fund</Text>
+                    </View>
+                    <View style={styles.growth_sec}>
+                        <Text style={styles.axis_treasury}>{item.title}</Text>
+                        <View style={styles.value_sec}>
+                            <View style={styles.folio_sec}>
+                                <Text style={styles.folio}>{item.text}</Text>
+                                <Text style={styles.folio}>{item.number}</Text>
+                            </View>
 
-                    {mutualfund.map((item) =>  <View style={styles.fund_sec}>
+                            <View style={styles.folio_sec}>
+                                <Text style={styles.folio}>{item.text1}</Text>
+                                <Text style={styles.folio}>{item.number1}</Text>
+                            </View>
 
-                        <View style={styles.axis_sec}>
-                            <Text style={styles.axis}>Axis Mutual Fund</Text>
-
+                            <View style={styles.folio_sec}>
+                                <Text style={styles.folio}>{item.text2}</Text>
+                                <Text style={styles.folio}>{item.number2}</Text>
+                            </View>
                         </View>
-
-                            
-                        <View style={styles.growth_sec}>
-                            <Text style={styles.axis_treasury}>{item.title}</Text>
-
-                            <View style={styles.value_sec}>
-                                <View style={styles.folio_sec}>
-
-                                    <Text style={styles.folio}>{item.text}</Text>
-                                    <Text style={styles.folio}>{item.number}</Text>
-                                </View>
-
-                                <View style={styles.folio_sec}>
-
-                                    <Text style={styles.folio}>{item.text1}</Text>
-                                    <Text style={styles.folio}>{item.number1}</Text>
-                                </View>
-
-                                <View style={styles.folio_sec}>
-                                    <Text style={styles.folio}>{item.text2}</Text>
-                                    <Text style={styles.folio}>{item.number2}</Text>
-
-                                </View>
-                            </View>
-
-                            <Text style={styles.folio}>{item.text3}</Text>
-                            <View style={styles.scheme_sec}>
-
-                                <Text style={styles.select}>{item.text4}</Text>
-                                <AntDesign name="right" size={15} />
-
-                            </View>
-
-                            <View style={styles.units_sec}>
-                            <CheckBox title='Amount' checkedIcon='dot-circle-o' uncheckedIcon='circle-o' />
-                            <CheckBox title='All Units' checkedIcon='dot-circle-o' uncheckedIcon='circle-o' />
-
-                            </View>
-
-                            <View style={styles.input_box}>
-
-                                <TextInput style={styles.inputsec}
-                                    placeholder="Enter Amount"
-                                />
-
-                                <TouchableOpacity style={styles.botton_box}>
-                                    <Text style={styles.get_otp}>{item.button}</Text>
-                                </TouchableOpacity>
-                            </View>
-
+                        <Text style={styles.folio}>{item.text3}</Text>
+                        <View style={styles.scheme_sec}>
+                            <Text style={styles.select}>{item.text4}</Text>
+                            <AntDesign name="right" size={15} />
                         </View>
+                        <View style={styles.units_sec}>
+                            <CheckBox containerStyle={{ backgroundColor: Colors.TRANSPARENT, borderColor: Colors.TRANSPARENT }} checkedColor={Colors.RED} checked={true} title='Amount' checkedIcon='dot-circle-o' uncheckedIcon='circle-o' />
+                            <CheckBox containerStyle={{ backgroundColor: Colors.TRANSPARENT, borderColor: Colors.TRANSPARENT }} title='All Units' checkedIcon='dot-circle-o' uncheckedIcon='circle-o' />
+                        </View>
+                        <View style={styles.input_box}>
+                            <TextInput style={styles.inputsec}
+                                placeholder="Enter Amount"
+                            />
+                            <TouchableOpacity style={styles.botton_box}>
+                                <Text style={styles.get_otp}>{item.button}</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>)}
 
-                        
 
-
-
-                    </View>)}
-
-        
             </ScrollView>
             <TouchableOpacity style={styles.botton_box2}>
-                            <Text style={styles.proceed}>PROCEED</Text>
-                        </TouchableOpacity>
+                <Text style={styles.proceed}>PROCEED</Text>
+            </TouchableOpacity>
 
 
         </View>
@@ -145,8 +115,10 @@ function HamburgerMenu2Screen(props) {
 
 
 const styles = StyleSheet.create({
-    container: { flex: 1,
-        backgroundColor:'#D3D6DB' },
+    container: {
+        flex: 1,
+        backgroundColor: '#D3D6DB'
+    },
 
     logimg: {
         height: 65,
@@ -165,22 +137,33 @@ const styles = StyleSheet.create({
     },
     tab_sec: {
         flexDirection: "row",
-        marginVertical: 10,
     },
     tab1: {
         width: "50%",
         alignItems: "center",
+        paddingBottom: 10,
+        borderBottomWidth: 1,
+        borderBottomColor: Colors.WHITE,
+    },
+    tab2: {
+        width: "50%",
+        alignItems: "center",
+        paddingBottom: 10,
+        borderBottomWidth: 1,
+        borderBottomColor: Colors.RED,
     },
     switch: {
         color: Colors.WHITE,
         fontSize: 13,
     },
-
+    switchAct: {
+        color: Colors.GREY_1,
+        fontSize: 13,
+    },
     fund_sec: {
         backgroundColor: Colors.WHITE,
-       marginHorizontal:15,
-       marginTop:10,
-
+        marginHorizontal: 15,
+        marginTop: 10,
     },
     axis_sec: {
         backgroundColor: "#838793",
@@ -253,16 +236,14 @@ const styles = StyleSheet.create({
     botton_box2: {
         backgroundColor: Colors.RED,
         paddingVertical: 10,
-        marginBottom:20,
-        marginHorizontal:15,
+        marginBottom: 20,
+        marginHorizontal: 15,
     },
     proceed: {
         color: Colors.WHITE,
         fontSize: 16,
         textAlign: "center",
     },
- 
-
 
 });
 
