@@ -11,10 +11,43 @@ import {
 } from "react-native";
 import { connect } from 'react-redux'
 import { Styles, Config, Colors, FormValidate } from '@common'
-import { MaterialIcons, AntDesign } from 'react-native-vector-icons';
+import { MaterialIcons } from 'react-native-vector-icons';
 const width = Dimensions.get('window').width;
 
 function LoginScreen(props) {
+    const phoneInput = useRef(null);
+    const { login, isFetching, error, user, phones } = props;
+
+    useEffect(() => {
+        if (user) {
+            props.navigation.navigate('otp')
+            // createpassword
+        }
+        if (error) {
+            console.log(error)
+        }
+    }, [user, error]);
+
+    const [state, setState] = useState({
+        phone: '',
+    });
+
+
+    const [errors, setError] = useState({
+        phone: null,
+    });
+
+    const onAction = async (ph) => {
+        let phone = ph ? ph : state.phone
+        if (phone) {
+            login(phone);
+            setState({ ...state, phone: '' });
+        } else {
+            phoneInput.current.focus();
+            setError({ ...errors, phone: 'Please enter phone number' });
+        }
+    }
+
     return (
         <View style={styles.container}>
             <View><Text style={styles.slogan}>Achieve Your <Text style={styles.sloganRed}>Dreams</Text></Text></View>
@@ -25,30 +58,39 @@ function LoginScreen(props) {
                         style={styles.logoimg}
                     />
                 </View>
-                <Text style={styles.continue}>Continue with</Text>
-                <TouchableOpacity onPress={() => props.navigation.navigate('createpassword')}>
-                    <View style={styles.phone_number}>
-                        <MaterialIcons name="call" size={20} color="#838280" />
-                        <Text style={styles.number}>9850612345</Text>
-                    </View>
-                </TouchableOpacity>
-                <View style={styles.phone_number}>
+                {(phones.lenght > 0) && (<Text style={styles.continue}>Continue with</Text>)}
+                {phones.map((item, key) => <TouchableOpacity key={key} onPress={() => onAction(item)} style={styles.phone_number}>
                     <MaterialIcons name="call" size={20} color="#838280" />
-                    <Text style={styles.number}>9850612345</Text>
-                </View>
+                    <Text style={styles.number}>{item}</Text>
+                </TouchableOpacity>)}
                 <View style={styles.or}>
-                    <Text style={styles.code}>Or</Text>
+                    {(phones.lenght > 0) && (<Text style={styles.code}>Or</Text>)}
                     <Text style={styles.code}>Enter Your Mobile number</Text>
                 </View>
                 <View style={styles.text_box}>
-                    {<MaterialIcons name="call" size={20} color="#838280" />}
-                    <TextInput style={{ borderBottomWidth: 1, borderColor: '#828282', width: "50%" }} />
+                    <MaterialIcons name="call" size={20} color="#838280" />
+                    <TextInput
+                        ref={phoneInput}
+                        style={styles.inputsec}
+                        placeholder={'Phone'}
+                        keyboardType='numeric'
+                        onChangeText={(phone) => { setError({ ...errors, phone: null }); setState({ ...state, phone }) }}
+                        value={state.phone}
+                    />
                 </View>
+                {(errors.phone) && (<View style={styles.text_box}><Text style={styles.error}>{errors.phone}</Text></View>)}
 
                 <View style={styles.button}>
-                    <TouchableOpacity onPress={() => props.navigation.navigate('otp')} style={styles.botton_box}>
-                        <Text style={styles.get_otp}>GET OTP</Text>
-                    </TouchableOpacity>
+                    {/* {isFetching ? <View style={styles.botton_box}><ActivityIndicator size={30} color={Colors.WHITE} /></View> :
+                        <TouchableOpacity onPress={() => onAction()} style={styles.botton_box}>
+                            <Text style={styles.get_otp}>GET OTP</Text>
+                        </TouchableOpacity>} */}
+
+                
+                        <TouchableOpacity onPress={() => onAction()} style={styles.botton_box}>
+                            <Text style={styles.get_otp}>GET OTP</Text>
+                        </TouchableOpacity>
+
                 </View>
                 <View style={styles.otp}>
                     <Text>We will send you OTP on your mobile number</Text>
@@ -94,7 +136,11 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         paddingLeft: 70,
     },
-
+    inputsec: {
+        borderBottomWidth: 1,
+        borderColor: '#828282',
+        width: "50%"
+    },
     phone_number: {
         flexDirection: "row",
         paddingLeft: 70,
@@ -113,7 +159,6 @@ const styles = StyleSheet.create({
         marginTop: 10,
         paddingLeft: 70,
     },
-
     button: {
         alignItems: "center",
     },
@@ -127,6 +172,10 @@ const styles = StyleSheet.create({
     get_otp: {
         color: Colors.WHITE,
         fontSize: 15,
+    },
+    error: {
+        color: Colors.RED,
+        fontSize: 13,
     },
     nseimg: {
         marginTop: 30,
@@ -142,8 +191,10 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => ({
-    ticket: state.auth.ticket,
-    users: state.auth.users,
+    isFetching: state.auth.isFetching,
+    error: state.auth.error,
+    user: state.auth.user,
+    phones: state.auth.phones,
 })
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
@@ -152,7 +203,7 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     return {
         ...stateProps,
         ...ownProps,
-        logOut: () => { AuthActions.logOut(dispatch) },
+        login: (phone) => { AuthActions.login(dispatch, phone) }
     }
 }
 export default connect(mapStateToProps, undefined, mapDispatchToProps)(LoginScreen)

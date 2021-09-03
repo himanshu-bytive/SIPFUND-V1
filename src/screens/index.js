@@ -15,7 +15,6 @@ import TopRoated2Screen from './TOPRatedFunds/TopRoated2Screen'
 import TopRoated6Screen from './TOPRatedFunds/TopRoated6Screen'
 import TopRoated8Screen from './TOPRatedFunds/TopRoated8Screen'
 
-
 import FundsHomeScreen from './FundDetails/FundsHomeScreen'
 import FundDetailScreen from './FundDetails/FundDetailScreen'
 import ReturnsCalculator from './FundDetails/ReturnsCalculator'

@@ -1,4 +1,4 @@
-import { Platform } from 'react-native';
+import { Platform, Alert } from 'react-native';
 import Config from '../common/Config';
 import ApiClient from './apiClient';
 
@@ -9,7 +9,7 @@ const Api = new ApiClient({
 const SiteApis = {
   login: async params => {
     try {
-      const response = await Api.post('/sign_in', params);
+      const response = await Api.post('/auth/verify', params);
       if (response.statusCode === 200) {
         return response.body;
       } else {

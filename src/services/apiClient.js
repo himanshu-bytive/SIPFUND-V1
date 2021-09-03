@@ -29,9 +29,9 @@ class ApiClient {
       const options = {
         method,
         headers: {
-          Accept: 'application/json',
           'Content-Type': 'application/json',
         },
+        redirect: 'follow'
       };
       if (params) {
         options.body = JSON.stringify(params);
@@ -42,8 +42,9 @@ class ApiClient {
       fetch(url, options)
         .then((response) => {
           response
-            .json()
+            .text()
             .then((body) => {
+              console.log('body ', body)
               resolve({ statusCode: response.status, body });
             })
             .catch((error) => {
