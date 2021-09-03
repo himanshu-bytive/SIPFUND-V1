@@ -52,7 +52,7 @@ function HamburgerMenu5Screen(props) {
             <ScrollView style={styles.containerScroll}>
 
                 <View style={styles.switch_sec}>
-                    <Text style={styles.transaction}>Holdings</Text>
+                    <Text style={styles.transaction}>{(selectTab)}</Text>
 
                     <View style={styles.tab_sec}>
                         <TouchableOpacity onPress={() => toggleTab('HOLDINGS')} style={(selectTab == 'HOLDINGS') ? styles.tab1 : styles.tab2}>
