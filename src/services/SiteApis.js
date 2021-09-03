@@ -1,6 +1,7 @@
 import { Platform, Alert } from 'react-native';
 import Config from '../common/Config';
 import ApiClient from './apiClient';
+const axios = require('axios');
 
 const Api = new ApiClient({
   baseUrl: Config.apiBaseUrl,
@@ -8,16 +9,24 @@ const Api = new ApiClient({
 
 const SiteApis = {
   login: async params => {
-    try {
-      const response = await Api.post('/auth/verify', params);
-      if (response.statusCode === 200) {
-        return response.body;
-      } else {
-        throw response.body;
-      }
-    } catch (err) {
-      return err;
-    }
+    let config = {
+      method: 'post',
+      url: `${Config.apiBaseUrl}/auth/verify`,
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      data: JSON.stringify(params)
+    };
+    axios(config)
+      .then((response) => {
+        console.log(JSON.stringify(response.data));
+        return response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+        Alert.alert(JSON.stringify(error))
+        return error;
+      });
   },
   forgetPassword: async params => {
     try {

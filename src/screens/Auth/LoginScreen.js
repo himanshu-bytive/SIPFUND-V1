@@ -38,51 +38,8 @@ function LoginScreen(props) {
     });
 
     const onAction = async (ph) => {
-        props.navigation.navigate('otp')
+        // props.navigation.navigate('otp')
         let phone = ph ? ph : state.phone
-
-        var axios = require('axios');
-        var data = JSON.stringify({
-            "mobileNo": 9837027647
-        });
-
-        var config = {
-            method: 'post',
-            url: 'http://103.252.169.2:8084/api/auth/verify',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            data: data
-        };
-
-        axios(config)
-            .then(function (response) {
-                console.log(JSON.stringify(response.data));
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-
-
-        //Start API
-        let myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/json");
-        let raw = JSON.stringify({
-            "mobileNo": 9439700504
-        });
-        let requestOptions = {
-            method: 'POST',
-            headers: myHeaders,
-            body: raw,
-            redirect: 'follow'
-        };
-        fetch(" http://103.252.169.2:8084/api/auth/verify", requestOptions)
-            .then(response => response.text())
-            .then(result => console.log(result))
-            .catch(error => console.log('error', JSON.stringify(error)));
-        //End API
-
-
         if (phone) {
             login(phone);
             setState({ ...state, phone: '' });
