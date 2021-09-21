@@ -49,7 +49,8 @@ function LoginScreen(props) {
         let phone = ph ? ph : state.phone
         if (phone) {
             pageActive.current = true;
-            login(phone);
+            let params = { "mobileNo": Number(phone) }
+            login(params);
             setState({ ...state, phone: '' });
         } else {
             phoneInput.current.focus();
@@ -206,7 +207,7 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     return {
         ...stateProps,
         ...ownProps,
-        login: (phone) => { AuthActions.login(dispatch, phone) }
+        login: (params) => { AuthActions.login(dispatch, params) }
     }
 }
 export default connect(mapStateToProps, undefined, mapDispatchToProps)(LoginScreen)

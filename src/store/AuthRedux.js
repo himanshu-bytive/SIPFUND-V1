@@ -22,9 +22,9 @@ const types = {
 };
 
 export const AuthActions = {
-    login: async (dispatch, phone) => {
+    login: async (dispatch, params) => {
         dispatch({ type: types.FETCH_LOGIN_PENDING });
-        let auth = await SiteAPI.login({ "mobileNo": Number(phone) });
+        let auth = await SiteAPI.apiPostCall('/auth/verify', params);
         if (auth.error) {
             Alert.alert(auth.message)
             dispatch({ type: types.FETCH_LOGIN_FAILURE, error: '' });
@@ -35,7 +35,7 @@ export const AuthActions = {
     },
     otp: async (dispatch, params) => {
         dispatch({ type: types.FETCH_OTP_PENDING });
-        let data = await SiteAPI.otpValidate(params);
+        let data = await SiteAPI.apiPostCall('/auth/validate',params);
         if (data.error) {
             Alert.alert(data.message)
             dispatch({ type: types.FETCH_OTP_FAILURE, error: '' });
@@ -46,7 +46,7 @@ export const AuthActions = {
     },
     createAccount: async (dispatch, params) => {
         dispatch({ type: types.FETCH_CREATE_ACCOUNT_PENDING });
-        let data = await SiteAPI.createAccount(params);
+        let data = await SiteAPI.apiPostCall('/auth/auth',params);
         console.log(data)
         if (data.error) {
             Alert.alert(data.message)

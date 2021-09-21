@@ -8,69 +8,9 @@ const Api = new ApiClient({
 });
 
 const SiteApis = {
-  login: async params => {
+  apiPostCall: async (api, params) => {
     try {
-      const response = await Api.post('/auth/verify', params);
-      if (response.statusCode === 200) {
-        return response.body;
-      } else {
-        throw response.body;
-      }
-    } catch (err) {
-      return err;
-    }
-  },
-  otpValidate: async params => {
-    try {
-      const response = await Api.post('/auth/validate', params);
-      if (response.statusCode === 200) {
-        return response.body;
-      } else {
-        throw response.body;
-      }
-    } catch (err) {
-      return err;
-    }
-  },
-  createAccount: async params => {
-    try {
-      const response = await Api.post('/auth/auth', params);
-      if (response.statusCode === 200) {
-        return response.body;
-      } else {
-        throw response.body;
-      }
-    } catch (err) {
-      return err;
-    }
-  },
-  forgetPassword: async params => {
-    try {
-      const response = await Api.post('/forget_password', params);
-      if (response.statusCode === 200) {
-        return response.body;
-      } else {
-        throw response.body;
-      }
-    } catch (err) {
-      return err;
-    }
-  },
-  loginWithSocial: async (params) => {
-    try {
-      const response = await Api.post('/sign_in_social', params);
-      if (response.statusCode === 200) {
-        return response.body;
-      } else {
-        throw response.body;
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  },
-  logup: async params => {
-    try {
-      const response = await Api.post('/sign_up', params);
+      const response = await Api.post(api, params);
       if (response.statusCode === 200) {
         return response.body;
       } else {
