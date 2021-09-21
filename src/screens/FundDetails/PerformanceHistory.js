@@ -5,7 +5,7 @@ import {
     Text,
 } from "react-native";
 import { connect } from 'react-redux'
-import { Styles, Config, Colors, FormValidate } from '@common'
+import { Styles, Config, Colors, FormValidate } from '../../common'
 import { Ionicons, AntDesign, MaterialIcons, Feather, Entypo, FontAwesome, FontAwesome5, } from 'react-native-vector-icons';
 
 

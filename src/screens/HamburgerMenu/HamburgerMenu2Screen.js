@@ -14,7 +14,7 @@ import {
     ScrollView,
 } from "react-native";
 import { connect } from 'react-redux'
-import { Styles, Config, Colors, FormValidate } from '@common'
+import { Styles, Config, Colors, FormValidate } from '../../common'
 import { Entypo, AntDesign } from 'react-native-vector-icons';
 import { Header, Overlay, CheckBox } from 'react-native-elements';
 import Investments from '../../components/Investments'

@@ -7,7 +7,7 @@ import Investments from './Investments'
 import FundType from './FundType'
 import HoldingFundType from './HoldingFundType'
 import PlanYourGoalFundType from './PlanYourGoalFundType'
-
+import * as _Victorys from "./Victorys";
 
 export {
     SideMenu,
@@ -18,5 +18,7 @@ export {
     Investments,
     FundType,
     HoldingFundType,
-    PlanYourGoalFundType
+    PlanYourGoalFundType,
 };
+export const VictoryPieCode = _Victorys.VictoryPieCode;
+export const VictoryChartCode = _Victorys.VictoryChartCode;

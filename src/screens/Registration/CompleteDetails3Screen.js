@@ -13,7 +13,7 @@ import {
     ActivityIndicator
 } from "react-native";
 import { connect } from 'react-redux'
-import { Styles, Config, Colors, FormValidate } from '@common'
+import { Styles, Config, Colors, FormValidate } from '../../common'
 import { Ionicons, AntDesign, Entypo, FontAwesome5 } from 'react-native-vector-icons';
 import { Image, Header, Overlay, CheckBox } from 'react-native-elements';
 

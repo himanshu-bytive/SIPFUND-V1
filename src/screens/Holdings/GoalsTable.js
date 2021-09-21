@@ -14,7 +14,7 @@ import {
     ActivityIndicator
 } from "react-native";
 import { connect } from 'react-redux'
-import { Styles, Config, Colors, FormValidate } from '@common'
+import { Styles, Config, Colors, FormValidate } from '../../common'
 
 function GoalsTable(props) {
     return (

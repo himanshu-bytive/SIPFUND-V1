@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { View, Text, TextInput, StyleSheet } from 'react-native';
-import { Styles, Config, Colors, FormValidate } from '@common'
+import { Styles, Config, Colors, FormValidate } from '../common'
 
 const MyTextInput = (props) => {
     const focusInput = useRef(null);

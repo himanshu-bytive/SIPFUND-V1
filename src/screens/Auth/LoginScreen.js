@@ -10,7 +10,7 @@ import {
     ActivityIndicator
 } from "react-native";
 import { connect } from 'react-redux'
-import { Styles, Config, Colors, FormValidate } from '@common'
+import { Styles, Config, Colors, FormValidate } from '../../common'
 import { MaterialIcons } from 'react-native-vector-icons';
 const width = Dimensions.get('window').width;
 

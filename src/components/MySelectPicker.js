@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { View, Text, StyleSheet } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import { AntDesign } from 'react-native-vector-icons';
-import { Styles, Config, Colors, FormValidate } from '@common'
+import { Styles, Config, Colors, FormValidate } from '../common'
 
 const MySelectPicker = (props) => {
   const focusInput = useRef(null);

@@ -8,7 +8,7 @@ import {
 
 import { AntDesign } from 'react-native-vector-icons';
 import { Image, CheckBox } from 'react-native-elements';
-import { Styles, Config, Colors, FormValidate } from '@common'
+import { Styles, Config, Colors, FormValidate } from '../common'
 
 export default function HoldingFundType(props) {
     return (

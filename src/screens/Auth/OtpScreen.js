@@ -8,7 +8,7 @@ import {
     Text,
 } from "react-native";
 import { connect } from 'react-redux'
-import { Styles, Config, Colors, FormValidate } from '@common'
+import { Styles, Config, Colors, FormValidate } from '../../common'
 import { Ionicons, AntDesign } from 'react-native-vector-icons';
 import { Image } from 'react-native-elements';
 const width = Dimensions.get('window').width;

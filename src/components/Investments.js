@@ -6,7 +6,7 @@ import {
     TouchableOpacity,
     Text,
 } from "react-native";
-import { Styles, Config, Colors, FormValidate } from '@common'
+import { Styles, Config, Colors, FormValidate } from '../common'
 
 export default function Investments(props) {
     return (<View style={styles.investment_sec}>

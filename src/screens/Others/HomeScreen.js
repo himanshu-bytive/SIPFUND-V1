@@ -9,7 +9,7 @@ import {
     ScrollView,
 } from "react-native";
 import { connect } from 'react-redux'
-import { Styles, Config, Colors, FormValidate } from '@common'
+import { Styles, Config, Colors, FormValidate } from '../../common'
 
 import { Entypo, AntDesign } from 'react-native-vector-icons';
 import { Header, Overlay, CheckBox, Input } from 'react-native-elements';

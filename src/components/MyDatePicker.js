@@ -3,7 +3,7 @@ import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from 'moment';
 import { AntDesign } from 'react-native-vector-icons';
-import { Styles, Config, Colors, FormValidate } from '@common'
+import { Styles, Config, Colors, FormValidate } from '../common'
 
 const MyDatePicker = (props) => {
   const { defultValue, error, onChange } = props

@@ -6,12 +6,8 @@ import {
     Text,
 } from "react-native";
 import { connect } from 'react-redux'
-import { Styles, Config, Colors, FormValidate } from '@common'
-import { Ionicons, AntDesign, MaterialIcons, Feather, Entypo, FontAwesome, FontAwesome5, } from 'react-native-vector-icons';
-import { Image, Header, ListItem, Overlay } from 'react-native-elements';
-import { ScrollView } from "react-native-gesture-handler";
-import { color } from "react-native-elements/dist/helpers";
-import { VictoryPie } from "victory-native";
+import { Colors } from '../../common'
+import { VictoryPieCode } from '../../components'
 
 function PortfolioSummary(props) {
 
@@ -65,17 +61,14 @@ function PortfolioSummary(props) {
 
                 <View style={styles.allocation}>
                     <Text style={styles.asset}>Asset Allocation</Text>
-                    <VictoryPie
-                        width={200}
-                        height={200}
-                        colorScale={["#669ED1", "#E08349", "#A1A6A9", "#C6DC5B"]}
+                    <VictoryPieCode
+                        colors={["#669ED1", "#E08349", "#A1A6A9", "#C6DC5B"]}
                         data={[
                             { x: "E", y: 80 },
                             { x: "CR", y: 10 },
                             { x: "EW", y: 8 },
                             { x: "C", y: 2 }
-                        ]}
-                    />
+                        ]} />
                 </View>
             </View>
         </View>

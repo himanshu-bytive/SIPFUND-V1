@@ -8,10 +8,10 @@ import {
     Text,
 } from "react-native";
 import { connect } from 'react-redux'
-import { Styles, Config, Colors, FormValidate } from '@common'
+import { Styles, Config, Colors, FormValidate } from '../../common'
 import { MaterialIcons, AntDesign, Entypo, FontAwesome5, FontAwesome, Foundation } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
-import { VictoryChart, VictoryLine, VictoryScatter, VictoryAxis } from "victory-native";
+import { VictoryChartCode } from '../../components'
 
 const data = [
     { x: 0, y: 0 },
@@ -83,28 +83,7 @@ function FundsHomeScreen(props) {
 
                         </View>
                     </View>
-                    <VictoryChart polar={false} height={390}>
-                        <VictoryLine
-                            interpolation={'linear'} data={data}
-                            style={{ data: { stroke: "#c43a31" } }}
-                        />
-                        <VictoryScatter data={data}
-                            size={5}
-                            style={{ data: { fill: "#c43a31" } }}
-                        />
-                        <VictoryAxis
-                            style={{
-                                axis: { stroke: "transparent" },
-                                ticks: { stroke: "transparent", size: 15 },
-                                tickLabels: {
-                                    fontSize: 9,
-                                    padding: 5,
-                                    fill: "white",
-                                },
-                            }
-                            }
-                        />
-                    </VictoryChart>
+                    <VictoryChartCode data={data} />
                     <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY, }}></View>
 
                     {/* imges_sec */}
