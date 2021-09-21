@@ -7,6 +7,7 @@ import Investments from './Investments'
 import FundType from './FundType'
 import HoldingFundType from './HoldingFundType'
 import PlanYourGoalFundType from './PlanYourGoalFundType'
+import OtpInputs from './OtpInputs'
 import * as _Victorys from "./Victorys";
 
 export {
@@ -19,6 +20,7 @@ export {
     FundType,
     HoldingFundType,
     PlanYourGoalFundType,
+    OtpInputs,
 };
 export const VictoryPieCode = _Victorys.VictoryPieCode;
 export const VictoryChartCode = _Victorys.VictoryChartCode;

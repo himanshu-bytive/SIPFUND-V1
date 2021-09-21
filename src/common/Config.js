@@ -1,5 +1,5 @@
 export default {
-  apiBaseUrl: ' http://103.252.169.2:8084/api',
+  apiBaseUrl: 'http://103.252.169.2:8084/api',
   apiSocketUrl: 'http://moclass.in:3008',
   uploadPath: 'http://moclass.in/LaundryPlusImages',
   groupIds: {

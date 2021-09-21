@@ -15,32 +15,40 @@ import { MaterialIcons } from 'react-native-vector-icons';
 const width = Dimensions.get('window').width;
 
 function LoginScreen(props) {
+    const pageActive = useRef(false);
     const phoneInput = useRef(null);
-    const { login, isFetching, error, user, phones } = props;
-
+    const { login, isFetching, error, signUpSteps, phones } = props;
     useEffect(() => {
-        if (user) {
+        // && pageActive.current
+        if (signUpSteps == 0) {
+            pageActive.current = false;
             props.navigation.navigate('otp')
-            // createpassword
+        }
+        if (signUpSteps == 1) {
+            pageActive.current = false;
+            props.navigation.navigate('password')
+        }
+        if (signUpSteps == 3) {
+            pageActive.current = false;
+            props.navigation.navigate('createpassword')
         }
         if (error) {
             console.log(error)
         }
-    }, [user, error]);
+    }, [signUpSteps, error]);
 
     const [state, setState] = useState({
         phone: '',
     });
-
 
     const [errors, setError] = useState({
         phone: null,
     });
 
     const onAction = async (ph) => {
-        // props.navigation.navigate('otp')
         let phone = ph ? ph : state.phone
         if (phone) {
+            pageActive.current = true;
             login(phone);
             setState({ ...state, phone: '' });
         } else {
@@ -80,18 +88,11 @@ function LoginScreen(props) {
                     />
                 </View>
                 {(errors.phone) && (<View style={styles.text_box}><Text style={styles.error}>{errors.phone}</Text></View>)}
-
                 <View style={styles.button}>
-                    {/* {isFetching ? <View style={styles.botton_box}><ActivityIndicator size={30} color={Colors.WHITE} /></View> :
+                    {isFetching ? <View style={styles.botton_box}><ActivityIndicator size={30} color={Colors.WHITE} /></View> :
                         <TouchableOpacity onPress={() => onAction()} style={styles.botton_box}>
                             <Text style={styles.get_otp}>GET OTP</Text>
-                        </TouchableOpacity>} */}
-
-
-                    <TouchableOpacity onPress={() => onAction()} style={styles.botton_box}>
-                        <Text style={styles.get_otp}>GET OTP</Text>
-                    </TouchableOpacity>
-
+                        </TouchableOpacity>}
                 </View>
                 <View style={styles.otp}>
                     <Text>We will send you OTP on your mobile number</Text>
@@ -194,7 +195,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => ({
     isFetching: state.auth.isFetching,
     error: state.auth.error,
-    user: state.auth.user,
+    signUpSteps: state.auth.signUpSteps,
+    validFlag: state.auth.validFlag,
     phones: state.auth.phones,
 })
 

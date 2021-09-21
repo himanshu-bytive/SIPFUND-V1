@@ -1,3 +1,5 @@
+import { Alert } from 'react-native';
+const axios = require('axios');
 class ApiClient {
   baseUrl
 
@@ -5,7 +7,7 @@ class ApiClient {
     this.baseUrl = options.baseUrl;
   }
   post(endpoint, params, headers = null) {
-    return this.requestHttp('POST', this.baseUrl + endpoint, params, headers);
+    return this.requestHttp('post', this.baseUrl + endpoint, params, headers);
   }
 
   get(endpoint, params, headers = null) {
@@ -28,31 +30,24 @@ class ApiClient {
     return new Promise((resolve, reject) => {
       const options = {
         method,
+        url: url,
         headers: {
           'Content-Type': 'application/json',
         },
-        redirect: 'follow'
       };
       if (params) {
-        options.body = JSON.stringify(params);
+        options.data = JSON.stringify(params);
       }
       if (headers && headers.token) {
         options.headers.authorization = `${headers.token}`;
       }
-      fetch(url, options)
+      axios(options)
         .then((response) => {
-          response
-            .text()
-            .then((body) => {
-              console.log('body ', body)
-              resolve({ statusCode: response.status, body });
-            })
-            .catch((error) => {
-              reject({ error: true, message: JSON.stringify(error) });
-            });
+          resolve({ statusCode: response.status, body: response.data });
         })
         .catch((error) => {
-          reject({ error: true, message: JSON.stringify(error) });
+          console.log('error ', error)
+          reject({ error: true, message: 'error' });
         });
     });
   }

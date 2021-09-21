@@ -5,6 +5,15 @@ const types = {
     FETCH_LOGIN_PENDING: "FETCH_LOGIN_PENDING",
     FETCH_LOGIN_SUCCESS: "FETCH_LOGIN_SUCCESS",
     FETCH_LOGIN_FAILURE: "FETCH_LOGIN_FAILURE",
+
+    FETCH_OTP_PENDING: "FETCH_OTP_PENDING",
+    FETCH_OTP_SUCCESS: "FETCH_OTP_SUCCESS",
+    FETCH_OTP_FAILURE: "FETCH_OTP_FAILURE",
+
+    FETCH_CREATE_ACCOUNT_PENDING: "FETCH_CREATE_ACCOUNT_PENDING",
+    FETCH_CREATE_ACCOUNT_SUCCESS: "FETCH_CREATE_ACCOUNT_SUCCESS",
+    FETCH_CREATE_ACCOUNT_FAILURE: "FETCH_CREATE_ACCOUNT_FAILURE",
+
     GET_SERVICES: 'GET_SERVICES',
     GET_PAGES: 'GET_PAGES',
     GET_SETTINGS: 'GET_SETTINGS',
@@ -15,15 +24,37 @@ const types = {
 export const AuthActions = {
     login: async (dispatch, phone) => {
         dispatch({ type: types.FETCH_LOGIN_PENDING });
-        let auth = await SiteAPI.login({mobileNo:9439700504});
-        console.log(auth)
-        // if (auth.error) {
-        //     Alert.alert(auth.data)
-        //     dispatch({ type: types.FETCH_LOGIN_FAILURE, error: '' });
-        // } else {
-        //     let users = await SiteAPI.getUserInfo({ ticket: auth });
-        //     dispatch({ type: types.FETCH_LOGIN_SUCCESS, ticket: auth, users });
-        // }
+        let auth = await SiteAPI.login({ "mobileNo": Number(phone) });
+        if (auth.error) {
+            Alert.alert(auth.message)
+            dispatch({ type: types.FETCH_LOGIN_FAILURE, error: '' });
+        } else {
+            Alert.alert(auth.responseString)
+            dispatch({ type: types.FETCH_LOGIN_SUCCESS, phone, signUpSteps: auth.signUpSteps, validFlag: auth.validFlag });
+        }
+    },
+    otp: async (dispatch, params) => {
+        dispatch({ type: types.FETCH_OTP_PENDING });
+        let data = await SiteAPI.otpValidate(params);
+        if (data.error) {
+            Alert.alert(data.message)
+            dispatch({ type: types.FETCH_OTP_FAILURE, error: '' });
+        } else {
+            Alert.alert(data.responseString)
+            dispatch({ type: types.FETCH_OTP_SUCCESS, signUpSteps: data.signUpSteps, validFlag: data.validFlag });
+        }
+    },
+    createAccount: async (dispatch, params) => {
+        dispatch({ type: types.FETCH_CREATE_ACCOUNT_PENDING });
+        let data = await SiteAPI.createAccount(params);
+        console.log(data)
+        if (data.error) {
+            Alert.alert(data.message)
+            dispatch({ type: types.FETCH_CREATE_ACCOUNT_FAILURE, error: '' });
+        } else {
+            Alert.alert(data.responseString)
+            dispatch({ type: types.FETCH_CREATE_ACCOUNT_SUCCESS, signUpSteps: data.signUpSteps, validFlag: data.validFlag });
+        }
     },
     logout() {
         return { type: types.LOGOUT };
@@ -49,12 +80,17 @@ const initialState = {
     isFetching: false,
     error: null,
     user: null,
+    signUpSteps: null,
+    validFlag: null,
+    phone: null,
     phones: [],
 };
 
 export const reducer = (state = initialState, action) => {
-    const { type, error, user, phones } = action;
+    const { type, error, phone, signUpSteps, validFlag } = action;
     switch (type) {
+        case types.FETCH_CREATE_ACCOUNT_PENDING:
+        case types.FETCH_OTP_PENDING:
         case types.FETCH_LOGIN_PENDING: {
             return {
                 ...state,
@@ -62,6 +98,8 @@ export const reducer = (state = initialState, action) => {
                 error: null,
             };
         }
+        case types.FETCH_CREATE_ACCOUNT_FAILURE:
+        case types.FETCH_OTP_FAILURE:
         case types.FETCH_LOGIN_FAILURE: {
             return {
                 ...state,
@@ -70,12 +108,35 @@ export const reducer = (state = initialState, action) => {
             };
         }
         case types.FETCH_LOGIN_SUCCESS: {
+            let phones = [...state.phones, phone]
+            let uniq = [...new Set(phones)];
+            if (uniq.length >= 3) {
+                uniq.length = 3
+            }
             return {
                 ...state,
                 isFetching: false,
                 error: null,
-                user,
-                phones
+                signUpSteps,
+                validFlag,
+                phone,
+                phones: uniq
+            };
+        }
+        case types.FETCH_OTP_SUCCESS: {
+            return {
+                ...state,
+                isFetching: false,
+                error: null,
+                signUpSteps,
+                validFlag,
+            };
+        }
+        case types.FETCH_CREATE_ACCOUNT_SUCCESS: {
+            return {
+                ...state,
+                isFetching: false,
+                error: null,
             };
         }
         case types.LOGOUT:

@@ -18,6 +18,48 @@ import { Ionicons, AntDesign } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 
 function ForgotPasswordScreen(props) {
+    const pageActive = useRef(false);
+    const emailInput = useRef(null);
+    const { createAccount, isFetching, signUpSteps, phone } = props;
+
+    useEffect(() => {
+        // && pageActive.current
+        // if (signUpSteps == 0) {
+        //     pageActive.current = false;
+        //     props.navigation.navigate('otp')
+        // }
+    }, [signUpSteps]);
+
+    const [state, setState] = useState({
+        email: '',
+    });
+
+    const [errors, setError] = useState({
+        email: null,
+    });
+
+    const validateEmail = (email) => {
+        const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        const emailValid = re.test(email);
+        if (!emailValid) {
+            emailInput.current.focus();
+            setError({ ...errors, email: 'Please enter Email Address' });
+        }
+        return emailValid;
+    }
+
+    const onAction = async () => {
+        if (!validateEmail(state.email)) {
+            return
+        }
+        pageActive.current = true;
+        let params = {
+            "email": state.email,
+        }
+        createAccount(params);
+        setState({ ...state, email: '' });
+    }
+
     return (
         <View style={styles.container}>
             <Header
@@ -37,13 +79,20 @@ function ForgotPasswordScreen(props) {
                     <Text style={styles.number}>Forgot Password?</Text>
                     <Text style={styles.confrom_button}>You can reset your password here</Text>
                 </View>
-                <Text style={styles.email}>Enter Email Address</Text>
-                <View style={styles.border}></View>
+                <TextInput
+                    ref={emailInput}
+                    style={styles.inputsec}
+                    placeholder={'Enter Email Address'}
+                    onChangeText={(email) => { setError({ ...errors, email: null }); setState({ ...state, email }) }}
+                    value={state.email}
+                />
+                {(errors.email) && (<Text style={styles.error}>{errors.email}</Text>)}
                 <View style={styles.bottom}>
-                    <TouchableOpacity onPress={() => props.navigation.navigate('home')} style={styles.botton_box}>
-                        <Text style={styles.get_otp}>Send My Password</Text>
-
-                    </TouchableOpacity></View>
+                    {isFetching ? <View style={styles.botton_box}><ActivityIndicator size={30} color={Colors.WHITE} /></View> :
+                        <TouchableOpacity onPress={() => onAction()} style={styles.botton_box}>
+                            <Text style={styles.get_otp}>Send My Password</Text>
+                        </TouchableOpacity>}
+                </View>
             </ScrollView>
         </View>
 
@@ -75,6 +124,22 @@ const styles = StyleSheet.create({
     number: {
         fontSize: 17,
         paddingVertical: 15,
+    },
+    inputsec: {
+        borderBottomWidth: 2,
+        borderColor: Colors.GRAY_LIGHT,
+        height: 50,
+        fontSize: 20,
+        marginTop: 5,
+        paddingHorizontal: 10,
+        marginHorizontal: 25,
+        backgroundColor: Colors.LITTLE_WHITE,
+    },
+    error: {
+        color: Colors.RED,
+        fontSize: 13,
+        marginLeft: 25,
+        marginTop: 5,
     },
     confrom_button: { fontSize: 15, },
     bottom: { alignItems: "center", },
@@ -108,9 +173,13 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => ({
-    ticket: state.auth.ticket,
-    users: state.auth.users,
+    isFetching: state.auth.isFetching,
+    error: state.auth.error,
+    signUpSteps: state.auth.signUpSteps,
+    validFlag: state.auth.validFlag,
+    phone: state.auth.phone,
 })
+
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     const { dispatch } = dispatchProps;

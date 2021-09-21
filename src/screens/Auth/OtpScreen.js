@@ -2,19 +2,112 @@ import React, { useState, useRef, useEffect, useContext } from "react";
 import {
     StyleSheet,
     View,
-    TextInput,
+    Platform,
+    ActivityIndicator,
     Dimensions,
     ScrollView,
+    Alert,
     Text,
 } from "react-native";
 import { connect } from 'react-redux'
+import Constants from 'expo-constants';
+import * as Location from 'expo-location';
 import { Styles, Config, Colors, FormValidate } from '../../common'
-import { Ionicons, AntDesign } from 'react-native-vector-icons';
 import { Image } from 'react-native-elements';
+import { OtpInputs } from '../../components';
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
 function OtpScreen(props) {
+    const pageActive = useRef(false);
+    const { otp, phone, isFetching, error, signUpSteps, phones } = props;
+    const [locationServiceEnabled, setLocationServiceEnabled] = useState(false);
+    const [displayCurrentAddress, setDisplayCurrentAddress] = useState([]);
+
+    useEffect(() => {
+        CheckIfLocationEnabled();
+        GetCurrentLocation();
+    }, []);
+
+    useEffect(() => {
+        if (signUpSteps == 1 && pageActive.current) {
+            pageActive.current = false;
+            props.navigation.navigate('password')
+        }
+        if (error) {
+            console.log(error)
+        }
+    }, [signUpSteps, error]);
+
+    const CheckIfLocationEnabled = async () => {
+        let enabled = await Location.hasServicesEnabledAsync();
+        if (!enabled) {
+            Alert.alert(
+                'Location Service not enabled',
+                'Please enable your location services to continue',
+                [{ text: 'OK' }],
+                { cancelable: false }
+            );
+        } else {
+            setLocationServiceEnabled(enabled);
+        }
+    };
+
+    const GetCurrentLocation = async () => {
+        let { status } = await Location.requestPermissionsAsync();
+        if (status !== 'granted') {
+            Alert.alert(
+                'Permission not granted',
+                'Allow the app to use location service.',
+                [{ text: 'OK' }],
+                { cancelable: false }
+            );
+        }
+        let { coords } = await Location.getCurrentPositionAsync();
+        if (coords) {
+            const { latitude, longitude } = coords;
+            let response = await Location.reverseGeocodeAsync({
+                latitude,
+                longitude
+            });
+            for (let item of response) {
+                setDisplayCurrentAddress({
+                    "latitude": latitude,
+                    "longitude": longitude,
+                    "address": item.name,
+                    "city": item.city,
+                    "state": item.street,
+                    "pincode": item.postalCode,
+                });
+            }
+        }
+    }
+    const [verificationCode, setVerificationCode] = useState('');
+    const [errors, setError] = useState(null);
+
+    const onAction = async (text) => {
+        if (text.length === 4) {
+            let params = {
+                "mobileNo": phone,
+                "otp": text,
+                "platform": Platform.OS,
+                "deviceToken": "",
+                "referenceInfo": {
+                    "mobileNo": phone,
+                    "latitude": displayCurrentAddress?.latitude,
+                    "longitude": displayCurrentAddress?.longitude,
+                    "address": displayCurrentAddress?.address,
+                    "city": displayCurrentAddress?.city,
+                    "state": displayCurrentAddress?.state,
+                    "pincode": displayCurrentAddress?.pincode,
+                    "deviceId": "000"
+                }
+            }
+            pageActive.current = true;
+            otp(params);
+            setVerificationCode('')
+        }
+    }
 
     return (
         <View style={styles.container}>
@@ -32,10 +125,10 @@ function OtpScreen(props) {
                         <Text style={styles.number}>Enter OTP to verify</Text>
                         <Text style={styles.number}>your mobile number</Text>
                         <View style={styles.otpsec}>
-                            <TextInput style={styles.inputsec} />
-                            <TextInput style={styles.inputsec} />
-                            <TextInput style={styles.inputsec} />
-                            <TextInput style={styles.inputsec} />
+                            <OtpInputs
+                                getOtp={(text) => { setVerificationCode(text), setError(null), onAction(text) }}
+                            />
+                            {isFetching && (<View style={styles.botton_box}><ActivityIndicator size={30} color={Colors.RED} /></View>)}
                         </View>
                     </View>
                 </View>
@@ -88,9 +181,8 @@ const styles = StyleSheet.create({
         marginBottom: 25,
     },
     otpsec: {
-        flexDirection: 'row',
+        alignItems: 'center',
         marginTop: 20,
-
     },
     inputsec: {
         borderBottomWidth: 4,
@@ -117,8 +209,9 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => ({
-    ticket: state.auth.ticket,
-    users: state.auth.users,
+    isFetching: state.auth.isFetching,
+    phone: state.auth.phone,
+    signUpSteps: state.auth.signUpSteps,
 })
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
@@ -127,7 +220,7 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     return {
         ...stateProps,
         ...ownProps,
-        logOut: () => { AuthActions.logOut(dispatch) },
+        otp: (params) => { AuthActions.otp(dispatch, params) }
     }
 }
 export default connect(mapStateToProps, undefined, mapDispatchToProps)(OtpScreen)

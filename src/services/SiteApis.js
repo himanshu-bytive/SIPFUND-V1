@@ -9,24 +9,40 @@ const Api = new ApiClient({
 
 const SiteApis = {
   login: async params => {
-    let config = {
-      method: 'post',
-      url: `${Config.apiBaseUrl}/auth/verify`,
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      data: JSON.stringify(params)
-    };
-    axios(config)
-      .then((response) => {
-        console.log(JSON.stringify(response.data));
-        return response.data;
-      })
-      .catch((error) => {
-        console.log(error);
-        Alert.alert(JSON.stringify(error))
-        return error;
-      });
+    try {
+      const response = await Api.post('/auth/verify', params);
+      if (response.statusCode === 200) {
+        return response.body;
+      } else {
+        throw response.body;
+      }
+    } catch (err) {
+      return err;
+    }
+  },
+  otpValidate: async params => {
+    try {
+      const response = await Api.post('/auth/validate', params);
+      if (response.statusCode === 200) {
+        return response.body;
+      } else {
+        throw response.body;
+      }
+    } catch (err) {
+      return err;
+    }
+  },
+  createAccount: async params => {
+    try {
+      const response = await Api.post('/auth/auth', params);
+      if (response.statusCode === 200) {
+        return response.body;
+      } else {
+        throw response.body;
+      }
+    } catch (err) {
+      return err;
+    }
   },
   forgetPassword: async params => {
     try {
