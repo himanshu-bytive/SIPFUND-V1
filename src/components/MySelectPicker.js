@@ -37,11 +37,10 @@ const MySelectPicker = (props) => {
 }
 const styles = StyleSheet.create({
   container: {
-    borderWidth: 2,
+    borderBottomWidth: 2,
     backgroundColor: Colors.TRANSPARENT,
     borderColor: Colors.GRAY_LIGHT,
     marginTop: 5,
-    borderRadius: 4,
     textAlign: 'left',
   },
   custom: {

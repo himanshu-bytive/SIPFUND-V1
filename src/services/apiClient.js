@@ -39,15 +39,26 @@ class ApiClient {
         options.data = JSON.stringify(params);
       }
       if (headers && headers.token) {
-        options.headers.authorization = `${headers.token}`;
+        options.headers.Authorization = `${headers.token}`;
       }
       axios(options)
         .then((response) => {
           resolve({ statusCode: response.status, body: response.data });
         })
         .catch((error) => {
-          console.log('error ', error)
-          reject({ error: true, message: 'error' });
+          if (error.response) {
+            // Request made and server responded
+            console.log(error.response);
+            reject({ error: true, message: error.response?.data?.message });
+          } else if (error.request) {
+            // The request was made but no response was received
+            console.log(error.request);
+            reject({ error: true, message: error.request });
+          } else {
+            // Something happened in setting up the request that triggered an Error
+            console.log('Error', error.message);
+            reject({ error: true, message: error.message });
+          }
         });
     });
   }

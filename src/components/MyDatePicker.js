@@ -47,12 +47,11 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   custom: {
-    borderWidth: 2,
+    borderBottomWidth: 2,
     backgroundColor: Colors.TRANSPARENT,
     borderColor: Colors.GRAY_LIGHT,
     fontSize: 22,
     marginTop: 5,
-    borderRadius: 4,
     padding: 10,
     textAlign: 'left',
   },

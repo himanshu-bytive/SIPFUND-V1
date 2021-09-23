@@ -1,23 +1,91 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
 import {
     StyleSheet,
-    Button,
     ScrollView,
     View,
-    ImageBackground,
     TouchableOpacity,
     Text,
-    Dimensions,
-    KeyboardAvoidingView,
-    TextInput,
-    ActivityIndicator
 } from "react-native";
 import { connect } from 'react-redux'
-import { Styles, Config, Colors, FormValidate } from '../../common'
-import { Ionicons, AntDesign, Entypo, FontAwesome5 } from 'react-native-vector-icons';
-import { Image, Header, CheckBox } from 'react-native-elements';
+import { Colors } from '../../common'
+import { MySelectPicker, MyTextInput } from '../../components'
+import { AntDesign } from 'react-native-vector-icons';
+import { Image, Header } from 'react-native-elements';
 
 function CompleteDetails2Screen(props) {
+
+    const { token, setUserInfo, states, citys, getCitys, getPincode, userInfo, pincodeInfo } = props;
+    const [stateList, setStateList] = useState([]);
+    const [cityList, setCityList] = useState([]);
+
+
+    useEffect(() => {
+        if (userInfo) {
+            setState(JSON.parse(JSON.stringify(userInfo)))
+        }
+    }, [userInfo]);
+
+    useEffect(() => {
+        if (states) {
+            const stateList = states ? states.map((item) => ({ value: item.STATE_CODE, label: String(item.STATE_NAME) })) : []
+            setStateList(stateList)
+        }
+        if (citys) {
+            const cityList = citys ? citys.map((item) => ({ value: item.CITY, label: String(item.CITY) })) : []
+            setCityList(cityList)
+        }
+    }, [states, citys]);
+
+    useEffect(() => {
+        if (pincodeInfo) {
+            getCitys(pincodeInfo.stateCode, token)
+            setState({ ...state, states: pincodeInfo.stateCode, city: pincodeInfo.cityName });
+        }
+    }, [pincodeInfo]);
+
+    const [state, setState] = useState({
+        address: '',
+        pincode: '',
+        states: '',
+        city: '',
+    });
+
+    const [errors, setErrors] = useState({
+        address: null,
+        pincode: null,
+        states: null,
+        city: null,
+    });
+
+    const getStateCitys = async (pincode) => {
+        if (pincode && pincode.length > 5) {
+            getPincode(pincode, token)
+        }
+    }
+
+    const onAction = async () => {
+        const { address, pincode, states, city } = state;
+        if (!address) {
+            setErrors({ ...errors, address: 'Please Add a Address' })
+            return
+        }
+        if (!pincode) {
+            setErrors({ ...errors, pincode: 'Please Add a Date' })
+            return
+        }
+        if (!states) {
+            setErrors({ ...errors, states: 'Please Select a Value' })
+            return
+        }
+        if (!city) {
+            setErrors({ ...errors, city: 'Please Select a Value' })
+            return
+        }
+        setUserInfo({ ...userInfo, ...state })
+        props.navigation.navigate('Register2')
+    }
+
+
     return (
         <View style={styles.container}>
             <Header
@@ -34,51 +102,53 @@ function CompleteDetails2Screen(props) {
                 {/* container_sec */}
                 <View style={styles.container_sec}>
 
-                    <Text style={styles.occupation}>Address1 (As per address proof)</Text>
-                    <Text style={styles.example}>Example Address</Text>
-
-                    <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY, }}></View>
+                    <Text style={styles.occupation}>Address1 (As per address proof) <Text style={styles.error}>*</Text></Text>
+                    <MyTextInput
+                        multiline={true}
+                        numberOfLines={4}
+                        style={{ height: 100 }}
+                        placeholder={'Add Comments'}
+                        value={state.address}
+                        error={errors.address}
+                        onChangeText={(address) => { setErrors({ ...errors, address: null }); setState({ ...state, address }) }}
+                    />
 
                     {/* DOB/DOI_sec */}
-
-                    <Text style={styles.Pincode}>Pincode</Text>
-                    <Text style={styles.example}>701401</Text>
-
-                    <View style={{ borderWidth: 1, borderColor: Colors.RED, }}></View>
-
-
+                    <Text style={styles.occupation}>Pincode <Text style={styles.error}>*</Text></Text>
+                    <MyTextInput
+                        keyboardType='numeric'
+                        value={state.pincode}
+                        error={errors.pincode}
+                        onChangeText={(pincode) => { setErrors({ ...errors, pincode: null }); setState({ ...state, pincode }); getStateCitys(pincode) }}
+                    />
 
                     {/* TITLE_sec */}
-
-                    <Text style={styles.occupation}>State</Text>
-                    <View style={styles.private_sector}>
-
-                        <Text style={styles.private}>West Bengal</Text>
-                        <AntDesign name="right" size={20} color="#000000" />
-                    </View>
-                    <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY, }}></View>
+                    <Text style={styles.occupation}>State <Text style={styles.error}>*</Text></Text>
+                    <MySelectPicker
+                        values={stateList}
+                        defultValue={state.states}
+                        error={errors.states}
+                        onChange={(states) => { setErrors({ ...errors, states: null }); setState({ ...state, states, city: '' }); getCitys(states, token) }}
+                    />
 
                     {/* Investor Name_sec */}
-
-                    <Text style={styles.occupation}>City</Text>
-                    <View style={styles.private_sector}>
-
-                        <Text style={styles.private}>CONTAI</Text>
-                        <AntDesign name="right" size={20} color="#000000" />
-                    </View>
-                    <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY, }}></View>
+                    <Text style={styles.occupation}>City <Text style={styles.error}>*</Text></Text>
+                    <MySelectPicker
+                        values={cityList}
+                        defultValue={state.city}
+                        error={errors.city}
+                        onChange={(city) => { setErrors({ ...errors, city: null }); setState({ ...state, city }) }}
+                    />
                 </View>
 
             </ScrollView>
             {/* click_box */}
             <View style={styles.footer}>
                 <View style={styles.click_box}>
-
                     <TouchableOpacity onPress={() => props.navigation.navigate('Register1')} style={styles.botton_box}>
                         <Text style={styles.get_otp}>Previous</Text>
                     </TouchableOpacity>
-
-                    <TouchableOpacity onPress={() => props.navigation.navigate('Register2')} style={styles.botton_box}>
+                    <TouchableOpacity onPress={onAction} style={styles.botton_box}>
                         <Text style={styles.get_otp}>Next</Text>
                     </TouchableOpacity>
                 </View>
@@ -106,6 +176,10 @@ const styles = StyleSheet.create({
         height: 65,
         width: 203,
         marginTop: 10,
+    },
+    error: {
+        color: '#ff0000',
+        padding: 5,
     },
     occupation: {
         fontSize: 15,
@@ -136,7 +210,7 @@ const styles = StyleSheet.create({
     },
     footer: {
         alignItems: "center",
-        marginBottom:20
+        marginBottom: 20
     },
 
     click_box: {
@@ -161,17 +235,22 @@ const styles = StyleSheet.create({
     },
 });
 const mapStateToProps = (state) => ({
-    ticket: state.auth.ticket,
-    users: state.auth.users,
+    token: state.auth.token,
+    userInfo: state.registration.userInfo,
+    pincodeInfo: state.registration.pincodeInfo,
+    states: state.registration.states,
+    citys: state.registration.citys,
 })
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     const { dispatch } = dispatchProps;
-    const { AuthActions } = require('../../store/AuthRedux')
+    const { RegistrationActions } = require('../../store/RegistrationRedux')
     return {
         ...stateProps,
         ...ownProps,
-        logOut: () => { AuthActions.logOut(dispatch) },
+        getCitys: (code, token) => { RegistrationActions.getCitys(dispatch, code, token) },
+        getPincode: (code, token) => { RegistrationActions.getPincode(dispatch, code, token) },
+        setUserInfo: (info) => { RegistrationActions.setUserInfo(dispatch, info) },
     }
 }
 export default connect(mapStateToProps, undefined, mapDispatchToProps)(CompleteDetails2Screen)

@@ -18,10 +18,9 @@ import { Styles, Config, Colors, FormValidate } from '../../common'
 import { Ionicons, AntDesign } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 
-function PasswordScreen(props) {
+function CreateAccountScreen(props) {
     const pageActive = useRef(false);
     const emailInput = useRef(null);
-    const userNameInput = useRef(null);
     const passwordInput = useRef(null);
     const { createAccount, isFetching, error, signUpSteps, phone } = props;
     const [locationServiceEnabled, setLocationServiceEnabled] = useState(false);
@@ -84,11 +83,11 @@ function PasswordScreen(props) {
         // }
         // if (signUpSteps == 1) {
         //     pageActive.current = false;
-        //     props.navigation.navigate('password')
+        //     props.navigation.navigate('createAccount')
         // }
         // if (signUpSteps == 3) {
         //     pageActive.current = false;
-        //     props.navigation.navigate('createpassword')
+        //     props.navigation.navigate('login')
         // }
         if (error) {
             console.log(error)
@@ -97,35 +96,20 @@ function PasswordScreen(props) {
 
     const [state, setState] = useState({
         email: '',
-        userName: '',
         password: '',
         term: false,
     });
 
     const [errors, setError] = useState({
         email: null,
-        userName: null,
         password: null,
         term: null,
     });
 
-    const validateEmail = (email) => {
-        const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-        const emailValid = re.test(email);
-        if (!emailValid) {
+    const onAction = async () => {
+        if (!FormValidate.isEmail(state.email)) {
             emailInput.current.focus();
             setError({ ...errors, email: 'Please enter Email Address' });
-        }
-        return emailValid;
-    }
-
-    const onAction = async () => {
-        if (!validateEmail(state.email)) {
-            return
-        }
-        if (!state.userName) {
-            userNameInput.current.focus();
-            setError({ ...errors, userName: 'Please enter User Name' });
             return
         }
         if (!state.password) {
@@ -139,26 +123,25 @@ function PasswordScreen(props) {
         }
         pageActive.current = true;
         let params = {
+            "deviceToken": "",
             "email": state.email,
-            "password": state.password,
+            "minorFlag": false,
             "mobileNo": phone,
+            "pan": "",
+            "password": state.password,
             "platform": Platform.OS,
             "referenceCode": "",
-            "deviceToken": "",
-            "userName": state.userName,
-            "referenceInfo": {
-                "mobileNo": phone,
+            "referenceInfo":
+            {
+                "deviceId": "",
                 "latitude": displayCurrentAddress?.latitude,
                 "longitude": displayCurrentAddress?.longitude,
-                "address": displayCurrentAddress?.address,
-                "city": displayCurrentAddress?.city,
-                "state": displayCurrentAddress?.state,
-                "pincode": displayCurrentAddress?.pincode,
-                "deviceId": "108"
+                "mobileNo": phone,
+                "pincode": displayCurrentAddress?.pincode
             }
         }
         createAccount(params);
-        setState({ ...state, email: '', password: '', userName: '', term: false });
+        setState({ ...state, email: '', password: '',  term: false });
     }
 
     return (
@@ -187,15 +170,6 @@ function PasswordScreen(props) {
                         value={state.email}
                     />
                     {(errors.email) && (<Text style={styles.error}>{errors.email}</Text>)}
-                    <Text style={styles.number}>Enter User Name</Text>
-                    <TextInput
-                        ref={userNameInput}
-                        style={styles.inputsec}
-                        placeholder={'Username'}
-                        onChangeText={(userName) => { setError({ ...errors, userName: null }); setState({ ...state, userName }) }}
-                        value={state.userName}
-                    />
-                    {(errors.userName) && (<Text style={styles.error}>{errors.userName}</Text>)}
                     <Text style={styles.number}>Enter Password</Text>
                     <TextInput
                         ref={passwordInput}
@@ -343,4 +317,4 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
         createAccount: (params) => { AuthActions.createAccount(dispatch, params) },
     }
 }
-export default connect(mapStateToProps, undefined, mapDispatchToProps)(PasswordScreen)
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(CreateAccountScreen)

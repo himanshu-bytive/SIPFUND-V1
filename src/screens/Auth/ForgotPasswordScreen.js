@@ -13,21 +13,19 @@ import {
     ActivityIndicator
 } from "react-native";
 import { connect } from 'react-redux'
-import { Styles, Config, Colors, FormValidate } from '../../common'
-import { Ionicons, AntDesign } from 'react-native-vector-icons';
-import { Image, Header, CheckBox } from 'react-native-elements';
+import {  Colors, FormValidate } from '../../common'
+import { Image, Header } from 'react-native-elements';
 
 function ForgotPasswordScreen(props) {
     const pageActive = useRef(false);
     const emailInput = useRef(null);
-    const { createAccount, isFetching, signUpSteps, phone } = props;
+    const { forgotPassword, isFetching, signUpSteps } = props;
 
     useEffect(() => {
-        // && pageActive.current
-        // if (signUpSteps == 0) {
-        //     pageActive.current = false;
-        //     props.navigation.navigate('otp')
-        // }
+        if (signUpSteps == 0 && pageActive.current) {
+            pageActive.current = false;
+            props.navigation.navigate('Home')
+        }
     }, [signUpSteps]);
 
     const [state, setState] = useState({
@@ -38,25 +36,17 @@ function ForgotPasswordScreen(props) {
         email: null,
     });
 
-    const validateEmail = (email) => {
-        const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-        const emailValid = re.test(email);
-        if (!emailValid) {
+    const onAction = async () => {
+        if (!FormValidate.isEmail(state.email)) {
             emailInput.current.focus();
             setError({ ...errors, email: 'Please enter Email Address' });
-        }
-        return emailValid;
-    }
-
-    const onAction = async () => {
-        if (!validateEmail(state.email)) {
             return
         }
         pageActive.current = true;
         let params = {
             "email": state.email,
         }
-        createAccount(params);
+        forgotPassword(params);
         setState({ ...state, email: '' });
     }
 
@@ -174,10 +164,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
     isFetching: state.auth.isFetching,
-    error: state.auth.error,
     signUpSteps: state.auth.signUpSteps,
-    validFlag: state.auth.validFlag,
-    phone: state.auth.phone,
 })
 
 
@@ -187,7 +174,7 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     return {
         ...stateProps,
         ...ownProps,
-        logOut: () => { AuthActions.logOut(dispatch) },
+        forgotPassword: (params) => { AuthActions.forgotPassword(dispatch,params) },
     }
 }
 export default connect(mapStateToProps, undefined, mapDispatchToProps)(ForgotPasswordScreen)

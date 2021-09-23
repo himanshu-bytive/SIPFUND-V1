@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
     },
 });
 const mapStateToProps = (state) => ({
-    ticket: state.auth.ticket,
+    token: state.auth.token,
     users: state.auth.users,
 })
 

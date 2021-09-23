@@ -1,23 +1,121 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
 import {
     StyleSheet,
-    Button,
     View,
-    ImageBackground,
     TouchableOpacity,
     Text,
-    Dimensions,
-    KeyboardAvoidingView,
-    TextInput,
-    ActivityIndicator
 } from "react-native";
 import { connect } from 'react-redux'
-import { Styles, Config, Colors, FormValidate } from '../../common'
-import { Ionicons, AntDesign, Entypo, FontAwesome5 } from 'react-native-vector-icons';
+import { Colors, FormValidate } from '../../common'
+import { MySelectPicker, MyDatePicker, MyTextInput } from '../../components'
+import { AntDesign } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
 
+const titleList = [{ value: 'MR', label: 'MR.' }, { value: 'MRS', label: 'MRS.' }]
+const yesNoList = [{ value: 'Yes', label: 'Yes' }, { value: 'No', label: 'No' }]
+
 function CompleteDetailsScreen(props) {
+    const { token, setUserInfo, settings, occupations, incomes, userInfo } = props;
+    const [occupationsList, setOccupationsList] = useState([]);
+    const [incomesList, setIncomesList] = useState([]);
+
+    useEffect(() => {
+        settings(token)
+    }, []);
+
+    useEffect(() => {
+        if (userInfo) {
+            setState(JSON.parse(JSON.stringify(userInfo)))
+        }
+    }, [userInfo]);
+
+    useEffect(() => {
+        if (occupations) {
+            const occupationsList = occupations ? occupations.map((item) => ({ value: item.OCCUPATION_CODE, label: String(item.OCCUPATION_DESC) })) : []
+            setOccupationsList(occupationsList)
+        }
+        if (incomes) {
+            const incomesList = incomes ? incomes.map((item) => ({ value: item.APP_INCOME_CODE, label: String(item.APP_INCOME_DESC) })) : []
+            setIncomesList(incomesList)
+        }
+    }, [occupations, incomes]);
+
+    const [state, setState] = useState({
+        occupation: '',
+        dob: null,
+        title: '',
+        investor: '',
+        investorPan: '',
+        email: '',
+        fatherName: '',
+        motherName: '',
+        income: '',
+        pep: '',
+        nominate: false,
+    });
+
+    const [errors, setErrors] = useState({
+        occupation: null,
+        dob: null,
+        title: null,
+        investor: null,
+        investorPan: null,
+        email: null,
+        fatherName: null,
+        motherName: null,
+        income: null,
+        pep: null,
+        nominate: null,
+    });
+
+    const onAction = async () => {
+        const { occupation, dob, title, investor, investorPan, email, fatherName, motherName, income, pep, nominate } = state;
+        if (!occupation) {
+            setErrors({ ...errors, occupation: 'Please Select a Value' })
+            return
+        }
+        if (!dob) {
+            setErrors({ ...errors, dob: 'Please Select a Date' })
+            return
+        }
+        if (!title) {
+            setErrors({ ...errors, title: 'Please Select a Value' })
+            return
+        }
+        if (!investor) {
+            setErrors({ ...errors, investor: 'Please Add a Value' })
+            return
+        }
+        if (!investorPan) {
+            setErrors({ ...errors, investorPan: 'Please Add a Value' })
+            return
+        }
+        if (!FormValidate.isEmail(email)) {
+            setErrors({ ...errors, email: 'Please Add a Email' })
+            return
+        }
+        if (!fatherName) {
+            setErrors({ ...errors, fatherName: 'Please Add Fathers Name' })
+            return
+        }
+        if (!motherName) {
+            setErrors({ ...errors, motherName: 'Please Add Mothers Name' })
+            return
+        }
+        if (!income) {
+            setErrors({ ...errors, income: 'Please Select a Value' })
+            return
+        }
+        if (!pep) {
+            setErrors({ ...errors, pep: 'Please Select a Value' })
+            return
+        }
+        setUserInfo(state)
+        props.navigation.navigate('Register1')
+
+    }
+
     return (
         <View style={styles.container}>
             <Header
@@ -34,103 +132,107 @@ function CompleteDetailsScreen(props) {
                 {/* container_sec */}
                 <View style={styles.container_sec}>
 
-                    <Text style={styles.occupation}>Occupation</Text>
-                    <View style={styles.private_sector}>
-                        <Text style={styles.private}>Private Sector Office</Text>
-                        <AntDesign name="right" size={20} color="#000000" />
-                    </View>
-                    <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY, }}></View>
+                    <Text style={styles.occupation}>Occupation <Text style={styles.error}>*</Text></Text>
+                    <MySelectPicker
+                        values={occupationsList}
+                        defultValue={state.occupation}
+                        error={errors.occupation}
+                        onChange={(occupation) => { setErrors({ ...errors, occupation: null }); setState({ ...state, occupation }) }}
+                    />
 
                     {/* DOB/DOI_sec */}
-
-                    <Text style={styles.occupation}>DOB/DOI</Text>
-                    <View style={styles.date}>
-                        <AntDesign name="calendar" size={20} color="#C0392B" />
-                        <Text style={styles.dd}>DD/MM/YYYY</Text>
-                    </View>
-                    <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY, marginLeft: 30, }}></View>
+                    <Text style={styles.occupation}>DOB/DOI <Text style={styles.error}>*</Text></Text>
+                    <MyDatePicker defultValue={state.dob} error={errors.dob} onChange={(dob) => { setErrors({ ...errors, dob: null }); setState({ ...state, dob }) }} />
 
                     {/* TITLE_sec */}
+                    <Text style={styles.occupation}>TITLE <Text style={styles.error}>*</Text></Text>
+                    <MySelectPicker
+                        values={titleList}
+                        defultValue={state.title}
+                        error={errors.title}
+                        onChange={(title) => { setErrors({ ...errors, title: null }); setState({ ...state, title }) }}
+                    />
 
-                    <Text style={styles.occupation}>TITLE</Text>
-                    <View style={styles.private_sector}>
-
-                        <Text style={styles.private}>Select Title</Text>
-                        <AntDesign name="down" size={20} color="#000000" />
-                    </View>
-                    <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY, }}></View>
 
                     {/* Investor Name_sec */}
+                    <Text style={styles.occupation}>Investor Name <Text style={styles.error}>*</Text></Text>
+                    <MyTextInput
+                        value={state.investor}
+                        error={errors.investor}
+                        onChangeText={(investor) => { setErrors({ ...errors, investor: null }); setState({ ...state, investor }) }}
+                    />
 
-                    <Text style={styles.occupation}>Investor Name</Text>
-
-                    <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY, marginTop: 5, }}></View>
 
                     {/* Individual PAN_sec */}
-
-                    <Text style={styles.occupation}>Individual PAN</Text>
-                    <Text style={styles.AVVPJ6708P}>AVVPJ6708P</Text>
-
-                    <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY, marginTop: 5, }}></View>
+                    <Text style={styles.occupation}>Individual PAN <Text style={styles.error}>*</Text></Text>
+                    <MyTextInput
+                        // keyboardType='numeric'
+                        value={state.investorPan}
+                        error={errors.investorPan}
+                        onChangeText={(investorPan) => { setErrors({ ...errors, investorPan: null }); setState({ ...state, investorPan }) }}
+                    />
 
                     {/* Email Id_sec */}
+                    <Text style={styles.occupation}>Email Id <Text style={styles.error}>*</Text></Text>
+                    <MyTextInput
+                        value={state.email}
+                        error={errors.email}
+                        onChangeText={(email) => { setErrors({ ...errors, email: null }); setState({ ...state, email }) }}
+                    />
 
-                    <Text style={styles.occupation}>Email Id</Text>
-                    <Text style={styles.AVVPJ6708P}>anik@gmail.com</Text>
+                    <Text style={styles.occupation}>Father Name <Text style={styles.error}>*</Text></Text>
+                    <MyTextInput
+                        value={state.fatherName}
+                        error={errors.fatherName}
+                        onChangeText={(fatherName) => { setErrors({ ...errors, fatherName: null }); setState({ ...state, fatherName }) }}
+                    />
 
-                    <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY, marginTop: 5, }}></View>
-
-
-
-                    <Text style={styles.occupation}>Father Name</Text>
-                    <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY, marginTop: 5, }}></View>
-
-                    <Text style={styles.occupation}>Mother Name</Text>
-                    <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY, marginTop: 5, }}></View>
-
+                    <Text style={styles.occupation}>Mother Name <Text style={styles.error}>*</Text></Text>
+                    <MyTextInput
+                        value={state.motherName}
+                        error={errors.motherName}
+                        onChangeText={(motherName) => { setErrors({ ...errors, motherName: null }); setState({ ...state, motherName }) }}
+                    />
 
                 </View>
 
                 <View style={{ borderWidth: 5, borderColor: "#EAE9EE", marginTop: 5, }}></View>
 
                 {/* KYC_sec */}
-
                 <View style={styles.container_sec}>
 
                     <Text style={styles.kyc}>KYC</Text>
-                    <Text style={styles.occupation}>Annual Income</Text>
-                    <View style={styles.private_sector}>
+                    <Text style={styles.occupation}>Annual Income <Text style={styles.error}>*</Text></Text>
+                    <MySelectPicker
+                        values={incomesList}
+                        defultValue={state.income}
+                        error={errors.income}
+                        onChange={(income) => { setErrors({ ...errors, income: null }); setState({ ...state, income }) }}
+                    />
 
-                        <Text style={styles.private}>5 =10 Lacs</Text>
-                        <AntDesign name="right" size={20} color="#000000" />
-                    </View>
-                    <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY, }}></View>
 
-
-                    <Text style={styles.occupation}>PEP (Politically Exposed Person)</Text>
-
-                    <View style={styles.private_sector}>
-
-                        <Text style={styles.private}>No</Text>
-                        <AntDesign name="down" size={20} color="#000000" />
-                    </View>
-                    <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY, }}></View>
+                    <Text style={styles.occupation}>PEP (Politically Exposed Person) <Text style={styles.error}>*</Text></Text>
+                    <MySelectPicker
+                        values={yesNoList}
+                        defultValue={state.pep}
+                        error={errors.pep}
+                        onChange={(pep) => { setErrors({ ...errors, pep: null }); setState({ ...state, pep }) }}
+                    />
                 </View>
                 <View style={{ borderWidth: 5, borderColor: "#EAE9EE", marginTop: 5, }}></View>
 
                 {/* Nominee Details_sec */}
-
                 <Text style={styles.Nominee}>Nominee Details</Text>
 
                 {/* check_box */}
-
                 <CheckBox
                     title='Do you want to nominate some one?'
                     containerStyle={styles.checkbox_style}
                     textStyle={{ color: Colors.BLACK, fontSize: 12, marginLeft: 5, }}
-                    checked={false}
+                    checked={state.nominate}
                     checkedColor={Colors.BLACK}
                     uncheckedColor={Colors.BLACK}
+                    onPress={(nominate) => { setErrors({ ...errors, nominate: null }); setState({ ...state, nominate: !state.nominate }) }}
                 />
 
             </ScrollView>
@@ -142,19 +244,12 @@ function CompleteDetailsScreen(props) {
                         <Text style={styles.get_otp}>Skip</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity onPress={() => props.navigation.navigate('Register1')} style={styles.botton_box}>
+                    <TouchableOpacity onPress={onAction} style={styles.botton_box}>
                         <Text style={styles.get_otp}>Next</Text>
                     </TouchableOpacity>
-
-
                 </View>
             </View>
-
-
-
-
         </View>
-
 
     );
 }
@@ -168,10 +263,11 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1
     },
     container_sec: {
-
         margin: 10,
-
-
+    },
+    error: {
+        color: '#ff0000',
+        padding: 5,
     },
     logimg: {
         height: 65,
@@ -220,7 +316,7 @@ const styles = StyleSheet.create({
     },
     footer: {
         alignItems: "center",
-        marginBottom:20
+        marginBottom: 20
     },
     click_box: {
 
@@ -250,17 +346,20 @@ const styles = StyleSheet.create({
 
 });
 const mapStateToProps = (state) => ({
-    ticket: state.auth.ticket,
-    users: state.auth.users,
+    token: state.auth.token,
+    userInfo: state.registration.userInfo,
+    occupations: state.registration.occupations,
+    incomes: state.registration.incomes,
 })
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     const { dispatch } = dispatchProps;
-    const { AuthActions } = require('../../store/AuthRedux')
+    const { RegistrationActions } = require('../../store/RegistrationRedux')
     return {
         ...stateProps,
         ...ownProps,
-        logOut: () => { AuthActions.logOut(dispatch) },
+        settings: (token) => { RegistrationActions.settings(dispatch, token) },
+        setUserInfo: (info) => { RegistrationActions.setUserInfo(dispatch, info) },
     }
 }
 export default connect(mapStateToProps, undefined, mapDispatchToProps)(CompleteDetailsScreen)

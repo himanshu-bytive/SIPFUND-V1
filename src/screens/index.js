@@ -1,8 +1,8 @@
 import SplashScreen from './Auth/SplashScreen'
-import LoginScreen from './Auth/LoginScreen'
+import VerifyScreen from './Auth/VerifyScreen'
 import OtpScreen from './Auth/OtpScreen'
-import PasswordScreen from './Auth/PasswordScreen'
-import CreatePasswordScreen from './Auth/CreatePasswordScreen'
+import CreateAccountScreen from './Auth/CreateAccountScreen'
+import LoginScreen from './Auth/LoginScreen'
 import ForgotPasswordScreen from './Auth/ForgotPasswordScreen'
 
 import CompleteDetailsScreen from './Registration/CompleteDetailsScreen'
@@ -80,10 +80,10 @@ import HamburgerMenu10Screen from './HamburgerMenu/HamburgerMenu10Screen'
 
 export {
     SplashScreen,
-    LoginScreen,
+    VerifyScreen,
     OtpScreen,
-    PasswordScreen,
-    CreatePasswordScreen,
+    CreateAccountScreen,
+    LoginScreen,
     ForgotPasswordScreen,
 
     CompleteDetailsScreen,

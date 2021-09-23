@@ -10,9 +10,8 @@ import {
     Text,
 } from "react-native";
 import { connect } from 'react-redux'
-import Constants from 'expo-constants';
 import * as Location from 'expo-location';
-import { Styles, Config, Colors, FormValidate } from '../../common'
+import { Colors } from '../../common'
 import { Image } from 'react-native-elements';
 import { OtpInputs } from '../../components';
 const width = Dimensions.get('window').width;
@@ -20,7 +19,7 @@ const height = Dimensions.get('window').height;
 
 function OtpScreen(props) {
     const pageActive = useRef(false);
-    const { otp, phone, isFetching, error, signUpSteps, phones } = props;
+    const { otp, phone, isFetching, signUpSteps } = props;
     const [locationServiceEnabled, setLocationServiceEnabled] = useState(false);
     const [displayCurrentAddress, setDisplayCurrentAddress] = useState([]);
 
@@ -32,12 +31,9 @@ function OtpScreen(props) {
     useEffect(() => {
         if (signUpSteps == 1 && pageActive.current) {
             pageActive.current = false;
-            props.navigation.navigate('password')
+            props.navigation.navigate('createAccount')
         }
-        if (error) {
-            console.log(error)
-        }
-    }, [signUpSteps, error]);
+    }, [signUpSteps]);
 
     const CheckIfLocationEnabled = async () => {
         let enabled = await Location.hasServicesEnabledAsync();
@@ -88,19 +84,17 @@ function OtpScreen(props) {
     const onAction = async (text) => {
         if (text.length === 4) {
             let params = {
+                "deviceToken": "",
+                "minorFlag": false,
                 "mobileNo": phone,
                 "otp": text,
                 "platform": Platform.OS,
-                "deviceToken": "",
-                "referenceInfo": {
-                    "mobileNo": phone,
+                "referenceInfo":
+                {
                     "latitude": displayCurrentAddress?.latitude,
                     "longitude": displayCurrentAddress?.longitude,
-                    "address": displayCurrentAddress?.address,
-                    "city": displayCurrentAddress?.city,
-                    "state": displayCurrentAddress?.state,
+                    "mobileNo": phone,
                     "pincode": displayCurrentAddress?.pincode,
-                    "deviceId": "000"
                 }
             }
             pageActive.current = true;
@@ -117,7 +111,7 @@ function OtpScreen(props) {
                     <View style={styles.mainbox}>
                         <View>
                             <Image
-                                onPress={() => props.navigation.navigate('password')}
+                                onPress={() => props.navigation.navigate('createAccount')}
                                 source={require('../../../assets/logo.png')}
                                 style={styles.logimg}
                             />

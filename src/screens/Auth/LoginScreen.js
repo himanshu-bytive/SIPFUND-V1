@@ -1,110 +1,117 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
 import {
     StyleSheet,
+    Button,
+    ScrollView,
     View,
-    Text,
-    Dimensions,
-    TextInput,
-    Image,
+    ImageBackground,
     TouchableOpacity,
+    Text,
+    TextInput,
     ActivityIndicator
 } from "react-native";
 import { connect } from 'react-redux'
-import { Styles, Config, Colors, FormValidate } from '../../common'
-import { MaterialIcons } from 'react-native-vector-icons';
-const width = Dimensions.get('window').width;
+import { Colors, Config } from '../../common'
+import { AntDesign } from 'react-native-vector-icons';
+import { Image, Header } from 'react-native-elements';
 
 function LoginScreen(props) {
     const pageActive = useRef(false);
-    const phoneInput = useRef(null);
-    const { login, isFetching, error, signUpSteps, phones } = props;
+    const usernameInput = useRef(null);
+    const passwordInput = useRef(null);
+    const { login, isFetching, token } = props;
+
     useEffect(() => {
-        // && pageActive.current
-        if (signUpSteps == 0) {
+        if (token && pageActive.current) {
             pageActive.current = false;
-            props.navigation.navigate('otp')
+            props.navigation.navigate('Home')
         }
-        if (signUpSteps == 1) {
-            pageActive.current = false;
-            props.navigation.navigate('password')
-        }
-        if (signUpSteps == 3) {
-            pageActive.current = false;
-            props.navigation.navigate('createpassword')
-        }
-        if (error) {
-            console.log(error)
-        }
-    }, [signUpSteps, error]);
+    }, [token]);
 
     const [state, setState] = useState({
-        phone: '',
+        username: '',
+        password: '',
     });
 
     const [errors, setError] = useState({
-        phone: null,
+        username: null,
+        password: null,
     });
 
-    const onAction = async (ph) => {
-        let phone = ph ? ph : state.phone
-        if (phone) {
-            pageActive.current = true;
-            let params = { "mobileNo": Number(phone) }
-            login(params);
-            setState({ ...state, phone: '' });
-        } else {
-            phoneInput.current.focus();
-            setError({ ...errors, phone: 'Please enter phone number' });
+    const onAction = async () => {
+        if (!state.username) {
+            usernameInput.current.focus();
+            setError({ ...errors, username: 'Please enter Username' });
+            return
         }
+        if (!state.password) {
+            passwordInput.current.focus();
+            setError({ ...errors, password: 'Please enter Password' });
+            return
+        }
+        pageActive.current = true;
+        let params = {
+            "username": state.username,
+            "password": state.password,
+            "grant_type": "password",
+            "scope": "user",
+            "deviceToken": ""
+        }
+        login(params, Config.loginToken);
+        setState({ ...state, username: '', password: '', term: false });
     }
 
     return (
         <View style={styles.container}>
-            <View><Text style={styles.slogan}>Achieve Your <Text style={styles.sloganRed}>Dreams</Text></Text></View>
-            <View style={styles.mainbox}>
-                <View style={{ alignItems: "center" }}>
+            <Header
+                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={Colors.RED} /></TouchableOpacity>}
+                backgroundColor={Colors.LIGHT_WHITE}
+                containerStyle={styles.header}
+                centerComponent={<Image
+                    source={require('../../../assets/icon.png')}
+                    style={styles.logimg}
+                />}
+            />
+            <ScrollView style={styles.containerScroll}>
+                <View style={styles.mainBox}>
                     <Image
-                        source={require('../../../assets/logo.png')}
-                        style={styles.logoimg}
+                        source={require('../../../assets/luck.png')}
+                        style={styles.passwordimg2}
                     />
-                </View>
-                {(phones.lenght > 0) && (<Text style={styles.continue}>Continue with</Text>)}
-                {phones.map((item, key) => <TouchableOpacity key={key} onPress={() => onAction(item)} style={styles.phone_number}>
-                    <MaterialIcons name="call" size={20} color="#838280" />
-                    <Text style={styles.number}>{item}</Text>
-                </TouchableOpacity>)}
-                <View style={styles.or}>
-                    {(phones.lenght > 0) && (<Text style={styles.code}>Or</Text>)}
-                    <Text style={styles.code}>Enter Your Mobile number</Text>
-                </View>
-                <View style={styles.text_box}>
-                    <MaterialIcons name="call" size={20} color="#838280" />
+
+                    <Text style={styles.number}>Username</Text>
                     <TextInput
-                        ref={phoneInput}
+                        ref={usernameInput}
                         style={styles.inputsec}
-                        placeholder={'Phone'}
-                        keyboardType='numeric'
-                        onChangeText={(phone) => { setError({ ...errors, phone: null }); setState({ ...state, phone }) }}
-                        value={state.phone}
+                        placeholder={'Username'}
+                        onChangeText={(username) => { setError({ ...errors, username: null }); setState({ ...state, username }) }}
+                        value={state.username}
                     />
+                    {(errors.username) && (<Text style={styles.error}>{errors.username}</Text>)}
+                    <Text style={styles.number}>Enter Password</Text>
+                    <TextInput
+                        ref={passwordInput}
+                        style={styles.inputsec}
+                        placeholder={'Password'}
+                        secureTextEntry={true}
+                        onChangeText={(password) => { setError({ ...errors, password: null }); setState({ ...state, password }) }}
+                        value={state.password}
+                    />
+                    {(errors.password) && (<Text style={styles.error}>{errors.password}</Text>)}
+                    <TouchableOpacity onPress={() => props.navigation.navigate('forgotpassword')}>
+                        <Text style={styles.refreshcode}>Forgot Your Password?</Text>
+                    </TouchableOpacity>
+
+
+                    <View style={styles.conform}>
+                        {isFetching ? <View style={styles.botton_box}><ActivityIndicator size={30} color={Colors.WHITE} /></View> :
+                            <TouchableOpacity onPress={() => onAction()} style={styles.botton_box}>
+                                <Text style={styles.get_otp}>CONFIRM</Text>
+                                <AntDesign name={"right"} size={26} color={Colors.WHITE} />
+                            </TouchableOpacity>}
+                    </View>
                 </View>
-                {(errors.phone) && (<View style={styles.text_box}><Text style={styles.error}>{errors.phone}</Text></View>)}
-                <View style={styles.button}>
-                    {isFetching ? <View style={styles.botton_box}><ActivityIndicator size={30} color={Colors.WHITE} /></View> :
-                        <TouchableOpacity onPress={() => onAction()} style={styles.botton_box}>
-                            <Text style={styles.get_otp}>GET OTP</Text>
-                        </TouchableOpacity>}
-                </View>
-                <View style={styles.otp}>
-                    <Text>We will send you OTP on your mobile number</Text>
-                </View>
-            </View>
-            <View>
-                <Image
-                    source={require('../../../assets/nse.png')}
-                    style={styles.nseimg}
-                />
-            </View>
+            </ScrollView>
         </View>
 
     );
@@ -113,92 +120,81 @@ function LoginScreen(props) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: Colors.GREY_1,
         alignItems: 'center',
-        justifyContent: 'center',
     },
-    slogan: {
-        fontSize: 30,
-        color: Colors.BLACK,
-        marginBottom: 30
+    header: {
+        borderBottomColor: Colors.BLACK,
+        borderBottomWidth: 1
     },
-    sloganRed: {
-        color: Colors.RED
+    containerScroll: {
+        width: '100%'
     },
-    mainbox: {
-        borderRadius: 25,
-        backgroundColor: Colors.WHITE,
-        width: width - 50,
+    mainBox: {
+        alignItems: 'center',
+        paddingHorizontal: 30
     },
-    logoimg: {
-        marginTop: 30,
+    logimg: {
+        height: 65,
+        width: 203,
+        marginTop: 10,
     },
-    continue: {
-        fontSize: 20,
+    passwordimg2: {
         marginTop: 20,
-        marginBottom: 10,
-        paddingLeft: 70,
+        marginBottom: 30,
+        height: 136,
+        width: 136,
     },
+    number: { fontSize: 20, },
     inputsec: {
-        borderBottomWidth: 1,
-        borderColor: '#828282',
-        width: "50%"
+        borderWidth: 2,
+        borderColor: Colors.GRAY_LIGHT,
+        width: '90%',
+        height: 50,
+        fontSize: 20,
+        marginTop: 5,
+        marginBottom: 20,
+        borderRadius: 10,
+        paddingHorizontal: 10,
+        backgroundColor: Colors.LITTLE_WHITE,
     },
-    phone_number: {
-        flexDirection: "row",
-        paddingLeft: 70,
-    },
-    number: {
-        fontSize: 18,
-        marginLeft: 5,
-    },
-    code: {
-        marginTop: 10,
-        fontSize: 19,
-        paddingLeft: 70,
-    },
-    text_box: {
-        flexDirection: "row",
-        marginTop: 10,
-        paddingLeft: 70,
-    },
-    button: {
-        alignItems: "center",
+    refreshcode: {
+        textAlign: "center",
+        color: Colors.RED,
+        fontSize: 15,
     },
     botton_box: {
+        flexDirection: 'row',
         backgroundColor: Colors.RED,
-        paddingHorizontal: 50,
         paddingVertical: 10,
+        paddingHorizontal: 20,
         marginTop: 20,
         borderRadius: 10,
+        justifyContent: "center",
     },
     get_otp: {
         color: Colors.WHITE,
-        fontSize: 15,
+        fontSize: 22,
+        fontWeight: 'bold',
+        marginRight: 5,
     },
-    error: {
-        color: Colors.RED,
-        fontSize: 13,
-    },
-    nseimg: {
-        marginTop: 30,
-        width: width - 50,
-    },
-    otp: {
-        marginTop: 10,
-        marginBottom: 20,
-        fontSize: 12,
-        color: Colors.GREY_1,
+    phone_number: {
+        flexDirection: "row",
         alignItems: "center",
+        paddingVertical: 30,
+    },
+    numbersec: {
+        fontSize: 17,
+        paddingLeft: 10,
+    },
+    conform: {
+        width: '90%',
     },
 });
 
 const mapStateToProps = (state) => ({
     isFetching: state.auth.isFetching,
-    error: state.auth.error,
-    signUpSteps: state.auth.signUpSteps,
-    validFlag: state.auth.validFlag,
-    phones: state.auth.phones,
+    user: state.auth.user,
+    token: state.auth.token,
 })
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
@@ -207,7 +203,7 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     return {
         ...stateProps,
         ...ownProps,
-        login: (params) => { AuthActions.login(dispatch, params) }
+        login: (params, token) => { AuthActions.login(dispatch, params, token) },
     }
 }
 export default connect(mapStateToProps, undefined, mapDispatchToProps)(LoginScreen)

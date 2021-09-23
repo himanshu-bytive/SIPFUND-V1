@@ -27,7 +27,13 @@ const investmentData = [
 ]
 
 function HomeScreen(props) {
+    const { token, logOut } = props;
 
+    useEffect(() => {
+        if (!token) {
+            props.navigation.navigate('verify')
+        }
+    }, [token]);
     const [visible, setVisible] = useState(false);
     const toggleOverlay = () => {
         setVisible(!visible);
@@ -42,7 +48,7 @@ function HomeScreen(props) {
         <View style={styles.container}>
             <Header
                 leftComponent={<TouchableOpacity onPress={() => props.navigation.toggleDrawer()} style={{ marginTop: 20 }}><Entypo name={"menu"} size={30} color={Colors.RED} /></TouchableOpacity>}
-                rightComponent={<TouchableOpacity onPress={() => props.navigation.navigate('Toprated')} style={{ marginTop: 20 }}><AntDesign name={"shoppingcart"} size={30} color={Colors.RED} /></TouchableOpacity>}
+                rightComponent={<TouchableOpacity onPress={() => logOut()} style={{ marginTop: 20 }}><AntDesign name={"shoppingcart"} size={30} color={Colors.RED} /></TouchableOpacity>}
                 backgroundColor={Colors.LIGHT_WHITE}
                 containerStyle={Styles.header}
                 centerComponent={<Image
@@ -789,7 +795,7 @@ const styles = StyleSheet.create({
     },
 });
 const mapStateToProps = (state) => ({
-    ticket: state.auth.ticket,
+    token: state.auth.token,
     users: state.auth.users,
 })
 
@@ -799,7 +805,7 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     return {
         ...stateProps,
         ...ownProps,
-        logOut: () => { AuthActions.logOut(dispatch) },
+        logOut: () => dispatch(AuthActions.logout()),
     }
 }
 export default connect(mapStateToProps, undefined, mapDispatchToProps)(HomeScreen)

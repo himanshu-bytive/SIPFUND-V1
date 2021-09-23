@@ -8,9 +8,33 @@ const Api = new ApiClient({
 });
 
 const SiteApis = {
-  apiPostCall: async (api, params) => {
+  apiPostCall: async (api, params, token) => {
     try {
-      const response = await Api.post(api, params);
+      const response = await Api.post(api, params, { token });
+      if (response.statusCode === 200) {
+        return response.body;
+      } else {
+        throw response.body;
+      }
+    } catch (err) {
+      return err;
+    }
+  },
+  apiPutCall: async (api, params, token) => {
+    try {
+      const response = await Api.put(api, params, { token });
+      if (response.statusCode === 200) {
+        return response.body;
+      } else {
+        throw response.body;
+      }
+    } catch (err) {
+      return err;
+    }
+  },
+  apiGetCall: async (api, params, token) => {
+    try {
+      const response = await Api.get(api, params, { token });
       if (response.statusCode === 200) {
         return response.body;
       } else {

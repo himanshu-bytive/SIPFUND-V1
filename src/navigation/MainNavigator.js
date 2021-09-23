@@ -7,10 +7,10 @@ import { createDrawerNavigator } from 'react-navigation-drawer';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import {
     SplashScreen,
-    LoginScreen,
+    VerifyScreen,
     OtpScreen,
-    PasswordScreen,
-    CreatePasswordScreen,
+    CreateAccountScreen,
+    LoginScreen,
     ForgotPasswordScreen,
     CompleteDetailsScreen,
     CompleteDetails2Screen,
@@ -77,8 +77,8 @@ export const LoginFlowStack = createStackNavigator({
             headerShown: false,
         }
     },
-    login: {
-        screen: LoginScreen,
+    verify: {
+        screen: VerifyScreen,
         navigationOptions: {
             headerShown: false,
         }
@@ -89,14 +89,14 @@ export const LoginFlowStack = createStackNavigator({
             headerShown: false,
         }
     },
-    password: {
-        screen: PasswordScreen,
+    createAccount: {
+        screen: CreateAccountScreen,
         navigationOptions: {
             headerShown: false,
         }
     },
-    createpassword: {
-        screen: CreatePasswordScreen,
+    login: {
+        screen: LoginScreen,
         navigationOptions: {
             headerShown: false,
         }
@@ -109,7 +109,7 @@ export const LoginFlowStack = createStackNavigator({
     },
 
 }, {
-    initialRouteName: 'forgotpassword',
+    initialRouteName: 'verify',
 });
 
 export const Hamburgmenu = createStackNavigator({

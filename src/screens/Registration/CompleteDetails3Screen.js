@@ -1,29 +1,100 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
 import {
     StyleSheet,
-    Button,
     ScrollView,
     View,
-    ImageBackground,
     TouchableOpacity,
     Text,
-    Dimensions,
-    KeyboardAvoidingView,
-    TextInput,
     ActivityIndicator
 } from "react-native";
 import { connect } from 'react-redux'
-import { Styles, Config, Colors, FormValidate } from '../../common'
-import { Ionicons, AntDesign, Entypo, FontAwesome5 } from 'react-native-vector-icons';
-import { Image, Header, Overlay, CheckBox } from 'react-native-elements';
+import { Colors } from '../../common'
+import { MySelectPicker, MyTextInput } from '../../components'
+import { AntDesign } from 'react-native-vector-icons';
+import { Image, Header, Overlay } from 'react-native-elements';
 
 function CompleteDetails3Screen(props) {
-
     const [visible, setVisible] = useState(false);
-
     const toggleOverlay = () => {
         setVisible(!visible);
     };
+
+    const { token, isFetching, setUserInfo, createRegister, updateRegister, userInfo, accountTypes, banks, getBankDetails, bankDetails, } = props;
+    const [accountTypeList, setAccountTypeList] = useState([]);
+    const [bankList, setBankList] = useState([]);
+
+    useEffect(() => {
+        if (userInfo) {
+            setState(JSON.parse(JSON.stringify(userInfo)))
+        }
+    }, [userInfo]);
+
+
+    useEffect(() => {
+        if (accountTypes) {
+            const accountTypeList = accountTypes ? accountTypes.map((item) => ({ value: item.ACC_TYPE, label: String(item.DESCRIPTION) })) : []
+            setAccountTypeList(accountTypeList)
+        }
+        if (banks) {
+            const bankList = banks ? banks.map((item) => ({ value: item.BANK_CODE, label: String(item.BANK_NAME) })) : []
+            setBankList(bankList)
+        }
+        if (bankDetails) {
+            let selectedBank = bankList.find(x => x.label == bankDetails.label);
+            // console.log(selectedBank)
+            setState({ ...state, bank: bankDetails.bankName, branchName: bankDetails.branch, branchAddress: bankDetails.address })
+        }
+    }, [accountTypes, banks, bankDetails]);
+
+
+    const [state, setState] = useState({
+        accountType: '',
+        accountNumber: '',
+        ifsc: '',
+        bank: '',
+        branchName: '',
+        branchAddress: '',
+    });
+
+    const [errors, setErrors] = useState({
+        accountType: null,
+        accountNumber: null,
+        ifsc: null,
+        bank: null,
+        branchName: null,
+        branchAddress: null,
+    });
+
+    const onAction = async () => {
+        const { accountType, accountNumber, ifsc, bank, branchName, branchAddress } = state;
+        if (!accountType) {
+            setErrors({ ...errors, accountType: 'Please Select a Value' })
+            return
+        }
+        if (!accountNumber) {
+            setErrors({ ...errors, accountNumber: 'Please Add a Value' })
+            return
+        }
+        if (!ifsc) {
+            setErrors({ ...errors, ifsc: 'Please Add a Value' })
+            return
+        }
+        if (!bank) {
+            setErrors({ ...errors, bank: 'Please Select a Value' })
+            return
+        }
+        if (!branchName) {
+            setErrors({ ...errors, branchName: 'Please Add a Value' })
+            return
+        }
+        if (!branchAddress) {
+            setErrors({ ...errors, branchAddress: 'Please Add a Value' })
+            return
+        }
+        setUserInfo({ ...userInfo, ...state })
+        toggleOverlay()
+        props.navigation.navigate('Register3')
+    }
 
     return (
         <View style={styles.container}>
@@ -44,69 +115,66 @@ function CompleteDetails3Screen(props) {
 
                 {/* state_sec */}
                 <View style={styles.container_sec}>
-                    <Text style={styles.occupation}>Account Type</Text>
-                    <View style={styles.private_sector}>
+                    <Text style={styles.occupation}>Account Type <Text style={styles.error}>*</Text></Text>
+                    <MySelectPicker
+                        values={accountTypeList}
+                        defultValue={state.accountType}
+                        error={errors.accountType}
+                        onChange={(accountType) => { setErrors({ ...errors, accountType: null }); setState({ ...state, accountType }) }}
+                    />
 
-                        <Text style={styles.private}>Saving Account</Text>
-                        <AntDesign name="right" size={20} color="#000000" />
-                    </View>
-                    <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY, }}></View>
+                    <Text style={styles.occupation}>Account No. <Text style={styles.error}>*</Text></Text>
+                    <MyTextInput
+                        keyboardType='numeric'
+                        value={state.accountNumber}
+                        error={errors.accountNumber}
+                        onChangeText={(accountNumber) => { setErrors({ ...errors, accountNumber: null }); setState({ ...state, accountNumber }) }}
+                    />
 
-                    {/* address_sec */}
-
-
-                    <Text style={styles.occupation}>Account No.</Text>
-                    <Text style={styles.example}>4093101003831</Text>
-
-                    <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY, }}></View>
-
-                    {/* pincode_sec */}
-
-                    <Text style={styles.Pincode}>IFSC Code</Text>
-                    <Text style={styles.example}>CNRB0004093</Text>
-
-                    <View style={{ borderWidth: 1, borderColor: Colors.RED, }}></View>
+                    <Text style={styles.occupation}>IFSC Code <Text style={styles.error}>*</Text></Text>
+                    <MyTextInput
+                        value={state.ifsc}
+                        error={errors.ifsc}
+                        onChangeText={(ifsc) => { setErrors({ ...errors, ifsc: null }); setState({ ...state, ifsc }) }}
+                    />
 
                     <View style={{ alignItems: "center", }}>
-
-                        <TouchableOpacity onPress={toggleOverlay} style={styles.botton_box}>
-                            <Text style={styles.get_otp}>Fetch Bank Details</Text>
-                        </TouchableOpacity>
+                        {isFetching ? <View style={styles.botton_box}><ActivityIndicator size={30} color={Colors.WHITE} /></View> :
+                            <TouchableOpacity onPress={() => getBankDetails(state.ifsc, token)} style={styles.botton_box}>
+                                <Text style={styles.get_otp}>Fetch Bank Details</Text>
+                            </TouchableOpacity>}
                     </View>
-
                 </View>
 
                 {/* botton_box_sec */}
-
                 <View style={{ borderWidth: 6, borderColor: "#EAE9EE", marginVertical: 10, }}></View>
 
                 {/* container_2_sec */}
-
-
                 <View style={styles.container_sec}>
 
-                    <Text style={styles.occupation}>Bank Name</Text>
-                    <View style={styles.private_sector}>
+                    <Text style={styles.occupation}>Bank Name <Text style={styles.error}>*</Text></Text>
+                    <MySelectPicker
+                        values={bankList}
+                        defultValue={state.bank}
+                        error={errors.bank}
+                        onChange={(bank) => { setErrors({ ...errors, bank: null }); setState({ ...state, bank }) }}
+                    />
 
-                        <Text style={styles.private}>Canara Bank</Text>
-                        <AntDesign name="right" size={20} color="#000000" />
-                    </View>
-                    <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY, }}></View>
+                    <Text style={styles.occupation}>Branch Name <Text style={styles.error}>*</Text></Text>
+                    <MyTextInput
+                        value={state.branchName}
+                        error={errors.branchName}
+                        onChangeText={(branchName) => { setErrors({ ...errors, branchName: null }); setState({ ...state, branchName }) }}
+                    />
 
-
-                    <Text style={styles.occupation}>Branch Name</Text>
-                    <Text style={styles.example}>COTAI</Text>
-
-                    <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY, }}></View>
-
-                    <Text style={styles.occupation}>Branch Address</Text>
-                    <Text style={styles.example}>Kishor Nagar PO</Text>
-
-                    <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY, }}></View>
+                    <Text style={styles.occupation}>Branch Address <Text style={styles.error}>*</Text></Text>
+                    <MyTextInput
+                        value={state.branchAddress}
+                        error={errors.branchAddress}
+                        onChangeText={(branchAddress) => { setErrors({ ...errors, branchAddress: null }); setState({ ...state, branchAddress }) }}
+                    />
 
                 </View>
-
-
 
                 {/* click_box */}
             </ScrollView>
@@ -118,20 +186,19 @@ function CompleteDetails3Screen(props) {
                     <TouchableOpacity onPress={() => props.navigation.navigate('Register2')} style={styles.botton_box}>
                         <Text style={styles.get_otp}>Previous</Text>
                     </TouchableOpacity>
-
-                    <TouchableOpacity onPress={() => props.navigation.navigate('Register3')} style={styles.botton_box}>
-                        <Text style={styles.get_otp}>Next</Text>
-                    </TouchableOpacity>
-
+                    {isFetching ? <View style={styles.botton_box}><ActivityIndicator size={30} color={Colors.WHITE} /></View> :
+                        <TouchableOpacity onPress={onAction} style={styles.botton_box}>
+                            <Text style={styles.get_otp}>Next</Text>
+                        </TouchableOpacity>}
                 </View>
 
             </View>
 
             <Overlay isVisible={visible} overlayStyle={{ margin: 10, backgroundColor: '#fff' }}>
                 <View style={{ padding: 10 }}>
-                    <Text style={{paddingVertical:5,fontSize:18,fontWeight:"bold", }}>Thank you for creating your investor account!</Text>
-                    <Text style={{paddingVertical:5,fontSize:15,fontWeight:"bold",color:'#7E7E7E' }}>Please check your email and approve the link sent by NSE for your account activation.</Text>
-                    <TouchableOpacity onPress={toggleOverlay}><Text style={{ color: '#ff0000',paddingTop:20, }}>OK</Text></TouchableOpacity>
+                    <Text style={{ paddingVertical: 5, fontSize: 18, fontWeight: "bold", }}>Thank you for creating your investor account!</Text>
+                    <Text style={{ paddingVertical: 5, fontSize: 15, fontWeight: "bold", color: '#7E7E7E' }}>Please check your email and approve the link sent by NSE for your account activation.</Text>
+                    <TouchableOpacity onPress={toggleOverlay}><Text style={{ color: '#ff0000', paddingTop: 20, }}>OK</Text></TouchableOpacity>
                 </View>
             </Overlay>
 
@@ -153,6 +220,10 @@ const styles = StyleSheet.create({
     container_sec: {
         backgroundColor: "#fff",
         padding: 10,
+    },
+    error: {
+        color: '#ff0000',
+        padding: 5,
     },
     logimg: {
         height: 65,
@@ -222,17 +293,24 @@ const styles = StyleSheet.create({
 
 });
 const mapStateToProps = (state) => ({
-    ticket: state.auth.ticket,
-    users: state.auth.users,
+    isFetching: state.registration.isFetching,
+    token: state.auth.token,
+    userInfo: state.registration.userInfo,
+    accountTypes: state.registration.accountTypes,
+    banks: state.registration.banks,
+    bankDetails: state.registration.bankDetails,
 })
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     const { dispatch } = dispatchProps;
-    const { AuthActions } = require('../../store/AuthRedux')
+    const { RegistrationActions } = require('../../store/RegistrationRedux')
     return {
         ...stateProps,
         ...ownProps,
-        logOut: () => { AuthActions.logOut(dispatch) },
+        getBankDetails: (code, token) => { RegistrationActions.getBankDetails(dispatch, code, token) },
+        setUserInfo: (info) => { RegistrationActions.setUserInfo(dispatch, info) },
+        createRegister: (params, token) => { RegistrationActions.createRegister(dispatch, params, token) },
+        updateRegister: (params, token) => { RegistrationActions.updateRegister(dispatch, params, token) },
     }
 }
 export default connect(mapStateToProps, undefined, mapDispatchToProps)(CompleteDetails3Screen)

@@ -26,13 +26,12 @@ const MyTextInput = (props) => {
 }
 const styles = StyleSheet.create({
     inputsec: {
-        borderWidth: 2,
+        borderBottomWidth: 2,
         backgroundColor: Colors.TRANSPARENT,
         borderColor: Colors.GRAY_LIGHT,
         width: '100%',
         fontSize: 20,
         marginTop: 5,
-        borderRadius: 4,
         padding: 10,
     },
     error: {
