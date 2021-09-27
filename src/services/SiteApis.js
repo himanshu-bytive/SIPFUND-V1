@@ -1,7 +1,6 @@
 import { Platform, Alert } from 'react-native';
 import Config from '../common/Config';
 import ApiClient from './apiClient';
-const axios = require('axios');
 
 const Api = new ApiClient({
   baseUrl: Config.apiBaseUrl,

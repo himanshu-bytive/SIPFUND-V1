@@ -30,6 +30,7 @@ export const AuthActions = {
     verify: async (dispatch, params) => {
         dispatch({ type: types.FETCH_VERIFY_PENDING });
         let auth = await SiteAPI.apiPostCall('/auth/verify', params);
+        console.log(auth)
         if (auth.error) {
             Alert.alert(auth.message)
             dispatch({ type: types.FETCH_VERIFY_FAILURE, error: '' });

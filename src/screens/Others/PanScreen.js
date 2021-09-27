@@ -13,10 +13,25 @@ import {
 } from "react-native";
 import { connect } from 'react-redux'
 import { Styles, Config, Colors, FormValidate } from '../../common'
+import { styles } from './PanStyle'
 import { Ionicons, AntDesign, Entypo, FontAwesome5 } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 
 function PanScreen(props) {
+    const { token, isFetching, error, pan, updatePan } = props;
+
+    console.log(token)
+    console.log('fech ... ', isFetching)
+
+    // props.navigation.navigate('Goals')
+
+    const onAction = () => {
+        updatePan({
+            "mobileNo": "9177994497",
+            "pan": "XXXXX1111X"
+        })
+    }
+
     return (
         <View style={styles.container}>
             <Header
@@ -45,7 +60,7 @@ function PanScreen(props) {
                     </View>
 
                     <View style={styles.button}>
-                        <TouchableOpacity onPress={() => props.navigation.navigate('Goals')} style={styles.botton_box}>
+                        <TouchableOpacity onPress={() => onAction()} style={styles.botton_box}>
                             <Text style={styles.get_otp}>CREATE</Text>
                         </TouchableOpacity>
                     </View>
@@ -56,76 +71,20 @@ function PanScreen(props) {
     );
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-    header: {
-        borderBottomColor: Colors.BLACK,
-        borderBottomWidth: 1
-    },
-    mainbox: {
-        padding: 60,
-
-    },
-    logimg: {
-        height: 65,
-        width: 203,
-        marginTop: 10,
-    },
-    imgbox: {
-        alignItems: "center",
-        marginBottom: 20,
-    },
-    Panimg: {
-        height: 130,
-        width: 225,
-        marginVertical: 30,
-
-    },
-
-
-    pan: {
-        fontSize: 20,
-        color: "#84898E",
-        fontWeight: "bold",
-        paddingLeft: 50,
-    },
-    text_box: {
-        marginTop: 10,
-    },
-    button: {
-        alignItems: "center",
-        marginVertical: 60,
-    },
-    botton_box: {
-        alignItems: "center",
-        backgroundColor: Colors.RED,
-        width: "80%",
-        paddingVertical: 10,
-        marginTop: 20,
-        borderRadius: 5,
-
-    },
-    get_otp: {
-        color: Colors.WHITE,
-        fontSize: 20,
-        fontWeight: 'bold',
-
-    },
-});
 const mapStateToProps = (state) => ({
     token: state.auth.token,
-    users: state.auth.users,
+    isFetching: state.home.isFetching,
+    error: state.home.error,
+    pan: state.home.pan,
 })
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     const { dispatch } = dispatchProps;
-    const { AuthActions } = require('../../store/AuthRedux')
+    const { HomeActions } = require('../../store/HomeRedux')
     return {
         ...stateProps,
         ...ownProps,
-        logOut: () => { AuthActions.logOut(dispatch) },
+        updatePan: (params) => { HomeActions.updatePan(dispatch, params) },
     }
 }
 export default connect(mapStateToProps, undefined, mapDispatchToProps)(PanScreen)
