@@ -19,6 +19,8 @@ import { Image, Header, CheckBox } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
 
 function ProfileScreen(props) {
+    const { steps, user } = props
+    // console.log(user.nseDetails)
     return (
         <View style={styles.container}>
             {/* header  */}
@@ -42,13 +44,13 @@ function ProfileScreen(props) {
                     <Text style={styles.profile_text2}>ACCOUNT ACTIVE</Text>
                 </View>
                 <View style={styles.icon_sec}>
-                    <View style={styles.icon_bg}><FontAwesome name={"phone"} size={25} color={Colors.WHITE} /></View>
+                    <View style={(steps && steps > 1) ? styles.icon_bg_act : styles.icon_bg}><FontAwesome name={"phone"} size={25} color={Colors.WHITE} /></View>
                     <View style={styles.border}></View>
-                    <View style={styles.icon_bg}><FontAwesome name={"user-o"} size={25} color={Colors.WHITE} /></View>
+                    <View style={(steps && steps > 2) ? styles.icon_bg_act : styles.icon_bg}><FontAwesome name={"user-o"} size={25} color={Colors.WHITE} /></View>
                     <View style={styles.border}></View>
-                    <View style={styles.icon_bg}><Entypo name={"squared-minus"} size={25} color={Colors.WHITE} /></View>
+                    <View style={(steps && steps > 3) ? styles.icon_bg_act : styles.icon_bg}><Entypo name={"squared-minus"} size={25} color={Colors.WHITE} /></View>
                     <View style={styles.border}></View>
-                    <View style={styles.icon_bg}><Octicons name={"primitive-dot"} size={25} color={Colors.WHITE} /></View>
+                    <View style={(steps && steps > 4) ? styles.icon_bg_act : styles.icon_bg}><Octicons name={"primitive-dot"} size={25} color={Colors.WHITE} /></View>
                 </View>
 
                 <View style={styles.text_sec}>
@@ -59,11 +61,11 @@ function ProfileScreen(props) {
                 </View>
 
                 <View style={[styles.icon_sec, styles.bottomicon_sec]}>
-                    <View style={styles.icon_bg}><AntDesign name={"filetext1"} size={25} color={Colors.WHITE} /></View>
+                    <View style={(steps && steps > 5) ? styles.icon_bg_act : styles.icon_bg}><AntDesign name={"filetext1"} size={25} color={Colors.WHITE} /></View>
                     <View style={[styles.border, styles.border1]}></View>
-                    <View style={styles.icon_bg}><Feather name={"check-circle"} size={25} color={Colors.WHITE} /></View>
+                    <View style={(steps && steps > 6) ? styles.icon_bg_act : styles.icon_bg}><Feather name={"check-circle"} size={25} color={Colors.WHITE} /></View>
                     <View style={[styles.border, styles.border1]}></View>
-                    <View style={styles.icon_bg}><FontAwesome name={"rupee"} size={25} color={Colors.WHITE} /></View>
+                    <View style={(steps && steps > 7) ? styles.icon_bg_act : styles.icon_bg}><FontAwesome name={"rupee"} size={25} color={Colors.WHITE} /></View>
                 </View>
 
                 <View style={styles.text_sec}>
@@ -76,25 +78,25 @@ function ProfileScreen(props) {
                 <View style={styles.mutual_bottomsec}>
                     <View style={styles.mutual_left}>
                         <Text style={styles.customer}>Customer Id :</Text>
-                        <Text style={styles.id_text}>5011783651</Text>
+                        <Text style={styles.id_text}>{user?.nseDetails?.acc_no}</Text>
                         <Text style={styles.customer}>Holding Nature :</Text>
-                        <Text style={styles.id_text}>SINGLE</Text>
+                        <Text style={styles.id_text}>{user?.nseDetails?.acc_type?.ACC_TYPE}</Text>
                         <Text style={styles.customer}>Email :</Text>
-                        <Text style={styles.id_text}>viveknimje@yahoo.co.in</Text>
+                        <Text style={styles.id_text}>{user?.nseDetails?.email}</Text>
 
                     </View>
                     <View style={styles.mutual_right}>
                         <Text style={styles.customer}>PAN :</Text>
-                        <Text style={styles.id_text}>AEVPN7613K</Text>
+                        <Text style={styles.id_text}>{user?.nseDetails?.pan}</Text>
                         <Text style={styles.customer}>Tax Status :</Text>
-                        <Text style={styles.id_text}>Individual</Text>
+                        <Text style={styles.id_text}>{user?.nseDetails?.tax_status?.TAX_STATUS_DESC}</Text>
                         <Text style={styles.customer}>Mobile :</Text>
-                        <Text style={styles.id_text}>9272511351</Text>
+                        <Text style={styles.id_text}>{user?.nseDetails?.off_phone}</Text>
                     </View>
                 </View>
                 <View style={styles.address}>
                     <Text style={styles.customer}>Address :</Text>
-                    <Text style={styles.id_text}>Plot No 115, Paradhi Layout, Belrarodi, Nagpur</Text>
+                    <Text style={styles.id_text}>{user?.nseDetails?.addr1 + ' ' + user?.nseDetails?.addr1 + ' ' + user?.nseDetails?.addr3}</Text>
                 </View>
 
 
@@ -102,43 +104,38 @@ function ProfileScreen(props) {
                 <View style={styles.mutual_bottomsec}>
                     <View style={styles.mutual_left}>
                         <Text style={styles.customer}>Bank Name :</Text>
-                        <Text style={styles.id_text}>BOM</Text>
+                        <Text style={styles.id_text}>{user?.nseDetails?.bank_name?.BANK_NAME}</Text>
                         <Text style={styles.customer}>IFSC Code :</Text>
-                        <Text style={styles.id_text}>MAHB0000153</Text>
+                        <Text style={styles.id_text}>{user?.nseDetails?.ifsc_code}</Text>
                         <Text style={styles.customer}>Branch Name :</Text>
-                        <Text style={styles.id_text}>viveknimje@yahoo.co.in</Text>
+                        <Text style={styles.id_text}>{user?.nseDetails?.branch_name}</Text>
 
                     </View>
                     <View style={styles.mutual_right}>
                         <Text style={styles.customer}>Account Type :</Text>
-                        <Text style={styles.id_text}>SB</Text>
+                        <Text style={styles.id_text}>{user?.nseDetails?.acc_type?.ACC_TYPE}</Text>
                         <Text style={styles.customer}>Account No :</Text>
-                        <Text style={styles.id_text}>60030475212</Text>
+                        <Text style={styles.id_text}>{user?.nseDetails?.acc_no}</Text>
                         <Text style={styles.customer}>Branch Pincode :</Text>
-                        <Text style={styles.id_text}>9272511351</Text>
+                        <Text style={styles.id_text}>{user?.nseDetails?.branch_pincode}</Text>
                     </View>
                 </View>
                 <View style={styles.address}>
                     <Text style={styles.customer}>Bank Address :</Text>
-                    <Text style={styles.id_text}>16, SHIRISH, SOUTH AMBAZARI ROAD, LAXMI NAGAR</Text>
+                    <Text style={styles.id_text}>{user?.nseDetails?.branch_addr1 + ' ' + user?.nseDetails?.branch_addr2 + ' ' + user?.nseDetails?.branch_addr3}</Text>
                 </View>
                 <View style={styles.mutual_sec}><Text style={styles.mutual_text}>BROKER</Text></View>
                 <View style={styles.mutual_bottomsec}>
                     <View style={styles.mutual_left}>
                         <Text style={styles.customer}>Broker Name :</Text>
-                        <Text style={styles.id_text}>Sipfund Pvt. Ltd.</Text>
+                        <Text style={styles.id_text}>{}</Text>
 
                     </View>
                     <View style={styles.mutual_right}>
                         <Text style={styles.customer}>Code</Text>
-                        <Text style={styles.id_text}>ARN-102683</Text>
-
+                        <Text style={styles.id_text}>{}</Text>
                     </View>
                 </View>
-
-
-
-
             </ScrollView>
         </View>
 
@@ -189,6 +186,14 @@ const styles = StyleSheet.create({
     icon_bg: {
         height: 40,
         width: 40,
+        backgroundColor: Colors.GRAY_2,
+        borderRadius: 100,
+        alignItems: "center",
+        paddingTop: 7,
+    },
+    icon_bg_act: {
+        height: 40,
+        width: 40,
         backgroundColor: Colors.DEEPGREEN,
         borderRadius: 100,
         alignItems: "center",
@@ -202,26 +207,26 @@ const styles = StyleSheet.create({
     },
     text_sec: {
         flexDirection: "row",
-        justifyContent:"space-between",
+        justifyContent: "space-between",
         marginHorizontal: 20,
     },
     icon_text: {
         width: '23%',
-        textAlign:'center',
+        textAlign: 'center',
         fontSize: 8,
     },
     bottom_text: {
         width: '30%',
-        textAlign:'center',
+        textAlign: 'center',
         fontSize: 8,
     },
     border1: {
         width: '75%',
     },
-    bottomicon_sec: { 
+    bottomicon_sec: {
         marginTop: 50,
         marginHorizontal: 150,
-     },
+    },
     mutual_sec: {
         backgroundColor: Colors.LIGHT_WHITE,
         paddingHorizontal: 10,
@@ -259,7 +264,8 @@ const styles = StyleSheet.create({
 });
 const mapStateToProps = (state) => ({
     token: state.auth.token,
-    users: state.auth.users,
+    steps: state.home.steps,
+    user: state.home.user,
 })
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
@@ -268,7 +274,7 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     return {
         ...stateProps,
         ...ownProps,
-        logOut: () => { AuthActions.logOut(dispatch) },
+        // logout: () => { AuthActions.logout(dispatch) },
     }
 }
 export default connect(mapStateToProps, undefined, mapDispatchToProps)(ProfileScreen)

@@ -32,7 +32,7 @@ export const AuthActions = {
         let auth = await SiteAPI.apiPostCall('/auth/verify', params);
         if (auth.error) {
             Alert.alert(auth.message)
-            dispatch({ type: types.FETCH_VERIFY_FAILURE, error: '' });
+            dispatch({ type: types.FETCH_VERIFY_FAILURE, error: auth.message });
         } else {
             Alert.alert(auth.responseString)
             dispatch({ type: types.FETCH_VERIFY_SUCCESS, phone: params.mobileNo, signUpSteps: auth.signUpSteps, validFlag: auth.validFlag });

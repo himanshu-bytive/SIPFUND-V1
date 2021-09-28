@@ -34,7 +34,6 @@ function HomeScreen(props) {
         if (token) {
             getsteps({}, token)
             getHomeData({}, token)
-            getUserDetails({}, token)
             getcartDetails({}, token)
         }
     }, [token]);
@@ -798,6 +797,7 @@ const styles = StyleSheet.create({
         color: Colors.RED,
     },
 });
+
 const mapStateToProps = (state) => ({
     token: state.auth.token,
     users: state.auth.users,
@@ -819,7 +819,6 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
         logOut: () => dispatch(AuthActions.logout()),
         getsteps: (params, token) => { HomeActions.getsteps(dispatch, params, token) },
         getHomeData: (params, token) => { HomeActions.getHomeData(dispatch, params, token) },
-        getUserDetails: (params, token) => { HomeActions.getUserDetails(dispatch, params, token) },
         getcartDetails: (params, token) => { HomeActions.getcartDetails(dispatch, params, token) },
     }
 }

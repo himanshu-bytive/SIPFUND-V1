@@ -9,7 +9,7 @@ let Styles = {
         borderBottomColor: "#707070",
         borderBottomWidth: 1,
     },
-    container:{
+    container: {
         flex: 1,
         backgroundColor: Colors.WHITE,
     },
@@ -46,6 +46,18 @@ let Styles = {
         borderColor: Colors.DARK_GREY,
         alignItems: "center",
         marginTop: -2,
+    },
+    loading: {
+        position: 'absolute',
+        zIndex: 999,
+        backgroundColor: 'rgba(52, 52, 52, 0.8)',
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingBottom: 40
     },
 }
 export default Styles;

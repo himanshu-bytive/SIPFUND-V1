@@ -27,6 +27,13 @@ export const styles = StyleSheet.create({
         width: 225,
         marginVertical: 30,
     },
+    inputsec: {
+        borderBottomWidth: 1,
+        borderColor: '#828282',
+        fontSize: 15,
+        marginLeft: 10,
+        width: "100%"
+    },
     pan: {
         fontSize: 20,
         color: "#84898E",
@@ -35,6 +42,7 @@ export const styles = StyleSheet.create({
     },
     text_box: {
         marginTop: 10,
+        flexDirection: 'row'
     },
     button: {
         alignItems: "center",

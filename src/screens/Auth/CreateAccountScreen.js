@@ -4,6 +4,7 @@ import {
     Button,
     ScrollView,
     View,
+    Linking,
     ImageBackground,
     TouchableOpacity,
     Text,
@@ -16,7 +17,7 @@ import { connect } from 'react-redux'
 import * as Location from 'expo-location';
 import { Styles, Config, Colors, FormValidate } from '../../common'
 import { Ionicons, AntDesign } from 'react-native-vector-icons';
-import { Image, Header, CheckBox } from 'react-native-elements';
+import { Image, Header, CheckBox, colors } from 'react-native-elements';
 
 function CreateAccountScreen(props) {
     const pageActive = useRef(false);
@@ -141,7 +142,7 @@ function CreateAccountScreen(props) {
             }
         }
         createAccount(params);
-        setState({ ...state, email: '', password: '',  term: false });
+        setState({ ...state, email: '', password: '', term: false });
     }
 
     return (
@@ -186,7 +187,7 @@ function CreateAccountScreen(props) {
 
                     <Text style={styles.confrom_button}>By tapping confirm button, you agreeing to the</Text>
                     <CheckBox
-                        title='Terms & Conditions'
+                        title={<TouchableOpacity onPress={() => Linking.openURL('https://sipfund.com/termofuse.html')}><Text style={{ color: Colors.RED }}>Terms & Conditions</Text></TouchableOpacity>}
                         containerStyle={styles.checkbox_style}
                         textStyle={{ color: Colors.RED, fontSize: 14 }}
                         checked={state.term}

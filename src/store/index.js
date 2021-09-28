@@ -3,6 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { reducer as AuthRedux } from './AuthRedux';
 import { reducer as RegistrationRedux } from './RegistrationRedux';
 import { reducer as HomeRedux } from './HomeRedux';
+import { reducer as TopRatedFundRedux } from './TopRatedFundRedux';
 const config = {
     key: 'root',
     storage: AsyncStorage,
@@ -13,4 +14,5 @@ export default persistCombineReducers(config, {
     auth: AuthRedux,
     registration: RegistrationRedux,
     home: HomeRedux,
+    toprated: TopRatedFundRedux,
 });

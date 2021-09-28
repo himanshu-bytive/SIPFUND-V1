@@ -17,18 +17,29 @@ function LoginScreen(props) {
     const pageActive = useRef(false);
     const usernameInput = useRef(null);
     const passwordInput = useRef(null);
-    const { login, isFetching, token } = props;
+    const { login, isFetching, token, getUserDetails, user } = props;
 
     useEffect(() => {
         if (token && pageActive.current) {
             pageActive.current = false;
-            props.navigation.navigate('Home')
+            getUserDetails({}, token)
         }
-    }, [token]);
+        if (user) {
+            // props.navigation.navigate('Home')
+            if (user.userDetails.panVerified) {
+                props.navigation.navigate('Home')
+            } else {
+                props.navigation.navigate('Pan')
+            }
+        }
+    }, [token, user]);
+
 
     const [state, setState] = useState({
         username: '',
         password: '',
+        // username: 'kavin@techosto.com',
+        // password: 'test@123',
     });
 
     const [errors, setError] = useState({
@@ -191,17 +202,19 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
     isFetching: state.auth.isFetching,
-    user: state.auth.user,
+    user: state.home.user,
     token: state.auth.token,
 })
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     const { dispatch } = dispatchProps;
     const { AuthActions } = require('../../store/AuthRedux')
+    const { HomeActions } = require('../../store/HomeRedux')
     return {
         ...stateProps,
         ...ownProps,
         login: (params, token) => { AuthActions.login(dispatch, params, token) },
+        getUserDetails: (params, token) => { HomeActions.getUserDetails(dispatch, params, token) },
     }
 }
 export default connect(mapStateToProps, undefined, mapDispatchToProps)(LoginScreen)

@@ -27,8 +27,32 @@ const roted = [
     { images: require('../../../assets/bioaxa.png'), text: 'BOI AXA Investment Managers Pr…', text2: 'Moderately High Risk', button: 'INVEST', mintext: 'Min. Investment', maxtext: '1000', aumtext: 'AUM', aumtext2: '2097 Cr', returntext: 'Ruturns', returntext2: '16.0%', },
 ]
 
+function TopRatedScreen(props) {
+    const { isFetching, token, getAllcategorys, getDetails, category, details } = props;
 
-function TopRoated2Screen(props) {
+    useEffect(() => {
+        if (token) {
+            getAllcategorys(token)
+        }
+        if (details) {
+            console.log(details)
+        }
+    }, [token, details]);
+
+    const [selectCat, setSelectCat] = useState(null);
+    const [selectSubCat, setSelectSubCat] = useState(null);
+    const feachDetails = async (item) => {
+        setSelectSubCat(item)
+        let date = new Date()
+        let params = {
+            "Category": selectCat,
+            "Month": date.toLocaleString('en-us', { month: 'short' }),
+            "Year": date.getFullYear(),
+            "Fund_Type": item
+        }
+        getDetails(params, token);
+    }
+
     // tab start
     const [selectTab, setSelectTab] = useState('SIP');
     const toggleTab = (value) => {
@@ -44,10 +68,10 @@ function TopRoated2Screen(props) {
     };
     // overlay end
 
+
+
     return (
-
         <View style={styles.container}>
-
             {/* Header_sec */}
             <Header
                 leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={Colors.RED} /></TouchableOpacity>} backgroundColor={Colors.PEACH}
@@ -58,22 +82,23 @@ function TopRoated2Screen(props) {
                 />}
                 rightComponent={<TouchableOpacity onPress={() => props.navigation.navigate('Toprated2')} style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={Colors.RED} /></TouchableOpacity>}
             />
+            {isFetching && (<View style={Styles.loading}>
+                <ActivityIndicator color={Colors.BLACK} size='large' />
+            </View>)}
 
             {/* Invest Now sec */}
             <ScrollView>
-                <View style={styles.Investnow_sec}>
-                    <Text style={[styles.Debt, styles.Equity]}>Equity</Text>
-                    <Text style={styles.Debt}>Debt</Text>
-                    <Text style={styles.Debt}>Balanced</Text>
-                    <Text style={styles.Debt}>Liquid</Text>
-                    <Text style={styles.Debt}>Overnite</Text>
-                    <Text style={styles.Debt}>Multicap</Text>
-                    <Text style={styles.Debt}>Mid Cap</Text>
-                </View>
-                <View style={{ borderWidth: 1, borderColor: Colors.GREY_1, }}></View>
+                <View style={{ borderWidth: 0.5, borderColor: Colors.GREY_1, }}></View>
+                <ScrollView horizontal={true} style={styles.Investnow_sec}>
+                    {category && (Object.keys(category[0])).map((item, key) => <TouchableOpacity key={key} onPress={() => setSelectCat(item)}><Text style={(item == selectCat) ? styles.Equity : styles.Debt}>{item}</Text></TouchableOpacity>)}
+                </ScrollView>
+                <View style={{ borderWidth: 0.5, borderColor: Colors.GREY_1, }}></View>
+                <ScrollView horizontal={true} style={styles.Investnow_sec}>
+                    {(category && category[0] && selectCat) ? (category[0][selectCat]).map((item, key) => <TouchableOpacity key={key} onPress={() => feachDetails(item)}><Text style={(item == selectSubCat) ? styles.Equity : styles.Debt}>{item}</Text></TouchableOpacity>) : null}
+                </ScrollView>
+                <View style={{ borderWidth: 0.5, borderColor: Colors.GREY_1, }}></View>
 
                 {/* Topratedfunds_sec */}
-
                 <View style={styles.toprated}>
                     <Text style={styles.top}>Top Rated Funds</Text>
                     <View style={styles.returnsright}>
@@ -87,9 +112,7 @@ function TopRoated2Screen(props) {
 
 
                 {/* Axis Asset Management Company */}
-
                 {roted.map((item) => <View style={styles.axis_asset}>
-
                     <View style={styles.company}>
                         <View>
                             <Image
@@ -229,10 +252,6 @@ function TopRoated2Screen(props) {
             </Overlay>
 
         </View>
-
-
-
-
     );
 }
 
@@ -240,7 +259,6 @@ function TopRoated2Screen(props) {
 
 
 // StyleSheet
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -252,16 +270,14 @@ const styles = StyleSheet.create({
     },
     Investnow_sec: {
         flexDirection: "row",
-        marginLeft: 20,
-        marginTop: 40,
+        marginHorizontal: 10,
+        paddingBottom: 5,
+        marginTop: 10,
     },
-    Debt: {
-        marginHorizontal: 5, fontSize: 13, color: "#696565", paddingBottom: 2,
-    },
+    Debt: { marginHorizontal: 5, fontSize: 13, color: "#696565", fontWeight: "bold" },
+    Equity: { marginHorizontal: 5, fontSize: 13, color: Colors.RED, fontWeight: "bold" },
 
-    Equity: { fontSize: 13, color: Colors.RED, fontWeight: "bold", },
-
-    toprated: { flexDirection: "row", marginBottom: 30, marginTop: 30, },
+    toprated: { flexDirection: "row", marginLeft: 10, marginBottom: 30, marginTop: 30, },
     top: {
         width: "73%",
         fontSize: 15,
@@ -271,8 +287,6 @@ const styles = StyleSheet.create({
     return: { fontSize: 15, },
 
     returnsbox: { flexDirection: "row", },
-
-    //  Axis Asset Management Company 
 
     axis_asset: {
         marginTop: 20,
@@ -406,16 +420,19 @@ const styles = StyleSheet.create({
 });
 const mapStateToProps = (state) => ({
     token: state.auth.token,
-    users: state.auth.users,
+    isFetching: state.toprated.isFetching,
+    category: state.toprated.category,
+    details: state.toprated.details,
 })
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     const { dispatch } = dispatchProps;
-    const { AuthActions } = require('../../store/AuthRedux')
+    const { TopRatedActions } = require('../../store/TopRatedFundRedux')
     return {
         ...stateProps,
         ...ownProps,
-        logOut: () => { AuthActions.logOut(dispatch) },
+        getAllcategorys: (token) => { TopRatedActions.getAllcategorys(dispatch, token) },
+        getDetails: (params, token) => { TopRatedActions.getDetails(dispatch, params, token) },
     }
 }
-export default connect(mapStateToProps, undefined, mapDispatchToProps)(TopRoated2Screen)
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(TopRatedScreen)

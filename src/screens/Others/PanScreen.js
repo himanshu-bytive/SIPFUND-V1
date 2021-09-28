@@ -18,18 +18,38 @@ import { Ionicons, AntDesign, Entypo, FontAwesome5 } from 'react-native-vector-i
 import { Image, Header, CheckBox } from 'react-native-elements';
 
 function PanScreen(props) {
-    const { token, isFetching, error, pan, updatePan } = props;
+    const pageActive = useRef(false);
+    const pannumberInput = useRef(null);
+    const { token, isFetching, phone, pan, updatePan } = props;
 
-    console.log(token)
-    console.log('fech ... ', isFetching)
+    useEffect(() => {
+        if (pan) {
+            props.navigation.navigate('Home')
+        }
+    }, [pan]);
 
-    // props.navigation.navigate('Goals')
 
-    const onAction = () => {
-        updatePan({
-            "mobileNo": "9177994497",
-            "pan": "XXXXX1111X"
-        })
+    const [state, setState] = useState({
+        pannumber: '',
+    });
+
+    const [errors, setError] = useState({
+        pannumber: null,
+    });
+
+    const onAction = async () => {
+        if (!state.pannumber) {
+            pannumberInput.current.focus();
+            setError({ ...errors, pannumber: 'Please enter Pan' });
+            return
+        }
+        pageActive.current = true;
+        let params = {
+            "mobileNo": phone,
+            "pan": state.pannumber
+        }
+        updatePan(params, token);
+        setState({ ...state, pannumber: '' });
     }
 
     return (
@@ -53,16 +73,22 @@ function PanScreen(props) {
                     </View>
 
                     <Text style={styles.pan}>PAN Number</Text>
-
                     <View style={styles.text_box}>
-                        {<FontAwesome5 name="credit-card" size={20} color="#838280" />}
-                        <TextInput style={{ borderBottomWidth: 1, borderColor: '#828282', width: "100%" }} />
+                        <FontAwesome5 name="credit-card" size={20} color="#838280" />
+                        <TextInput
+                            ref={pannumberInput}
+                            style={styles.inputsec}
+                            placeholder={'Pan'}
+                            onChangeText={(pannumber) => { setError({ ...errors, pannumber: null }); setState({ ...state, pannumber }) }}
+                            value={state.pannumber}
+                        />
                     </View>
-
+                    {(errors.pannumber) && (<Text style={styles.error}>{errors.pannumber}</Text>)}
                     <View style={styles.button}>
-                        <TouchableOpacity onPress={() => onAction()} style={styles.botton_box}>
-                            <Text style={styles.get_otp}>CREATE</Text>
-                        </TouchableOpacity>
+                        {isFetching ? <View style={styles.botton_box}><ActivityIndicator size={30} color={Colors.WHITE} /></View> :
+                            <TouchableOpacity onPress={() => onAction()} style={styles.botton_box}>
+                                <Text style={styles.get_otp}>CREATE</Text>
+                            </TouchableOpacity>}
                     </View>
                 </View>
             </ScrollView>
@@ -73,6 +99,7 @@ function PanScreen(props) {
 
 const mapStateToProps = (state) => ({
     token: state.auth.token,
+    phone: state.auth.phone,
     isFetching: state.home.isFetching,
     error: state.home.error,
     pan: state.home.pan,
@@ -84,7 +111,7 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     return {
         ...stateProps,
         ...ownProps,
-        updatePan: (params) => { HomeActions.updatePan(dispatch, params) },
+        updatePan: (params, token) => { HomeActions.updatePan(dispatch, params, token) },
     }
 }
 export default connect(mapStateToProps, undefined, mapDispatchToProps)(PanScreen)

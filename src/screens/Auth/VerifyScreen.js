@@ -20,11 +20,8 @@ function VerifyScreen(props) {
     const phoneInput = useRef(null);
     const [locationServiceEnabled, setLocationServiceEnabled] = useState(false);
     const [displayCurrentAddress, setDisplayCurrentAddress] = useState([]);
-    const { token, verify, isFetching, signUpSteps, phones } = props;
+    const { verify, isFetching, signUpSteps, phones } = props;
     useEffect(() => {
-        if (token) {
-            props.navigation.navigate('Home')
-        }
         if (signUpSteps == 0 && pageActive.current) {
             pageActive.current = false;
             props.navigation.navigate('otp')
@@ -37,7 +34,7 @@ function VerifyScreen(props) {
             pageActive.current = false;
             props.navigation.navigate('login')
         }
-    }, [signUpSteps, token]);
+    }, [signUpSteps]);
 
     useEffect(() => {
         CheckIfLocationEnabled();

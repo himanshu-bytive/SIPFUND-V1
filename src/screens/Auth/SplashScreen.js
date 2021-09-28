@@ -10,10 +10,12 @@ import { connect } from 'react-redux'
 import { Colors } from '../../common'
 
 function SplashScreen(props) {
-    const { logout } = props;
+    const { logout, resetData } = props;
     useEffect(() => {
-        // logout()
+        logout()
+        resetData()
         props.navigation.navigate('verify')
+        // props.navigation.navigate('Home')
     }, []);
 
     return (
@@ -81,10 +83,12 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     const { dispatch } = dispatchProps;
     const { AuthActions } = require('../../store/AuthRedux')
+    const { HomeActions } = require('../../store/HomeRedux')
     return {
         ...stateProps,
         ...ownProps,
         logout: () => dispatch(AuthActions.logout()),
+        resetData: () => dispatch(HomeActions.resetData()),
     }
 }
 export default connect(mapStateToProps, undefined, mapDispatchToProps)(SplashScreen)

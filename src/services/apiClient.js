@@ -48,15 +48,15 @@ class ApiClient {
         .catch((error) => {
           if (error.response) {
             // Request made and server responded
-            console.log(error.response);
-            reject({ error: true, message: error.response?.data?.message });
+            console.log('aaa ', error.response);
+            reject({ error: true, message: error.response?.data?.message ? error.response?.data?.message : error.response?.data?.responseString });
           } else if (error.request) {
             // The request was made but no response was received
-            console.log(error.request);
+            console.log('bbb ', error.request);
             reject({ error: true, message: error.request });
           } else {
             // Something happened in setting up the request that triggered an Error
-            console.log('Error', error.message);
+            console.log('ccc', error.message);
             reject({ error: true, message: error.message });
           }
         });

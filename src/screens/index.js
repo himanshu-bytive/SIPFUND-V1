@@ -11,7 +11,7 @@ import CompleteDetails3Screen from './Registration/CompleteDetails3Screen'
 import CompleteDetails5Screen from './Registration/CompleteDetails5Screen'
 
 import TopratedFunds5Screen from './TOPRatedFunds/TopratedFunds5Screen'
-import TopRoated2Screen from './TOPRatedFunds/TopRoated2Screen'
+import TopRatedScreen from './TOPRatedFunds/TopRatedScreen'
 import TopRoated6Screen from './TOPRatedFunds/TopRoated6Screen'
 import TopRoated8Screen from './TOPRatedFunds/TopRoated8Screen'
 
@@ -137,7 +137,7 @@ export {
     Plan5,
 
     TopratedFunds5Screen,
-    TopRoated2Screen,
+    TopRatedScreen,
     TopRoated6Screen,
     TopRoated8Screen,
     AmountHistoryScreen,

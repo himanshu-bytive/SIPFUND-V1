@@ -18,7 +18,7 @@ import {
     CompleteDetails5Screen,
 
     TopratedFunds5Screen,
-    TopRoated2Screen,
+    TopRatedScreen,
     TopRoated6Screen,
     TopRoated8Screen,
 
@@ -257,7 +257,7 @@ export const InvestmentPlansStack = createStackNavigator({
 
 export const TopRatedFundsStack = createStackNavigator({
     Toprated1: {
-        screen: TopRoated2Screen,
+        screen: TopRatedScreen,
         navigationOptions: {
             headerShown: false,
         }
