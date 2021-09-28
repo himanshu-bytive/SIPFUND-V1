@@ -12,20 +12,22 @@ import {
     ActivityIndicator,
 
 } from "react-native";
+import { connect } from 'react-redux'
 import { Styles, Config, Colors, FormValidate } from '../common'
 import { Ionicons, AntDesign, Feather, Entypo, MaterialCommunityIcons, FontAwesome, Octicons, FontAwesome5, } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
 
-export default function SideMenu(props) {
+function SideMenu(props) {
+    const { user } = props
     return (
         <View style={styles.container}>
             <Header
                 leftComponent={<TouchableOpacity><Entypo name={"user"} size={30} color={Colors.WHITE} /></TouchableOpacity>}
                 backgroundColor={Colors.RED}
                 centerComponent={<View>
-                    <Text style={styles.profileText}>Name</Text>
-                    <Text style={styles.profileText}>000000000</Text>
+                    <Text style={styles.profileText}>{user?.userDetails?.email}</Text>
+                    <Text style={styles.profileText}>{user?.userDetails?.mobile}</Text>
                 </View>}
             />
             <ScrollView>
@@ -180,3 +182,9 @@ const styles = StyleSheet.create({
 
     },
 })
+
+const mapStateToProps = (state) => ({
+    token: state.auth.token,
+    user: state.home.user,
+})
+export default connect(mapStateToProps)(SideMenu)

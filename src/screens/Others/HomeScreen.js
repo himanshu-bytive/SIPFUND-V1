@@ -10,7 +10,6 @@ import {
 } from "react-native";
 import { connect } from 'react-redux'
 import { Styles, Config, Colors, FormValidate } from '../../common'
-
 import { Entypo, AntDesign } from 'react-native-vector-icons';
 import { Header, Overlay, CheckBox, Input } from 'react-native-elements';
 import Investments from '../../components/Investments'
@@ -27,13 +26,19 @@ const investmentData = [
 ]
 
 function HomeScreen(props) {
-    const { token, logOut } = props;
+    const { token, logOut, isFetching, error, steps, home, user, cart, getsteps, getHomeData, getUserDetails, getcartDetails } = props;
+
+    // console.log(user.userDetails)
 
     useEffect(() => {
-        if (!token) {
-            props.navigation.navigate('verify')
+        if (token) {
+            getsteps({}, token)
+            getHomeData({}, token)
+            getUserDetails({}, token)
+            getcartDetails({}, token)
         }
     }, [token]);
+
     const [visible, setVisible] = useState(false);
     const toggleOverlay = () => {
         setVisible(!visible);
@@ -427,7 +432,6 @@ function HomeScreen(props) {
                     </View>
                 </View>
             </Overlay>
-
         </View>
     );
 }
@@ -797,15 +801,26 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => ({
     token: state.auth.token,
     users: state.auth.users,
+    isFetching: state.home.isFetching,
+    error: state.home.error,
+    steps: state.home.steps,
+    home: state.home.home,
+    user: state.home.user,
+    cart: state.home.cart,
 })
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     const { dispatch } = dispatchProps;
     const { AuthActions } = require('../../store/AuthRedux')
+    const { HomeActions } = require('../../store/HomeRedux')
     return {
         ...stateProps,
         ...ownProps,
         logOut: () => dispatch(AuthActions.logout()),
+        getsteps: (params, token) => { HomeActions.getsteps(dispatch, params, token) },
+        getHomeData: (params, token) => { HomeActions.getHomeData(dispatch, params, token) },
+        getUserDetails: (params, token) => { HomeActions.getUserDetails(dispatch, params, token) },
+        getcartDetails: (params, token) => { HomeActions.getcartDetails(dispatch, params, token) },
     }
 }
 export default connect(mapStateToProps, undefined, mapDispatchToProps)(HomeScreen)

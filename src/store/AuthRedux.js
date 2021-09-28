@@ -30,7 +30,6 @@ export const AuthActions = {
     verify: async (dispatch, params) => {
         dispatch({ type: types.FETCH_VERIFY_PENDING });
         let auth = await SiteAPI.apiPostCall('/auth/verify', params);
-        console.log(auth)
         if (auth.error) {
             Alert.alert(auth.message)
             dispatch({ type: types.FETCH_VERIFY_FAILURE, error: '' });
@@ -45,7 +44,7 @@ export const AuthActions = {
         console.log(data)
         if (data.error) {
             Alert.alert(data.message)
-            dispatch({ type: types.FETCH_OTP_FAILURE, error: '' });
+            dispatch({ type: types.FETCH_OTP_FAILURE, error: data.message });
         } else {
             Alert.alert(data.responseString)
             dispatch({ type: types.FETCH_OTP_SUCCESS, signUpSteps: data.signUpSteps, validFlag: data.validFlag });
@@ -57,7 +56,7 @@ export const AuthActions = {
         console.log(data)
         if (data.error) {
             Alert.alert(data.message)
-            dispatch({ type: types.FETCH_CREATE_ACCOUNT_FAILURE, error: '' });
+            dispatch({ type: types.FETCH_CREATE_ACCOUNT_FAILURE, error: data.message });
         } else {
             Alert.alert(data.responseString)
             dispatch({ type: types.FETCH_CREATE_ACCOUNT_SUCCESS, signUpSteps: data.signUpSteps, validFlag: data.validFlag });
@@ -69,7 +68,7 @@ export const AuthActions = {
         console.log(data)
         if (data.error) {
             Alert.alert(data.message)
-            dispatch({ type: types.FETCH_FORGET_PASS_FAILURE, error: '' });
+            dispatch({ type: types.FETCH_FORGET_PASS_FAILURE, error: data.message });
         } else {
             Alert.alert(data.responseString)
             dispatch({ type: types.FETCH_FORGET_PASS_SUCCESS, signUpSteps: data.signUpSteps, validFlag: data.validFlag });
@@ -80,7 +79,7 @@ export const AuthActions = {
         let data = await SiteAPI.apiPostCall('/token', params, token);
         if (data.error) {
             Alert.alert(data.message)
-            dispatch({ type: types.FETCH_LOGIN_FAILURE, error: '' });
+            dispatch({ type: types.FETCH_LOGIN_FAILURE, error: data.message });
         } else {
             dispatch({ type: types.FETCH_LOGIN_SUCCESS, user: data, token: data.access_token });
         }

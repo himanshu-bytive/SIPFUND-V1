@@ -109,7 +109,7 @@ export const LoginFlowStack = createStackNavigator({
     },
 
 }, {
-    initialRouteName: 'verify',
+    initialRouteName: 'splash',
 });
 
 export const Hamburgmenu = createStackNavigator({

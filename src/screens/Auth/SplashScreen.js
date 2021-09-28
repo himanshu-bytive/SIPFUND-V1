@@ -1,14 +1,21 @@
-import React from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import {
     StyleSheet,
     View,
     Text,
     Image,
+    ActivityIndicator,
 } from "react-native";
 import { connect } from 'react-redux'
-import { Styles, Config, Colors, FormValidate } from '../../common'
+import { Colors } from '../../common'
 
-function SplashScreen() {
+function SplashScreen(props) {
+    const { logout } = props;
+    useEffect(() => {
+        // logout()
+        props.navigation.navigate('verify')
+    }, []);
+
     return (
         <View style={styles.container}>
             <View style={{ marginTop: 30 }}>
@@ -19,6 +26,7 @@ function SplashScreen() {
                     source={require('../../../assets/icon.png')}
                     style={styles.imgeWidht}
                 />
+                <ActivityIndicator size={30} color={Colors.RED} />
             </View>
             <View style={styles.mainbox}>
                 <Text style={styles.most_trusted}>Most trusted for</Text>
@@ -68,7 +76,6 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
     token: state.auth.token,
-    users: state.auth.users,
 })
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
@@ -77,7 +84,7 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     return {
         ...stateProps,
         ...ownProps,
-        logOut: () => { AuthActions.logOut(dispatch) },
+        logout: () => dispatch(AuthActions.logout()),
     }
 }
 export default connect(mapStateToProps, undefined, mapDispatchToProps)(SplashScreen)
