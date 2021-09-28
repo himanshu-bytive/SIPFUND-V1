@@ -15,7 +15,7 @@ import {
     CompleteDetailsScreen,
     CompleteDetails2Screen,
     CompleteDetails3Screen,
-    CompleteDetails5Screen,
+    UploadDocumentScreen,
 
     TopratedFunds5Screen,
     TopRatedScreen,
@@ -377,7 +377,7 @@ export const RegisterStack = createStackNavigator({
         }
     },
     Register3: {
-        screen: CompleteDetails5Screen,
+        screen: UploadDocumentScreen,
         navigationOptions: {
             headerShown: false,
         }

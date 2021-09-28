@@ -24,6 +24,10 @@ const types = {
     FETCH_UPDATE_REGISTER_SUCCESS: "FETCH_UPDATE_REGISTER_SUCCESS",
     FETCH_UPDATE_REGISTER_FAILURE: "FETCH_UPDATE_REGISTER_FAILURE",
 
+    FETCH_FILE_UPLOAD_PENDING: "FETCH_FILE_UPLOAD_PENDING",
+    FETCH_FILE_UPLOAD_SUCCESS: "FETCH_FILE_UPLOAD_SUCCESS",
+    FETCH_FILE_UPLOAD_FAILURE: "FETCH_FILE_UPLOAD_FAILURE",
+
 };
 
 export const RegistrationActions = {
@@ -68,7 +72,7 @@ export const RegistrationActions = {
             let banks = await SiteAPI.apiGetCall(`/ifsc?code=${code}`, {}, token);
             if (banks.validFlag) {
                 dispatch({ type: types.FETCH_BANK_SUCCESS, bankDetails: banks.responseString });
-            }else{
+            } else {
                 dispatch({ type: types.FETCH_BANK_FAILURE, error: '' });
             }
         }
@@ -82,7 +86,7 @@ export const RegistrationActions = {
         console.log(data)
         if (data.error) {
             Alert.alert(data.message)
-            dispatch({ type: types.FETCH_CREATE_REGISTER_FAILURE, error: '' });
+            dispatch({ type: types.FETCH_CREATE_REGISTER_FAILURE, error: data.message });
         } else {
             Alert.alert(data.responseString)
             dispatch({ type: types.FETCH_CREATE_REGISTER_SUCCESS, });
@@ -94,10 +98,22 @@ export const RegistrationActions = {
         console.log(data)
         if (data.error) {
             Alert.alert(data.message)
-            dispatch({ type: types.FETCH_UPDATE_REGISTER_FAILURE, error: '' });
+            dispatch({ type: types.FETCH_UPDATE_REGISTER_FAILURE, error: data.message });
         } else {
             Alert.alert(data.responseString)
             dispatch({ type: types.FETCH_UPDATE_REGISTER_SUCCESS, });
+        }
+    },
+    fileUpload: async (dispatch, params, token) => {
+        dispatch({ type: types.FETCH_FILE_UPLOAD_PENDING });
+        let data = await SiteAPI.apiPostCall(`/documents/uploads?docType=${params.fileType}`, params, token);
+        console.log(data)
+        if (data.error) {
+            Alert.alert(data.message)
+            dispatch({ type: types.FETCH_FILE_UPLOAD_FAILURE, error: data.message });
+        } else {
+            Alert.alert(data.responseString)
+            dispatch({ type: types.FETCH_FILE_UPLOAD_SUCCESS, });
         }
     },
 
@@ -120,6 +136,7 @@ const initialState = {
 export const reducer = (state = initialState, action) => {
     const { type, error, occupations, incomes, states, citys, accountTypes, banks, bankDetails, userInfo, pincodeInfo } = action;
     switch (type) {
+        case types.FETCH_FILE_UPLOAD_PENDING:
         case types.FETCH_UPDATE_REGISTER_PENDING:
         case types.FETCH_CREATE_REGISTER_PENDING:
         case types.FETCH_PINCODE_INFO_PENDING:
@@ -131,6 +148,7 @@ export const reducer = (state = initialState, action) => {
                 error: null,
             };
         }
+        case types.FETCH_FILE_UPLOAD_FAILURE:
         case types.FETCH_UPDATE_REGISTER_FAILURE:
         case types.FETCH_CREATE_REGISTER_FAILURE:
         case types.FETCH_PINCODE_INFO_FAILURE:
@@ -194,6 +212,13 @@ export const reducer = (state = initialState, action) => {
             };
         }
         case types.FETCH_UPDATE_REGISTER_SUCCESS: {
+            return {
+                ...state,
+                isFetching: false,
+                error: null,
+            };
+        }
+        case types.FETCH_FILE_UPLOAD_SUCCESS: {
             return {
                 ...state,
                 isFetching: false,

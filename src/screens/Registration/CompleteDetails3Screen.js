@@ -19,7 +19,7 @@ function CompleteDetails3Screen(props) {
         setVisible(!visible);
     };
 
-    const { token, isFetching, setUserInfo, createRegister, updateRegister, userInfo, accountTypes, banks, getBankDetails, bankDetails, } = props;
+    const { token, isFetching, updateRegister, setUserInfo, createRegister, userInfo, accountTypes, banks, getBankDetails, bankDetails, } = props;
     const [accountTypeList, setAccountTypeList] = useState([]);
     const [bankList, setBankList] = useState([]);
 
@@ -91,7 +91,120 @@ function CompleteDetails3Screen(props) {
             setErrors({ ...errors, branchAddress: 'Please Add a Value' })
             return
         }
+        let params = {
+
+        }
+        updateRegister(params, token)
         setUserInfo({ ...userInfo, ...state })
+        let paramsNew = {
+            "service_request": {
+                "acc_no": "60247485000",
+                "acc_type": "SB",
+                "addr1": "trimurti na",
+                "addr2": "",
+                "addr3": "",
+                "bank_name": "Bank of Maharashtra",
+                "branch_addr1": "332, NEW SUBHEDAR LAYOUT, HUDKESHAWR ROAD, NAGPUR",
+                "branch_addr2": "",
+                "branch_addr3": "",
+                "branch_city": "",
+                "branch_country": "IND",
+                "branch_name": "HUDKESHWAR",
+                "branch_pincode": "",
+                "city": "NAGPUR",
+                "country": "IND",
+                "dob": "01-Jul-1993",
+                "dp_id": "",
+                "email": "abhijatbahi0107@gmail.com",
+                "exempt_category": "",
+                "exempt_ref_no": "",
+                "exemption": "N",
+                "father_name": "vijay",
+                "guard_dob": "",
+                "guard_exempt_category": "",
+                "guard_exemption": "",
+                "guard_kyc": "",
+                "guard_name": "",
+                "guard_pan": "",
+                "guard_pan_ref_no": "",
+                "guard_valid_pan": "",
+                "hold_nature": "SI",
+                "ifsc_code": "MAHB0001403",
+                "inv_name": "abhijat",
+                "jh1_dob": "",
+                "jh1_email": "",
+                "jh1_exempt_category": "",
+                "jh1_exempt_ref_no": "",
+                "jh1_exemption": "",
+                "jh1_kyc": "",
+                "jh1_mobile_no": "",
+                "jh1_name": "",
+                "jh1_pan": "",
+                "jh1_valid_pan": "",
+                "jh2_dob": "",
+                "jh2_email": "",
+                "jh2_exempt_category": "",
+                "jh2_exempt_ref_no": "",
+                "jh2_exemption": "",
+                "jh2_kyc": "",
+                "jh2_mobile_no": "",
+                "jh2_name": "",
+                "jh2_pan": "",
+                "jh2_valid_pan": "",
+                "kyc": "Y",
+                "mfu_can": "",
+                "mobile_no": "9665974013",
+                "mother_name": "renu",
+                "no_of_nominee": "1",
+                "nominee1_addr1": "",
+                "nominee1_addr2": "",
+                "nominee1_addr3": "",
+                "nominee1_city": "",
+                "nominee1_dob": "",
+                "nominee1_guard_name": "",
+                "nominee1_guard_pan": "",
+                "nominee1_name": "vicky",
+                "nominee1_percent": "100.0",
+                "nominee1_pincode": "",
+                "nominee1_relation": "Brother",
+                "nominee1_state": "",
+                "nominee1_type": "N",
+                "nominee2_dob": "",
+                "nominee2_guard_name": "",
+                "nominee2_guard_pan": "",
+                "nominee2_name": "",
+                "nominee2_percent": "",
+                "nominee2_relation": "",
+                "nominee2_type": "",
+                "nominee3_dob": "",
+                "nominee3_guard_name": "",
+                "nominee3_guard_pan": "",
+                "nominee3_name": "",
+                "nominee3_percent": "",
+                "nominee3_relation": "",
+                "nominee3_type": "",
+                "nri_addr1": "",
+                "nri_addr2": "",
+                "nri_addr3": "",
+                "nri_city": "",
+                "nri_country": "",
+                "nri_pincode": "",
+                "nri_state": "",
+                "occupation": "41",
+                "off_fax": "",
+                "off_phone": "",
+                "pan": "BCDPA0031K",
+                "pincode": "440022",
+                "res_fax": "",
+                "res_phone": "",
+                "state": "MA",
+                "tax_status": "01",
+                "title": "",
+                "trxn_acceptance": "OL",
+                "valid_pan": "Y"
+            }
+        }
+        createRegister(paramsNew, token)
         toggleOverlay()
         props.navigation.navigate('Register3')
     }
@@ -295,6 +408,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => ({
     isFetching: state.registration.isFetching,
     token: state.auth.token,
+    user: state.home.user,
     userInfo: state.registration.userInfo,
     accountTypes: state.registration.accountTypes,
     banks: state.registration.banks,

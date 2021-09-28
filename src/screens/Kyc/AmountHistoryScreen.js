@@ -20,9 +20,9 @@ import { Image, Header, ListItem, Overlay } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
 
 function AmountHistoryScreen(props) {
-
+    const { refers } = props;
+    console.log(refers?.transactions)
     return (
-
         <View style={styles.container}>
             {/* header  */}
             <Header
@@ -47,12 +47,10 @@ function AmountHistoryScreen(props) {
 
                 <View style={styles.invest_sec}>
                     <View style={styles.transfer_sec}>
-                        <Text style={styles.zero_text}><Text style={styles.rupees_text}>₹</Text>0</Text>
-
+                        <Text style={styles.zero_text}><Text style={styles.rupees_text}>₹</Text>{refers.creditAmount}</Text>
                         <TouchableOpacity style={styles.botton_box}>
                             <Text style={styles.get_otp}>Transfer To My Amazon Account</Text>
                         </TouchableOpacity>
-
                     </View>
                     <View style={{ borderWidth: 1, borderColor: Colors.GREY_1, marginVertical: 20, marginHorizontal: 10, }}></View>
                     <ScrollView horizontal>
@@ -63,14 +61,12 @@ function AmountHistoryScreen(props) {
                                 <DataTable.Title style={styles.headerCell} >Amount</DataTable.Title>
                                 <DataTable.Title style={styles.headerCell} >Status</DataTable.Title>
                             </DataTable.Header>
-
-                            {/* <DataTable.Row>
+                            {refers.transactions ? (refers.transactions).map((item, key) => <DataTable.Row key={key}>
                                 <DataTable.Cell style={styles.bodyCell}>19-05-2022</DataTable.Cell>
                                 <DataTable.Cell style={styles.bodyCell} >New</DataTable.Cell>
                                 <DataTable.Cell style={styles.bodyCell} >$100</DataTable.Cell>
                                 <DataTable.Cell style={styles.bodyCell} >Active</DataTable.Cell>
-                            </DataTable.Row> */}
-
+                            </DataTable.Row>) : null}
 
                         </DataTable>
                     </ScrollView>
@@ -206,16 +202,14 @@ const styles = StyleSheet.create({
 });
 const mapStateToProps = (state) => ({
     token: state.auth.token,
-    users: state.auth.users,
+    refers: state.sideMenu.refers,
 })
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     const { dispatch } = dispatchProps;
-    const { AuthActions } = require('../../store/AuthRedux')
     return {
         ...stateProps,
         ...ownProps,
-        logOut: () => { AuthActions.logOut(dispatch) },
     }
 }
 export default connect(mapStateToProps, undefined, mapDispatchToProps)(AmountHistoryScreen)

@@ -40,6 +40,7 @@ export default {
   DEEP_GRAY_3: '#646365',
   DEEP_GRAY_4: '#DFE6ED',
   DEEP_GRAY_5: '#838383',
+  LIGHT_YELLOW: '#fda33b',
 
   // Mamata
   YELLOW: '#FFCE00',
@@ -49,7 +50,7 @@ export default {
   LIGHT_GRAY: '#F8F8F8',
   BLUE_1: '#0E94F8',
   GREEN_1: '#19A799',
-LIGHT_PINK:'#EF3B78',
+  LIGHT_PINK: '#EF3B78',
 
   GREY: {
     default: '#243235',

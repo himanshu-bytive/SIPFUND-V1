@@ -2,6 +2,7 @@ import SideMenu from './SideMenu'
 import MySelectPicker from './MySelectPicker'
 import MyDatePicker from './MyDatePicker'
 import MyTextInput from './MyTextInput'
+import MyImagePicker from './MyImagePicker'
 import MySlider from './MySlider'
 import Investments from './Investments'
 import FundType from './FundType'
@@ -15,6 +16,7 @@ export {
     MySelectPicker,
     MyDatePicker,
     MyTextInput,
+    MyImagePicker,
     MySlider,
     Investments,
     FundType,

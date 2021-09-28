@@ -4,6 +4,7 @@ import { reducer as AuthRedux } from './AuthRedux';
 import { reducer as RegistrationRedux } from './RegistrationRedux';
 import { reducer as HomeRedux } from './HomeRedux';
 import { reducer as TopRatedFundRedux } from './TopRatedFundRedux';
+import { reducer as SideMenuRedux } from './SideMenuRedux';
 const config = {
     key: 'root',
     storage: AsyncStorage,
@@ -15,4 +16,5 @@ export default persistCombineReducers(config, {
     registration: RegistrationRedux,
     home: HomeRedux,
     toprated: TopRatedFundRedux,
+    sideMenu: SideMenuRedux,
 });

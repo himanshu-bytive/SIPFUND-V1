@@ -14,7 +14,7 @@ import { Image, Header } from 'react-native-elements';
 
 function CompleteDetails2Screen(props) {
 
-    const { token, setUserInfo, states, citys, getCitys, getPincode, userInfo, pincodeInfo } = props;
+    const { token, updateRegister, setUserInfo, states, citys, getCitys, getPincode, userInfo, pincodeInfo } = props;
     const [stateList, setStateList] = useState([]);
     const [cityList, setCityList] = useState([]);
 
@@ -81,6 +81,10 @@ function CompleteDetails2Screen(props) {
             setErrors({ ...errors, city: 'Please Select a Value' })
             return
         }
+        let params = {
+
+        }
+        updateRegister(params, token)
         setUserInfo({ ...userInfo, ...state })
         props.navigation.navigate('Register2')
     }
@@ -236,6 +240,7 @@ const styles = StyleSheet.create({
 });
 const mapStateToProps = (state) => ({
     token: state.auth.token,
+    user: state.home.user,
     userInfo: state.registration.userInfo,
     pincodeInfo: state.registration.pincodeInfo,
     states: state.registration.states,
@@ -251,6 +256,7 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
         getCitys: (code, token) => { RegistrationActions.getCitys(dispatch, code, token) },
         getPincode: (code, token) => { RegistrationActions.getPincode(dispatch, code, token) },
         setUserInfo: (info) => { RegistrationActions.setUserInfo(dispatch, info) },
+        updateRegister: (params, token) => { RegistrationActions.updateRegister(dispatch, params, token) },
     }
 }
 export default connect(mapStateToProps, undefined, mapDispatchToProps)(CompleteDetails2Screen)

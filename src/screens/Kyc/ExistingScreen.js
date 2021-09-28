@@ -19,9 +19,41 @@ import { Image, Header, ListItem, Overlay } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
 
 function ExistingScreen(props) {
+    const pageActive = useRef(false);
+    const innInput = useRef(null);
+    const panInput = useRef(null);
+    const { isFetching, token, user, updateInn } = props;
+    const [state, setState] = useState({
+        inn: '',
+        pan: user.userDetails.pan ? user.userDetails.pan : '',
+    });
+
+    const [errors, setError] = useState({
+        inn: null,
+        pan: null,
+    });
+
+    const onAction = async () => {
+        if (!state.inn) {
+            innInput.current.focus();
+            setError({ ...errors, inn: 'Please enter INN' });
+            return
+        }
+        if (!state.pan) {
+            panInput.current.focus();
+            setError({ ...errors, pan: 'Please enter PAN' });
+            return
+        }
+        pageActive.current = true;
+        let params = {
+            "inn": state.inn,
+            "pan": state.pan,
+        }
+        updateInn(params, token);
+        setState({ ...state, inn: '', pan: '' });
+    }
 
     return (
-
         <View style={styles.container}>
             {/* header  */}
             <Header
@@ -42,16 +74,31 @@ function ExistingScreen(props) {
                         IIN(Investor Identification Number) & PAN
                         details</Text>
 
-                    <TextInput style={styles.top_inpuut} placeholder="enter your INN number" style={{ borderBottomWidth: 1, fontSize: 16, borderColor: '#828282' }} />
-                    <TextInput style={styles.bottom_input} placeholder="enter your PAN number" style={{ borderBottomWidth: 1, marginTop: 40, fontSize: 16, borderColor: '#828282' }} />
-
+                    <TextInput
+                        ref={innInput}
+                        style={styles.inputsec}
+                        placeholder={'Enter your INN number'}
+                        onChangeText={(inn) => { setError({ ...errors, inn: null }); setState({ ...state, inn }) }}
+                        value={state.inn}
+                    />
+                    {(errors.inn) && (<Text style={styles.error}>{errors.inn}</Text>)}
+                    <TextInput
+                        ref={panInput}
+                        style={styles.inputsec}
+                        placeholder={'Enter your PAN number'}
+                        onChangeText={(pan) => { setError({ ...errors, pan: null }); setState({ ...state, pan }) }}
+                        value={state.pan}
+                    />
+                    {(errors.pan) && (<Text style={styles.error}>{errors.pan}</Text>)}
 
                     <View style={styles.bottom}>
-                        <TouchableOpacity onPress={() => props.navigation.navigate('home')} style={styles.botton_box}>
-                            <Text style={styles.get_otp}>SUBMIT</Text>
-                        </TouchableOpacity></View>
+                        {isFetching ? <View style={styles.botton_box}><ActivityIndicator size={30} color={Colors.WHITE} /></View> :
+                            <TouchableOpacity onPress={() => onAction()} style={styles.botton_box}>
+                                <Text style={styles.get_otp}>SUBMIT</Text>
+                            </TouchableOpacity>}
+                    </View>
                 </View>
-                <TouchableOpacity><Text style={styles.submit}>skip for now</Text></TouchableOpacity>
+                <TouchableOpacity onPress={() => props.navigation.navigate('Register3')}><Text style={styles.submit}>skip for now</Text></TouchableOpacity>
             </ScrollView>
         </View>
 
@@ -61,15 +108,15 @@ function ExistingScreen(props) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-
-
     },
     logimg: {
         height: 65,
         width: 203,
         marginTop: 10,
     },
-
+    inputsec: {
+        borderBottomWidth: 1, marginTop: 40, fontSize: 16, borderColor: '#828282'
+    },
     invest_sec: {
         marginTop: 120,
         backgroundColor: Colors.WHITE,
@@ -123,16 +170,17 @@ const styles = StyleSheet.create({
 });
 const mapStateToProps = (state) => ({
     token: state.auth.token,
-    users: state.auth.users,
+    user: state.home.user,
+    isFetching: state.sideMenu.isFetching,
 })
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     const { dispatch } = dispatchProps;
-    const { AuthActions } = require('../../store/AuthRedux')
+    const { SideMenuActions } = require('../../store/SideMenuRedux')
     return {
         ...stateProps,
         ...ownProps,
-        logOut: () => { AuthActions.logOut(dispatch) },
+        updateInn: (params, token) => { SideMenuActions.updateInn(dispatch, params, token) },
     }
 }
 export default connect(mapStateToProps, undefined, mapDispatchToProps)(ExistingScreen)

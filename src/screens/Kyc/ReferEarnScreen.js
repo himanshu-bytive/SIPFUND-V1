@@ -60,8 +60,16 @@ const list = [
 ]
 
 function ReferEarnScreen(props) {
-    return (
+    const { isFetching, token, getRefer, user, refers } = props;
+    useEffect(() => {
+        if (token) {
+            getRefer(token)
+        }
+    }, [token]);
 
+    // console.log(user)
+
+    return (
         <View style={styles.container}>
             {/* header  */}
             <Header
@@ -74,6 +82,9 @@ function ReferEarnScreen(props) {
 
                 rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={Colors.RED} /></View>}
             />
+            {isFetching && (<View style={Styles.loading}>
+                <ActivityIndicator color={Colors.BLACK} size='large' />
+            </View>)}
             <ScrollView>
                 {/* invest section */}
                 <View style={styles.invest_sec}>
@@ -92,7 +103,7 @@ function ReferEarnScreen(props) {
                             <View style={styles.repees_text}>
                                 <Text style={styles.repees_text_left}>You Have Earned</Text>
                             </View>
-                            <View><Text style={styles.zero_text}><Text style={styles.rupees_text}>₹</Text>0</Text></View>
+                            <View><Text style={styles.zero_text}><Text style={styles.rupees_text}>₹</Text>{refers?.creditAmount}</Text></View>
                         </View>
 
                     </View>
@@ -120,12 +131,9 @@ function ReferEarnScreen(props) {
                 </View>
 
                 {/* How You Earn section */}
-
                 <View style={[styles.invest_sec, styles.earn_sec,]}>
                     <Text style={styles.earn_sec_text}>How You Earn</Text>
                 </View>
-
-
                 {earn.map((l, i) => (
                     <View key={i} style={[styles.invest_sec, styles.earn_sec,]}>
                         <View style={styles.receive}>
@@ -139,9 +147,6 @@ function ReferEarnScreen(props) {
                         </View>
                     </View>
                 ))}
-
-
-
                 <View style={[styles.invest_sec, styles.earn_sec,]}>
                     {listTop.map((l, i) => (
                         <View key={i} style={styles.paragraph_sec}>
@@ -152,8 +157,6 @@ function ReferEarnScreen(props) {
                         </View>
                     ))}
                 </View>
-
-
                 <View style={[styles.invest_sec, styles.earn_sec,]}>
                     <Text style={styles.condition}>Terms and conditions</Text>
                     {list.map((l, i) => (
@@ -164,7 +167,6 @@ function ReferEarnScreen(props) {
                             <View style={styles.paragraph_right}><Text style={styles.paragraph_text}>{l.name}</Text></View>
                         </View>
                     ))}
-
                     <Text style={styles.sipfund_text}>Sipfind.com reserves the right to ca\ncel or
                         modify Referral program</Text>
                     <Text style={styles.sipfund_text}>If your friend does not receive the referral code,
@@ -172,8 +174,6 @@ function ReferEarnScreen(props) {
                         query.</Text>
                     <Text style={styles.sipfund_text}>Thank you</Text>
                 </View>
-
-
             </ScrollView>
         </View>
 
@@ -309,25 +309,28 @@ const styles = StyleSheet.create({
         color: Colors.DEEP_GRAY_1,
     },
 
-    condition:{ fontSize:14,
-    fontWeight:"bold",
-    color: Colors.DEEP_GRAY,
-    paddingVertical:10,
+    condition: {
+        fontSize: 14,
+        fontWeight: "bold",
+        color: Colors.DEEP_GRAY,
+        paddingVertical: 10,
 
-},
+    },
 });
 const mapStateToProps = (state) => ({
     token: state.auth.token,
-    users: state.auth.users,
+    user: state.home.user,
+    isFetching: state.sideMenu.isFetching,
+    refers: state.sideMenu.refers,
 })
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     const { dispatch } = dispatchProps;
-    const { AuthActions } = require('../../store/AuthRedux')
+    const { SideMenuActions } = require('../../store/SideMenuRedux')
     return {
         ...stateProps,
         ...ownProps,
-        logOut: () => { AuthActions.logOut(dispatch) },
+        getRefer: (token) => { SideMenuActions.getRefer(dispatch, token) },
     }
 }
 export default connect(mapStateToProps, undefined, mapDispatchToProps)(ReferEarnScreen)

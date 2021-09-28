@@ -16,7 +16,7 @@ const titleList = [{ value: 'MR', label: 'MR.' }, { value: 'MRS', label: 'MRS.' 
 const yesNoList = [{ value: 'Yes', label: 'Yes' }, { value: 'No', label: 'No' }]
 
 function CompleteDetailsScreen(props) {
-    const { token, setUserInfo, settings, occupations, incomes, userInfo } = props;
+    const { token, user, updateRegister, setUserInfo, settings, occupations, incomes, userInfo } = props;
     const [occupationsList, setOccupationsList] = useState([]);
     const [incomesList, setIncomesList] = useState([]);
 
@@ -68,7 +68,7 @@ function CompleteDetailsScreen(props) {
         pep: null,
         nominate: null,
     });
-
+    console.log(user)
     const onAction = async () => {
         const { occupation, dob, title, investor, investorPan, email, fatherName, motherName, income, pep, nominate } = state;
         if (!occupation) {
@@ -111,6 +111,10 @@ function CompleteDetailsScreen(props) {
             setErrors({ ...errors, pep: 'Please Select a Value' })
             return
         }
+        let params = {
+
+        }
+        updateRegister(params, token)
         setUserInfo(state)
         props.navigation.navigate('Register1')
 
@@ -347,6 +351,7 @@ const styles = StyleSheet.create({
 });
 const mapStateToProps = (state) => ({
     token: state.auth.token,
+    user: state.home.user,
     userInfo: state.registration.userInfo,
     occupations: state.registration.occupations,
     incomes: state.registration.incomes,
@@ -360,6 +365,7 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
         ...ownProps,
         settings: (token) => { RegistrationActions.settings(dispatch, token) },
         setUserInfo: (info) => { RegistrationActions.setUserInfo(dispatch, info) },
+        updateRegister: (params, token) => { RegistrationActions.updateRegister(dispatch, params, token) },
     }
 }
 export default connect(mapStateToProps, undefined, mapDispatchToProps)(CompleteDetailsScreen)

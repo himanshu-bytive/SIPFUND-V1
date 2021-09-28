@@ -20,8 +20,39 @@ import { Image, Header, ListItem, Overlay } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
 
 function RelationshipScreen(props) {
+    const pageActive = useRef(false);
+    const dataInput = useRef(null);
+    const { isFetching, token, getrm, inquiry, rmDetails } = props;
+    useEffect(() => {
+        if (token) {
+            getrm(token)
+        }
+        if (rmDetails) {
+            console.log(rmDetails)
+        }
+    }, [token, rmDetails]);
 
+    const [state, setState] = useState({
+        data: '',
+    });
 
+    const [errors, setError] = useState({
+        data: null,
+    });
+
+    const onAction = async () => {
+        if (!state.data) {
+            dataInput.current.focus();
+            setError({ ...errors, data: 'Please enter Query' });
+            return
+        }
+        pageActive.current = true;
+        let params = {
+            "desc": state.data
+        }
+        inquiry(params, token);
+        setState({ ...state, data: '' });
+    }
 
     return (
         <View style={styles.container}>
@@ -36,6 +67,9 @@ function RelationshipScreen(props) {
 
                 rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={Colors.RED} /></View>}
             />
+            {isFetching && (<View style={Styles.loading}>
+                <ActivityIndicator color={Colors.BLACK} size='large' />
+            </View>)}
             <ScrollView>
                 <Image
                     source={require('../../../assets/relationship_img.png')}
@@ -55,11 +89,19 @@ function RelationshipScreen(props) {
 
                 <View style={styles.query}>
                     <Text style={styles.addtext}>Add Query</Text>
-                    <TextInput style={{ borderWidth: 1, fontSize: 16, borderColor: '#828282', height: 100, }} />
-
+                    <TextInput
+                        multiline={true}
+                        numberOfLines={4}
+                        ref={dataInput}
+                        style={styles.inputsec}
+                        placeholder={'Add Query'}
+                        onChangeText={(data) => { setError({ ...errors, data: null }); setState({ ...state, data }) }}
+                        value={state.data}
+                    />
+                    {(errors.data) && (<Text style={styles.error}>{errors.data}</Text>)}
                 </View>
                 <View style={styles.bottom}>
-                    <TouchableOpacity style={styles.botton_box}>
+                    <TouchableOpacity onPress={() => onAction()} style={styles.botton_box}>
                         <Text style={styles.get_otp}>SUBMIT</Text>
                     </TouchableOpacity>
                 </View>
@@ -72,8 +114,6 @@ function RelationshipScreen(props) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-
-
     },
     logimg: {
         height: 65,
@@ -96,7 +136,14 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: Colors.DEEP_GRAY_3,
         fontWeight: "bold",
-
+    },
+    inputsec: {
+        borderWidth: 1,
+        borderColor: Colors.GRAY_LIGHT,
+        fontSize: 20,
+        padding: 10,
+        height: 100,
+        backgroundColor: Colors.LITTLE_WHITE,
     },
     query: { marginHorizontal: 30, },
     addtext: {
@@ -131,16 +178,18 @@ const styles = StyleSheet.create({
 });
 const mapStateToProps = (state) => ({
     token: state.auth.token,
-    users: state.auth.users,
+    isFetching: state.sideMenu.isFetching,
+    rmDetails: state.sideMenu.rmDetails,
 })
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     const { dispatch } = dispatchProps;
-    const { AuthActions } = require('../../store/AuthRedux')
+    const { SideMenuActions } = require('../../store/SideMenuRedux')
     return {
         ...stateProps,
         ...ownProps,
-        logOut: () => { AuthActions.logOut(dispatch) },
+        getrm: (token) => { SideMenuActions.getrm(dispatch, token) },
+        inquiry: (params, token) => { SideMenuActions.inquiry(dispatch, params, token) },
     }
 }
 export default connect(mapStateToProps, undefined, mapDispatchToProps)(RelationshipScreen)
