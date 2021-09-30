@@ -25,21 +25,21 @@ function LoginScreen(props) {
             getUserDetails({}, token)
         }
         if (user) {
-            // props.navigation.navigate('Home')
-            if (user.userDetails.panVerified) {
-                props.navigation.navigate('Home')
-            } else {
-                props.navigation.navigate('Pan')
-            }
+            props.navigation.navigate('Home')
+            // if (user.userDetails.panVerified) {
+            //     props.navigation.navigate('Home')
+            // } else {
+            //     props.navigation.navigate('Pan')
+            // }
         }
     }, [token, user]);
 
 
     const [state, setState] = useState({
-        username: '',
-        password: '',
-        // username: 'kavin@techosto.com',
-        // password: 'test@123',
+        // username: '',
+        // password: '',
+        username: 'kavin@techosto.com',
+        password: 'test@123',
     });
 
     const [errors, setError] = useState({

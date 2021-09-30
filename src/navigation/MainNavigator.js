@@ -13,8 +13,8 @@ import {
     LoginScreen,
     ForgotPasswordScreen,
     CompleteDetailsScreen,
-    CompleteDetails2Screen,
-    CompleteDetails3Screen,
+    CompleteDetailsAddressScreen,
+    CompleteDetailsBankScreen,
     UploadDocumentScreen,
 
     TopratedFunds5Screen,
@@ -365,13 +365,13 @@ export const RegisterStack = createStackNavigator({
         }
     },
     Register1: {
-        screen: CompleteDetails2Screen,
+        screen: CompleteDetailsAddressScreen,
         navigationOptions: {
             headerShown: false,
         }
     },
     Register2: {
-        screen: CompleteDetails3Screen,
+        screen: CompleteDetailsBankScreen,
         navigationOptions: {
             headerShown: false,
         }

@@ -13,21 +13,32 @@ import { MySelectPicker, MyTextInput } from '../../components'
 import { AntDesign } from 'react-native-vector-icons';
 import { Image, Header, Overlay } from 'react-native-elements';
 
-function CompleteDetails3Screen(props) {
+function CompleteDetailsBankScreen(props) {
     const [visible, setVisible] = useState(false);
     const toggleOverlay = () => {
         setVisible(!visible);
     };
 
-    const { token, isFetching, updateRegister, setUserInfo, createRegister, userInfo, accountTypes, banks, getBankDetails, bankDetails, } = props;
+    const { token, isFetching, updateRegister, setUserInfo, createRegister, user, accountTypes, banks, getBankDetails, bankDetails, } = props;
     const [accountTypeList, setAccountTypeList] = useState([]);
     const [bankList, setBankList] = useState([]);
 
     useEffect(() => {
-        if (userInfo) {
-            setState(JSON.parse(JSON.stringify(userInfo)))
+
+    }, [user]);
+
+    useEffect(() => {
+        if (user) {
+            setState({
+                accountType: user.nseDetails.acc_type.ACC_TYPE,
+                accountNumber: user.nseDetails.acc_no,
+                ifsc: user.nseDetails.ifsc_code,
+                bank: user.nseDetails.bank_name.BANK_CODE,
+                branchName: user.nseDetails.branch_name,
+                branchAddress: user.nseDetails.branch_addr1,
+            })
         }
-    }, [userInfo]);
+    }, [user]);
 
 
     useEffect(() => {
@@ -40,9 +51,8 @@ function CompleteDetails3Screen(props) {
             setBankList(bankList)
         }
         if (bankDetails) {
-            let selectedBank = bankList.find(x => x.label == bankDetails.label);
-            // console.log(selectedBank)
-            setState({ ...state, bank: bankDetails.bankName, branchName: bankDetails.branch, branchAddress: bankDetails.address })
+            let selectedBank = bankList.find(x => x.label == bankDetails.nseBankName);
+            setState({ ...state, bank: (selectedBank ? selectedBank.value : ''), branchName: bankDetails.branch, branchAddress: bankDetails.address })
         }
     }, [accountTypes, banks, bankDetails]);
 
@@ -91,117 +101,129 @@ function CompleteDetails3Screen(props) {
             setErrors({ ...errors, branchAddress: 'Please Add a Value' })
             return
         }
-        let params = {
-
+        let params = user
+        let selAccountType = accountTypes.find(x => x.ACC_TYPE === accountType);
+        let selBank = banks.find(x => x.BANK_CODE === bank);
+        params.nseDetails.acc_type = {
+            "ACC_TYPE": selAccountType.ACC_TYPE,
+            "DESCRIPTION": selAccountType.DESCRIPTION
         }
+        params.nseDetails.acc_no = accountNumber
+        params.nseDetails.ifsc_code = ifsc
+        params.nseDetails.bank_name = {
+            "BANK_CODE": selBank.BANK_CODE,
+            "BANK_NAME": selBank.BANK_NAME
+        }
+        params.nseDetails.branch_name = branchName
+        params.nseDetails.branch_addr1 = branchAddress
         updateRegister(params, token)
-        setUserInfo({ ...userInfo, ...state })
+        setUserInfo(params)
         let paramsNew = {
             "service_request": {
-                "acc_no": "60247485000",
-                "acc_type": "SB",
-                "addr1": "trimurti na",
-                "addr2": "",
-                "addr3": "",
-                "bank_name": "Bank of Maharashtra",
-                "branch_addr1": "332, NEW SUBHEDAR LAYOUT, HUDKESHAWR ROAD, NAGPUR",
-                "branch_addr2": "",
-                "branch_addr3": "",
-                "branch_city": "",
-                "branch_country": "IND",
-                "branch_name": "HUDKESHWAR",
-                "branch_pincode": "",
-                "city": "NAGPUR",
-                "country": "IND",
-                "dob": "01-Jul-1993",
-                "dp_id": "",
-                "email": "abhijatbahi0107@gmail.com",
-                "exempt_category": "",
-                "exempt_ref_no": "",
-                "exemption": "N",
-                "father_name": "vijay",
-                "guard_dob": "",
-                "guard_exempt_category": "",
-                "guard_exemption": "",
-                "guard_kyc": "",
-                "guard_name": "",
-                "guard_pan": "",
-                "guard_pan_ref_no": "",
-                "guard_valid_pan": "",
-                "hold_nature": "SI",
-                "ifsc_code": "MAHB0001403",
-                "inv_name": "abhijat",
-                "jh1_dob": "",
-                "jh1_email": "",
-                "jh1_exempt_category": "",
-                "jh1_exempt_ref_no": "",
-                "jh1_exemption": "",
-                "jh1_kyc": "",
-                "jh1_mobile_no": "",
-                "jh1_name": "",
-                "jh1_pan": "",
-                "jh1_valid_pan": "",
-                "jh2_dob": "",
-                "jh2_email": "",
-                "jh2_exempt_category": "",
-                "jh2_exempt_ref_no": "",
-                "jh2_exemption": "",
-                "jh2_kyc": "",
-                "jh2_mobile_no": "",
-                "jh2_name": "",
-                "jh2_pan": "",
-                "jh2_valid_pan": "",
-                "kyc": "Y",
-                "mfu_can": "",
-                "mobile_no": "9665974013",
-                "mother_name": "renu",
-                "no_of_nominee": "1",
-                "nominee1_addr1": "",
-                "nominee1_addr2": "",
-                "nominee1_addr3": "",
-                "nominee1_city": "",
-                "nominee1_dob": "",
-                "nominee1_guard_name": "",
-                "nominee1_guard_pan": "",
-                "nominee1_name": "vicky",
-                "nominee1_percent": "100.0",
-                "nominee1_pincode": "",
-                "nominee1_relation": "Brother",
-                "nominee1_state": "",
-                "nominee1_type": "N",
-                "nominee2_dob": "",
-                "nominee2_guard_name": "",
-                "nominee2_guard_pan": "",
-                "nominee2_name": "",
-                "nominee2_percent": "",
-                "nominee2_relation": "",
-                "nominee2_type": "",
-                "nominee3_dob": "",
-                "nominee3_guard_name": "",
-                "nominee3_guard_pan": "",
-                "nominee3_name": "",
-                "nominee3_percent": "",
-                "nominee3_relation": "",
-                "nominee3_type": "",
-                "nri_addr1": "",
-                "nri_addr2": "",
-                "nri_addr3": "",
-                "nri_city": "",
-                "nri_country": "",
-                "nri_pincode": "",
-                "nri_state": "",
-                "occupation": "41",
-                "off_fax": "",
-                "off_phone": "",
-                "pan": "BCDPA0031K",
-                "pincode": "440022",
-                "res_fax": "",
-                "res_phone": "",
-                "state": "MA",
-                "tax_status": "01",
-                "title": "",
-                "trxn_acceptance": "OL",
-                "valid_pan": "Y"
+                "acc_no": params.nseDetails.acc_no,
+                "acc_type": params.nseDetails.acc_type.ACC_TYPE,
+                "addr1": params.nseDetails.addr1,
+                "addr2": params.nseDetails.addr2,
+                "addr3": params.nseDetails.addr3,
+                "bank_name": params.nseDetails.bank_name.BANK_NAME,
+                "branch_addr1": params.nseDetails.branch_addr1,
+                "branch_addr2": params.nseDetails.branch_addr2,
+                "branch_addr3": params.nseDetails.branch_addr3,
+                "branch_city": params.nseDetails.branch_city,
+                "branch_country": params.nseDetails.branch_country,
+                "branch_name": params.nseDetails.branch_name,
+                "branch_pincode": params.nseDetails.branch_pincode,
+                "city": params.nseDetails.city.CITY,
+                "country": params.nseDetails.country.COUNTRY_CODE,
+                "dob": params.nseDetails.dob,
+                "dp_id": params.nseDetails.dp_id,
+                "email": params.nseDetails.email,
+                "exempt_category": params.nseDetails.exempt_category,
+                "exempt_ref_no": params.nseDetails.exempt_ref_no,
+                "exemption": params.nseDetails.exemption,
+                "father_name": params.nseDetails.father_name,
+                "guard_dob": params.nseDetails.guard_dob,
+                "guard_exempt_category": params.nseDetails.guard_exempt_category,
+                "guard_exemption": params.nseDetails.guard_exemption,
+                "guard_kyc": params.nseDetails.guard_kyc,
+                "guard_name": params.nseDetails.guard_name,
+                "guard_pan": params.nseDetails.guard_pan,
+                "guard_pan_ref_no": params.nseDetails.guard_pan_ref_no,
+                "guard_valid_pan": params.nseDetails.guard_valid_pan,
+                "hold_nature": params.nseDetails.hold_nature.HOLD_NATURE_CODE,
+                "ifsc_code": params.nseDetails.ifsc_code,
+                "inv_name": params.nseDetails.inv_name,
+                "jh1_dob": params.nseDetails.jh1_dob,
+                "jh1_email": params.nseDetails.jh1_email,
+                "jh1_exempt_category": params.nseDetails.jh1_exempt_category,
+                "jh1_exempt_ref_no": params.nseDetails.jh1_exempt_ref_no,
+                "jh1_exemption": params.nseDetails.jh1_exemption,
+                "jh1_kyc": params.nseDetails.jh1_kyc,
+                "jh1_mobile_no": params.nseDetails.jh1_mobile_no,
+                "jh1_name": params.nseDetails.jh1_name,
+                "jh1_pan": params.nseDetails.jh1_pan,
+                "jh1_valid_pan": params.nseDetails.jh1_valid_pan,
+                "jh2_dob": params.nseDetails.jh2_dob,
+                "jh2_email": params.nseDetails.jh2_email,
+                "jh2_exempt_category": params.nseDetails.jh2_exempt_category,
+                "jh2_exempt_ref_no": params.nseDetails.jh2_exempt_ref_no,
+                "jh2_exemption": params.nseDetails.jh2_exemption,
+                "jh2_kyc": params.nseDetails.jh2_kyc,
+                "jh2_mobile_no": params.nseDetails.jh2_mobile_no,
+                "jh2_name": params.nseDetails.jh2_name,
+                "jh2_pan": params.nseDetails.jh2_pan,
+                "jh2_valid_pan": params.nseDetails.jh2_valid_pan,
+                "kyc": params.nseDetails.kyc,
+                "mfu_can": params.nseDetails.mfu_can,
+                "mobile_no": params.nseDetails.mobile_no,
+                "mother_name": params.nseDetails.mother_name,
+                "no_of_nominee": params.nseDetails.no_of_nominee,
+                "nominee1_addr1": params.nseDetails.nominee1_addr1,
+                "nominee1_addr2": params.nseDetails.nominee1_addr2,
+                "nominee1_addr3": params.nseDetails.nominee1_addr3,
+                "nominee1_city": params.nseDetails.nominee1_city,
+                "nominee1_dob": params.nseDetails.nominee1_dob,
+                "nominee1_guard_name": params.nseDetails.nominee1_guard_name,
+                "nominee1_guard_pan": params.nseDetails.nominee1_guard_pan,
+                "nominee1_name": params.nseDetails.nominee1_name,
+                "nominee1_percent": params.nseDetails.nominee1_percent,
+                "nominee1_pincode": params.nseDetails.nominee1_pincode,
+                "nominee1_relation": params.nseDetails.nominee1_relation,
+                "nominee1_state": params.nseDetails.nominee1_state,
+                "nominee1_type": params.nseDetails.nominee1_type,
+                "nominee2_dob": params.nseDetails.nominee2_dob,
+                "nominee2_guard_name": params.nseDetails.nominee2_guard_name,
+                "nominee2_guard_pan": params.nseDetails.nominee2_guard_pan,
+                "nominee2_name": params.nseDetails.nominee2_name,
+                "nominee2_percent": params.nseDetails.nominee2_percent,
+                "nominee2_relation": params.nseDetails.nominee2_relation,
+                "nominee2_type": params.nseDetails.nominee2_type,
+                "nominee3_dob": params.nseDetails.nominee3_dob,
+                "nominee3_guard_name": params.nseDetails.nominee3_guard_name,
+                "nominee3_guard_pan": params.nseDetails.nominee3_guard_pan,
+                "nominee3_name": params.nseDetails.nominee3_name,
+                "nominee3_percent": params.nseDetails.nominee3_percent,
+                "nominee3_relation": params.nseDetails.nominee3_relation,
+                "nominee3_type": params.nseDetails.nominee3_type,
+                "nri_addr1": params.nseDetails.nri_addr1,
+                "nri_addr2": params.nseDetails.nri_addr2,
+                "nri_addr3": params.nseDetails.nri_addr3,
+                "nri_city": params.nseDetails.nri_city,
+                "nri_country": params.nseDetails.nri_country,
+                "nri_pincode": params.nseDetails.nri_pincode,
+                "nri_state": params.nseDetails.nri_state,
+                "occupation": params.nseDetails.occupation.OCCUPATION_CODE,
+                "off_fax": params.nseDetails.off_fax,
+                "off_phone": params.nseDetails.off_phone,
+                "pan": params.nseDetails.pan,
+                "pincode": params.nseDetails.pincode,
+                "res_fax": params.nseDetails.res_fax,
+                "res_phone": params.nseDetails.res_phone,
+                "state": params.nseDetails.state.STATE_CODE,
+                "tax_status": params.nseDetails.tax_status.TAX_STATUS_CODE,
+                "title": params.nseDetails.title,
+                "trxn_acceptance": params.nseDetails.trxn_acceptance,
+                "valid_pan": params.nseDetails.valid_pan,
             }
         }
         createRegister(paramsNew, token)
@@ -314,7 +336,6 @@ function CompleteDetails3Screen(props) {
                     <TouchableOpacity onPress={toggleOverlay}><Text style={{ color: '#ff0000', paddingTop: 20, }}>OK</Text></TouchableOpacity>
                 </View>
             </Overlay>
-
         </View>
 
 
@@ -409,7 +430,6 @@ const mapStateToProps = (state) => ({
     isFetching: state.registration.isFetching,
     token: state.auth.token,
     user: state.home.user,
-    userInfo: state.registration.userInfo,
     accountTypes: state.registration.accountTypes,
     banks: state.registration.banks,
     bankDetails: state.registration.bankDetails,
@@ -418,13 +438,14 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     const { dispatch } = dispatchProps;
     const { RegistrationActions } = require('../../store/RegistrationRedux')
+    const { HomeActions } = require('../../store/HomeRedux')
     return {
         ...stateProps,
         ...ownProps,
         getBankDetails: (code, token) => { RegistrationActions.getBankDetails(dispatch, code, token) },
-        setUserInfo: (info) => { RegistrationActions.setUserInfo(dispatch, info) },
+        setUserInfo: (info) => { HomeActions.setUserInfo(dispatch, info) },
         createRegister: (params, token) => { RegistrationActions.createRegister(dispatch, params, token) },
         updateRegister: (params, token) => { RegistrationActions.updateRegister(dispatch, params, token) },
     }
 }
-export default connect(mapStateToProps, undefined, mapDispatchToProps)(CompleteDetails3Screen)
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(CompleteDetailsBankScreen)

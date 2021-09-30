@@ -13,10 +13,10 @@ import { Image, Header, CheckBox } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
 
 const titleList = [{ value: 'MR', label: 'MR.' }, { value: 'MRS', label: 'MRS.' }]
-const yesNoList = [{ value: 'Yes', label: 'Yes' }, { value: 'No', label: 'No' }]
+const pepList = [{ value: 'Y', label: 'Yes' }, { value: 'N', label: 'No' }]
 
 function CompleteDetailsScreen(props) {
-    const { token, user, updateRegister, setUserInfo, settings, occupations, incomes, userInfo } = props;
+    const { token, user, updateRegister, setUserInfo, settings, occupations, incomes } = props;
     const [occupationsList, setOccupationsList] = useState([]);
     const [incomesList, setIncomesList] = useState([]);
 
@@ -25,12 +25,25 @@ function CompleteDetailsScreen(props) {
     }, []);
 
     useEffect(() => {
-        if (userInfo) {
-            setState(JSON.parse(JSON.stringify(userInfo)))
+        if (user) {
+            setState({
+                occupation: user.nseDetails.occupation.OCCUPATION_CODE,
+                dob: new Date(user.nseDetails.dob),
+                title: user.nseDetails.title,
+                investor: user.nseDetails.investor,
+                investorPan: user.nseDetails.investorPan,
+                email: user.nseDetails.email,
+                fatherName: user.nseDetails.father_name,
+                motherName: user.nseDetails.mother_name,
+                income: user.fatcaDetails.app_income.APP_INCOME_CODE,
+                pep: user.fatcaDetails.pep.code,
+                nominate: false,
+            })
         }
-    }, [userInfo]);
+    }, [user]);
 
     useEffect(() => {
+
         if (occupations) {
             const occupationsList = occupations ? occupations.map((item) => ({ value: item.OCCUPATION_CODE, label: String(item.OCCUPATION_DESC) })) : []
             setOccupationsList(occupationsList)
@@ -68,7 +81,7 @@ function CompleteDetailsScreen(props) {
         pep: null,
         nominate: null,
     });
-    console.log(user)
+
     const onAction = async () => {
         const { occupation, dob, title, investor, investorPan, email, fatherName, motherName, income, pep, nominate } = state;
         if (!occupation) {
@@ -111,15 +124,35 @@ function CompleteDetailsScreen(props) {
             setErrors({ ...errors, pep: 'Please Select a Value' })
             return
         }
-        let params = {
-
+        let params = user
+        let selOccupation = occupations.find(x => x.OCCUPATION_CODE === occupation);
+        let selTitle = titleList.find(x => x.value === title);
+        let selIncome = incomes.find(x => x.APP_INCOME_CODE === income);
+        let selPep = pepList.find(x => x.value === pep);
+        params.nseDetails.occupation = {
+            "OCCUPATION_CODE": selOccupation.OCCUPATION_CODE,
+            "OCCUPATION_DESC": selOccupation.OCCUPATION_DESC
+        }
+        params.nseDetails.dob = dob.getTime()
+        params.nseDetails.title = selTitle.value
+        params.nseDetails.investor = investor
+        params.nseDetails.investorPan = investorPan
+        params.nseDetails.email = email
+        params.nseDetails.father_name = fatherName
+        params.nseDetails.mother_name = motherName
+        params.fatcaDetails.app_income.income = {
+            "APP_INCOME_CODE": selIncome.APP_INCOME_CODE,
+            "APP_INCOME_DESC": selIncome.APP_INCOME_DESC
+        }
+        params.fatcaDetails.pep = {
+            "code": selPep.value,
+            "desc": selPep.label
         }
         updateRegister(params, token)
-        setUserInfo(state)
+        setUserInfo(params)
         props.navigation.navigate('Register1')
 
     }
-
     return (
         <View style={styles.container}>
             <Header
@@ -217,7 +250,7 @@ function CompleteDetailsScreen(props) {
 
                     <Text style={styles.occupation}>PEP (Politically Exposed Person) <Text style={styles.error}>*</Text></Text>
                     <MySelectPicker
-                        values={yesNoList}
+                        values={pepList}
                         defultValue={state.pep}
                         error={errors.pep}
                         onChange={(pep) => { setErrors({ ...errors, pep: null }); setState({ ...state, pep }) }}
@@ -352,7 +385,6 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => ({
     token: state.auth.token,
     user: state.home.user,
-    userInfo: state.registration.userInfo,
     occupations: state.registration.occupations,
     incomes: state.registration.incomes,
 })
@@ -360,11 +392,12 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     const { dispatch } = dispatchProps;
     const { RegistrationActions } = require('../../store/RegistrationRedux')
+    const { HomeActions } = require('../../store/HomeRedux')
     return {
         ...stateProps,
         ...ownProps,
         settings: (token) => { RegistrationActions.settings(dispatch, token) },
-        setUserInfo: (info) => { RegistrationActions.setUserInfo(dispatch, info) },
+        setUserInfo: (info) => { HomeActions.setUserInfo(dispatch, info) },
         updateRegister: (params, token) => { RegistrationActions.updateRegister(dispatch, params, token) },
     }
 }

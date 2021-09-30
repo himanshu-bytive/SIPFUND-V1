@@ -16,6 +16,8 @@ const types = {
     FETCH_USERDETAILS_SUCCESS: "FETCH_USERDETAILS_SUCCESS",
     FETCH_USERDETAILS_FAILURE: "FETCH_USERDETAILS_FAILURE",
 
+    SAVE_USER_DETAILS: "SAVE_USER_DETAILS",
+
     FETCH_CART_PENDING: "FETCH_CART_PENDING",
     FETCH_CART_SUCCESS: "FETCH_CART_SUCCESS",
     FETCH_CART_FAILURE: "FETCH_CART_FAILURE",
@@ -58,6 +60,9 @@ export const HomeActions = {
         } else {
             dispatch({ type: types.FETCH_USERDETAILS_SUCCESS, user: data.data });
         }
+    },
+    setUserInfo: async (dispatch, userInfo) => {
+        dispatch({ type: types.SAVE_USER_DETAILS, user: userInfo });
     },
     getcartDetails: async (dispatch, params, tokan) => {
         dispatch({ type: types.FETCH_CART_PENDING });

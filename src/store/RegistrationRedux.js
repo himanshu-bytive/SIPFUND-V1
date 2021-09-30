@@ -95,13 +95,12 @@ export const RegistrationActions = {
     updateRegister: async (dispatch, params, token) => {
         dispatch({ type: types.FETCH_UPDATE_REGISTER_PENDING });
         let data = await SiteAPI.apiPutCall('/user/rawData', params, token);
-        console.log(data)
         if (data.error) {
             Alert.alert(data.message)
             dispatch({ type: types.FETCH_UPDATE_REGISTER_FAILURE, error: data.message });
         } else {
             Alert.alert(data.responseString)
-            dispatch({ type: types.FETCH_UPDATE_REGISTER_SUCCESS, });
+            dispatch({ type: types.FETCH_UPDATE_REGISTER_SUCCESS });
         }
     },
     fileUpload: async (dispatch, params, token) => {

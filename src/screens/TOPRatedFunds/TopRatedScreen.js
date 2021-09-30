@@ -34,10 +34,12 @@ function TopRatedScreen(props) {
         if (token) {
             getAllcategorys(token)
         }
+    }, [token]);
+    useEffect(() => {
         if (details) {
             console.log(details)
         }
-    }, [token, details]);
+    }, [details]);
 
     const [selectCat, setSelectCat] = useState(null);
     const [selectSubCat, setSelectSubCat] = useState(null);

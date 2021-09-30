@@ -6,8 +6,8 @@ import LoginScreen from './Auth/LoginScreen'
 import ForgotPasswordScreen from './Auth/ForgotPasswordScreen'
 
 import CompleteDetailsScreen from './Registration/CompleteDetailsScreen'
-import CompleteDetails2Screen from './Registration/CompleteDetails2Screen'
-import CompleteDetails3Screen from './Registration/CompleteDetails3Screen'
+import CompleteDetailsAddressScreen from './Registration/CompleteDetailsAddressScreen'
+import CompleteDetailsBankScreen from './Registration/CompleteDetailsBankScreen'
 import UploadDocumentScreen from './Registration/UploadDocumentScreen'
 
 import TopratedFunds5Screen from './TOPRatedFunds/TopratedFunds5Screen'
@@ -87,8 +87,8 @@ export {
     ForgotPasswordScreen,
 
     CompleteDetailsScreen,
-    CompleteDetails2Screen,
-    CompleteDetails3Screen,
+    CompleteDetailsAddressScreen,
+    CompleteDetailsBankScreen,
     UploadDocumentScreen,
 
     FundsHomeScreen,

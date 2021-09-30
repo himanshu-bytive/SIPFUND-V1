@@ -12,29 +12,33 @@ import { MySelectPicker, MyTextInput } from '../../components'
 import { AntDesign } from 'react-native-vector-icons';
 import { Image, Header } from 'react-native-elements';
 
-function CompleteDetails2Screen(props) {
+function CompleteDetailsAddressScreen(props) {
 
-    const { token, updateRegister, setUserInfo, states, citys, getCitys, getPincode, userInfo, pincodeInfo } = props;
+    const { token, updateRegister, setUserInfo, user, statess, citys, getCitys, getPincode, pincodeInfo } = props;
     const [stateList, setStateList] = useState([]);
     const [cityList, setCityList] = useState([]);
 
-
     useEffect(() => {
-        if (userInfo) {
-            setState(JSON.parse(JSON.stringify(userInfo)))
+        if (user) {
+            setState({
+                address: user.nseDetails.addr1,
+                pincode: user.nseDetails.pincode,
+                states: user.nseDetails.state.STATE_CODE,
+                city: user.nseDetails.city.CITY,
+            })
         }
-    }, [userInfo]);
+    }, [user]);
 
     useEffect(() => {
-        if (states) {
-            const stateList = states ? states.map((item) => ({ value: item.STATE_CODE, label: String(item.STATE_NAME) })) : []
+        if (statess) {
+            const stateList = statess ? statess.map((item) => ({ value: item.STATE_CODE, label: String(item.STATE_NAME) })) : []
             setStateList(stateList)
         }
         if (citys) {
             const cityList = citys ? citys.map((item) => ({ value: item.CITY, label: String(item.CITY) })) : []
             setCityList(cityList)
         }
-    }, [states, citys]);
+    }, [statess, citys]);
 
     useEffect(() => {
         if (pincodeInfo) {
@@ -81,11 +85,21 @@ function CompleteDetails2Screen(props) {
             setErrors({ ...errors, city: 'Please Select a Value' })
             return
         }
-        let params = {
-
+        let params = user
+        let selStates = statess.find(x => x.STATE_CODE === states);
+        let selCity = citys.find(x => x.CITY === city);
+        params.nseDetails.addr1 = address
+        params.nseDetails.pincode = pincode
+        params.nseDetails.state = {
+            "STATE_CODE": selStates.STATE_CODE,
+            "STATE_NAME": selStates.STATE_NAME,
+        }
+        params.nseDetails.city = {
+            "CITY": selCity.CITY,
+            "STATE_CODE": selStates.STATE_CODE,
         }
         updateRegister(params, token)
-        setUserInfo({ ...userInfo, ...state })
+        setUserInfo(params)
         props.navigation.navigate('Register2')
     }
 
@@ -241,22 +255,22 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => ({
     token: state.auth.token,
     user: state.home.user,
-    userInfo: state.registration.userInfo,
     pincodeInfo: state.registration.pincodeInfo,
-    states: state.registration.states,
+    statess: state.registration.states,
     citys: state.registration.citys,
 })
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     const { dispatch } = dispatchProps;
     const { RegistrationActions } = require('../../store/RegistrationRedux')
+    const { HomeActions } = require('../../store/HomeRedux')
     return {
         ...stateProps,
         ...ownProps,
         getCitys: (code, token) => { RegistrationActions.getCitys(dispatch, code, token) },
         getPincode: (code, token) => { RegistrationActions.getPincode(dispatch, code, token) },
-        setUserInfo: (info) => { RegistrationActions.setUserInfo(dispatch, info) },
+        setUserInfo: (info) => { HomeActions.setUserInfo(dispatch, info) },
         updateRegister: (params, token) => { RegistrationActions.updateRegister(dispatch, params, token) },
     }
 }
-export default connect(mapStateToProps, undefined, mapDispatchToProps)(CompleteDetails2Screen)
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(CompleteDetailsAddressScreen)
