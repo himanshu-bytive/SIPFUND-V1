@@ -28,6 +28,10 @@ const types = {
     FETCH_FILE_UPLOAD_SUCCESS: "FETCH_FILE_UPLOAD_SUCCESS",
     FETCH_FILE_UPLOAD_FAILURE: "FETCH_FILE_UPLOAD_FAILURE",
 
+    FETCH_DOC_PENDING: "FETCH_DOC_PENDING",
+    FETCH_DOC_SUCCESS: "FETCH_DOC_SUCCESS",
+    FETCH_DOC_FAILURE: "FETCH_DOC_FAILURE",
+
 };
 
 export const RegistrationActions = {
@@ -37,7 +41,8 @@ export const RegistrationActions = {
         let state = await SiteAPI.apiGetCall('/apiData/State', {}, token);
         let accountType = await SiteAPI.apiGetCall('/apiData/AccountType', {}, token);
         let bank = await SiteAPI.apiGetCall('/apiData/Bank', {}, token);
-        if (occupation.Data && income.Data && state.Data && accountType.Data && bank.Data) {
+        let amc = await SiteAPI.apiGetCall('/amcforekyc/details', {}, token);
+        if (occupation.Data && income.Data && state.Data && accountType.Data && bank.Data && amc.response) {
             dispatch({
                 type: types.GET_OCCUPATION,
                 occupations: occupation.Data.occupation_master,
@@ -45,7 +50,15 @@ export const RegistrationActions = {
                 states: state.Data.state_master,
                 accountTypes: accountType.Data.account_type,
                 banks: bank.Data.bank_master,
+                amc: amc.response,
             });
+        }
+    },
+    getDocuments: async (dispatch, token) => {
+        dispatch({ type: types.FETCH_DOC_PENDING });
+        let documents = await SiteAPI.apiGetCall(`/documents`, {}, token);
+        if (documents.responseString) {
+            dispatch({ type: types.FETCH_DOC_SUCCESS, documents: documents.responseString });
         }
     },
     getCitys: async (dispatch, code, token) => {
@@ -73,7 +86,8 @@ export const RegistrationActions = {
             if (banks.validFlag) {
                 dispatch({ type: types.FETCH_BANK_SUCCESS, bankDetails: banks.responseString });
             } else {
-                dispatch({ type: types.FETCH_BANK_FAILURE, error: '' });
+                Alert.alert(banks.message)
+                dispatch({ type: types.FETCH_BANK_FAILURE, error: banks.message });
             }
         }
     },
@@ -105,7 +119,7 @@ export const RegistrationActions = {
     },
     fileUpload: async (dispatch, params, token) => {
         dispatch({ type: types.FETCH_FILE_UPLOAD_PENDING });
-        let data = await SiteAPI.apiPostCall(`/documents/uploads?docType=${params.fileType}`, params, token);
+        let data = await SiteAPI.uploadImgApi(`/documents/uploads?docType=${params.fileType}`, params.file, token);
         console.log(data)
         if (data.error) {
             Alert.alert(data.message)
@@ -130,11 +144,13 @@ const initialState = {
     banks: [],
     bankDetails: {},
     userInfo: null,
+    documents: null,
 };
 
 export const reducer = (state = initialState, action) => {
-    const { type, error, occupations, incomes, states, citys, accountTypes, banks, bankDetails, userInfo, pincodeInfo } = action;
+    const { type, error, occupations, incomes, states, citys, accountTypes, banks, bankDetails, userInfo, pincodeInfo, documents } = action;
     switch (type) {
+        case types.FETCH_DOC_PENDING:
         case types.FETCH_FILE_UPLOAD_PENDING:
         case types.FETCH_UPDATE_REGISTER_PENDING:
         case types.FETCH_CREATE_REGISTER_PENDING:
@@ -222,6 +238,14 @@ export const reducer = (state = initialState, action) => {
                 ...state,
                 isFetching: false,
                 error: null,
+            };
+        }
+        case types.FETCH_DOC_SUCCESS: {
+            return {
+                ...state,
+                isFetching: false,
+                error: null,
+                documents
             };
         }
         default:

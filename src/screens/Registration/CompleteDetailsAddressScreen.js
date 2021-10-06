@@ -18,6 +18,13 @@ function CompleteDetailsAddressScreen(props) {
     const [stateList, setStateList] = useState([]);
     const [cityList, setCityList] = useState([]);
 
+    const [state, setState] = useState({
+        address: '',
+        pincode: '',
+        states: '',
+        city: '',
+    });
+
     useEffect(() => {
         if (user) {
             setState({
@@ -26,6 +33,9 @@ function CompleteDetailsAddressScreen(props) {
                 states: user.nseDetails.state.STATE_CODE,
                 city: user.nseDetails.city.CITY,
             })
+            if (user.nseDetails.state.STATE_CODE) {
+                getCitys(user.nseDetails.state.STATE_CODE, token)
+            }
         }
     }, [user]);
 
@@ -41,18 +51,11 @@ function CompleteDetailsAddressScreen(props) {
     }, [statess, citys]);
 
     useEffect(() => {
-        if (pincodeInfo) {
+        if (pincodeInfo && pincodeInfo.stateCode) {
             getCitys(pincodeInfo.stateCode, token)
             setState({ ...state, states: pincodeInfo.stateCode, city: pincodeInfo.cityName });
         }
     }, [pincodeInfo]);
-
-    const [state, setState] = useState({
-        address: '',
-        pincode: '',
-        states: '',
-        city: '',
-    });
 
     const [errors, setErrors] = useState({
         address: null,
@@ -85,7 +88,7 @@ function CompleteDetailsAddressScreen(props) {
             setErrors({ ...errors, city: 'Please Select a Value' })
             return
         }
-        let params = user
+        let params = JSON.parse(JSON.stringify(user))
         let selStates = statess.find(x => x.STATE_CODE === states);
         let selCity = citys.find(x => x.CITY === city);
         params.nseDetails.addr1 = address
@@ -102,7 +105,6 @@ function CompleteDetailsAddressScreen(props) {
         setUserInfo(params)
         props.navigation.navigate('Register2')
     }
-
 
     return (
         <View style={styles.container}>
@@ -141,29 +143,33 @@ function CompleteDetailsAddressScreen(props) {
                     />
 
                     {/* TITLE_sec */}
-                    <Text style={styles.occupation}>State <Text style={styles.error}>*</Text></Text>
-                    <MySelectPicker
-                        values={stateList}
-                        defultValue={state.states}
-                        error={errors.states}
-                        onChange={(states) => { setErrors({ ...errors, states: null }); setState({ ...state, states, city: '' }); getCitys(states, token) }}
-                    />
+                    {(state.pincode != '' && state.pincode.length > 5) && (<View>
+                        <Text style={styles.occupation}>State <Text style={styles.error}>*</Text></Text>
+                        <MySelectPicker
+                            values={stateList}
+                            defultValue={state.states}
+                            error={errors.states}
+                            onChange={(states) => { setErrors({ ...errors, states: null }); setState({ ...state, states, city: '' }); getCitys(states, token) }}
+                        />
+                    </View>)}
 
                     {/* Investor Name_sec */}
-                    <Text style={styles.occupation}>City <Text style={styles.error}>*</Text></Text>
-                    <MySelectPicker
-                        values={cityList}
-                        defultValue={state.city}
-                        error={errors.city}
-                        onChange={(city) => { setErrors({ ...errors, city: null }); setState({ ...state, city }) }}
-                    />
+                    {(state.pincode != '' && state.pincode.length > 5) && (<View>
+                        <Text style={styles.occupation}>City <Text style={styles.error}>*</Text></Text>
+                        <MySelectPicker
+                            values={cityList}
+                            defultValue={state.city}
+                            error={errors.city}
+                            onChange={(city) => { setErrors({ ...errors, city: null }); setState({ ...state, city }) }}
+                        />
+                    </View>)}
                 </View>
 
             </ScrollView>
             {/* click_box */}
             <View style={styles.footer}>
                 <View style={styles.click_box}>
-                    <TouchableOpacity onPress={() => props.navigation.navigate('Register1')} style={styles.botton_box}>
+                    <TouchableOpacity onPress={() => props.navigation.goBack()} style={styles.botton_box}>
                         <Text style={styles.get_otp}>Previous</Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={onAction} style={styles.botton_box}>

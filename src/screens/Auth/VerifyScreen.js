@@ -34,6 +34,10 @@ function VerifyScreen(props) {
             pageActive.current = false;
             props.navigation.navigate('login')
         }
+        if (signUpSteps == 4 && pageActive.current) {
+            pageActive.current = false;
+            props.navigation.navigate('login')
+        }
     }, [signUpSteps]);
 
     useEffect(() => {

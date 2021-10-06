@@ -23,7 +23,7 @@ function CreateAccountScreen(props) {
     const pageActive = useRef(false);
     const emailInput = useRef(null);
     const passwordInput = useRef(null);
-    const { createAccount, isFetching, error, signUpSteps, phone } = props;
+    const { creatAccount, isFetching, error, signUpSteps, phone } = props;
     const [locationServiceEnabled, setLocationServiceEnabled] = useState(false);
     const [displayCurrentAddress, setDisplayCurrentAddress] = useState([]);
 
@@ -130,7 +130,7 @@ function CreateAccountScreen(props) {
             "mobileNo": phone,
             "pan": "",
             "password": state.password,
-            "platform": Platform.OS,
+            "platform": Platform.OS == 'ios' ? 'IOS' : 'ANDROID',
             "referenceCode": "",
             "referenceInfo":
             {
@@ -138,10 +138,14 @@ function CreateAccountScreen(props) {
                 "latitude": displayCurrentAddress?.latitude,
                 "longitude": displayCurrentAddress?.longitude,
                 "mobileNo": phone,
-                "pincode": displayCurrentAddress?.pincode
+                "pincode": displayCurrentAddress?.pincode,
+                "address": displayCurrentAddress?.address,
+                "city": displayCurrentAddress?.city,
+                "state": displayCurrentAddress?.state,
             }
         }
-        createAccount(params);
+        console.log(params)
+        creatAccount(params);
         setState({ ...state, email: '', password: '', term: false });
     }
 
@@ -315,7 +319,7 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     return {
         ...stateProps,
         ...ownProps,
-        createAccount: (params) => { AuthActions.createAccount(dispatch, params) },
+        creatAccount: (params) => { AuthActions.creatAccount(dispatch, params) },
     }
 }
 export default connect(mapStateToProps, undefined, mapDispatchToProps)(CreateAccountScreen)

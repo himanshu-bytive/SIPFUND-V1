@@ -12,10 +12,10 @@ import { Colors } from '../../common'
 function SplashScreen(props) {
     const { logout, resetData } = props;
     useEffect(() => {
-        // logout()
-        // resetData()
-        // props.navigation.navigate('verify')
-        props.navigation.navigate('Home')
+        logout()
+        resetData()
+        props.navigation.navigate('verify')
+        // props.navigation.navigate('Register3')
     }, []);
 
     return (

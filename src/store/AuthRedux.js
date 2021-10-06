@@ -42,6 +42,7 @@ export const AuthActions = {
     verify: async (dispatch, params) => {
         dispatch({ type: types.FETCH_VERIFY_PENDING });
         let auth = await SiteAPI.apiPostCall('/auth/verify', params);
+        // console.log(auth)
         if (auth.error) {
             Alert.alert(auth.message)
             dispatch({ type: types.FETCH_VERIFY_FAILURE, error: auth.message });
@@ -53,7 +54,6 @@ export const AuthActions = {
     otp: async (dispatch, params) => {
         dispatch({ type: types.FETCH_OTP_PENDING });
         let data = await SiteAPI.apiPostCall('/auth/validate', params);
-        console.log(data)
         if (data.error) {
             Alert.alert(data.message)
             dispatch({ type: types.FETCH_OTP_FAILURE, error: data.message });
@@ -65,16 +65,14 @@ export const AuthActions = {
     resendOtp: async (dispatch, params) => {
         dispatch({ type: types.FETCH_RESEND_OTP_PENDING });
         let data = await SiteAPI.apiPostCall('/auth/resend', params);
-        console.log(data)
         if (data.error) {
             Alert.alert(data.message)
             dispatch({ type: types.FETCH_RESEND_OTP_FAILURE, error: data.message });
         } else {
             Alert.alert(data.responseString)
-            dispatch({ type: types.FETCH_RESEND_OTP_SUCCESS, signUpSteps: data.signUpSteps, validFlag: data.validFlag });
+            dispatch({ type: types.FETCH_RESEND_OTP_SUCCESS });
         }
     },
-
     changePassword: async (dispatch, params) => {
         dispatch({ type: types.FETCH_CHANGE_PASSWORD_PENDING });
         let data = await SiteAPI.apiPutCall('/password/changePassword', params);
@@ -90,25 +88,23 @@ export const AuthActions = {
     panNumber: async (dispatch, params) => {
         dispatch({ type: types.FETCH_PAN_NUMBER_PENDING });
         let data = await SiteAPI.apiPostCall('/user/userPan', params);
-        console.log(data)
         if (data.error) {
             Alert.alert(data.message)
             dispatch({ type: types.FETCH_PAN_NUMBER_FAILURE, error: data.message });
         } else {
             Alert.alert(data.responseString)
-            dispatch({ type: types.FETCH_PAN_NUMBER_SUCCESS, signUpSteps: data.signUpSteps, validFlag: data.validFlag });
+            dispatch({ type: types.FETCH_PAN_NUMBER_SUCCESS, panNumber: data.data });
         }
     },
     forgotPassword: async (dispatch, params) => {
         dispatch({ type: types.FETCH_FORGET_PASS_PENDING });
         let data = await SiteAPI.apiPostCall('/password/forgotPassword', params);
-        console.log(data)
         if (data.error) {
             Alert.alert(data.message)
             dispatch({ type: types.FETCH_FORGET_PASS_FAILURE, error: data.message });
         } else {
-            Alert.alert(data.responseString)
-            dispatch({ type: types.FETCH_FORGET_PASS_SUCCESS, signUpSteps: data.signUpSteps, validFlag: data.validFlag });
+            Alert.alert(data.message)
+            dispatch({ type: types.FETCH_FORGET_PASS_SUCCESS });
         }
     },
     login: async (dispatch, params, token) => {
@@ -147,10 +143,12 @@ const initialState = {
     phones: [],
     user: null,
     token: null,
+    password: false,
+    panNumber: null,
 };
 
 export const reducer = (state = initialState, action) => {
-    const { type, error, phone, signUpSteps, validFlag, user, token } = action;
+    const { type, error, phone, signUpSteps, validFlag, user, token, panNumber } = action;
     switch (type) {
         case types.FETCH_CREAT_ACCOUNT_PENDING:
         case types.FETCH_PAN_NUMBER_PENDING:
@@ -219,6 +217,7 @@ export const reducer = (state = initialState, action) => {
                 ...state,
                 isFetching: false,
                 error: null,
+                password: true
             };
         }
         case types.FETCH_CHANGE_PASSWORD_SUCCESS: {
@@ -233,6 +232,7 @@ export const reducer = (state = initialState, action) => {
                 ...state,
                 isFetching: false,
                 error: null,
+                panNumber
             };
         }
         case types.FETCH_CREAT_ACCOUNT_SUCCESS: {

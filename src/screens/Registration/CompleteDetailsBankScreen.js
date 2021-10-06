@@ -50,14 +50,15 @@ function CompleteDetailsBankScreen(props) {
             const bankList = banks ? banks.map((item) => ({ value: item.BANK_CODE, label: String(item.BANK_NAME) })) : []
             setBankList(bankList)
         }
-        if (bankDetails) {
+        if (bankDetails && bankDetails.nseBankName) {
             let selectedBank = bankList.find(x => x.label == bankDetails.nseBankName);
-            setState({ ...state, bank: (selectedBank ? selectedBank.value : ''), branchName: bankDetails.branch, branchAddress: bankDetails.address })
+            setState({ ...state, showBank: true, bank: (selectedBank ? selectedBank.value : ''), branchName: bankDetails.branch, branchAddress: bankDetails.address })
         }
     }, [accountTypes, banks, bankDetails]);
 
 
     const [state, setState] = useState({
+        showBank: false,
         accountType: '',
         accountNumber: '',
         ifsc: '',
@@ -101,7 +102,7 @@ function CompleteDetailsBankScreen(props) {
             setErrors({ ...errors, branchAddress: 'Please Add a Value' })
             return
         }
-        let params = user
+        let params = JSON.parse(JSON.stringify(user))
         let selAccountType = accountTypes.find(x => x.ACC_TYPE === accountType);
         let selBank = banks.find(x => x.BANK_CODE === bank);
         params.nseDetails.acc_type = {
@@ -143,13 +144,13 @@ function CompleteDetailsBankScreen(props) {
                 "exemption": params.nseDetails.exemption,
                 "father_name": params.nseDetails.father_name,
                 "guard_dob": params.nseDetails.guard_dob,
-                "guard_exempt_category": params.nseDetails.guard_exempt_category,
-                "guard_exemption": params.nseDetails.guard_exemption,
+                "guard_exempt_category":'',
+                "guard_exemption": '',
                 "guard_kyc": params.nseDetails.guard_kyc,
                 "guard_name": params.nseDetails.guard_name,
                 "guard_pan": params.nseDetails.guard_pan,
-                "guard_pan_ref_no": params.nseDetails.guard_pan_ref_no,
-                "guard_valid_pan": params.nseDetails.guard_valid_pan,
+                "guard_pan_ref_no": '',
+                "guard_valid_pan": '',
                 "hold_nature": params.nseDetails.hold_nature.HOLD_NATURE_CODE,
                 "ifsc_code": params.nseDetails.ifsc_code,
                 "inv_name": params.nseDetails.inv_name,
@@ -209,7 +210,7 @@ function CompleteDetailsBankScreen(props) {
                 "nri_addr2": params.nseDetails.nri_addr2,
                 "nri_addr3": params.nseDetails.nri_addr3,
                 "nri_city": params.nseDetails.nri_city,
-                "nri_country": params.nseDetails.nri_country,
+                "nri_country": '',
                 "nri_pincode": params.nseDetails.nri_pincode,
                 "nri_state": params.nseDetails.nri_state,
                 "occupation": params.nseDetails.occupation.OCCUPATION_CODE,
@@ -218,7 +219,7 @@ function CompleteDetailsBankScreen(props) {
                 "pan": params.nseDetails.pan,
                 "pincode": params.nseDetails.pincode,
                 "res_fax": params.nseDetails.res_fax,
-                "res_phone": params.nseDetails.res_phone,
+                "res_phone": '',
                 "state": params.nseDetails.state.STATE_CODE,
                 "tax_status": params.nseDetails.tax_status.TAX_STATUS_CODE,
                 "title": params.nseDetails.title,
@@ -226,6 +227,7 @@ function CompleteDetailsBankScreen(props) {
                 "valid_pan": params.nseDetails.valid_pan,
             }
         }
+        // console.log(paramsNew)
         createRegister(paramsNew, token)
         toggleOverlay()
         props.navigation.navigate('Register3')
@@ -285,7 +287,7 @@ function CompleteDetailsBankScreen(props) {
                 <View style={{ borderWidth: 6, borderColor: "#EAE9EE", marginVertical: 10, }}></View>
 
                 {/* container_2_sec */}
-                <View style={styles.container_sec}>
+                {(state.showBank && state.ifsc != '' && state.ifsc.length > 5) && (<View style={styles.container_sec}>
 
                     <Text style={styles.occupation}>Bank Name <Text style={styles.error}>*</Text></Text>
                     <MySelectPicker
@@ -309,7 +311,7 @@ function CompleteDetailsBankScreen(props) {
                         onChangeText={(branchAddress) => { setErrors({ ...errors, branchAddress: null }); setState({ ...state, branchAddress }) }}
                     />
 
-                </View>
+                </View>)}
 
                 {/* click_box */}
             </ScrollView>
@@ -318,7 +320,7 @@ function CompleteDetailsBankScreen(props) {
 
                 <View style={styles.click_box}>
 
-                    <TouchableOpacity onPress={() => props.navigation.navigate('Register2')} style={styles.botton_box}>
+                    <TouchableOpacity onPress={() => props.navigation.goBack()} style={styles.botton_box}>
                         <Text style={styles.get_otp}>Previous</Text>
                     </TouchableOpacity>
                     {isFetching ? <View style={styles.botton_box}><ActivityIndicator size={30} color={Colors.WHITE} /></View> :

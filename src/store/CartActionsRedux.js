@@ -20,80 +20,72 @@ const types = {
     FETCH_CART_DETAILS_SUCCESS: "FETCH_CART_DETAILS_SUCCESS",
     FETCH_CART_DETAILS_FAILURE: "FETCH_CART_DETAILS_FAILURE",
 
-
-
 };
 
 export const CartActions = {
-    addItem: async (dispatch, params) => {
+    addItem: async (dispatch, token) => {
         dispatch({ type: types.FETCH_ADD_ITEM_PENDING });
-        let auth = await SiteAPI.apiPostCall('/addCart', params);
-        if (auth.error) {
-            Alert.alert(auth.message)
-            dispatch({ type: types.FETCH_ADD_ITEM_FAILURE, error: auth.message });
+        let data = await SiteAPI.apiPostCall('/addCart', {}, token);
+        if (data.error) {
+            Alert.alert(data.message)
+            dispatch({ type: types.FETCH_ADD_ITEM_FAILURE, error: data.message });
         } else {
-            Alert.alert(auth.responseString)
-            dispatch({ type: types.FETCH_ADD_ITEM_SUCCESS, phone: params.mobileNo, signUpSteps: auth.signUpSteps, validFlag: auth.validFlag });
+
+            dispatch({ type: types.FETCH_ADD_ITEM_SUCCESS, phone: params.mobileNo, signUpSteps: data.signUpSteps, validFlag: data.validFlag });
         }
     },
     deletCart: async (dispatch, params) => {
         dispatch({ type: types.FETCH_DELET_CART_PENDING });
-        let auth = await SiteAPI.apiPostCall('/addCart/delete', params);
-        if (auth.error) {
-            Alert.alert(auth.message)
-            dispatch({ type: types.FETCH_DELET_CART_FAILURE, error: auth.message });
+        let data = await SiteAPI.apiPostCall('/addCart/delete', params);
+        if (data.error) {
+            Alert.alert(data.message)
+            dispatch({ type: types.FETCH_DELET_CART_FAILURE, error: data.message });
         } else {
-            Alert.alert(auth.responseString)
-            dispatch({ type: types.FETCH_DELET_CART_SUCCESS, phone: params.mobileNo, signUpSteps: auth.signUpSteps, validFlag: auth.validFlag });
+
+            dispatch({ type: types.FETCH_DELET_CART_SUCCESS, phone: params.mobileNo, signUpSteps: data.signUpSteps, validFlag: data.validFlag });
         }
     },
     addItomToSip: async (dispatch, params) => {
         dispatch({ type: types.FETCH_ADD_ITEM_SIP_PENDING });
-        let auth = await SiteAPI.apiPostCall('/addCart', params);
-        if (auth.error) {
-            Alert.alert(auth.message)
-            dispatch({ type: types.FETCH_ADD_ITEM_SIP_FAILURE, error: auth.message });
+        let data = await SiteAPI.apiPostCall('/addCart', params);
+        if (data.error) {
+            Alert.alert(data.message)
+            dispatch({ type: types.FETCH_ADD_ITEM_SIP_FAILURE, error: data.message });
         } else {
-            Alert.alert(auth.responseString)
-            dispatch({ type: types.FETCH_ADD_ITEM_SIP_SUCCESS, phone: params.mobileNo, signUpSteps: auth.signUpSteps, validFlag: auth.validFlag });
+
+            dispatch({ type: types.FETCH_ADD_ITEM_SIP_SUCCESS, phone: params.mobileNo, signUpSteps: data.signUpSteps, validFlag: data.validFlag });
         }
     },
-    cartDetails: async (dispatch, params) => {
+    cartDetails: async (dispatch, token) => {
         dispatch({ type: types.FETCH_CART_DETAILS_PENDING });
-        let auth = await SiteAPI.apiGetCall('/addCart', params);
-        if (auth.error) {
-            Alert.alert(auth.message)
-            dispatch({ type: types.FETCH_CART_DETAILS_FAILURE, error: auth.message });
+        let data = await SiteAPI.apiGetCall('/addCart', {}, token);
+        if (data.error) {
+            Alert.alert(data.message)
+            dispatch({ type: types.FETCH_CART_DETAILS_FAILURE, error: data.message });
         } else {
-            Alert.alert(auth.responseString)
-            dispatch({ type: types.FETCH_CART_DETAILS_SUCCESS, phone: params.mobileNo, signUpSteps: auth.signUpSteps, validFlag: auth.validFlag });
+            dispatch({ type: types.FETCH_CART_DETAILS_SUCCESS, cart: data.responseString });
         }
     },
 
     logout() {
         return { type: types.LOGOUT };
     },
-    
+
 };
 
 const initialState = {
     isFetching: false,
     error: null,
-    signUpSteps: null,
-    validFlag: null,
-    phone: null,
-    phones: [],
-    user: null,
-    token: null,
+    cart: null,
 };
 
 export const reducer = (state = initialState, action) => {
-    const { type, error, phone, signUpSteps, validFlag, user, token } = action;
+    const { type, error, cart } = action;
     switch (type) {
-       
-        case types.FETCH_CART_DETAILS_PENDING: 
-        case types.FETCH_ADD_ITEM_SIP_PENDING: 
-        case types.FETCH_DELET_CART_PENDING: 
+
+        case types.FETCH_CART_DETAILS_PENDING:
+        case types.FETCH_ADD_ITEM_SIP_PENDING:
+        case types.FETCH_DELET_CART_PENDING:
         case types.FETCH_ADD_ITEM_PENDING: {
             return {
                 ...state,
@@ -101,18 +93,18 @@ export const reducer = (state = initialState, action) => {
                 error: null,
             };
         }
-       
+
         case types.FETCH_CART_DETAILS_FAILURE:
         case types.FETCH_ADD_ITEM_SIP_FAILURE:
         case types.FETCH_DELET_CART_FAILURE:
-        case types.FETCH_ADD_ITEM_FAILURE:{
+        case types.FETCH_ADD_ITEM_FAILURE: {
             return {
                 ...state,
                 isFetching: false,
                 error,
             };
         }
-       
+
         case types.FETCH_ADD_ITEM_SUCCESS: {
             return {
                 ...state,
@@ -139,10 +131,11 @@ export const reducer = (state = initialState, action) => {
                 ...state,
                 isFetching: false,
                 error: null,
+                cart
             };
         }
-       
-        
+
+
         case types.LOGOUT:
             return Object.assign({}, initialState, { phones: state.phones });
         default:

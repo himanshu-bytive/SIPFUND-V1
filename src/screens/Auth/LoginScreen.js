@@ -25,21 +25,20 @@ function LoginScreen(props) {
             getUserDetails({}, token)
         }
         if (user) {
-            props.navigation.navigate('Home')
-            // if (user.userDetails.panVerified) {
-            //     props.navigation.navigate('Home')
-            // } else {
-            //     props.navigation.navigate('Pan')
-            // }
+            if (user.pan) {
+                props.navigation.navigate('Home')
+            } else {
+                props.navigation.navigate('Pan')
+            }
         }
     }, [token, user]);
 
 
     const [state, setState] = useState({
-        // username: '',
-        // password: '',
-        username: 'kavin@techosto.com',
-        password: 'test@123',
+        username: '',
+        password: '',
+        // username: 'biswa@techlift.in',
+        // password: 'test@1234',
     });
 
     const [errors, setError] = useState({
@@ -202,7 +201,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
     isFetching: state.auth.isFetching,
-    user: state.home.user,
+    signUpSteps: state.auth.signUpSteps,
+    user: state.auth.user,
     token: state.auth.token,
 })
 

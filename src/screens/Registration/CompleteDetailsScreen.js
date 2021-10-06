@@ -12,13 +12,34 @@ import { AntDesign } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
 
-const titleList = [{ value: 'MR', label: 'MR.' }, { value: 'MRS', label: 'MRS.' }]
-const pepList = [{ value: 'Y', label: 'Yes' }, { value: 'N', label: 'No' }]
+const titleList = [{ value: 'Mr', label: 'Mr.' }, { value: 'Mrs', label: 'Mrs.' }, { value: 'Ms', label: 'Ms.' }, { value: 'M/s', label: 'M/s.' }]
+const pepList = [{ value: 'N', label: 'No' }, { value: 'Y', label: 'Yes' }, { value: 'R', label: 'Related to PEP ' }]
 
 function CompleteDetailsScreen(props) {
-    const { token, user, updateRegister, setUserInfo, settings, occupations, incomes } = props;
+    const { token, users, user, updateRegister, setUserInfo, settings, occupations, incomes } = props;
     const [occupationsList, setOccupationsList] = useState([]);
     const [incomesList, setIncomesList] = useState([]);
+    const relationList = [
+        { value: 'Father', label: 'Father' },
+        { value: 'Mother', label: 'Mother' },
+        { value: 'Brother', label: 'Brother' },
+        { value: 'Sister', label: 'Sister' },
+        { value: 'Daughter', label: 'Daughter' },
+        { value: 'Wife', label: 'Wife' },
+        { value: 'Husband', label: 'Husband' },
+        { value: 'Son Daughter', label: 'Son Daughter' },
+        { value: 'Father-in-law', label: 'Father-in-law' },
+        { value: 'Mother-in-law', label: 'Mother-in-law' },
+        { value: 'Son-in-law', label: 'Son-in-law' },
+        { value: 'Daughter-in-law', label: 'Daughter-in-law' },
+        { value: 'Uncle', label: 'Uncle' },
+        { value: 'Aunt', label: 'Aunt' },
+        { value: 'Niece', label: 'Niece' },
+        { value: 'Nephew', label: 'Nephew' },
+        { value: 'Grand Father', label: 'Grand Father' },
+        { value: 'Grand Mother', label: 'Grand Mother' },
+        { value: 'Other', label: 'Other' },
+    ]
 
     useEffect(() => {
         settings(token)
@@ -30,20 +51,25 @@ function CompleteDetailsScreen(props) {
                 occupation: user.nseDetails.occupation.OCCUPATION_CODE,
                 dob: new Date(user.nseDetails.dob),
                 title: user.nseDetails.title,
-                investor: user.nseDetails.investor,
-                investorPan: user.nseDetails.investorPan,
-                email: user.nseDetails.email,
+                investor: users.name,
+                investorPan: users.pan,
+                email: users.email,
                 fatherName: user.nseDetails.father_name,
                 motherName: user.nseDetails.mother_name,
                 income: user.fatcaDetails.app_income.APP_INCOME_CODE,
                 pep: user.fatcaDetails.pep.code,
-                nominate: false,
+                nominate: user.nseDetails.no_of_nominee ? true : false,
+                nominateMinor: (user.nseDetails.nominee1_type && user.nseDetails.nominee1_type == 'Y') ? true : false,
+                nominate1name: user.nseDetails.nominee1_name,
+                nominate1relation: user.nseDetails.nominee1_relation,
+                nominate1dob: user.nseDetails.nominee1_dob,
+                nominate1guard_name: user.nseDetails.nominee1_guard_name,
+                nominate1guard_pan: user.nseDetails.nominee1_guard_pan,
             })
         }
     }, [user]);
 
     useEffect(() => {
-
         if (occupations) {
             const occupationsList = occupations ? occupations.map((item) => ({ value: item.OCCUPATION_CODE, label: String(item.OCCUPATION_DESC) })) : []
             setOccupationsList(occupationsList)
@@ -66,6 +92,12 @@ function CompleteDetailsScreen(props) {
         income: '',
         pep: '',
         nominate: false,
+        nominateMinor: false,
+        nominate1name: '',
+        nominate1relation: '',
+        nominate1dob: null,
+        nominate1guard_name: '',
+        nominate1guard_pan: '',
     });
 
     const [errors, setErrors] = useState({
@@ -83,7 +115,7 @@ function CompleteDetailsScreen(props) {
     });
 
     const onAction = async () => {
-        const { occupation, dob, title, investor, investorPan, email, fatherName, motherName, income, pep, nominate } = state;
+        const { occupation, dob, title, investor, investorPan, email, fatherName, motherName, income, pep, nominate, nominateMinor, nominate1name, nominate1relation, nominate1dob, nominate1guard_name, nominate1guard_pan } = state;
         if (!occupation) {
             setErrors({ ...errors, occupation: 'Please Select a Value' })
             return
@@ -124,7 +156,31 @@ function CompleteDetailsScreen(props) {
             setErrors({ ...errors, pep: 'Please Select a Value' })
             return
         }
-        let params = user
+        if (nominate) {
+            if (!nominate1name) {
+                setErrors({ ...errors, nominate1name: 'Please Add Nominate Name' })
+                return
+            }
+            if (!nominate1relation) {
+                setErrors({ ...errors, nominate1relation: 'Please Select a Value' })
+                return
+            }
+        }
+        if (nominate && nominateMinor) {
+            if (!nominate1dob) {
+                setErrors({ ...errors, nominate1dob: 'Please Select a Date' })
+                return
+            }
+            if (!nominate1guard_name) {
+                setErrors({ ...errors, nominate1guard_name: 'Please Add Nominate Guard Name' })
+                return
+            }
+            if (!nominate1guard_pan) {
+                setErrors({ ...errors, nominate1guard_pan: 'Please Add Nominate Guard PAN' })
+                return
+            }
+        }
+        let params = JSON.parse(JSON.stringify(user))
         let selOccupation = occupations.find(x => x.OCCUPATION_CODE === occupation);
         let selTitle = titleList.find(x => x.value === title);
         let selIncome = incomes.find(x => x.APP_INCOME_CODE === income);
@@ -135,8 +191,8 @@ function CompleteDetailsScreen(props) {
         }
         params.nseDetails.dob = dob.getTime()
         params.nseDetails.title = selTitle.value
-        params.nseDetails.investor = investor
-        params.nseDetails.investorPan = investorPan
+        params.nseDetails.inv_name = investor
+        params.nseDetails.pan = investorPan
         params.nseDetails.email = email
         params.nseDetails.father_name = fatherName
         params.nseDetails.mother_name = motherName
@@ -148,11 +204,19 @@ function CompleteDetailsScreen(props) {
             "code": selPep.value,
             "desc": selPep.label
         }
+        params.nseDetails.no_of_nominee = nominate ? "1" : ''
+        params.nseDetails.nominee1_name = nominate1name
+        params.nseDetails.nominee1_relation = nominate1relation
+        params.nseDetails.nominee1_dob = nominate1dob
+        params.nseDetails.nominee1_guard_name = nominate1guard_name
+        params.nseDetails.nominee1_guard_pan = nominate1guard_pan
+        params.nseDetails.nominee1_type = nominateMinor ? 'Y' : 'N'
         updateRegister(params, token)
         setUserInfo(params)
         props.navigation.navigate('Register1')
 
     }
+    
     return (
         <View style={styles.container}>
             <Header
@@ -269,13 +333,59 @@ function CompleteDetailsScreen(props) {
                     checked={state.nominate}
                     checkedColor={Colors.BLACK}
                     uncheckedColor={Colors.BLACK}
-                    onPress={(nominate) => { setErrors({ ...errors, nominate: null }); setState({ ...state, nominate: !state.nominate }) }}
+                    onPress={() => { setErrors({ ...errors, nominate: null }); setState({ ...state, nominate: !state.nominate }) }}
                 />
+
+                {state.nominate && (<View style={styles.container_sec}>
+                    <Text style={styles.occupation}>Name <Text style={styles.error}>*</Text></Text>
+                    <MyTextInput
+                        value={state.nominate1name}
+                        error={errors.nominate1name}
+                        onChangeText={(nominate1name) => { setErrors({ ...errors, nominate1name: null }); setState({ ...state, nominate1name }) }}
+                    />
+
+                    <Text style={styles.occupation}>Relation <Text style={styles.error}>*</Text></Text>
+                    <MySelectPicker
+                        values={relationList}
+                        defultValue={state.nominate1relation}
+                        error={errors.nominate1relation}
+                        onChange={(nominate1relation) => { setErrors({ ...errors, nominate1relation: null }); setState({ ...state, nominate1relation }) }}
+                    />
+                </View>)}
+                {state.nominateMinor && (<View style={styles.container_sec}>
+                    <Text style={styles.occupation}>DOB/DOI <Text style={styles.error}>*</Text></Text>
+                    <MyDatePicker defultValue={state.nominate1dob} error={errors.nominate1dob} onChange={(nominate1dob) => { setErrors({ ...errors, nominate1dob: null }); setState({ ...state, nominate1dob }) }} />
+
+                    <Text style={styles.occupation}>Nominee Guardian Name <Text style={styles.error}>*</Text></Text>
+                    <MyTextInput
+                        value={state.nominate1guard_name}
+                        error={errors.nominate1guard_name}
+                        onChangeText={(nominate1guard_name) => { setErrors({ ...errors, nominate1guard_name: null }); setState({ ...state, nominate1guard_name }) }}
+                    />
+
+                    <Text style={styles.occupation}>Nominee Guardian PAN <Text style={styles.error}>*</Text></Text>
+                    <MyTextInput
+                        value={state.nominate1guard_pan}
+                        error={errors.nominate1guard_pan}
+                        onChangeText={(nominate1guard_pan) => { setErrors({ ...errors, nominate1guard_pan: null }); setState({ ...state, nominate1guard_pan }) }}
+                    />
+                </View>)}
+
+                {state.nominate && (<View style={styles.container_sec}>
+                    <CheckBox
+                        title='Is Nominate Minor?'
+                        containerStyle={styles.checkbox_style}
+                        textStyle={{ color: Colors.BLACK, fontSize: 12, marginLeft: 5, }}
+                        checked={state.nominateMinor}
+                        checkedColor={Colors.BLACK}
+                        uncheckedColor={Colors.BLACK}
+                        onPress={() => { setErrors({ ...errors, nominateMinor: null }); setState({ ...state, nominateMinor: !state.nominateMinor }) }}
+                    />
+                </View>)}
 
             </ScrollView>
             {/* click_box */}
             <View style={styles.footer}>
-
                 <View style={styles.click_box}>
                     <TouchableOpacity onPress={() => props.navigation.navigate('Home')} style={styles.botton_box}>
                         <Text style={styles.get_otp}>Skip</Text>
@@ -384,6 +494,7 @@ const styles = StyleSheet.create({
 });
 const mapStateToProps = (state) => ({
     token: state.auth.token,
+    users: state.auth.user,
     user: state.home.user,
     occupations: state.registration.occupations,
     incomes: state.registration.incomes,

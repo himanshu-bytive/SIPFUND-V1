@@ -26,15 +26,12 @@ const investmentData = [
 ]
 
 function HomeScreen(props) {
-    const { token, logOut, isFetching, error, steps, home, user, cart, getsteps, getHomeData, getUserDetails, getcartDetails } = props;
-
-    // console.log(user.userDetails)
-
+    const { token, logOut, users, isFetching, error, steps, home, user, cart, getsteps, getHomeData, getUserDetails, cartDetails } = props;
     useEffect(() => {
         if (token) {
             getsteps({}, token)
             getHomeData({}, token)
-            getcartDetails({}, token)
+            cartDetails(token)
         }
     }, [token]);
 
@@ -70,9 +67,11 @@ function HomeScreen(props) {
                     </TouchableOpacity>
                     <Text style={styles.HelloIinvestor}>Hello, Investor</Text>
                     <Text style={styles.HelloIinvestor1}>You’re almost ready to submit</Text>
-                    <TouchableOpacity onPress={() => props.navigation.navigate('Goals')} style={styles.botton_box}>
+                    {users.IIN ? <TouchableOpacity onPress={() => props.navigation.navigate('Goals')} style={styles.botton_box}>
+                        <Text style={styles.get_otp}>Start investment</Text>
+                    </TouchableOpacity> : <TouchableOpacity onPress={() => props.navigation.navigate('Register')} style={styles.botton_box}>
                         <Text style={styles.get_otp}>COMPLETE ACCOUNT SETUP</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity>}
                 </View>
                 {/* plan your goals section */}
                 <Text style={styles.Plan}>Plan Your GOALS</Text>
@@ -800,7 +799,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
     token: state.auth.token,
-    users: state.auth.users,
+    users: state.auth.user,
     isFetching: state.home.isFetching,
     error: state.home.error,
     steps: state.home.steps,
@@ -813,13 +812,14 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     const { dispatch } = dispatchProps;
     const { AuthActions } = require('../../store/AuthRedux')
     const { HomeActions } = require('../../store/HomeRedux')
+    const { CartActions } = require('../../store/CartActionsRedux')
     return {
         ...stateProps,
         ...ownProps,
         logOut: () => dispatch(AuthActions.logout()),
         getsteps: (params, token) => { HomeActions.getsteps(dispatch, params, token) },
         getHomeData: (params, token) => { HomeActions.getHomeData(dispatch, params, token) },
-        getcartDetails: (params, token) => { HomeActions.getcartDetails(dispatch, params, token) },
+        cartDetails: (token) => { CartActions.cartDetails(dispatch, token) },
     }
 }
 export default connect(mapStateToProps, undefined, mapDispatchToProps)(HomeScreen)

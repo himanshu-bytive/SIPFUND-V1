@@ -18,9 +18,6 @@ const types = {
 
     SAVE_USER_DETAILS: "SAVE_USER_DETAILS",
 
-    FETCH_CART_PENDING: "FETCH_CART_PENDING",
-    FETCH_CART_SUCCESS: "FETCH_CART_SUCCESS",
-    FETCH_CART_FAILURE: "FETCH_CART_FAILURE",
 
     FETCH_UPDATE_PAN_PENDING: "FETCH_UPDATE_PAN_PENDING",
     FETCH_UPDATE_PAN_SUCCESS: "FETCH_UPDATE_PAN_SUCCESS",
@@ -64,16 +61,6 @@ export const HomeActions = {
     setUserInfo: async (dispatch, userInfo) => {
         dispatch({ type: types.SAVE_USER_DETAILS, user: userInfo });
     },
-    getcartDetails: async (dispatch, params, tokan) => {
-        dispatch({ type: types.FETCH_CART_PENDING });
-        let data = await SiteAPI.apiGetCall('/addCart', params, tokan);
-        if (data.error) {
-            Alert.alert(data.message)
-            dispatch({ type: types.FETCH_CART_FAILURE, error: data.message });
-        } else {
-            dispatch({ type: types.FETCH_CART_SUCCESS, cart: data.responseString });
-        }
-    },
     updatePan: async (dispatch, params, tokan) => {
         dispatch({ type: types.FETCH_UPDATE_PAN_PENDING });
         let data = await SiteAPI.apiPostCall('/user/userPan', params, tokan);
@@ -93,15 +80,13 @@ const initialState = {
     steps: null,
     home: null,
     user: null,
-    cart: null,
     pan: null,
 };
 
 export const reducer = (state = initialState, action) => {
-    const { type, error, steps, home, user, cart, pan } = action;
+    const { type, error, steps, home, user, pan } = action;
     switch (type) {
         case types.FETCH_UPDATE_PAN_PENDING:
-        case types.FETCH_CART_PENDING:
         case types.FETCH_USERDETAILS_PENDING:
         case types.FETCH_HOMEDATA_PENDING:
         case types.FETCH_STEPS_PENDING: {
@@ -112,7 +97,6 @@ export const reducer = (state = initialState, action) => {
             };
         }
         case types.FETCH_UPDATE_PAN_FAILURE:
-        case types.FETCH_CART_FAILURE:
         case types.FETCH_USERDETAILS_FAILURE:
         case types.FETCH_HOMEDATA_FAILURE:
         case types.FETCH_STEPS_FAILURE: {
@@ -144,14 +128,6 @@ export const reducer = (state = initialState, action) => {
                 isFetching: false,
                 error: null,
                 user,
-            };
-        }
-        case types.FETCH_CART_SUCCESS: {
-            return {
-                ...state,
-                isFetching: false,
-                error: null,
-                cart,
             };
         }
         case types.FETCH_UPDATE_PAN_SUCCESS: {

@@ -13,20 +13,20 @@ import {
     ActivityIndicator
 } from "react-native";
 import { connect } from 'react-redux'
-import {  Colors, FormValidate } from '../../common'
+import { Colors, FormValidate } from '../../common'
 import { Image, Header } from 'react-native-elements';
 
 function ForgotPasswordScreen(props) {
     const pageActive = useRef(false);
     const emailInput = useRef(null);
-    const { forgotPassword, isFetching, signUpSteps } = props;
+    const { forgotPassword, isFetching, password } = props;
 
     useEffect(() => {
-        if (signUpSteps == 0 && pageActive.current) {
+        if (password && pageActive.current) {
             pageActive.current = false;
-            props.navigation.navigate('Home')
+            props.navigation.navigate('login')
         }
-    }, [signUpSteps]);
+    }, [password]);
 
     const [state, setState] = useState({
         email: '',
@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
     isFetching: state.auth.isFetching,
-    signUpSteps: state.auth.signUpSteps,
+    password: state.auth.password,
 })
 
 
@@ -174,7 +174,7 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     return {
         ...stateProps,
         ...ownProps,
-        forgotPassword: (params) => { AuthActions.forgotPassword(dispatch,params) },
+        forgotPassword: (params) => { AuthActions.forgotPassword(dispatch, params) },
     }
 }
 export default connect(mapStateToProps, undefined, mapDispatchToProps)(ForgotPasswordScreen)

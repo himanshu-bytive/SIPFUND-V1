@@ -6,6 +6,7 @@ import {
     ActivityIndicator,
     Dimensions,
     ScrollView,
+    TouchableOpacity,
     Alert,
     Text,
 } from "react-native";
@@ -15,11 +16,10 @@ import { Colors } from '../../common'
 import { Image } from 'react-native-elements';
 import { OtpInputs } from '../../components';
 const width = Dimensions.get('window').width;
-const height = Dimensions.get('window').height;
 
 function OtpScreen(props) {
     const pageActive = useRef(false);
-    const { otp, phone, isFetching, signUpSteps } = props;
+    const { otp, resendOtp, phone, isFetching, signUpSteps } = props;
     const [locationServiceEnabled, setLocationServiceEnabled] = useState(false);
     const [displayCurrentAddress, setDisplayCurrentAddress] = useState([]);
 
@@ -88,7 +88,7 @@ function OtpScreen(props) {
                 "minorFlag": false,
                 "mobileNo": phone,
                 "otp": text,
-                "platform": Platform.OS,
+                "platform": Platform.OS == 'ios' ? 'IOS' : 'ANDROID',
                 "referenceInfo":
                 {
                     "latitude": displayCurrentAddress?.latitude,
@@ -101,6 +101,12 @@ function OtpScreen(props) {
             otp(params);
             setVerificationCode('')
         }
+    }
+
+    const reSendAction = async () => {
+        let params = { "mobileNo": phone }
+        resendOtp(params);
+        setVerificationCode('')
     }
 
     return (
@@ -119,10 +125,16 @@ function OtpScreen(props) {
                         <Text style={styles.number}>Enter OTP to verify</Text>
                         <Text style={styles.number}>your mobile number</Text>
                         <View style={styles.otpsec}>
-                            <OtpInputs
+                            {!isFetching && (<OtpInputs
                                 getOtp={(text) => { setVerificationCode(text), setError(null), onAction(text) }}
-                            />
+                            />)}
                             {isFetching && (<View style={styles.botton_box}><ActivityIndicator size={30} color={Colors.RED} /></View>)}
+                            {!isFetching && (<View style={styles.button}>
+                                <TouchableOpacity onPress={() => reSendAction()} style={styles.botton_box}>
+                                    <Text style={styles.get_otp}>RESEND OTP</Text>
+                                </TouchableOpacity>
+                            </View>)}
+
                         </View>
                     </View>
                 </View>
@@ -185,6 +197,9 @@ const styles = StyleSheet.create({
         marginLeft: 4,
         marginRight: 4,
     },
+    get_otp: {
+        color: Colors.RED,
+    },
     nseimg: {
         height: 73,
         width: width - 50,
@@ -214,7 +229,8 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     return {
         ...stateProps,
         ...ownProps,
-        otp: (params) => { AuthActions.otp(dispatch, params) }
+        otp: (params) => { AuthActions.otp(dispatch, params) },
+        resendOtp: (params) => { AuthActions.resendOtp(dispatch, params) }
     }
 }
 export default connect(mapStateToProps, undefined, mapDispatchToProps)(OtpScreen)

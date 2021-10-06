@@ -34,8 +34,14 @@ let documents = [
 ]
 
 function UploadDocumentScreen(props) {
-    const { user, steps } = props
+    const { token, user, steps, docs, getDocuments } = props
     const [document, setDocument] = useState(user?.userDetails?.ekycIsDone ? documentsKyc : documents);
+
+    useEffect(() => {
+        if (token) {
+            getDocuments(token)
+        }
+    }, [token]);
 
     return (
         <View style={styles.container}>
@@ -59,35 +65,16 @@ function UploadDocumentScreen(props) {
 
                 <View style={styles.document_status}>
                     <Text style={styles.document}>Document Status:</Text>
-                    <Text style={styles.pending}>{steps > 5 ? 'APPROVED' : 'PENDING'}</Text>
+                    <Text style={styles.pending}>{docs ? docs.documentVerifiedStatus : 'PENDING'}</Text>
                 </View>
 
                 {/* container_sec */}
-
                 <View style={styles.container_sec}>
                     <Text style={styles.we_need}>We need to Required Documents</Text>
                     {document.map((item, key) => <View key={key} style={styles.pan_sec}>
                         <MyImagePicker item={item} />
-                        {/* <View style={{ flexDirection: "row", width: "95%", }}>
-                            {item.icon}
-                            <Text style={styles.pan}>{item.name}</Text>
-                            <AntDesign name="exclamationcircleo" size={18} color="#EE4248" />
-                        </View>
-                        {item.type == 'attachment' ? <Entypo name={item.type} size={22} color="#000000" /> : <AntDesign name='form' size={22} color="#000000" />} */}
                     </View>)}
                 </View>
-
-                {/* <View style={styles.review_documents}>
-                    <Text style={styles.review}>Review Your Documents</Text>
-                </View>
-
-                <View style={{ flexDirection: "row", marginHorizontal: 10, marginTop: 20, }}>
-                    <View style={{ width: "95%", }}>
-                        <AntDesign name="left" size={20} color="#EE4248" width="90%" />
-                    </View>
-                    <AntDesign name="right" size={20} color="#EE4248" />
-                </View> */}
-
 
             </ScrollView>
         </View>
@@ -157,16 +144,19 @@ const styles = StyleSheet.create({
 });
 const mapStateToProps = (state) => ({
     token: state.auth.token,
+    docs: state.registration.documents,
     steps: state.home.steps,
     user: state.home.user,
 })
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     const { dispatch } = dispatchProps;
+    const { RegistrationActions } = require('../../store/RegistrationRedux')
     const { AuthActions } = require('../../store/AuthRedux')
     return {
         ...stateProps,
         ...ownProps,
+        getDocuments: (token) => { RegistrationActions.getDocuments(dispatch, token) },
         logOut: () => { AuthActions.logOut(dispatch) },
     }
 }
