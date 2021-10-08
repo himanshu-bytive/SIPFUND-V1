@@ -87,11 +87,11 @@ function LoginScreen(props) {
                         style={styles.passwordimg2}
                     />
 
-                    <Text style={styles.number}>Username</Text>
+                    <Text style={styles.number}>Email</Text>
                     <TextInput
                         ref={usernameInput}
                         style={styles.inputsec}
-                        placeholder={'Username'}
+                        placeholder={'Email'}
                         onChangeText={(username) => { setError({ ...errors, username: null }); setState({ ...state, username }) }}
                         value={state.username}
                     />

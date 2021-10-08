@@ -44,13 +44,13 @@ function ProfileScreen(props) {
                     <Text style={styles.profile_text2}>ACCOUNT ACTIVE</Text>
                 </View>
                 <View style={styles.icon_sec}>
-                    <View style={(steps && steps > 1) ? styles.icon_bg_act : styles.icon_bg}><FontAwesome name={"phone"} size={25} color={Colors.WHITE} /></View>
+                    <View style={(steps && steps > 2) ? styles.icon_bg_act : styles.icon_bg}><FontAwesome name={"phone"} size={25} color={Colors.WHITE} /></View>
                     <View style={styles.border}></View>
-                    <View style={(steps && steps > 2) ? styles.icon_bg_act : styles.icon_bg}><FontAwesome name={"user-o"} size={25} color={Colors.WHITE} /></View>
+                    <View style={(steps && steps > 3) ? styles.icon_bg_act : styles.icon_bg}><FontAwesome name={"user-o"} size={25} color={Colors.WHITE} /></View>
                     <View style={styles.border}></View>
-                    <View style={(steps && steps > 3) ? styles.icon_bg_act : styles.icon_bg}><Entypo name={"squared-minus"} size={25} color={Colors.WHITE} /></View>
+                    <View style={(steps && steps > 4) ? styles.icon_bg_act : styles.icon_bg}><Entypo name={"squared-minus"} size={25} color={Colors.WHITE} /></View>
                     <View style={styles.border}></View>
-                    <View style={(steps && steps > 4) ? styles.icon_bg_act : styles.icon_bg}><Octicons name={"primitive-dot"} size={25} color={Colors.WHITE} /></View>
+                    <View style={(steps && steps > 5) ? styles.icon_bg_act : styles.icon_bg}><Octicons name={"primitive-dot"} size={25} color={Colors.WHITE} /></View>
                 </View>
 
                 <View style={styles.text_sec}>
@@ -61,11 +61,11 @@ function ProfileScreen(props) {
                 </View>
 
                 <View style={[styles.icon_sec, styles.bottomicon_sec]}>
-                    <View style={(steps && steps > 5) ? styles.icon_bg_act : styles.icon_bg}><AntDesign name={"filetext1"} size={25} color={Colors.WHITE} /></View>
+                    <View style={(steps && steps > 6) ? styles.icon_bg_act : styles.icon_bg}><AntDesign name={"filetext1"} size={25} color={Colors.WHITE} /></View>
                     <View style={[styles.border, styles.border1]}></View>
-                    <View style={(steps && steps > 6) ? styles.icon_bg_act : styles.icon_bg}><Feather name={"check-circle"} size={25} color={Colors.WHITE} /></View>
+                    <View style={(steps && steps > 7) ? styles.icon_bg_act : styles.icon_bg}><Feather name={"check-circle"} size={25} color={Colors.WHITE} /></View>
                     <View style={[styles.border, styles.border1]}></View>
-                    <View style={(steps && steps > 7) ? styles.icon_bg_act : styles.icon_bg}><FontAwesome name={"rupee"} size={25} color={Colors.WHITE} /></View>
+                    <View style={(steps && steps > 8) ? styles.icon_bg_act : styles.icon_bg}><FontAwesome name={"rupee"} size={25} color={Colors.WHITE} /></View>
                 </View>
 
                 <View style={styles.text_sec}>
