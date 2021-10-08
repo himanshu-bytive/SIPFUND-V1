@@ -18,7 +18,7 @@ import { Image, Header, CheckBox } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
 
 function SideMenu(props) {
-    const { userDetails } = props
+    const { userDetails, steps } = props
     return (
         <View style={styles.container}>
             <Header
@@ -51,7 +51,7 @@ function SideMenu(props) {
                     <View><Text style={[styles.know_text, styles.know]}>Refer & Earn</Text></View>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => props.navigation.navigate('Register')} style={[styles.profile_sec, styles.profile]}>
+                <TouchableOpacity onPress={() => props.navigation.navigate(steps === 3 ? 'Register' : 'Register3')} style={[styles.profile_sec, styles.profile]}>
                     <View>
                         <FontAwesome name={"user-o"} size={30} color={Colors.GRAY_LIGHT_4} />
                     </View>
@@ -183,6 +183,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
     token: state.auth.token,
+    steps: state.home.steps,
     userDetails: state.auth.user,
 })
 export default connect(mapStateToProps)(SideMenu)

@@ -48,8 +48,18 @@ class ApiClient {
         .catch((error) => {
           if (error.response) {
             // Request made and server responded
-            console.log('aaa ', error.response);
-            reject({ error: true, message: error.response?.data?.message ? error.response?.data?.message : error.response?.data?.responseString });
+            console.log('aaa ', error.response.data);
+            let message = ''
+            if (error?.response?.data?.Data) {
+              for (let item of error.response.data.Data) {
+                message = message + ` ` + item.return_msg
+              }
+            } else if (error.response?.data?.responseString) {
+              message = error.response?.data?.responseString
+            } else if (error.response?.data?.message) {
+              message = error.response?.data?.message
+            }
+            reject({ error: true, message });
           } else if (error.request) {
             // The request was made but no response was received
             console.log('bbb ', error.request);

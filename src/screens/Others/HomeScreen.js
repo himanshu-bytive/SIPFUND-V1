@@ -67,12 +67,11 @@ function HomeScreen(props) {
                     </TouchableOpacity>
                     <Text style={styles.HelloIinvestor}>Hello, Investor</Text>
                     <Text style={styles.HelloIinvestor1}>You’re almost ready to submit</Text>
-                    {users.IIN ? <TouchableOpacity onPress={() => props.navigation.navigate('Goals')} style={styles.botton_box}>
+                    {(users.IIN && steps > 4) ? <TouchableOpacity onPress={() => props.navigation.navigate('Goals')} style={styles.botton_box}>
                         <Text style={styles.get_otp}>Start investment</Text>
-                    </TouchableOpacity> : <TouchableOpacity onPress={() => props.navigation.navigate('Register')} style={styles.botton_box}>
+                    </TouchableOpacity> : <TouchableOpacity onPress={() => props.navigation.navigate(steps === 3 ? 'Register' : 'Register3')} style={styles.botton_box}>
                         <Text style={styles.get_otp}>COMPLETE ACCOUNT SETUP</Text>
                     </TouchableOpacity>}
-                    {/* // props.navigation.navigate('Register3') */}
                 </View>
                 {/* plan your goals section */}
                 <Text style={styles.Plan}>Plan Your GOALS</Text>

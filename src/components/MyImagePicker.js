@@ -12,6 +12,7 @@ const MyImagePicker = (props) => {
     const { item, token, fileUpload } = props
     const [img, setImg] = useState(null);
     const [camera, setCamera] = useState(false);
+    const [hasPermission, setHasPermission] = useState(null);
     const [cameraRef, setCameraRef] = useState(null);
     const [type, setType] = useState(Camera.Constants.Type.back);
     const [sign, setSign] = useState(false);
@@ -26,6 +27,14 @@ const MyImagePicker = (props) => {
                     alert('Sorry, we need camera roll permissions to make this work!');
                 }
             }
+        })();
+    }, []);
+
+     // Check Camera Permissions
+     useEffect(() => {
+        (async () => {
+            const { status } = await Camera.requestPermissionsAsync();
+            setHasPermission(status === 'granted');
         })();
     }, []);
 

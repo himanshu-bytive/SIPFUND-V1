@@ -7,6 +7,7 @@ import {
     Text,
     ActivityIndicator
 } from "react-native";
+import moment from 'moment';
 import { connect } from 'react-redux'
 import { Colors } from '../../common'
 import { MySelectPicker, MyTextInput } from '../../components'
@@ -29,17 +30,18 @@ function CompleteDetailsBankScreen(props) {
 
     useEffect(() => {
         if (user) {
-            setState({
-                accountType: user.nseDetails.acc_type.ACC_TYPE,
-                accountNumber: user.nseDetails.acc_no,
-                ifsc: user.nseDetails.ifsc_code,
-                bank: user.nseDetails.bank_name.BANK_CODE,
-                branchName: user.nseDetails.branch_name,
-                branchAddress: user.nseDetails.branch_addr1,
-            })
+            setTimeout(() => {
+                setState({
+                    accountType: user.nseDetails.acc_type.ACC_TYPE,
+                    accountNumber: user.nseDetails.acc_no,
+                    ifsc: user.nseDetails.ifsc_code,
+                    bank: user.nseDetails.bank_name.BANK_CODE,
+                    branchName: user.nseDetails.branch_name,
+                    branchAddress: user.nseDetails.branch_addr1,
+                })
+            }, 1000)
         }
     }, [user]);
-
 
     useEffect(() => {
         if (accountTypes) {
@@ -136,15 +138,15 @@ function CompleteDetailsBankScreen(props) {
                 "branch_pincode": params.nseDetails.branch_pincode,
                 "city": params.nseDetails.city.CITY,
                 "country": params.nseDetails.country.COUNTRY_CODE,
-                "dob": params.nseDetails.dob,
+                "dob": params.nseDetails.dob ? moment(params.nseDetails.dob).format('DD-MMM-YYYY') : '',
                 "dp_id": params.nseDetails.dp_id,
                 "email": params.nseDetails.email,
                 "exempt_category": params.nseDetails.exempt_category,
                 "exempt_ref_no": params.nseDetails.exempt_ref_no,
                 "exemption": params.nseDetails.exemption,
                 "father_name": params.nseDetails.father_name,
-                "guard_dob": params.nseDetails.guard_dob,
-                "guard_exempt_category":'',
+                "guard_dob": params.nseDetails.guard_dob ? moment(params.nseDetails.guard_dob).format('DD-MMM-YYYY') : '',
+                "guard_exempt_category": '',
                 "guard_exemption": '',
                 "guard_kyc": params.nseDetails.guard_kyc,
                 "guard_name": params.nseDetails.guard_name,
@@ -154,7 +156,7 @@ function CompleteDetailsBankScreen(props) {
                 "hold_nature": params.nseDetails.hold_nature.HOLD_NATURE_CODE,
                 "ifsc_code": params.nseDetails.ifsc_code,
                 "inv_name": params.nseDetails.inv_name,
-                "jh1_dob": params.nseDetails.jh1_dob,
+                "jh1_dob": params.nseDetails.jh1_dob ? moment(params.nseDetails.jh1_dob).format('DD-MMM-YYYY') : '',
                 "jh1_email": params.nseDetails.jh1_email,
                 "jh1_exempt_category": params.nseDetails.jh1_exempt_category,
                 "jh1_exempt_ref_no": params.nseDetails.jh1_exempt_ref_no,
@@ -164,7 +166,7 @@ function CompleteDetailsBankScreen(props) {
                 "jh1_name": params.nseDetails.jh1_name,
                 "jh1_pan": params.nseDetails.jh1_pan,
                 "jh1_valid_pan": params.nseDetails.jh1_valid_pan,
-                "jh2_dob": params.nseDetails.jh2_dob,
+                "jh2_dob": params.nseDetails.jh2_dob ? moment(params.nseDetails.jh2_dob).format('DD-MMM-YYYY') : '',
                 "jh2_email": params.nseDetails.jh2_email,
                 "jh2_exempt_category": params.nseDetails.jh2_exempt_category,
                 "jh2_exempt_ref_no": params.nseDetails.jh2_exempt_ref_no,
@@ -183,7 +185,7 @@ function CompleteDetailsBankScreen(props) {
                 "nominee1_addr2": params.nseDetails.nominee1_addr2,
                 "nominee1_addr3": params.nseDetails.nominee1_addr3,
                 "nominee1_city": params.nseDetails.nominee1_city,
-                "nominee1_dob": params.nseDetails.nominee1_dob,
+                "nominee1_dob": params.nseDetails.nominee1_dob ? moment(params.nseDetails.nominee1_dob).format('DD-MMM-YYYY') : '',
                 "nominee1_guard_name": params.nseDetails.nominee1_guard_name,
                 "nominee1_guard_pan": params.nseDetails.nominee1_guard_pan,
                 "nominee1_name": params.nseDetails.nominee1_name,
@@ -192,14 +194,14 @@ function CompleteDetailsBankScreen(props) {
                 "nominee1_relation": params.nseDetails.nominee1_relation,
                 "nominee1_state": params.nseDetails.nominee1_state,
                 "nominee1_type": params.nseDetails.nominee1_type,
-                "nominee2_dob": params.nseDetails.nominee2_dob,
+                "nominee2_dob": params.nseDetails.nominee2_dob ? moment(params.nseDetails.nominee2_dob).format('DD-MMM-YYYY') : '',
                 "nominee2_guard_name": params.nseDetails.nominee2_guard_name,
                 "nominee2_guard_pan": params.nseDetails.nominee2_guard_pan,
                 "nominee2_name": params.nseDetails.nominee2_name,
                 "nominee2_percent": params.nseDetails.nominee2_percent,
                 "nominee2_relation": params.nseDetails.nominee2_relation,
                 "nominee2_type": params.nseDetails.nominee2_type,
-                "nominee3_dob": params.nseDetails.nominee3_dob,
+                "nominee3_dob": params.nseDetails.nominee3_dob ? moment(params.nseDetails.nominee3_dob).format('DD-MMM-YYYY') : '',
                 "nominee3_guard_name": params.nseDetails.nominee3_guard_name,
                 "nominee3_guard_pan": params.nseDetails.nominee3_guard_pan,
                 "nominee3_name": params.nseDetails.nominee3_name,
@@ -227,7 +229,6 @@ function CompleteDetailsBankScreen(props) {
                 "valid_pan": params.nseDetails.valid_pan,
             }
         }
-        // console.log(paramsNew)
         createRegister(paramsNew, token)
         toggleOverlay()
         props.navigation.navigate('Register3')
