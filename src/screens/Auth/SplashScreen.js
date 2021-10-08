@@ -15,7 +15,7 @@ function SplashScreen(props) {
         logout()
         resetData()
         props.navigation.navigate('verify')
-        // props.navigation.navigate('Register3')
+        // props.navigation.navigate('Home')
     }, []);
 
     return (

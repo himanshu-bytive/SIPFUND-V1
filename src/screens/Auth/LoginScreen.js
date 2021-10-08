@@ -10,14 +10,13 @@ import {
 } from "react-native";
 import { connect } from 'react-redux'
 import { Colors, Config } from '../../common'
-import { AntDesign } from 'react-native-vector-icons';
+import { AntDesign, MaterialIcons } from 'react-native-vector-icons';
 import { Image, Header } from 'react-native-elements';
 
 function LoginScreen(props) {
     const pageActive = useRef(false);
-    const usernameInput = useRef(null);
     const passwordInput = useRef(null);
-    const { login, isFetching, token, getUserDetails, user } = props;
+    const { login, isFetching, token, getUserDetails, user, phone } = props;
 
     useEffect(() => {
         if (token && pageActive.current) {
@@ -35,23 +34,14 @@ function LoginScreen(props) {
 
 
     const [state, setState] = useState({
-        username: '',
         password: '',
-        // username: 'biswa@techlift.in',
-        // password: 'test@1234',
     });
 
     const [errors, setError] = useState({
-        username: null,
         password: null,
     });
 
     const onAction = async () => {
-        if (!state.username) {
-            usernameInput.current.focus();
-            setError({ ...errors, username: 'Please enter Username' });
-            return
-        }
         if (!state.password) {
             passwordInput.current.focus();
             setError({ ...errors, password: 'Please enter Password' });
@@ -59,14 +49,14 @@ function LoginScreen(props) {
         }
         pageActive.current = true;
         let params = {
-            "username": state.username,
+            "username": String(phone),
             "password": state.password,
             "grant_type": "password",
             "scope": "user",
             "deviceToken": ""
         }
         login(params, Config.loginToken);
-        setState({ ...state, username: '', password: '', term: false });
+        setState({ ...state, password: '', term: false });
     }
 
     return (
@@ -87,15 +77,10 @@ function LoginScreen(props) {
                         style={styles.passwordimg2}
                     />
 
-                    <Text style={styles.number}>Email</Text>
-                    <TextInput
-                        ref={usernameInput}
-                        style={styles.inputsec}
-                        placeholder={'Email'}
-                        onChangeText={(username) => { setError({ ...errors, username: null }); setState({ ...state, username }) }}
-                        value={state.username}
-                    />
-                    {(errors.username) && (<Text style={styles.error}>{errors.username}</Text>)}
+                    <View style={styles.phone_number}>
+                        <MaterialIcons name="call" size={30} color="#838280" />
+                        <Text style={[styles.number, { fontSize: 25 }]}>{phone}</Text>
+                    </View>
                     <Text style={styles.number}>Enter Password</Text>
                     <TextInput
                         ref={passwordInput}
@@ -152,7 +137,14 @@ const styles = StyleSheet.create({
         height: 136,
         width: 136,
     },
-    number: { fontSize: 20, },
+    phone_number: {
+        flexDirection: "row",
+        paddingLeft: 70,
+    },
+    number: {
+        fontSize: 18,
+        marginLeft: 5,
+    },
     inputsec: {
         borderWidth: 2,
         borderColor: Colors.GRAY_LIGHT,
@@ -202,6 +194,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => ({
     isFetching: state.auth.isFetching,
     signUpSteps: state.auth.signUpSteps,
+    phone: state.auth.phone,
     user: state.auth.user,
     token: state.auth.token,
 })

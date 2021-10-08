@@ -72,12 +72,12 @@ function HomeScreen(props) {
                     </TouchableOpacity> : <TouchableOpacity onPress={() => props.navigation.navigate('Register')} style={styles.botton_box}>
                         <Text style={styles.get_otp}>COMPLETE ACCOUNT SETUP</Text>
                     </TouchableOpacity>}
+                    {/* // props.navigation.navigate('Register3') */}
                 </View>
                 {/* plan your goals section */}
                 <Text style={styles.Plan}>Plan Your GOALS</Text>
 
                 <ScrollView horizontal={true}>
-
                     <TouchableOpacity onPress={() => props.navigation.navigate('Plan1')}>
                         <View style={styles.education}>
                             <View style={styles.child_sec}>
@@ -170,9 +170,7 @@ function HomeScreen(props) {
                 {/* investment section */}
 
                 <Text style={styles.Plan}>Investment Plans</Text>
-
                 <Investments data={investmentData} onPress={() => props.navigation.navigate('Invest2')} />
-
                 <View style={{ alignItems: "center" }}>
                     <TouchableOpacity onPress={() => props.navigation.navigate('Invest1')}>
                         <View style={styles.all_plan}>
