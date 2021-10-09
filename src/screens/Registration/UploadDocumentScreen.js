@@ -1,16 +1,10 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
 import {
     StyleSheet,
-    Button,
     ScrollView,
     View,
-    ImageBackground,
     TouchableOpacity,
     Text,
-    Dimensions,
-    KeyboardAvoidingView,
-    TextInput,
-    ActivityIndicator
 } from "react-native";
 import { connect } from 'react-redux'
 import { Styles, Config, Colors, FormValidate } from '../../common'
@@ -25,7 +19,7 @@ let documentsKyc = [
 
 let documents = [
     { name: 'PAN', fileType: 'PC', info: 'Upload PAN', type: 'attachment', icon: (<FontAwesome5 name="credit-card" size={18} color="#EE4248" />) },
-    { name: 'Select Doc', fileType: 'CH', info: 'Upload Select Doc', type: 'attachment', icon: (<AntDesign name="idcard" size={20} color="#EE4248" />) },
+    { name: 'Select Doc', multi: true, fileType: '', info: 'Upload Select Doc', type: 'attachment', icon: (<AntDesign name="idcard" size={20} color="#EE4248" />) },
     { name: 'Cancelled Cheque', fileType: 'CH', info: 'Upload Cancelled Cheque', type: 'attachment', icon: (<MaterialIcons name="cancel" size={22} color="#EE4248" />) },
     { name: 'Investor Form', fileType: 'IP', info: 'Upload Investor Form', type: 'attachment', icon: (<FontAwesome name="wpforms" size={22} color="#EE4248" />) },
     { name: 'Passport Size Image', fileType: 'PIC', info: 'Upload Passport Size Image', type: 'attachment', icon: (<FontAwesome name="file-image-o" size={22} color="#EE4248" />) },
@@ -65,15 +59,31 @@ function UploadDocumentScreen(props) {
 
                 <View style={styles.document_status}>
                     <Text style={styles.document}>Document Status:</Text>
-                    <Text style={styles.pending}>{docs ? docs.documentVerifiedStatus : 'PENDING'}</Text>
+                    <Text style={styles.pending}>{docs ? docs?.responseString?.documentVerifiedStatus : 'PENDING'}</Text>
                 </View>
 
                 {/* container_sec */}
                 <View style={styles.container_sec}>
                     <Text style={styles.we_need}>We need to Required Documents</Text>
                     {document.map((item, key) => <View key={key} style={styles.pan_sec}>
-                        <MyImagePicker item={item} />
+                        <MyImagePicker items={item} />
                     </View>)}
+                </View>
+
+                <View style={styles.review_documents}>
+                    <Text style={styles.review}>Review Your Documents</Text>
+                </View>
+
+                <View style={{ flexDirection: "row", marginHorizontal: 10, marginTop: 20, }}>
+                    <ScrollView horizontal={true}>
+                        {docs?.responseString.documents ? docs.responseString.documents.map((item, key) => <View key={key} style={{ marginHorizontal: 10, alignItems: 'center', width: Styles.width - 50 }}>
+                            <Text style={{ marginBottom: 5 }}>{item.docType}</Text>
+                            <Image
+                                source={{ uri: `${docs.baseUrl}${item.fileName}` }}
+                                style={{ width: Styles.width - 50, height: 300 }}
+                            />
+                        </View>) : null}
+                    </ScrollView>
                 </View>
 
             </ScrollView>

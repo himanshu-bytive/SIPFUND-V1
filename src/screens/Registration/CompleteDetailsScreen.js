@@ -17,7 +17,8 @@ const titleList = [{ value: 'Mr', label: 'Mr.' }, { value: 'Mrs', label: 'Mrs.' 
 const pepList = [{ value: 'N', label: 'No' }, { value: 'Y', label: 'Yes' }, { value: 'R', label: 'Related to PEP ' }]
 
 function CompleteDetailsScreen(props) {
-    const { token, users, user, updateRegister, setUserInfo, settings, occupations, incomes } = props;
+    const pageActive = useRef(false);
+    const { token, users, user, updateRegister, setUserInfo, settings, occupations, incomes, updateSuccess } = props;
     const [occupationsList, setOccupationsList] = useState([]);
     const [incomesList, setIncomesList] = useState([]);
     const relationList = [
@@ -41,6 +42,13 @@ function CompleteDetailsScreen(props) {
         { value: 'Grand Mother', label: 'Grand Mother' },
         { value: 'Other', label: 'Other' },
     ]
+
+    useEffect(() => {
+        if (updateSuccess && pageActive.current) {
+            pageActive.current = false;
+            props.navigation.navigate('Register1')
+        }
+    }, [updateSuccess]);
 
     useEffect(() => {
         settings(token)
@@ -214,7 +222,7 @@ function CompleteDetailsScreen(props) {
         params.nseDetails.nominee1_type = nominateMinor ? 'Y' : 'N'
         updateRegister(params, token)
         setUserInfo(params)
-        props.navigation.navigate('Register1')
+        pageActive.current = true;
     }
 
     return (
@@ -498,6 +506,7 @@ const mapStateToProps = (state) => ({
     user: state.home.user,
     occupations: state.registration.occupations,
     incomes: state.registration.incomes,
+    updateSuccess: state.registration.updateSuccess,
 })
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {

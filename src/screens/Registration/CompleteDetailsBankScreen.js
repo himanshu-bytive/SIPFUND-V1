@@ -15,18 +15,23 @@ import { AntDesign } from 'react-native-vector-icons';
 import { Image, Header, Overlay } from 'react-native-elements';
 
 function CompleteDetailsBankScreen(props) {
+    const pageActive = useRef(false);
     const [visible, setVisible] = useState(false);
     const toggleOverlay = () => {
         setVisible(!visible);
     };
 
-    const { token, isFetching, updateRegister, setUserInfo, createRegister, user, accountTypes, banks, getBankDetails, bankDetails, } = props;
+    const { token, isFetching, updateRegister, setUserInfo, createRegister, user, accountTypes, banks, getBankDetails, bankDetails, updateSuccess } = props;
     const [accountTypeList, setAccountTypeList] = useState([]);
     const [bankList, setBankList] = useState([]);
 
-    useEffect(() => {
 
-    }, [user]);
+    useEffect(() => {
+        if (updateSuccess && pageActive.current) {
+            pageActive.current = false;
+            props.navigation.navigate('Register3')
+        }
+    }, [updateSuccess]);
 
     useEffect(() => {
         if (user) {
@@ -231,7 +236,7 @@ function CompleteDetailsBankScreen(props) {
         }
         createRegister(paramsNew, token)
         toggleOverlay()
-        props.navigation.navigate('Register3')
+        pageActive.current = true;
     }
 
     return (
@@ -436,6 +441,7 @@ const mapStateToProps = (state) => ({
     accountTypes: state.registration.accountTypes,
     banks: state.registration.banks,
     bankDetails: state.registration.bankDetails,
+    updateSuccess: state.registration.updateSuccess,
 })
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {

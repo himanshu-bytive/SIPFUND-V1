@@ -59,6 +59,9 @@ class ApiClient {
             } else if (error.response?.data?.message) {
               message = error.response?.data?.message
             }
+            if (error.response?.data?.error) {
+              message = error.response?.data?.error_description
+            }
             reject({ error: true, message });
           } else if (error.request) {
             // The request was made but no response was received

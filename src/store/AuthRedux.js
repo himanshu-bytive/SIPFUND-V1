@@ -42,13 +42,22 @@ export const AuthActions = {
     verify: async (dispatch, params) => {
         dispatch({ type: types.FETCH_VERIFY_PENDING });
         let auth = await SiteAPI.apiPostCall('/auth/verify', params);
-        // console.log(auth)
         if (auth.error) {
             Alert.alert(auth.message)
             dispatch({ type: types.FETCH_VERIFY_FAILURE, error: auth.message });
         } else {
-            Alert.alert(auth.responseString)
-            dispatch({ type: types.FETCH_VERIFY_SUCCESS, phone: params.mobileNo, signUpSteps: auth.signUpSteps, validFlag: auth.validFlag });
+            Alert.alert(
+                'SIP Fund',
+                auth.responseString,
+                [
+                    {
+                        text: "OK",
+                        onPress: () => {
+                            dispatch({ type: types.FETCH_VERIFY_SUCCESS, phone: params.mobileNo, signUpSteps: auth.signUpSteps, validFlag: auth.validFlag });
+                        }
+                    },
+                ]
+            );
         }
     },
     otp: async (dispatch, params) => {
@@ -58,8 +67,18 @@ export const AuthActions = {
             Alert.alert(data.message)
             dispatch({ type: types.FETCH_OTP_FAILURE, error: data.message });
         } else {
-            Alert.alert(data.responseString)
-            dispatch({ type: types.FETCH_OTP_SUCCESS, signUpSteps: data.signUpSteps, validFlag: data.validFlag });
+            Alert.alert(
+                'SIP Fund',
+                auth.responseString,
+                [
+                    {
+                        text: "OK",
+                        onPress: () => {
+                            dispatch({ type: types.FETCH_OTP_SUCCESS, signUpSteps: data.signUpSteps, validFlag: data.validFlag });
+                        }
+                    },
+                ]
+            );
         }
     },
     resendOtp: async (dispatch, params) => {
@@ -69,8 +88,18 @@ export const AuthActions = {
             Alert.alert(data.message)
             dispatch({ type: types.FETCH_RESEND_OTP_FAILURE, error: data.message });
         } else {
-            Alert.alert(data.responseString)
-            dispatch({ type: types.FETCH_RESEND_OTP_SUCCESS });
+            Alert.alert(
+                'SIP Fund',
+                auth.responseString,
+                [
+                    {
+                        text: "OK",
+                        onPress: () => {
+                            dispatch({ type: types.FETCH_RESEND_OTP_SUCCESS });
+                        }
+                    },
+                ]
+            );
         }
     },
     changePassword: async (dispatch, params) => {
@@ -81,8 +110,18 @@ export const AuthActions = {
             Alert.alert(data.message)
             dispatch({ type: types.FETCH_CHANGE_PASSWORD_FAILURE, error: data.message });
         } else {
-            Alert.alert(data.responseString)
-            dispatch({ type: types.FETCH_CHANGE_PASSWORD_SUCCESS, signUpSteps: data.signUpSteps, validFlag: data.validFlag });
+            Alert.alert(
+                'SIP Fund',
+                auth.responseString,
+                [
+                    {
+                        text: "OK",
+                        onPress: () => {
+                            dispatch({ type: types.FETCH_CHANGE_PASSWORD_SUCCESS, signUpSteps: data.signUpSteps, validFlag: data.validFlag });
+                        }
+                    },
+                ]
+            );
         }
     },
     panNumber: async (dispatch, params) => {
@@ -92,8 +131,18 @@ export const AuthActions = {
             Alert.alert(data.message)
             dispatch({ type: types.FETCH_PAN_NUMBER_FAILURE, error: data.message });
         } else {
-            Alert.alert(data.responseString)
-            dispatch({ type: types.FETCH_PAN_NUMBER_SUCCESS, panNumber: data.data });
+            Alert.alert(
+                'SIP Fund',
+                auth.responseString,
+                [
+                    {
+                        text: "OK",
+                        onPress: () => {
+                            dispatch({ type: types.FETCH_PAN_NUMBER_SUCCESS, panNumber: data.data });
+                        }
+                    },
+                ]
+            );
         }
     },
     forgotPassword: async (dispatch, params) => {
@@ -103,8 +152,18 @@ export const AuthActions = {
             Alert.alert(data.message)
             dispatch({ type: types.FETCH_FORGET_PASS_FAILURE, error: data.message });
         } else {
-            Alert.alert(data.message)
-            dispatch({ type: types.FETCH_FORGET_PASS_SUCCESS });
+            Alert.alert(
+                'SIP Fund',
+                auth.responseString,
+                [
+                    {
+                        text: "OK",
+                        onPress: () => {
+                            dispatch({ type: types.FETCH_FORGET_PASS_SUCCESS });
+                        }
+                    },
+                ]
+            );
         }
     },
     login: async (dispatch, params, token) => {
@@ -128,8 +187,18 @@ export const AuthActions = {
             Alert.alert(data.message)
             dispatch({ type: types.FETCH_CREAT_ACCOUNT_FAILURE, error: data.message });
         } else {
-            Alert.alert(data.responseString)
-            dispatch({ type: types.FETCH_CREAT_ACCOUNT_SUCCESS, signUpSteps: data.signUpSteps, validFlag: data.validFlag });
+            Alert.alert(
+                'SIP Fund',
+                auth.responseString,
+                [
+                    {
+                        text: "OK",
+                        onPress: () => {
+                            dispatch({ type: types.FETCH_CREAT_ACCOUNT_SUCCESS, signUpSteps: data.signUpSteps, validFlag: data.validFlag });
+                        }
+                    },
+                ]
+            );            
         }
     },
 };

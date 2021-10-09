@@ -2,22 +2,25 @@ import React, { useState, useRef, useEffect } from "react";
 import * as ImagePicker from 'expo-image-picker';
 import { Camera } from "expo-camera";
 import SignatureScreen from "react-native-signature-canvas";
+import * as FileSystem from 'expo-file-system';
 import { Modal, TouchableOpacity, Image, View, Text, StyleSheet, Platform } from 'react-native';
 import { Tooltip } from 'react-native-elements';
 import { connect } from 'react-redux'
 import { AntDesign, Entypo } from 'react-native-vector-icons';
 import { Button } from "react-native-paper";
+import MySelectPicker from "./MySelectPicker";
 
 const MyImagePicker = (props) => {
-    const { item, token, fileUpload } = props
+    const { items, token, fileUpload } = props
     const [img, setImg] = useState(null);
     const [camera, setCamera] = useState(false);
     const [hasPermission, setHasPermission] = useState(null);
     const [cameraRef, setCameraRef] = useState(null);
     const [type, setType] = useState(Camera.Constants.Type.back);
     const [sign, setSign] = useState(false);
+    const [item, setItem] = useState({});
     const signBox = useRef(null);
-
+    const selList = [{ value: 'Aadhaar Card Front', label: 'Aadhaar Card Front', fileType: 'Front' }, { value: 'Aadhaar Card Back', label: 'Aadhaar Card Back', fileType: 'Back' }, { value: 'Passport', label: 'Passport', fileType: 'Passport' }, { value: 'Driving Licence', label: 'Driving Licence', fileType: 'Licence' }]
 
     useEffect(() => {
         (async () => {
@@ -30,13 +33,19 @@ const MyImagePicker = (props) => {
         })();
     }, []);
 
-     // Check Camera Permissions
-     useEffect(() => {
+    // Check Camera Permissions
+    useEffect(() => {
         (async () => {
             const { status } = await Camera.requestPermissionsAsync();
             setHasPermission(status === 'granted');
         })();
     }, []);
+
+    useEffect(() => {
+        if (items) {
+            setItem(items)
+        }
+    }, [items]);
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -65,17 +74,39 @@ const MyImagePicker = (props) => {
         setImg(image.uri);
     };
 
-
     const signImage = (signature) => {
-        // console.log('sss ', signature);
-        setSign(false)
+        const path = FileSystem.cacheDirectory + 'Sign.png';
+        FileSystem.writeAsStringAsync(path, signature.replace('data:image/png;base64,', ''), { encoding: FileSystem.EncodingType.Base64 }).then(res => {
+            FileSystem.getInfoAsync(path, { size: true, md5: true }).then(file => {
+                let params = {
+                    "file": file,
+                    "fileType": item.fileType
+                }
+                fileUpload(params, token)
+                setImg(file.uri);
+                setSign(false)
+            })
+        }).catch(err => {
+            console.log("err", err);
+        })
     };
+
+    const setSelectDoc = (val) => {
+        let selected = selList.find(x => x.value == val);
+        if (selected) {
+            setItem({ ...item, name: val, fileType: selected.fileType, info: selected.label })
+        }
+    }
 
     return (
         <View style={{ flexDirection: "row", alignItems: 'center', justifyContent: 'space-between' }}>
             <View style={{ flexDirection: "row", width: "70%", }}>
                 {item.icon}
-                <Text style={styles.pan}>{item.name}</Text>
+                {item.multi ? <View style={{ width: '100%', marginTop: -20 }}><MySelectPicker
+                    values={selList}
+                    defultValue={item.name}
+                    onChange={(val) => setSelectDoc(val)}
+                /></View> : <Text style={styles.pan}>{item.name}</Text>}
                 <Tooltip popover={<Text style={{ color: '#fff' }}>{item.info}</Text>}>
                     <AntDesign name="exclamationcircleo" size={18} color="#EE4248" />
                 </Tooltip>
@@ -208,6 +239,7 @@ const styles = StyleSheet.create({
     pan: {
         marginHorizontal: 10,
         fontSize: 18,
+        width: '90%',
         fontWeight: "bold",
     },
     image: {
