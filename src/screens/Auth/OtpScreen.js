@@ -117,7 +117,6 @@ function OtpScreen(props) {
                     <View style={styles.mainbox}>
                         <View>
                             <Image
-                                onPress={() => props.navigation.navigate('createAccount')}
                                 source={require('../../../assets/logo.png')}
                                 style={styles.logimg}
                             />
