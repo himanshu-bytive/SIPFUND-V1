@@ -77,19 +77,10 @@ function CreateAccountScreen(props) {
     }
 
     useEffect(() => {
-        // && pageActive.current
-        // if (signUpSteps == 0) {
-        //     pageActive.current = false;
-        //     props.navigation.navigate('otp')
-        // }
-        // if (signUpSteps == 1) {
-        //     pageActive.current = false;
-        //     props.navigation.navigate('createAccount')
-        // }
-        // if (signUpSteps == 3) {
-        //     pageActive.current = false;
-        //     props.navigation.navigate('login')
-        // }
+        if (signUpSteps == 3 && pageActive.current) {
+            pageActive.current = false;
+            props.navigation.navigate('login')
+        }
         if (error) {
             console.log(error)
         }
@@ -127,7 +118,7 @@ function CreateAccountScreen(props) {
             "deviceToken": "",
             "email": state.email,
             "minorFlag": false,
-            "mobileNo": phone,
+            "mobileNo": String(phone),
             "pan": "",
             "password": state.password,
             "platform": Platform.OS == 'ios' ? 'IOS' : 'ANDROID',
@@ -139,12 +130,8 @@ function CreateAccountScreen(props) {
                 "longitude": displayCurrentAddress?.longitude,
                 "mobileNo": phone,
                 "pincode": displayCurrentAddress?.pincode,
-                "address": displayCurrentAddress?.address,
-                "city": displayCurrentAddress?.city,
-                "state": displayCurrentAddress?.state,
             }
         }
-        console.log(params)
         creatAccount(params);
         setState({ ...state, email: '', password: '', term: false });
     }
@@ -197,7 +184,7 @@ function CreateAccountScreen(props) {
                         checked={state.term}
                         checkedColor={Colors.BLACK}
                         uncheckedColor={Colors.RED}
-                        onPress={(term) => { setError({ ...errors, term: null }); setState({ ...state, term }) }}
+                        onPress={() => { setError({ ...errors, term: null }); setState({ ...state, term: !state.term }) }}
                     />
                     {(errors.term) && (<Text style={styles.error}>{errors.term}</Text>)}
                     <View style={styles.button}>

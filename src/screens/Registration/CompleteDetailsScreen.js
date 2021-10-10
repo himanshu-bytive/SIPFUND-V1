@@ -18,7 +18,7 @@ const pepList = [{ value: 'N', label: 'No' }, { value: 'Y', label: 'Yes' }, { va
 
 function CompleteDetailsScreen(props) {
     const pageActive = useRef(false);
-    const { token, users, user, updateRegister, setUserInfo, settings, occupations, incomes, updateSuccess } = props;
+    const { token, users, user, pan, updateRegister, setUserInfo, settings, occupations, incomes, updateSuccess } = props;
     const [occupationsList, setOccupationsList] = useState([]);
     const [incomesList, setIncomesList] = useState([]);
     const relationList = [
@@ -61,7 +61,7 @@ function CompleteDetailsScreen(props) {
                 dob: new Date(user.nseDetails.dob),
                 title: user.nseDetails.title,
                 investor: users.name,
-                investorPan: users.pan,
+                investorPan: users.pan ? users.pan : pan,
                 email: users.email,
                 fatherName: user.nseDetails.father_name,
                 motherName: user.nseDetails.mother_name,
@@ -504,6 +504,7 @@ const mapStateToProps = (state) => ({
     token: state.auth.token,
     users: state.auth.user,
     user: state.home.user,
+    pan: state.home.pan,
     occupations: state.registration.occupations,
     incomes: state.registration.incomes,
     updateSuccess: state.registration.updateSuccess,

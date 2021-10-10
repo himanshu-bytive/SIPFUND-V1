@@ -41,19 +41,19 @@ const types = {
 export const AuthActions = {
     verify: async (dispatch, params) => {
         dispatch({ type: types.FETCH_VERIFY_PENDING });
-        let auth = await SiteAPI.apiPostCall('/auth/verify', params);
-        if (auth.error) {
-            Alert.alert(auth.message)
-            dispatch({ type: types.FETCH_VERIFY_FAILURE, error: auth.message });
+        let data = await SiteAPI.apiPostCall('/auth/verify', params);
+        if (data.error) {
+            Alert.alert(data.message)
+            dispatch({ type: types.FETCH_VERIFY_FAILURE, error: data.message });
         } else {
             Alert.alert(
                 'SIP Fund',
-                auth.responseString,
+                data.responseString,
                 [
                     {
                         text: "OK",
                         onPress: () => {
-                            dispatch({ type: types.FETCH_VERIFY_SUCCESS, phone: params.mobileNo, signUpSteps: auth.signUpSteps, validFlag: auth.validFlag });
+                            dispatch({ type: types.FETCH_VERIFY_SUCCESS, phone: params.mobileNo, signUpSteps: data.signUpSteps, validFlag: data.validFlag });
                         }
                     },
                 ]
@@ -69,7 +69,7 @@ export const AuthActions = {
         } else {
             Alert.alert(
                 'SIP Fund',
-                auth.responseString,
+                data.responseString,
                 [
                     {
                         text: "OK",
@@ -90,7 +90,7 @@ export const AuthActions = {
         } else {
             Alert.alert(
                 'SIP Fund',
-                auth.responseString,
+                data.responseString,
                 [
                     {
                         text: "OK",
@@ -112,7 +112,7 @@ export const AuthActions = {
         } else {
             Alert.alert(
                 'SIP Fund',
-                auth.responseString,
+                data.responseString,
                 [
                     {
                         text: "OK",
@@ -133,7 +133,7 @@ export const AuthActions = {
         } else {
             Alert.alert(
                 'SIP Fund',
-                auth.responseString,
+                data.responseString,
                 [
                     {
                         text: "OK",
@@ -154,7 +154,7 @@ export const AuthActions = {
         } else {
             Alert.alert(
                 'SIP Fund',
-                auth.responseString,
+                data.responseString,
                 [
                     {
                         text: "OK",
@@ -182,23 +182,22 @@ export const AuthActions = {
     creatAccount: async (dispatch, params) => {
         dispatch({ type: types.FETCH_CREAT_ACCOUNT_PENDING });
         let data = await SiteAPI.apiPostCall('/auth', params);
-        console.log(data)
         if (data.error) {
             Alert.alert(data.message)
             dispatch({ type: types.FETCH_CREAT_ACCOUNT_FAILURE, error: data.message });
         } else {
             Alert.alert(
                 'SIP Fund',
-                auth.responseString,
+                data.message,
                 [
                     {
                         text: "OK",
                         onPress: () => {
-                            dispatch({ type: types.FETCH_CREAT_ACCOUNT_SUCCESS, signUpSteps: data.signUpSteps, validFlag: data.validFlag });
+                            dispatch({ type: types.FETCH_CREAT_ACCOUNT_SUCCESS, signUpSteps: data.signUpSteps });
                         }
                     },
                 ]
-            );            
+            );
         }
     },
 };
@@ -249,7 +248,7 @@ export const reducer = (state = initialState, action) => {
         }
         case types.FETCH_VERIFY_SUCCESS: {
             let phones = [...state.phones, phone]
-            let uniq = [...new Set(phones)];
+            let uniq = [...new Set(phones.reverse())];
             if (uniq.length >= 3) {
                 uniq.length = 3
             }
@@ -309,6 +308,7 @@ export const reducer = (state = initialState, action) => {
                 ...state,
                 isFetching: false,
                 error: null,
+                signUpSteps
             };
         }
         case types.FETCH_LOGIN_SUCCESS: {
