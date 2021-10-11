@@ -28,11 +28,11 @@ import PanScreen from './Others/PanScreen'
 import AMCScreen from './Others/AMCScreen'
 import EMandateScreen from './Others/EMandateScreen'
 import EnterScreen from './Others/EnterScreen'
+import AboutUsScreen from './Others/AboutUsScreen'
 
 
 
 import Investment from './InvestmentsPlans/Investment'
-
 
 
 import ProfileScreen from './Kyc/ProfileScreen'
@@ -56,7 +56,7 @@ import Goals3Screen from './Holdings/Goals3Screen'
 import Goals4Screen from './Holdings/Goals4Screen'
 import Goals5Screen from './Holdings/Goals5Screen'
 import Goals6Screen from './Holdings/Goals6Screen'
-import Goals7Screen from './HamburgerMenu/Goals7Screen'
+import OwnerChoice from './HamburgerMenu/OwnerChoice'
 import GoalsLongTermScreen from './Holdings/GoalsLongTermScreen'
 import PlanYourGoalScreen from './Holdings/PlanYourGoalScreen'
 
@@ -108,7 +108,7 @@ export {
     Goals4Screen,
     Goals5Screen,
     Goals6Screen,
-    Goals7Screen,
+    OwnerChoice,
     GoalsScreen,
     Goals1Screen,
     GoalsLongTermScreen,
@@ -146,6 +146,7 @@ export {
     AMCScreen,
     EMandateScreen,
     EnterScreen,
+    AboutUsScreen,
     DashboardScreen,
     HamburgerMenu2Screen,
     HamburgerMenu4Screen,

@@ -132,8 +132,18 @@ export const RegistrationActions = {
             Alert.alert(data.responseString)
             dispatch({ type: types.FETCH_FILE_UPLOAD_FAILURE, error: data.responseString });
         } else {
-            Alert.alert(data.responseString)
-            dispatch({ type: types.FETCH_FILE_UPLOAD_SUCCESS, });
+            Alert.alert(
+                'SIP Fund',
+                data.responseString,
+                [
+                    {
+                        text: "OK",
+                        onPress: () => {
+                            dispatch({ type: types.FETCH_FILE_UPLOAD_SUCCESS, });
+                        }
+                    },
+                ]
+            );
         }
     },
 
@@ -153,6 +163,7 @@ const initialState = {
     userInfo: null,
     documents: null,
     updateSuccess: false,
+    uploadSuccess: false,
 };
 
 export const reducer = (state = initialState, action) => {
@@ -170,6 +181,7 @@ export const reducer = (state = initialState, action) => {
                 isFetching: true,
                 error: null,
                 updateSuccess: false,
+                uploadSuccess: false,
             };
         }
         case types.FETCH_FILE_UPLOAD_FAILURE:
@@ -181,6 +193,8 @@ export const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 isFetching: false,
+                updateSuccess: false,
+                uploadSuccess: false,
                 error,
             };
         }
@@ -247,6 +261,7 @@ export const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 isFetching: false,
+                uploadSuccess: true,
                 error: null,
             };
         }

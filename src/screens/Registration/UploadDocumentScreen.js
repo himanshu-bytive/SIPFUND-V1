@@ -28,14 +28,14 @@ let documents = [
 ]
 
 function UploadDocumentScreen(props) {
-    const { token, user, steps, docs, getDocuments } = props
+    const { token, user, steps, docs, getDocuments, uploadSuccess } = props
     const [document, setDocument] = useState(user?.userDetails?.ekycIsDone ? documentsKyc : documents);
 
     useEffect(() => {
-        if (token) {
+        if (token || uploadSuccess) {
             getDocuments(token)
         }
-    }, [token]);
+    }, [token, uploadSuccess]);
 
     return (
         <View style={styles.container}>
@@ -155,6 +155,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => ({
     token: state.auth.token,
     docs: state.registration.documents,
+    uploadSuccess: state.registration.uploadSuccess,
     steps: state.home.steps,
     user: state.home.user,
 })

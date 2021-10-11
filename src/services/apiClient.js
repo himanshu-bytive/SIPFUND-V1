@@ -66,7 +66,7 @@ class ApiClient {
           } else if (error.request) {
             // The request was made but no response was received
             console.log('bbb ', error.request);
-            reject({ error: true, message: error.request });
+            reject({ error: true, message: error?.request._response });
           } else {
             // Something happened in setting up the request that triggered an Error
             console.log('ccc', error.message);

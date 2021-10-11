@@ -6,7 +6,7 @@ import {
     ImageBackground,
     TouchableOpacity,
     Text,
-    Dimensions,
+    Linking,
     KeyboardAvoidingView,
     TextInput,
     ActivityIndicator
@@ -15,9 +15,9 @@ import { connect } from 'react-redux'
 import { Styles, Config, Colors, FormValidate } from '../../common'
 
 import { Ionicons, AntDesign, Entypo } from 'react-native-vector-icons';
-import { Image, Header, CheckBox } from 'react-native-elements';
+import { Image, Header, CheckBox, colors } from 'react-native-elements';
 
-function FaqScreen(props) {
+function AboutUsScreen(props) {
     return (
         <View style={styles.container}>
 
@@ -28,33 +28,32 @@ function FaqScreen(props) {
                     source={require('../../../assets/icon.png')}
                     style={styles.logimg}
                 />}
-                rightComponent={<View style={Styles.headerkn}><Text style={Styles.textkn}>KN</Text></View>}
             />
             <View style={styles.mainbox}>
 
                 <View>
-                    <Text style={styles.faqs}>FAQ’s</Text>
+                    <Text style={styles.faqs}>Welcome to SIPfund.com a platform for investment in mutual funds – Systematic Investment Plan and Lump sum.</Text>
                 </View>
-                <View style={styles.imgbox}>
+                <TouchableOpacity onPress={() => Linking.openURL('https://www.sipfund.com/about.html')}>
+                    <Text style={[styles.faqs, { marginTop: 20, fontWeight: 'bold', color: Colors.RED }]}>For more info click here</Text>
+                </TouchableOpacity>
 
+                <View style={styles.imgbox}>
                     <Image
-                        source={require('../../../assets/FAQimg.png')}
+                        source={require('../../../assets/iconLogo.png')}
                         style={styles.FAQimg}
                     />
                 </View>
                 <View style={styles.singletext}>
-                    <Entypo name="dot-single" size={40} color="#FFCE00" />
-                    <Text style={styles.Mutualfund}>What is a Mutual Fund?</Text>
+                    <Text style={[styles.Mutualfund, { fontWeight: 'bold' }]}>SIP Fund</Text>
                 </View>
                 <View style={styles.singletext}>
-                    <Entypo name="dot-single" size={40} color="#FFCE00" />
-                    <Text style={styles.Mutualfund}>What is Open Ended Fund?</Text>
+                    <Text style={styles.Mutualfund}>Version 1.0.33</Text>
                 </View>
 
-
-                <TouchableOpacity onPress={() => props.navigation.navigate('Explore')} style={styles.botton_box}>
-                    <Text style={styles.get_otp}>MORE FAQ’s</Text>
-                </TouchableOpacity>
+                <View style={{ marginTop: 50 }}>
+                    <Text style={styles.get_otp}>Copyrights © 2021 All Rights Reserved by SIP Fund. </Text>
+                </View>
             </View>
         </View>
 
@@ -71,6 +70,7 @@ const styles = StyleSheet.create({
     },
     mainbox: {
         padding: 40,
+        alignItems: "center",
     },
     logimg: {
         height: 65,
@@ -82,15 +82,15 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     FAQimg: {
-        height: 205,
-        width: 243,
+        height: 200,
+        width: 200,
         marginVertical: 30,
 
     },
     faqs: {
-        fontSize: 22,
-        fontWeight: "bold",
+        fontSize: 15,
         color: '#716D6E',
+        textAlign: 'center',
     },
     singletext: {
         flexDirection: "row",
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     Mutualfund: {
         fontSize: 20,
         marginTop: 9,
-        color: Colors.GREY_1,
+        color: Colors.BLACK,
     },
     botton_box: {
         alignItems: "center",
@@ -111,8 +111,9 @@ const styles = StyleSheet.create({
 
     },
     get_otp: {
-        color: Colors.WHITE,
-        fontSize: 20,
+        color: Colors.BLACK,
+        fontSize: 15,
+        textAlign: 'center',
         fontWeight: 'bold',
 
     },
@@ -131,4 +132,4 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
         logOut: () => { AuthActions.logOut(dispatch) },
     }
 }
-export default connect(mapStateToProps, undefined, mapDispatchToProps)(FaqScreen)
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(AboutUsScreen)

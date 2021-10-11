@@ -108,7 +108,6 @@ function DashboardScreen(props) {
                 <View style={styles.history_sec2}>
                 <TouchableOpacity onPress={() => props.navigation.navigate('Goals7')}>
                     <View style={styles.Switch_sec}>
-
                         <View style={styles.box}>
                             <Image
                                 source={require('../../../assets/choice.png')}
