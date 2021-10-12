@@ -50,7 +50,7 @@ class ApiClient {
             // Request made and server responded
             console.log('aaa ', error.response.data);
             let message = ''
-            if (error?.response?.data?.Data) {
+            if (error?.response?.data?.Data && Array.isArray(error?.response?.data?.Data) ) {
               for (let item of error.response.data.Data) {
                 message = message + ` ` + item.return_msg
               }

@@ -162,6 +162,7 @@ const initialState = {
     bankDetails: {},
     userInfo: null,
     documents: null,
+    addSuccess: false,
     updateSuccess: false,
     uploadSuccess: false,
 };
@@ -180,6 +181,7 @@ export const reducer = (state = initialState, action) => {
                 ...state,
                 isFetching: true,
                 error: null,
+                addSuccess: false,
                 updateSuccess: false,
                 uploadSuccess: false,
             };
@@ -193,6 +195,7 @@ export const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 isFetching: false,
+                addSuccess: false,
                 updateSuccess: false,
                 uploadSuccess: false,
                 error,
@@ -247,6 +250,7 @@ export const reducer = (state = initialState, action) => {
                 ...state,
                 isFetching: false,
                 error: null,
+                addSuccess: true
             };
         }
         case types.FETCH_UPDATE_REGISTER_SUCCESS: {

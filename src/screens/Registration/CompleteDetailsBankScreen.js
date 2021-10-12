@@ -17,21 +17,17 @@ import { Image, Header, Overlay } from 'react-native-elements';
 function CompleteDetailsBankScreen(props) {
     const pageActive = useRef(false);
     const [visible, setVisible] = useState(false);
-    const toggleOverlay = () => {
-        setVisible(!visible);
-    };
-
-    const { token, isFetching, updateRegister, setUserInfo, createRegister, user, accountTypes, banks, getBankDetails, bankDetails, updateSuccess } = props;
+    const { token, isFetching, updateRegister, setUserInfo, createRegister, user, accountTypes, banks, getBankDetails, bankDetails, addSuccess } = props;
     const [accountTypeList, setAccountTypeList] = useState([]);
     const [bankList, setBankList] = useState([]);
 
 
     useEffect(() => {
-        if (updateSuccess && pageActive.current) {
+        if (addSuccess && pageActive.current) {
             pageActive.current = false;
-            props.navigation.navigate('Register3')
+            setVisible(true)
         }
-    }, [updateSuccess]);
+    }, [addSuccess]);
 
     useEffect(() => {
         if (user) {
@@ -235,9 +231,14 @@ function CompleteDetailsBankScreen(props) {
             }
         }
         createRegister(paramsNew, token)
-        toggleOverlay()
         pageActive.current = true;
     }
+
+    const onComplete = () => {
+        setVisible(false)
+        props.navigation.navigate('Register3')
+    }
+
 
     return (
         <View style={styles.container}>
@@ -341,7 +342,7 @@ function CompleteDetailsBankScreen(props) {
                 <View style={{ padding: 10 }}>
                     <Text style={{ paddingVertical: 5, fontSize: 18, fontWeight: "bold", }}>Thank you for creating your investor account!</Text>
                     <Text style={{ paddingVertical: 5, fontSize: 15, fontWeight: "bold", color: '#7E7E7E' }}>Please check your email and approve the link sent by NSE for your account activation.</Text>
-                    <TouchableOpacity onPress={toggleOverlay}><Text style={{ color: '#ff0000', paddingTop: 20, }}>OK</Text></TouchableOpacity>
+                    <TouchableOpacity onPress={() => onComplete()}><Text style={{ color: '#ff0000', paddingTop: 20, }}>OK</Text></TouchableOpacity>
                 </View>
             </Overlay>
         </View>
@@ -441,7 +442,7 @@ const mapStateToProps = (state) => ({
     accountTypes: state.registration.accountTypes,
     banks: state.registration.banks,
     bankDetails: state.registration.bankDetails,
-    updateSuccess: state.registration.updateSuccess,
+    addSuccess: state.registration.addSuccess,
 })
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
