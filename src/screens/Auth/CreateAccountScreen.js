@@ -77,7 +77,7 @@ function CreateAccountScreen(props) {
     }
 
     useEffect(() => {
-        if (signUpSteps == 3 && pageActive.current) {
+        if (signUpSteps >= 3 && pageActive.current) {
             pageActive.current = false;
             props.navigation.navigate('login')
         }

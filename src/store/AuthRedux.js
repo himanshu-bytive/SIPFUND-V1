@@ -105,7 +105,6 @@ export const AuthActions = {
     changePassword: async (dispatch, params) => {
         dispatch({ type: types.FETCH_CHANGE_PASSWORD_PENDING });
         let data = await SiteAPI.apiPutCall('/password/changePassword', params);
-        console.log(data)
         if (data.error) {
             Alert.alert(data.message)
             dispatch({ type: types.FETCH_CHANGE_PASSWORD_FAILURE, error: data.message });
@@ -228,6 +227,7 @@ export const reducer = (state = initialState, action) => {
         case types.FETCH_LOGIN_PENDING: {
             return {
                 ...state,
+                signUpSteps: null,
                 isFetching: true,
                 error: null,
             };

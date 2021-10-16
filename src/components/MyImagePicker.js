@@ -3,6 +3,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { Camera } from "expo-camera";
 import SignatureScreen from "react-native-signature-canvas";
 import * as FileSystem from 'expo-file-system';
+import * as Permissions from 'expo-permissions';
 import { Modal, TouchableOpacity, Image, View, Text, StyleSheet, Platform } from 'react-native';
 import { Tooltip } from 'react-native-elements';
 import { connect } from 'react-redux'
@@ -24,11 +25,9 @@ const MyImagePicker = (props) => {
 
     useEffect(() => {
         (async () => {
-            if (Platform.OS !== 'web') {
-                const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-                if (status !== 'granted') {
-                    alert('Sorry, we need camera roll permissions to make this work!');
-                }
+            const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+            if (status !== 'granted') {
+                alert('Sorry, we need camera roll permissions to make this work!');
             }
         })();
     }, []);
@@ -36,8 +35,10 @@ const MyImagePicker = (props) => {
     // Check Camera Permissions
     useEffect(() => {
         (async () => {
-            const { status } = await Camera.requestPermissionsAsync();
-            setHasPermission(status === 'granted');
+            const { status } = await Permissions.askAsync(Permissions.CAMERA);
+            if (status !== 'granted') {
+                alert('Sorry, we need camera permissions to make this work!');
+            }
         })();
     }, []);
 
