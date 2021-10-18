@@ -53,7 +53,10 @@ export default function PlanYourGoalFundType(props) {
 
                     <View style={{ flexDirection: "row", }}>
                         <Text style={styles.new}>5</Text>
-                        <AntDesign name="caretdown" size={20} color="#C0392B" />
+                        <View style={{ flexDirection: "column", }}>
+                        <AntDesign name="caretup" size={15} color="#C0392B" />
+                        <AntDesign name="caretdown" size={15} color="#C0392B" />
+                        </View>
                     </View>
 
 
@@ -135,6 +138,7 @@ const styles = StyleSheet.create({
     },
     new: {
         fontSize: 18,
+        paddingRight:5
     },
     circle: {
         height: 35,

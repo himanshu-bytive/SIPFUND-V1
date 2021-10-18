@@ -154,7 +154,7 @@ function VerifyScreen(props) {
                 <View style={styles.button}>
                     {isFetching ? <View style={styles.botton_box}><ActivityIndicator size={30} color={Colors.WHITE} /></View> :
                         <TouchableOpacity onPress={() => onAction()} style={styles.botton_box}>
-                            <Text style={styles.get_otp}>GET OTP</Text>
+                            <Text style={styles.get_otp}>ENTER</Text>
                         </TouchableOpacity>}
                 </View>
                 <View style={styles.otp}>
@@ -186,11 +186,11 @@ const styles = StyleSheet.create({
     sloganRed: {
         color: Colors.RED
     },
-    mainbox: {
-        borderRadius: 25,
-        backgroundColor: Colors.WHITE,
-        width: width - 50,
-    },
+    // mainbox: {
+    //     borderRadius: 25,
+    //     backgroundColor: Colors.WHITE,
+    //     width: width - 50,
+    // },
     logoimg: {
         marginTop: 30,
     },
