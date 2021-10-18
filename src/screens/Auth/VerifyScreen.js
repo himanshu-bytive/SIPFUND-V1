@@ -30,7 +30,7 @@ function VerifyScreen(props) {
             pageActive.current = false;
             props.navigation.navigate('createAccount')
         }
-        if (signUpSteps == 3 && pageActive.current) {
+        if (signUpSteps >= 3 && pageActive.current) {
             pageActive.current = false;
             props.navigation.navigate('login')
         }

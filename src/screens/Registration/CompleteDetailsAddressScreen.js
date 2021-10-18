@@ -13,8 +13,8 @@ import { AntDesign } from 'react-native-vector-icons';
 import { Image, Header } from 'react-native-elements';
 
 function CompleteDetailsAddressScreen(props) {
-
-    const { token, updateRegister, setUserInfo, user, statess, citys, getCitys, getPincode, pincodeInfo } = props;
+    const pageActive = useRef(false);
+    const { token, updateRegister, setUserInfo, user, statess, citys, getCitys, getPincode, pincodeInfo, updateSuccess } = props;
     const [stateList, setStateList] = useState([]);
     const [cityList, setCityList] = useState([]);
 
@@ -24,6 +24,13 @@ function CompleteDetailsAddressScreen(props) {
         states: '',
         city: '',
     });
+
+    useEffect(() => {
+        if (updateSuccess && pageActive.current) {
+            pageActive.current = false;
+            props.navigation.navigate('Register2')
+        }
+    }, [updateSuccess]);
 
     useEffect(() => {
         if (user) {
@@ -103,7 +110,7 @@ function CompleteDetailsAddressScreen(props) {
         }
         updateRegister(params, token)
         setUserInfo(params)
-        props.navigation.navigate('Register2')
+        pageActive.current = true;
     }
 
     return (
@@ -264,6 +271,7 @@ const mapStateToProps = (state) => ({
     pincodeInfo: state.registration.pincodeInfo,
     statess: state.registration.states,
     citys: state.registration.citys,
+    updateSuccess: state.registration.updateSuccess,
 })
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {

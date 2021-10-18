@@ -13,6 +13,7 @@ import {
     ActivityIndicator,
 
 } from "react-native";
+import moment from 'moment';
 import { connect } from 'react-redux'
 import { Styles, Config, Colors, FormValidate } from '../../common'
 import { Ionicons, AntDesign, MaterialIcons, Feather, Entypo, FontAwesome, FontAwesome5, } from 'react-native-vector-icons';
@@ -20,8 +21,7 @@ import { Image, Header, ListItem, Overlay } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
 
 function AmountHistoryScreen(props) {
-    const { refers } = props;
-    console.log(refers?.transactions)
+    const { refers, passRefer } = props;
     return (
         <View style={styles.container}>
             {/* header  */}
@@ -37,18 +37,15 @@ function AmountHistoryScreen(props) {
             />
             <ScrollView>
                 {/* Amount History section */}
-
                 <View style={styles.amount_sec}>
                     <Text style={styles.amount}>Amount History</Text>
                 </View>
 
-
                 {/* invest_sec */}
-
                 <View style={styles.invest_sec}>
                     <View style={styles.transfer_sec}>
                         <Text style={styles.zero_text}><Text style={styles.rupees_text}>₹</Text>{refers.creditAmount}</Text>
-                        <TouchableOpacity style={styles.botton_box}>
+                        <TouchableOpacity onPress={() => passRefer()} style={styles.botton_box}>
                             <Text style={styles.get_otp}>Transfer To My Amazon Account</Text>
                         </TouchableOpacity>
                     </View>
@@ -62,41 +59,14 @@ function AmountHistoryScreen(props) {
                                 <DataTable.Title style={styles.headerCell} >Status</DataTable.Title>
                             </DataTable.Header>
                             {refers.transactions ? (refers.transactions).map((item, key) => <DataTable.Row key={key}>
-                                <DataTable.Cell style={styles.bodyCell}>19-05-2022</DataTable.Cell>
-                                <DataTable.Cell style={styles.bodyCell} >New</DataTable.Cell>
-                                <DataTable.Cell style={styles.bodyCell} >$100</DataTable.Cell>
-                                <DataTable.Cell style={styles.bodyCell} >Active</DataTable.Cell>
+                                <DataTable.Cell style={styles.bodyCell}>{moment(item.date).format('MMM-DD-YYYY')}</DataTable.Cell>
+                                <DataTable.Cell style={styles.bodyCell} >{item.type}</DataTable.Cell>
+                                <DataTable.Cell style={styles.bodyCell} >₹{item.amount}</DataTable.Cell>
+                                <DataTable.Cell style={styles.bodyCell} >{item.status}</DataTable.Cell>
                             </DataTable.Row>) : null}
 
                         </DataTable>
                     </ScrollView>
-
-
-                    {/* 
-                    <View style={styles.mainbox}>
-                        <View style={styles.date_sec}>
-                            <Text style={styles.type}>Date</Text>
-
-                        </View>
-                        <View style={styles.date_sec}>
-                            <Text style={styles.type}>Type</Text>
-
-                        </View>
-                        <View style={styles.date_sec}>
-                            <Text style={styles.type}>Amount </Text>
-
-                        </View>
-                        <View style={styles.date_sec}>
-                            <Text style={styles.type}>Status</Text>
-
-                        </View>
-                        <View style={styles.date_sec}>
-                            <Text style={styles.type}>c</Text>
-
-                        </View>
-                    </View> */}
-
-
 
                 </View>
 
@@ -207,9 +177,11 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     const { dispatch } = dispatchProps;
+    const { SideMenuActions } = require('../../store/SideMenuRedux')
     return {
         ...stateProps,
         ...ownProps,
+        passRefer: (token) => { SideMenuActions.passRefer(dispatch, token) },
     }
 }
 export default connect(mapStateToProps, undefined, mapDispatchToProps)(AmountHistoryScreen)

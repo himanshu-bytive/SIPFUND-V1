@@ -20,6 +20,10 @@ const types = {
     FETCH_REFER_SUCCESS: "FETCH_REFER_SUCCESS",
     FETCH_REFER_FAILURE: "FETCH_REFER_FAILURE",
 
+    FETCH_REFER_PASS_PENDING: "FETCH_REFER_PASS_PENDING",
+    FETCH_REFER_PASS_SUCCESS: "FETCH_REFER_PASS_SUCCESS",
+    FETCH_REFER_PASS_FAILURE: "FETCH_REFER_PASS_FAILURE",
+
 };
 export const SideMenuActions = {
     resetData() {
@@ -60,11 +64,22 @@ export const SideMenuActions = {
     getRefer: async (dispatch, tokan) => {
         dispatch({ type: types.FETCH_REFER_PENDING });
         let data = await SiteAPI.apiGetCall('/user-transactions/credit-debit', {}, tokan);
-        if (data.error) {
+        let dataConfig = await SiteAPI.apiGetCall('/referral-config', {}, tokan);
+        if (data.error || dataConfig.error) {
             Alert.alert(data.message)
             dispatch({ type: types.FETCH_REFER_FAILURE, error: data.message });
         } else {
-            dispatch({ type: types.FETCH_REFER_SUCCESS, refers: data.data });
+            dispatch({ type: types.FETCH_REFER_SUCCESS, refers: data.data, refersConfig: dataConfig.data });
+        }
+    },
+    passRefer: async (dispatch, tokan) => {
+        dispatch({ type: types.FETCH_REFER_PASS_PENDING });
+        let data = await SiteAPI.apiPostCall('/user-transactions/credit-debit', {}, tokan);
+        if (data.error) {
+            Alert.alert(data.message)
+            dispatch({ type: types.FETCH_REFER_PASS_FAILURE, error: data.message });
+        } else {
+            dispatch({ type: types.FETCH_REFER_PASS_SUCCESS });
         }
     },
 };
@@ -75,11 +90,13 @@ const initialState = {
     rmDetails: null,
     details: null,
     refers: null,
+    refersConfig: null,
 };
 
 export const reducer = (state = initialState, action) => {
-    const { type, error, rmDetails, details, refers } = action;
+    const { type, error, rmDetails, details, refers, refersConfig } = action;
     switch (type) {
+        case types.FETCH_REFER_PASS_PENDING:
         case types.FETCH_REFER_PENDING:
         case types.FETCH_UPDATE_PENDING:
         case types.FETCH_ADD_PENDING:
@@ -90,6 +107,7 @@ export const reducer = (state = initialState, action) => {
                 error: null,
             };
         }
+        case types.FETCH_REFER_PASS_FAILURE:
         case types.FETCH_REFER_FAILURE:
         case types.FETCH_UPDATE_FAILURE:
         case types.FETCH_ADD_FAILURE:
@@ -130,6 +148,7 @@ export const reducer = (state = initialState, action) => {
                 isFetching: false,
                 error: null,
                 refers,
+                refersConfig,
             };
         }
         case types.RESETDATA:

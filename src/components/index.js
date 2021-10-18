@@ -3,6 +3,7 @@ import MySelectPicker from './MySelectPicker'
 import MyDatePicker from './MyDatePicker'
 import MyTextInput from './MyTextInput'
 import MyImagePicker from './MyImagePicker'
+import ProfileImagePicker from './ProfileImagePicker'
 import MySlider from './MySlider'
 import Investments from './Investments'
 import FundType from './FundType'
@@ -17,6 +18,7 @@ export {
     MyDatePicker,
     MyTextInput,
     MyImagePicker,
+    ProfileImagePicker,
     MySlider,
     Investments,
     FundType,

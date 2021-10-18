@@ -13,14 +13,21 @@ import {
 
 } from "react-native";
 import { connect } from 'react-redux'
+import { ProfileImagePicker } from '../../components'
 import { Styles, Config, Colors, FormValidate } from '../../common'
 import { Ionicons, AntDesign, Feather, Entypo, MaterialCommunityIcons, FontAwesome, Octicons, FontAwesome5, } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
 
 function ProfileScreen(props) {
-    const { steps, user } = props
-    // console.log(user.nseDetails)
+    const { steps, user, token, uploadSuccess, getDocuments, docs } = props
+
+    useEffect(() => {
+        if (token || uploadSuccess) {
+            getDocuments(token)
+        }
+    }, [token, uploadSuccess]);
+
     return (
         <View style={styles.container}>
             {/* header  */}
@@ -35,13 +42,9 @@ function ProfileScreen(props) {
             />
             <ScrollView style={styles.containerScroll}>
                 <View style={styles.banner}>
-
-                    <Image
-                        source={require('../../../assets/profile_img.png')}
-                        style={styles.bannerimg}
-                    />
-                    <Text style={styles.profile_text}>VIVEK NIMJE</Text>
-                    <Text style={styles.profile_text2}>ACCOUNT ACTIVE</Text>
+                    <ProfileImagePicker docType='AVATAR' url={docs.baseUrl} data={docs?.responseString?.documents ? docs.responseString.documents : []} />
+                    <Text style={styles.profile_text}>{user?.userDetails.name}</Text>
+                    <Text style={styles.profile_text2}>{user?.userDetails.state == 0 ? 'ACCOUNT INACTIVE' : 'ACCOUNT ACTIVE'}</Text>
                 </View>
                 <View style={styles.icon_sec}>
                     <View style={(steps && steps > 2) ? styles.icon_bg_act : styles.icon_bg}><FontAwesome name={"phone"} size={25} color={Colors.WHITE} /></View>
@@ -128,12 +131,12 @@ function ProfileScreen(props) {
                 <View style={styles.mutual_bottomsec}>
                     <View style={styles.mutual_left}>
                         <Text style={styles.customer}>Broker Name :</Text>
-                        <Text style={styles.id_text}>{}</Text>
+                        <Text style={styles.id_text}>{ }</Text>
 
                     </View>
                     <View style={styles.mutual_right}>
                         <Text style={styles.customer}>Code</Text>
-                        <Text style={styles.id_text}>{}</Text>
+                        <Text style={styles.id_text}>{ }</Text>
                     </View>
                 </View>
             </ScrollView>
@@ -264,17 +267,19 @@ const styles = StyleSheet.create({
 });
 const mapStateToProps = (state) => ({
     token: state.auth.token,
+    docs: state.registration.documents,
     steps: state.home.steps,
     user: state.home.user,
+    uploadSuccess: state.registration.uploadSuccess,
 })
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     const { dispatch } = dispatchProps;
-    const { AuthActions } = require('../../store/AuthRedux')
+    const { RegistrationActions } = require('../../store/RegistrationRedux')
     return {
         ...stateProps,
         ...ownProps,
-        // logout: () => { AuthActions.logout(dispatch) },
+        getDocuments: (token) => { RegistrationActions.getDocuments(dispatch, token) },
     }
 }
 export default connect(mapStateToProps, undefined, mapDispatchToProps)(ProfileScreen)

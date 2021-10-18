@@ -100,7 +100,7 @@ function PanScreen(props) {
 const mapStateToProps = (state) => ({
     token: state.auth.token,
     phone: state.auth.phone,
-    pan: state.auth.panNumber,
+    pan: state.home.pan,
     isFetching: state.home.isFetching,
     error: state.home.error,
 })

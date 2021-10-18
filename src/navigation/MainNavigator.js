@@ -16,6 +16,7 @@ import {
     CompleteDetailsAddressScreen,
     CompleteDetailsBankScreen,
     UploadDocumentScreen,
+    AboutUsScreen,
 
     TopratedFunds5Screen,
     TopRatedScreen,
@@ -32,10 +33,9 @@ import {
     Goals4Screen,
     Goals5Screen,
     Goals6Screen,
-    Goals7Screen,
+    OwnerChoice,
     GoalsScreen,
     Goals1Screen,
-
 
     ProfileScreen,
     ExistingScreen,
@@ -329,7 +329,7 @@ export const HoldingsSummaryStack = createStackNavigator({
         }
     },
     Goals7: {
-        screen: Goals7Screen,
+        screen: OwnerChoice,
         navigationOptions: {
             headerShown: false,
         }
@@ -438,6 +438,12 @@ export const OthersStack = createStackNavigator({
     },
     AmountHistory: {
         screen: AmountHistoryScreen,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    AboutUs: {
+        screen: AboutUsScreen,
         navigationOptions: {
             headerShown: false,
         }

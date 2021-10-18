@@ -1,12 +1,12 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
 import {
     StyleSheet,
-    Button,
+    Alert,
     View,
     ImageBackground,
     TouchableOpacity,
     Text,
-    Dimensions,
+    Linking,
     KeyboardAvoidingView,
     TextInput,
     ActivityIndicator,
@@ -18,7 +18,8 @@ import { Image, Header, CheckBox } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
 
 function SideMenu(props) {
-    const { userDetails } = props
+    const { userDetails, steps } = props
+
     return (
         <View style={styles.container}>
             <Header
@@ -51,7 +52,7 @@ function SideMenu(props) {
                     <View><Text style={[styles.know_text, styles.know]}>Refer & Earn</Text></View>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => props.navigation.navigate('Register')} style={[styles.profile_sec, styles.profile]}>
+                <TouchableOpacity onPress={() => props.navigation.navigate(steps === 3 ? 'Register' : 'Register3')} style={[styles.profile_sec, styles.profile]}>
                     <View>
                         <FontAwesome name={"user-o"} size={30} color={Colors.GRAY_LIGHT_4} />
                     </View>
@@ -75,14 +76,21 @@ function SideMenu(props) {
                 </TouchableOpacity>
 
 
-                <TouchableOpacity onPress={() => props.navigation.navigate('Home')} style={[styles.profile_sec, styles.profile]}>
+                <TouchableOpacity onPress={() => props.navigation.navigate('Register3')} style={[styles.profile_sec, styles.profile]}>
                     <View>
                         <MaterialCommunityIcons name={"file-upload"} size={30} color={Colors.GRAY_LIGHT_4} />
                     </View>
                     <View><Text style={[styles.know_text, styles.know]}>Upload Documents</Text></View>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => props.navigation.navigate('Home')} style={[styles.profile_sec, styles.profile]}>
+
+                <TouchableOpacity onPress={() => {
+                    if (userDetails.IIN) {
+
+                    } else {
+                        Alert.alert('IIN is not update')
+                    }
+                }} style={[styles.profile_sec, styles.profile]}>
                     <View>
                         <MaterialCommunityIcons name={"account-search"} size={30} color={Colors.GRAY_LIGHT_4} />
                     </View>
@@ -90,7 +98,13 @@ function SideMenu(props) {
                 </TouchableOpacity>
 
 
-                <TouchableOpacity onPress={() => props.navigation.navigate('Home')} style={[styles.profile_sec, styles.profile]}>
+                <TouchableOpacity onPress={() => {
+                    if (userDetails.IIN) {
+
+                    } else {
+                        Alert.alert('IIN is not update')
+                    }
+                }} style={[styles.profile_sec, styles.profile]}>
                     <View>
                         <Entypo name={"hair-cross"} size={30} color={Colors.GRAY_LIGHT_4} />
                     </View>
@@ -116,28 +130,24 @@ function SideMenu(props) {
 
 
 
-
-
-
-
                 <View style={styles.border}></View>
                 <Text style={[styles.know_text, styles.know]}>Communicate</Text>
 
-                <TouchableOpacity onPress={() => props.navigation.navigate('Home')} style={[styles.profile_sec, styles.profile]}>
+                <TouchableOpacity onPress={() => Linking.openURL('mailto:info@sipfund.com')} style={[styles.profile_sec, styles.profile]}>
                     <View>
                         <Entypo name={"mail"} size={30} color={Colors.GRAY_LIGHT_4} />
                     </View>
                     <View><Text style={[styles.know_text, styles.know]}>Mail Us</Text></View>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => props.navigation.navigate('Home')} style={[styles.profile_sec, styles.profile]}>
+                <TouchableOpacity onPress={() => Linking.openURL(`tel:7064442444`)} style={[styles.profile_sec, styles.profile]}>
                     <View>
                         <FontAwesome name={"phone"} size={30} color={Colors.GRAY_LIGHT_4} />
                     </View>
                     <View><Text style={[styles.know_text, styles.know]}>Call Us</Text></View>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => props.navigation.navigate('Home')} style={[styles.profile_sec, styles.profile]}>
+                <TouchableOpacity onPress={() => props.navigation.navigate('AboutUs')} style={[styles.profile_sec, styles.profile]}>
                     <View>
                         <FontAwesome name={"address-book"} size={30} color={Colors.GRAY_LIGHT_4} />
                     </View>
@@ -183,6 +193,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
     token: state.auth.token,
+    steps: state.home.steps,
     userDetails: state.auth.user,
 })
 export default connect(mapStateToProps)(SideMenu)

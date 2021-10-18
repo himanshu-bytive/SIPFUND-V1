@@ -6,6 +6,7 @@ import {
     Text,
 } from "react-native";
 import { connect } from 'react-redux'
+import moment from 'moment';
 import { Colors, FormValidate } from '../../common'
 import { MySelectPicker, MyDatePicker, MyTextInput } from '../../components'
 import { AntDesign } from 'react-native-vector-icons';
@@ -16,7 +17,8 @@ const titleList = [{ value: 'Mr', label: 'Mr.' }, { value: 'Mrs', label: 'Mrs.' 
 const pepList = [{ value: 'N', label: 'No' }, { value: 'Y', label: 'Yes' }, { value: 'R', label: 'Related to PEP ' }]
 
 function CompleteDetailsScreen(props) {
-    const { token, users, user, updateRegister, setUserInfo, settings, occupations, incomes } = props;
+    const pageActive = useRef(false);
+    const { token, users, user, pan, updateRegister, setUserInfo, settings, occupations, incomes, updateSuccess } = props;
     const [occupationsList, setOccupationsList] = useState([]);
     const [incomesList, setIncomesList] = useState([]);
     const relationList = [
@@ -42,6 +44,13 @@ function CompleteDetailsScreen(props) {
     ]
 
     useEffect(() => {
+        if (updateSuccess && pageActive.current) {
+            pageActive.current = false;
+            props.navigation.navigate('Register1')
+        }
+    }, [updateSuccess]);
+
+    useEffect(() => {
         settings(token)
     }, []);
 
@@ -52,7 +61,7 @@ function CompleteDetailsScreen(props) {
                 dob: new Date(user.nseDetails.dob),
                 title: user.nseDetails.title,
                 investor: users.name,
-                investorPan: users.pan,
+                investorPan: users.pan ? users.pan : pan,
                 email: users.email,
                 fatherName: user.nseDetails.father_name,
                 motherName: user.nseDetails.mother_name,
@@ -62,7 +71,7 @@ function CompleteDetailsScreen(props) {
                 nominateMinor: (user.nseDetails.nominee1_type && user.nseDetails.nominee1_type == 'Y') ? true : false,
                 nominate1name: user.nseDetails.nominee1_name,
                 nominate1relation: user.nseDetails.nominee1_relation,
-                nominate1dob: user.nseDetails.nominee1_dob,
+                nominate1dob: new Date(user.nseDetails.nominee1_dob),
                 nominate1guard_name: user.nseDetails.nominee1_guard_name,
                 nominate1guard_pan: user.nseDetails.nominee1_guard_pan,
             })
@@ -189,8 +198,8 @@ function CompleteDetailsScreen(props) {
             "OCCUPATION_CODE": selOccupation.OCCUPATION_CODE,
             "OCCUPATION_DESC": selOccupation.OCCUPATION_DESC
         }
-        params.nseDetails.dob = dob.getTime()
-        params.nseDetails.title = selTitle.value
+        params.nseDetails.dob = dob ? dob.getTime() : '',
+            params.nseDetails.title = selTitle.value
         params.nseDetails.inv_name = investor
         params.nseDetails.pan = investorPan
         params.nseDetails.email = email
@@ -207,20 +216,19 @@ function CompleteDetailsScreen(props) {
         params.nseDetails.no_of_nominee = nominate ? "1" : ''
         params.nseDetails.nominee1_name = nominate1name
         params.nseDetails.nominee1_relation = nominate1relation
-        params.nseDetails.nominee1_dob = nominate1dob
-        params.nseDetails.nominee1_guard_name = nominate1guard_name
+        params.nseDetails.nominee1_dob = nominate1dob ? nominate1dob.getTime() : '',
+            params.nseDetails.nominee1_guard_name = nominate1guard_name
         params.nseDetails.nominee1_guard_pan = nominate1guard_pan
         params.nseDetails.nominee1_type = nominateMinor ? 'Y' : 'N'
         updateRegister(params, token)
         setUserInfo(params)
-        props.navigation.navigate('Register1')
-
+        pageActive.current = true;
     }
-    
+
     return (
         <View style={styles.container}>
             <Header
-                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={40} color={Colors.RED} /></TouchableOpacity>}
+                leftComponent={<TouchableOpacity onPress={() => props.navigation.navigate('Home')} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={40} color={Colors.RED} /></TouchableOpacity>}
                 containerStyle={styles.header}
                 backgroundColor={Colors.LIGHT_WHITE}
                 centerComponent={<Image
@@ -496,8 +504,10 @@ const mapStateToProps = (state) => ({
     token: state.auth.token,
     users: state.auth.user,
     user: state.home.user,
+    pan: state.home.pan,
     occupations: state.registration.occupations,
     incomes: state.registration.incomes,
+    updateSuccess: state.registration.updateSuccess,
 })
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {

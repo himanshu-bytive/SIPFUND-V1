@@ -66,10 +66,11 @@ export const HomeActions = {
         let data = await SiteAPI.apiPostCall('/user/userPan', params, tokan);
         if (data.error) {
             Alert.alert(data.message)
-            dispatch({ type: types.FETCH_UPDATE_PAN_FAILURE, error: data.message });
+            // dispatch({ type: types.FETCH_UPDATE_PAN_FAILURE, error: data.message, pan: data.data });
+            dispatch({ type: types.FETCH_UPDATE_PAN_SUCCESS, pan: params.pan });
         } else {
             Alert.alert(data.responseString)
-            dispatch({ type: types.FETCH_CART_SUCCESS, pan: data.data });
+            dispatch({ type: types.FETCH_UPDATE_PAN_SUCCESS, pan: data.data });
         }
     },
 };

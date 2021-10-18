@@ -22,10 +22,9 @@ export default persistCombineReducers(config, {
     home: HomeRedux,
     toprated: TopRatedFundRedux,
     sideMenu: SideMenuRedux,
-    OwnerChoice: OwnerChoiceRedux,
-    CartActions: CartActionsRedux,
-    TransactionHis: TransactionHisRedux,
-    Redemption: RedemptionRedux,
-    Switch: SwitchRedux,
-
+    ownerChoice: OwnerChoiceRedux,
+    cartActions: CartActionsRedux,
+    transactionHis: TransactionHisRedux,
+    redemption: RedemptionRedux,
+    switch: SwitchRedux,
 });

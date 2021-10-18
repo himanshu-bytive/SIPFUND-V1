@@ -6,7 +6,7 @@ import {
     ImageBackground,
     TouchableOpacity,
     Text,
-    Dimensions,
+    Share,
     KeyboardAvoidingView,
     TextInput,
     ActivityIndicator,
@@ -18,17 +18,6 @@ import { Ionicons, AntDesign, MaterialIcons, Feather, Entypo, FontAwesome, FontA
 import { Image, Header, ListItem, Overlay } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
 
-const earn = [
-    {
-        name: 'You receice Rs. 100 reward points when your reference creates a unique Investor Identification Number.',
-        img: require('../../../assets/earnimg_2.png')
-    },
-    {
-        name: 'You will receive Rs. 400 Amazonreward points when your reference makes his/her 1st investment through us.',
-        img: require('../../../assets/earnimg_2.png')
-    },
-
-]
 
 const listTop = [
     {
@@ -39,7 +28,6 @@ const listTop = [
     },
 
 ]
-
 
 const list = [
     {
@@ -60,14 +48,32 @@ const list = [
 ]
 
 function ReferEarnScreen(props) {
-    const { isFetching, token, getRefer, user, refers } = props;
+    const { isFetching, token, getRefer, user, refers, refersConfig } = props;
     useEffect(() => {
         if (token) {
             getRefer(token)
         }
     }, [token]);
 
-    // console.log(user)
+
+    const onShare = async () => {
+        try {
+            const result = await Share.share({
+                message: 'React Native | A framework for building native apps using React',
+            });
+            if (result.action === Share.sharedAction) {
+                if (result.activityType) {
+                    // shared with activity type of result.activityType
+                } else {
+                    // shared
+                }
+            } else if (result.action === Share.dismissedAction) {
+                // dismissed
+            }
+        } catch (error) {
+            alert(error.message);
+        }
+    };
 
     return (
         <View style={styles.container}>
@@ -93,7 +99,7 @@ function ReferEarnScreen(props) {
                         style={styles.Goalsimg}
                     />
                     <Text style={styles.text_code}>YOUR REFERRAL CODE</Text>
-                    <Text style={styles.earn_text}>HKJVWCMNB</Text>
+                    <Text style={styles.earn_text}>{user?.referralCode}</Text>
                     <TouchableOpacity ><Text style={styles.view_text}>VIEW T&C</Text></TouchableOpacity>
                 </View>
 
@@ -115,18 +121,18 @@ function ReferEarnScreen(props) {
 
                 <View style={styles.invest_sec}>
                     <Text style={styles.text_code}>Share Your Referral Code</Text>
-                    <Text style={styles.earn_text}>HKJVWCMNB</Text>
+                    <Text style={styles.earn_text}>{user?.referralCode}</Text>
                     <View style={styles.invite_sec}>
                         <View><Text style={styles.text_code}>Start Inviting Friends</Text></View>
-                        <View style={styles.share_icon}><Entypo name={"share"} size={30} color={Colors.GREEN_2} /></View>
+                        <TouchableOpacity onPress={onShare} style={styles.share_icon}><Entypo name={"share"} size={30} color={Colors.GREEN_2} /></TouchableOpacity>
                     </View>
-                    <View style={styles.social}>
+                    <TouchableOpacity onPress={onShare} style={styles.social}>
                         <FontAwesome style={styles.social_icon} name={"whatsapp"} size={40} color={Colors.DEEP_GRAY_1} />
                         <Entypo style={styles.social_icon} name={"facebook-with-circle"} size={40} color={Colors.DEEP_GRAY_1} />
                         <Entypo style={styles.social_icon} name={"mail-with-circle"} size={40} color={Colors.DEEP_GRAY_1} />
                         <Entypo style={styles.social_icon} name={"twitter-with-circle"} size={40} color={Colors.DEEP_GRAY_1} />
                         <FontAwesome style={styles.social_icon} name={"stack-exchange"} size={40} color={Colors.DEEP_GRAY_1} />
-                    </View>
+                    </TouchableOpacity>
                     <View style={styles.border}></View>
                 </View>
 
@@ -134,19 +140,33 @@ function ReferEarnScreen(props) {
                 <View style={[styles.invest_sec, styles.earn_sec,]}>
                     <Text style={styles.earn_sec_text}>How You Earn</Text>
                 </View>
-                {earn.map((l, i) => (
-                    <View key={i} style={[styles.invest_sec, styles.earn_sec,]}>
-                        <View style={styles.receive}>
-                            <View style={styles.receive_left}>
-                                <Image
-                                    source={l.img}
-                                    style={styles.earnimg}
-                                /></View>
-                            <View style={styles.receive_right}>
-                                <Text style={styles.text_receive}>{l.name}</Text></View>
-                        </View>
+
+                {refersConfig?.createdIIN && (<View style={[styles.invest_sec, styles.earn_sec,]}>
+                    <View style={styles.receive}>
+                        <View style={styles.receive_left}>
+                            <Image
+                                source={require('../../../assets/earnimg_2.png')}
+                                style={styles.earnimg}
+                            /></View>
+                        <View style={styles.receive_right}>
+                            <Text style={styles.text_receive}>{refersConfig.createdIIN.rfyRemarks}</Text></View>
                     </View>
-                ))}
+                </View>)}
+
+                {refersConfig?.investment && (<View style={[styles.invest_sec, styles.earn_sec,]}>
+                    <View style={styles.receive}>
+                        <View style={styles.receive_left}>
+                            <Image
+                                source={require('../../../assets/earnimg_2.png')}
+                                style={styles.earnimg}
+                            /></View>
+                        <View style={styles.receive_right}>
+                            <Text style={styles.text_receive}>{refersConfig.investment.rfyRemarks}</Text></View>
+                    </View>
+                </View>)}
+
+
+
                 <View style={[styles.invest_sec, styles.earn_sec,]}>
                     {listTop.map((l, i) => (
                         <View key={i} style={styles.paragraph_sec}>
@@ -319,9 +339,10 @@ const styles = StyleSheet.create({
 });
 const mapStateToProps = (state) => ({
     token: state.auth.token,
-    user: state.home.user,
+    user: state.auth.user,
     isFetching: state.sideMenu.isFetching,
     refers: state.sideMenu.refers,
+    refersConfig: state.sideMenu.refersConfig,
 })
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {

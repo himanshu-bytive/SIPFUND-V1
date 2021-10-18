@@ -47,7 +47,6 @@ const SiteApis = {
     const split = file.uri.split('/')
     const fileName = split[split.length - 1]
     const formdata = new FormData();
-    // formdata.append("document", (Platform.OS === "android" ? file.uri : file.uri.replace("file://", "")), fileName);
     formdata.append("document", {
       name: fileName,
       type: file.type,
@@ -63,8 +62,10 @@ const SiteApis = {
       body: formdata
     })
       .then(response => response.text())
-      .then(result => Alert.alert(JSON.stringify(result)))
-      .catch(error => console.log('error', error));
+      .then(result => JSON.parse(result))
+      .catch(error => {
+        return { error: true, message: error }
+      });
   },
 };
 

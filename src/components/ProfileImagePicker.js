@@ -1,33 +1,25 @@
 import React, { useState, useRef, useEffect } from "react";
 import * as ImagePicker from 'expo-image-picker';
 import { Camera } from "expo-camera";
-import SignatureScreen from "react-native-signature-canvas";
-import * as FileSystem from 'expo-file-system';
-import * as Permissions from 'expo-permissions';
-import { Modal, TouchableOpacity, Image, View, Text, StyleSheet, Platform } from 'react-native';
-import { Tooltip } from 'react-native-elements';
+import { Modal, Alert, TouchableOpacity, Image, View, Text, StyleSheet, Platform } from 'react-native';
 import { connect } from 'react-redux'
-import { AntDesign, Entypo } from 'react-native-vector-icons';
 import { Button } from "react-native-paper";
-import MySelectPicker from "./MySelectPicker";
 
-const MyImagePicker = (props) => {
-    const { items, token, fileUpload } = props
+const ProfileImagePicker = (props) => {
+    const { docType, token, fileUpload, url, data } = props
     const [img, setImg] = useState(null);
     const [camera, setCamera] = useState(false);
     const [hasPermission, setHasPermission] = useState(null);
     const [cameraRef, setCameraRef] = useState(null);
     const [type, setType] = useState(Camera.Constants.Type.back);
-    const [sign, setSign] = useState(false);
-    const [item, setItem] = useState({});
-    const signBox = useRef(null);
-    const selList = [{ value: 'Aadhaar Card Front', label: 'Aadhaar Card Front', fileType: 'Front' }, { value: 'Aadhaar Card Back', label: 'Aadhaar Card Back', fileType: 'Back' }, { value: 'Passport', label: 'Passport', fileType: 'Passport' }, { value: 'Driving Licence', label: 'Driving Licence', fileType: 'Licence' }]
 
     useEffect(() => {
         (async () => {
-            const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-            if (status !== 'granted') {
-                alert('Sorry, we need camera roll permissions to make this work!');
+            if (Platform.OS !== 'web') {
+                const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+                if (status !== 'granted') {
+                    alert('Sorry, we need camera roll permissions to make this work!');
+                }
             }
         })();
     }, []);
@@ -35,18 +27,18 @@ const MyImagePicker = (props) => {
     // Check Camera Permissions
     useEffect(() => {
         (async () => {
-            const { status } = await Permissions.askAsync(Permissions.CAMERA);
-            if (status !== 'granted') {
-                alert('Sorry, we need camera permissions to make this work!');
-            }
+            const { status } = await Camera.requestPermissionsAsync();
+            setHasPermission(status === 'granted');
         })();
     }, []);
 
     useEffect(() => {
-        if (items) {
-            setItem(items)
+        if (data) {
+            let selectedData = data.find(x => x.docType == docType);
+            setImg(url + selectedData.fileName)
         }
-    }, [items]);
+    }, [data]);
+
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -59,7 +51,7 @@ const MyImagePicker = (props) => {
         if (!result.cancelled) {
             let params = {
                 "file": result,
-                "fileType": item.fileType
+                "fileType": docType
             }
             fileUpload(params, token)
             setImg(result.uri);
@@ -69,58 +61,35 @@ const MyImagePicker = (props) => {
     const cameraImage = async (image) => {
         let params = {
             "file": image,
-            "fileType": item.fileType
+            "fileType": docType
         }
         fileUpload(params, token)
         setImg(image.uri);
     };
 
-    const signImage = (signature) => {
-        const path = FileSystem.cacheDirectory + 'Sign.png';
-        FileSystem.writeAsStringAsync(path, signature.replace('data:image/png;base64,', ''), { encoding: FileSystem.EncodingType.Base64 }).then(res => {
-            FileSystem.getInfoAsync(path, { size: true, md5: true }).then(file => {
-                let params = {
-                    "file": file,
-                    "fileType": item.fileType
-                }
-                fileUpload(params, token)
-                setImg(file.uri);
-                setSign(false)
-            })
-        }).catch(err => {
-            console.log("err", err);
-        })
-    };
-
-    const setSelectDoc = (val) => {
-        let selected = selList.find(x => x.value == val);
-        if (selected) {
-            setItem({ ...item, name: val, fileType: selected.fileType, info: selected.label })
-        }
-    }
-
     return (
         <View style={{ flexDirection: "row", alignItems: 'center', justifyContent: 'space-between' }}>
-            <View style={{ flexDirection: "row", width: "70%", }}>
-                {item.icon}
-                {item.multi ? <View style={{ width: '100%', marginTop: -20 }}><MySelectPicker
-                    values={selList}
-                    defultValue={item.name}
-                    onChange={(val) => setSelectDoc(val)}
-                /></View> : <Text style={styles.pan}>{item.name}</Text>}
-                <Tooltip popover={<Text style={{ color: '#fff' }}>{item.info}</Text>}>
-                    <AntDesign name="exclamationcircleo" size={18} color="#EE4248" />
-                </Tooltip>
-            </View>
-            <View style={{ width: "15%", }}>{img && <Image source={{ uri: img }} style={styles.image} />}</View>
-            <View style={{ width: "10%" }}>
-                {item.type == 'attachment' ?
-                    <View style={{ flexDirection: 'row' }}>
-                        <TouchableOpacity style={{ marginRight: 10 }} onPress={() => setCamera(true)}><Entypo name={'camera'} size={22} color="#000000" /></TouchableOpacity>
-                        <TouchableOpacity onPress={pickImage}><Entypo name={item.type} size={22} color="#000000" /></TouchableOpacity>
-                    </View>
-                    : <TouchableOpacity onPress={() => setSign(true)}><AntDesign name='form' size={22} color="#000000" /></TouchableOpacity>}
-            </View>
+            <TouchableOpacity onPress={() => Alert.alert(
+                'SIP Fund',
+                'Profile Image',
+                [
+                    {
+                        text: "Camera",
+                        onPress: () => {
+                            setCamera(true)
+                        }
+                    },
+                    {
+                        text: "Document",
+                        onPress: () => {
+                            pickImage()
+                        }
+                    },
+                ]
+            )} style={{ marginVertical: 10 }}><Image
+                    source={img ? { uri: img } : require('../../assets/profile_img.png')}
+                    style={styles.bannerimg}
+                /></TouchableOpacity>
             <Modal
                 animationType="slide"
                 transparent={true}
@@ -218,39 +187,15 @@ const MyImagePicker = (props) => {
                     </View>
                 </Camera>
             </Modal>
-            <Modal
-                animationType="slide"
-                transparent={true}
-                visible={sign}
-                onRequestClose={() => {
-                    setSign(false);
-                }}
-            >
-                <SignatureScreen
-                    ref={signBox}
-                    onOK={signImage}
-                    onEmpty={() => setSign(false)}
-                />
-            </Modal>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-    pan: {
-        marginHorizontal: 10,
-        fontSize: 18,
-        width: '90%',
-        fontWeight: "bold",
-    },
-    image: {
-        borderRadius: 10,
-        width: 50,
-        height: 50
-    },
-    error: {
-        color: '#ff0000',
-        padding: 5,
+    bannerimg: {
+        height: 100,
+        width: 100,
+        borderRadius: 100,
     },
 });
 
@@ -267,4 +212,4 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
         fileUpload: (params, token) => { RegistrationActions.fileUpload(dispatch, params, token) },
     }
 }
-export default connect(mapStateToProps, undefined, mapDispatchToProps)(MyImagePicker)
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(ProfileImagePicker)

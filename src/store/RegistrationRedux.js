@@ -58,7 +58,7 @@ export const RegistrationActions = {
         dispatch({ type: types.FETCH_DOC_PENDING });
         let documents = await SiteAPI.apiGetCall(`/documents`, {}, token);
         if (documents.responseString) {
-            dispatch({ type: types.FETCH_DOC_SUCCESS, documents: documents.responseString });
+            dispatch({ type: types.FETCH_DOC_SUCCESS, documents: documents });
         }
     },
     getCitys: async (dispatch, code, token) => {
@@ -97,12 +97,10 @@ export const RegistrationActions = {
     createRegister: async (dispatch, params, token) => {
         dispatch({ type: types.FETCH_CREATE_REGISTER_PENDING });
         let data = await SiteAPI.apiPostCall('/apiData/CREATECUSTOMER', params, token);
-        console.log(data)
         if (data.error) {
             Alert.alert(data.message)
             dispatch({ type: types.FETCH_CREATE_REGISTER_FAILURE, error: data.message });
         } else {
-            Alert.alert(data.responseString)
             dispatch({ type: types.FETCH_CREATE_REGISTER_SUCCESS, });
         }
     },
@@ -113,20 +111,39 @@ export const RegistrationActions = {
             Alert.alert(data.message)
             dispatch({ type: types.FETCH_UPDATE_REGISTER_FAILURE, error: data.message });
         } else {
-            Alert.alert(data.responseString)
-            dispatch({ type: types.FETCH_UPDATE_REGISTER_SUCCESS });
+            Alert.alert(
+                'SIP Fund',
+                data.responseString,
+                [
+                    {
+                        text: "OK",
+                        onPress: () => {
+                            dispatch({ type: types.FETCH_UPDATE_REGISTER_SUCCESS });
+                        }
+                    },
+                ]
+            );
         }
     },
     fileUpload: async (dispatch, params, token) => {
         dispatch({ type: types.FETCH_FILE_UPLOAD_PENDING });
         let data = await SiteAPI.uploadImgApi(`/documents/uploads?docType=${params.fileType}`, params.file, token);
-        console.log(data)
-        if (data.error) {
-            Alert.alert(data.message)
-            dispatch({ type: types.FETCH_FILE_UPLOAD_FAILURE, error: data.message });
-        } else {
+        if (!data.vaildFlag) {
             Alert.alert(data.responseString)
-            dispatch({ type: types.FETCH_FILE_UPLOAD_SUCCESS, });
+            dispatch({ type: types.FETCH_FILE_UPLOAD_FAILURE, error: data.responseString });
+        } else {
+            Alert.alert(
+                'SIP Fund',
+                data.responseString,
+                [
+                    {
+                        text: "OK",
+                        onPress: () => {
+                            dispatch({ type: types.FETCH_FILE_UPLOAD_SUCCESS, });
+                        }
+                    },
+                ]
+            );
         }
     },
 
@@ -145,6 +162,9 @@ const initialState = {
     bankDetails: {},
     userInfo: null,
     documents: null,
+    addSuccess: false,
+    updateSuccess: false,
+    uploadSuccess: false,
 };
 
 export const reducer = (state = initialState, action) => {
@@ -161,6 +181,9 @@ export const reducer = (state = initialState, action) => {
                 ...state,
                 isFetching: true,
                 error: null,
+                addSuccess: false,
+                updateSuccess: false,
+                uploadSuccess: false,
             };
         }
         case types.FETCH_FILE_UPLOAD_FAILURE:
@@ -172,6 +195,9 @@ export const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 isFetching: false,
+                addSuccess: false,
+                updateSuccess: false,
+                uploadSuccess: false,
                 error,
             };
         }
@@ -224,6 +250,7 @@ export const reducer = (state = initialState, action) => {
                 ...state,
                 isFetching: false,
                 error: null,
+                addSuccess: true
             };
         }
         case types.FETCH_UPDATE_REGISTER_SUCCESS: {
@@ -231,12 +258,14 @@ export const reducer = (state = initialState, action) => {
                 ...state,
                 isFetching: false,
                 error: null,
+                updateSuccess: true,
             };
         }
         case types.FETCH_FILE_UPLOAD_SUCCESS: {
             return {
                 ...state,
                 isFetching: false,
+                uploadSuccess: true,
                 error: null,
             };
         }
