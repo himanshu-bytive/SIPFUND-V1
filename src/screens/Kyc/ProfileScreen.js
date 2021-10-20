@@ -42,7 +42,7 @@ function ProfileScreen(props) {
             />
             <ScrollView style={styles.containerScroll}>
                 <View style={styles.banner}>
-                    <ProfileImagePicker docType='AVATAR' url={docs.baseUrl} data={docs?.responseString?.documents ? docs.responseString.documents : []} />
+                    <ProfileImagePicker docType='AVATAR' url={docs?.baseUrl} data={docs?.responseString?.documents ? docs.responseString.documents : []} />
                     <Text style={styles.profile_text}>{user?.userDetails.name}</Text>
                     <Text style={styles.profile_text2}>{user?.userDetails.state == 0 ? 'ACCOUNT INACTIVE' : 'ACCOUNT ACTIVE'}</Text>
                 </View>

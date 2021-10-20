@@ -204,7 +204,7 @@ export const AuthActions = {
 const initialState = {
     isFetching: false,
     error: null,
-    signUpSteps: null,
+    signUpSteps: -1,
     validFlag: null,
     phone: null,
     phones: [],

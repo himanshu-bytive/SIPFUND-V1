@@ -36,7 +36,7 @@ function HamburgerMenu2Screen(props) {
     return (
         <View style={styles.container}>
             <Header
-                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={Colors.RED} /></TouchableOpacity>}
+                leftComponent={<TouchableOpacity onPress={() => props.navigation.navigate('dashboard')} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={Colors.RED} /></TouchableOpacity>}
                 rightComponent={<TouchableOpacity onPress={() => props.navigation.navigate('Toprated')} style={{ marginTop: 20 }}><AntDesign name={"shoppingcart"} size={30} color={Colors.RED} /></TouchableOpacity>}
                 backgroundColor={Colors.LIGHT_WHITE}
                 containerStyle={styles.header}

@@ -26,6 +26,7 @@
       },
       "package": "com.sipfund.app",
       "permissions": [
+        "LOCATION",
         "CAMERA",
         "WRITE_EXTERNAL_STORAGE",
         "CAMERA_ROLL"

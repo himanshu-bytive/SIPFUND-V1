@@ -128,13 +128,10 @@ export const RegistrationActions = {
     fileUpload: async (dispatch, params, token) => {
         dispatch({ type: types.FETCH_FILE_UPLOAD_PENDING });
         let data = await SiteAPI.uploadImgApi(`/documents/uploads?docType=${params.fileType}`, params.file, token);
-        if (!data.vaildFlag) {
-            Alert.alert(data.responseString)
-            dispatch({ type: types.FETCH_FILE_UPLOAD_FAILURE, error: data.responseString });
-        } else {
+        if (data.error) {
             Alert.alert(
                 'SIP Fund',
-                data.responseString,
+                JSON.stringify(data.message),
                 [
                     {
                         text: "OK",
@@ -144,6 +141,9 @@ export const RegistrationActions = {
                     },
                 ]
             );
+        } else {
+            Alert.alert(data.responseString)
+            dispatch({ type: types.FETCH_FILE_UPLOAD_FAILURE, error: data.responseString });
         }
     },
 

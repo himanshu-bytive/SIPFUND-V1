@@ -21,10 +21,10 @@ let documents = [
     { name: 'PAN', fileType: 'PC', info: 'Upload PAN', type: 'attachment', icon: (<FontAwesome5 name="credit-card" size={18} color="#EE4248" />) },
     { name: 'Select Doc', multi: true, fileType: '', info: 'Upload Select Doc', type: 'attachment', icon: (<AntDesign name="idcard" size={20} color="#EE4248" />) },
     { name: 'Cancelled Cheque', fileType: 'CH', info: 'Upload Cancelled Cheque', type: 'attachment', icon: (<MaterialIcons name="cancel" size={22} color="#EE4248" />) },
-    { name: 'Investor Form', fileType: 'IP', info: 'Upload Investor Form', type: 'attachment', icon: (<FontAwesome name="wpforms" size={22} color="#EE4248" />) },
-    { name: 'Passport Size Image', fileType: 'PIC', info: 'Upload Passport Size Image', type: 'attachment', icon: (<FontAwesome name="file-image-o" size={22} color="#EE4248" />) },
+    { name: 'Investor Form', fileType: 'KF', info: 'Upload Investor Form', type: 'attachment', icon: (<FontAwesome name="wpforms" size={22} color="#EE4248" />) },
+    { name: 'Passport Size Image', fileType: 'PA', info: 'Upload Passport Size Image', type: 'attachment', icon: (<FontAwesome name="file-image-o" size={22} color="#EE4248" />) },
     { name: 'Upload Video', fileType: 'VID', info: 'Upload Upload Video', type: 'attachment', icon: (<Foundation name="play-video" size={25} color="#EE4248" />) },
-    { name: 'Upload Signature', fileType: 'CH', info: 'Upload Upload Signature', type: 'form', icon: (<FontAwesome5 name="file-signature" size={20} color="#EE4248" />) },
+    { name: 'Upload Signature', fileType: 'SIGN', info: 'Upload Upload Signature', type: 'form', icon: (<FontAwesome5 name="file-signature" size={20} color="#EE4248" />) },
 ]
 
 function UploadDocumentScreen(props) {
@@ -41,7 +41,7 @@ function UploadDocumentScreen(props) {
         <View style={styles.container}>
 
             <Header
-                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={40} color={Colors.RED} /></TouchableOpacity>}
+                leftComponent={<TouchableOpacity onPress={() => props.navigation.navigate('Home')} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={40} color={Colors.RED} /></TouchableOpacity>}
                 containerStyle={styles.header}
                 backgroundColor={Colors.LIGHT_WHITE}
                 centerComponent={<Image
@@ -79,7 +79,7 @@ function UploadDocumentScreen(props) {
                         {docs?.responseString.documents ? docs.responseString.documents.map((item, key) => <View key={key} style={{ marginHorizontal: 10, alignItems: 'center', width: Styles.width - 50 }}>
                             <Text style={{ marginBottom: 5 }}>{item.docType}</Text>
                             <Image
-                                source={{ uri: `${docs.baseUrl}${item.fileName}` }}
+                                source={{ uri: `${docs?.baseUrl}${item.fileName}` }}
                                 style={{ width: Styles.width - 50, height: 300 }}
                             />
                         </View>) : null}

@@ -67,7 +67,7 @@ function HomeScreen(props) {
                     </TouchableOpacity>
                     <Text style={styles.HelloIinvestor}>Hello, Investor</Text>
                     <Text style={styles.HelloIinvestor1}>You’re almost ready to submit</Text>
-                    {(users.IIN && steps > 4) ? <TouchableOpacity onPress={() => props.navigation.navigate('Goals')} style={styles.botton_box}>
+                    {(users?.IIN && steps > 4) ? <TouchableOpacity onPress={() => props.navigation.navigate('Goals')} style={styles.botton_box}>
                         <Text style={styles.get_otp}>Start investment</Text>
                     </TouchableOpacity> : <TouchableOpacity onPress={() => props.navigation.navigate(steps === 3 ? 'Register' : 'Register3')} style={styles.botton_box}>
                         <Text style={styles.get_otp}>COMPLETE ACCOUNT SETUP</Text>
@@ -208,32 +208,26 @@ function HomeScreen(props) {
                     <ScrollView horizontal={true}>
 
                         <View style={styles.education_top}>
-                            <View style={[styles.education, styles.quick_access]}>
+                            <TouchableOpacity onPress={() => props.navigation.navigate('ReferEarn')} style={[styles.education, styles.quick_access]}>
                                 <View style={styles.child_sec}>
-                                    <TouchableOpacity onPress={() => props.navigation.navigate('ReferEarn')}>
                                         <Image
                                             source={require('../../../assets/term8.png')}
                                             style={styles.quick_img}
                                         />
-                                    </TouchableOpacity>
                                 </View>
                                 <View style={styles.education_sec}>
                                     <Text style={styles.earn}>Refer & Earn</Text>
                                     <Text style={styles.child_text}>Now earn upto
                                         Rs. 5,000/-</Text>
                                 </View>
-                            </View>
+                            </TouchableOpacity>
 
-
-
-                            <View style={[styles.education, styles.quick_access]}>
+                            <TouchableOpacity onPress={() => props.navigation.navigate('Relationship')} style={[styles.education, styles.quick_access]}>
                                 <View style={styles.child_sec}>
-                                    <TouchableOpacity onPress={() => props.navigation.navigate('Relationship')}>
                                         <Image
                                             source={require('../../../assets/quick_img3.png')}
                                             style={styles.quick_img3}
                                         />
-                                    </TouchableOpacity>
                                 </View>
                                 <View style={styles.education_sec}>
                                     <Text style={styles.earn}>Talk To Experts</Text>
@@ -241,7 +235,7 @@ function HomeScreen(props) {
                                         while investing
                                         money</Text>
                                 </View>
-                            </View>
+                            </TouchableOpacity>
                         </View>
                     </ScrollView>
                 </View>

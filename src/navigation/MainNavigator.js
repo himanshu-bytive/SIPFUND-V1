@@ -109,7 +109,7 @@ export const LoginFlowStack = createStackNavigator({
     },
 
 }, {
-    initialRouteName: 'splash',
+    initialRouteName: 'otp',
 });
 
 export const Hamburgmenu = createStackNavigator({

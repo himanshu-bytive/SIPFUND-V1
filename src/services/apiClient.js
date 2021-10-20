@@ -1,4 +1,4 @@
-import { Alert } from 'react-native';
+import { Alert, NativeModules } from 'react-native';
 const axios = require('axios');
 class ApiClient {
   baseUrl
@@ -49,11 +49,15 @@ class ApiClient {
           if (error.response) {
             // Request made and server responded
             console.log('aaa ', error.response.data);
+            if (error.response.data === 'Unauthorized') {
+              NativeModules.DevSettings.reload();
+            }
             let message = ''
-            if (error?.response?.data?.Data && Array.isArray(error?.response?.data?.Data) ) {
-              for (let item of error.response.data.Data) {
-                message = message + ` ` + item.return_msg
-              }
+            if (error?.response?.data?.Data && Array.isArray(error?.response?.data?.Data)) {
+              message = error.response.data.Data[0].return_msg
+              // for (let item of error.response.data.Data) {
+              //   message = message + ` ` + item.return_msg
+              // }
             } else if (error.response?.data?.responseString) {
               message = error.response?.data?.responseString
             } else if (error.response?.data?.message) {

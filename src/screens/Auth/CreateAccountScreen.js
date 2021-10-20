@@ -23,9 +23,11 @@ function CreateAccountScreen(props) {
     const pageActive = useRef(false);
     const emailInput = useRef(null);
     const passwordInput = useRef(null);
+    const referenceCodeInput = useRef(null);
     const { creatAccount, isFetching, error, signUpSteps, phone } = props;
     const [locationServiceEnabled, setLocationServiceEnabled] = useState(false);
     const [displayCurrentAddress, setDisplayCurrentAddress] = useState([]);
+    const [referral, setReferral] = useState(false);
 
     useEffect(() => {
         CheckIfLocationEnabled();
@@ -89,12 +91,14 @@ function CreateAccountScreen(props) {
     const [state, setState] = useState({
         email: '',
         password: '',
+        referenceCode: '',
         term: false,
     });
 
     const [errors, setError] = useState({
         email: null,
         password: null,
+        referenceCode: null,
         term: null,
     });
 
@@ -122,7 +126,7 @@ function CreateAccountScreen(props) {
             "pan": "",
             "password": state.password,
             "platform": Platform.OS == 'ios' ? 'IOS' : 'ANDROID',
-            "referenceCode": "",
+            "referenceCode": state.referenceCode,
             "referenceInfo":
             {
                 "deviceId": "",
@@ -133,7 +137,7 @@ function CreateAccountScreen(props) {
             }
         }
         creatAccount(params);
-        setState({ ...state, email: '', password: '', term: false });
+        setState({ ...state, email: '', password: '', referenceCode:'', term: false });
     }
 
     return (
@@ -172,10 +176,20 @@ function CreateAccountScreen(props) {
                         value={state.password}
                     />
                     {(errors.password) && (<Text style={styles.error}>{errors.password}</Text>)}
-                    <TouchableOpacity style={{ alignSelf: 'flex-end' }}>
+                    <TouchableOpacity onPress={() => setReferral(!referral)} style={{ alignSelf: 'flex-end', marginVertical: 10 }}>
                         <Text style={styles.refreshcode}>Have Referral Code?</Text>
                     </TouchableOpacity>
-
+                    {referral && (<View style={{ width: '100%' }}>
+                        <Text style={[styles.number, { marginTop: 0, textAlign: 'center' }]}>Referral Code</Text>
+                        <TextInput
+                            ref={referenceCodeInput}
+                            style={styles.inputsec}
+                            placeholder={'Reference Code'}
+                            onChangeText={(referenceCode) => { setError({ ...errors, referenceCode: null }); setState({ ...state, referenceCode }) }}
+                            value={state.referenceCode}
+                        />
+                        {(errors.referenceCode) && (<Text style={styles.error}>{errors.referenceCode}</Text>)}
+                    </View>)}
                     <Text style={styles.confrom_button}>By tapping confirm button, you agreeing to the</Text>
                     <CheckBox
                         title={<TouchableOpacity onPress={() => Linking.openURL('https://sipfund.com/termofuse.html')}><Text style={{ color: Colors.RED }}>Terms & Conditions</Text></TouchableOpacity>}

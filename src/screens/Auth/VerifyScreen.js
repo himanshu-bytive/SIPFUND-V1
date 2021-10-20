@@ -12,6 +12,7 @@ import {
 import { connect } from 'react-redux'
 import { Colors, FormValidate } from '../../common'
 import * as Location from 'expo-location';
+import * as Permissions from 'expo-permissions';
 import { MaterialIcons } from 'react-native-vector-icons';
 const width = Dimensions.get('window').width;
 
@@ -46,8 +47,8 @@ function VerifyScreen(props) {
     }, []);
 
     const CheckIfLocationEnabled = async () => {
-        let enabled = await Location.hasServicesEnabledAsync();
-        if (!enabled) {
+        const { status } = await Permissions.askAsync(Permissions.LOCATION);
+        if (status !== 'granted') {
             Alert.alert(
                 'Location Service not enabled',
                 'Please enable your location services to continue',
@@ -55,6 +56,12 @@ function VerifyScreen(props) {
                 { cancelable: false }
             );
         } else {
+            Alert.alert(
+                'one  ',
+                'onne',
+                [{ text: 'OK' }],
+                { cancelable: false }
+            );
             setLocationServiceEnabled(enabled);
         }
     };
@@ -130,6 +137,7 @@ function VerifyScreen(props) {
                         style={styles.logoimg}
                     />
                 </View>
+                <Text style={styles.code}>Continue with</Text>
                 {(phones.lenght > 0) && (<Text style={styles.continue}>Continue with</Text>)}
                 {phones.map((item, key) => <TouchableOpacity key={key} onPress={() => onAction(item)} style={styles.phone_number}>
                     <MaterialIcons name="call" size={20} color="#838280" />
@@ -137,7 +145,8 @@ function VerifyScreen(props) {
                 </TouchableOpacity>)}
                 <View style={styles.or}>
                     {(phones.lenght > 0) && (<Text style={styles.code}>Or</Text>)}
-                    <Text style={styles.code}>Enter Your Mobile number</Text>
+                    <Text style={[styles.code, { marginBottom: 0 }]}>OR</Text>
+                    <Text style={[styles.code, { marginTop: 0 }]}>Enter Your Mobile number</Text>
                 </View>
                 <View style={styles.text_box}>
                     <MaterialIcons name="call" size={20} color="#838280" />
@@ -154,7 +163,7 @@ function VerifyScreen(props) {
                 <View style={styles.button}>
                     {isFetching ? <View style={styles.botton_box}><ActivityIndicator size={30} color={Colors.WHITE} /></View> :
                         <TouchableOpacity onPress={() => onAction()} style={styles.botton_box}>
-                            <Text style={styles.get_otp}>GET OTP</Text>
+                            <Text style={styles.get_otp}>ENTER</Text>
                         </TouchableOpacity>}
                 </View>
                 <View style={styles.otp}>
@@ -188,7 +197,7 @@ const styles = StyleSheet.create({
     },
     mainbox: {
         borderRadius: 25,
-        backgroundColor: Colors.WHITE,
+        // backgroundColor: Colors.WHITE,
         width: width - 50,
     },
     logoimg: {
@@ -202,6 +211,8 @@ const styles = StyleSheet.create({
     },
     inputsec: {
         borderBottomWidth: 1,
+        marginLeft: 5,
+        marginTop: -3,
         borderColor: '#828282',
         width: "50%"
     },
@@ -211,11 +222,14 @@ const styles = StyleSheet.create({
     },
     number: {
         fontSize: 18,
+        marginTop: -3,
         marginLeft: 5,
     },
     code: {
         marginTop: 10,
+        marginBottom: 5,
         fontSize: 19,
+        color:'#7E7E7E',
         paddingLeft: 70,
     },
     text_box: {

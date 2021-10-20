@@ -71,12 +71,11 @@ function TopRatedScreen(props) {
     // overlay end
 
 
-
     return (
         <View style={styles.container}>
             {/* Header_sec */}
             <Header
-                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={Colors.RED} /></TouchableOpacity>} backgroundColor={Colors.PEACH}
+                leftComponent={<TouchableOpacity onPress={() =>props.navigation.navigate('Home')} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={Colors.RED} /></TouchableOpacity>} backgroundColor={Colors.PEACH}
                 backgroundColor={Colors.LIGHT_WHITE}
                 centerComponent={<Image
                     source={require('../../../assets/icon.png')}
@@ -212,10 +211,18 @@ function TopRatedScreen(props) {
                     </View>
 
                     {(selectTab == 'SIP') && (<View>
-                        <View style={styles.amount_sec}>
-                            <Text style={styles.amount_tex}>Amount</Text>
-                            <View style={styles.bordersec}>
-                                <TextInput placeholder='5000' style={styles.amount_tex2} />
+                        <View style={{ flexDirection: 'row', justifyContent: "space-between", paddingHorizontal: 50 }}>
+                            <View style={styles.amount_sec}>
+                                <Text style={styles.amount_tex}>Amount</Text>
+                                <View style={styles.bordersec}>
+                                    <TextInput placeholder='5000' style={styles.amount_tex2} />
+                                </View>
+                            </View>
+                            <View style={styles.amount_sec}>
+                                <Text style={styles.amount_tex}>Date</Text>
+                                <View style={styles.bordersec}>
+                                    <TextInput keyboardType='numeric' placeholder='5' style={[styles.amount_tex2, { width: 50 }]} />
+                                </View>
                             </View>
                         </View>
 

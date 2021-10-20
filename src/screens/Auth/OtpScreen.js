@@ -6,6 +6,7 @@ import {
     ActivityIndicator,
     Dimensions,
     ScrollView,
+    Image,
     TouchableOpacity,
     Alert,
     Text,
@@ -13,7 +14,6 @@ import {
 import { connect } from 'react-redux'
 import * as Location from 'expo-location';
 import { Colors } from '../../common'
-import { Image } from 'react-native-elements';
 import { OtpInputs } from '../../components';
 const width = Dimensions.get('window').width;
 
@@ -176,18 +176,16 @@ const styles = StyleSheet.create({
         width: width - 50,
         borderColor: Colors.GREY_1,
         backgroundColor: Colors.WHITE,
-        paddingBottom: 120,
+        paddingBottom: 50,
         paddingTop: 30,
     },
     logimg: {
-        height: 156,
         marginTop: 10,
-        width: 145,
-        marginBottom: 25,
+        marginBottom: 15,
     },
     otpsec: {
         alignItems: 'center',
-        marginTop: 20,
+        marginTop: 0,
     },
     inputsec: {
         borderBottomWidth: 4,

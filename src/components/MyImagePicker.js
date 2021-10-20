@@ -4,7 +4,7 @@ import { Camera } from "expo-camera";
 import SignatureScreen from "react-native-signature-canvas";
 import * as FileSystem from 'expo-file-system';
 import * as Permissions from 'expo-permissions';
-import { Modal, TouchableOpacity, Image, View, Text, StyleSheet, Platform } from 'react-native';
+import { Modal, TouchableOpacity, Image, View, Text, StyleSheet, Alert } from 'react-native';
 import { Tooltip } from 'react-native-elements';
 import { connect } from 'react-redux'
 import { AntDesign, Entypo } from 'react-native-vector-icons';
@@ -21,13 +21,14 @@ const MyImagePicker = (props) => {
     const [sign, setSign] = useState(false);
     const [item, setItem] = useState({});
     const signBox = useRef(null);
-    const selList = [{ value: 'Aadhaar Card Front', label: 'Aadhaar Card Front', fileType: 'Front' }, { value: 'Aadhaar Card Back', label: 'Aadhaar Card Back', fileType: 'Back' }, { value: 'Passport', label: 'Passport', fileType: 'Passport' }, { value: 'Driving Licence', label: 'Driving Licence', fileType: 'Licence' }]
+    const selList = [{ value: 'Aadhaar Card Front', label: 'Aadhaar Card Front', fileType: 'AA1' }, { value: 'Aadhaar Card Back', label: 'Aadhaar Card Back', fileType: 'AA2' }, { value: 'Passport', label: 'Passport', fileType: 'PIC' }, { value: 'Driving Licence', label: 'Driving Licence', fileType: 'DL' }]
 
+    // Check Camera Permissions
     useEffect(() => {
         (async () => {
             const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
             if (status !== 'granted') {
-                alert('Sorry, we need camera roll permissions to make this work!');
+                Alert.alert('Sorry, we need camera roll permissions to make this work!');
             }
         })();
     }, []);
@@ -37,7 +38,7 @@ const MyImagePicker = (props) => {
         (async () => {
             const { status } = await Permissions.askAsync(Permissions.CAMERA);
             if (status !== 'granted') {
-                alert('Sorry, we need camera permissions to make this work!');
+                Alert.alert('Sorry, we need camera permissions to make this work!');
             }
         })();
     }, []);
