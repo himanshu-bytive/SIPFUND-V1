@@ -9,6 +9,7 @@ import {
     Text,
     Dimensions,
     KeyboardAvoidingView,
+    Platform,
     TextInput,
     ActivityIndicator
 } from "react-native";
@@ -51,7 +52,7 @@ function ForgotPasswordScreen(props) {
     }
 
     return (
-        <View style={styles.container}>
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container}>
             <Header
                 backgroundColor={Colors.LIGHT_WHITE}
                 containerStyle={styles.header}
@@ -84,7 +85,7 @@ function ForgotPasswordScreen(props) {
                         </TouchableOpacity>}
                 </View>
             </ScrollView>
-        </View>
+        </KeyboardAvoidingView>
 
     );
 }

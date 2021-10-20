@@ -6,6 +6,9 @@ import {
     Dimensions,
     TextInput,
     Image,
+    Alert,
+    KeyboardAvoidingView,
+    Platform,
     TouchableOpacity,
     ActivityIndicator
 } from "react-native";
@@ -56,12 +59,6 @@ function VerifyScreen(props) {
                 { cancelable: false }
             );
         } else {
-            Alert.alert(
-                'one  ',
-                'onne',
-                [{ text: 'OK' }],
-                { cancelable: false }
-            );
             setLocationServiceEnabled(enabled);
         }
     };
@@ -128,7 +125,7 @@ function VerifyScreen(props) {
     }
 
     return (
-        <View style={styles.container}>
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container}>
             <View><Text style={styles.slogan}>Achieve Your <Text style={styles.sloganRed}>Dreams</Text></Text></View>
             <View style={styles.mainbox}>
                 <View style={{ alignItems: "center" }}>
@@ -176,7 +173,7 @@ function VerifyScreen(props) {
                     style={styles.nseimg}
                 />
             </View>
-        </View>
+        </KeyboardAvoidingView>
     );
 }
 
@@ -229,7 +226,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
         marginBottom: 5,
         fontSize: 19,
-        color:'#7E7E7E',
+        color: '#7E7E7E',
         paddingLeft: 70,
     },
     text_box: {

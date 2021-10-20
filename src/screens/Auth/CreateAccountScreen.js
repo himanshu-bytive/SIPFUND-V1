@@ -8,8 +8,8 @@ import {
     ImageBackground,
     TouchableOpacity,
     Text,
-    Platform,
     KeyboardAvoidingView,
+    Platform,
     TextInput,
     ActivityIndicator
 } from "react-native";
@@ -141,7 +141,7 @@ function CreateAccountScreen(props) {
     }
 
     return (
-        <View style={styles.container}>
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container}>
             <Header
                 backgroundColor={Colors.LIGHT_WHITE}
                 containerStyle={styles.header}
@@ -210,7 +210,7 @@ function CreateAccountScreen(props) {
                     </View>
                 </View>
             </ScrollView>
-        </View>
+        </KeyboardAvoidingView>
 
     );
 }

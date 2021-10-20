@@ -4,6 +4,8 @@ import {
     ScrollView,
     View,
     TouchableOpacity,
+    KeyboardAvoidingView,
+    Platform,
     Text,
     ActivityIndicator
 } from "react-native";
@@ -241,7 +243,7 @@ function CompleteDetailsBankScreen(props) {
 
 
     return (
-        <View style={styles.container}>
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container}>
             <Header
                 leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={40} color={Colors.RED} /></TouchableOpacity>}
                 containerStyle={styles.header}
@@ -345,9 +347,7 @@ function CompleteDetailsBankScreen(props) {
                     <TouchableOpacity onPress={() => onComplete()}><Text style={{ color: '#ff0000', paddingTop: 20, }}>OK</Text></TouchableOpacity>
                 </View>
             </Overlay>
-        </View>
-
-
+        </KeyboardAvoidingView>
     );
 }
 

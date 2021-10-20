@@ -4,6 +4,8 @@ import {
     ScrollView,
     View,
     TouchableOpacity,
+    KeyboardAvoidingView,
+    Platform,
     Text,
     TextInput,
     ActivityIndicator
@@ -60,7 +62,7 @@ function LoginScreen(props) {
     }
 
     return (
-        <View style={styles.container}>
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container}>
             <Header
                 leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={Colors.RED} /></TouchableOpacity>}
                 backgroundColor={Colors.LIGHT_WHITE}
@@ -105,7 +107,7 @@ function LoginScreen(props) {
                     </View>
                 </View>
             </ScrollView>
-        </View>
+        </KeyboardAvoidingView>
 
     );
 }

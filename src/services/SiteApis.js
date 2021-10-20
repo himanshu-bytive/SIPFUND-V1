@@ -6,6 +6,15 @@ const Api = new ApiClient({
   baseUrl: Config.apiBaseUrl,
 });
 
+const getMimeType = (ext) => {
+  switch (ext) {
+    case 'pdf': return 'application/pdf';
+    case 'jpg': return 'image/jpeg';
+    case 'jpeg': return 'image/jpeg';
+    case 'png': return 'image/png';
+  }
+}
+
 const SiteApis = {
   apiPostCall: async (api, params, token) => {
     try {
@@ -44,14 +53,12 @@ const SiteApis = {
     }
   },
   uploadImgApi(url, file, token) {
-    const split = file.uri.split('/')
-    const fileName = split[split.length - 1]
-    const formdata = new FormData();
-    formdata.append("document", {
-      name: fileName,
-      type: file.type,
-      uri: Platform.OS === "android" ? file.uri : file.uri.replace("file://", "")
-    }, fileName);
+    const fileUri = file.uri
+    let filename = fileUri.split('/').pop();
+    const extArr = /\.(\w+)$/.exec(filename);
+    const type = getMimeType(extArr[1]);
+    let formData = new FormData();
+    formData.append('document', { uri: fileUri, name: filename, type }, filename);
     return fetch(Config.apiBaseUrl + url, {
       method: 'POST',
       headers: {
@@ -59,7 +66,7 @@ const SiteApis = {
         'Content-Type': 'multipart/form-data',
         'Authorization': token
       },
-      body: formdata
+      body: formData
     })
       .then(response => response.text())
       .then(result => JSON.parse(result))

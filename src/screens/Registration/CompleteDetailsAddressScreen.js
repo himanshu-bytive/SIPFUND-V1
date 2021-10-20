@@ -4,6 +4,8 @@ import {
     ScrollView,
     View,
     TouchableOpacity,
+    KeyboardAvoidingView,
+    Platform,
     Text,
 } from "react-native";
 import { connect } from 'react-redux'
@@ -114,7 +116,7 @@ function CompleteDetailsAddressScreen(props) {
     }
 
     return (
-        <View style={styles.container}>
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container}>
             <Header
                 leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={40} color={Colors.RED} /></TouchableOpacity>}
                 containerStyle={styles.header}
@@ -182,8 +184,7 @@ function CompleteDetailsAddressScreen(props) {
                     </TouchableOpacity>
                 </View>
             </View>
-
-        </View>
+        </KeyboardAvoidingView>
     );
 }
 

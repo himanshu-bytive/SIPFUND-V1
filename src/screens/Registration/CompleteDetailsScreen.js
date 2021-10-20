@@ -3,6 +3,8 @@ import {
     StyleSheet,
     View,
     TouchableOpacity,
+    KeyboardAvoidingView,
+    Platform,
     Text,
 } from "react-native";
 import { connect } from 'react-redux'
@@ -137,7 +139,7 @@ function CompleteDetailsScreen(props) {
             setErrors({ ...errors, title: 'Please Select a Value' })
             return
         }
-        if (!investor) {
+        if (!FormValidate.isString(investor)) {
             setErrors({ ...errors, investor: 'Please Add a Value' })
             return
         }
@@ -149,11 +151,11 @@ function CompleteDetailsScreen(props) {
             setErrors({ ...errors, email: 'Please Add a Email' })
             return
         }
-        if (!fatherName) {
+        if (!FormValidate.isString(fatherName)) {
             setErrors({ ...errors, fatherName: 'Please Add Fathers Name' })
             return
         }
-        if (!motherName) {
+        if (!FormValidate.isString(motherName)) {
             setErrors({ ...errors, motherName: 'Please Add Mothers Name' })
             return
         }
@@ -166,7 +168,7 @@ function CompleteDetailsScreen(props) {
             return
         }
         if (nominate) {
-            if (!nominate1name) {
+            if (!FormValidate.isString(nominate1name)) {
                 setErrors({ ...errors, nominate1name: 'Please Add Nominate Name' })
                 return
             }
@@ -226,7 +228,7 @@ function CompleteDetailsScreen(props) {
     }
 
     return (
-        <View style={styles.container}>
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container}>
             <Header
                 leftComponent={<TouchableOpacity onPress={() => props.navigation.navigate('Home')} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={40} color={Colors.RED} /></TouchableOpacity>}
                 containerStyle={styles.header}
@@ -414,8 +416,7 @@ function CompleteDetailsScreen(props) {
                     </TouchableOpacity>
                 </View>
             </View>
-        </View>
-
+        </KeyboardAvoidingView>
     );
 }
 

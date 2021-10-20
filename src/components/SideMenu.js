@@ -31,7 +31,7 @@ function SideMenu(props) {
     }, [docs]);
     return (
         <View style={styles.container}>
-            <View style={{ backgroundColor: Colors.RED, flexDirection: 'row', marginTop: 30 }}>
+            <View style={{ backgroundColor: Colors.RED, flexDirection: 'row', marginTop: 0 }}>
                 <Image
                     source={img ? { uri: img } : require('../../assets/profile_img.png')}
                     style={{ margin: 7, width: 40, height: 40, borderRadius: 100 }}

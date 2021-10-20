@@ -8,6 +8,7 @@ import {
     ScrollView,
     Image,
     TouchableOpacity,
+    KeyboardAvoidingView,
     Alert,
     Text,
 } from "react-native";
@@ -110,7 +111,7 @@ function OtpScreen(props) {
     }
 
     return (
-        <View style={styles.container}>
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container}>
             <ScrollView style={styles.containerScroll}>
                 <View style={styles.containBox}>
                     <Text style={styles.slogan}>Achieve Your <Text style={styles.sloganRed}>Dreams</Text></Text>
@@ -144,7 +145,7 @@ function OtpScreen(props) {
                     />
                 </View>
             </ScrollView>
-        </View>
+        </KeyboardAvoidingView>
     );
 }
 

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import AppContainer from './src/navigation/AppNavigator';
+import { StatusBar } from 'react-native';
 import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 import reducers from './src/store'
@@ -44,6 +45,11 @@ export default function App() {
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor}>
+        <StatusBar
+          animated={true}
+          backgroundColor="transparent"
+          hidden={true}
+        />
         <AppContainer />
       </PersistGate>
     </Provider>
