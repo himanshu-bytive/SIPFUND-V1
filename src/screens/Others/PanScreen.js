@@ -3,7 +3,7 @@ import {
     StyleSheet,
     Button,
     View,
-    ImageBackground,
+    Image,
     TouchableOpacity,
     Text,
     ScrollView,
@@ -15,7 +15,7 @@ import { connect } from 'react-redux'
 import { Styles, Config, Colors, FormValidate } from '../../common'
 import { styles } from './PanStyle'
 import { Ionicons, AntDesign, Entypo, FontAwesome5 } from 'react-native-vector-icons';
-import { Image, Header, CheckBox } from 'react-native-elements';
+import { Header, CheckBox } from 'react-native-elements';
 
 function PanScreen(props) {
     const pageActive = useRef(false);
@@ -65,13 +65,11 @@ function PanScreen(props) {
             <ScrollView style={Styles.containerScroll}>
                 <View style={styles.mainbox}>
                     <View style={styles.imgbox}>
-
                         <Image
                             source={require('../../../assets/Pancard.png')}
                             style={styles.Panimg}
                         />
                     </View>
-
                     <Text style={styles.pan}>PAN Number</Text>
                     <View style={styles.text_box}>
                         <FontAwesome5 name="credit-card" size={20} color="#838280" />
@@ -89,6 +87,12 @@ function PanScreen(props) {
                             <TouchableOpacity onPress={() => onAction()} style={styles.botton_box}>
                                 <Text style={styles.get_otp}>CREATE</Text>
                             </TouchableOpacity>}
+                    </View>
+                    <View style={{ alignItems: "center" }}>
+                        <Image
+                            source={require('../../../assets/pan_footer_img.png')}
+                            style={styles.nseimg}
+                        />
                     </View>
                 </View>
             </ScrollView>

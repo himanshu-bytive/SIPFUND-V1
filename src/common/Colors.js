@@ -8,6 +8,7 @@ export default {
   DARK: "#070807",
   DEEP_SKY: "#0370bc",
   LIGHT_RED: "#FF2121",
+  LIGHT_RED1: "#EE4248",
   DULL_RED: "#B41B00",
   GREY_1: "#BAB9B9",
   DARK_GREY: "#B8B8B8",

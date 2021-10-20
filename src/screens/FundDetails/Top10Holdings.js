@@ -114,15 +114,13 @@ const styles = StyleSheet.create({
     name_text: {
         color: Colors.RED,
         fontSize: 15,
-
-
     },
     name_right: {
         alignItems: "flex-end",
-        width: '50%'
+        width: '20%'
     },
     name_left: {
-        width: '50%'
+        width: '80%'
     },
     nametop: { paddingVertical: 5, },
     minimum: {

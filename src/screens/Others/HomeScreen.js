@@ -458,8 +458,6 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         marginTop: 30,
     },
-
-
     Plan: {
         fontSize: 20,
         color: Colors.DEEP_GRAY,
@@ -473,7 +471,7 @@ const styles = StyleSheet.create({
     },
     education: {
         flexDirection: "row",
-        width: 370,
+        width: Styles.width -30,
         borderWidth: 2,
         borderStyle: "solid",
         borderColor: Colors.GRAY_LIGHT,

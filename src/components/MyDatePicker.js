@@ -27,8 +27,8 @@ const MyDatePicker = (props) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={showDatePicker}>
+        <AntDesign style={{ position: 'absolute', left: 10, top: 20 }} name="calendar" color={"#EE4248"} size={18} />
         <Text style={styles.custom}>{moment(date).format('DD-MM-YYYY')}</Text>
-        <AntDesign style={{ position: 'absolute', right: 10, top: 20 }} name="calendar" color={"#444"} size={18} />
       </TouchableOpacity>
       <DateTimePickerModal
         isVisible={isDatePickerVisible}
@@ -52,6 +52,7 @@ const styles = StyleSheet.create({
     borderColor: Colors.GRAY_LIGHT,
     fontSize: 22,
     marginTop: 5,
+    marginLeft:30,
     padding: 10,
     textAlign: 'left',
   },

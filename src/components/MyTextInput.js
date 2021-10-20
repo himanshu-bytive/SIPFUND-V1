@@ -4,7 +4,7 @@ import { Styles, Config, Colors, FormValidate } from '../common'
 
 const MyTextInput = (props) => {
     const focusInput = useRef(null);
-    const { error, style } = props
+    const { error, style, placeholder } = props
 
     useEffect(() => {
         if (error) {
@@ -17,7 +17,7 @@ const MyTextInput = (props) => {
             <TextInput
                 {...props}
                 ref={focusInput}
-                placeholder={'Add Data'}
+                placeholder={placeholder ? placeholder : 'Add Data'}
                 style={[styles.inputsec, (style ? style : {}), { borderColor: (error ? Colors.RED : Colors.GRAY_LIGHT) }]}
             />
             {error && (<Text style={styles.error}>{error}</Text>)}

@@ -139,7 +139,7 @@ function OtpScreen(props) {
                 </View>
                 <View style={{ alignItems: "center" }}>
                     <Image
-                        source={require('../../../assets/nse.png')}
+                        source={require('../../../assets/pan_footer_img.png')}
                         style={styles.nseimg}
                     />
                 </View>
@@ -198,8 +198,6 @@ const styles = StyleSheet.create({
         color: Colors.RED,
     },
     nseimg: {
-        height: 73,
-        width: width - 50,
         marginVertical: 50,
     },
     number: {

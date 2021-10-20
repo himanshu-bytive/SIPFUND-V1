@@ -131,10 +131,7 @@ function CompleteDetailsAddressScreen(props) {
 
                     <Text style={styles.occupation}>Address1 (As per address proof) <Text style={styles.error}>*</Text></Text>
                     <MyTextInput
-                        multiline={true}
-                        numberOfLines={4}
-                        style={{ height: 100 }}
-                        placeholder={'Add Comments'}
+                        placeholder={'Add Address'}
                         value={state.address}
                         error={errors.address}
                         onChangeText={(address) => { setErrors({ ...errors, address: null }); setState({ ...state, address }) }}
@@ -143,6 +140,7 @@ function CompleteDetailsAddressScreen(props) {
                     {/* DOB/DOI_sec */}
                     <Text style={styles.occupation}>Pincode <Text style={styles.error}>*</Text></Text>
                     <MyTextInput
+                        placeholder={'Pincode'}
                         keyboardType='numeric'
                         value={state.pincode}
                         error={errors.pincode}

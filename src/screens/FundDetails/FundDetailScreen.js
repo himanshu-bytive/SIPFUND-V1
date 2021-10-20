@@ -50,31 +50,7 @@ function FundDetailScreen(props) {
     };
 
     return (
-        <View style={styles.container}>
-            {/* header  */}
-            <Header
-                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={Colors.RED} /></TouchableOpacity>} backgroundColor={Colors.PEACH}
-                backgroundColor={Colors.LIGHT_WHITE}
-                containerStyle={Styles.header}
-                centerComponent={<Image
-                    source={require('../../../assets/icon.png')}
-                    style={styles.logimg}
-                />}
-
-                rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={Colors.RED} /></View>}
-            />
-            <ScrollView style={styles.containerScroll}>
                 <View style={styles.contain_box}>
-                    <View style={styles.contain}>
-                        <View>
-                            <Image
-                                source={require('../../../assets/MidCap_img.png')}
-                                style={styles.detailimg}
-                            />
-                        </View>
-                        <View><Text style={styles.bnp}>BNP Paribas Mid Cap Fund</Text></View>
-                    </View>
-
                     {/* loop start */}
                     {fundType.map((item, key) => <View key={key}>
                         <View style={styles.bottom_sec}>
@@ -95,9 +71,6 @@ function FundDetailScreen(props) {
                             {(item.text === 'Fund Managers') && (<FundManagers />)}
                         </View>)}
                     </View>)}
-                    {/* loop end */}
-                </View>
-            </ScrollView>
             <View style={styles.submit}><TouchableOpacity><Text style={styles.submit_text}>SELECT FUND</Text></TouchableOpacity></View>
         </View>
 

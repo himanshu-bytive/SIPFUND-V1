@@ -60,8 +60,8 @@ function CompleteDetailsScreen(props) {
                 occupation: user.nseDetails.occupation.OCCUPATION_CODE,
                 dob: new Date(user.nseDetails.dob),
                 title: user.nseDetails.title,
-                investor: users.name,
-                investorPan: users.pan ? users.pan : pan,
+                investor: user?.nseDetails?.inv_name ? user.nseDetails.inv_name : users.name,
+                investorPan: user?.nseDetails?.pan ? user.nseDetails.pan : (users.pan ? users.pan : pan),
                 email: users.email,
                 fatherName: user.nseDetails.father_name,
                 motherName: user.nseDetails.mother_name,
@@ -244,6 +244,7 @@ function CompleteDetailsScreen(props) {
                     <Text style={styles.occupation}>Occupation <Text style={styles.error}>*</Text></Text>
                     <MySelectPicker
                         values={occupationsList}
+                        placeholder={'Select Occupation'}
                         defultValue={state.occupation}
                         error={errors.occupation}
                         onChange={(occupation) => { setErrors({ ...errors, occupation: null }); setState({ ...state, occupation }) }}
@@ -257,16 +258,17 @@ function CompleteDetailsScreen(props) {
                     <Text style={styles.occupation}>TITLE <Text style={styles.error}>*</Text></Text>
                     <MySelectPicker
                         values={titleList}
+                        placeholder={'Select Title'}
                         defultValue={state.title}
                         error={errors.title}
                         onChange={(title) => { setErrors({ ...errors, title: null }); setState({ ...state, title }) }}
                     />
 
-
                     {/* Investor Name_sec */}
                     <Text style={styles.occupation}>Investor Name <Text style={styles.error}>*</Text></Text>
                     <MyTextInput
                         value={state.investor}
+                        placeholder={'Investor Name'}
                         error={errors.investor}
                         onChangeText={(investor) => { setErrors({ ...errors, investor: null }); setState({ ...state, investor }) }}
                     />
@@ -275,7 +277,7 @@ function CompleteDetailsScreen(props) {
                     {/* Individual PAN_sec */}
                     <Text style={styles.occupation}>Individual PAN <Text style={styles.error}>*</Text></Text>
                     <MyTextInput
-                        // keyboardType='numeric'
+                        placeholder={'Investor Pan'}
                         value={state.investorPan}
                         error={errors.investorPan}
                         onChangeText={(investorPan) => { setErrors({ ...errors, investorPan: null }); setState({ ...state, investorPan }) }}
@@ -284,6 +286,7 @@ function CompleteDetailsScreen(props) {
                     {/* Email Id_sec */}
                     <Text style={styles.occupation}>Email Id <Text style={styles.error}>*</Text></Text>
                     <MyTextInput
+                        placeholder={'Email'}
                         value={state.email}
                         error={errors.email}
                         onChangeText={(email) => { setErrors({ ...errors, email: null }); setState({ ...state, email }) }}
@@ -291,6 +294,7 @@ function CompleteDetailsScreen(props) {
 
                     <Text style={styles.occupation}>Father Name <Text style={styles.error}>*</Text></Text>
                     <MyTextInput
+                        placeholder={'Father Name'}
                         value={state.fatherName}
                         error={errors.fatherName}
                         onChangeText={(fatherName) => { setErrors({ ...errors, fatherName: null }); setState({ ...state, fatherName }) }}
@@ -298,6 +302,7 @@ function CompleteDetailsScreen(props) {
 
                     <Text style={styles.occupation}>Mother Name <Text style={styles.error}>*</Text></Text>
                     <MyTextInput
+                        placeholder={'Mother Name'}
                         value={state.motherName}
                         error={errors.motherName}
                         onChangeText={(motherName) => { setErrors({ ...errors, motherName: null }); setState({ ...state, motherName }) }}
@@ -314,6 +319,7 @@ function CompleteDetailsScreen(props) {
                     <Text style={styles.occupation}>Annual Income <Text style={styles.error}>*</Text></Text>
                     <MySelectPicker
                         values={incomesList}
+                        placeholder={'Select Income'}
                         defultValue={state.income}
                         error={errors.income}
                         onChange={(income) => { setErrors({ ...errors, income: null }); setState({ ...state, income }) }}
@@ -323,6 +329,7 @@ function CompleteDetailsScreen(props) {
                     <Text style={styles.occupation}>PEP (Politically Exposed Person) <Text style={styles.error}>*</Text></Text>
                     <MySelectPicker
                         values={pepList}
+                        placeholder={'Select PEP'}
                         defultValue={state.pep}
                         error={errors.pep}
                         onChange={(pep) => { setErrors({ ...errors, pep: null }); setState({ ...state, pep }) }}
@@ -347,6 +354,7 @@ function CompleteDetailsScreen(props) {
                 {state.nominate && (<View style={styles.container_sec}>
                     <Text style={styles.occupation}>Name <Text style={styles.error}>*</Text></Text>
                     <MyTextInput
+                        placeholder={'Nominate Name'}
                         value={state.nominate1name}
                         error={errors.nominate1name}
                         onChangeText={(nominate1name) => { setErrors({ ...errors, nominate1name: null }); setState({ ...state, nominate1name }) }}
@@ -366,6 +374,7 @@ function CompleteDetailsScreen(props) {
 
                     <Text style={styles.occupation}>Nominee Guardian Name <Text style={styles.error}>*</Text></Text>
                     <MyTextInput
+                        placeholder={'Nominee Guardian Name'}
                         value={state.nominate1guard_name}
                         error={errors.nominate1guard_name}
                         onChangeText={(nominate1guard_name) => { setErrors({ ...errors, nominate1guard_name: null }); setState({ ...state, nominate1guard_name }) }}
@@ -373,6 +382,7 @@ function CompleteDetailsScreen(props) {
 
                     <Text style={styles.occupation}>Nominee Guardian PAN <Text style={styles.error}>*</Text></Text>
                     <MyTextInput
+                        placeholder={'Nominee Guardian PAN'}
                         value={state.nominate1guard_pan}
                         error={errors.nominate1guard_pan}
                         onChangeText={(nominate1guard_pan) => { setErrors({ ...errors, nominate1guard_pan: null }); setState({ ...state, nominate1guard_pan }) }}

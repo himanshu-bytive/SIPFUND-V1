@@ -102,31 +102,15 @@ function Plan5(props) {
 
                 </TouchableOpacity>
 
-
-
-
-
-
-
             </ScrollView>
         </View>
-
-
     );
 }
-
-
-
-
-
-
-
-
-
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: Colors.WHITE
     },
     logimg: {
         height: 65,
@@ -162,10 +146,11 @@ const styles = StyleSheet.create({
         paddingLeft: 20,
         color: Colors.DEEP_GRAY,
     },
-    child_master:{fontSize: 16,
+    child_master: {
+        fontSize: 16,
         paddingLeft: 20,
         color: Colors.DEEP_GRAY,
-        fontWeight:"bold",
+        fontWeight: "bold",
     },
     child_text: {
         fontSize: 18,
@@ -216,19 +201,19 @@ const styles = StyleSheet.create({
         right: 0,
         paddingTop: 10,
         fontSize: 15,
-        fontWeight:"bold",
+        fontWeight: "bold",
     },
     fund_sec: {
         flexDirection: "row",
         backgroundColor: Colors.LIGHT_GRAY,
-        marginHorizontal: 20,
+        marginHorizontal: 10,
         paddingVertical: 10,
-        paddingHorizontal: 10,
+        paddingHorizontal: 5,
     },
     fund_secright: {
         position: "absolute",
         right: 0,
-        fontSize: 18,
+        fontSize: 15,
         fontWeight: "bold",
         paddingTop: 10,
         paddingRight: 10,
@@ -243,12 +228,12 @@ const styles = StyleSheet.create({
         marginHorizontal: 20,
         color: Colors.RED,
         marginBottom: 20,
-        marginTop:40,
+        marginTop: 40,
     },
     my_goal: {
         color: Colors.DEEP_GRAY,
-        fontWeight:"bold",
-      
+        fontWeight: "bold",
+
 
     },
     add: {

@@ -22,7 +22,6 @@ export default function PlanYourGoalFundType(props) {
                     <Text style={styles.axis}>Axis Asset Management Company Ltd</Text>
                     <Text style={styles.moderately}>Moderately High Risk</Text>
                 </View>
-
             </View>
 
             {/* border_sec */}
@@ -53,13 +52,15 @@ export default function PlanYourGoalFundType(props) {
 
                     <View style={{ flexDirection: "row", }}>
                         <Text style={styles.new}>5</Text>
-                        <AntDesign name="caretdown" size={20} color="#C0392B" />
+                        <View style={{ flexDirection: "column", }}>
+                        <AntDesign name="caretup" size={15} color="#C0392B" />
+                        <AntDesign name="caretdown" size={15} color="#C0392B" />
+                        </View>
                     </View>
 
 
                 </View>
                 <View style={styles.select}>
-
                     <Text style={styles.no}>SIP</Text>
                     <Text style={styles.new}>4000</Text>
                 </View>
@@ -73,7 +74,7 @@ export default function PlanYourGoalFundType(props) {
 
 const styles = StyleSheet.create({
     axis_asset: {
-        marginHorizontal: 20,
+        marginHorizontal: 10,
         marginTop: 10,
         backgroundColor: Colors.WHITE,
         shadowColor: "#000",
@@ -91,11 +92,9 @@ const styles = StyleSheet.create({
     },
     management: {
         marginLeft: 10,
-        width: "65%",
     },
     axis: {
         fontSize: 15,
-
     },
     moderately: {
         fontSize: 12,
@@ -127,7 +126,7 @@ const styles = StyleSheet.create({
     },
     select: {
         alignItems: "center",
-        width: "31%",
+        width: "32%",
     },
     no: {
         fontSize: 15,
@@ -135,6 +134,7 @@ const styles = StyleSheet.create({
     },
     new: {
         fontSize: 18,
+        paddingRight:5
     },
     circle: {
         height: 35,

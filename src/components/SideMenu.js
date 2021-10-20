@@ -7,23 +7,37 @@ import {
     TouchableOpacity,
     Text,
     Linking,
-    KeyboardAvoidingView,
+    Image,
     TextInput,
     ActivityIndicator,
 } from "react-native";
 import { connect } from 'react-redux'
 import { Styles, Config, Colors, FormValidate } from '../common'
 import { Ionicons, AntDesign, Feather, Entypo, MaterialCommunityIcons, FontAwesome, Octicons, FontAwesome5, } from 'react-native-vector-icons';
-import { Image, Header, CheckBox } from 'react-native-elements';
+import { Header, CheckBox } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
 
 function SideMenu(props) {
-    const { userDetails, steps } = props
+    const { userDetails, steps, docs } = props
+    const [img, setImg] = useState(null);
 
+    useEffect(() => {
+        if (docs) {
+            let selectedData = docs?.responseString?.documents ? docs.responseString.documents.find(x => x.docType == 'AVATAR') : null;
+            if (selectedData?.fileName) {
+                setImg(docs.baseUrl + selectedData?.fileName)
+            }
+        }
+    }, [docs]);
     return (
         <View style={styles.container}>
             <Header
-                leftComponent={<TouchableOpacity><Entypo name={"user"} size={30} color={Colors.WHITE} /></TouchableOpacity>}
+                leftComponent={<TouchableOpacity>
+                    <Image
+                        source={img ? { uri: img } : require('../../assets/profile_img.png')}
+                        style={{ marginTop: 1, width: 40, height: 40, borderRadius: 100 }}
+                    />
+                </TouchableOpacity>}
                 backgroundColor={Colors.RED}
                 centerComponent={<View>
                     <Text style={styles.profileText}>{userDetails?.email}</Text>
@@ -179,7 +193,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: Colors.RED,
     },
-    profileText: { color: Colors.WHITE, fontSize: 18, },
+    profileText: { color: Colors.WHITE, fontSize: 13, marginVertical: 3 },
     know: { color: Colors.BLACK, },
     border: {
         marginTop: 10,
@@ -194,6 +208,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => ({
     token: state.auth.token,
     steps: state.home.steps,
+    docs: state.registration.documents,
     userDetails: state.auth.user,
 })
 export default connect(mapStateToProps)(SideMenu)

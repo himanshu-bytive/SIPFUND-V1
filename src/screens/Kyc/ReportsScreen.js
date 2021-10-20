@@ -58,7 +58,6 @@ function ReportsScreen(props) {
                             <Text style={styles.tax_left_text}>{item.number}</Text>
                             <Text style={styles.tax_left_text}>{item.title}</Text>
                         </View>
-
                         <View style={styles.bottom}>
                             <TouchableOpacity style={styles.botton_box}>
                                 <Text style={styles.get_otp}>{item.link}</Text>
@@ -80,7 +79,6 @@ function ReportsScreen(props) {
                         <Text style={styles.tax_left_text}>{item.number}</Text>
                         <Text style={styles.tax_left_text}>{item.title}</Text>
                     </View>
-
                     <View style={styles.bottom}>
                         <TouchableOpacity style={styles.botton_box}>
                             <Text style={styles.get_otp}>{item.link}</Text>
@@ -122,19 +120,14 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         paddingHorizontal: 5,
     },
-
-
     bottom: {
         alignItems: 'flex-end',
-
     },
     botton_box: {
-        backgroundColor: Colors.LIGHT_RED,
-        paddingHorizontal: 30,
-        paddingVertical: 15,
+        backgroundColor: Colors.LIGHT_RED1,
+        paddingHorizontal: 20,
+        paddingVertical: 10,
         borderRadius: 5,
-
-
     },
     get_otp: {
         color: Colors.WHITE,
@@ -142,35 +135,15 @@ const styles = StyleSheet.create({
         marginRight: 5,
         textAlign: "center",
     },
-
-
-
-
     tax_left: {
         flexDirection: "row",
-        width: '66%'
+        width: '70%'
     },
     tax_left_text: {
         fontSize: 18,
         fontWeight: "bold",
         paddingTop: 12,
     },
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 });

@@ -11,7 +11,6 @@ export const styles = StyleSheet.create({
     },
     mainbox: {
         padding: 60,
-
     },
     logimg: {
         height: 65,
@@ -25,7 +24,7 @@ export const styles = StyleSheet.create({
     Panimg: {
         height: 130,
         width: 225,
-        marginVertical: 30,
+        marginVertical: 15,
     },
     inputsec: {
         borderBottomWidth: 1,
@@ -46,7 +45,7 @@ export const styles = StyleSheet.create({
     },
     button: {
         alignItems: "center",
-        marginVertical: 60,
+        marginVertical: 40,
     },
     botton_box: {
         alignItems: "center",

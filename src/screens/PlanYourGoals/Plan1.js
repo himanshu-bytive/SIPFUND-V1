@@ -29,7 +29,7 @@ function Plan1(props) {
     return (
         <View style={styles.container}>
             <Header
-                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={40} color={Colors.RED} /></TouchableOpacity>}
+                leftComponent={<TouchableOpacity onPress={() => props.navigation.navigate('Home')} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={40} color={Colors.RED} /></TouchableOpacity>}
                 containerStyle={Styles.header}
                 backgroundColor={Colors.LIGHT_WHITE}
                 centerComponent={<Image
@@ -86,18 +86,13 @@ function Plan1(props) {
                 <Text style={styles.note}>Note : Assuming current inflation rate at 2.49% and
                     expected return rate on saving as 5%.</Text>
 
-
-
                 <View style={styles.click_sec}>
-                    <View style={(selectTab == 'SIP') ? styles.buttom_botton2 : styles.buttom_botton}>
-                        <TouchableOpacity onPress={() => toggleTab('SIP')}>
-                            <Text style={(selectTab == 'SIP') ? styles.sip_text2 : styles.sip_text}>SIP</Text>
-                        </TouchableOpacity></View>
-                    <View style={(selectTab == 'LUMPSUM') ? styles.buttom_botton2 : styles.buttom_botton}>
-                        <TouchableOpacity onPress={() => toggleTab('LUMPSUM')}>
-                            <Text style={(selectTab == 'LUMPSUM') ? styles.sip_text2 : styles.sip_text}>Lumpsum</Text>
-                        </TouchableOpacity>
-                    </View>
+                    <TouchableOpacity onPress={() => toggleTab('SIP')} style={(selectTab == 'SIP') ? styles.buttom_botton2 : styles.buttom_botton}>
+                        <Text style={(selectTab == 'SIP') ? styles.sip_text2 : styles.sip_text}>SIP</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => toggleTab('LUMPSUM')} style={(selectTab == 'LUMPSUM') ? styles.buttom_botton2 : styles.buttom_botton}>
+                        <Text style={(selectTab == 'LUMPSUM') ? styles.sip_text2 : styles.sip_text}>Lumpsum</Text>
+                    </TouchableOpacity>
                 </View>
 
                 {/* image_sec end */}
@@ -281,7 +276,6 @@ const styles = StyleSheet.create({
         right: 0,
     },
     hybrid_sec: {
-        marginHorizontal: 15,
         marginVertical: 20,
     },
     hybrid: {
@@ -291,7 +285,7 @@ const styles = StyleSheet.create({
         marginVertical: 10,
         marginLeft: 10,
     },
-   
+
     more_funds: {
         fontSize: 18,
         color: Colors.RED,
@@ -422,14 +416,12 @@ const styles = StyleSheet.create({
         color: Colors.RED,
         fontWeight: "bold",
         paddingVertical: 7,
-        paddingHorizontal: 40,
     },
     sip_text2: {
         fontSize: 20,
         color: Colors.WHITE,
         fontWeight: "bold",
         paddingVertical: 7,
-        paddingHorizontal: 40,
     },
 
     // calender

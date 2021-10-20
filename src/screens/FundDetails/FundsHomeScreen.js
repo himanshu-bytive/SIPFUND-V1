@@ -12,6 +12,7 @@ import { Styles, Config, Colors, FormValidate } from '../../common'
 import { MaterialIcons, AntDesign, Entypo, FontAwesome5, FontAwesome, Foundation } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 import { VictoryChartCode } from '../../components'
+import FundDetailScreen from './FundDetailScreen'
 
 const data = [
     { x: 0, y: 0 },
@@ -47,7 +48,7 @@ function FundsHomeScreen(props) {
     return (
         <View style={styles.container}>
             <Header
-                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={Colors.RED} /></TouchableOpacity>}
+                leftComponent={<TouchableOpacity onPress={() => props.navigation.navigate('Home')} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={Colors.RED} /></TouchableOpacity>}
                 containerStyle={styles.header}
                 backgroundColor={Colors.LIGHT_WHITE}
                 centerComponent={<Image
@@ -57,20 +58,17 @@ function FundsHomeScreen(props) {
                 rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={Colors.RED} /></View>}
             />
             <ScrollView style={styles.containerScroll}>
-
                 <View style={styles.management_company}>
                     <Image
                         source={require('../../../assets/axis_img.png')}
                         style={styles.axis_img}
                     />
-
-                    <TouchableOpacity onPress={() => props.navigation.navigate('FundsDetails1')}>
+                    <TouchableOpacity>
                         <View style={styles.axis}>
                             <Text style={styles.axis_asset}>Axis Asset Management Company</Text>
                             <Text style={styles.midcap}>Midcap Diversified </Text>
                         </View>
                     </TouchableOpacity>
-
                 </View>
 
                 <View style={{ padding: 20 }}>
@@ -105,9 +103,7 @@ function FundsHomeScreen(props) {
                         </View>)}
                     </View>
                 </View>
-
-
-
+                <FundDetailScreen />
             </ScrollView>
 
         </View>
@@ -159,9 +155,8 @@ const styles = StyleSheet.create({
     },
 
     axis_asset: {
-        fontSize: 20,
+        fontSize: 18,
     },
-
     midcap: {
         fontSize: 13,
         color: Colors.DEEP_GRAY,

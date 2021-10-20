@@ -108,9 +108,8 @@ function Investment3Screens(props) {
             </ScrollView>
 
             <TouchableOpacity onPress={() => props.navigation.navigate('Invest4')} style={styles.botton_box}>
-                    <Text style={styles.get_otp}>NEXT</Text>
-
-                </TouchableOpacity>
+                <Text style={styles.get_otp}>NEXT</Text>
+            </TouchableOpacity>
         </View>
 
 
@@ -157,7 +156,7 @@ const styles = StyleSheet.create({
     botton_box: {
         backgroundColor: Colors.RED,
         marginHorizontal: 30,
-    marginBottom:30,
+        marginVertical: 20,
         borderWidth: 1,
         borderRadius: 10,
         borderColor: Colors.DEEP_GRAY,
@@ -170,7 +169,6 @@ const styles = StyleSheet.create({
         textAlign: "center",
 
     },
-
     //  botton
     click_sec: {
 

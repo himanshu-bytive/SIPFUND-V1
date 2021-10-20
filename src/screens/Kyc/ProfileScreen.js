@@ -112,7 +112,6 @@ function ProfileScreen(props) {
                         <Text style={styles.id_text}>{user?.nseDetails?.ifsc_code}</Text>
                         <Text style={styles.customer}>Branch Name :</Text>
                         <Text style={styles.id_text}>{user?.nseDetails?.branch_name}</Text>
-
                     </View>
                     <View style={styles.mutual_right}>
                         <Text style={styles.customer}>Account Type :</Text>
@@ -148,6 +147,7 @@ function ProfileScreen(props) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor:Colors.WHITE
     },
     containerScroll: {
         width: '100%'
@@ -252,11 +252,9 @@ const styles = StyleSheet.create({
     id_text: {
         color: Colors.DEEP_GRAY,
         fontSize: 15,
-        paddingVertical: 10,
+        paddingBottom:10,
     },
     customer: {
-        paddingTop: 5,
-        fontWeight: "bold",
         fontSize: 15,
     },
 

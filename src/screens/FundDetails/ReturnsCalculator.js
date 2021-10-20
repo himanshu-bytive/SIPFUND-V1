@@ -20,19 +20,23 @@ import { Image, Header, ListItem, Overlay, Slider } from 'react-native-elements'
 
 function ReturnsCalculator(props) {
 
+    const [selectTab, setSelectTab] = useState('SIP');
+    const toggleTab = (value) => {
+        setSelectTab(value);
+    };
+
     return (<View style={styles.mainbox}>
         <Text style={styles.check}>Check if you would have invested in the past.</Text>
+       
         <View style={styles.click_sec}>
-            <View style={styles.buttom_botton}>
-                <TouchableOpacity>
-                    <Text style={styles.sip_text}>SIP</Text>
-                </TouchableOpacity></View>
-            <View style={styles.buttom_botton2}>
-                <TouchableOpacity style={styles.buttom_botton2}>
-                    <Text style={styles.sip_text2}>Lumpsum</Text>
-                </TouchableOpacity>
-            </View>
-        </View>
+                    <TouchableOpacity onPress={() => toggleTab('SIP')} style={(selectTab == 'SIP') ? styles.buttom_botton2 : styles.buttom_botton}>
+                        <Text style={(selectTab == 'SIP') ? styles.sip_text2 : styles.sip_text}>SIP</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => toggleTab('LUMPSUM')} style={(selectTab == 'LUMPSUM') ? styles.buttom_botton2 : styles.buttom_botton}>
+                        <Text style={(selectTab == 'LUMPSUM') ? styles.sip_text2 : styles.sip_text}>Lumpsum</Text>
+                    </TouchableOpacity>
+                </View>
+
         <View>
             <MySlider />
         </View>
@@ -120,42 +124,38 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
 
-
-
-
-
-    click_sec: {
+click_sec: {
         flexDirection: "row",
-        marginVertical: 20,
-
+        padding: 20,
     },
-
     buttom_botton: {
         width: "50%",
         borderWidth: 1,
-        borderColor: Colors.DEEP_GRAY,
-        marginRight: 2,
-        alignItems: "center",
-        paddingVertical: 7,
+        borderColor: Colors.RED,
         borderRadius: 5,
+        marginHorizontal: 2,
+        alignItems: "center",
+
     },
     buttom_botton2: {
         width: "50%",
-        backgroundColor: Colors.RED,
-        marginLeft: 2,
-        alignItems: "center",
-        paddingVertical: 7,
         borderRadius: 5,
+        backgroundColor: Colors.RED,
+        marginHorizontal: 2,
+        alignItems: "center",
+
     },
     sip_text: {
-        fontSize: 18,
+        fontSize: 20,
         color: Colors.RED,
-        fontWeight: "bold"
+        fontWeight: "bold",
+        paddingVertical: 7,
     },
     sip_text2: {
-        fontSize: 18,
+        fontSize: 20,
         color: Colors.WHITE,
-        fontWeight: "bold"
+        fontWeight: "bold",
+        paddingVertical: 7,
     },
 
 

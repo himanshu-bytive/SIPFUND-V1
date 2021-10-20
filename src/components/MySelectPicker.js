@@ -6,7 +6,7 @@ import { Styles, Config, Colors, FormValidate } from '../common'
 
 const MySelectPicker = (props) => {
   const focusInput = useRef(null);
-  const { values, defultValue, error, onChange } = props
+  const { values, defultValue, error, placeholder, onChange } = props
 
   useEffect(() => {
     if (error) {
@@ -20,6 +20,10 @@ const MySelectPicker = (props) => {
         <AntDesign style={{ position: 'absolute', right: 10, top: 15 }} name="down" color={"#444"} size={18} />
         <RNPickerSelect
           ref={focusInput}
+          placeholder={{
+            label: placeholder ? placeholder : 'Select a Item',
+            value: null,
+          }}
           style={{
             inputIOS: styles.custom,
             inputAndroid: styles.custom,
