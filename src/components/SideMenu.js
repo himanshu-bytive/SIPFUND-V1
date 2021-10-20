@@ -31,19 +31,16 @@ function SideMenu(props) {
     }, [docs]);
     return (
         <View style={styles.container}>
-            <Header
-                leftComponent={<TouchableOpacity>
-                    <Image
-                        source={img ? { uri: img } : require('../../assets/profile_img.png')}
-                        style={{ marginTop: 1, width: 40, height: 40, borderRadius: 100 }}
-                    />
-                </TouchableOpacity>}
-                backgroundColor={Colors.RED}
-                centerComponent={<View>
+            <View style={{ backgroundColor: Colors.RED, flexDirection: 'row', marginTop: 30 }}>
+                <Image
+                    source={img ? { uri: img } : require('../../assets/profile_img.png')}
+                    style={{ margin: 7, width: 40, height: 40, borderRadius: 100 }}
+                />
+                <View>
                     <Text style={styles.profileText}>{userDetails?.email}</Text>
                     <Text style={styles.profileText}>{userDetails?.mobileNo}</Text>
-                </View>}
-            />
+                </View>
+            </View>
             <ScrollView>
                 <TouchableOpacity onPress={() => props.navigation.navigate('dashboard')} style={styles.profile_sec}>
                     <View>
