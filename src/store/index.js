@@ -10,6 +10,13 @@ import { reducer as RegistrationRedux } from './RegistrationRedux';
 import { reducer as HomeRedux } from './HomeRedux';
 import { reducer as TopRatedFundRedux } from './TopRatedFundRedux';
 import { reducer as SideMenuRedux } from './SideMenuRedux';
+import { reducer as InvestmentPlanRedux } from './InvestmentPlanRedux';
+import { reducer as EkycRedux } from './EkycRedux';
+import { reducer as EmandateRedux } from './EmandateRedux';
+import { reducer as CheckoutRedux } from './CheckoutRedux';
+import { reducer as GoalsRedux } from './GoalsRedux';
+import { reducer as AddMoreFundsRedux } from './AddMoreFundsRedux';
+import { reducer as ReportsRedux } from './ReportsRedux';
 const config = {
     key: 'root',
     storage: AsyncStorage,
@@ -27,4 +34,12 @@ export default persistCombineReducers(config, {
     transactionHis: TransactionHisRedux,
     redemption: RedemptionRedux,
     switch: SwitchRedux,
+    investmentplan: InvestmentPlanRedux,
+    ekyc: EkycRedux,
+    emandate: EmandateRedux,
+    checkout: CheckoutRedux,
+    goals: GoalsRedux,
+    addmorefunds: AddMoreFundsRedux,
+    reports: ReportsRedux,
+
 });

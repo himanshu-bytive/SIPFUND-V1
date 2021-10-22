@@ -61,18 +61,6 @@ export const HomeActions = {
     setUserInfo: async (dispatch, userInfo) => {
         dispatch({ type: types.SAVE_USER_DETAILS, user: userInfo });
     },
-    updatePan: async (dispatch, params, tokan) => {
-        dispatch({ type: types.FETCH_UPDATE_PAN_PENDING });
-        let data = await SiteAPI.apiPostCall('/user/userPan', params, tokan);
-        if (data.error) {
-            Alert.alert(data.message)
-            // dispatch({ type: types.FETCH_UPDATE_PAN_FAILURE, error: data.message, pan: data.data });
-            dispatch({ type: types.FETCH_UPDATE_PAN_SUCCESS, pan: params.pan });
-        } else {
-            Alert.alert(data.responseString)
-            dispatch({ type: types.FETCH_UPDATE_PAN_SUCCESS, pan: data.data });
-        }
-    },
 };
 
 const initialState = {
