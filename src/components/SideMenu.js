@@ -13,13 +13,17 @@ import {
 } from "react-native";
 import { connect } from 'react-redux'
 import { Styles, Config, Colors, FormValidate } from '../common'
-import { Ionicons, AntDesign, Feather, Entypo, MaterialCommunityIcons, FontAwesome, Octicons, FontAwesome5, } from 'react-native-vector-icons';
-import { Header, CheckBox } from 'react-native-elements';
+import { Ionicons, AntDesign, Feather, Entypo, MaterialCommunityIcons, FontAwesome } from 'react-native-vector-icons';
+import { Overlay, Header, CheckBox } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
 
 function SideMenu(props) {
-    const { userDetails, steps, docs } = props
+    const pageActiveKyc = useRef(false);
+    const pageActiveEmandate = useRef(false);
+    const { token, isFetchingEkyc, isFetchingEmandate, userDetails, steps, docs, getList, postRequest, kycLists, emandateOptions, emandateRegistration, emandateLists } = props
     const [img, setImg] = useState(null);
+    const [visibleKyc, setVisibleKyc] = useState(false);
+    const [visibleEmandate, setVisibleEmandate] = useState(false);
 
     useEffect(() => {
         if (docs) {
@@ -29,6 +33,25 @@ function SideMenu(props) {
             }
         }
     }, [docs]);
+
+    useEffect(() => {
+        if (kycLists && pageActiveKyc.current) {
+            pageActiveKyc.current = false;
+            setVisibleKyc(true)
+            props.navigation.toggleDrawer()
+            console.log(kycLists)
+        }
+    }, [kycLists]);
+
+    useEffect(() => {
+        if (emandateLists && pageActiveEmandate.current) {
+            pageActiveEmandate.current = false;
+            setVisibleEmandate(true)
+            props.navigation.toggleDrawer()
+            console.log(emandateLists)
+        }
+    }, [emandateLists]);
+
     return (
         <View style={styles.container}>
             <View style={{ backgroundColor: Colors.RED, flexDirection: 'row', marginTop: 0 }}>
@@ -41,6 +64,24 @@ function SideMenu(props) {
                     <Text style={styles.profileText}>{userDetails?.mobileNo}</Text>
                 </View>
             </View>
+            {(isFetchingEkyc || isFetchingEmandate) && (<View style={Styles.loading}>
+                <ActivityIndicator color={Colors.BLACK} size='large' />
+            </View>)}
+
+            <Overlay isVisible={visibleKyc} overlayStyle={{ margin: 10, backgroundColor: '#fff' }}>
+                <View style={{ padding: 10 }}>
+                    {kycLists.map((item, key) => <Text key={key} style={{ paddingVertical: 5, fontSize: 18, fontWeight: "bold", }}>{item.amc_name}</Text>)}
+                    <TouchableOpacity onPress={() => setVisibleKyc(false)}><Text style={{ color: '#ff0000', paddingTop: 20, }}>OK</Text></TouchableOpacity>
+                </View>
+            </Overlay>
+
+            <Overlay isVisible={visibleEmandate} overlayStyle={{ margin: 10, backgroundColor: '#fff' }}>
+                <View style={{ padding: 10 }}>
+                    {emandateLists.map((item, key) => <Text key={key} style={{ paddingVertical: 5, fontSize: 18, fontWeight: "bold", }}>{item.description}</Text>)}
+                    <TouchableOpacity onPress={() => setVisibleEmandate(false)}><Text style={{ color: '#ff0000', paddingTop: 20, }}>OK</Text></TouchableOpacity>
+                </View>
+            </Overlay>
+
             <ScrollView>
                 <TouchableOpacity onPress={() => props.navigation.navigate('dashboard')} style={styles.profile_sec}>
                     <View>
@@ -97,7 +138,8 @@ function SideMenu(props) {
 
                 <TouchableOpacity onPress={() => {
                     if (userDetails.IIN) {
-
+                        getList(token)
+                        pageActiveKyc.current = true;
                     } else {
                         Alert.alert('IIN is not update')
                     }
@@ -111,7 +153,8 @@ function SideMenu(props) {
 
                 <TouchableOpacity onPress={() => {
                     if (userDetails.IIN) {
-
+                        emandateOptions(token)
+                        pageActiveEmandate.current = true;
                     } else {
                         Alert.alert('IIN is not update')
                     }
@@ -121,8 +164,6 @@ function SideMenu(props) {
                     </View>
                     <View><Text style={[styles.know_text, styles.know]}>E-Mandate</Text></View>
                 </TouchableOpacity>
-
-
 
                 <TouchableOpacity onPress={() => props.navigation.navigate('Notifications')} style={[styles.profile_sec, styles.profile]}>
                     <View>
@@ -138,8 +179,6 @@ function SideMenu(props) {
                     </View>
                     <View><Text style={[styles.know_text, styles.know]}>Reports</Text></View>
                 </TouchableOpacity>
-
-
 
                 <View style={styles.border}></View>
                 <Text style={[styles.know_text, styles.know]}>Communicate</Text>
@@ -207,5 +246,24 @@ const mapStateToProps = (state) => ({
     steps: state.home.steps,
     docs: state.registration.documents,
     userDetails: state.auth.user,
+    isFetchingEkyc: state.ekyc.isFetching,
+    kycLists: state.ekyc.kycLists,
+    kycDetails: state.ekyc.kycDetails,
+    isFetchingEmandate: state.emandate.isFetching,
+    emandateLists: state.emandate.emandateLists,
+    emandateDetails: state.emandate.emandateDetails,
 })
-export default connect(mapStateToProps)(SideMenu)
+const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
+    const { dispatch } = dispatchProps;
+    const { EkycActions } = require('../store/EkycRedux')
+    const { EmandateActions } = require('../store/EmandateRedux')
+    return {
+        ...stateProps,
+        ...ownProps,
+        getList: (token) => { EkycActions.getList(dispatch, token) },
+        postRequest: (params, token) => { EkycActions.postRequest(dispatch, params, token) },
+        emandateOptions: (token) => { EmandateActions.emandateOptions(dispatch, token) },
+        emandateRegistration: (params, token) => { EmandateActions.emandateRegistration(dispatch, params, token) },
+    }
+}
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(SideMenu)

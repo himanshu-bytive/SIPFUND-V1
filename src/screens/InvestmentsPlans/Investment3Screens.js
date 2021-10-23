@@ -13,25 +13,38 @@ import {
 } from "react-native";
 import { connect } from 'react-redux'
 import { Styles, Config, Colors, FormValidate } from '../../common'
-
+import SvgUri from "expo-svg-uri";
 import { Ionicons, AntDesign, EvilIcons, Entypo, FontAwesome5 } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
-import { color } from "react-native-elements/dist/helpers";
 
 function Investment3Screens(props) {
+    const investInput = useRef(null);
+    const pageActive = useRef(false);
+    const { investment, isFetching, investmentConfig } = props
+    const [invest, setInvest] = useState('');
     const [selectTab, setSelectTab] = useState('SIP');
     const toggleTab = (value) => {
+        investInput.current.focus();
         setSelectTab(value);
     };
 
+    useEffect(() => {
+        investInput.current.focus();
+    }, []);
 
+    const checkFormula = (value) => {
+        console.log(value)
+    };
 
-
+    const submitForm = () => {
+        let params = { invest }
+        investmentConfig(params)
+        props.navigation.navigate('Invest4')
+    };
 
     return (
         <View style={styles.container}>
-
             <Header
                 leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={40} color={Colors.RED} /></TouchableOpacity>}
                 containerStyle={Styles.header}
@@ -42,22 +55,24 @@ function Investment3Screens(props) {
                 />}
                 rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={Colors.RED} /></View>}
             />
-
+            {isFetching && (<View style={Styles.loading}>
+                <ActivityIndicator color={Colors.BLACK} size='large' />
+            </View>)}
             <ScrollView>
                 <View style={styles.education}>
                     <View style={styles.education_sec}>
-                        <Text style={styles.child}>Moderate Funds</Text>
+                        <Text style={styles.child}>{investment.investmentPlan}</Text>
                         <Text style={styles.child_text}>What amount I can invest?</Text>
 
                     </View>
                     <View style={styles.child_sec}>
-                        <Image
-                            source={require('../../../assets/modirate.png')}
-                            style={styles.goals_2}
+                        <SvgUri
+                            width="145"
+                            height="145"
+                            source={{ uri: investment.planImagePath }}
                         />
                     </View>
-
-                </View >
+                </View>
                 {/* button */}
 
                 <View style={styles.click_sec}>
@@ -71,18 +86,24 @@ function Investment3Screens(props) {
                             <Text style={(selectTab == 'One Time') ? styles.sip_text2 : styles.sip_text}>One Time</Text>
                         </TouchableOpacity>
                     </View>
-                    <View style={(selectTab == 'STP') ? styles.buttom_botton2 : styles.buttom_botton}>
+                    {/* <View style={(selectTab == 'STP') ? styles.buttom_botton2 : styles.buttom_botton}>
                         <TouchableOpacity onPress={() => toggleTab('STP')}>
                             <Text style={(selectTab == 'STP') ? styles.sip_text2 : styles.sip_text}>STP</Text>
                         </TouchableOpacity>
-                    </View>
+                    </View> */}
                 </View>
                 {/* button  end new*/}
 
-
                 <Text style={styles.childtext}>Investment</Text>
                 <View style={styles.investcost_sec}>
-                    <Text style={styles.cost}>Rs. 16,000</Text>
+                    <TextInput
+                        ref={investInput}
+                        style={styles.cost}
+                        keyboardType='numeric'
+                        placeholder={'RS '}
+                        onChangeText={(value) => { setInvest(value); checkFormula(value) }}
+                        value={invest}
+                    />
                 </View>
                 <Text style={styles.number}>Sixteen thousand</Text>
                 <View style={styles.yearly_section}>
@@ -90,29 +111,23 @@ function Investment3Screens(props) {
                         <Text style={styles.cost_top}>12.60 L</Text>
                         <Text style={styles.cost_botton}>In 5 Years</Text>
                     </View>
-
                     <View>
                         <Text style={styles.cost_top}>18.40 L</Text>
                         <Text style={styles.cost_botton}>In 7 Years</Text>
                     </View>
-
                     <View>
                         <Text style={styles.cost_top}>26.60 L</Text>
                         <Text style={styles.cost_botton}>In 10 Years</Text>
                     </View>
                 </View>
                 <Text style={styles.return}>Note : Assuming returns at 12%</Text>
-
                 {/* Axis Asset Management Company Ltd */}
-
             </ScrollView>
 
-            <TouchableOpacity onPress={() => props.navigation.navigate('Invest4')} style={styles.botton_box}>
+            <TouchableOpacity onPress={() => submitForm()} style={styles.botton_box}>
                 <Text style={styles.get_otp}>NEXT</Text>
             </TouchableOpacity>
         </View>
-
-
     );
 }
 
@@ -171,7 +186,6 @@ const styles = StyleSheet.create({
     },
     //  botton
     click_sec: {
-
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
@@ -179,7 +193,7 @@ const styles = StyleSheet.create({
     },
 
     buttom_botton: {
-        width: "30%",
+        width: "48%",
         borderWidth: 1,
         borderColor: Colors.DEEP_GRAY,
         borderRadius: 8,
@@ -188,13 +202,11 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.LIGHT_GRAY,
     },
     buttom_botton2: {
-        width: "30%",
+        width: "48%",
         borderRadius: 8,
         backgroundColor: Colors.RED,
         paddingVertical: 20,
         alignItems: "center",
-
-
     },
 
     sip_text: {
@@ -271,15 +283,17 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => ({
     token: state.auth.token,
     users: state.auth.users,
+    isFetching: state.investmentplan.isFetching,
+    investment: state.investmentplan.investment,
 })
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     const { dispatch } = dispatchProps;
-    const { AuthActions } = require('../../store/AuthRedux')
+    const { InvestmentPlanActions } = require('../../store/InvestmentPlanRedux')
     return {
         ...stateProps,
         ...ownProps,
-        logOut: () => { AuthActions.logOut(dispatch) },
+        investmentConfig: (data) => { InvestmentPlanActions.investmentConfig(dispatch, data) },
     }
 }
 export default connect(mapStateToProps, undefined, mapDispatchToProps)(Investment3Screens)

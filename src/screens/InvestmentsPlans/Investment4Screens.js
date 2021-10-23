@@ -13,7 +13,7 @@ import {
 } from "react-native";
 import { connect } from 'react-redux'
 import { Styles, Config, Colors, FormValidate } from '../../common'
-
+import SvgUri from "expo-svg-uri";
 import { Ionicons, AntDesign, EvilIcons, Entypo, FontAwesome5 } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
@@ -21,12 +21,11 @@ import { color } from "react-native-elements/dist/helpers";
 import { PlanYourGoalFundType } from "../../components";
 
 function Investment4Screens(props) {
+    const pageActive = useRef(false);
+    const { investment, configs, isFetching } = props
 
     return (
-
-
         <View style={styles.container}>
-
             <Header
                 leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={40} color={Colors.RED} /></TouchableOpacity>}
                 containerStyle={Styles.header}
@@ -37,80 +36,44 @@ function Investment4Screens(props) {
                 />}
                 rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={Colors.RED} /></View>}
             />
-
+            {isFetching && (<View style={Styles.loading}>
+                <ActivityIndicator color={Colors.BLACK} size='large' />
+            </View>)}
             <ScrollView>
                 <View style={styles.education}>
                     <View style={styles.education_sec}>
-                        <Text style={styles.child}>Moderate Funds</Text>
+                        <Text style={styles.child}>{investment.investmentPlan}</Text>
                         <Text style={styles.child_text}>Recommended Funds and Amounts</Text>
                         <Text style={styles.amount}>My Investment Amount</Text>
                     </View>
                     <View style={styles.child_sec}>
-                        <Image
-                            source={require('../../../assets/modirate.png')}
-                            style={styles.goals_2}
+                        <SvgUri
+                            width="112"
+                            height="118"
+                            source={{ uri: investment.planImagePath }}
                         />
                         <Text style={styles.sip}>SIP Per Month</Text>
-                        <Text style={styles.amount_text}>₹16,000</Text>
+                        <Text style={styles.amount_text}>₹{configs.invest}</Text>
                     </View>
-
-                </View >
-                
-                  {/* Hybrid_sec */}
+                </View>
 
 
-
-                  <View style={styles.hybrid_sec}>
+                {/* Hybrid_sec */}
+                {investment && (investment.schemes.map((item, key) => <View key={key}>
+                    {item.schemes != 'NA' && (<View style={styles.hybrid_sec}>
                         <View style={{ backgroundColor: "#EFEFEF", }}>
-                            <Text style={styles.hybrid}>Hybrid</Text>
+                            <Text style={styles.hybrid}>{item.fund_type}</Text>
                         </View>
-                    </View>
-
-                    {/* Axis Asset Management Company Ltd */}
-
-
-                    <PlanYourGoalFundType onPress={() => props.navigation.navigate('FundsDetails')}  />
-
-                    {/* axis_asset........2_sec */}
-
-                    <PlanYourGoalFundType onPress={() => props.navigation.navigate('FundsDetails')} />
-
-
-                    {/* Hybrid_sec.....3 */}
-
-                    <View style={styles.hybrid_sec}>
-                        <View style={{ backgroundColor: "#EFEFEF", }}>
-                            <Text style={styles.hybrid}>Large Cap</Text>
-                        </View>
-                    </View>
-
-                    {/* axis_asset......4_sec */}
-
-                    <PlanYourGoalFundType onPress={() => props.navigation.navigate('FundsDetails')} />
-
-                    {/* multicap */}
-
-                    <View style={styles.hybrid_sec}>
-                        <View style={{ backgroundColor: "#EFEFEF", }}>
-                            <Text style={styles.hybrid}>Multi Cap</Text>
-                        </View>
-                    </View>
-
-                    {/* axis_asset......4_sec */}
-
-                    <PlanYourGoalFundType onPress={() => props.navigation.navigate('FundsDetails')} />
+                    </View>)}
+                    {item.schemes != 'NA' && (<PlanYourGoalFundType data={item.schemes} onPress={() => props.navigation.navigate('FundsDetails')} />)}
+                </View>))}
 
             </ScrollView>
-
-            <TouchableOpacity onPress={() => props.navigation.navigate('Invest5')}><Text style={styles.more_funds}>I would like to add more funds</Text></TouchableOpacity> 
-                <TouchableOpacity onPress={() => props.navigation.navigate('Invest7')} style={styles.botton_box}>
-                    <Text style={styles.get_otp}>NEXT</Text>
-
-                </TouchableOpacity>
-
+            <TouchableOpacity onPress={() => props.navigation.navigate('Invest5')}><Text style={styles.more_funds}>I would like to add more funds</Text></TouchableOpacity>
+            <TouchableOpacity onPress={() => props.navigation.navigate('Invest7')} style={styles.botton_box}>
+                <Text style={styles.get_otp}>NEXT</Text>
+            </TouchableOpacity>
         </View>
-
-
     );
 }
 
@@ -149,18 +112,18 @@ const styles = StyleSheet.create({
         color: Colors.DEEP_GRAY,
         paddingVertical: 5,
         fontWeight: "bold",
-       
+
     },
     botton_box: {
 
         backgroundColor: Colors.RED,
         marginHorizontal: 30,
-        marginTop:30,
+        marginTop: 30,
         borderWidth: 1,
         borderRadius: 10,
         borderColor: Colors.DEEP_GRAY,
         paddingVertical: 10,
-        marginBottom:20,
+        marginBottom: 20,
     },
     get_otp: {
         color: Colors.WHITE,
@@ -171,109 +134,112 @@ const styles = StyleSheet.create({
     },
 
     //  new
-   
-    sip:{ fontSize: 13,
+
+    sip: {
+        fontSize: 13,
         fontWeight: 'bold',
         color: Colors.DEEP_GRAY,
     },
-    amount:{paddingTop:60,
+    amount: {
+        paddingTop: 60,
         fontSize: 20,
-        fontWeight: 'bold',},
-        amount_text:{
-            fontSize: 20,
         fontWeight: 'bold',
-        color:Colors.RED,
-        paddingTop:5,
-        },
+    },
+    amount_text: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: Colors.RED,
+        paddingTop: 5,
+    },
 
 
-        // hybride
-        hybrid_sec: {
-            marginHorizontal: 15,
-            marginVertical: 20,
+    // hybride
+    hybrid_sec: {
+        marginHorizontal: 15,
+        marginVertical: 20,
+    },
+    hybrid: {
+        fontSize: 18,
+        fontWeight: "bold",
+        color: Colors.RED,
+        marginVertical: 10,
+        marginLeft: 10,
+    },
+    axis_asset: {
+        marginHorizontal: 20,
+        marginTop: 10,
+        backgroundColor: Colors.WHITE,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 5,
         },
-        hybrid: {
-            fontSize: 18,
-            fontWeight: "bold",
-            color: Colors.RED,
-            marginVertical: 10,
-            marginLeft: 10,
-        },
-        axis_asset: {
-            marginHorizontal: 20,
-            marginTop: 10,
-            backgroundColor: Colors.WHITE,
-            shadowColor: "#000",
-            shadowOffset: {
-                width: 0,
-                height: 5,
-            },
-            shadowOpacity: 0.23,
-            shadowRadius: 2.62,
-            elevation: 4,
-            padding: 10,
-           
-        },
-        company: {
-            flexDirection: "row",
-        },
-        management: {
-            marginLeft: 10,
-            width: "65%",
-        },
-        axis: {
-            fontSize: 15,
-    
-        },
-        moderately: {
-            fontSize: 12,
-            color: Colors.DEEP_GRAY,
-        },
-        axisimg: {
-            height: 39,
-            width: 39,
-        },
-        checkbox: {
-            position: "absolute",
-            right: -20,
-            top: -15
-        },
-        border_sec: {
-            flexDirection: "row",
-            marginTop: 10,
-        },
-        border: {
-            width: "85%",
-            marginRight: 10
-        },
-        icons: {
-            width: '10%',
-            marginTop: -15
-        },
-        selectfolio_sec: {
-            flexDirection: "row",
-        },
-        select: {
-            alignItems: "center",
-            width: "31%",
-        },
-        no: {
-            fontSize: 15,
-            color: Colors.DEEP_GRAY,
-        },
-        new: {
-            fontSize: 18,
-        },
-        more_funds: {
-            fontSize: 18,
-            color: Colors.RED,
-            textAlign: "center",
-            marginTop: 20,
-        },
-        hybridimg: {
-            width: 39,
-            height: 43,
-        },
+        shadowOpacity: 0.23,
+        shadowRadius: 2.62,
+        elevation: 4,
+        padding: 10,
+
+    },
+    company: {
+        flexDirection: "row",
+    },
+    management: {
+        marginLeft: 10,
+        width: "65%",
+    },
+    axis: {
+        fontSize: 15,
+
+    },
+    moderately: {
+        fontSize: 12,
+        color: Colors.DEEP_GRAY,
+    },
+    axisimg: {
+        height: 39,
+        width: 39,
+    },
+    checkbox: {
+        position: "absolute",
+        right: -20,
+        top: -15
+    },
+    border_sec: {
+        flexDirection: "row",
+        marginTop: 10,
+    },
+    border: {
+        width: "85%",
+        marginRight: 10
+    },
+    icons: {
+        width: '10%',
+        marginTop: -15
+    },
+    selectfolio_sec: {
+        flexDirection: "row",
+    },
+    select: {
+        alignItems: "center",
+        width: "31%",
+    },
+    no: {
+        fontSize: 15,
+        color: Colors.DEEP_GRAY,
+    },
+    new: {
+        fontSize: 18,
+    },
+    more_funds: {
+        fontSize: 18,
+        color: Colors.RED,
+        textAlign: "center",
+        marginTop: 20,
+    },
+    hybridimg: {
+        width: 39,
+        height: 43,
+    },
 
 
 
@@ -282,15 +248,18 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => ({
     token: state.auth.token,
     users: state.auth.users,
+    isFetching: state.investmentplan.isFetching,
+    investment: state.investmentplan.investment,
+    configs: state.investmentplan.configs,
 })
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     const { dispatch } = dispatchProps;
-    const { AuthActions } = require('../../store/AuthRedux')
+    const { InvestmentPlanActions } = require('../../store/InvestmentPlanRedux')
     return {
         ...stateProps,
         ...ownProps,
-        logOut: () => { AuthActions.logOut(dispatch) },
+        investmentConfig: (data) => { InvestmentPlanActions.investmentConfig(dispatch, data) },
     }
 }
 export default connect(mapStateToProps, undefined, mapDispatchToProps)(Investment4Screens)

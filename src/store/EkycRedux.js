@@ -13,79 +13,61 @@ const types = {
 };
 
 export const EkycActions = {
-    
-    getList : async (dispatch, token) => {
+    getList: async (dispatch, token) => {
         dispatch({ type: types.FETCH_GETLIST_PENDING });
-        let documents = await SiteAPI.apiGetCall(`/amcforekyc/details`, {}, token);
-        if (documents.responseString) {
-            dispatch({ type: types.FETCH_GETLIST_SUCCESS, documents: documents });
+        let data = await SiteAPI.apiGetCall(`/amcforekyc/details`, {}, token);
+        if (data.error) {
+            Alert.alert(data.message)
+            dispatch({ type: types.FETCH_GETLIST_FAILURE, error: data.message });
+        } else {
+            dispatch({ type: types.FETCH_GETLIST_SUCCESS, kycLists: data.response });
         }
     },
-    postRequest: async (dispatch, code, token) => {
-        if (code) {
-            dispatch({ type: types.FETCH_POST_REQUEST_PENDING });
-            let citys = await SiteAPI.apiPostCall(`/apiData/eKYC_REGISTRATION`, {}, token);
-            if (citys.Data) {
-                dispatch({ type: types.FETCH_POST_REQUEST_SUCCESS, citys: citys.Data.city_master });
-            }
+    postRequest: async (dispatch, params, token) => {
+        dispatch({ type: types.FETCH_POST_REQUEST_PENDING });
+        let data = await SiteAPI.apiPostCall(`/apiData/eKYC_REGISTRATION`, params, token);
+        console.log(data)
+        if (data.error) {
+            Alert.alert(data.message)
+            dispatch({ type: types.FETCH_POST_REQUEST_FAILURE, error: data.message });
+        } else {
+            dispatch({ type: types.FETCH_POST_REQUEST_SUCCESS, kycDetails: data.response });
         }
     },
-    
-    
 };
 
 const initialState = {
     isFetching: false,
     error: null,
-    occupations: [],
-    incomes: [],
-    states: [],
-    citys: [],
-    pincodeInfo: null,
-    accountTypes: [],
-    banks: [],
-    bankDetails: {},
-    userInfo: null,
-    documents: null,
-    addSuccess: false,
-    updateSuccess: false,
-    uploadSuccess: false,
+    kycLists: [],
+    kycDetails: null,
 };
 
 export const reducer = (state = initialState, action) => {
-    const { type, error, occupations, incomes, states, citys, accountTypes, banks, bankDetails, userInfo, pincodeInfo, documents } = action;
+    const { type, error, kycLists, kycDetails } = action;
     switch (type) {
         case types.FETCH_GETLIST_PENDING:
-        case types.FETCH_POST_REQUEST_PENDING:{
-
+        case types.FETCH_POST_REQUEST_PENDING: {
             return {
                 ...state,
                 isFetching: true,
                 error: null,
-                addSuccess: false,
-                updateSuccess: false,
-                uploadSuccess: false,
             };
         }
-
         case types.FETCH_GETLIST_FAILURE:
         case types.FETCH_POST_REQUEST_FAILURE: {
             return {
                 ...state,
                 isFetching: false,
-                addSuccess: false,
-                updateSuccess: false,
-                uploadSuccess: false,
                 error,
             };
         }
-        
         case types.FETCH_GETLIST_SUCCESS: {
             return {
                 ...state,
                 isFetching: false,
                 error: null,
-                documents
+                kycLists
             };
         }
         case types.FETCH_POST_REQUEST_SUCCESS: {
@@ -93,10 +75,9 @@ export const reducer = (state = initialState, action) => {
                 ...state,
                 isFetching: false,
                 error: null,
-                citys
+                kycDetails
             };
         }
-
         default:
             return state;
     }

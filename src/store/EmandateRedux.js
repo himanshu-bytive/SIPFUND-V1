@@ -1,7 +1,7 @@
 import SiteAPI from '../services/SiteApis'
 import { Alert } from 'react-native';
 const types = {
-   
+
     FETCH_EMANDATE_REGISTRATION_PENDING: "FETCH_EMANDATE_REGISTRATION_PENDING",
     FETCH_EMANDATE_REGISTRATION_SUCCESS: "FETCH_EMANDATE_REGISTRATION_SUCCESS",
     FETCH_EMANDATE_REGISTRATION_FAILURE: "FETCH_EMANDATE_REGISTRATION_FAILURE",
@@ -13,55 +13,47 @@ const types = {
 };
 
 export const EmandateActions = {
-    emandateRegistration : async (dispatch, token) => {
+    emandateOptions: async (dispatch, token) => {
+        dispatch({ type: types.FETCH_EMANDATE_OPTIONS_PENDING });
+        let data = await SiteAPI.apiGetCall(`/emandateOptions/`, {}, token);
+        if (data.error) {
+            Alert.alert(data.message)
+            dispatch({ type: types.FETCH_EMANDATE_OPTIONS_FAILURE, error: data.message });
+        } else {
+            dispatch({ type: types.FETCH_EMANDATE_OPTIONS_SUCCESS, emandateLists: data.response });
+        }
+    },
+    emandateRegistration: async (dispatch, params, token) => {
         dispatch({ type: types.FETCH_EMANDATE_REGISTRATION_PENDING });
-        let documents = await SiteAPI.apiPostCall(`/apiData/ACHMANDATEREGISTRATIONS`, {}, token);
-        if (documents.responseString) {
-            dispatch({ type: types.FETCH_EMANDATE_REGISTRATION_SUCCESS, documents: documents });
+        let data = await SiteAPI.apiPostCall(`/apiData/ACHMANDATEREGISTRATIONS`, params, token);
+        console.log(data)
+        if (data.error) {
+            Alert.alert(data.message)
+            dispatch({ type: types.FETCH_EMANDATE_REGISTRATION_FAILURE, error: data.message });
+        } else {
+            dispatch({ type: types.FETCH_EMANDATE_REGISTRATION_SUCCESS, emandateDetails: data.response });
         }
     },
-    emandateOptions: async (dispatch, code, token) => {
-        if (code) {
-            dispatch({ type: types.FETCH_EMANDATE_OPTIONS_PENDING });
-            let citys = await SiteAPI.apiGetCall(`/emandateOptions/`, {}, token);
-            if (citys.Data) {
-                dispatch({ type: types.FETCH_EMANDATE_OPTIONS_SUCCESS, citys: citys.Data.city_master });
-            }
-        }
-    },
+
 };
 
 const initialState = {
     isFetching: false,
     error: null,
-    occupations: [],
-    incomes: [],
-    states: [],
-    citys: [],
-    pincodeInfo: null,
-    accountTypes: [],
-    banks: [],
-    bankDetails: {},
-    userInfo: null,
-    documents: null,
-    addSuccess: false,
-    updateSuccess: false,
-    uploadSuccess: false,
+    emandateLists: [],
+    emandateDetails: null,
 };
 
 export const reducer = (state = initialState, action) => {
-    const { type, error, occupations, incomes, states, citys, accountTypes, banks, bankDetails, userInfo, pincodeInfo, documents } = action;
+    const { type, error, emandateLists, emandateDetails } = action;
     switch (type) {
         case types.FETCH_EMANDATE_REGISTRATION_PENDING:
-        case types.FETCH_EMANDATE_OPTIONS_PENDING:{
+        case types.FETCH_EMANDATE_OPTIONS_PENDING: {
 
             return {
                 ...state,
                 isFetching: true,
                 error: null,
-                addSuccess: false,
-                updateSuccess: false,
-                uploadSuccess: false,
             };
         }
 
@@ -70,19 +62,16 @@ export const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 isFetching: false,
-                addSuccess: false,
-                updateSuccess: false,
-                uploadSuccess: false,
                 error,
             };
         }
-        
+
         case types.FETCH_EMANDATE_REGISTRATION_SUCCESS: {
             return {
                 ...state,
                 isFetching: false,
                 error: null,
-                documents
+                emandateDetails
             };
         }
         case types.FETCH_EMANDATE_OPTIONS_SUCCESS: {
@@ -90,10 +79,10 @@ export const reducer = (state = initialState, action) => {
                 ...state,
                 isFetching: false,
                 error: null,
-                citys
+                emandateLists
             };
         }
-        
+
         default:
             return state;
     }

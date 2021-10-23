@@ -11,18 +11,19 @@ import { Image, CheckBox } from 'react-native-elements';
 import { Styles, Config, Colors, FormValidate } from '../common'
 
 export default function PlanYourGoalFundType(props) {
+    const { token, data } = props;
     return (
         <View style={styles.axis_asset}>
-            <View style={styles.company}>
+            {data && (<View style={styles.company}>
                 <Image
-                    source={require('../../assets/idbi_img.png')}
+                    source={{ uri: data.imagePath }}
                     style={styles.axisimg}
                 />
                 <View style={styles.management}>
-                    <Text style={styles.axis}>Axis Asset Management Company Ltd</Text>
-                    <Text style={styles.moderately}>Moderately High Risk</Text>
+                    <Text style={styles.axis}>{data.name}</Text>
+                    <Text style={styles.moderately}>{data.productCode}</Text>
                 </View>
-            </View>
+            </View>)}
 
             {/* border_sec */}
 
@@ -53,8 +54,8 @@ export default function PlanYourGoalFundType(props) {
                     <View style={{ flexDirection: "row", }}>
                         <Text style={styles.new}>5</Text>
                         <View style={{ flexDirection: "column", }}>
-                        <AntDesign name="caretup" size={15} color="#C0392B" />
-                        <AntDesign name="caretdown" size={15} color="#C0392B" />
+                            <AntDesign name="caretup" size={15} color="#C0392B" />
+                            <AntDesign name="caretdown" size={15} color="#C0392B" />
                         </View>
                     </View>
 
@@ -85,13 +86,14 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.23,
         shadowRadius: 2.62,
         elevation: 4,
-        padding: 10,
+        padding: 5,
     },
     company: {
         flexDirection: "row",
     },
     management: {
         marginLeft: 10,
+        flexShrink: 1
     },
     axis: {
         fontSize: 15,
@@ -134,7 +136,7 @@ const styles = StyleSheet.create({
     },
     new: {
         fontSize: 18,
-        paddingRight:5
+        paddingRight: 5
     },
     circle: {
         height: 35,

@@ -17,7 +17,6 @@ const types = {
     FETCH_SCHEME_GO_SUCCESS: "FETCH_SCHEME_GO_SUCCESS",
     FETCH_SCHEME_GO_FAILURE: "FETCH_SCHEME_GO_FAILURE",
 
-
 };
 
 export const OwnerChoiceActions = {
@@ -54,13 +53,11 @@ export const OwnerChoiceActions = {
     schemeGo: async (dispatch, params, token) => {
         dispatch({ type: types.FETCH_SCHEME_GO_PENDING });
         let data = await SiteAPI.apiPostCall('/morningStarApi/data', params, token);
-        console.log(data)
         if (data.error) {
             Alert.alert(data.message)
             dispatch({ type: types.FETCH_SCHEME_GO_FAILURE, error: data.message });
         } else {
-            Alert.alert(data.responseString)
-            dispatch({ type: types.FETCH_SCHEME_GO_SUCCESS });
+            dispatch({ type: types.FETCH_SCHEME_GO_SUCCESS, choices: data.responseString });
         }
     },
 };
@@ -71,10 +68,11 @@ const initialState = {
     mainCat: [],
     subCat: [],
     schemeCat: [],
+    choices: [],
 };
 
 export const reducer = (state = initialState, action) => {
-    const { type, error, mainCat, subCat, schemeCat } = action;
+    const { type, error, mainCat, subCat, schemeCat, choices } = action;
     switch (type) {
 
         case types.FETCH_MAIN_CATEGORY_PENDING:
@@ -104,6 +102,7 @@ export const reducer = (state = initialState, action) => {
                 ...state,
                 isFetching: false,
                 error: null,
+                choices
             };
         }
 

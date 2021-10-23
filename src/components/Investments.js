@@ -6,20 +6,50 @@ import {
     TouchableOpacity,
     Text,
 } from "react-native";
+import SvgUri from "expo-svg-uri";
 import { Styles, Config, Colors, FormValidate } from '../common'
 
 export default function Investments(props) {
-    return (<View style={styles.investment_sec}>
-        {props.data.map(((item) => <View style={styles.investment}>
-            <TouchableOpacity onPress={props.onPress} style={{ width: '100%' }}>
-                <Image
-                    source={item.image}
-                    style={styles.term}
-                />
-                <Text style={styles.long}>{item.title}</Text>
-            </TouchableOpacity>
-        </View>))}
-    </View>)
+    const { data, counts, onPress } = props
+    if (counts) {
+        return (<View style={styles.investment_sec}>
+            {data.map(((item, key) => <View key={key} style={styles.investment}>
+                {(key < counts) && (<TouchableOpacity onPress={()=>onPress(item)} style={{ width: '100%' }}>
+                    <Image
+                        source={item.image}
+                        style={styles.term}
+                    />
+                    <SvgUri
+                        width="100%"
+                        height="113"
+                        source={{
+                            uri: item.planImagePath
+                        }}
+                    />
+                    <Text style={styles.long}>{item.plan}</Text>
+                </TouchableOpacity>)}
+            </View>))}
+        </View>)
+    } else {
+        return (<View style={styles.investment_sec}>
+            {data.map(((item, key) => <View key={key} style={styles.investment}>
+                <TouchableOpacity onPress={()=>onPress(item)} style={{ width: '100%' }}>
+                    <Image
+                        source={item.image}
+                        style={styles.term}
+                    />
+                    <SvgUri
+                        width="100%"
+                        height="113"
+                        source={{
+                            uri: item.planImagePath
+                        }}
+                    />
+                    <Text style={styles.long}>{item.plan}</Text>
+                </TouchableOpacity>
+            </View>))}
+        </View>)
+    }
 }
 
 
@@ -27,12 +57,11 @@ const styles = StyleSheet.create({
     investment_sec: {
         flexDirection: "row",
         flexWrap: 'wrap',
-        marginHorizontal:10,
-
+        marginHorizontal: 10,
     },
     investment: {
-        borderTopRightRadius:20,
-        borderTopLeftRadius:20,
+        borderTopRightRadius: 20,
+        borderTopLeftRadius: 20,
         backgroundColor: Colors.WHITE,
         width: '29.333%',
         alignItems: "center",
@@ -49,12 +78,12 @@ const styles = StyleSheet.create({
     term: {
         width: '100%',
         height: 113,
-        borderRadius:20,
+        borderRadius: 20,
     },
     long: {
         textAlign: "center",
         paddingVertical: 10,
-        paddingHorizontal:15,
+        paddingHorizontal: 15,
         fontSize: 16,
         fontWeight: "bold"
     },

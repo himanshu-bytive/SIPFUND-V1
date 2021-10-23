@@ -13,18 +13,17 @@ import {
 } from "react-native";
 import { connect } from 'react-redux'
 import { Styles, Config, Colors, FormValidate } from '../../common'
+import SvgUri from "expo-svg-uri";
 import { Ionicons, AntDesign, EvilIcons, Entypo, FontAwesome5 } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
 import { color } from "react-native-elements/dist/helpers";
 
 function Investment7Screens(props) {
-
+    const pageActive = useRef(false);
+    const { investment, configs, isFetching } = props
     return (
-
-
         <View style={styles.container}>
-
             <Header
                 leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={40} color={Colors.RED} /></TouchableOpacity>}
                 containerStyle={styles.header}
@@ -39,90 +38,44 @@ function Investment7Screens(props) {
             <ScrollView>
                 <View style={styles.education}>
                     <View style={styles.child_sec}>
-                        <Image
-                            source={require('../../../assets/modirate.png')}
-                            style={styles.goals_2}
+                        <SvgUri
+                            width="112"
+                            height="118"
+                            source={{ uri: investment.planImagePath }}
                         />
                     </View>
                     <View style={styles.education_sec}>
                         <Text style={styles.child}>Summary</Text>
                         <Text style={styles.child_text}>Investment Plan</Text>
-                        
+
                     </View>
 
 
                 </View>
 
-                <Text style={styles.mygoal}>My Investment  : <Text style={styles.my_goal}>Moderate Fund</Text></Text>
+                <Text style={styles.mygoal}>My Investment  : <Text style={styles.my_goal}>{investment.investmentPlan}</Text></Text>
 
                 <View style={styles.fund_sec}>
                     <Text style={styles.fund_secleft}>Fund List</Text>
-                    <Text style={styles.fund_secright}>16,000</Text>
+                    <Text style={styles.fund_secright}>₹{configs.invest}</Text>
                 </View>
 
                 {/* Axis Asset Management Company Ltd */}
-
-                <View style={styles.sbi_sec}>
+                {investment.schemes && (investment.schemes.map((item, key) => <View key={key} style={styles.sbi_sec}>
                     <Image
-                        source={require('../../../assets/Hybrid_img.png')}
+                        source={{uri:item.schemes.imagePath}}
                         style={styles.Hybrid}
                     />
-                    <Text style={styles.sbi_text}>SBI Equity Hybrid Fund</Text>
+                    <Text style={styles.sbi_text}>{item.schemes.name}</Text>
                     <Text style={styles.price}>5,000</Text>
-                </View>
-
-                <View style={styles.sbi_sec}>
-                    <Image
-                        source={require('../../../assets/LargeCap_img.png')}
-                        style={styles.Hybrid}
-                    />
-                    <Text style={styles.sbi_text}>Mirae Asset Large Cap Fund</Text>
-                    <Text style={styles.price}>4,000</Text>
-                </View>
-
-                <View style={styles.sbi_sec}>
-                    <Image
-                        source={require('../../../assets/MultiCap_img.png')}
-                        style={styles.Hybrid}
-                    />
-                    <Text style={styles.sbi_text}>Kotak Standard Multicap Fund</Text>
-                    <Text style={styles.price}>3,000</Text>
-                </View>
-
-                <View style={styles.sbi_sec}>
-                    <Image
-                        source={require('../../../assets/MidCap_img.png')}
-                        style={styles.Hybrid}
-                    />
-                    <Text style={styles.sbi_text}>BNP Paribas Mid Cap Fund</Text>
-                    <Text style={styles.price}>4,000</Text>
-                </View>
-                </ScrollView>
-                <TouchableOpacity onPress={() => props.navigation.navigate('Upi')} style={styles.botton_box}>
-                    <Text style={styles.get_otp}>MAKE PAYMENT</Text>
-
-                </TouchableOpacity>
-
-
-
-
-
-
-
-           
+                </View>))}
+            </ScrollView>
+            <TouchableOpacity onPress={() => props.navigation.navigate('Upi')} style={styles.botton_box}>
+                <Text style={styles.get_otp}>MAKE PAYMENT</Text>
+            </TouchableOpacity>
         </View>
-
-
     );
 }
-
-
-
-
-
-
-
-
 
 
 const styles = StyleSheet.create({
@@ -147,10 +100,10 @@ const styles = StyleSheet.create({
         padding: 20,
 
     },
-    child_sec:{ width: '30%',},
+    child_sec: { width: '30%', },
     education_sec: {
         width: '70%',
-        marginLeft:30,
+        marginLeft: 30,
 
     },
     goals_2: {
@@ -215,17 +168,16 @@ const styles = StyleSheet.create({
     fund_sec: {
         flexDirection: "row",
         backgroundColor: Colors.LIGHT_GRAY,
-        marginHorizontal: 20,
+        marginHorizontal: 0,
         paddingVertical: 10,
         paddingHorizontal: 10,
     },
     fund_secright: {
         position: "absolute",
         right: 0,
-        fontSize: 18,
-        fontWeight: "bold",
+        fontSize: 15,
         paddingTop: 10,
-        paddingRight: 10,
+        paddingRight: 20,
     },
     fund_secleft: {
         fontSize: 18,
@@ -283,15 +235,18 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => ({
     token: state.auth.token,
     users: state.auth.users,
+    isFetching: state.investmentplan.isFetching,
+    investment: state.investmentplan.investment,
+    configs: state.investmentplan.configs,
 })
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     const { dispatch } = dispatchProps;
-    const { AuthActions } = require('../../store/AuthRedux')
+    const { InvestmentPlanActions } = require('../../store/InvestmentPlanRedux')
     return {
         ...stateProps,
         ...ownProps,
-        logOut: () => { AuthActions.logOut(dispatch) },
+        investmentConfig: (data) => { InvestmentPlanActions.investmentConfig(dispatch, data) },
     }
 }
 export default connect(mapStateToProps, undefined, mapDispatchToProps)(Investment7Screens)

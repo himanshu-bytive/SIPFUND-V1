@@ -8,49 +8,35 @@ import {
 } from "react-native";
 import { connect } from 'react-redux'
 import { Styles, Config, Colors, FormValidate } from '../../common'
-
-import { Entypo, AntDesign } from 'react-native-vector-icons';
+import { AntDesign } from 'react-native-vector-icons';
 import { Image, Header, Overlay } from 'react-native-elements';
 import Investments from '../../components/Investments'
 
-const investmentData = [
-    { title: 'Long Term', image: require('../../../assets/term1.png') },
-    { title: 'Tax Saving Funds', image: require('../../../assets/term2.png') },
-    { title: 'Better Than', image: require('../../../assets/term3.png') },
-    { title: 'Tax Saving Funds', image: require('../../../assets/term4.png') },
-    { title: 'Better Than FD', image: require('../../../assets/term5.png') },
-    { title: 'Aggressive Funds', image: require('../../../assets/term6.png') },
-    { title: 'Saving Funds', image: require('../../../assets/saving.png') },
-    { title: 'Moderate Funds', image: require('../../../assets/modirate.png') },
-    { title: 'NFO Funds', image: require('../../../assets/nfo.png') },
-    { title: 'Sector Funds', image: require('../../../assets/sector.png') },
-    { title: 'Buy Gold Plans', image: require('../../../assets/coins.png') },
-    { title: 'Foreign Funds', image: require('../../../assets/foregn.png') },
-]
-
 function Investment(props) {
-    const [visible, setVisible] = useState(false);
-   
-    const toggleOverlay = () => {
-        setVisible(!visible);
-    };
+    const pageActive = useRef(false);
+    const { token, investments, investmentPlans, investment } = props
+    useEffect(() => {
+        if (investment && pageActive.current) {
+            pageActive.current = false;
+            props.navigation.navigate('Invest2')
+        }
+    }, [investment]);
 
     return (
         <View style={styles.container}>
             <Header
-                leftComponent={<TouchableOpacity onPress={() => props.navigation.toggleDrawer()} style={{ marginTop: 25 }}><Entypo name={"menu"} size={30} color={Colors.RED} /></TouchableOpacity>}             
+                leftComponent={<TouchableOpacity onPress={() => props.navigation.navigate('Home')} style={{ marginTop: 25 }}><AntDesign name={"arrowleft"} size={40} color={Colors.RED} /></TouchableOpacity>}
                 backgroundColor={Colors.LIGHT_WHITE}
                 containerStyle={Styles.header}
                 centerComponent={<Image
                     source={require('../../../assets/icon.png')}
                     style={styles.logimg}
                 />}
-                rightComponent={<View style={Styles.headerkn}><Text  style={Styles.textkn}>KN</Text></View>}
+                rightComponent={<View style={Styles.headerkn}><Text style={Styles.textkn}>KN</Text></View>}
             />
-          
             <ScrollView style={{ width: '100%' }}>
                 <Text style={styles.Plan}>Investment Plans</Text>
-                <Investments data={investmentData} onPress={() => props.navigation.navigate('Invest2')} />
+                <Investments data={investments} onPress={(item) => { investmentPlans(item, token); pageActive.current = true; }} />
             </ScrollView>
 
         </View>
@@ -60,7 +46,7 @@ function Investment(props) {
 
 const styles = StyleSheet.create({
     container: { marginBottom: 200, },
-   
+
     home_top: {
         alignItems: 'center',
     },
@@ -389,15 +375,17 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => ({
     token: state.auth.token,
     users: state.auth.users,
+    investments: state.investmentplan.investments,
+    investment: state.investmentplan.investment,
 })
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     const { dispatch } = dispatchProps;
-    const { AuthActions } = require('../../store/AuthRedux')
+    const { InvestmentPlanActions } = require('../../store/InvestmentPlanRedux')
     return {
         ...stateProps,
         ...ownProps,
-        logOut: () => { AuthActions.logOut(dispatch) },
+        investmentPlans: (params, token) => { InvestmentPlanActions.investmentPlans(dispatch, params, token) },
     }
 }
 export default connect(mapStateToProps, undefined, mapDispatchToProps)(Investment)

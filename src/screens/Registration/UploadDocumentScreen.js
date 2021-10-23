@@ -4,6 +4,7 @@ import {
     ScrollView,
     View,
     TouchableOpacity,
+    ActivityIndicator,
     Text,
 } from "react-native";
 import { connect } from 'react-redux'
@@ -28,7 +29,7 @@ let documents = [
 ]
 
 function UploadDocumentScreen(props) {
-    const { token, user, steps, docs, getDocuments, uploadSuccess } = props
+    const { token, user, steps, docs, getDocuments, uploadSuccess, isFetching } = props
     const [document, setDocument] = useState(user?.userDetails?.ekycIsDone ? documentsKyc : documents);
 
     useEffect(() => {
@@ -39,7 +40,6 @@ function UploadDocumentScreen(props) {
 
     return (
         <View style={styles.container}>
-
             <Header
                 leftComponent={<TouchableOpacity onPress={() => props.navigation.navigate('Home')} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={40} color={Colors.RED} /></TouchableOpacity>}
                 containerStyle={styles.header}
@@ -50,6 +50,9 @@ function UploadDocumentScreen(props) {
                 />}
                 rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={Colors.RED} /></View>}
             />
+             {isFetching && (<View style={Styles.loading}>
+                <ActivityIndicator color={Colors.BLACK} size='large' />
+            </View>)}
             <ScrollView>
                 <View style={{ alignItems: "center", }}>
                     <Text style={styles.heading}>Please Upload your documents for easy and quick
@@ -155,6 +158,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => ({
     token: state.auth.token,
     docs: state.registration.documents,
+    isFetching: state.registration.isFetching,
     uploadSuccess: state.registration.uploadSuccess,
     steps: state.home.steps,
     user: state.home.user,

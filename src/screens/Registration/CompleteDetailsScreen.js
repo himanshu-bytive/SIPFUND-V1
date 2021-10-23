@@ -4,12 +4,13 @@ import {
     View,
     TouchableOpacity,
     KeyboardAvoidingView,
+    ActivityIndicator,
     Platform,
     Text,
 } from "react-native";
 import { connect } from 'react-redux'
 import moment from 'moment';
-import { Colors, FormValidate } from '../../common'
+import { Styles,Colors, FormValidate } from '../../common'
 import { MySelectPicker, MyDatePicker, MyTextInput } from '../../components'
 import { AntDesign } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
@@ -20,7 +21,7 @@ const pepList = [{ value: 'N', label: 'No' }, { value: 'Y', label: 'Yes' }, { va
 
 function CompleteDetailsScreen(props) {
     const pageActive = useRef(false);
-    const { token, users, user, pan, updateRegister, setUserInfo, settings, occupations, incomes, updateSuccess } = props;
+    const { token, users, user, pan, updateRegister, setUserInfo, settings, occupations, incomes, updateSuccess, isFetching } = props;
     const [occupationsList, setOccupationsList] = useState([]);
     const [incomesList, setIncomesList] = useState([]);
     const relationList = [
@@ -239,6 +240,9 @@ function CompleteDetailsScreen(props) {
                 />}
                 rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={Colors.RED} /></View>}
             />
+             {isFetching && (<View style={Styles.loading}>
+                <ActivityIndicator color={Colors.BLACK} size='large' />
+            </View>)}
             <ScrollView>
                 {/* container_sec */}
                 <View style={styles.container_sec}>
@@ -516,6 +520,7 @@ const mapStateToProps = (state) => ({
     users: state.auth.user,
     user: state.home.user,
     pan: state.home.pan,
+    isFetching: state.registration.isFetching,
     occupations: state.registration.occupations,
     incomes: state.registration.incomes,
     updateSuccess: state.registration.updateSuccess,

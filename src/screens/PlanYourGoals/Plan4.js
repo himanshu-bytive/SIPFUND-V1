@@ -13,17 +13,17 @@ import {
 } from "react-native";
 import { connect } from 'react-redux'
 import { Styles, Config, Colors, FormValidate } from '../../common'
-
+import SvgUri from "expo-svg-uri";
 import { Ionicons, AntDesign, Entypo, FontAwesome5 } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
 import { PlanYourGoalFundType } from "../../components";
 
 function Plan4(props) {
-
+    const pageActive = useRef(false);
+    const { token, goalDetail,isFetching } = props;
     return (
         <View style={styles.container}>
-
             <Header
                 leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={40} color={Colors.RED} /></TouchableOpacity>}
                 containerStyle={Styles.header}
@@ -34,20 +34,23 @@ function Plan4(props) {
                 />}
                 rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={Colors.RED} /></View>}
             />
+             {isFetching && (<View style={Styles.loading}>
+                <ActivityIndicator color={Colors.BLACK} size='large' />
+            </View>)}
             <ScrollView style={styles.containerScroll}>
 
                 {/* SIP_sec */}
-
                 <View style={styles.education}>
                     <View style={styles.child_sec}>
-                        <Image
-                            source={require('../../../assets/childimg.png')}
-                            style={styles.goals_2}
+                        <SvgUri
+                            width="117"
+                            height="117"
+                            source={{ uri: goalDetail.goalImagePath }}
                         />
                     </View>
                     <View style={styles.education_sec}>
-                        <Text style={styles.child}>Recommended</Text>
-                        <Text style={styles.child_text}>Child’s Education Plan</Text>
+                        <Text style={styles.child}>{goalDetail.goal}</Text>
+                        <Text style={styles.child_text}>{goalDetail.goalDescription}</Text>
                     </View>
                 </View>
 
@@ -59,53 +62,20 @@ function Plan4(props) {
                 </View>
 
                 {/* Monthly Investment_sec */}
-
-                <View style={styles.fund_sec2}>
+                <View style={styles.fund_sec}>
                     <Text style={styles.investment}>Monthly Investment</Text>
                     <Text style={styles.price}>₹ 16,000</Text>
                 </View>
 
                 {/* Hybrid_sec */}
-
-
-
-                {/* Axis Asset Management Company Ltd */}
-
-
-                <PlanYourGoalFundType onPress={() => props.navigation.navigate('FundsDetails')}  />
-
-                <View style={styles.hybrid_sec}>
-                    <View style={{ backgroundColor: "#EFEFEF", }}>
-                        <Text style={styles.hybrid}>Large Cap</Text>
-                    </View>
-                </View>
-
-                {/* axis_asset........2_sec */}
-
-                <PlanYourGoalFundType onPress={() => props.navigation.navigate('FundsDetails')}  />
-
-
-                {/* Hybrid_sec.....3 */}
-
-                <View style={styles.hybrid_sec}>
-                    <View style={{ backgroundColor: "#EFEFEF", }}>
-                        <Text style={styles.hybrid}>Multi Cap</Text>
-                    </View>
-                </View>
-
-                {/* axis_asset......4_sec */}
-
-                <PlanYourGoalFundType onPress={() => props.navigation.navigate('FundsDetails')}  />
-
-
-                <View style={styles.hybrid_sec}>
-                    <View style={{ backgroundColor: "#EFEFEF", }}>
-                        <Text style={styles.hybrid}>Mid Cap</Text>
-                    </View>
-                </View>
-
-
-                <PlanYourGoalFundType onPress={() => props.navigation.navigate('FundsDetails')}  />
+                {goalDetail && (goalDetail.schemesInfo.map((item, key) => <View key={key}>
+                    {item.schemeInfo != 'NA' && (<View style={styles.hybrid_sec}>
+                        <View style={{ backgroundColor: "#EFEFEF", }}>
+                            <Text style={styles.hybrid}>{item.schems}</Text>
+                        </View>
+                    </View>)}
+                    {item.schemeInfo != 'NA' && (<PlanYourGoalFundType data={item.schemeInfo} onPress={() => props.navigation.navigate('FundsDetails')} />)}
+                </View>))}
 
             </ScrollView>
             <TouchableOpacity onPress={() => props.navigation.navigate('Plan3')}><Text style={styles.add}>I would like to add more funds</Text></TouchableOpacity>
@@ -174,7 +144,6 @@ const styles = StyleSheet.create({
         marginBottom: 30,
     },
     selected: {
-
         fontSize: 15,
         fontWeight: "bold",
         color: Colors.DEEP_GRAY,
@@ -185,9 +154,6 @@ const styles = StyleSheet.create({
         color: Colors.DEEP_GRAY,
         position: "absolute",
         right: 0,
-
-
-
     },
     investment: {
         fontSize: 15,
@@ -353,15 +319,17 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => ({
     token: state.auth.token,
     users: state.auth.users,
+    isFetching: state.goals.isFetching,
+    goalDetail: state.goals.goalDetail,
 })
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     const { dispatch } = dispatchProps;
-    const { AuthActions } = require('../../store/AuthRedux')
+    const { GoalsActions } = require('../../store/GoalsRedux')
     return {
         ...stateProps,
         ...ownProps,
-        logOut: () => { AuthActions.logOut(dispatch) },
+        singleDetails: (params, token) => { GoalsActions.singleDetails(dispatch, params, token) },
     }
 }
 export default connect(mapStateToProps, undefined, mapDispatchToProps)(Plan4)

@@ -13,13 +13,14 @@ import {
 } from "react-native";
 import { connect } from 'react-redux'
 import { Styles, Config, Colors, FormValidate } from '../../common'
-
+import SvgUri from "expo-svg-uri";
 import { Ionicons, AntDesign, EvilIcons, Entypo, FontAwesome5 } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
-import { color } from "react-native-elements/dist/helpers";
 
 function Investment2Screens(props) {
+    const pageActive = useRef(false);
+    const { investment,isFetching } = props
 
     return (
         <View style={styles.container}>
@@ -33,108 +34,57 @@ function Investment2Screens(props) {
                 />}
                 rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={Colors.RED} /></View>}
             />
-
+            {isFetching && (<View style={Styles.loading}>
+                <ActivityIndicator color={Colors.BLACK} size='large' />
+            </View>)}
             <ScrollView>
                 <View style={styles.education}>
                     <View style={styles.education_sec}>
-                        <Text style={styles.child}>Moderate Funds</Text>
+                        <Text style={styles.child}>{investment.investmentPlan}</Text>
                         <Text style={styles.child_text}>Recommendations</Text>
                         <View style={styles.childbottom}>
                             <Image
                                 source={require('../../../assets/sf.png')}
                                 style={styles.sf}
                             />
-                            <Text style={styles.far}>Invest for 5+ years</Text>
+                            {investment.planRecommandations && (investment.planRecommandations.map((item, key) => <Text key={key} style={styles.far}>{item.recommandationName}</Text>))}
                         </View>
                     </View>
                     <View style={styles.child_sec}>
-                        <Image
-                            source={require('../../../assets/modirate.png')}
-                            style={styles.goals_2}
+                        <SvgUri
+                            width="145"
+                            height="145"
+                            source={{ uri: investment.planImagePath }}
                         />
                     </View>
-
-                </View >
+                </View>
 
                 <View style={styles.box_sec}>
                     <Text style={styles.year}>Benefits</Text>
-                    <View style={styles.childbottom}>
+                    {investment.planBenefits && (investment.planBenefits.map((item, key) => <View key={key} style={styles.childbottom}>
                         <Image
                             source={require('../../../assets/sf.png')}
                             style={styles.sf}
                         />
-                        <Text style={styles.beat}>Inflation beating long-term returns</Text>
-                    </View>
-                    <View style={styles.childbottom}>
-                        <Image
-                            source={require('../../../assets/sf.png')}
-                            style={styles.sf}
-                        />
-                        <Text style={styles.beat}>SIPFund.com recommends five best
-                            funds to invest from 400 funds</Text>
-                    </View>
-
-
+                        <Text style={styles.beat}>{item.benefitName}</Text>
+                    </View>))}
                 </View>
+
                 <Text style={styles.recomned}>Funds recommended for you</Text>
-
-
-
-                {/* Axis Asset Management Company Ltd */}
-                <View style={styles.sbi_sec}>
-                    <Image
-                        source={require('../../../assets/idbi_img.png')}
-                        style={styles.Hybrid}
-                    />
-                    <Text style={styles.sbi_text}>IDBI Hybrid Equity Fund</Text>
-                   
-                </View>
-                
-                <View style={styles.sbi_sec}>
-                    <Image
-                        source={require('../../../assets/Hybrid_img.png')}
-                        style={styles.Hybrid}
-                    />
-                    <Text style={styles.sbi_text}>SBI Equity Hybrid Fund</Text>
-                   
-                </View>
-
-                <View style={styles.sbi_sec}>
-                    <Image
-                        source={require('../../../assets/LargeCap_img.png')}
-                        style={styles.Hybrid}
-                    />
-                    <Text style={styles.sbi_text}>Mirae Asset Large Cap Fund</Text>
-                    
-                </View>
-
-                <View style={styles.sbi_sec}>
-                    <Image
-                        source={require('../../../assets/tata.png')}
-                        style={styles.Hybrid}
-                    />
-                    <Text style={styles.sbi_text}>Kotak Standard Multicap Fund</Text>
-                    
-                </View>
-
-                <View style={styles.sbi_sec}>
-                    <Image
-                        source={require('../../../assets/MultiCap_img.png')}
-                        style={styles.Hybrid}
-                    />
-                    <Text style={styles.sbi_text}>BNP Paribas Mid Cap Fund</Text>
-                    
-                </View>
-                
+                {investment.schemes && (investment.schemes.map((item, key) => {
+                    return (item != 'NA') && (<View key={key} style={styles.sbi_sec}>
+                        <Image
+                            source={{ uri: item.schemes.imagePath }}
+                            style={styles.Hybrid}
+                        />
+                        <Text style={styles.sbi_text}>{item.schemes.name}</Text>
+                    </View>)
+                }))}
             </ScrollView>
             <TouchableOpacity onPress={() => props.navigation.navigate('Invest3')} style={styles.botton_box}>
-                    <Text style={styles.get_otp}>NEXT</Text>
-
-                </TouchableOpacity>
-
+                <Text style={styles.get_otp}>NEXT</Text>
+            </TouchableOpacity>
         </View>
-
-
     );
 }
 
@@ -172,7 +122,7 @@ const styles = StyleSheet.create({
         color: Colors.DEEP_GRAY,
         paddingVertical: 10,
         fontWeight: "bold",
-        marginTop:50,
+        marginTop: 50,
     },
     formsec: {
         flexDirection: "row",
@@ -207,7 +157,7 @@ const styles = StyleSheet.create({
     },
     sbi_text: {
         marginLeft: 10,
-        paddingTop: 10,
+        paddingTop: 0,
         fontSize: 15,
     },
     price: {
@@ -280,14 +230,16 @@ const styles = StyleSheet.create({
         height: 16,
         marginTop: 3,
     },
-    far:{fontSize:15,
-        paddingLeft:10,},
-    
+    far: {
+        fontSize: 15,
+        paddingLeft: 10,
+    },
+
     year: {
         fontSize: 18,
         paddingLeft: 10,
-        color:Colors.DEEP_GRAY,
-        fontWeight:"bold",
+        color: Colors.DEEP_GRAY,
+        fontWeight: "bold",
 
     },
     beat: {
@@ -301,25 +253,28 @@ const styles = StyleSheet.create({
         marginHorizontal: 20,
         borderRadius: 10
     },
-    recomned:{fontSize:18,
-    fontWeight:"bold",
-    color:Colors.DEEP_GRAY,
-    paddingLeft:20,marginVertical:20,
-},
+    recomned: {
+        fontSize: 18,
+        fontWeight: "bold",
+        color: Colors.DEEP_GRAY,
+        paddingLeft: 20, marginVertical: 20,
+    },
 
 });
 const mapStateToProps = (state) => ({
     token: state.auth.token,
     users: state.auth.users,
+    isFetching: state.investmentplan.isFetching,
+    investment: state.investmentplan.investment,
 })
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     const { dispatch } = dispatchProps;
-    const { AuthActions } = require('../../store/AuthRedux')
+    const { InvestmentPlanActions } = require('../../store/InvestmentPlanRedux')
     return {
         ...stateProps,
         ...ownProps,
-        logOut: () => { AuthActions.logOut(dispatch) },
+        investmentPlans: (params, token) => { InvestmentPlanActions.investmentPlans(dispatch, params, token) },
     }
 }
 export default connect(mapStateToProps, undefined, mapDispatchToProps)(Investment2Screens)

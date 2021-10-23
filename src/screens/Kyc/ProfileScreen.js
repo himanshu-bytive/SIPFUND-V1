@@ -10,7 +10,6 @@ import {
     KeyboardAvoidingView,
     TextInput,
     ActivityIndicator,
-
 } from "react-native";
 import { connect } from 'react-redux'
 import { ProfileImagePicker } from '../../components'
@@ -20,7 +19,7 @@ import { Image, Header, CheckBox } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
 
 function ProfileScreen(props) {
-    const { steps, user, token, uploadSuccess, getDocuments, docs } = props
+    const { steps, user, token, uploadSuccess, getDocuments, docs, isFetching } = props
 
     useEffect(() => {
         if (token || uploadSuccess) {
@@ -40,6 +39,9 @@ function ProfileScreen(props) {
                 />}
                 rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={Colors.RED} /></View>}
             />
+             {isFetching && (<View style={Styles.loading}>
+                <ActivityIndicator color={Colors.BLACK} size='large' />
+            </View>)}
             <ScrollView style={styles.containerScroll}>
                 <View style={styles.banner}>
                     <ProfileImagePicker docType='AVATAR' url={docs?.baseUrl} data={docs?.responseString?.documents ? docs.responseString.documents : []} />
@@ -268,6 +270,7 @@ const mapStateToProps = (state) => ({
     docs: state.registration.documents,
     steps: state.home.steps,
     user: state.home.user,
+    isFetching: state.registration.isFetching,
     uploadSuccess: state.registration.uploadSuccess,
 })
 

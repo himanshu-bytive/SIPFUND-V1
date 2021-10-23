@@ -5,18 +5,19 @@ import {
     View,
     TouchableOpacity,
     KeyboardAvoidingView,
+    ActivityIndicator,
     Platform,
     Text,
 } from "react-native";
 import { connect } from 'react-redux'
-import { Colors } from '../../common'
+import { Styles,Colors } from '../../common'
 import { MySelectPicker, MyTextInput } from '../../components'
 import { AntDesign } from 'react-native-vector-icons';
 import { Image, Header } from 'react-native-elements';
 
 function CompleteDetailsAddressScreen(props) {
     const pageActive = useRef(false);
-    const { token, updateRegister, setUserInfo, user, statess, citys, getCitys, getPincode, pincodeInfo, updateSuccess } = props;
+    const { token, updateRegister, setUserInfo, user, statess, citys, getCitys, getPincode, pincodeInfo, updateSuccess, isFetching } = props;
     const [stateList, setStateList] = useState([]);
     const [cityList, setCityList] = useState([]);
 
@@ -127,6 +128,9 @@ function CompleteDetailsAddressScreen(props) {
                 />}
                 rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={Colors.RED} /></View>}
             />
+             {isFetching && (<View style={Styles.loading}>
+                <ActivityIndicator color={Colors.BLACK} size='large' />
+            </View>)}
             <ScrollView>
                 {/* container_sec */}
                 <View style={styles.container_sec}>
@@ -267,6 +271,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => ({
     token: state.auth.token,
     user: state.home.user,
+    isFetching: state.registration.isFetching,
     pincodeInfo: state.registration.pincodeInfo,
     statess: state.registration.states,
     citys: state.registration.citys,

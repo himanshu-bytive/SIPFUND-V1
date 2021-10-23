@@ -49,7 +49,7 @@ function CreateAccountScreen(props) {
     };
 
     const GetCurrentLocation = async () => {
-        let { status } = await Location.requestPermissionsAsync();
+        let { status } = await Location.requestForegroundPermissionsAsync();
         if (status !== 'granted') {
             Alert.alert(
                 'Permission not granted',

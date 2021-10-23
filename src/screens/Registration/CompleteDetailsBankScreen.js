@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import moment from 'moment';
 import { connect } from 'react-redux'
-import { Colors } from '../../common'
+import { Styles, Colors } from '../../common'
 import { MySelectPicker, MyTextInput } from '../../components'
 import { AntDesign } from 'react-native-vector-icons';
 import { Image, Header, Overlay } from 'react-native-elements';
@@ -254,6 +254,9 @@ function CompleteDetailsBankScreen(props) {
                 />}
                 rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={Colors.RED} /></View>}
             />
+             {isFetching && (<View style={Styles.loading}>
+                <ActivityIndicator color={Colors.BLACK} size='large' />
+            </View>)}
             <ScrollView>
                 <View style={styles.heading_sec}>
                     <Text style={styles.heading}>Your bank account details are required as they need to be linked to your mutual fund account so that you can do the transactions. Your bank account details are safe and stored in encrypted format in NSE.</Text>

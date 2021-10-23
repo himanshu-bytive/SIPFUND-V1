@@ -1,7 +1,7 @@
 import SiteAPI from '../services/SiteApis'
 import { Alert } from 'react-native';
 const types = {
-    
+
     FETCH_GOAL_DETAILS_PENDING: "FETCH_GOAL_DETAILS_PENDING",
     FETCH_GOAL_DETAILS_SUCCESS: "FETCH_GOAL_DETAILS_SUCCESS",
     FETCH_GOAL_DETAILS_FAILURE: "FETCH_GOAL_DETAILS_FAILURE",
@@ -24,21 +24,24 @@ const types = {
 };
 
 export const GoalsActions = {
-    
     goalDetails: async (dispatch, token) => {
         dispatch({ type: types.FETCH_GOAL_DETAILS_PENDING });
-        let documents = await SiteAPI.apiGetCall(`/plan_your_goals/allPlansGoals`, {}, token);
-        if (documents.responseString) {
-            dispatch({ type: types.FETCH_GOAL_DETAILS_SUCCESS, documents: documents });
+        let data = await SiteAPI.apiGetCall(`/plan_your_goals/allPlansGoals`, {}, token);
+        if (data.error) {
+            Alert.alert(data.message)
+            dispatch({ type: types.FETCH_GOAL_DETAILS_FAILURE, error: data.message });
+        } else {
+            dispatch({ type: types.FETCH_GOAL_DETAILS_SUCCESS, goals: data.response });
         }
     },
-    singleDetails: async (dispatch, code, token) => {
-        if (code) {
-            dispatch({ type: types.FETCH_SINGLE_DETAILS_PENDING });
-            let citys = await SiteAPI.apiPostCall(`/plan_your_goals/planInfo`, {}, token);
-            if (citys.Data) {
-                dispatch({ type: types.FETCH_SINGLE_DETAILS_SUCCESS, citys: citys.Data.city_master });
-            }
+    singleDetails: async (dispatch, params, token) => {
+        dispatch({ type: types.FETCH_SINGLE_DETAILS_PENDING });
+        let data = await SiteAPI.apiPostCall(`/plan_your_goals/planInfo`, { "goal": params.goal, "years": 5 }, token);
+        if (data.error) {
+            Alert.alert(data.message)
+            dispatch({ type: types.FETCH_SINGLE_DETAILS_FAILURE, error: data.message });
+        } else {
+            dispatch({ type: types.FETCH_SINGLE_DETAILS_SUCCESS, goalDetail: data.response });
         }
     },
     goalUser: async (dispatch, code, token) => {
@@ -75,7 +78,8 @@ export const GoalsActions = {
 const initialState = {
     isFetching: false,
     error: null,
-    occupations: [],
+    goals: [],
+    goalDetail: null,
     incomes: [],
     states: [],
     citys: [],
@@ -84,14 +88,14 @@ const initialState = {
     banks: [],
     bankDetails: {},
     userInfo: null,
-    documents: null,
+    data: null,
     addSuccess: false,
     updateSuccess: false,
     uploadSuccess: false,
 };
 
 export const reducer = (state = initialState, action) => {
-    const { type, error, occupations, incomes, states, citys, accountTypes, banks, bankDetails, userInfo, pincodeInfo, documents } = action;
+    const { type, error, goals, goalDetail, states, citys, accountTypes, banks, bankDetails, userInfo, pincodeInfo, data } = action;
     switch (type) {
         case types.FETCH_GOAL_DETAILS_PENDING:
         case types.FETCH_SINGLE_DETAILS_PENDING:
@@ -128,7 +132,7 @@ export const reducer = (state = initialState, action) => {
                 ...state,
                 isFetching: false,
                 error: null,
-                documents
+                goals
             };
         }
         case types.FETCH_SINGLE_DETAILS_SUCCESS: {
@@ -136,7 +140,7 @@ export const reducer = (state = initialState, action) => {
                 ...state,
                 isFetching: false,
                 error: null,
-                citys
+                goalDetail
             };
         }
         case types.FETCH_GOALUSER_SUCCESS: {
@@ -163,7 +167,7 @@ export const reducer = (state = initialState, action) => {
                 addSuccess: true
             };
         }
-    
+
         default:
             return state;
     }

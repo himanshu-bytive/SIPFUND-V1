@@ -3,6 +3,7 @@ import {
     StyleSheet,
     View,
     TouchableOpacity,
+    ActivityIndicator,
     Text,
 } from "react-native";
 import { connect } from 'react-redux'
@@ -13,7 +14,8 @@ import { Image, Header } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
 
 function OwnerChoice(props) {
-    const { token, mainCategory, mainCat, subCatagorys, subCat, fetchScheme, schemeCat, schemeGo } = props
+    const pageActive = useRef(false);
+    const { token, isFetching, mainCategory, mainCat, subCatagorys, subCat, fetchScheme, schemeCat, schemeGo, choices } = props
     const [catList, setCatList] = useState([]);
     const [subcatList, setSubCatList] = useState([]);
     const [schemeList, setSchemeList] = useState([]);
@@ -44,6 +46,13 @@ function OwnerChoice(props) {
         }
     }, [schemeCat]);
 
+    useEffect(() => {
+        if (choices && pageActive.current) {
+            pageActive.current = false;
+            props.navigation.navigate('Toprated1')
+        }
+    }, [choices]);
+
     const [state, setState] = useState({
         catagory: '',
         subcatagory: '',
@@ -72,6 +81,7 @@ function OwnerChoice(props) {
 
     const schemeAction = async () => {
         if (state.scheme) {
+            pageActive.current = true;
             schemeGo({ "isin": state.scheme }, token)
         }
     }
@@ -88,7 +98,9 @@ function OwnerChoice(props) {
                 />}
                 rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={Colors.RED} /></View>}
             />
-
+            {isFetching && (<View style={Styles.loading}>
+                <ActivityIndicator color={Colors.BLACK} size='large' />
+            </View>)}
             <ScrollView style={styles.containerScroll}>
                 <View style={styles.report_sec}>
                     <View>
@@ -196,9 +208,11 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => ({
     token: state.auth.token,
     users: state.auth.users,
+    isFetching: state.ownerChoice.isFetching,
     mainCat: state.ownerChoice.mainCat,
     subCat: state.ownerChoice.subCat,
     schemeCat: state.ownerChoice.schemeCat,
+    choices: state.ownerChoice.choices,
 })
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {

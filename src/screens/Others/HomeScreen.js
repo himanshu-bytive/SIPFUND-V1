@@ -9,6 +9,7 @@ import {
     ScrollView,
 } from "react-native";
 import { connect } from 'react-redux'
+import SvgUri from "expo-svg-uri";
 import { Styles, Config, Colors, FormValidate } from '../../common'
 import { Entypo, AntDesign } from 'react-native-vector-icons';
 import { Header, Overlay, CheckBox, Input } from 'react-native-elements';
@@ -16,24 +17,34 @@ import Investments from '../../components/Investments'
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
-const investmentData = [
-    { title: 'Long Term', image: require('../../../assets/term1.png') },
-    { title: 'Tax Saving Funds', image: require('../../../assets/term2.png') },
-    { title: 'Better Than', image: require('../../../assets/term3.png') },
-    { title: 'Tax Saving Funds', image: require('../../../assets/term4.png') },
-    { title: 'Better Than FD', image: require('../../../assets/term5.png') },
-    { title: 'Aggressive Funds', image: require('../../../assets/term6.png') },
-]
-
 function HomeScreen(props) {
-    const { token, logOut, users, isFetching, error, steps, home, user, cart, getsteps, getHomeData, getUserDetails, cartDetails } = props;
+    const pageActiveGoles = useRef(false);
+    const pageActiveInvest = useRef(false);
+    const { token, logOut, users, isFetching, error, steps, home, user, cart, getsteps, getHomeData, getUserDetails, cartDetails, goalDetails, goals, singleDetails, goalDetail, allPlans, investments, investmentPlans, investment } = props;
     useEffect(() => {
         if (token) {
             getsteps({}, token)
             getHomeData({}, token)
             cartDetails(token)
+            goalDetails(token)
+            allPlans(token)
         }
     }, [token]);
+
+    useEffect(() => {
+        if (goalDetail && pageActiveGoles.current) {
+            pageActiveGoles.current = false;
+            props.navigation.navigate('Plan1')
+        }
+    }, [goalDetail]);
+
+    useEffect(() => {
+        if (investment && pageActiveInvest.current) {
+            pageActiveInvest.current = false;
+            props.navigation.navigate('Invest2')
+        }
+    }, [investment]);
+
 
     const [visible, setVisible] = useState(false);
     const toggleOverlay = () => {
@@ -77,99 +88,30 @@ function HomeScreen(props) {
                 <Text style={styles.Plan}>Plan Your GOALS</Text>
 
                 <ScrollView horizontal={true}>
-                    <TouchableOpacity onPress={() => props.navigation.navigate('Plan1')}>
+                    {goals.map((item, key) => <TouchableOpacity key={key} onPress={() => { singleDetails(item, token); pageActiveGoles.current = true; }}>
                         <View style={styles.education}>
                             <View style={styles.child_sec}>
-                                <Image
-                                    source={require('../../../assets/childimg.png')}
-                                    style={styles.goals_2}
+                                <SvgUri
+                                    width="145"
+                                    height="145"
+                                    source={{
+                                        uri: item.goalImagePath
+                                    }}
                                 />
                             </View>
                             <View style={styles.education_sec}>
-                                <Text style={styles.child}>Child’s Education</Text>
-                                <Text style={styles.child_text}>Secure your child’s
-                                    future, invest for
-                                    his education</Text>
+                                <Text style={styles.child}>{item.goal}</Text>
+                                <Text style={styles.child_text}>{item.description}</Text>
                             </View>
                         </View>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity onPress={() => props.navigation.navigate('Plan1')}>
-                        <View style={styles.education}>
-                            <View style={styles.child_sec}>
-                                <Image
-                                    source={require('../../../assets/plan_img2.png')}
-                                    style={styles.goals_2}
-                                />
-                            </View>
-                            <View style={styles.education_sec}>
-                                <Text style={styles.child}>Dream Home</Text>
-                                <Text style={styles.child_text}>Plan your home down
-                                    payment for the
-                                    dream house</Text>
-                            </View>
-                        </View>
-
-                    </TouchableOpacity>
-
-                    <TouchableOpacity onPress={() => props.navigation.navigate('Plan1')}>
-                        <View style={styles.education}>
-                            <View style={styles.child_sec}>
-                                <Image
-                                    source={require('../../../assets/plan_img3.png')}
-                                    style={styles.goals_2}
-                                />
-                            </View>
-                            <View style={styles.education_sec}>
-                                <Text style={styles.child}>Retire Rich</Text>
-                                <Text style={styles.child_text}>Secure your post
-                                    retirement expense,
-                                    get income after
-                                    retirement</Text>
-                            </View>
-                        </View>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity onPress={() => props.navigation.navigate('Plan1')}>
-                        <View style={styles.education}>
-                            <View style={styles.child_sec}>
-                                <Image
-                                    source={require('../../../assets/plan_img4.png')}
-                                    style={styles.goals_2}
-                                />
-                            </View>
-                            <View style={styles.education_sec}>
-                                <Text style={styles.child}>Child’s Marriage</Text>
-                                <Text style={styles.child_text}>Invest now for
-                                    expenses of chid’s
-                                    marriage in future</Text>
-                            </View>
-                        </View>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity onPress={() => props.navigation.navigate('Plan1')}>
-                        <View style={styles.education}>
-                            <View style={styles.child_sec}>
-                                <Image
-                                    source={require('../../../assets/plan_img4.png')}
-                                    style={styles.goals_2}
-                                />
-                            </View>
-                            <View style={styles.education_sec}>
-                                <Text style={styles.child}>Car Purchase</Text>
-                                <Text style={styles.child_text}>Plan for that dream car you always wanted</Text>
-                            </View>
-                        </View>
-                    </TouchableOpacity>
-
+                    </TouchableOpacity>)}
                 </ScrollView>
 
                 <View style={styles.border}></View>
-
+                
                 {/* investment section */}
-
                 <Text style={styles.Plan}>Investment Plans</Text>
-                <Investments data={investmentData} onPress={() => props.navigation.navigate('Invest2')} />
+                <Investments data={investments} counts={6} onPress={(item) => { investmentPlans(item, token); pageActiveInvest.current = true; }} />
                 <View style={{ alignItems: "center" }}>
                     <TouchableOpacity onPress={() => props.navigation.navigate('Invest1')}>
                         <View style={styles.all_plan}>
@@ -210,10 +152,10 @@ function HomeScreen(props) {
                         <View style={styles.education_top}>
                             <TouchableOpacity onPress={() => props.navigation.navigate('ReferEarn')} style={[styles.education, styles.quick_access]}>
                                 <View style={styles.child_sec}>
-                                        <Image
-                                            source={require('../../../assets/term8.png')}
-                                            style={styles.quick_img}
-                                        />
+                                    <Image
+                                        source={require('../../../assets/term8.png')}
+                                        style={styles.quick_img}
+                                    />
                                 </View>
                                 <View style={styles.education_sec}>
                                     <Text style={styles.earn}>Refer & Earn</Text>
@@ -224,10 +166,10 @@ function HomeScreen(props) {
 
                             <TouchableOpacity onPress={() => props.navigation.navigate('Relationship')} style={[styles.education, styles.quick_access]}>
                                 <View style={styles.child_sec}>
-                                        <Image
-                                            source={require('../../../assets/quick_img3.png')}
-                                            style={styles.quick_img3}
-                                        />
+                                    <Image
+                                        source={require('../../../assets/quick_img3.png')}
+                                        style={styles.quick_img3}
+                                    />
                                 </View>
                                 <View style={styles.education_sec}>
                                     <Text style={styles.earn}>Talk To Experts</Text>
@@ -471,7 +413,7 @@ const styles = StyleSheet.create({
     },
     education: {
         flexDirection: "row",
-        width: Styles.width -30,
+        width: Styles.width - 30,
         borderWidth: 2,
         borderStyle: "solid",
         borderColor: Colors.GRAY_LIGHT,
@@ -795,6 +737,10 @@ const mapStateToProps = (state) => ({
     home: state.home.home,
     user: state.home.user,
     cart: state.home.cart,
+    goals: state.goals.goals,
+    goalDetail: state.goals.goalDetail,
+    investments: state.investmentplan.investments,
+    investment: state.investmentplan.investment,
 })
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
@@ -802,6 +748,8 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     const { AuthActions } = require('../../store/AuthRedux')
     const { HomeActions } = require('../../store/HomeRedux')
     const { CartActions } = require('../../store/CartActionsRedux')
+    const { GoalsActions } = require('../../store/GoalsRedux')
+    const { InvestmentPlanActions } = require('../../store/InvestmentPlanRedux')
     return {
         ...stateProps,
         ...ownProps,
@@ -809,6 +757,10 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
         getsteps: (params, token) => { HomeActions.getsteps(dispatch, params, token) },
         getHomeData: (params, token) => { HomeActions.getHomeData(dispatch, params, token) },
         cartDetails: (token) => { CartActions.cartDetails(dispatch, token) },
+        goalDetails: (token) => { GoalsActions.goalDetails(dispatch, token) },
+        singleDetails: (params, token) => { GoalsActions.singleDetails(dispatch, params, token) },
+        allPlans: (token) => { InvestmentPlanActions.allPlans(dispatch, token) },
+        investmentPlans: (params, token) => { InvestmentPlanActions.investmentPlans(dispatch, params, token) },
     }
 }
 export default connect(mapStateToProps, undefined, mapDispatchToProps)(HomeScreen)
