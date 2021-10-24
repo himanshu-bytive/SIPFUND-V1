@@ -238,7 +238,7 @@ function CompleteDetailsBankScreen(props) {
 
     const onComplete = () => {
         setVisible(false)
-        props.navigation.navigate('Register3')
+        props.navigation.navigate('UploadDocument')
     }
 
 

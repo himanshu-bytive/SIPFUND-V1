@@ -13,13 +13,12 @@ import {
 } from "react-native";
 import { connect } from 'react-redux'
 import { Styles, Config, Colors, FormValidate } from '../../common'
-import SvgUri from "expo-svg-uri";
 import { Ionicons, AntDesign, Entypo, FontAwesome5 } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
-import { PlanYourGoalFundType } from "../../components";
+import { MyImage, PlanYourGoalFundType } from "../../components";
 
-function Plan4(props) {
+function PlanListScreen(props) {
     const pageActive = useRef(false);
     const { token, goalDetail,isFetching } = props;
     return (
@@ -42,10 +41,11 @@ function Plan4(props) {
                 {/* SIP_sec */}
                 <View style={styles.education}>
                     <View style={styles.child_sec}>
-                        <SvgUri
+                    <MyImage
                             width="117"
                             height="117"
-                            source={{ uri: goalDetail.goalImagePath }}
+                            svg={true}
+                            url={goalDetail.goalImagePath}
                         />
                     </View>
                     <View style={styles.education_sec}>
@@ -78,8 +78,8 @@ function Plan4(props) {
                 </View>))}
 
             </ScrollView>
-            <TouchableOpacity onPress={() => props.navigation.navigate('Plan3')}><Text style={styles.add}>I would like to add more funds</Text></TouchableOpacity>
-            <TouchableOpacity onPress={() => props.navigation.navigate('Plan5')} style={styles.botton_box}>
+            <TouchableOpacity onPress={() => props.navigation.navigate('PlanSearch')}><Text style={styles.add}>I would like to add more funds</Text></TouchableOpacity>
+            <TouchableOpacity onPress={() => props.navigation.navigate('PlanSubmit')} style={styles.botton_box}>
                 <Text style={styles.get_otp}>NEXT</Text>
             </TouchableOpacity>
         </View>
@@ -332,4 +332,4 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
         singleDetails: (params, token) => { GoalsActions.singleDetails(dispatch, params, token) },
     }
 }
-export default connect(mapStateToProps, undefined, mapDispatchToProps)(Plan4)
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(PlanListScreen)

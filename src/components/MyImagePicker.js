@@ -77,20 +77,19 @@ const MyImagePicker = (props) => {
     };
 
     const signImage = (signature) => {
-        const path = FileSystem.cacheDirectory + 'Sign.png';
-        FileSystem.writeAsStringAsync(path, signature.replace('data:image/png;base64,', ''), { encoding: FileSystem.EncodingType.Base64 }).then(res => {
-            FileSystem.getInfoAsync(path, { size: true, md5: true }).then(file => {
+        const path = FileSystem.cacheDirectory + "sign.jpeg";
+        FileSystem.writeAsStringAsync(path, signature.replace("data:image/png;base64,", ""), { encoding: FileSystem.EncodingType.Base64 })
+            .then(() => FileSystem.getInfoAsync(path))
+            .then(file => {
                 let params = {
-                    "file": file,
+                    "file": { ...file, "type": "image" },
                     "fileType": item.fileType
                 }
                 fileUpload(params, token)
                 setImg(file.uri);
                 setSign(false)
             })
-        }).catch(err => {
-            console.log("err", err);
-        })
+            .catch((error) => console.log(error));
     };
 
     const setSelectDoc = (val) => {
@@ -229,6 +228,7 @@ const MyImagePicker = (props) => {
             >
                 <SignatureScreen
                     ref={signBox}
+                    imageType="image/jpeg"
                     onOK={signImage}
                     onEmpty={() => setSign(false)}
                 />

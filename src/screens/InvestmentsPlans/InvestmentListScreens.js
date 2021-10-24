@@ -8,19 +8,16 @@ import {
     Text,
     Dimensions,
     KeyboardAvoidingView,
-    TextInput,
+    ScrollView,
     ActivityIndicator
 } from "react-native";
 import { connect } from 'react-redux'
 import { Styles, Config, Colors, FormValidate } from '../../common'
-import SvgUri from "expo-svg-uri";
 import { Ionicons, AntDesign, EvilIcons, Entypo, FontAwesome5 } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
-import { ScrollView } from "react-native-gesture-handler";
-import { color } from "react-native-elements/dist/helpers";
-import { PlanYourGoalFundType } from "../../components";
+import { MyImage, PlanYourGoalFundType } from "../../components";
 
-function Investment4Screens(props) {
+function InvestmentListScreens(props) {
     const pageActive = useRef(false);
     const { investment, configs, isFetching } = props
 
@@ -47,10 +44,11 @@ function Investment4Screens(props) {
                         <Text style={styles.amount}>My Investment Amount</Text>
                     </View>
                     <View style={styles.child_sec}>
-                        <SvgUri
+                        <MyImage
                             width="112"
                             height="118"
-                            source={{ uri: investment.planImagePath }}
+                            svg={true}
+                            url={investment.planImagePath}
                         />
                         <Text style={styles.sip}>SIP Per Month</Text>
                         <Text style={styles.amount_text}>₹{configs.invest}</Text>
@@ -69,8 +67,8 @@ function Investment4Screens(props) {
                 </View>))}
 
             </ScrollView>
-            <TouchableOpacity onPress={() => props.navigation.navigate('Invest5')}><Text style={styles.more_funds}>I would like to add more funds</Text></TouchableOpacity>
-            <TouchableOpacity onPress={() => props.navigation.navigate('Invest7')} style={styles.botton_box}>
+            <TouchableOpacity onPress={() => props.navigation.navigate('InvestmentSearch')}><Text style={styles.more_funds}>I would like to add more funds</Text></TouchableOpacity>
+            <TouchableOpacity onPress={() => props.navigation.navigate('InvestmentSubmit')} style={styles.botton_box}>
                 <Text style={styles.get_otp}>NEXT</Text>
             </TouchableOpacity>
         </View>
@@ -262,4 +260,4 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
         investmentConfig: (data) => { InvestmentPlanActions.investmentConfig(dispatch, data) },
     }
 }
-export default connect(mapStateToProps, undefined, mapDispatchToProps)(Investment4Screens)
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(InvestmentListScreens)

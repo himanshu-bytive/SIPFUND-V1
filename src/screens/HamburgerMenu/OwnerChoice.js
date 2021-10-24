@@ -49,7 +49,7 @@ function OwnerChoice(props) {
     useEffect(() => {
         if (choices && pageActive.current) {
             pageActive.current = false;
-            props.navigation.navigate('Toprated1')
+            props.navigation.navigate('TopRatedHome')
         }
     }, [choices]);
 

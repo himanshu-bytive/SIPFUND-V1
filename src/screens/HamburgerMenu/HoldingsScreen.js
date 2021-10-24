@@ -17,7 +17,7 @@ import { connect } from 'react-redux'
 import { Styles, Config, Colors, FormValidate } from '../../common'
 import { Entypo, AntDesign } from 'react-native-vector-icons';
 import { Header, Overlay } from 'react-native-elements';
-import Investments from '../../components/Investments'
+
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
@@ -30,7 +30,7 @@ const investmentData = [
     { title: 'Aggressive Funds', image: require('../../../assets/term6.png') },
 ]
 
-function HamburgerMenu5Screen(props) {
+function HoldingsScreen(props) {
 
     const [selectTab, setSelectTab] = useState('HOLDINGS');
     const toggleTab = (value) => {
@@ -420,4 +420,4 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
         logOut: () => { AuthActions.logOut(dispatch) },
     }
 }
-export default connect(mapStateToProps, undefined, mapDispatchToProps)(HamburgerMenu5Screen)
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(HoldingsScreen)

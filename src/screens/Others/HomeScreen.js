@@ -9,11 +9,10 @@ import {
     ScrollView,
 } from "react-native";
 import { connect } from 'react-redux'
-import SvgUri from "expo-svg-uri";
 import { Styles, Config, Colors, FormValidate } from '../../common'
+import { InvestmentLists, MyImage } from '../../components'
 import { Entypo, AntDesign } from 'react-native-vector-icons';
 import { Header, Overlay, CheckBox, Input } from 'react-native-elements';
-import Investments from '../../components/Investments'
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
@@ -34,14 +33,14 @@ function HomeScreen(props) {
     useEffect(() => {
         if (goalDetail && pageActiveGoles.current) {
             pageActiveGoles.current = false;
-            props.navigation.navigate('Plan1')
+            props.navigation.navigate('PlanHome')
         }
     }, [goalDetail]);
 
     useEffect(() => {
         if (investment && pageActiveInvest.current) {
             pageActiveInvest.current = false;
-            props.navigation.navigate('Invest2')
+            props.navigation.navigate('InvestmentDetail')
         }
     }, [investment]);
 
@@ -80,7 +79,7 @@ function HomeScreen(props) {
                     <Text style={styles.HelloIinvestor1}>You’re almost ready to submit</Text>
                     {(users?.IIN && steps > 4) ? <TouchableOpacity onPress={() => props.navigation.navigate('Goals')} style={styles.botton_box}>
                         <Text style={styles.get_otp}>Start investment</Text>
-                    </TouchableOpacity> : <TouchableOpacity onPress={() => props.navigation.navigate(steps === 3 ? 'Register' : 'Register3')} style={styles.botton_box}>
+                    </TouchableOpacity> : <TouchableOpacity onPress={() => props.navigation.navigate(steps === 3 ? 'RegisterDetails' : 'UploadDocument')} style={styles.botton_box}>
                         <Text style={styles.get_otp}>COMPLETE ACCOUNT SETUP</Text>
                     </TouchableOpacity>}
                 </View>
@@ -91,12 +90,11 @@ function HomeScreen(props) {
                     {goals.map((item, key) => <TouchableOpacity key={key} onPress={() => { singleDetails(item, token); pageActiveGoles.current = true; }}>
                         <View style={styles.education}>
                             <View style={styles.child_sec}>
-                                <SvgUri
+                                <MyImage
                                     width="145"
                                     height="145"
-                                    source={{
-                                        uri: item.goalImagePath
-                                    }}
+                                    svg={true}
+                                    url={item.goalImagePath}
                                 />
                             </View>
                             <View style={styles.education_sec}>
@@ -108,12 +106,12 @@ function HomeScreen(props) {
                 </ScrollView>
 
                 <View style={styles.border}></View>
-                
+
                 {/* investment section */}
                 <Text style={styles.Plan}>Investment Plans</Text>
-                <Investments data={investments} counts={6} onPress={(item) => { investmentPlans(item, token); pageActiveInvest.current = true; }} />
+                <InvestmentLists data={investments} counts={6} onPress={(item) => { investmentPlans(item, token); pageActiveInvest.current = true; }} />
                 <View style={{ alignItems: "center" }}>
-                    <TouchableOpacity onPress={() => props.navigation.navigate('Invest1')}>
+                    <TouchableOpacity onPress={() => props.navigation.navigate('InvestmentList')}>
                         <View style={styles.all_plan}>
                             <Text style={styles.all_plan_text}>See All Investment Plan</Text>
                             <AntDesign name="down" size={20} color="#C0392B" />
@@ -126,7 +124,7 @@ function HomeScreen(props) {
                 {/* Top roted fund section */}
 
                 <Text style={styles.roted_text}>Top Rated Funds</Text>
-                <TouchableOpacity onPress={() => props.navigation.navigate('Toprated1')}>
+                <TouchableOpacity onPress={() => props.navigation.navigate('TopRatedHome')}>
                     <View style={[styles.education, styles.education_roted]}>
                         <View style={styles.child_sec}>
                             <Image

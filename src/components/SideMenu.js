@@ -3,7 +3,7 @@ import {
     StyleSheet,
     Alert,
     View,
-    ImageBackground,
+    ScrollView,
     TouchableOpacity,
     Text,
     Linking,
@@ -15,15 +15,16 @@ import { connect } from 'react-redux'
 import { Styles, Config, Colors, FormValidate } from '../common'
 import { Ionicons, AntDesign, Feather, Entypo, MaterialCommunityIcons, FontAwesome } from 'react-native-vector-icons';
 import { Overlay, Header, CheckBox } from 'react-native-elements';
-import { ScrollView } from "react-native-gesture-handler";
 
 function SideMenu(props) {
     const pageActiveKyc = useRef(false);
     const pageActiveEmandate = useRef(false);
-    const { token, isFetchingEkyc, isFetchingEmandate, userDetails, steps, docs, getList, postRequest, kycLists, emandateOptions, emandateRegistration, emandateLists } = props
+    const { token, isFetchingEkyc, isFetchingEmandate, userDetails, usersDetails, steps, docs, getList, postRequest, kycLists, emandateOptions, emandateRegistration, emandateLists } = props
     const [img, setImg] = useState(null);
     const [visibleKyc, setVisibleKyc] = useState(false);
     const [visibleEmandate, setVisibleEmandate] = useState(false);
+    const [visibleEmandateValue, setVisibleEmandateValue] = useState(null);
+    const [emandateValue, setEmandateValue] = useState('');
 
     useEffect(() => {
         if (docs) {
@@ -39,16 +40,61 @@ function SideMenu(props) {
             pageActiveKyc.current = false;
             setVisibleKyc(true)
             props.navigation.toggleDrawer()
-            console.log(kycLists)
         }
     }, [kycLists]);
+
+    const handleKyc = (value) => {
+        setVisibleKyc(false)
+        let params = {
+            "service_request":
+            {
+                "amc_code": value.amc_code,
+                "client_callback_url": "sipfund.com",
+                "investor_email": userDetails.email,
+                "investor_mobile_no": userDetails.mobileNo,
+                "pan": userDetails.pan,
+                "return_flag": "Y"
+            }
+        }
+        emandateRegistration(params, token)
+    };
+
+    const handlEemandate = (value) => {
+        setVisibleEmandate(false)
+        setVisibleEmandateValue(value)
+    };
+
+    const handlEemandateValue = () => {
+        if (emandateValue) {
+            let params = {
+                "service_request":
+                {
+                    "acc_no": usersDetails?.nseDetails?.acc_no,
+                    "acc_type": usersDetails?.nseDetails?.acc_type?.ACC_TYPE,
+                    "ach_amount": emandateValue,
+                    "ach_fromdate": new Date(),
+                    "ach_todate": "31-Dec-2099",
+                    "Bank_holder_name": usersDetails?.nseDetails?.inv_name,
+                    "bank_name": usersDetails?.nseDetails?.bank_name?.BANK_NAME,
+                    "branch_name": usersDetails?.nseDetails?.branch_name,
+                    "channel_type": visibleEmandateValue.channel_type,
+                    "ifsc_code": usersDetails?.nseDetails?.ifsc_code,
+                    "iin": userDetails.IIN,
+                    "micr_no": "",
+                    "return_flag": visibleEmandateValue.return_flag
+                }
+            }
+            postRequest(params, token)
+            setVisibleEmandateValue(null)
+            setEmandateValue(null)
+        }
+    };
 
     useEffect(() => {
         if (emandateLists && pageActiveEmandate.current) {
             pageActiveEmandate.current = false;
             setVisibleEmandate(true)
             props.navigation.toggleDrawer()
-            console.log(emandateLists)
         }
     }, [emandateLists]);
 
@@ -68,17 +114,41 @@ function SideMenu(props) {
                 <ActivityIndicator color={Colors.BLACK} size='large' />
             </View>)}
 
-            <Overlay isVisible={visibleKyc} overlayStyle={{ margin: 10, backgroundColor: '#fff' }}>
-                <View style={{ padding: 10 }}>
-                    {kycLists.map((item, key) => <Text key={key} style={{ paddingVertical: 5, fontSize: 18, fontWeight: "bold", }}>{item.amc_name}</Text>)}
-                    <TouchableOpacity onPress={() => setVisibleKyc(false)}><Text style={{ color: '#ff0000', paddingTop: 20, }}>OK</Text></TouchableOpacity>
+            <Overlay isVisible={visibleKyc} overlayStyle={{ margin: 10, borderRadius: 10, backgroundColor: '#fff' }}>
+                <View style={styles.emaMainbox}>
+                    <Text style={styles.emaAmc}>Choose AMC Option:</Text>
+                    {kycLists.map((item, key) => <TouchableOpacity key={key} onPress={() => handleKyc(item)}><Text style={styles.emaMutual_fund}>{item.amc_name}</Text></TouchableOpacity>)}
+                    <TouchableOpacity onPress={() => setVisibleKyc(false)}><Text style={styles.emaCancel}>Cancel</Text></TouchableOpacity>
                 </View>
             </Overlay>
 
-            <Overlay isVisible={visibleEmandate} overlayStyle={{ margin: 10, backgroundColor: '#fff' }}>
-                <View style={{ padding: 10 }}>
-                    {emandateLists.map((item, key) => <Text key={key} style={{ paddingVertical: 5, fontSize: 18, fontWeight: "bold", }}>{item.description}</Text>)}
-                    <TouchableOpacity onPress={() => setVisibleEmandate(false)}><Text style={{ color: '#ff0000', paddingTop: 20, }}>OK</Text></TouchableOpacity>
+            <Overlay isVisible={visibleEmandate} overlayStyle={{ margin: 10, borderRadius: 10, backgroundColor: '#fff' }}>
+                <View style={styles.emaMainbox}>
+                    <Text style={styles.emaAmc}>Choose AMC Option:</Text>
+                    {emandateLists.map((item, key) => <TouchableOpacity key={key}>
+                        <CheckBox onPress={() => handlEemandate(item)} containerStyle={{ margin: 0, backgroundColor: Colors.TRANSPARENT, borderColor: Colors.TRANSPARENT }} checkedColor={Colors.LIGHT_RED1} title={item.description} checkedIcon='dot-circle-o' uncheckedIcon='circle-o' />
+                    </TouchableOpacity>)}
+                    <TouchableOpacity onPress={() => setVisibleEmandate(false)}><Text style={styles.emaCancel}>Cancel</Text></TouchableOpacity>
+                </View>
+            </Overlay>
+
+            <Overlay isVisible={visibleEmandateValue ? true : false} overlayStyle={{ margin: 10, borderRadius: 10, backgroundColor: '#fff' }}>
+                <View style={styles.mainbox}>
+                    <Text style={styles.amc}>ENTER ACH-MANDATE AMOUNT</Text>
+                    <TextInput
+                        value={emandateValue}
+                        onChangeText={(val) => setEmandateValue(val)}
+                        style={styles.inputsec}
+                        placeholder="Amount"
+                    />
+                    <View style={{ flexDirection: "row", alignSelf: 'flex-end' }}>
+                        <TouchableOpacity onPress={() => visibleEmandateValue(null)}>
+                            <Text style={styles.refreshcode}>CANCEL</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity>
+                            <Text onPress={() => handlEemandateValue()} style={styles.refreshcode}>SUBMIT</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </Overlay>
 
@@ -104,7 +174,7 @@ function SideMenu(props) {
                     <View><Text style={[styles.know_text, styles.know]}>Refer & Earn</Text></View>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => props.navigation.navigate(steps === 3 ? 'Register' : 'Register3')} style={[styles.profile_sec, styles.profile]}>
+                <TouchableOpacity onPress={() => props.navigation.navigate(steps === 3 ? 'RegisterDetails' : 'UploadDocument')} style={[styles.profile_sec, styles.profile]}>
                     <View>
                         <FontAwesome name={"user-o"} size={30} color={Colors.GRAY_LIGHT_4} />
                     </View>
@@ -128,7 +198,7 @@ function SideMenu(props) {
                 </TouchableOpacity>
 
 
-                <TouchableOpacity onPress={() => props.navigation.navigate('Register3')} style={[styles.profile_sec, styles.profile]}>
+                <TouchableOpacity onPress={() => props.navigation.navigate('UploadDocument')} style={[styles.profile_sec, styles.profile]}>
                     <View>
                         <MaterialCommunityIcons name={"file-upload"} size={30} color={Colors.GRAY_LIGHT_4} />
                     </View>
@@ -137,7 +207,7 @@ function SideMenu(props) {
 
 
                 <TouchableOpacity onPress={() => {
-                    if (userDetails.IIN) {
+                    if (userDetails?.IIN) {
                         getList(token)
                         pageActiveKyc.current = true;
                     } else {
@@ -152,7 +222,7 @@ function SideMenu(props) {
 
 
                 <TouchableOpacity onPress={() => {
-                    if (userDetails.IIN) {
+                    if (userDetails?.IIN) {
                         emandateOptions(token)
                         pageActiveEmandate.current = true;
                     } else {
@@ -239,12 +309,54 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.GRAY_LIGHT,
 
     },
+    emaMainbox: {
+        margin: 10,
+        padding: 10,
+    },
+    emaAmc: {
+        fontSize: 18,
+        marginLeft: 15,
+        marginVertical: 10,
+        fontWeight: "bold",
+    },
+    emaMutual_fund: {
+        fontSize: 15,
+        marginVertical: 10,
+    },
+    emaCancel: {
+        fontSize: 15,
+        marginTop: 15,
+        color: Colors.RED,
+    },
+    mainbox: {
+        padding: 10,
+    },
+    amc: {
+        fontSize: 18,
+        fontWeight: "bold",
+        marginBottom: 20,
+    },
+    inputsec: {
+        borderBottomWidth: 1,
+        borderColor: Colors.GRAY_LIGHT,
+        width: '95%',
+        marginTop: 5,
+    },
+    refreshcode: {
+        textAlign: "right",
+        color: Colors.RED,
+        fontSize: 15,
+        marginHorizontal: 10,
+        marginVertical: 20,
+    },
+
 })
 
 const mapStateToProps = (state) => ({
     token: state.auth.token,
     steps: state.home.steps,
     docs: state.registration.documents,
+    usersDetails: state.home.user,
     userDetails: state.auth.user,
     isFetchingEkyc: state.ekyc.isFetching,
     kycLists: state.ekyc.kycLists,

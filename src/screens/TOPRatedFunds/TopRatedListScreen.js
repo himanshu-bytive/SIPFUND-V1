@@ -18,7 +18,7 @@ import { Ionicons, AntDesign, Entypo, FontAwesome5 } from 'react-native-vector-i
 import { Image, Header, CheckBox } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
 
-function TopratedFunds5Screen(props) {
+function TopRatedListScreen(props) {
 
     const [selectTab, setSelectTab] = useState('SIP');
     const toggleTab = (value) => {
@@ -94,8 +94,8 @@ function TopratedFunds5Screen(props) {
                 <FundType onPress={() => props.navigation.navigate('FundsDetails')} />
 
             </ScrollView>
-            <TouchableOpacity onPress={() => props.navigation.navigate('Toprated3')}><Text style={styles.more_funds}>I would like to add more funds</Text></TouchableOpacity>
-            <TouchableOpacity onPress={() => props.navigation.navigate('Toprated4')} style={styles.botton_box}>
+            <TouchableOpacity onPress={() => props.navigation.navigate('TopRatedSearch')}><Text style={styles.more_funds}>I would like to add more funds</Text></TouchableOpacity>
+            <TouchableOpacity onPress={() => props.navigation.navigate('TopRatedSubmit')} style={styles.botton_box}>
                 <Text style={styles.get_otp}>NEXT</Text>
             </TouchableOpacity>
 
@@ -230,4 +230,4 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
         logOut: () => { AuthActions.logOut(dispatch) },
     }
 }
-export default connect(mapStateToProps, undefined, mapDispatchToProps)(TopratedFunds5Screen)
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(TopRatedListScreen)

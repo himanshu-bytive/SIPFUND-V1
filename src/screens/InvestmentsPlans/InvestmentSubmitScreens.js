@@ -8,18 +8,16 @@ import {
     Text,
     Dimensions,
     KeyboardAvoidingView,
-    TextInput,
+    ScrollView,
     ActivityIndicator
 } from "react-native";
 import { connect } from 'react-redux'
 import { Styles, Config, Colors, FormValidate } from '../../common'
-import SvgUri from "expo-svg-uri";
+import { MyImage } from '../../components'
 import { Ionicons, AntDesign, EvilIcons, Entypo, FontAwesome5 } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
-import { ScrollView } from "react-native-gesture-handler";
-import { color } from "react-native-elements/dist/helpers";
 
-function Investment7Screens(props) {
+function InvestmentSubmitScreens(props) {
     const pageActive = useRef(false);
     const { investment, configs, isFetching } = props
     return (
@@ -38,11 +36,12 @@ function Investment7Screens(props) {
             <ScrollView>
                 <View style={styles.education}>
                     <View style={styles.child_sec}>
-                        <SvgUri
-                            width="112"
-                            height="118"
-                            source={{ uri: investment.planImagePath }}
-                        />
+                    <MyImage
+                           width="112"
+                           height="118"
+                        svg={true}
+                        url={investment.planImagePath }
+                    />
                     </View>
                     <View style={styles.education_sec}>
                         <Text style={styles.child}>Summary</Text>
@@ -249,4 +248,4 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
         investmentConfig: (data) => { InvestmentPlanActions.investmentConfig(dispatch, data) },
     }
 }
-export default connect(mapStateToProps, undefined, mapDispatchToProps)(Investment7Screens)
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(InvestmentSubmitScreens)

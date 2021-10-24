@@ -17,7 +17,7 @@ import { connect } from 'react-redux'
 import { Styles, Config, Colors, FormValidate } from '../../common'
 import { Entypo, AntDesign } from 'react-native-vector-icons';
 import { Header, Overlay } from 'react-native-elements';
-import Investments from '../../components/Investments'
+
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
@@ -30,7 +30,7 @@ const investmentData = [
     { title: 'Aggressive Funds', image: require('../../../assets/term6.png') },
 ]
 
-function HamburgerMenu4Screen(props) {
+function TransactionHistoryScreen(props) {
 
     const [visible, setVisible] = useState(false);
 
@@ -309,4 +309,4 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
         logOut: () => { AuthActions.logOut(dispatch) },
     }
 }
-export default connect(mapStateToProps, undefined, mapDispatchToProps)(HamburgerMenu4Screen)
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(TransactionHistoryScreen)

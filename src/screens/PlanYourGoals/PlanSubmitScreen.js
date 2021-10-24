@@ -13,20 +13,20 @@ import {
 } from "react-native";
 import { connect } from 'react-redux'
 import { Styles, Config, Colors, FormValidate } from '../../common'
-import SvgUri from "expo-svg-uri";
+import { MyImage } from '../../components'
 import { Ionicons, AntDesign, EvilIcons, Entypo, FontAwesome5 } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
 
-function Investment2Screens(props) {
+function PlanSubmitScreen(props) {
     const pageActive = useRef(false);
-    const { investment,isFetching } = props
+    const { token, goalDetail, isFetching } = props;
 
     return (
         <View style={styles.container}>
             <Header
                 leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={40} color={Colors.RED} /></TouchableOpacity>}
-                containerStyle={Styles.header}
+                containerStyle={styles.header}
                 backgroundColor={Colors.LIGHT_WHITE}
                 centerComponent={<Image
                     source={require('../../../assets/icon.png')}
@@ -39,90 +39,102 @@ function Investment2Screens(props) {
             </View>)}
             <ScrollView>
                 <View style={styles.education}>
-                    <View style={styles.education_sec}>
-                        <Text style={styles.child}>{investment.investmentPlan}</Text>
-                        <Text style={styles.child_text}>Recommendations</Text>
-                        <View style={styles.childbottom}>
-                            <Image
-                                source={require('../../../assets/sf.png')}
-                                style={styles.sf}
-                            />
-                            {investment.planRecommandations && (investment.planRecommandations.map((item, key) => <Text key={key} style={styles.far}>{item.recommandationName}</Text>))}
-                        </View>
-                    </View>
                     <View style={styles.child_sec}>
-                        <SvgUri
-                            width="145"
-                            height="145"
-                            source={{ uri: investment.planImagePath }}
-                        />
+                    <MyImage
+                         width="117"
+                         height="117"
+                        svg={true}
+                        url={goalDetail.goalImagePath }
+                    />
+                    </View>
+                    <View style={styles.education_sec}>
+                        <Text style={styles.child}>Summary</Text>
+                        <Text style={styles.child_text}>{goalDetail.goalDescription}</Text>
+                        <Text style={styles.child_master}>Master Vijay Deshmukh</Text>
                     </View>
                 </View>
 
-                <View style={styles.box_sec}>
-                    <Text style={styles.year}>Benefits</Text>
-                    {investment.planBenefits && (investment.planBenefits.map((item, key) => <View key={key} style={styles.childbottom}>
-                        <Image
-                            source={require('../../../assets/sf.png')}
-                            style={styles.sf}
-                        />
-                        <Text style={styles.beat}>{item.benefitName}</Text>
-                    </View>))}
+                <Text style={styles.mygoal}>My Goal : <Text style={styles.my_goal}>{goalDetail.goal}</Text></Text>
+
+                <View style={styles.fund_sec}>
+                    <Text style={styles.fund_secleft}>Fund List</Text>
+                    <Text style={styles.fund_secright}>16,000</Text>
                 </View>
 
-                <Text style={styles.recomned}>Funds recommended for you</Text>
-                {investment.schemes && (investment.schemes.map((item, key) => {
-                    return (item != 'NA') && (<View key={key} style={styles.sbi_sec}>
-                        <Image
-                            source={{ uri: item.schemes.imagePath }}
-                            style={styles.Hybrid}
-                        />
-                        <Text style={styles.sbi_text}>{item.schemes.name}</Text>
-                    </View>)
-                }))}
+                {goalDetail && (goalDetail.schemesInfo.map((item, key) => {
+                    if (item.schemeInfo != 'NA') {
+                        return <View key={key} style={styles.sbi_sec}>
+                            <Image
+                                source={{ uri: item.schemeInfo.imagePath }}
+                                style={styles.Hybrid}
+                            />
+                            <Text style={styles.sbi_text}>{item.schemeInfo.name}</Text>
+                            <Text style={styles.price}>5,000</Text>
+                        </View>
+                    }
+                }
+                ))}
+                <TouchableOpacity onPress={() => props.navigation.navigate('Home')}><Text style={styles.add}>Add another child’s education plan</Text></TouchableOpacity>
+                <TouchableOpacity onPress={() => props.navigation.navigate('Upi')} style={styles.botton_box}>
+                    <Text style={styles.get_otp}>START GOAL</Text>
+                </TouchableOpacity>
+
             </ScrollView>
-            <TouchableOpacity onPress={() => props.navigation.navigate('Invest3')} style={styles.botton_box}>
-                <Text style={styles.get_otp}>NEXT</Text>
-            </TouchableOpacity>
         </View>
     );
 }
 
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: Colors.WHITE
     },
     logimg: {
         height: 65,
         width: 203,
         marginTop: 10,
     },
+
+    header: {
+        borderBottomColor: Colors.BLACK,
+        borderBottomWidth: 1,
+    },
     education: {
         flexDirection: "row",
-        padding: 20,
+        marginHorizontal: 10,
+        padding: 10,
+
+
+
+
     },
     education_sec: {
-        width: '60%',
+        width: '70%',
         paddingTop: 20,
 
     },
     goals_2: {
-        height: 145,
-        width: 145,
+        height: 117,
+        width: 126,
 
     },
     child: {
-        fontSize: 22,
+        fontSize: 18,
+        paddingLeft: 20,
+        color: Colors.DEEP_GRAY,
+    },
+    child_master: {
+        fontSize: 16,
+        paddingLeft: 20,
+        color: Colors.DEEP_GRAY,
         fontWeight: "bold",
-        color: Colors.RED,
     },
     child_text: {
         fontSize: 18,
-        color: Colors.DEEP_GRAY,
+        color: Colors.RED,
         paddingVertical: 10,
+        paddingLeft: 20,
         fontWeight: "bold",
-        marginTop: 50,
     },
     formsec: {
         flexDirection: "row",
@@ -145,38 +157,38 @@ const styles = StyleSheet.create({
     sbi_sec:
     {
         flexDirection: "row",
-        marginHorizontal: 20,
+        marginHorizontal: 10,
+        borderBottomWidth: 1,
         borderColor: Colors.DEEP_GRAY,
         paddingBottom: 10,
-        marginVertical: 6,
+        marginVertical: 5,
     },
     Hybrid: {
         width: 32,
         height: 36,
-
     },
     sbi_text: {
         marginLeft: 10,
-        paddingTop: 0,
         fontSize: 15,
+        width: '75%'
     },
     price: {
-        position: "absolute",
-        right: 0,
         paddingTop: 10,
         fontSize: 15,
+        paddingRight: 10,
+        fontWeight: "bold",
     },
     fund_sec: {
         flexDirection: "row",
         backgroundColor: Colors.LIGHT_GRAY,
-        marginHorizontal: 20,
+        marginHorizontal: 10,
         paddingVertical: 10,
-        paddingHorizontal: 10,
+        paddingHorizontal: 5,
     },
     fund_secright: {
         position: "absolute",
         right: 0,
-        fontSize: 18,
+        fontSize: 15,
         fontWeight: "bold",
         paddingTop: 10,
         paddingRight: 10,
@@ -191,24 +203,26 @@ const styles = StyleSheet.create({
         marginHorizontal: 20,
         color: Colors.RED,
         marginBottom: 20,
+        marginTop: 40,
     },
     my_goal: {
         color: Colors.DEEP_GRAY,
-        fontWeight: "normal"
+        fontWeight: "bold",
+
+
     },
     add: {
-        marginVertical: 20,
+        marginVertical: 10,
         textAlign: "center",
         color: Colors.RED,
         fontSize: 18,
     },
     botton_box: {
-
         backgroundColor: Colors.RED,
         marginHorizontal: 30,
         marginVertical: 20,
         borderWidth: 1,
-        borderRadius: 10,
+        borderRadius: 5,
         borderColor: Colors.DEEP_GRAY,
         paddingVertical: 10,
     },
@@ -219,62 +233,22 @@ const styles = StyleSheet.create({
         textAlign: "center",
 
     },
-    childbottom: {
-        flexDirection: "row",
-        paddingLeft: 20,
-        paddingVertical: 15,
-    },
-
-    sf: {
-        width: 16,
-        height: 16,
-        marginTop: 3,
-    },
-    far: {
-        fontSize: 15,
-        paddingLeft: 10,
-    },
-
-    year: {
-        fontSize: 18,
-        paddingLeft: 10,
-        color: Colors.DEEP_GRAY,
-        fontWeight: "bold",
-
-    },
-    beat: {
-        fontSize: 15,
-        paddingLeft: 10,
-    },
-    box_sec: {
-        backgroundColor: Colors.LIGHT_WHITE,
-        paddingVertical: 15,
-        paddingHorizontal: 10,
-        marginHorizontal: 20,
-        borderRadius: 10
-    },
-    recomned: {
-        fontSize: 18,
-        fontWeight: "bold",
-        color: Colors.DEEP_GRAY,
-        paddingLeft: 20, marginVertical: 20,
-    },
 
 });
 const mapStateToProps = (state) => ({
     token: state.auth.token,
     users: state.auth.users,
-    isFetching: state.investmentplan.isFetching,
-    investment: state.investmentplan.investment,
+    isFetching: state.goals.isFetching,
+    goalDetail: state.goals.goalDetail,
 })
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     const { dispatch } = dispatchProps;
-    const { InvestmentPlanActions } = require('../../store/InvestmentPlanRedux')
+    const { GoalsActions } = require('../../store/GoalsRedux')
     return {
         ...stateProps,
         ...ownProps,
-        investmentPlans: (params, token) => { InvestmentPlanActions.investmentPlans(dispatch, params, token) },
+        singleDetails: (params, token) => { GoalsActions.singleDetails(dispatch, params, token) },
     }
 }
-export default connect(mapStateToProps, undefined, mapDispatchToProps)(Investment2Screens)
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(PlanSubmitScreen)

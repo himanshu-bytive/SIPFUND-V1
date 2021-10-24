@@ -13,12 +13,12 @@ import {
 } from "react-native";
 import { connect } from 'react-redux'
 import { Styles, Config, Colors, FormValidate } from '../../common'
-import SvgUri from "expo-svg-uri";
+import { MyImage} from '../../components'
 import { Ionicons, AntDesign, EvilIcons, Entypo, FontAwesome5 } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
 
-function Investment3Screens(props) {
+function AddInvestmentScreens(props) {
     const investInput = useRef(null);
     const pageActive = useRef(false);
     const { investment, isFetching, investmentConfig } = props
@@ -40,7 +40,7 @@ function Investment3Screens(props) {
     const submitForm = () => {
         let params = { invest }
         investmentConfig(params)
-        props.navigation.navigate('Invest4')
+        props.navigation.navigate('InvestmentList')
     };
 
     return (
@@ -66,11 +66,12 @@ function Investment3Screens(props) {
 
                     </View>
                     <View style={styles.child_sec}>
-                        <SvgUri
-                            width="145"
-                            height="145"
-                            source={{ uri: investment.planImagePath }}
-                        />
+                    <MyImage
+                          width="145"
+                          height="145"
+                        svg={true}
+                        url={investment.planImagePath }
+                    />
                     </View>
                 </View>
                 {/* button */}
@@ -296,4 +297,4 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
         investmentConfig: (data) => { InvestmentPlanActions.investmentConfig(dispatch, data) },
     }
 }
-export default connect(mapStateToProps, undefined, mapDispatchToProps)(Investment3Screens)
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(AddInvestmentScreens)

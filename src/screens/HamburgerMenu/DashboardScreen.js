@@ -17,7 +17,7 @@ import { connect } from 'react-redux'
 import { Styles, Config, Colors, FormValidate } from '../../common'
 import { Entypo, AntDesign } from 'react-native-vector-icons';
 import { Header, Overlay } from 'react-native-elements';
-import Investments from '../../components/Investments'
+
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
@@ -59,10 +59,8 @@ function DashboardScreen(props) {
 
 
                 {/* Transaction section */}
-
                 <View style={styles.history_sec}>
-
-                    <TouchableOpacity onPress={() => props.navigation.navigate('hamburgermenu2')}>
+                    <TouchableOpacity onPress={() => props.navigation.navigate('Switch')}>
                         <View style={styles.Switch_sec}>
                             <View style={styles.box}>
                                 <Image
@@ -75,48 +73,48 @@ function DashboardScreen(props) {
                         </View>
                     </TouchableOpacity>
 
-                    <TouchableOpacity onPress={() => props.navigation.navigate('hamburgermenu2')}>
-                    <View style={styles.Switch_sec}>
-                        <View style={styles.box}>
-                            <Image
-                                source={require('../../../assets/mutual_6.png')}
-                                style={styles.fundsmg}
-                            />
+                    <TouchableOpacity onPress={() => props.navigation.navigate('Switch')}>
+                        <View style={styles.Switch_sec}>
+                            <View style={styles.box}>
+                                <Image
+                                    source={require('../../../assets/mutual_6.png')}
+                                    style={styles.fundsmg}
+                                />
 
+                            </View>
+                            <Text style={styles.transaction}>Redeem</Text>
                         </View>
-                        <Text style={styles.transaction}>Redeem</Text>
-                    </View>
                     </TouchableOpacity>
 
-                    <TouchableOpacity onPress={() => props.navigation.navigate('hamburgermenu4')}>
-                    <View style={styles.Switch_sec}>
+                    <TouchableOpacity onPress={() => props.navigation.navigate('TransactionHistory')}>
+                        <View style={styles.Switch_sec}>
 
-                        <View style={styles.box}>
-                            <Image
-                                source={require('../../../assets/mutual_9.png')}
-                                style={styles.fundsmg}
-                            />
+                            <View style={styles.box}>
+                                <Image
+                                    source={require('../../../assets/mutual_9.png')}
+                                    style={styles.fundsmg}
+                                />
 
+                            </View>
+                            <Text style={styles.transaction}>Transaction {'\n'}History</Text>
                         </View>
-                        <Text style={styles.transaction}>Transaction {'\n'}History</Text>
-                    </View>
                     </TouchableOpacity>
 
-                    
+
 
                 </View>
                 <View style={styles.history_sec2}>
-                <TouchableOpacity onPress={() => props.navigation.navigate('Goals7')}>
-                    <View style={styles.Switch_sec}>
-                        <View style={styles.box}>
-                            <Image
-                                source={require('../../../assets/choice.png')}
-                                style={styles.fundsmg}
-                            />
+                    <TouchableOpacity onPress={() => props.navigation.navigate('Goals7')}>
+                        <View style={styles.Switch_sec}>
+                            <View style={styles.box}>
+                                <Image
+                                    source={require('../../../assets/choice.png')}
+                                    style={styles.fundsmg}
+                                />
 
+                            </View>
+                            <Text style={styles.transaction}>Own{'\n'} Choice</Text>
                         </View>
-                        <Text style={styles.transaction}>Own{'\n'} Choice</Text>
-                    </View>
                     </TouchableOpacity>
                 </View>
 
@@ -129,45 +127,34 @@ function DashboardScreen(props) {
 
                 <View style={styles.holdings_sec}>
 
-                <TouchableOpacity onPress={() => props.navigation.navigate('HamburgerMenu5')}>
-                    <View style={styles.Switch_sec}>
+                    <TouchableOpacity onPress={() => props.navigation.navigate('Holdings')}>
+                        <View style={styles.Switch_sec}>
 
-                        <View style={styles.box}>
-                            <Image
-                                source={require('../../../assets/mutual_7.png')}
-                                style={styles.fundsmg}
-                            />
+                            <View style={styles.box}>
+                                <Image
+                                    source={require('../../../assets/mutual_7.png')}
+                                    style={styles.fundsmg}
+                                />
+
+                            </View>
+                            <Text style={styles.transaction}>Holdings</Text>
 
                         </View>
-                        <Text style={styles.transaction}>Holdings</Text>
-
-                    </View>
                     </TouchableOpacity>
 
-                    <TouchableOpacity onPress={() => props.navigation.navigate('HamburgerMenu5Tab')}>
-                    <View style={styles.Switch_sec}>
-                        <View style={styles.box}>
-                            <Image
-                                source={require('../../../assets/mutual_8.png')}
-                                style={styles.fundsmg}
-                            />
+                    <TouchableOpacity onPress={() => props.navigation.navigate('ExternalHolding')}>
+                        <View style={styles.Switch_sec}>
+                            <View style={styles.box}>
+                                <Image
+                                    source={require('../../../assets/mutual_8.png')}
+                                    style={styles.fundsmg}
+                                />
 
+                            </View>
+                            <Text style={styles.transaction}>External</Text>
                         </View>
-                        <Text style={styles.transaction}>External</Text>
-                    </View>
-</TouchableOpacity>
+                    </TouchableOpacity>
                 </View>
-
-
-
-
-
-
-
-
-
-
-
             </ScrollView>
 
 

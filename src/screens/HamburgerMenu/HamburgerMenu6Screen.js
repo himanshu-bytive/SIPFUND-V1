@@ -17,7 +17,7 @@ import { connect } from 'react-redux'
 import { Styles, Config, Colors, FormValidate } from '../../common'
 import { Entypo, AntDesign } from 'react-native-vector-icons';
 import { Header, Overlay } from 'react-native-elements';
-import Investments from '../../components/Investments'
+
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 

@@ -17,7 +17,7 @@ import { connect } from 'react-redux'
 import { Styles, Config, Colors, FormValidate } from '../../common'
 import { Entypo, AntDesign } from 'react-native-vector-icons';
 import { Header, Overlay, CheckBox } from 'react-native-elements';
-import Investments from '../../components/Investments'
+
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
@@ -26,7 +26,7 @@ const mutualfund = [
     { title: 'Axis Treasury Advantage Fund - Growth', text: 'Folio', number: '91075739541', text1: 'Units', number1: '9.211', text2: 'Value', number2: '22372.87', text3: 'Switch To', text4: 'Select Scheme', button: 'ADD', },
 ]
 
-function HamburgerMenu2Screen(props) {
+function SwitchScreen(props) {
 
     const [selectTab, setSelectTab] = useState('SWITCH');
     const toggleTab = (value) => {
@@ -261,4 +261,4 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
         logOut: () => { AuthActions.logOut(dispatch) },
     }
 }
-export default connect(mapStateToProps, undefined, mapDispatchToProps)(HamburgerMenu2Screen)
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(SwitchScreen)

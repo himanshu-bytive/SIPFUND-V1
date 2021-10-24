@@ -4,8 +4,9 @@ import MyDatePicker from './MyDatePicker'
 import MyTextInput from './MyTextInput'
 import MyImagePicker from './MyImagePicker'
 import ProfileImagePicker from './ProfileImagePicker'
+import MyImage from './MyImage'
 import MySlider from './MySlider'
-import Investments from './Investments'
+import InvestmentLists from './InvestmentLists'
 import FundType from './FundType'
 import HoldingFundType from './HoldingFundType'
 import PlanYourGoalFundType from './PlanYourGoalFundType'
@@ -19,8 +20,9 @@ export {
     MyTextInput,
     MyImagePicker,
     ProfileImagePicker,
+    MyImage,
     MySlider,
-    Investments,
+    InvestmentLists,
     FundType,
     HoldingFundType,
     PlanYourGoalFundType,

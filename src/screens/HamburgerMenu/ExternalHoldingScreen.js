@@ -17,7 +17,7 @@ import { connect } from 'react-redux'
 import { Styles, Config, Colors, FormValidate } from '../../common'
 import { Entypo, AntDesign } from 'react-native-vector-icons';
 import { Header, Overlay } from 'react-native-elements';
-import Investments from '../../components/Investments'
+
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
@@ -30,7 +30,7 @@ const investmentData = [
     { title: 'Aggressive Funds', image: require('../../../assets/term6.png') },
 ]
 
-function HamburgerMenu5Screen(props) {
+function HoldingsScreen(props) {
 
     const [visible, setVisible] = useState(false);
 
@@ -52,8 +52,8 @@ function HamburgerMenu5Screen(props) {
             />
             <ScrollView style={styles.containerScroll}>
 
-               
-                
+
+
 
 
                 {/* External Holding_ tab sec */}
@@ -141,25 +141,23 @@ function HamburgerMenu5Screen(props) {
                         </View>
                     </View>
 
-                    
                     {/* External Holding_ end */}
                 </View>
             </ScrollView>
             <View style={styles.bottonsec}>
-                        <TouchableOpacity style={styles.botton_box}>
-                            <Text style={styles.proceed}>DOWNLOAD YOUR STATEMENT</Text>
-                        </TouchableOpacity>
+                <TouchableOpacity style={styles.botton_box}>
+                    <Text style={styles.proceed}>DOWNLOAD YOUR STATEMENT</Text>
+                </TouchableOpacity>
+                <View style={styles.footer_box}>
+                    <TouchableOpacity onPress={() => props.navigation.navigate('Holdings')} style={styles.botton_box2}>
+                        <Text style={styles.proceed}>ADD HOLDING</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.botton_box2}>
+                        <Text style={styles.proceed}>ADD HOLDING PDF</Text>
+                    </TouchableOpacity>
 
-                        <View style={styles.footer_box}>
-                            <TouchableOpacity onPress={() => props.navigation.navigate('HamburgerMenu7')} style={styles.botton_box2}>
-                                <Text style={styles.proceed}>ADD HOLDING</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity style={styles.botton_box2}>
-                                <Text style={styles.proceed}>ADD HOLDING PDF</Text>
-                            </TouchableOpacity>
-
-                        </View>
-                    </View>
+                </View>
+            </View>
 
 
         </View>
@@ -168,8 +166,9 @@ function HamburgerMenu5Screen(props) {
 
 
 const styles = StyleSheet.create({
-    container: { flex: 1, 
-        backgroundColor:'#D3D6DB'
+    container: {
+        flex: 1,
+        backgroundColor: '#D3D6DB'
     },
 
     logimg: {
@@ -298,7 +297,7 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.RED,
         paddingVertical: 20,
     },
-    bottonsec:{marginBottom:10},
+    bottonsec: { marginBottom: 10 },
 
 
 });
@@ -317,4 +316,4 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
         logOut: () => { AuthActions.logOut(dispatch) },
     }
 }
-export default connect(mapStateToProps, undefined, mapDispatchToProps)(HamburgerMenu5Screen)
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(HoldingsScreen)

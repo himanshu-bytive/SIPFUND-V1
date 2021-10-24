@@ -12,19 +12,19 @@ import {
     ActivityIndicator
 } from "react-native";
 import { connect } from 'react-redux'
-import SvgUri from "expo-svg-uri";
 import { Styles, Config, Colors, FormValidate } from '../../common'
 import { Ionicons, AntDesign, EvilIcons, Entypo, FontAwesome5 } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
 import { color } from "react-native-elements/dist/helpers";
 
-function Plan5(props) {
-    const pageActive = useRef(false);
-    const { token, goalDetail, isFetching } = props;
+function TopRatedSubmitScreen(props) {
 
     return (
+
+
         <View style={styles.container}>
+
             <Header
                 leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={40} color={Colors.RED} /></TouchableOpacity>}
                 containerStyle={styles.header}
@@ -35,60 +35,93 @@ function Plan5(props) {
                 />}
                 rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={Colors.RED} /></View>}
             />
-            {isFetching && (<View style={Styles.loading}>
-                <ActivityIndicator color={Colors.BLACK} size='large' />
-            </View>)}
+
             <ScrollView>
                 <View style={styles.education}>
                     <View style={styles.child_sec}>
-                        <SvgUri
-                            width="117"
-                            height="117"
-                            source={{ uri: goalDetail.goalImagePath }}
+                        <Image
+                            source={require('../../../assets/term7.png')}
+                            style={styles.goals_2}
                         />
                     </View>
                     <View style={styles.education_sec}>
                         <Text style={styles.child}>Summary</Text>
-                        <Text style={styles.child_text}>{goalDetail.goalDescription}</Text>
-                        <Text style={styles.child_master}>Master Vijay Deshmukh</Text>
+                        <Text style={styles.child_text}>Top Rated Funds</Text>
+                        
                     </View>
+
+
                 </View>
 
-                <Text style={styles.mygoal}>My Goal : <Text style={styles.my_goal}>{goalDetail.goal}</Text></Text>
+                <Text style={styles.mygoal}>My Investment</Text>
 
                 <View style={styles.fund_sec}>
                     <Text style={styles.fund_secleft}>Fund List</Text>
                     <Text style={styles.fund_secright}>16,000</Text>
                 </View>
 
-                {goalDetail && (goalDetail.schemesInfo.map((item, key) => {
-                    if (item.schemeInfo != 'NA') {
-                        return <View key={key} style={styles.sbi_sec}>
-                            <Image
-                                source={{ uri: item.schemeInfo.imagePath }}
-                                style={styles.Hybrid}
-                            />
-                            <Text style={styles.sbi_text}>{item.schemeInfo.name}</Text>
-                            <Text style={styles.price}>5,000</Text>
-                        </View>
-                    }
-                }
-                ))}
-                <TouchableOpacity onPress={() => props.navigation.navigate('Home')}><Text style={styles.add}>Add another child’s education plan</Text></TouchableOpacity>
-                <TouchableOpacity onPress={() => props.navigation.navigate('Upi')} style={styles.botton_box}>
-                    <Text style={styles.get_otp}>START GOAL</Text>
+                {/* Axis Asset Management Company Ltd */}
 
-                </TouchableOpacity>
+                <View style={styles.sbi_sec}>
+                    <Image
+                        source={require('../../../assets/axis_img.png')}
+                        style={styles.Hybrid}
+                    />
+                    <Text style={styles.sbi_text}>SBI Equity Hybrid Fund</Text>
+                    <Text style={styles.price}>5,000</Text>
+                </View>
 
+                <View style={styles.sbi_sec}>
+                    <Image
+                        source={require('../../../assets/axis_img.png')}
+                        style={styles.Hybrid}
+                    />
+                    <Text style={styles.sbi_text}>Axis Asset Management Company Ltd</Text>
+                    <Text style={styles.price}>4,000</Text>
+                </View>
+
+                <View style={styles.sbi_sec}>
+                    <Image
+                        source={require('../../../assets/MultiCap_img.png')}
+                        style={styles.Hybrid}
+                    />
+                    <Text style={styles.sbi_text}>Kotak Standard Multicap Fund</Text>
+                    <Text style={styles.price}>3,000</Text>
+                </View>
+
+                <View style={styles.sbi_sec}>
+                    <Image
+                        source={require('../../../assets/MidCap_img.png')}
+                        style={styles.Hybrid}
+                    />
+                    <Text style={styles.sbi_text}>BNP Paribas Mid Cap Fund</Text>
+                    <Text style={styles.price}>4,000</Text>
+                </View>
+               
             </ScrollView>
+
+            <TouchableOpacity onPress={() => props.navigation.navigate('Upi')} style={styles.botton_box}>
+                    <Text style={styles.get_otp}>MAKE PAYMENT</Text>
+
+            </TouchableOpacity>
         </View>
+
+
     );
 }
+
+
+
+
+
+
+
+
+
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: Colors.WHITE
     },
     logimg: {
         height: 65,
@@ -100,41 +133,34 @@ const styles = StyleSheet.create({
         borderBottomColor: Colors.BLACK,
         borderBottomWidth: 1,
     },
+
+
     education: {
         flexDirection: "row",
-        marginHorizontal: 10,
-        padding: 10,
-
-
-
+        marginHorizontal: 20,
+        padding: 20,
 
     },
+    child_sec:{ width: '30%',},
     education_sec: {
         width: '70%',
-        paddingTop: 20,
+        marginLeft:30,
+        paddingTop:15,
 
     },
     goals_2: {
-        height: 117,
-        width: 126,
+        height: 102,
+        width: 105,
 
     },
     child: {
         fontSize: 18,
-        paddingLeft: 20,
         color: Colors.DEEP_GRAY,
-    },
-    child_master: {
-        fontSize: 16,
-        paddingLeft: 20,
-        color: Colors.DEEP_GRAY,
-        fontWeight: "bold",
     },
     child_text: {
         fontSize: 18,
         color: Colors.RED,
-        paddingVertical: 10,
-        paddingLeft: 20,
+        paddingVertical: 8,
         fontWeight: "bold",
     },
     formsec: {
@@ -158,7 +184,7 @@ const styles = StyleSheet.create({
     sbi_sec:
     {
         flexDirection: "row",
-        marginHorizontal: 10,
+        marginHorizontal: 20,
         borderBottomWidth: 1,
         borderColor: Colors.DEEP_GRAY,
         paddingBottom: 10,
@@ -167,29 +193,31 @@ const styles = StyleSheet.create({
     Hybrid: {
         width: 32,
         height: 36,
+
     },
     sbi_text: {
         marginLeft: 10,
-        fontSize: 15,
-        width: '75%'
-    },
-    price: {
         paddingTop: 10,
         fontSize: 15,
-        paddingRight: 10,
-        fontWeight: "bold",
+    },
+    price: {
+        position: "absolute",
+        right: 0,
+        paddingTop: 10,
+        fontSize: 15,
+        fontWeight:"bold",
     },
     fund_sec: {
         flexDirection: "row",
         backgroundColor: Colors.LIGHT_GRAY,
-        marginHorizontal: 10,
+        marginHorizontal: 20,
         paddingVertical: 10,
-        paddingHorizontal: 5,
+        paddingHorizontal: 10,
     },
     fund_secright: {
         position: "absolute",
         right: 0,
-        fontSize: 15,
+        fontSize: 18,
         fontWeight: "bold",
         paddingTop: 10,
         paddingRight: 10,
@@ -204,26 +232,25 @@ const styles = StyleSheet.create({
         marginHorizontal: 20,
         color: Colors.RED,
         marginBottom: 20,
-        marginTop: 40,
+        paddingTop:60,
     },
     my_goal: {
         color: Colors.DEEP_GRAY,
-        fontWeight: "bold",
-
-
+        fontWeight: "normal"
     },
     add: {
-        marginVertical: 10,
+        marginVertical: 20,
         textAlign: "center",
         color: Colors.RED,
         fontSize: 18,
     },
     botton_box: {
+
         backgroundColor: Colors.RED,
         marginHorizontal: 30,
-        marginVertical: 20,
+       marginBottom:10,
         borderWidth: 1,
-        borderRadius: 5,
+        borderRadius: 10,
         borderColor: Colors.DEEP_GRAY,
         paddingVertical: 10,
     },
@@ -234,22 +261,33 @@ const styles = StyleSheet.create({
         textAlign: "center",
 
     },
+    childbottom: {
+        flexDirection: "row",
+        paddingLeft: 20,
+    },
+
+    sf: {
+        width: 16,
+        height: 16,
+    },
+    year: {
+        fontSize: 15,
+        paddingLeft: 10,
+    },
 
 });
 const mapStateToProps = (state) => ({
     token: state.auth.token,
     users: state.auth.users,
-    isFetching: state.goals.isFetching,
-    goalDetail: state.goals.goalDetail,
 })
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     const { dispatch } = dispatchProps;
-    const { GoalsActions } = require('../../store/GoalsRedux')
+    const { AuthActions } = require('../../store/AuthRedux')
     return {
         ...stateProps,
         ...ownProps,
-        singleDetails: (params, token) => { GoalsActions.singleDetails(dispatch, params, token) },
+        logOut: () => { AuthActions.logOut(dispatch) },
     }
 }
-export default connect(mapStateToProps, undefined, mapDispatchToProps)(Plan5)
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(TopRatedSubmitScreen)

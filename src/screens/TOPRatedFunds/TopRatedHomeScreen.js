@@ -27,7 +27,7 @@ const roted = [
     { images: require('../../../assets/bioaxa.png'), text: 'BOI AXA Investment Managers Pr…', text2: 'Moderately High Risk', button: 'INVEST', mintext: 'Min. Investment', maxtext: '1000', aumtext: 'AUM', aumtext2: '2097 Cr', returntext: 'Ruturns', returntext2: '16.0%', },
 ]
 
-function TopRatedScreen(props) {
+function TopRatedHomeScreen(props) {
     const { isFetching, token, getAllcategorys, getDetails, category, details } = props;
 
     useEffect(() => {
@@ -81,7 +81,7 @@ function TopRatedScreen(props) {
                     source={require('../../../assets/icon.png')}
                     style={styles.logimg}
                 />}
-                rightComponent={<TouchableOpacity onPress={() => props.navigation.navigate('Toprated2')} style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={Colors.RED} /></TouchableOpacity>}
+                rightComponent={<TouchableOpacity onPress={() => props.navigation.navigate('TopRatedList')} style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={Colors.RED} /></TouchableOpacity>}
             />
             {isFetching && (<View style={Styles.loading}>
                 <ActivityIndicator color={Colors.BLACK} size='large' />
@@ -259,7 +259,6 @@ function TopRatedScreen(props) {
 
                 </View>
             </Overlay>
-
         </View>
     );
 }
@@ -444,4 +443,4 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
         getDetails: (params, token) => { TopRatedActions.getDetails(dispatch, params, token) },
     }
 }
-export default connect(mapStateToProps, undefined, mapDispatchToProps)(TopRatedScreen)
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(TopRatedHomeScreen)

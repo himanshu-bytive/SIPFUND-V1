@@ -17,7 +17,7 @@ import { connect } from 'react-redux'
 import { Styles, Config, Colors, FormValidate } from '../../common'
 import { Entypo, AntDesign } from 'react-native-vector-icons';
 import { Header, Overlay } from 'react-native-elements';
-import Investments from '../../components/Investments'
+
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
@@ -105,7 +105,7 @@ function HamburgerMenu7Screen(props) {
                         <TextInput style={styles.top_inpuut} placeholder="10000" style={{ borderBottomWidth: 1, fontSize: 14, borderColor: Colors.RED,}} />
                     </View>
 
-                    <TouchableOpacity onPress={() => props.navigation.navigate('HamburgerMenu5Tab')} style={styles.botton_box}>
+                    <TouchableOpacity onPress={() => props.navigation.navigate('ExternalHolding')} style={styles.botton_box}>
                         <Text style={styles.proceed}>Add To My Holding</Text>
                     </TouchableOpacity>
                 </View>

@@ -16,18 +16,16 @@ import { Styles, Config, Colors, FormValidate } from '../../common'
 import { Ionicons, AntDesign, EvilIcons, Entypo, FontAwesome5 } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
-import { color } from "react-native-elements/dist/helpers";
 
-function TopRoated8Screen(props) {
+function InvestmentDetailScreens(props) {
+    const pageActive = useRef(false);
+    const { investment, isFetching } = props
 
     return (
-
-
         <View style={styles.container}>
-
             <Header
                 leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={40} color={Colors.RED} /></TouchableOpacity>}
-                containerStyle={styles.header}
+                containerStyle={Styles.header}
                 backgroundColor={Colors.LIGHT_WHITE}
                 centerComponent={<Image
                     source={require('../../../assets/icon.png')}
@@ -35,88 +33,60 @@ function TopRoated8Screen(props) {
                 />}
                 rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={Colors.RED} /></View>}
             />
-
+            {isFetching && (<View style={Styles.loading}>
+                <ActivityIndicator color={Colors.BLACK} size='large' />
+            </View>)}
             <ScrollView>
                 <View style={styles.education}>
+                    <View style={styles.education_sec}>
+                        <Text style={styles.child}>{investment.investmentPlan}</Text>
+                        <Text style={styles.child_text}>Recommendations</Text>
+                        <View style={styles.childbottom}>
+                            <Image
+                                source={require('../../../assets/sf.png')}
+                                style={styles.sf}
+                            />
+                            {investment.planRecommandations && (investment.planRecommandations.map((item, key) => <Text key={key} style={styles.far}>{item.recommandationName}</Text>))}
+                        </View>
+                    </View>
                     <View style={styles.child_sec}>
-                        <Image
-                            source={require('../../../assets/term7.png')}
-                            style={styles.goals_2}
+                        <MyImage
+                            width="145"
+                            height="145"
+                            svg={true}
+                            url={investment.planImagePath}
                         />
                     </View>
-                    <View style={styles.education_sec}>
-                        <Text style={styles.child}>Summary</Text>
-                        <Text style={styles.child_text}>Top Rated Funds</Text>
-                        
-                    </View>
-
-
                 </View>
 
-                <Text style={styles.mygoal}>My Investment</Text>
-
-                <View style={styles.fund_sec}>
-                    <Text style={styles.fund_secleft}>Fund List</Text>
-                    <Text style={styles.fund_secright}>16,000</Text>
+                <View style={styles.box_sec}>
+                    <Text style={styles.year}>Benefits</Text>
+                    {investment.planBenefits && (investment.planBenefits.map((item, key) => <View key={key} style={styles.childbottom}>
+                        <Image
+                            source={require('../../../assets/sf.png')}
+                            style={styles.sf}
+                        />
+                        <Text style={styles.beat}>{item.benefitName}</Text>
+                    </View>))}
                 </View>
 
-                {/* Axis Asset Management Company Ltd */}
-
-                <View style={styles.sbi_sec}>
-                    <Image
-                        source={require('../../../assets/axis_img.png')}
-                        style={styles.Hybrid}
-                    />
-                    <Text style={styles.sbi_text}>SBI Equity Hybrid Fund</Text>
-                    <Text style={styles.price}>5,000</Text>
-                </View>
-
-                <View style={styles.sbi_sec}>
-                    <Image
-                        source={require('../../../assets/axis_img.png')}
-                        style={styles.Hybrid}
-                    />
-                    <Text style={styles.sbi_text}>Axis Asset Management Company Ltd</Text>
-                    <Text style={styles.price}>4,000</Text>
-                </View>
-
-                <View style={styles.sbi_sec}>
-                    <Image
-                        source={require('../../../assets/MultiCap_img.png')}
-                        style={styles.Hybrid}
-                    />
-                    <Text style={styles.sbi_text}>Kotak Standard Multicap Fund</Text>
-                    <Text style={styles.price}>3,000</Text>
-                </View>
-
-                <View style={styles.sbi_sec}>
-                    <Image
-                        source={require('../../../assets/MidCap_img.png')}
-                        style={styles.Hybrid}
-                    />
-                    <Text style={styles.sbi_text}>BNP Paribas Mid Cap Fund</Text>
-                    <Text style={styles.price}>4,000</Text>
-                </View>
-               
+                <Text style={styles.recomned}>Funds recommended for you</Text>
+                {investment.schemes && (investment.schemes.map((item, key) => {
+                    return (item != 'NA') && (<View key={key} style={styles.sbi_sec}>
+                        <Image
+                            source={{ uri: item.schemes.imagePath }}
+                            style={styles.Hybrid}
+                        />
+                        <Text style={styles.sbi_text}>{item.schemes.name}</Text>
+                    </View>)
+                }))}
             </ScrollView>
-
-            <TouchableOpacity onPress={() => props.navigation.navigate('Upi')} style={styles.botton_box}>
-                    <Text style={styles.get_otp}>MAKE PAYMENT</Text>
-
+            <TouchableOpacity onPress={() => props.navigation.navigate('AddInvestment')} style={styles.botton_box}>
+                <Text style={styles.get_otp}>NEXT</Text>
             </TouchableOpacity>
         </View>
-
-
     );
 }
-
-
-
-
-
-
-
-
 
 
 const styles = StyleSheet.create({
@@ -128,40 +98,31 @@ const styles = StyleSheet.create({
         width: 203,
         marginTop: 10,
     },
-
-    header: {
-        borderBottomColor: Colors.BLACK,
-        borderBottomWidth: 1,
-    },
-
-
     education: {
         flexDirection: "row",
-        marginHorizontal: 20,
         padding: 20,
-
     },
-    child_sec:{ width: '30%',},
     education_sec: {
-        width: '70%',
-        marginLeft:30,
-        paddingTop:15,
+        width: '60%',
+        paddingTop: 20,
 
     },
     goals_2: {
-        height: 102,
-        width: 105,
+        height: 145,
+        width: 145,
 
     },
     child: {
-        fontSize: 18,
-        color: Colors.DEEP_GRAY,
+        fontSize: 22,
+        fontWeight: "bold",
+        color: Colors.RED,
     },
     child_text: {
         fontSize: 18,
-        color: Colors.RED,
-        paddingVertical: 8,
+        color: Colors.DEEP_GRAY,
+        paddingVertical: 10,
         fontWeight: "bold",
+        marginTop: 50,
     },
     formsec: {
         flexDirection: "row",
@@ -185,10 +146,9 @@ const styles = StyleSheet.create({
     {
         flexDirection: "row",
         marginHorizontal: 20,
-        borderBottomWidth: 1,
         borderColor: Colors.DEEP_GRAY,
         paddingBottom: 10,
-        marginVertical: 5,
+        marginVertical: 6,
     },
     Hybrid: {
         width: 32,
@@ -197,7 +157,7 @@ const styles = StyleSheet.create({
     },
     sbi_text: {
         marginLeft: 10,
-        paddingTop: 10,
+        paddingTop: 0,
         fontSize: 15,
     },
     price: {
@@ -205,7 +165,6 @@ const styles = StyleSheet.create({
         right: 0,
         paddingTop: 10,
         fontSize: 15,
-        fontWeight:"bold",
     },
     fund_sec: {
         flexDirection: "row",
@@ -232,7 +191,6 @@ const styles = StyleSheet.create({
         marginHorizontal: 20,
         color: Colors.RED,
         marginBottom: 20,
-        paddingTop:60,
     },
     my_goal: {
         color: Colors.DEEP_GRAY,
@@ -248,7 +206,7 @@ const styles = StyleSheet.create({
 
         backgroundColor: Colors.RED,
         marginHorizontal: 30,
-       marginBottom:10,
+        marginVertical: 20,
         borderWidth: 1,
         borderRadius: 10,
         borderColor: Colors.DEEP_GRAY,
@@ -264,30 +222,59 @@ const styles = StyleSheet.create({
     childbottom: {
         flexDirection: "row",
         paddingLeft: 20,
+        paddingVertical: 15,
     },
 
     sf: {
         width: 16,
         height: 16,
+        marginTop: 3,
     },
-    year: {
+    far: {
         fontSize: 15,
         paddingLeft: 10,
+    },
+
+    year: {
+        fontSize: 18,
+        paddingLeft: 10,
+        color: Colors.DEEP_GRAY,
+        fontWeight: "bold",
+
+    },
+    beat: {
+        fontSize: 15,
+        paddingLeft: 10,
+    },
+    box_sec: {
+        backgroundColor: Colors.LIGHT_WHITE,
+        paddingVertical: 15,
+        paddingHorizontal: 10,
+        marginHorizontal: 20,
+        borderRadius: 10
+    },
+    recomned: {
+        fontSize: 18,
+        fontWeight: "bold",
+        color: Colors.DEEP_GRAY,
+        paddingLeft: 20, marginVertical: 20,
     },
 
 });
 const mapStateToProps = (state) => ({
     token: state.auth.token,
     users: state.auth.users,
+    isFetching: state.investmentplan.isFetching,
+    investment: state.investmentplan.investment,
 })
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     const { dispatch } = dispatchProps;
-    const { AuthActions } = require('../../store/AuthRedux')
+    const { InvestmentPlanActions } = require('../../store/InvestmentPlanRedux')
     return {
         ...stateProps,
         ...ownProps,
-        logOut: () => { AuthActions.logOut(dispatch) },
+        investmentPlans: (params, token) => { InvestmentPlanActions.investmentPlans(dispatch, params, token) },
     }
 }
-export default connect(mapStateToProps, undefined, mapDispatchToProps)(TopRoated8Screen)
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(InvestmentDetailScreens)

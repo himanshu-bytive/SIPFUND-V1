@@ -10,15 +10,15 @@ import { connect } from 'react-redux'
 import { Styles, Config, Colors, FormValidate } from '../../common'
 import { AntDesign } from 'react-native-vector-icons';
 import { Image, Header, Overlay } from 'react-native-elements';
-import Investments from '../../components/Investments'
+import { InvestmentLists } from '../../components'
 
-function Investment(props) {
+function InvestmentsScreens(props) {
     const pageActive = useRef(false);
     const { token, investments, investmentPlans, investment } = props
     useEffect(() => {
         if (investment && pageActive.current) {
             pageActive.current = false;
-            props.navigation.navigate('Invest2')
+            props.navigation.navigate('InvestmentDetail')
         }
     }, [investment]);
 
@@ -36,7 +36,7 @@ function Investment(props) {
             />
             <ScrollView style={{ width: '100%' }}>
                 <Text style={styles.Plan}>Investment Plans</Text>
-                <Investments data={investments} onPress={(item) => { investmentPlans(item, token); pageActive.current = true; }} />
+                <InvestmentLists data={investments} onPress={(item) => { investmentPlans(item, token); pageActive.current = true; }} />
             </ScrollView>
 
         </View>
@@ -388,4 +388,4 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
         investmentPlans: (params, token) => { InvestmentPlanActions.investmentPlans(dispatch, params, token) },
     }
 }
-export default connect(mapStateToProps, undefined, mapDispatchToProps)(Investment)
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(InvestmentsScreens)

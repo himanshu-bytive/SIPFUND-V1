@@ -18,13 +18,12 @@ import {
     UploadDocumentScreen,
     AboutUsScreen,
 
-    TopratedFunds5Screen,
-    TopRatedScreen,
-    TopRoated6Screen,
-    TopRoated8Screen,
+    TopRatedListScreen,
+    TopRatedHomeScreen,
+    TopRatedSearchScreen,
+    TopRatedSubmitScreen,
 
     FundsHomeScreen,
-    FundDetailScreen,
     HomeScreen,
     UpiScreen,
     PanScreen,
@@ -46,24 +45,23 @@ import {
     ReportsScreen,
     CompleteDetailScreen,
 
-    Investment,
-    Investment2Screens,
-    Investment3Screens,
-    Investment7Screens,
-    Investment4Screens,
-    Investment5Screens,
-    Investment6Screens,
+    InvestmentsScreens,
+    InvestmentDetailScreens,
+    AddInvestmentScreens,
+    InvestmentSubmitScreens,
+    InvestmentListScreens,
+    InvestmentSearchScreens,
 
-    Plan1,
-    Plan3,
-    Plan4,
-    Plan5,
+    PlanHomeScreen,
+    PlanSearchScreen,
+    PlanListScreen,
+    PlanSubmitScreen,
 
     DashboardScreen,
-    HamburgerMenu2Screen,
-    HamburgerMenu4Screen,
-    HamburgerMenu5Screen,
-    HamburgerMenu5TabScreen,
+    SwitchScreen,
+    TransactionHistoryScreen,
+    HoldingsScreen,
+    ExternalHoldingScreen,
     HamburgerMenu7Screen,
     HamburgerMenu9Screen,
 
@@ -119,26 +117,26 @@ export const Hamburgmenu = createStackNavigator({
             headerShown: false,
         }
     },
-    hamburgermenu2: {
-        screen: HamburgerMenu2Screen,
+    Switch: {
+        screen: SwitchScreen,
         navigationOptions: {
             headerShown: false,
         }
     },
-    hamburgermenu4: {
-        screen: HamburgerMenu4Screen,
+    TransactionHistory: {
+        screen: TransactionHistoryScreen,
         navigationOptions: {
             headerShown: false,
         }
     },
-    HamburgerMenu5: {
-        screen: HamburgerMenu5Screen,
+    Holdings: {
+        screen: HoldingsScreen,
         navigationOptions: {
             headerShown: false,
         }
     },
-    HamburgerMenu5Tab: {
-        screen: HamburgerMenu5TabScreen,
+    ExternalHolding: {
+        screen: ExternalHoldingScreen,
         navigationOptions: {
             headerShown: false,
         }
@@ -179,110 +177,104 @@ export const HomePageStack = createStackNavigator({
 });
 
 export const PlanYourGoalsStack = createStackNavigator({
-    Plan1: {
-        screen: Plan1,
+    PlanHome: {
+        screen: PlanHomeScreen,
         navigationOptions: {
             headerShown: false,
         }
     },
-    Plan3: {
-        screen: Plan3,
+    PlanSearch: {
+        screen: PlanSearchScreen,
         navigationOptions: {
             headerShown: false,
         }
     },
-    Plan4: {
-        screen: Plan4,
+    PlanList: {
+        screen: PlanListScreen,
         navigationOptions: {
             headerShown: false,
         }
     },
-    Plan5: {
-        screen: Plan5,
+    PlanSubmit: {
+        screen: PlanSubmitScreen,
         navigationOptions: {
             headerShown: false,
         }
     },
 }, {
-    initialRouteName: 'Plan1',
+    initialRouteName: 'PlanHome',
 });
 
 export const InvestmentPlansStack = createStackNavigator({
-    Invest1: {
-        screen: Investment,
+    InvestmentList: {
+        screen: InvestmentsScreens,
         navigationOptions: {
             headerShown: false,
         }
     },
-    Invest2: {
-        screen: Investment2Screens,
+    InvestmentDetail: {
+        screen: InvestmentDetailScreens,
         navigationOptions: {
             headerShown: false,
         }
     },
-    Invest3: {
-        screen: Investment3Screens,
+    AddInvestment: {
+        screen: AddInvestmentScreens,
         navigationOptions: {
             headerShown: false,
         }
     },
-    Invest7: {
-        screen: Investment7Screens,
+    InvestmentSubmit: {
+        screen: InvestmentSubmitScreens,
         navigationOptions: {
             headerShown: false,
         }
     },
-    Invest4: {
-        screen: Investment4Screens,
+    InvestmentList: {
+        screen: InvestmentListScreens,
         navigationOptions: {
             headerShown: false,
         }
     },
-    Invest5: {
-        screen: Investment5Screens,
-        navigationOptions: {
-            headerShown: false,
-        }
-    },
-    Invest6: {
-        screen: Investment6Screens,
+    InvestmentSearch: {
+        screen: InvestmentSearchScreens,
         navigationOptions: {
             headerShown: false,
         }
     },
 
 }, {
-    initialRouteName: 'Invest1',
+    initialRouteName: 'InvestmentList',
 });
 
 export const TopRatedFundsStack = createStackNavigator({
-    Toprated1: {
-        screen: TopRatedScreen,
+    TopRatedHome: {
+        screen: TopRatedHomeScreen,
         navigationOptions: {
             headerShown: false,
         }
     },
-    Toprated2: {
-        screen: TopratedFunds5Screen,
+    TopRatedList: {
+        screen: TopRatedListScreen,
         navigationOptions: {
             headerShown: false,
         }
     },
-    Toprated3: {
-        screen: TopRoated6Screen,
+    TopRatedSearch: {
+        screen: TopRatedSearchScreen,
         navigationOptions: {
             headerShown: false,
         }
     },
-    Toprated4: {
-        screen: TopRoated8Screen,
+    TopRatedSubmit: {
+        screen: TopRatedSubmitScreen,
         navigationOptions: {
             headerShown: false,
         }
     },
 
 }, {
-    initialRouteName: 'Toprated1',
+    initialRouteName: 'TopRatedHome',
 });
 
 export const HoldingsSummaryStack = createStackNavigator({
@@ -346,37 +338,31 @@ export const FundsDetailsStack = createStackNavigator({
             headerShown: false,
         }
     },
-    FundsDetails1: {
-        screen: FundDetailScreen,
-        navigationOptions: {
-            headerShown: false,
-        }
-    },
 
 }, {
     initialRouteName: 'FundsDetails',
 });
 
 export const RegisterStack = createStackNavigator({
-    Register: {
+    RegisterDetails: {
         screen: CompleteDetailsScreen,
         navigationOptions: {
             headerShown: false,
         }
     },
-    Register1: {
+    RegisterAddress: {
         screen: CompleteDetailsAddressScreen,
         navigationOptions: {
             headerShown: false,
         }
     },
-    Register2: {
+    RegisterBankDetails: {
         screen: CompleteDetailsBankScreen,
         navigationOptions: {
             headerShown: false,
         }
     },
-    Register3: {
+    UploadDocument: {
         screen: UploadDocumentScreen,
         navigationOptions: {
             headerShown: false,
@@ -384,7 +370,7 @@ export const RegisterStack = createStackNavigator({
     },
 
 }, {
-    initialRouteName: 'Register',
+    initialRouteName: 'RegisterDetails',
 });
 
 export const OthersStack = createStackNavigator({
@@ -459,7 +445,7 @@ const TabNavigator = createBottomTabNavigator({
             tabBarLabel: 'Explore',
             tabBarIcon: ({ focused, tintColor }) => {
                 const imgSource = focused ? require('../../assets/exploreAct.png') : require('../../assets/explore.png');
-                return <Image style={{width:32, height:32}} source={imgSource} />
+                return <Image style={{ width: 32, height: 32 }} source={imgSource} />
             }
         }
     },
@@ -468,7 +454,7 @@ const TabNavigator = createBottomTabNavigator({
         navigationOptions: {
             tabBarIcon: ({ focused, tintColor }) => {
                 const imgSource = focused ? require('../../assets/planAct.png') : require('../../assets/plan.png');
-                return <Image style={{width:32, height:32}} source={imgSource} />
+                return <Image style={{ width: 32, height: 32 }} source={imgSource} />
             }
         }
     },
@@ -477,7 +463,7 @@ const TabNavigator = createBottomTabNavigator({
         navigationOptions: {
             tabBarIcon: ({ focused, tintColor }) => {
                 const imgSource = focused ? require('../../assets/dashboardAct.png') : require('../../assets/dashboard.png');
-                return <Image style={{width:32, height:32}} source={imgSource} />
+                return <Image style={{ width: 32, height: 32 }} source={imgSource} />
             }
         }
     },
@@ -486,7 +472,7 @@ const TabNavigator = createBottomTabNavigator({
         navigationOptions: {
             tabBarIcon: ({ focused, tintColor }) => {
                 const imgSource = focused ? require('../../assets/userAct.png') : require('../../assets/user.png');
-                return <Image style={{width:32, height:32}} source={imgSource} />
+                return <Image style={{ width: 32, height: 32 }} source={imgSource} />
             }
         }
     }
@@ -535,7 +521,7 @@ export const RootNavigator = createDrawerNavigator({
         }
     },
     Reg: {
-        name: 'Register',
+        name: 'RegisterDetails',
         screen: RegisterStack,
         navigationOptions: {
             headerShown: false,
@@ -557,4 +543,4 @@ export const RootNavigator = createDrawerNavigator({
         navigationOptions: {
             headerShown: false,
         }
-});
+    });

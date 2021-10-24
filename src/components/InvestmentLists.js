@@ -6,24 +6,21 @@ import {
     TouchableOpacity,
     Text,
 } from "react-native";
+import { Colors } from '../common'
 import SvgUri from "expo-svg-uri";
-import { Styles, Config, Colors, FormValidate } from '../common'
 
-export default function Investments(props) {
+export default function InvestmentLists(props) {
     const { data, counts, onPress } = props
     if (counts) {
         return (<View style={styles.investment_sec}>
             {data.map(((item, key) => <View key={key} style={styles.investment}>
-                {(key < counts) && (<TouchableOpacity onPress={()=>onPress(item)} style={{ width: '100%' }}>
-                    <Image
-                        source={item.image}
-                        style={styles.term}
-                    />
+                {(key < counts) && (<TouchableOpacity onPress={() => onPress(item)} style={{ width: '100%' }}>
                     <SvgUri
                         width="100%"
                         height="113"
                         source={{
-                            uri: item.planImagePath
+                            uri: "http://thenewcode.com/assets/images/thumbnails/homer-simpson.svg"
+                            // uri: item.planImagePath
                         }}
                     />
                     <Text style={styles.long}>{item.plan}</Text>
@@ -33,16 +30,13 @@ export default function Investments(props) {
     } else {
         return (<View style={styles.investment_sec}>
             {data.map(((item, key) => <View key={key} style={styles.investment}>
-                <TouchableOpacity onPress={()=>onPress(item)} style={{ width: '100%' }}>
-                    <Image
-                        source={item.image}
-                        style={styles.term}
-                    />
+                <TouchableOpacity onPress={() => onPress(item)} style={{ width: '100%' }}>
                     <SvgUri
                         width="100%"
                         height="113"
                         source={{
-                            uri: item.planImagePath
+                            uri: "http://thenewcode.com/assets/images/thumbnails/homer-simpson.svg"
+                            // uri: item.planImagePath
                         }}
                     />
                     <Text style={styles.long}>{item.plan}</Text>

@@ -7,22 +7,21 @@ import {
     TouchableOpacity,
     Text,
     Dimensions,
-    KeyboardAvoidingView,
+    ScrollView,
     TextInput,
     ActivityIndicator
 } from "react-native";
 import { connect } from 'react-redux'
 import { Styles, Config, Colors, FormValidate } from '../../common'
-import SvgUri from "expo-svg-uri";
+import {MyImage } from '../../components'
 import { Ionicons, AntDesign, EvilIcons, Entypo, FontAwesome5 } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
-import { ScrollView } from "react-native-gesture-handler";
 
-function Plan3(props) {
+function TopRatedSearchScreen(props) {
+    const { token, investment, isFetching, fetchFunds, funds } = props
     const searchInput = useRef(null);
     let timer = useRef(null);
     const [search, setSearch] = useState('');
-    const { token, goalDetail, isFetching, fetchFunds, funds } = props;
 
     useEffect(() => {
         searchInput.current.focus();
@@ -37,6 +36,7 @@ function Plan3(props) {
                 fetchFunds(params, token)
             }
         }, 1000);
+
     };
 
     return (
@@ -56,16 +56,18 @@ function Plan3(props) {
             </View>)}
             <ScrollView>
                 <View style={styles.education}>
-                    <View style={styles.child_sec}>
-                        <SvgUri
-                            width="117"
-                            height="117"
-                            source={{ uri: goalDetail.goalImagePath }}
-                        />
-                    </View>
+
                     <View style={styles.education_sec}>
-                        <Text style={styles.child}>{goalDetail.goal}</Text>
-                        <Text style={styles.child_text}>{goalDetail.goalDescription}</Text>
+                        <Text style={styles.child_text}>{investment.investmentPlan}</Text>
+                    </View>
+
+                    <View style={styles.child_sec}>
+                    <MyImage
+                           width="112"
+                           height="118"
+                        svg={true}
+                        url={investment.planImagePath }
+                    />
                     </View>
                 </View>
 
@@ -73,7 +75,7 @@ function Plan3(props) {
                     <EvilIcons name="search" size={30} color="#CD2700" />
                     <TextInput
                         ref={searchInput}
-                        style={styles.Midcap}
+                        style={[styles.Midcap, { width: '90%' }]}
                         placeholder={''}
                         onChangeText={(value) => searchResults(value)}
                         value={search}
@@ -98,7 +100,7 @@ function Plan3(props) {
                             </View>
                         </View>
                         <View style={styles.icon}>
-                            <TouchableOpacity onPress={() => props.navigation.navigate('Plan4')}>
+                            <TouchableOpacity onPress={() => props.navigation.navigate('PlanList')}>
                                 <AntDesign name="right" size={30} color="#838280" /></TouchableOpacity>
                         </View>
                     </View>
@@ -106,9 +108,10 @@ function Plan3(props) {
 
             </ScrollView>
         </View>
+
+
     );
 }
-
 
 const styles = StyleSheet.create({
     container: {
@@ -116,7 +119,7 @@ const styles = StyleSheet.create({
     },
     axis_asset: {
         marginHorizontal: 20,
-        marginTop: 20,
+        marginTop: 10,
         backgroundColor: Colors.WHITE,
         shadowColor: "#000",
         shadowOffset: {
@@ -126,7 +129,9 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.23,
         shadowRadius: 2.62,
         elevation: 4,
-        padding: 20,
+        padding: 10,
+        borderWidth: 1,
+        borderColor: Colors.GREY_1,
     },
     company: {
         flexDirection: "row",
@@ -141,7 +146,6 @@ const styles = StyleSheet.create({
     },
     midcap: {
         flexDirection: "row",
-        paddingVertical: 5,
 
     },
     moderately: {
@@ -160,12 +164,10 @@ const styles = StyleSheet.create({
     icon: {
         position: "absolute",
         right: 0,
-        marginTop: 8,
+        marginTop: 10,
     },
     education: {
         flexDirection: "row",
-
-
         borderColor: Colors.GRAY_LIGHT,
         marginBottom: 20,
         padding: 20,
@@ -180,15 +182,15 @@ const styles = StyleSheet.create({
 
 
     },
+    child_sec: { width: '30%', },
     education_sec: {
-        width: '60%',
-        marginTop: 10,
-        paddingTop: 30,
+        width: '70%',
+
 
     },
     goals_2: {
-        height: 145,
-        width: 145,
+        height: 112,
+        width: 118,
 
     },
     child: {
@@ -198,10 +200,9 @@ const styles = StyleSheet.create({
         color: Colors.DEEP_GRAY,
     },
     child_text: {
-        fontSize: 16,
+        fontSize: 22,
         color: Colors.RED,
-        paddingTop: 15,
-        paddingLeft: 20,
+        paddingTop: 10,
         fontWeight: "bold",
     },
     formsec: {
@@ -210,7 +211,7 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         borderColor: Colors.DEEP_GRAY,
         marginHorizontal: 20,
-        padding: 15,
+        padding: 10,
     },
     Midcap: {
         fontSize: 18,
@@ -219,9 +220,8 @@ const styles = StyleSheet.create({
     results: {
         fontSize: 12,
         marginLeft: 50,
-        marginTop: 10,
+        marginTop: 5,
         color: Colors.DEEP_GRAY,
-        marginBottom: 20,
     },
 
 
@@ -229,7 +229,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => ({
     token: state.auth.token,
     users: state.auth.users,
-    goalDetail: state.goals.goalDetail,
+    investment: state.investmentplan.investment,
     isFetching: state.addmorefunds.isFetching,
     funds: state.addmorefunds.funds,
 })
@@ -243,4 +243,4 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
         fetchFunds: (params, token) => { AddMoreFundsActions.fetchFunds(dispatch, params, token) },
     }
 }
-export default connect(mapStateToProps, undefined, mapDispatchToProps)(Plan3)
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(TopRatedSearchScreen)

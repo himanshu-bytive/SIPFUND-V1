@@ -55,9 +55,8 @@ class ApiClient {
             let message = ''
             if (error?.response?.data?.Data && Array.isArray(error?.response?.data?.Data)) {
               message = error.response.data.Data[0].return_msg
-              // for (let item of error.response.data.Data) {
-              //   message = message + ` ` + item.return_msg
-              // }
+            } else if (error?.response?.data?.Data) {
+              message = error.response.data.Data.return_msg
             } else if (error.response?.data?.responseString) {
               message = error.response?.data?.responseString
             } else if (error.response?.data?.message) {

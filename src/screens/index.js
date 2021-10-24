@@ -10,29 +10,20 @@ import CompleteDetailsAddressScreen from './Registration/CompleteDetailsAddressS
 import CompleteDetailsBankScreen from './Registration/CompleteDetailsBankScreen'
 import UploadDocumentScreen from './Registration/UploadDocumentScreen'
 
-import TopratedFunds5Screen from './TOPRatedFunds/TopratedFunds5Screen'
-import TopRatedScreen from './TOPRatedFunds/TopRatedScreen'
-import TopRoated6Screen from './TOPRatedFunds/TopRoated6Screen'
-import TopRoated8Screen from './TOPRatedFunds/TopRoated8Screen'
+import TopRatedListScreen from './TOPRatedFunds/TopRatedListScreen'
+import TopRatedHomeScreen from './TOPRatedFunds/TopRatedHomeScreen'
+import TopRatedSearchScreen from './TOPRatedFunds/TopRatedSearchScreen'
+import TopRatedSubmitScreen from './TOPRatedFunds/TopRatedSubmitScreen'
 
 import FundsHomeScreen from './FundDetails/FundsHomeScreen'
-import FundDetailScreen from './FundDetails/FundDetailScreen'
-import ReturnsCalculator from './FundDetails/ReturnsCalculator'
-import PortfolioSummary from './FundDetails/PortfolioSummary'
 
 import SignupScreen from './Others/SignupScreen'
 import HomeScreen from './Others/HomeScreen'
 import FaqScreen from './Others/FaqScreen'
 import UpiScreen from './Others/UpiScreen'
 import PanScreen from './Others/PanScreen'
-import AMCScreen from './Others/AMCScreen'
-import EMandateScreen from './Others/EMandateScreen'
 import EnterScreen from './Others/EnterScreen'
 import AboutUsScreen from './Others/AboutUsScreen'
-
-
-
-import Investment from './InvestmentsPlans/Investment'
 
 
 import ProfileScreen from './Kyc/ProfileScreen'
@@ -44,10 +35,10 @@ import ReportsScreen from './Kyc/ReportsScreen'
 import CompleteDetailScreen from './Kyc/CompleteDetailScreen'
 import AmountHistoryScreen from './Kyc/AmountHistoryScreen'
 
-import Plan1 from './PlanYourGoals/Plan1'
-import Plan3 from './PlanYourGoals/Plan3'
-import Plan4 from './PlanYourGoals/Plan4'
-import Plan5 from './PlanYourGoals/Plan5'
+import PlanHomeScreen from './PlanYourGoals/PlanHomeScreen'
+import PlanSearchScreen from './PlanYourGoals/PlanSearchScreen'
+import PlanListScreen from './PlanYourGoals/PlanListScreen'
+import PlanSubmitScreen from './PlanYourGoals/PlanSubmitScreen'
 
 import GoalsScreen from './Holdings/GoalsScreen'
 import Goals1Screen from './Holdings/Goals1Screen'
@@ -60,18 +51,18 @@ import OwnerChoice from './HamburgerMenu/OwnerChoice'
 import GoalsLongTermScreen from './Holdings/GoalsLongTermScreen'
 import PlanYourGoalScreen from './Holdings/PlanYourGoalScreen'
 
-import Investment2Screens from './InvestmentsPlans/Investment2Screens'
-import Investment3Screens from './InvestmentsPlans/Investment3Screens'
-import Investment4Screens from './InvestmentsPlans/Investment4Screens'
-import Investment5Screens from './InvestmentsPlans/Investment5Screens'
-import Investment6Screens from './InvestmentsPlans/Investment6Screens'
-import Investment7Screens from './InvestmentsPlans/Investment7Screens'
+import InvestmentsScreens from './InvestmentsPlans/InvestmentsScreens'
+import InvestmentDetailScreens from './InvestmentsPlans/InvestmentDetailScreens'
+import AddInvestmentScreens from './InvestmentsPlans/AddInvestmentScreens'
+import InvestmentListScreens from './InvestmentsPlans/InvestmentListScreens'
+import InvestmentSearchScreens from './InvestmentsPlans/InvestmentSearchScreens'
+import InvestmentSubmitScreens from './InvestmentsPlans/InvestmentSubmitScreens'
 
 import DashboardScreen from './HamburgerMenu/DashboardScreen'
-import HamburgerMenu2Screen from './HamburgerMenu/HamburgerMenu2Screen'
-import HamburgerMenu4Screen from './HamburgerMenu/HamburgerMenu4Screen'
-import HamburgerMenu5Screen from './HamburgerMenu/HamburgerMenu5Screen'
-import HamburgerMenu5TabScreen from './HamburgerMenu/HamburgerMenu5TabScreen'
+import SwitchScreen from './HamburgerMenu/SwitchScreen'
+import TransactionHistoryScreen from './HamburgerMenu/TransactionHistoryScreen'
+import HoldingsScreen from './HamburgerMenu/HoldingsScreen'
+import ExternalHoldingScreen from './HamburgerMenu/ExternalHoldingScreen'
 import HamburgerMenu6Screen from './HamburgerMenu/HamburgerMenu6Screen'
 import HamburgerMenu7Screen from './HamburgerMenu/HamburgerMenu7Screen'
 import HamburgerMenu8Screen from './HamburgerMenu/HamburgerMenu8Screen'
@@ -92,11 +83,6 @@ export {
     UploadDocumentScreen,
 
     FundsHomeScreen,
-    FundDetailScreen,
-    ReturnsCalculator,
-    PortfolioSummary,
-
-
 
     SignupScreen,
     HomeScreen,
@@ -113,15 +99,14 @@ export {
     Goals1Screen,
     GoalsLongTermScreen,
     PlanYourGoalScreen,
-    Investment,
-    Investment2Screens,
-    Investment3Screens,
-    Investment7Screens,
-    Investment4Screens,
-    Investment5Screens,
-    Investment6Screens,
+    InvestmentsScreens,
+    InvestmentDetailScreens,
+    AddInvestmentScreens,
+    InvestmentSubmitScreens,
+    InvestmentListScreens,
+    InvestmentSearchScreens,
 
-  
+
 
     ProfileScreen,
     ExistingScreen,
@@ -131,27 +116,24 @@ export {
     ReportsScreen,
     CompleteDetailScreen,
 
-    Plan1,
-    Plan3,
-    Plan4,
-    Plan5,
+    PlanHomeScreen,
+    PlanSearchScreen,
+    PlanListScreen,
+    PlanSubmitScreen,
 
-    TopratedFunds5Screen,
-    TopRatedScreen,
-    TopRoated6Screen,
-    TopRoated8Screen,
+    TopRatedListScreen,
+    TopRatedHomeScreen,
+    TopRatedSearchScreen,
+    TopRatedSubmitScreen,
     AmountHistoryScreen,
 
-    
-    AMCScreen,
-    EMandateScreen,
     EnterScreen,
     AboutUsScreen,
     DashboardScreen,
-    HamburgerMenu2Screen,
-    HamburgerMenu4Screen,
-    HamburgerMenu5Screen,
-    HamburgerMenu5TabScreen,
+    SwitchScreen,
+    TransactionHistoryScreen,
+    HoldingsScreen,
+    ExternalHoldingScreen,
     HamburgerMenu6Screen,
     HamburgerMenu7Screen,
     HamburgerMenu8Screen,

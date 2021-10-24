@@ -49,7 +49,7 @@ function CompleteDetailsScreen(props) {
     useEffect(() => {
         if (updateSuccess && pageActive.current) {
             pageActive.current = false;
-            props.navigation.navigate('Register1')
+            props.navigation.navigate('RegisterAddress')
         }
     }, [updateSuccess]);
 

@@ -59,7 +59,7 @@ function VerifyScreen(props) {
                 { cancelable: false }
             );
         } else {
-            setLocationServiceEnabled(enabled);
+            setLocationServiceEnabled(status);
         }
     };
 

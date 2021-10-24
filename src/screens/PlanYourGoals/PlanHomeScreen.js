@@ -14,12 +14,11 @@ import {
 } from "react-native";
 import { connect } from 'react-redux'
 import { Styles, Config, Colors, FormValidate } from '../../common'
-import SvgUri from "expo-svg-uri";
-import { MySlider, PlanYourGoalFundType } from '../../components';
+import { MySlider, PlanYourGoalFundType, MyImage } from '../../components';
 import { Ionicons, AntDesign, Entypo, FontAwesome5 } from 'react-native-vector-icons';
 import { Image, Header, CheckBox, Slider } from 'react-native-elements';
 
-function Plan1(props) {
+function PlanHomeScreen(props) {
     const pageActive = useRef(false);
     const { token, goalDetail, isFetching } = props;
     const [selectTab, setSelectTab] = useState('SIP');
@@ -48,14 +47,11 @@ function Plan1(props) {
 
                 <View style={styles.education}>
                     <View style={styles.child_sec}>
-                        {/* <Image
-                            source={require('../../../assets/childimg.png')}
-                            style={styles.goals_2}
-                        /> */}
-                        <SvgUri
+                        <MyImage
                             width="117"
                             height="117"
-                            source={{ uri: goalDetail.goalImagePath }}
+                            svg={true}
+                            url={goalDetail.goalImagePath}
                         />
                     </View>
                     <View style={styles.education_sec}>
@@ -65,8 +61,6 @@ function Plan1(props) {
                 </View>
 
                 {/* vijay */}
-
-
                 <View style={styles.vijay_sec}>
                     <Text style={styles.child2}>Name of Child (Optional)</Text>
                     <Text style={styles.childtext}>Vijay Deshmukh</Text>
@@ -172,8 +166,8 @@ function Plan1(props) {
 
                 </View>
             </ScrollView>
-            <TouchableOpacity onPress={() => props.navigation.navigate('Plan3')}><Text style={styles.more_funds}>I would like to add more funds</Text></TouchableOpacity>
-            <TouchableOpacity onPress={() => props.navigation.navigate('Plan4')} style={styles.botton_box}>
+            <TouchableOpacity onPress={() => props.navigation.navigate('PlanSearch')}><Text style={styles.more_funds}>I would like to add more funds</Text></TouchableOpacity>
+            <TouchableOpacity onPress={() => props.navigation.navigate('PlanList')} style={styles.botton_box}>
                 <Text style={styles.get_otp}>START GOAL</Text>
             </TouchableOpacity>
         </View>
@@ -475,4 +469,4 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
         singleDetails: (params, token) => { GoalsActions.singleDetails(dispatch, params, token) },
     }
 }
-export default connect(mapStateToProps, undefined, mapDispatchToProps)(Plan1)
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(PlanHomeScreen)

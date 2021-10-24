@@ -31,7 +31,7 @@ function CompleteDetailsAddressScreen(props) {
     useEffect(() => {
         if (updateSuccess && pageActive.current) {
             pageActive.current = false;
-            props.navigation.navigate('Register2')
+            props.navigation.navigate('RegisterBankDetails')
         }
     }, [updateSuccess]);
 

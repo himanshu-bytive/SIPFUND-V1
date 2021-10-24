@@ -7,18 +7,17 @@ import {
     TouchableOpacity,
     Text,
     Dimensions,
-    KeyboardAvoidingView,
+    ScrollView,
     TextInput,
     ActivityIndicator
 } from "react-native";
 import { connect } from 'react-redux'
 import { Styles, Config, Colors, FormValidate } from '../../common'
-import SvgUri from "expo-svg-uri";
+import {MyImage } from '../../components'
 import { Ionicons, AntDesign, EvilIcons, Entypo, FontAwesome5 } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
-import { ScrollView } from "react-native-gesture-handler";
 
-function Investment5Screens(props) {
+function InvestmentSearchScreens(props) {
     const { token, investment, isFetching, fetchFunds, funds } = props
     const searchInput = useRef(null);
     let timer = useRef(null);
@@ -63,11 +62,12 @@ function Investment5Screens(props) {
                     </View>
 
                     <View style={styles.child_sec}>
-                        <SvgUri
-                            width="112"
-                            height="118"
-                            source={{ uri: investment.planImagePath }}
-                        />
+                    <MyImage
+                           width="112"
+                           height="118"
+                        svg={true}
+                        url={investment.planImagePath }
+                    />
                     </View>
                 </View>
 
@@ -75,7 +75,7 @@ function Investment5Screens(props) {
                     <EvilIcons name="search" size={30} color="#CD2700" />
                     <TextInput
                         ref={searchInput}
-                        style={styles.Midcap}
+                        style={[styles.Midcap, { width: '90%' }]}
                         placeholder={''}
                         onChangeText={(value) => searchResults(value)}
                         value={search}
@@ -100,7 +100,7 @@ function Investment5Screens(props) {
                             </View>
                         </View>
                         <View style={styles.icon}>
-                            <TouchableOpacity onPress={() => props.navigation.navigate('Plan4')}>
+                            <TouchableOpacity onPress={() => props.navigation.navigate('PlanList')}>
                                 <AntDesign name="right" size={30} color="#838280" /></TouchableOpacity>
                         </View>
                     </View>
@@ -243,4 +243,4 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
         fetchFunds: (params, token) => { AddMoreFundsActions.fetchFunds(dispatch, params, token) },
     }
 }
-export default connect(mapStateToProps, undefined, mapDispatchToProps)(Investment5Screens)
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(InvestmentSearchScreens)
