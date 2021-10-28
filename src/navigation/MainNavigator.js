@@ -206,7 +206,7 @@ export const PlanYourGoalsStack = createStackNavigator({
 });
 
 export const InvestmentPlansStack = createStackNavigator({
-    InvestmentList: {
+    InvestmentListAll: {
         screen: InvestmentsScreens,
         navigationOptions: {
             headerShown: false,
@@ -224,12 +224,6 @@ export const InvestmentPlansStack = createStackNavigator({
             headerShown: false,
         }
     },
-    InvestmentSubmit: {
-        screen: InvestmentSubmitScreens,
-        navigationOptions: {
-            headerShown: false,
-        }
-    },
     InvestmentList: {
         screen: InvestmentListScreens,
         navigationOptions: {
@@ -238,6 +232,12 @@ export const InvestmentPlansStack = createStackNavigator({
     },
     InvestmentSearch: {
         screen: InvestmentSearchScreens,
+        navigationOptions: {
+            headerShown: false,
+        }
+    },
+    InvestmentSubmit: {
+        screen: InvestmentSubmitScreens,
         navigationOptions: {
             headerShown: false,
         }

@@ -13,7 +13,7 @@ import {
 } from "react-native";
 import { connect } from 'react-redux'
 import { Styles, Config, Colors, FormValidate } from '../../common'
-import { MyImage} from '../../components'
+import { MyImage } from '../../components'
 import { Ionicons, AntDesign, EvilIcons, Entypo, FontAwesome5 } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
@@ -23,6 +23,7 @@ function AddInvestmentScreens(props) {
     const pageActive = useRef(false);
     const { investment, isFetching, investmentConfig } = props
     const [invest, setInvest] = useState('');
+    const [investError, setInvestError] = useState(null);
     const [selectTab, setSelectTab] = useState('SIP');
     const toggleTab = (value) => {
         investInput.current.focus();
@@ -34,13 +35,17 @@ function AddInvestmentScreens(props) {
     }, []);
 
     const checkFormula = (value) => {
-        console.log(value)
+        // console.log(value)
     };
 
     const submitForm = () => {
-        let params = { invest }
-        investmentConfig(params)
-        props.navigation.navigate('InvestmentList')
+        if (invest) {
+            let params = { invest }
+            investmentConfig(params)
+            props.navigation.navigate('InvestmentList')
+        } else {
+            setInvestError('Add Investment')
+        }
     };
 
     return (
@@ -66,12 +71,12 @@ function AddInvestmentScreens(props) {
 
                     </View>
                     <View style={styles.child_sec}>
-                    <MyImage
-                          width="145"
-                          height="145"
-                        svg={true}
-                        url={investment.planImagePath }
-                    />
+                        <MyImage
+                            width="145"
+                            height="145"
+                            svg={true}
+                            url={investment.planImagePath}
+                        />
                     </View>
                 </View>
                 {/* button */}
@@ -96,13 +101,13 @@ function AddInvestmentScreens(props) {
                 {/* button  end new*/}
 
                 <Text style={styles.childtext}>Investment</Text>
-                <View style={styles.investcost_sec}>
+                <View style={[styles.investcost_sec, { borderColor: (investError ? Colors.RED : Colors.GREY_1) }]}>
                     <TextInput
                         ref={investInput}
                         style={styles.cost}
                         keyboardType='numeric'
                         placeholder={'RS '}
-                        onChangeText={(value) => { setInvest(value); checkFormula(value) }}
+                        onChangeText={(value) => { setInvestError(null); setInvest(value); checkFormula(value) }}
                         value={invest}
                     />
                 </View>

@@ -13,7 +13,7 @@ import {
 } from "react-native";
 import { connect } from 'react-redux'
 import { Styles, Config, Colors, FormValidate } from '../../common'
-import { FundType } from '../../components';
+import { TopRatedFundType } from '../../components';
 import { Ionicons, AntDesign, Entypo, FontAwesome5 } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
@@ -78,8 +78,8 @@ function TopRatedListScreen(props) {
                 {/* Axis Asset Management Company Ltd */}
 
 
-                <FundType type={true} onPress={() => props.navigation.navigate('FundsDetails')} />
-                <FundType type={false} onPress={() => props.navigation.navigate('FundsDetails')} />
+                <TopRatedFundType type={true} onPress={() => props.navigation.navigate('FundsDetails')} />
+                <TopRatedFundType type={false} onPress={() => props.navigation.navigate('FundsDetails')} />
 
 
                 {/* Hybrid_sec.....3 */}
@@ -91,7 +91,7 @@ function TopRatedListScreen(props) {
                 </View>
 
 
-                <FundType onPress={() => props.navigation.navigate('FundsDetails')} />
+                <TopRatedFundType onPress={() => props.navigation.navigate('FundsDetails')} />
 
             </ScrollView>
             <TouchableOpacity onPress={() => props.navigation.navigate('TopRatedSearch')}><Text style={styles.more_funds}>I would like to add more funds</Text></TouchableOpacity>
@@ -108,6 +108,7 @@ function TopRatedListScreen(props) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor:Colors.WHITE
     },
     logimg: {
         height: 65,

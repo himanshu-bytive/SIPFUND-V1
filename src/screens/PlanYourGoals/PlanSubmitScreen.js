@@ -20,7 +20,8 @@ import { ScrollView } from "react-native-gesture-handler";
 
 function PlanSubmitScreen(props) {
     const pageActive = useRef(false);
-    const { token, goalDetail, isFetching } = props;
+    const { token, goalDetail, isFetching, configs, mygolelist } = props;
+
 
     return (
         <View style={styles.container}>
@@ -40,12 +41,12 @@ function PlanSubmitScreen(props) {
             <ScrollView>
                 <View style={styles.education}>
                     <View style={styles.child_sec}>
-                    <MyImage
-                         width="117"
-                         height="117"
-                        svg={true}
-                        url={goalDetail.goalImagePath }
-                    />
+                        <MyImage
+                            width="117"
+                            height="117"
+                            svg={true}
+                            url={goalDetail.goalImagePath}
+                        />
                     </View>
                     <View style={styles.education_sec}>
                         <Text style={styles.child}>Summary</Text>
@@ -58,10 +59,10 @@ function PlanSubmitScreen(props) {
 
                 <View style={styles.fund_sec}>
                     <Text style={styles.fund_secleft}>Fund List</Text>
-                    <Text style={styles.fund_secright}>16,000</Text>
+                    <Text style={styles.fund_secright}>₹ {configs.invest}</Text>
                 </View>
 
-                {goalDetail && (goalDetail.schemesInfo.map((item, key) => {
+                {mygolelist.map((item, key) => {
                     if (item.schemeInfo != 'NA') {
                         return <View key={key} style={styles.sbi_sec}>
                             <Image
@@ -69,11 +70,13 @@ function PlanSubmitScreen(props) {
                                 style={styles.Hybrid}
                             />
                             <Text style={styles.sbi_text}>{item.schemeInfo.name}</Text>
-                            <Text style={styles.price}>5,000</Text>
+                            <View style={{ flex: 1 }}>
+                                <Text style={styles.price}>₹ {item.schemeInfo.sip}</Text>
+                            </View>
                         </View>
                     }
                 }
-                ))}
+                )}
                 <TouchableOpacity onPress={() => props.navigation.navigate('Home')}><Text style={styles.add}>Add another child’s education plan</Text></TouchableOpacity>
                 <TouchableOpacity onPress={() => props.navigation.navigate('Upi')} style={styles.botton_box}>
                     <Text style={styles.get_otp}>START GOAL</Text>
@@ -154,8 +157,7 @@ const styles = StyleSheet.create({
         marginTop: 5,
         color: Colors.DEEP_GRAY,
     },
-    sbi_sec:
-    {
+    sbi_sec:{
         flexDirection: "row",
         marginHorizontal: 10,
         borderBottomWidth: 1,
@@ -170,12 +172,13 @@ const styles = StyleSheet.create({
     sbi_text: {
         marginLeft: 10,
         fontSize: 15,
-        width: '75%'
+        width: '70%'
     },
     price: {
         paddingTop: 10,
         fontSize: 15,
         paddingRight: 10,
+        textAlign: 'right',
         fontWeight: "bold",
     },
     fund_sec: {
@@ -240,6 +243,8 @@ const mapStateToProps = (state) => ({
     users: state.auth.users,
     isFetching: state.goals.isFetching,
     goalDetail: state.goals.goalDetail,
+    configs: state.goals.configs,
+    mygolelist: state.goals.mygolelist,
 })
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {

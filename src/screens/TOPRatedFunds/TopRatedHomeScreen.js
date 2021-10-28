@@ -13,11 +13,20 @@ import {
 
 } from "react-native";
 import { connect } from 'react-redux'
+import RNPickerSelect from 'react-native-picker-select';
 import { Styles, Config, Colors, FormValidate } from '../../common'
 import { Ionicons, AntDesign, FontAwesome, FontAwesome5, } from 'react-native-vector-icons';
 import { Image, Header, CheckBox, Overlay } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
-const width = Dimensions.get('window').width;
+
+const filterList = [
+    { name: '1M', label: '1M Returns', value: '1m', status: false },
+    { name: '1Y', label: '1Y Returns', value: '1y', status: false },
+    { name: '2Y', label: '2Y Returns', value: '2y', status: false },
+    { name: '3Y', label: '3Y Returns', value: '3y', status: false },
+    { name: '5Y', label: '5Y Returns', value: '5y', status: false },
+    { name: 'ALL', label: 'ALL Returns', value: '10y', status: false },
+]
 
 const roted = [
     { images: require('../../../assets/axis_img.png'), text: 'Axis Asset Management Company', text2: 'Moderately High Risk', button: 'INVEST', mintext: 'Min. Investment', maxtext: '1000', aumtext: 'AUM', aumtext2: '2097 Cr', returntext: 'Ruturns', returntext2: '16.0%', },
@@ -33,6 +42,7 @@ function TopRatedHomeScreen(props) {
     useEffect(() => {
         if (token) {
             getAllcategorys(token)
+            updateFilterSelection(filterList[1].value)
         }
     }, [token]);
     useEffect(() => {
@@ -40,6 +50,19 @@ function TopRatedHomeScreen(props) {
             console.log(details)
         }
     }, [details]);
+
+    const [filter, setFilter] = useState(filterList);
+    const [filterValue, setFilterValue] = useState('');
+    const updateFilterSelection = (value) => {
+        setFilterValue(value)
+        let selected = filter.find(x => x.value == value);
+        const index = filter.indexOf(selected);
+        if (index > -1) {
+            let tempFilterList = JSON.parse(JSON.stringify(filterList))
+            tempFilterList[index].status = true
+            setFilter(tempFilterList)
+        }
+    }
 
     const [selectCat, setSelectCat] = useState(null);
     const [selectSubCat, setSelectSubCat] = useState(null);
@@ -70,6 +93,27 @@ function TopRatedHomeScreen(props) {
     };
     // overlay end
 
+    const plusMinus = (type, value) => {
+        if (type === 'plus') {
+            let date = parseInt(value) + 1
+            if (date > 30) {
+                date = 30
+            }
+            setStates({ ...states, date })
+        } else {
+            let date = parseInt(value) - 1
+            if (date < 1) {
+                date = 1
+            }
+            setStates({ ...states, date })
+        }
+    }
+
+    const [states, setStates] = useState({
+        amount: '',
+        date: 5,
+    });
+
 
     return (
         <View style={styles.container}>
@@ -97,14 +141,28 @@ function TopRatedHomeScreen(props) {
                 <ScrollView horizontal={true} style={styles.Investnow_sec}>
                     {(category && category[0] && selectCat) ? (category[0][selectCat]).map((item, key) => <TouchableOpacity key={key} onPress={() => feachDetails(item)}><Text style={(item == selectSubCat) ? styles.Equity : styles.Debt}>{item}</Text></TouchableOpacity>) : null}
                 </ScrollView>
-                <View style={{ borderWidth: 0.5, borderColor: Colors.GREY_1, }}></View>
+                {selectSubCat && (<View style={{ borderWidth: 0.5, borderColor: Colors.GREY_1, }}></View>)}
 
                 {/* Topratedfunds_sec */}
                 <View style={styles.toprated}>
                     <Text style={styles.top}>Top Rated Funds</Text>
                     <View style={styles.returnsright}>
                         <View style={styles.returnsbox}>
-                            <Text style={styles.return}>5Y Returns</Text>
+                            <RNPickerSelect
+                                placeholder={{
+                                    label: 'Select a Item',
+                                    value: null,
+                                }}
+                                style={{
+                                    inputIOS: styles.custom,
+                                    inputAndroid: styles.custom,
+                                    placeholder: styles.custom,
+                                }}
+                                useNativeAndroidPickerStyle={false}
+                                onValueChange={(value) => updateFilterSelection(value)}
+                                value={filterValue}
+                                items={filter}
+                            />
                             <AntDesign name="caretdown" size={15} color="#C0392B" />
                         </View>
                         <View style={{ borderWidth: 1, borderColor: Colors.RED, }}></View>
@@ -152,52 +210,18 @@ function TopRatedHomeScreen(props) {
                 )}
 
                 <View style={styles.footer_sec}>
-                    <View style={styles.rupees_sec}>
+                    {filter.map((item, key) => <TouchableOpacity onPress={() => updateFilterSelection(item.value)} key={key} style={styles.rupees_sec}>
                         <Image
-                            source={require('../../../assets/rupeees.png')}
+                            source={item.status ? require('../../../assets/rupees2.png') : require('../../../assets/rupeees.png')}
                             style={styles.rupees}
                         />
-                        <Text style={styles.rupees_text}>1M</Text>
-                    </View>
-
-                    <View style={styles.rupees_sec}>
-                        <Image
-                            source={require('../../../assets/rupeees.png')}
-                            style={styles.rupees}
-                        />
-                        <Text style={styles.rupees_text}>1Y</Text>
-                    </View>
-
-                    <View style={styles.rupees_sec}>
-                        <Image
-                            source={require('../../../assets/rupeees.png')}
-                            style={styles.rupees}
-                        />
-                        <Text style={styles.rupees_text}>3Y</Text>
-                    </View>
-
-                    <View style={styles.rupees_sec}>
-                        <Image
-                            source={require('../../../assets/rupees2.png')}
-                            style={styles.rupees}
-                        />
-                        <Text style={styles.rupees_text}>5Y</Text>
-                    </View>
-
-                    <View style={styles.rupees_sec}>
-                        <Image
-                            source={require('../../../assets/rupeees.png')}
-                            style={styles.rupees}
-                        />
-                        <Text style={styles.rupees_text}>ALL</Text>
-                    </View>
+                        <Text style={styles.rupees_text}>{item.name}</Text>
+                    </TouchableOpacity>)}
                 </View>
             </ScrollView>
 
             <Overlay isVisible={visible} onBackdropPress={toggleOverlay}>
                 <View style={styles.pop_top}>
-
-
                     <View style={styles.click_sec}>
                         <View style={(selectTab == 'SIP') ? styles.buttom_botton2 : styles.buttom_botton}>
                             <TouchableOpacity onPress={() => toggleTab('SIP')}>
@@ -215,13 +239,17 @@ function TopRatedHomeScreen(props) {
                             <View style={styles.amount_sec}>
                                 <Text style={styles.amount_tex}>Amount</Text>
                                 <View style={styles.bordersec}>
-                                    <TextInput placeholder='5000' style={styles.amount_tex2} />
+                                    <TextInput value={states.amount} onChangeText={(amount) => setStates({ ...states, amount })} placeholder='5000' style={styles.amount_tex2} />
                                 </View>
                             </View>
                             <View style={styles.amount_sec}>
                                 <Text style={styles.amount_tex}>Date</Text>
-                                <View style={styles.bordersec}>
-                                    <TextInput keyboardType='numeric' placeholder='5' style={[styles.amount_tex2, { width: 50 }]} />
+                                <View style={[styles.bordersec, { flexDirection: "row" }]}>
+                                    <Text style={styles.new}>{states.date}</Text>
+                                    <View>
+                                        <TouchableOpacity onPress={() => plusMinus('plus', states.date)}><AntDesign name="caretup" size={15} color="#C0392B" /></TouchableOpacity>
+                                        <TouchableOpacity onPress={() => plusMinus('minus', states.date)}><AntDesign name="caretdown" size={15} color="#C0392B" /></TouchableOpacity>
+                                    </View>
                                 </View>
                             </View>
                         </View>
@@ -238,13 +266,17 @@ function TopRatedHomeScreen(props) {
                             <View style={styles.amount_sec}>
                                 <Text style={styles.amount_tex}>Amount</Text>
                                 <View style={styles.bordersec}>
-                                    <TextInput placeholder='5000' style={styles.amount_tex2} />
+                                    <TextInput value={states.amount} onChangeText={(amount) => setStates({ ...states, amount })} placeholder='5000' style={styles.amount_tex2} />
                                 </View>
                             </View>
                             <View style={styles.amount_sec}>
                                 <Text style={styles.amount_tex}>Date</Text>
-                                <View style={styles.bordersec}>
-                                    <TextInput keyboardType='numeric' placeholder='5' style={[styles.amount_tex2, { width: 50 }]} />
+                                <View style={[styles.bordersec, { flexDirection: "row" }]}>
+                                    <Text style={styles.new}>{states.date}</Text>
+                                    <View>
+                                        <TouchableOpacity onPress={() => plusMinus('plus', states.date)}><AntDesign name="caretup" size={15} color="#C0392B" /></TouchableOpacity>
+                                        <TouchableOpacity onPress={() => plusMinus('minus', states.date)}><AntDesign name="caretdown" size={15} color="#C0392B" /></TouchableOpacity>
+                                    </View>
                                 </View>
                             </View>
                         </View>
@@ -394,10 +426,6 @@ const styles = StyleSheet.create({
         paddingVertical: 12,
         paddingHorizontal: 20,
     },
-
-
-
-
     amount_sec: { alignItems: "center", },
     bordersec: {
         borderWidth: 1,
@@ -406,13 +434,17 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         marginTop: 3,
     },
+    new: {
+        fontSize: 20,
+        fontWeight: "bold",
+        padding: 5
+    },
     buttom_botton2box: {
         alignItems: "center",
         borderRadius: 5,
         backgroundColor: Colors.RED,
         marginLeft: 2,
         alignItems: "center",
-
         marginVertical: 30,
         paddingHorizontal: 30,
 
@@ -421,6 +453,7 @@ const styles = StyleSheet.create({
         color: Colors.DEEP_GRAY,
         width: 100,
         textAlign: "center",
+        paddingVertical: 5,
         fontSize: 18,
     },
     amount_tex: { fontSize: 18, },

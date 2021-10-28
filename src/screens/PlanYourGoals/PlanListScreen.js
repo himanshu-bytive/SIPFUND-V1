@@ -14,13 +14,13 @@ import {
 import { connect } from 'react-redux'
 import { Styles, Config, Colors, FormValidate } from '../../common'
 import { Ionicons, AntDesign, Entypo, FontAwesome5 } from 'react-native-vector-icons';
-import { Image, Header, CheckBox } from 'react-native-elements';
+import { Image, Header, CheckBox, colors } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
-import { MyImage, PlanYourGoalFundType } from "../../components";
+import { MyImage, GoalFundType } from "../../components";
 
 function PlanListScreen(props) {
     const pageActive = useRef(false);
-    const { token, goalDetail,isFetching } = props;
+    const { token, goalDetail, isFetching, mygolelist, myGoles } = props;
     return (
         <View style={styles.container}>
             <Header
@@ -33,7 +33,7 @@ function PlanListScreen(props) {
                 />}
                 rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={Colors.RED} /></View>}
             />
-             {isFetching && (<View style={Styles.loading}>
+            {isFetching && (<View style={Styles.loading}>
                 <ActivityIndicator color={Colors.BLACK} size='large' />
             </View>)}
             <ScrollView style={styles.containerScroll}>
@@ -41,7 +41,7 @@ function PlanListScreen(props) {
                 {/* SIP_sec */}
                 <View style={styles.education}>
                     <View style={styles.child_sec}>
-                    <MyImage
+                        <MyImage
                             width="117"
                             height="117"
                             svg={true}
@@ -67,15 +67,7 @@ function PlanListScreen(props) {
                     <Text style={styles.price}>₹ 16,000</Text>
                 </View>
 
-                {/* Hybrid_sec */}
-                {goalDetail && (goalDetail.schemesInfo.map((item, key) => <View key={key}>
-                    {item.schemeInfo != 'NA' && (<View style={styles.hybrid_sec}>
-                        <View style={{ backgroundColor: "#EFEFEF", }}>
-                            <Text style={styles.hybrid}>{item.schems}</Text>
-                        </View>
-                    </View>)}
-                    {item.schemeInfo != 'NA' && (<PlanYourGoalFundType data={item.schemeInfo} onPress={() => props.navigation.navigate('FundsDetails')} />)}
-                </View>))}
+                <GoalFundType data={mygolelist} myGoles={myGoles} onPress={() => props.navigation.navigate('FundsDetails')} />
 
             </ScrollView>
             <TouchableOpacity onPress={() => props.navigation.navigate('PlanSearch')}><Text style={styles.add}>I would like to add more funds</Text></TouchableOpacity>
@@ -91,6 +83,7 @@ function PlanListScreen(props) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor:Colors.WHITE,
     },
     logimg: {
         height: 65,
@@ -321,6 +314,7 @@ const mapStateToProps = (state) => ({
     users: state.auth.users,
     isFetching: state.goals.isFetching,
     goalDetail: state.goals.goalDetail,
+    mygolelist: state.goals.mygolelist,
 })
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
@@ -330,6 +324,7 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
         ...stateProps,
         ...ownProps,
         singleDetails: (params, token) => { GoalsActions.singleDetails(dispatch, params, token) },
+        myGoles: (data) => { GoalsActions.myGoles(dispatch, data) },
     }
 }
 export default connect(mapStateToProps, undefined, mapDispatchToProps)(PlanListScreen)

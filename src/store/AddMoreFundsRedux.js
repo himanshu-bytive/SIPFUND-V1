@@ -2,6 +2,8 @@ import SiteAPI from '../services/SiteApis'
 import { Alert } from 'react-native';
 
 const types = {
+    RESET_FUNDS: "RESET_FUNDS",
+
     FETCH_FETCH_FUNDS_PENDING: "FETCH_FETCH_FUNDS_PENDING",
     FETCH_FETCH_FUNDS_SUCCESS: "FETCH_FETCH_FUNDS_SUCCESS",
     FETCH_FETCH_FUNDS_FAILURE: "FETCH_FETCH_FUNDS_FAILURE",
@@ -9,6 +11,9 @@ const types = {
 };
 
 export const AddMoreFundsActions = {
+    resetFunds: async (dispatch) => {
+        dispatch({ type: types.RESET_FUNDS });
+    },
     fetchFunds: async (dispatch, params, token) => {
         dispatch({ type: types.FETCH_FETCH_FUNDS_PENDING });
         let data = await SiteAPI.apiGetCall(`/amc/search?amcname=${params.name}`, {}, token);
@@ -50,6 +55,14 @@ export const reducer = (state = initialState, action) => {
                 isFetching: false,
                 error: null,
                 funds
+            };
+        }
+        case types.RESET_FUNDS: {
+            return {
+                ...state,
+                isFetching: false,
+                error: null,
+                funds:[]
             };
         }
         default:

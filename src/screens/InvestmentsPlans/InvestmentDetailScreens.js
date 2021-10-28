@@ -13,6 +13,7 @@ import {
 } from "react-native";
 import { connect } from 'react-redux'
 import { Styles, Config, Colors, FormValidate } from '../../common'
+import { MyImage } from '../../components'
 import { Ionicons, AntDesign, EvilIcons, Entypo, FontAwesome5 } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
@@ -24,7 +25,7 @@ function InvestmentDetailScreens(props) {
     return (
         <View style={styles.container}>
             <Header
-                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={40} color={Colors.RED} /></TouchableOpacity>}
+                leftComponent={<TouchableOpacity onPress={() => props.navigation.navigate('Home')} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={40} color={Colors.RED} /></TouchableOpacity>}
                 containerStyle={Styles.header}
                 backgroundColor={Colors.LIGHT_WHITE}
                 centerComponent={<Image
@@ -151,13 +152,11 @@ const styles = StyleSheet.create({
         marginVertical: 6,
     },
     Hybrid: {
-        width: 32,
-        height: 36,
-
+        width: 35,
+        height: 35,
     },
     sbi_text: {
-        marginLeft: 10,
-        paddingTop: 0,
+        marginHorizontal: 10,
         fontSize: 15,
     },
     price: {

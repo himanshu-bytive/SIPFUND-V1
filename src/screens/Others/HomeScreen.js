@@ -50,10 +50,6 @@ function HomeScreen(props) {
         setVisible(!visible);
     };
 
-    const [eMandateType, setEMandateType] = useState(null);
-    const toggleEMandate = (type) => {
-        setEMandateType(type);
-    };
 
     return (
         <View style={styles.container}>
@@ -69,12 +65,12 @@ function HomeScreen(props) {
             />
             <ScrollView style={styles.containerScroll}>
                 <View style={styles.home_top}>
-                    <TouchableOpacity onPress={() => toggleEMandate('one')}>
+                    <View>
                         <Image
                             source={require('../../../assets/Hello.png')}
                             style={styles.Helloimg}
                         />
-                    </TouchableOpacity>
+                    </View>
                     <Text style={styles.HelloIinvestor}>Hello, Investor</Text>
                     <Text style={styles.HelloIinvestor1}>You’re almost ready to submit</Text>
                     {(users?.IIN && steps > 4) ? <TouchableOpacity onPress={() => props.navigation.navigate('Goals')} style={styles.botton_box}>
@@ -111,7 +107,7 @@ function HomeScreen(props) {
                 <Text style={styles.Plan}>Investment Plans</Text>
                 <InvestmentLists data={investments} counts={6} onPress={(item) => { investmentPlans(item, token); pageActiveInvest.current = true; }} />
                 <View style={{ alignItems: "center" }}>
-                    <TouchableOpacity onPress={() => props.navigation.navigate('InvestmentList')}>
+                    <TouchableOpacity onPress={() => props.navigation.navigate('InvestmentListAll')}>
                         <View style={styles.all_plan}>
                             <Text style={styles.all_plan_text}>See All Investment Plan</Text>
                             <AntDesign name="down" size={20} color="#C0392B" />
@@ -325,42 +321,7 @@ function HomeScreen(props) {
                 </View>
             </Overlay>
 
-            <Overlay isVisible={eMandateType === 'one' ? true : false}>
-                <View style={styles.emaMainbox}>
-                    <TouchableOpacity onPress={() => toggleEMandate('two')}><Text style={styles.emaAmc}>Choose AMC Option:</Text>
-                        <Text style={styles.emaMutual_fund}>Birla Sun Life Mutual Fund</Text></TouchableOpacity>
-                    <Text style={styles.emaMutual_fund}>HDFC Mutual Fund</Text>
-                    <Text style={styles.emaMutual_fund}>HSBC Asset Management (India) Pvt Ltd</Text>
-                    <Text style={styles.emaMutual_fund}>IDFC Asset Management Company Pvt Ltd</Text>
-                    <Text style={styles.emaMutual_fund}>Kotak Mahindra Mutual Fund</Text>
-                    <Text style={styles.emaMutual_fund}>nion Asset Management Company Private  Limited</Text>
-                    <TouchableOpacity onPress={() => toggleEMandate(null)}><Text style={styles.emaCancel}>Cancel</Text></TouchableOpacity>
-                </View>
-            </Overlay>
-
-            <Overlay isVisible={eMandateType === 'two' ? true : false}>
-                <View style={styles.emaMainbox}>
-                    <Text style={styles.emaAmc}>Choose E-Mandate Option:</Text>
-                    <CheckBox onPress={() => toggleEMandate('three')} containerStyle={styles.emaAmcCheck} textStyle={styles.emaAmcCheckFont} title='Debit Card - Do it now' checkedIcon='dot-circle-o' uncheckedIcon='circle-o' />
-                    <CheckBox containerStyle={styles.emaAmcCheck} textStyle={styles.emaAmcCheckFont} title='Net Banking - Do it now' checkedIcon='dot-circle-o' uncheckedIcon='circle-o' />
-                    <CheckBox containerStyle={styles.emaAmcCheck} textStyle={styles.emaAmcCheckFont} title='Debit Card - Send me email' checkedIcon='dot-circle-o' uncheckedIcon='circle-o' />
-                    <CheckBox containerStyle={styles.emaAmcCheck} textStyle={styles.emaAmcCheckFont} title='Net Banking - Send me email' checkedIcon='dot-circle-o' uncheckedIcon='circle-o' />
-                    <TouchableOpacity onPress={() => toggleEMandate(null)}><Text style={styles.emaCancel}>Cancel</Text></TouchableOpacity>
-                </View>
-            </Overlay>
-
-            <Overlay isVisible={eMandateType === 'three' ? true : false}>
-                <View style={styles.emaMainbox}>
-                    <Text style={styles.emaAmc}>ENTER ACH-MANDATE AMOUNT</Text>
-                    <Input placeholder='3000' />
-                    <View style={{ alignItems: 'flex-end' }}>
-                        <View style={{ flexDirection: 'row' }}>
-                            <TouchableOpacity onPress={() => toggleEMandate(null)}><Text style={styles.emaCancel}>CANCEL</Text></TouchableOpacity>
-                            <TouchableOpacity onPress={() => toggleEMandate(null)}><Text style={styles.emaCancel}>SUBMIT</Text></TouchableOpacity>
-                        </View>
-                    </View>
-                </View>
-            </Overlay>
+    
         </View>
     );
 }

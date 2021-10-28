@@ -19,7 +19,8 @@ import { Image, Header, CheckBox } from 'react-native-elements';
 
 function InvestmentSubmitScreens(props) {
     const pageActive = useRef(false);
-    const { investment, configs, isFetching } = props
+    const { investment, configs, isFetching, myInvestlist } = props
+    
     return (
         <View style={styles.container}>
             <Header
@@ -36,12 +37,12 @@ function InvestmentSubmitScreens(props) {
             <ScrollView>
                 <View style={styles.education}>
                     <View style={styles.child_sec}>
-                    <MyImage
-                           width="112"
-                           height="118"
-                        svg={true}
-                        url={investment.planImagePath }
-                    />
+                        <MyImage
+                            width="112"
+                            height="118"
+                            svg={true}
+                            url={investment.planImagePath}
+                        />
                     </View>
                     <View style={styles.education_sec}>
                         <Text style={styles.child}>Summary</Text>
@@ -56,18 +57,20 @@ function InvestmentSubmitScreens(props) {
 
                 <View style={styles.fund_sec}>
                     <Text style={styles.fund_secleft}>Fund List</Text>
-                    <Text style={styles.fund_secright}>₹{configs.invest}</Text>
+                    <Text style={styles.fund_secright}>₹ {configs.invest}</Text>
                 </View>
 
                 {/* Axis Asset Management Company Ltd */}
-                {investment.schemes && (investment.schemes.map((item, key) => <View key={key} style={styles.sbi_sec}>
+                {myInvestlist.map((item, key) => <View key={key} style={styles.sbi_sec}>
                     <Image
-                        source={{uri:item.schemes.imagePath}}
+                        source={{ uri: item.schemes.imagePath }}
                         style={styles.Hybrid}
                     />
                     <Text style={styles.sbi_text}>{item.schemes.name}</Text>
-                    <Text style={styles.price}>5,000</Text>
-                </View>))}
+                    <View style={{ flex: 1 }}>
+                        <Text style={styles.price}>₹ {item.schemes.sip}</Text>
+                    </View>
+                </View>)}
             </ScrollView>
             <TouchableOpacity onPress={() => props.navigation.navigate('Upi')} style={styles.botton_box}>
                 <Text style={styles.get_otp}>MAKE PAYMENT</Text>
@@ -139,10 +142,9 @@ const styles = StyleSheet.create({
         marginTop: 5,
         color: Colors.DEEP_GRAY,
     },
-    sbi_sec:
-    {
+    sbi_sec:{
         flexDirection: "row",
-        marginHorizontal: 20,
+        marginHorizontal: 10,
         borderBottomWidth: 1,
         borderColor: Colors.DEEP_GRAY,
         paddingBottom: 10,
@@ -151,32 +153,33 @@ const styles = StyleSheet.create({
     Hybrid: {
         width: 32,
         height: 36,
-
     },
     sbi_text: {
         marginLeft: 10,
-        paddingTop: 10,
         fontSize: 15,
+        width: '70%'
     },
     price: {
-        position: "absolute",
-        right: 0,
         paddingTop: 10,
         fontSize: 15,
+        paddingRight: 10,
+        textAlign: 'right',
+        fontWeight: "bold",
     },
     fund_sec: {
         flexDirection: "row",
         backgroundColor: Colors.LIGHT_GRAY,
-        marginHorizontal: 0,
+        marginHorizontal: 10,
         paddingVertical: 10,
-        paddingHorizontal: 10,
+        paddingHorizontal: 5,
     },
     fund_secright: {
         position: "absolute",
         right: 0,
         fontSize: 15,
+        fontWeight: "bold",
         paddingTop: 10,
-        paddingRight: 20,
+        paddingRight: 10,
     },
     fund_secleft: {
         fontSize: 18,
@@ -235,6 +238,7 @@ const mapStateToProps = (state) => ({
     token: state.auth.token,
     users: state.auth.users,
     isFetching: state.investmentplan.isFetching,
+    myInvestlist: state.investmentplan.myInvestlist,
     investment: state.investmentplan.investment,
     configs: state.investmentplan.configs,
 })

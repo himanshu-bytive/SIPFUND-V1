@@ -11,6 +11,7 @@ const types = {
     FETCH_INVESTMENT_PLAN_FAILURE: "FETCH_INVESTMENT_PLAN_FAILURE",
 
     FETCH_INVESTMENT_CONFIG: "FETCH_INVESTMENT_CONFIG",
+    FETCH_MY_INVESTMENTS: "FETCH_MY_INVESTMENTS",
 
     FETCH_NEW_INVESTMENT_PENDING: "FETCH_NEW_INVESTMENT_PENDING",
     FETCH_NEW_INVESTMENT_SUCCESS: "FETCH_NEW_INVESTMENT_SUCCESS",
@@ -43,11 +44,14 @@ export const InvestmentPlanActions = {
             Alert.alert(data.message)
             dispatch({ type: types.FETCH_INVESTMENT_PLAN_FAILURE, error: data.message });
         } else {
-            dispatch({ type: types.FETCH_INVESTMENT_PLAN_SUCCESS, investment: data.response });
+            dispatch({ type: types.FETCH_INVESTMENT_PLAN_SUCCESS, investment: data.response, myInvestlist: data.response.schemes });
         }
     },
     investmentConfig: async (dispatch, configs) => {
         dispatch({ type: types.FETCH_INVESTMENT_CONFIG, configs });
+    },
+    myInvestments: async (dispatch, myInvestlist) => {
+        dispatch({ type: types.FETCH_MY_INVESTMENTS, myInvestlist });
     },
     newInvestment: async (dispatch, code, token) => {
         if (code) {
@@ -84,24 +88,13 @@ const initialState = {
     isFetching: false,
     error: null,
     investments: [],
-    investment: null,
+    investment: {},
     configs: {},
-    incomes: [],
-    states: [],
-    citys: [],
-    pincodeInfo: null,
-    accountTypes: [],
-    banks: [],
-    bankDetails: {},
-    userInfo: null,
-    data: null,
-    addSuccess: false,
-    updateSuccess: false,
-    uploadSuccess: false,
+    myInvestlist: [],
 };
 
 export const reducer = (state = initialState, action) => {
-    const { type, error, investments, investment, configs, citys, accountTypes, banks, bankDetails, userInfo, pincodeInfo, data } = action;
+    const { type, error, investments, investment, myInvestlist, configs } = action;
     switch (type) {
         case types.FETCH_PLAN_NAME_PENDING:
         case types.FETCH_INVESTMENT_PLAN_PENDING:
@@ -112,9 +105,6 @@ export const reducer = (state = initialState, action) => {
                 ...state,
                 isFetching: true,
                 error: null,
-                addSuccess: false,
-                updateSuccess: false,
-                uploadSuccess: false,
             };
         }
 
@@ -126,9 +116,6 @@ export const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 isFetching: false,
-                addSuccess: false,
-                updateSuccess: false,
-                uploadSuccess: false,
                 error,
             };
         }
@@ -145,7 +132,16 @@ export const reducer = (state = initialState, action) => {
                 ...state,
                 isFetching: false,
                 error: null,
-                investment
+                investment,
+                myInvestlist
+            };
+        }
+        case types.FETCH_MY_INVESTMENTS: {
+            return {
+                ...state,
+                isFetching: false,
+                error: null,
+                myInvestlist
             };
         }
         case types.FETCH_INVESTMENT_CONFIG: {
@@ -161,7 +157,7 @@ export const reducer = (state = initialState, action) => {
                 ...state,
                 isFetching: false,
                 error: null,
-                pincodeInfo
+
             };
         }
         case types.FETCH_USER_INVESTMENT_SUCCESS: {
@@ -169,7 +165,7 @@ export const reducer = (state = initialState, action) => {
                 ...state,
                 isFetching: false,
                 error: null,
-                bankDetails
+
             };
         }
         case types.FETCH_INDIVIDUAL_INVESTMENT_SUCCESS: {
@@ -177,7 +173,6 @@ export const reducer = (state = initialState, action) => {
                 ...state,
                 isFetching: false,
                 error: null,
-                addSuccess: true
             };
         }
 

@@ -14,17 +14,22 @@ import {
 } from "react-native";
 import { connect } from 'react-redux'
 import { Styles, Config, Colors, FormValidate } from '../../common'
-import { MySlider, PlanYourGoalFundType, MyImage } from '../../components';
+import { MySlider, GoalFundType, MyImage } from '../../components';
 import { Ionicons, AntDesign, Entypo, FontAwesome5 } from 'react-native-vector-icons';
-import { Image, Header, CheckBox, Slider } from 'react-native-elements';
+import { Image, Header } from 'react-native-elements';
 
 function PlanHomeScreen(props) {
     const pageActive = useRef(false);
-    const { token, goalDetail, isFetching } = props;
+    const { token, goalDetail, mygolelist, isFetching, golesConfig, myGoles } = props;
     const [selectTab, setSelectTab] = useState('SIP');
     const toggleTab = (value) => {
         setSelectTab(value);
     };
+
+    useEffect(() => {
+        let params = { invest: 20000 }
+        golesConfig(params)
+    }, []);
 
     return (
         <View style={styles.container}>
@@ -154,15 +159,7 @@ function PlanHomeScreen(props) {
                         <Text style={styles.price}>₹ 16,000</Text>
                     </View>
 
-                    {/* Hybrid_sec */}
-                    {goalDetail && (goalDetail.schemesInfo.map((item, key) => <View key={key}>
-                        {item.schemeInfo != 'NA' && (<View style={styles.hybrid_sec}>
-                            <View style={{ backgroundColor: "#EFEFEF", }}>
-                                <Text style={styles.hybrid}>{item.schems}</Text>
-                            </View>
-                        </View>)}
-                        {item.schemeInfo != 'NA' && (<PlanYourGoalFundType data={item.schemeInfo} onPress={() => props.navigation.navigate('FundsDetails')} />)}
-                    </View>))}
+                    <GoalFundType data={mygolelist} myGoles={myGoles} onPress={() => props.navigation.navigate('FundsDetails')} />
 
                 </View>
             </ScrollView>
@@ -458,6 +455,7 @@ const mapStateToProps = (state) => ({
     users: state.auth.users,
     isFetching: state.goals.isFetching,
     goalDetail: state.goals.goalDetail,
+    mygolelist: state.goals.mygolelist,
 })
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
@@ -467,6 +465,8 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
         ...stateProps,
         ...ownProps,
         singleDetails: (params, token) => { GoalsActions.singleDetails(dispatch, params, token) },
+        golesConfig: (data) => { GoalsActions.golesConfig(dispatch, data) },
+        myGoles: (data) => { GoalsActions.myGoles(dispatch, data) },
     }
 }
 export default connect(mapStateToProps, undefined, mapDispatchToProps)(PlanHomeScreen)

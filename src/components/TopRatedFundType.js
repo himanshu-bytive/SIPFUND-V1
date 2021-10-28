@@ -10,7 +10,7 @@ import { AntDesign } from 'react-native-vector-icons';
 import { Image, CheckBox } from 'react-native-elements';
 import { Styles, Config, Colors, FormValidate } from '../common'
 
-export default function FundType(props) {
+export default function TopRatedFundType(props) {
     const { onPress, type } = props
     return (<View style={styles.axis_asset}>
         <View style={styles.company}>
@@ -51,10 +51,8 @@ export default function FundType(props) {
         {/* Select Folio No._sec */}
 
         <View style={styles.selectfolio_sec}>
-
             <View style={styles.select}>
                 <Text style={styles.no}>Select Folio No.</Text>
-
                 <View style={{ flexDirection: "row", borderBottomWidth: 1, borderBottomColor: "#707070", }}>
                     <Text style={styles.new}>New Folio</Text>
                     <AntDesign name="caretdown" size={20} color="#C0392B" />
@@ -72,7 +70,6 @@ export default function FundType(props) {
 
             </View>
             <View style={styles.select}>
-
                 <Text style={styles.no}>SIP</Text>
                 <Text style={styles.new}>4000</Text>
             </View>

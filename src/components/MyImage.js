@@ -9,16 +9,18 @@ const MyImage = (props) => {
             <SvgUri
                 width={width}
                 height={height}
-                source={{
-                    uri: "http://thenewcode.com/assets/images/thumbnails/homer-simpson.svg"
-                    // uri: url
-                }}
+                source={require('../../assets/moderate-funds.svg')}
+                // source={{
+                //     uri: "https://sipfund.sfo2.digitaloceanspaces.com/master-images/moderate-funds.svg"
+                //     // uri: url
+                // }}
             />
         )
     }
     return (
         <Image
-            source={{ uri: url }}
+            // source={{ uri: url }}
+            source={require('../../assets/moderate-funds.png')}
             style={style}
         />
     );

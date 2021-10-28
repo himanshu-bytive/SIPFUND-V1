@@ -15,16 +15,16 @@ import { connect } from 'react-redux'
 import { Styles, Config, Colors, FormValidate } from '../../common'
 import { Ionicons, AntDesign, EvilIcons, Entypo, FontAwesome5 } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
-import { MyImage, PlanYourGoalFundType } from "../../components";
+import { MyImage, InvestmentFundType } from "../../components";
 
 function InvestmentListScreens(props) {
     const pageActive = useRef(false);
-    const { investment, configs, isFetching } = props
+    const { investment, configs, isFetching, myInvestlist, myInvestments } = props
 
     return (
         <View style={styles.container}>
             <Header
-                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={40} color={Colors.RED} /></TouchableOpacity>}
+                leftComponent={<TouchableOpacity onPress={() => props.navigation.navigate('InvestmentDetail')} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={40} color={Colors.RED} /></TouchableOpacity>}
                 containerStyle={Styles.header}
                 backgroundColor={Colors.LIGHT_WHITE}
                 centerComponent={<Image
@@ -51,20 +51,11 @@ function InvestmentListScreens(props) {
                             url={investment.planImagePath}
                         />
                         <Text style={styles.sip}>SIP Per Month</Text>
-                        <Text style={styles.amount_text}>₹{configs.invest}</Text>
+                        <Text style={styles.amount_text}>₹ {configs.invest}</Text>
                     </View>
                 </View>
 
-
-                {/* Hybrid_sec */}
-                {investment && (investment.schemes.map((item, key) => <View key={key}>
-                    {item.schemes != 'NA' && (<View style={styles.hybrid_sec}>
-                        <View style={{ backgroundColor: "#EFEFEF", }}>
-                            <Text style={styles.hybrid}>{item.fund_type}</Text>
-                        </View>
-                    </View>)}
-                    {item.schemes != 'NA' && (<PlanYourGoalFundType data={item.schemes} onPress={() => props.navigation.navigate('FundsDetails')} />)}
-                </View>))}
+                <InvestmentFundType myInvestments={myInvestments} data={myInvestlist} onPress={() => props.navigation.navigate('FundsDetails')} />
 
             </ScrollView>
             <TouchableOpacity onPress={() => props.navigation.navigate('InvestmentSearch')}><Text style={styles.more_funds}>I would like to add more funds</Text></TouchableOpacity>
@@ -79,6 +70,7 @@ function InvestmentListScreens(props) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: Colors.WHITE,
     },
     logimg: {
         height: 65,
@@ -249,6 +241,7 @@ const mapStateToProps = (state) => ({
     isFetching: state.investmentplan.isFetching,
     investment: state.investmentplan.investment,
     configs: state.investmentplan.configs,
+    myInvestlist: state.investmentplan.myInvestlist,
 })
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
@@ -258,6 +251,7 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
         ...stateProps,
         ...ownProps,
         investmentConfig: (data) => { InvestmentPlanActions.investmentConfig(dispatch, data) },
+        myInvestments: (data) => { InvestmentPlanActions.myInvestments(dispatch, data) },
     }
 }
 export default connect(mapStateToProps, undefined, mapDispatchToProps)(InvestmentListScreens)

@@ -8,7 +8,6 @@ import {
 } from "react-native";
 import { Colors } from '../common'
 import SvgUri from "expo-svg-uri";
-
 export default function InvestmentLists(props) {
     const { data, counts, onPress } = props
     if (counts) {
@@ -19,7 +18,7 @@ export default function InvestmentLists(props) {
                         width="100%"
                         height="113"
                         source={{
-                            uri: "http://thenewcode.com/assets/images/thumbnails/homer-simpson.svg"
+                            uri: "https://sipfund.sfo2.digitaloceanspaces.com/master-images/moderate-funds.svg"
                             // uri: item.planImagePath
                         }}
                     />
@@ -35,7 +34,7 @@ export default function InvestmentLists(props) {
                         width="100%"
                         height="113"
                         source={{
-                            uri: "http://thenewcode.com/assets/images/thumbnails/homer-simpson.svg"
+                            uri: "https://sipfund.sfo2.digitaloceanspaces.com/master-images/moderate-funds.svg"
                             // uri: item.planImagePath
                         }}
                     />

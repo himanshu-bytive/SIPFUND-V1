@@ -7,9 +7,10 @@ import ProfileImagePicker from './ProfileImagePicker'
 import MyImage from './MyImage'
 import MySlider from './MySlider'
 import InvestmentLists from './InvestmentLists'
-import FundType from './FundType'
+import TopRatedFundType from './TopRatedFundType'
 import HoldingFundType from './HoldingFundType'
-import PlanYourGoalFundType from './PlanYourGoalFundType'
+import GoalFundType from './GoalFundType'
+import InvestmentFundType from './InvestmentFundType'
 import OtpInputs from './OtpInputs'
 import * as _Victorys from "./Victorys";
 
@@ -23,9 +24,10 @@ export {
     MyImage,
     MySlider,
     InvestmentLists,
-    FundType,
+    TopRatedFundType,
     HoldingFundType,
-    PlanYourGoalFundType,
+    GoalFundType,
+    InvestmentFundType,
     OtpInputs,
 };
 export const VictoryPieCode = _Victorys.VictoryPieCode;

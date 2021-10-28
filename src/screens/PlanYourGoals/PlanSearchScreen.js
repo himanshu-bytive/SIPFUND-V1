@@ -21,10 +21,11 @@ function PlanSearchScreen(props) {
     const searchInput = useRef(null);
     let timer = useRef(null);
     const [search, setSearch] = useState('');
-    const { token, goalDetail, isFetching, fetchFunds, funds } = props;
+    const { token, goalDetail, isFetching, resetFunds, fetchFunds, funds, mygolelist, myGoles } = props;
 
     useEffect(() => {
         searchInput.current.focus();
+        resetFunds()
     }, [token]);
 
     const searchResults = (value) => {
@@ -37,6 +38,22 @@ function PlanSearchScreen(props) {
             }
         }, 1000);
     };
+
+    const addRemove = (value) => {
+        let list = mygolelist ? mygolelist : []
+        list.push({
+            "schemeInfo": {
+                "type": "new",
+                "amc_code": "101",
+                "imagePath": `https://sipfund.sfo2.digitaloceanspaces.com/product-AMC-images/${value.productAMCImage}`,
+                "name": value.productDisplayName,
+                "productCode": value.productISIN,
+            },
+            "schems": value.productName,
+        })
+        myGoles(list)
+        props.navigation.navigate('PlanList')
+    }
 
     return (
         <View style={styles.container}>
@@ -84,7 +101,7 @@ function PlanSearchScreen(props) {
 
                 {/* Axis Asset Management Company Ltd */}
                 {funds.map((item, key) => <View key={key} style={styles.axis_asset}>
-                    <View style={styles.company}>
+                    <TouchableOpacity onPress={() => addRemove(item)} style={styles.company}>
                         <Image
                             source={{ uri: `https://sipfund.sfo2.digitaloceanspaces.com/product-AMC-images/${item.productAMCImage}` }}
                             style={styles.axisimg}
@@ -92,16 +109,15 @@ function PlanSearchScreen(props) {
                         <View style={styles.management}>
                             <Text style={styles.axis}>{item.productDisplayName}</Text>
                             <View style={styles.midcap}>
-                                <Text style={styles.moderately}>{item.productName}</Text>
+                                <Text style={styles.moderately}>{String(item.productName).substr(0, 20)}</Text>
                                 <View style={{ borderWidth: 1, borderColor: Colors.DARK_GREY, }}></View>
                                 <Text style={styles.moderately}>{item.productISIN}</Text>
                             </View>
                         </View>
                         <View style={styles.icon}>
-                            <TouchableOpacity onPress={() => props.navigation.navigate('PlanList')}>
-                                <AntDesign name="right" size={30} color="#838280" /></TouchableOpacity>
+                            <View><AntDesign name="right" size={30} color="#838280" /></View>
                         </View>
-                    </View>
+                    </TouchableOpacity>
                 </View>)}
 
             </ScrollView>
@@ -232,15 +248,19 @@ const mapStateToProps = (state) => ({
     goalDetail: state.goals.goalDetail,
     isFetching: state.addmorefunds.isFetching,
     funds: state.addmorefunds.funds,
+    mygolelist: state.goals.mygolelist,
 })
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     const { dispatch } = dispatchProps;
     const { AddMoreFundsActions } = require('../../store/AddMoreFundsRedux')
+    const { GoalsActions } = require('../../store/GoalsRedux')
     return {
         ...stateProps,
         ...ownProps,
+        resetFunds: () => { AddMoreFundsActions.resetFunds(dispatch) },
         fetchFunds: (params, token) => { AddMoreFundsActions.fetchFunds(dispatch, params, token) },
+        myGoles: (data) => { GoalsActions.myGoles(dispatch, data) },
     }
 }
 export default connect(mapStateToProps, undefined, mapDispatchToProps)(PlanSearchScreen)

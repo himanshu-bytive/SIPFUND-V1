@@ -10,6 +10,9 @@ const types = {
     FETCH_SINGLE_DETAILS_SUCCESS: "FETCH_SINGLE_DETAILS_SUCCESS",
     FETCH_SINGLE_DETAILS_FAILURE: "FETCH_SINGLE_DETAILS_FAILURE",
 
+    FETCH_MY_CONFIG: "FETCH_MY_CONFIG",
+    FETCH_MY_GOLES: "FETCH_MY_GOLES",
+
     FETCH_GOALUSER_PENDING: "FETCH_GOALUSER_PENDING",
     FETCH_GOALUSER_SUCCESS: "FETCH_GOALUSER_SUCCESS",
     FETCH_GOALUSER_FAILURE: "FETCH_GOALUSER_FAILURE",
@@ -41,8 +44,14 @@ export const GoalsActions = {
             Alert.alert(data.message)
             dispatch({ type: types.FETCH_SINGLE_DETAILS_FAILURE, error: data.message });
         } else {
-            dispatch({ type: types.FETCH_SINGLE_DETAILS_SUCCESS, goalDetail: data.response });
+            dispatch({ type: types.FETCH_SINGLE_DETAILS_SUCCESS, goalDetail: data.response, mygolelist: data.response.schemesInfo });
         }
+    },
+    golesConfig: async (dispatch, configs) => {
+        dispatch({ type: types.FETCH_MY_CONFIG, configs });
+    },
+    myGoles: async (dispatch, mygolelist) => {
+        dispatch({ type: types.FETCH_MY_GOLES, mygolelist });
     },
     goalUser: async (dispatch, code, token) => {
         if (code) {
@@ -80,22 +89,12 @@ const initialState = {
     error: null,
     goals: [],
     goalDetail: null,
-    incomes: [],
-    states: [],
-    citys: [],
-    pincodeInfo: null,
-    accountTypes: [],
-    banks: [],
-    bankDetails: {},
-    userInfo: null,
-    data: null,
-    addSuccess: false,
-    updateSuccess: false,
-    uploadSuccess: false,
+    configs: {},
+    mygolelist: [],
 };
 
 export const reducer = (state = initialState, action) => {
-    const { type, error, goals, goalDetail, states, citys, accountTypes, banks, bankDetails, userInfo, pincodeInfo, data } = action;
+    const { type, error, goals, goalDetail, configs, mygolelist } = action;
     switch (type) {
         case types.FETCH_GOAL_DETAILS_PENDING:
         case types.FETCH_SINGLE_DETAILS_PENDING:
@@ -107,9 +106,6 @@ export const reducer = (state = initialState, action) => {
                 ...state,
                 isFetching: true,
                 error: null,
-                addSuccess: false,
-                updateSuccess: false,
-                uploadSuccess: false,
             };
         }
 
@@ -121,9 +117,6 @@ export const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 isFetching: false,
-                addSuccess: false,
-                updateSuccess: false,
-                uploadSuccess: false,
                 error,
             };
         }
@@ -140,7 +133,24 @@ export const reducer = (state = initialState, action) => {
                 ...state,
                 isFetching: false,
                 error: null,
-                goalDetail
+                goalDetail,
+                mygolelist
+            };
+        }
+        case types.FETCH_MY_CONFIG: {
+            return {
+                ...state,
+                isFetching: false,
+                error: null,
+                configs
+            };
+        }
+        case types.FETCH_MY_GOLES: {
+            return {
+                ...state,
+                isFetching: false,
+                error: null,
+                mygolelist
             };
         }
         case types.FETCH_GOALUSER_SUCCESS: {
@@ -148,7 +158,7 @@ export const reducer = (state = initialState, action) => {
                 ...state,
                 isFetching: false,
                 error: null,
-                pincodeInfo
+
             };
         }
         case types.FETCH_SAVED_USER_SUCCESS: {
@@ -156,7 +166,7 @@ export const reducer = (state = initialState, action) => {
                 ...state,
                 isFetching: false,
                 error: null,
-                bankDetails
+
             };
         }
         case types.FETCH_SINGLESAVED_USER_SUCCESS: {
@@ -164,7 +174,6 @@ export const reducer = (state = initialState, action) => {
                 ...state,
                 isFetching: false,
                 error: null,
-                addSuccess: true
             };
         }
 

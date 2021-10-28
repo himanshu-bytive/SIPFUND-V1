@@ -13,18 +13,19 @@ import {
 } from "react-native";
 import { connect } from 'react-redux'
 import { Styles, Config, Colors, FormValidate } from '../../common'
-import {MyImage } from '../../components'
+import { MyImage } from '../../components'
 import { Ionicons, AntDesign, EvilIcons, Entypo, FontAwesome5 } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 
 function InvestmentSearchScreens(props) {
-    const { token, investment, isFetching, fetchFunds, funds } = props
+    const { token, investment, isFetching, resetFunds, fetchFunds, funds, myInvestlist, myInvestments } = props
     const searchInput = useRef(null);
     let timer = useRef(null);
     const [search, setSearch] = useState('');
 
     useEffect(() => {
         searchInput.current.focus();
+        resetFunds()
     }, [token]);
 
     const searchResults = (value) => {
@@ -36,8 +37,23 @@ function InvestmentSearchScreens(props) {
                 fetchFunds(params, token)
             }
         }, 1000);
-
     };
+
+    const addRemove = (value) => {
+        let list = myInvestlist ? myInvestlist : []
+        list.push({
+            "fund_type": value.productName,
+            "schemes": {
+                "type": "new",
+                "amc_code": "101",
+                "imagePath": `https://sipfund.sfo2.digitaloceanspaces.com/product-AMC-images/${value.productAMCImage}`,
+                "name": value.productDisplayName,
+                "productCode": value.productISIN,
+            },
+        })
+        myInvestments(list)
+        props.navigation.navigate('InvestmentList')
+    }
 
     return (
         <View style={styles.container}>
@@ -62,12 +78,12 @@ function InvestmentSearchScreens(props) {
                     </View>
 
                     <View style={styles.child_sec}>
-                    <MyImage
-                           width="112"
-                           height="118"
-                        svg={true}
-                        url={investment.planImagePath }
-                    />
+                        <MyImage
+                            width="112"
+                            height="118"
+                            svg={true}
+                            url={investment.planImagePath}
+                        />
                     </View>
                 </View>
 
@@ -86,7 +102,7 @@ function InvestmentSearchScreens(props) {
 
                 {/* Axis Asset Management Company Ltd */}
                 {funds.map((item, key) => <View key={key} style={styles.axis_asset}>
-                    <View style={styles.company}>
+                    <TouchableOpacity onPress={() => addRemove(item)} style={styles.company}>
                         <Image
                             source={{ uri: `https://sipfund.sfo2.digitaloceanspaces.com/product-AMC-images/${item.productAMCImage}` }}
                             style={styles.axisimg}
@@ -94,7 +110,7 @@ function InvestmentSearchScreens(props) {
                         <View style={styles.management}>
                             <Text style={styles.axis}>{item.productDisplayName}</Text>
                             <View style={styles.midcap}>
-                                <Text style={styles.moderately}>{item.productName}</Text>
+                                <Text style={styles.moderately}>{String(item.productName).substr(0, 20)}</Text>
                                 <View style={{ borderWidth: 1, borderColor: Colors.DARK_GREY, }}></View>
                                 <Text style={styles.moderately}>{item.productISIN}</Text>
                             </View>
@@ -103,9 +119,8 @@ function InvestmentSearchScreens(props) {
                             <TouchableOpacity onPress={() => props.navigation.navigate('PlanList')}>
                                 <AntDesign name="right" size={30} color="#838280" /></TouchableOpacity>
                         </View>
-                    </View>
+                    </TouchableOpacity>
                 </View>)}
-
             </ScrollView>
         </View>
 
@@ -231,16 +246,20 @@ const mapStateToProps = (state) => ({
     users: state.auth.users,
     investment: state.investmentplan.investment,
     isFetching: state.addmorefunds.isFetching,
+    myInvestlist: state.investmentplan.myInvestlist,
     funds: state.addmorefunds.funds,
 })
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     const { dispatch } = dispatchProps;
     const { AddMoreFundsActions } = require('../../store/AddMoreFundsRedux')
+    const { InvestmentPlanActions } = require('../../store/InvestmentPlanRedux')
     return {
         ...stateProps,
         ...ownProps,
+        resetFunds: () => { AddMoreFundsActions.resetFunds(dispatch) },
         fetchFunds: (params, token) => { AddMoreFundsActions.fetchFunds(dispatch, params, token) },
+        myInvestments: (data) => { InvestmentPlanActions.myInvestments(dispatch, data) },
     }
 }
 export default connect(mapStateToProps, undefined, mapDispatchToProps)(InvestmentSearchScreens)
