@@ -211,7 +211,7 @@ function CompleteDetailsScreen(props) {
             "OCCUPATION_DESC": selOccupation.OCCUPATION_DESC
         }
         params.nseDetails.dob = dob ? dob.getTime() : '',
-            params.nseDetails.title = selTitle.value
+        params.nseDetails.title = selTitle.value
         params.nseDetails.inv_name = investor
         params.nseDetails.pan = investorPan
         params.nseDetails.email = email
@@ -229,8 +229,8 @@ function CompleteDetailsScreen(props) {
         params.nseDetails.nominee1_name = nominate1name
         params.nseDetails.nominee1_relation = nominate1relation
         params.nseDetails.nominee1_dob = nominate1dob ? nominate1dob.getTime() : '',
-            params.nseDetails.nominee1_guard_name = nominate1guard_name
-        params.nseDetails.nominee1_guard_pan = nominate1guard_pan
+        params.nseDetails.nominee1_guard_name = nominate1guard_name
+        params.nseDetails.nominee1_guard_pan = (nominate1guard_pan).toUpperCase()
         params.nseDetails.nominee1_type = nominateMinor ? 'Y' : 'N'
         updateRegister(params, token)
         pageActive.current = true;
@@ -399,7 +399,7 @@ function CompleteDetailsScreen(props) {
                         placeholder={'Nominee Guardian PAN'}
                         value={state.nominate1guard_pan}
                         error={errors.nominate1guard_pan}
-                        onChangeText={(nominate1guard_pan) => { setErrors({ ...errors, nominate1guard_pan: null }); setState({ ...state, nominate1guard_pan: (nominate1guard_pan).toUpperCase() }) }}
+                        onChangeText={(nominate1guard_pan) => { setErrors({ ...errors, nominate1guard_pan: null }); setState({ ...state, nominate1guard_pan }) }}
                     />
                 </View>)}
 

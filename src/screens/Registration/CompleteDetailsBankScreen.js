@@ -24,6 +24,26 @@ function CompleteDetailsBankScreen(props) {
     const [bankList, setBankList] = useState([]);
 
 
+    const [state, setState] = useState({
+        showBank: false,
+        accountType: '',
+        accountNumber: '',
+        ifsc: '',
+        bank: '',
+        branchName: '',
+        branchAddress: '',
+    });
+
+    const [errors, setErrors] = useState({
+        accountType: null,
+        accountNumber: null,
+        ifsc: null,
+        showBank: null,
+        bank: null,
+        branchName: null,
+        branchAddress: null,
+    });
+
     useEffect(() => {
         if (isInn && pageActive.current) {
             pageActive.current = false;
@@ -63,27 +83,9 @@ function CompleteDetailsBankScreen(props) {
     }, [accountTypes, banks, bankDetails]);
 
 
-    const [state, setState] = useState({
-        showBank: false,
-        accountType: '',
-        accountNumber: '',
-        ifsc: '',
-        bank: '',
-        branchName: '',
-        branchAddress: '',
-    });
-
-    const [errors, setErrors] = useState({
-        accountType: null,
-        accountNumber: null,
-        ifsc: null,
-        bank: null,
-        branchName: null,
-        branchAddress: null,
-    });
 
     const onAction = async () => {
-        const { accountType, accountNumber, ifsc, bank, branchName, branchAddress } = state;
+        const { accountType, accountNumber, ifsc, bank, branchName, branchAddress, showBank } = state;
         if (!accountType) {
             setErrors({ ...errors, accountType: 'Please Select a Value' })
             return
@@ -98,6 +100,10 @@ function CompleteDetailsBankScreen(props) {
         }
         if (!ifsc) {
             setErrors({ ...errors, ifsc: 'Please Add a Value' })
+            return
+        }
+        if (!showBank) {
+            setErrors({ ...errors, showBank: 'Please Fetch Bank Details' })
             return
         }
         if (!bank) {
@@ -297,7 +303,7 @@ function CompleteDetailsBankScreen(props) {
 
                     <View style={{ alignItems: "center", }}>
                         {isFetching ? <View style={styles.botton_box}><ActivityIndicator size={30} color={Colors.WHITE} /></View> :
-                            <TouchableOpacity onPress={() => getBankDetails(state.ifsc, token)} style={styles.botton_box}>
+                            <TouchableOpacity onPress={() => {getBankDetails(state.ifsc, token); setErrors({ ...errors, showBank: null })}} style={styles.botton_box}>
                                 <Text style={styles.get_otp}>Fetch Bank Details</Text>
                             </TouchableOpacity>}
                     </View>
@@ -305,6 +311,7 @@ function CompleteDetailsBankScreen(props) {
 
                 {/* botton_box_sec */}
                 <View style={{ borderWidth: 6, borderColor: "#EAE9EE", marginVertical: 10, }}></View>
+                {(errors.showBank && !state.showBank) && (<Text style={[styles.error, { textAlign: 'center' }]}>{errors.showBank}</Text>)}
 
                 {/* container_2_sec */}
                 {(state.showBank && state.ifsc != '' && state.ifsc.length > 5) && (<View style={styles.container_sec}>

@@ -25,8 +25,8 @@ function HomeScreen(props) {
             getsteps({}, token)
             getHomeData({}, token)
             cartDetails(token)
-            goalDetails(token)
             allPlans(token)
+            goalDetails(token)
         }
     }, [token]);
 

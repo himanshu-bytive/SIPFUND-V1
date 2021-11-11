@@ -51,7 +51,7 @@ function PanScreen(props) {
         pageActive.current = true;
         let params = {
             "mobileNo": phone,
-            "pan": state.pannumber
+            "pan": (state.pannumber).toUpperCase()
         }
         updatePan(params, token);
         setState({ ...state, pannumber: '' });
@@ -82,7 +82,7 @@ function PanScreen(props) {
                             ref={pannumberInput}
                             style={styles.inputsec}
                             placeholder={'Pan'}
-                            onChangeText={(pannumber) => { setError({ ...errors, pannumber: null }); setState({ ...state, pannumber: (pannumber).toUpperCase() }) }}
+                            onChangeText={(pannumber) => { setError({ ...errors, pannumber: null }); setState({ ...state, pannumber }) }}
                             value={state.pannumber}
                         />
                     </View>

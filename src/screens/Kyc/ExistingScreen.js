@@ -22,10 +22,10 @@ function ExistingScreen(props) {
     const pageActive = useRef(false);
     const innInput = useRef(null);
     const panInput = useRef(null);
-    const { isFetching, token, userDetails, updateInn, users, isInn } = props;
+    const { isFetching, token, nseDetails, updateInn, users, isInn } = props;
     const [state, setState] = useState({
         inn: isInn ? (isInn).trim() : (users.IIN ? users.IIN : ''),
-        pan: userDetails.pan ? userDetails.pan : users.pan,
+        pan: nseDetails?.pan ? nseDetails.pan : (users.pan ? users.pan : pan)
     });
 
     const [errors, setError] = useState({
@@ -172,6 +172,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => ({
     token: state.auth.token,
     isInn: state.registration.isInn,
+    nseDetails: state.registration.nseDetails,
     users: state.auth.user,
     userDetails: state.registration.userDetails,
     isFetching: state.sideMenu.isFetching,

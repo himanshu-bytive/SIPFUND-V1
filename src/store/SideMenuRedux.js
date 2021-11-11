@@ -52,7 +52,7 @@ export const SideMenuActions = {
     },
     updateInn: async (dispatch, params, tokan) => {
         dispatch({ type: types.FETCH_UPDATE_PENDING });
-        let data = await SiteAPI.apiPostCall('/user', params, tokan);
+        let data = await SiteAPI.apiPutCall('/user', params, tokan);
         console.log(data)
         if (data.error) {
             Alert.alert(data.message)
