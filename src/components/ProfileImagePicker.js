@@ -77,6 +77,10 @@ const ProfileImagePicker = (props) => {
                 'Profile Image',
                 [
                     {
+                        text: 'Cancel',
+                        onPress: () => {},
+                    },
+                    {
                         text: "Camera",
                         onPress: () => {
                             setCamera(true)

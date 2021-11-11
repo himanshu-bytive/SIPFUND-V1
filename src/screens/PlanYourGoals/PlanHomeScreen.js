@@ -13,7 +13,7 @@ import {
     ActivityIndicator
 } from "react-native";
 import { connect } from 'react-redux'
-import { Styles, Config, Colors, FormValidate } from '../../common'
+import { Styles, Config, Colors, FormValidate, Utility } from '../../common'
 import { MySlider, GoalFundType, MyImage } from '../../components';
 import { Ionicons, AntDesign, Entypo, FontAwesome5 } from 'react-native-vector-icons';
 import { Image, Header } from 'react-native-elements';
@@ -21,15 +21,30 @@ import { Image, Header } from 'react-native-elements';
 function PlanHomeScreen(props) {
     const pageActive = useRef(false);
     const { token, goalDetail, mygolelist, isFetching, golesConfig, myGoles } = props;
+
+    const [params, setParams] = useState({
+        name: '',
+        amount: 65000,
+        time: 15,
+        inflation: 2.49,
+        returnRate: 5,
+        investment: 1000000,
+    });
+
     const [selectTab, setSelectTab] = useState('SIP');
     const toggleTab = (value) => {
         setSelectTab(value);
     };
 
     useEffect(() => {
-        let params = { invest: 20000 }
-        golesConfig(params)
+        // console.log(params)
+        let data = Utility.calculatorformula(params)
+        // console.log(data)
+        // let params = { invest: 20000 }
+        golesConfig(data)
     }, []);
+
+    // console.log(params)
 
     return (
         <View style={styles.container}>
@@ -68,31 +83,35 @@ function PlanHomeScreen(props) {
                 {/* vijay */}
                 <View style={styles.vijay_sec}>
                     <Text style={styles.child2}>Name of Child (Optional)</Text>
-                    <Text style={styles.childtext}>Vijay Deshmukh</Text>
+                    <TextInput
+                        style={styles.childtext}
+                        placeholder={'Name'}
+                        onChangeText={(name) => setParams({ ...params, name })}
+                        value={params.name}
+                    />
                 </View>
 
                 <View style={[styles.vijay_sec, styles.vijay,]}>
                     <Text style={styles.child2}>Current Cost of Education{"\n"}
                         (Tuition fees, stay etc.)</Text>
-                    <Text style={styles.childtext}>₹65,000</Text>
+                    <Text style={styles.childtext}>₹{params.amount}</Text>
                 </View>
+                <View style={{ marginHorizontal: 20 }}><MySlider value={Number(params.amount)} change={(amount) => setParams({ ...params, amount: Number(amount).toFixed(2) })} min="1000" max="100000" /></View>
 
-                <View style={{ marginHorizontal: 20 }}><MySlider /></View>
                 <View style={[styles.vijay_sec, styles.vijay,]}>
                     <Text style={styles.child2}>Year when this is required</Text>
-                    <Text style={styles.childtext}>15Y</Text>
+                    <Text style={styles.childtext}>{params.time}Y</Text>
                 </View>
+                <View style={{ marginHorizontal: 20 }}><MySlider value={Number(params.time)} change={(time) => setParams({ ...params, time: Number(time).toFixed(0) })} min="1" max="50" /></View>
 
-                <View style={{ marginHorizontal: 20 }}><MySlider /></View>
                 <View style={[styles.vijay_sec, styles.vijay,]}>
                     <Text style={styles.child2}>Current Investment Value (If Any)</Text>
-                    <Text style={styles.childtext}>₹10,00,000</Text>
+                    <Text style={styles.childtext}>₹{params.investment}</Text>
                 </View>
+                <View style={{ marginHorizontal: 20 }}><MySlider value={Number(params.investment)} change={(investment) => setParams({ ...params, investment: Number(investment).toFixed(2) })} min="1000" max="100000" /></View>
 
-                <View style={{ marginHorizontal: 20 }}><MySlider /></View>
-
-                <Text style={styles.note}>Note : Assuming current inflation rate at 2.49% and
-                    expected return rate on saving as 5%.</Text>
+                <Text style={styles.note}>Note : Assuming current inflation rate at {params.inflation}% and
+                    expected return rate on saving as {params.returnRate}%.</Text>
 
                 <View style={styles.click_sec}>
                     <TouchableOpacity onPress={() => toggleTab('SIP')} style={(selectTab == 'SIP') ? styles.buttom_botton2 : styles.buttom_botton}>

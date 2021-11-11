@@ -58,7 +58,6 @@ const initialState = {
     accountTypes: [],
     banks: [],
     bankDetails: {},
-    userInfo: null,
     documents: null,
     addSuccess: false,
     updateSuccess: false,
@@ -66,7 +65,7 @@ const initialState = {
 };
 
 export const reducer = (state = initialState, action) => {
-    const { type, error, occupations, incomes, states, citys, accountTypes, banks, bankDetails, userInfo, pincodeInfo, documents } = action;
+    const { type, error, occupations, incomes, states, citys, accountTypes, banks, bankDetails, pincodeInfo, documents } = action;
     switch (type) {
         case types.FETCH_REPORT_SUMMARY_PENDING:
         case types.FETCH_REPORT_DETAILS_PENDING:

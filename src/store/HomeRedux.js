@@ -12,13 +12,6 @@ const types = {
     FETCH_HOMEDATA_SUCCESS: "FETCH_HOMEDATA_SUCCESS",
     FETCH_HOMEDATA_FAILURE: "FETCH_HOMEDATA_FAILURE",
 
-    FETCH_USERDETAILS_PENDING: "FETCH_USERDETAILS_PENDING",
-    FETCH_USERDETAILS_SUCCESS: "FETCH_USERDETAILS_SUCCESS",
-    FETCH_USERDETAILS_FAILURE: "FETCH_USERDETAILS_FAILURE",
-
-    SAVE_USER_DETAILS: "SAVE_USER_DETAILS",
-
-
     FETCH_UPDATE_PAN_PENDING: "FETCH_UPDATE_PAN_PENDING",
     FETCH_UPDATE_PAN_SUCCESS: "FETCH_UPDATE_PAN_SUCCESS",
     FETCH_UPDATE_PAN_FAILURE: "FETCH_UPDATE_PAN_FAILURE",
@@ -48,18 +41,16 @@ export const HomeActions = {
             dispatch({ type: types.FETCH_HOMEDATA_SUCCESS, home: data });
         }
     },
-    getUserDetails: async (dispatch, params, tokan) => {
-        dispatch({ type: types.FETCH_USERDETAILS_PENDING });
-        let data = await SiteAPI.apiGetCall('/user/rawData', params, tokan);
+    updatePan: async (dispatch, params, tokan) => {
+        dispatch({ type: types.FETCH_UPDATE_PAN_PENDING });
+        let data = await SiteAPI.apiPostCall('/user/userPan', params, tokan);
         if (data.error) {
             Alert.alert(data.message)
-            dispatch({ type: types.FETCH_USERDETAILS_FAILURE, error: data.message });
+            // dispatch({ type: types.FETCH_UPDATE_PAN_FAILURE, error: data.message });
+            dispatch({ type: types.FETCH_UPDATE_PAN_SUCCESS, pan: params.pan });
         } else {
-            dispatch({ type: types.FETCH_USERDETAILS_SUCCESS, user: data.data });
+            dispatch({ type: types.FETCH_UPDATE_PAN_SUCCESS, pan: data.data });
         }
-    },
-    setUserInfo: async (dispatch, userInfo) => {
-        dispatch({ type: types.SAVE_USER_DETAILS, user: userInfo });
     },
 };
 
@@ -68,15 +59,13 @@ const initialState = {
     error: null,
     steps: null,
     home: null,
-    user: null,
     pan: null,
 };
 
 export const reducer = (state = initialState, action) => {
-    const { type, error, steps, home, user, pan } = action;
+    const { type, error, steps, home, pan } = action;
     switch (type) {
         case types.FETCH_UPDATE_PAN_PENDING:
-        case types.FETCH_USERDETAILS_PENDING:
         case types.FETCH_HOMEDATA_PENDING:
         case types.FETCH_STEPS_PENDING: {
             return {
@@ -86,7 +75,6 @@ export const reducer = (state = initialState, action) => {
             };
         }
         case types.FETCH_UPDATE_PAN_FAILURE:
-        case types.FETCH_USERDETAILS_FAILURE:
         case types.FETCH_HOMEDATA_FAILURE:
         case types.FETCH_STEPS_FAILURE: {
             return {
@@ -109,14 +97,6 @@ export const reducer = (state = initialState, action) => {
                 isFetching: false,
                 error: null,
                 home,
-            };
-        }
-        case types.FETCH_USERDETAILS_SUCCESS: {
-            return {
-                ...state,
-                isFetching: false,
-                error: null,
-                user,
             };
         }
         case types.FETCH_UPDATE_PAN_SUCCESS: {

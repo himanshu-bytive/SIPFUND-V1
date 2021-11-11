@@ -2,7 +2,6 @@ import SiteAPI from '../services/SiteApis'
 import { Alert } from 'react-native';
 const types = {
     GET_OCCUPATION: 'GET_OCCUPATION',
-    SAVE_USER_DETAILS: 'SAVE_USER_DETAILS',
 
     FETCH_CITY_PENDING: "FETCH_CITY_PENDING",
     FETCH_CITY_SUCCESS: "FETCH_CITY_SUCCESS",
@@ -15,6 +14,10 @@ const types = {
     FETCH_PINCODE_INFO_PENDING: "FETCH_PINCODE_INFO_PENDING",
     FETCH_PINCODE_INFO_SUCCESS: "FETCH_PINCODE_INFO_SUCCESS",
     FETCH_PINCODE_INFO_FAILURE: "FETCH_PINCODE_INFO_FAILURE",
+
+    FETCH_USERDETAILS_PENDING: "FETCH_USERDETAILS_PENDING",
+    FETCH_USERDETAILS_SUCCESS: "FETCH_USERDETAILS_SUCCESS",
+    FETCH_USERDETAILS_FAILURE: "FETCH_USERDETAILS_FAILURE",
 
     FETCH_CREATE_REGISTER_PENDING: "FETCH_CREATE_REGISTER_PENDING",
     FETCH_CREATE_REGISTER_SUCCESS: "FETCH_CREATE_REGISTER_SUCCESS",
@@ -91,17 +94,33 @@ export const RegistrationActions = {
             }
         }
     },
-    setUserInfo: async (dispatch, userInfo) => {
-        dispatch({ type: types.SAVE_USER_DETAILS, userInfo });
+    getUserDetails: async (dispatch, params, tokan) => {
+        dispatch({ type: types.FETCH_USERDETAILS_PENDING });
+        let data = await SiteAPI.apiGetCall('/user/rawData', params, tokan);
+        if (data.error) {
+            Alert.alert(data.message)
+            dispatch({ type: types.FETCH_USERDETAILS_FAILURE, error: data.message });
+        } else {
+            dispatch({
+                type: types.FETCH_USERDETAILS_SUCCESS,
+                fatcaDetails: data.data.fatcaDetails,
+                nseDetails: data.data.nseDetails,
+                userDetails: data.data.userDetails
+            });
+        }
     },
     createRegister: async (dispatch, params, token) => {
         dispatch({ type: types.FETCH_CREATE_REGISTER_PENDING });
         let data = await SiteAPI.apiPostCall('/apiData/CREATECUSTOMER', params, token);
         if (data.error) {
             Alert.alert(data.message)
-            dispatch({ type: types.FETCH_CREATE_REGISTER_FAILURE, error: data.message });
+            if (data.status == 'InActive') {
+                dispatch({ type: types.FETCH_CREATE_REGISTER_SUCCESS, isInn: String(data.message).split('-')[1] });
+            } else {
+                dispatch({ type: types.FETCH_CREATE_REGISTER_FAILURE, error: data.message });
+            }
         } else {
-            dispatch({ type: types.FETCH_CREATE_REGISTER_SUCCESS, });
+            dispatch({ type: types.FETCH_CREATE_REGISTER_SUCCESS, isInn: null });
         }
     },
     updateRegister: async (dispatch, params, token) => {
@@ -118,7 +137,12 @@ export const RegistrationActions = {
                     {
                         text: "OK",
                         onPress: () => {
-                            dispatch({ type: types.FETCH_UPDATE_REGISTER_SUCCESS });
+                            dispatch({
+                                type: types.FETCH_UPDATE_REGISTER_SUCCESS,
+                                fatcaDetails: data.data.fatcaDetails,
+                                nseDetails: data.data.nseDetails,
+                                userDetails: data.data.userDetails
+                            });
                         }
                     },
                 ]
@@ -128,6 +152,28 @@ export const RegistrationActions = {
     fileUpload: async (dispatch, params, token) => {
         dispatch({ type: types.FETCH_FILE_UPLOAD_PENDING });
         let data = await SiteAPI.uploadImgApi(`/documents/uploads?docType=${params.fileType}`, params.file, token);
+        if (data.error) {
+            Alert.alert(
+                'SIP Fund',
+                JSON.stringify(data.message),
+                [
+                    {
+                        text: "OK",
+                        onPress: () => {
+                            dispatch({ type: types.FETCH_FILE_UPLOAD_SUCCESS, });
+                        }
+                    },
+                ]
+            );
+        } else {
+            Alert.alert(data.responseString)
+            dispatch({ type: types.FETCH_FILE_UPLOAD_FAILURE, error: data.responseString });
+        }
+    },
+    fileUploadSign: async (dispatch, params, token) => {
+        dispatch({ type: types.FETCH_FILE_UPLOAD_PENDING });
+        let data = await SiteAPI.apiPostCall(`/template/Investor_Form1`, params, token);
+        let data1 = await SiteAPI.apiPostCall(`/template/ACH_FORM1`, params, token);
         if (data.error) {
             Alert.alert(
                 'SIP Fund',
@@ -160,16 +206,19 @@ const initialState = {
     accountTypes: [],
     banks: [],
     bankDetails: {},
-    userInfo: null,
+    fatcaDetails: null,
+    nseDetails: null,
+    userDetails: null,
     documents: null,
-    addSuccess: false,
+    isInn: false,
     updateSuccess: false,
     uploadSuccess: false,
 };
 
 export const reducer = (state = initialState, action) => {
-    const { type, error, occupations, incomes, states, citys, accountTypes, banks, bankDetails, userInfo, pincodeInfo, documents } = action;
+    const { type, error, fatcaDetails, nseDetails, userDetails, occupations, incomes, states, citys, accountTypes, banks, bankDetails, pincodeInfo, documents, isInn } = action;
     switch (type) {
+        case types.FETCH_USERDETAILS_PENDING:
         case types.FETCH_DOC_PENDING:
         case types.FETCH_FILE_UPLOAD_PENDING:
         case types.FETCH_UPDATE_REGISTER_PENDING:
@@ -186,6 +235,7 @@ export const reducer = (state = initialState, action) => {
                 uploadSuccess: false,
             };
         }
+        case types.FETCH_USERDETAILS_FAILURE:
         case types.FETCH_FILE_UPLOAD_FAILURE:
         case types.FETCH_UPDATE_REGISTER_FAILURE:
         case types.FETCH_CREATE_REGISTER_FAILURE:
@@ -237,12 +287,14 @@ export const reducer = (state = initialState, action) => {
                 bankDetails
             };
         }
-        case types.SAVE_USER_DETAILS: {
+        case types.FETCH_USERDETAILS_SUCCESS: {
             return {
                 ...state,
                 isFetching: false,
                 error: null,
-                userInfo
+                fatcaDetails,
+                nseDetails,
+                userDetails
             };
         }
         case types.FETCH_CREATE_REGISTER_SUCCESS: {
@@ -250,7 +302,7 @@ export const reducer = (state = initialState, action) => {
                 ...state,
                 isFetching: false,
                 error: null,
-                addSuccess: true
+                isInn
             };
         }
         case types.FETCH_UPDATE_REGISTER_SUCCESS: {
@@ -259,6 +311,10 @@ export const reducer = (state = initialState, action) => {
                 isFetching: false,
                 error: null,
                 updateSuccess: true,
+                fatcaDetails,
+                nseDetails,
+                userDetails,
+                isInn: false
             };
         }
         case types.FETCH_FILE_UPLOAD_SUCCESS: {

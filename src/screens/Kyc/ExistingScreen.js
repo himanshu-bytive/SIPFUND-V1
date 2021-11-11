@@ -22,10 +22,10 @@ function ExistingScreen(props) {
     const pageActive = useRef(false);
     const innInput = useRef(null);
     const panInput = useRef(null);
-    const { isFetching, token, user, updateInn } = props;
+    const { isFetching, token, userDetails, updateInn, users, isInn } = props;
     const [state, setState] = useState({
-        inn: '',
-        pan: user.userDetails.pan ? user.userDetails.pan : '',
+        inn: isInn ? (isInn).trim() : (users.IIN ? users.IIN : ''),
+        pan: userDetails.pan ? userDetails.pan : users.pan,
     });
 
     const [errors, setError] = useState({
@@ -46,11 +46,12 @@ function ExistingScreen(props) {
         }
         pageActive.current = true;
         let params = {
-            "inn": state.inn,
+            "iin": state.inn,
             "pan": state.pan,
         }
         updateInn(params, token);
         setState({ ...state, inn: '', pan: '' });
+        setTimeout(() => props.navigation.navigate('UploadDocument'), 1000)
     }
 
     return (
@@ -86,7 +87,7 @@ function ExistingScreen(props) {
                         ref={panInput}
                         style={styles.inputsec}
                         placeholder={'Enter your PAN number'}
-                        onChangeText={(pan) => { setError({ ...errors, pan: null }); setState({ ...state, pan }) }}
+                        onChangeText={(pan) => { setError({ ...errors, pan: null }); setState({ ...state, pan: (pan).toUpperCase() }) }}
                         value={state.pan}
                     />
                     {(errors.pan) && (<Text style={styles.error}>{errors.pan}</Text>)}
@@ -170,7 +171,9 @@ const styles = StyleSheet.create({
 });
 const mapStateToProps = (state) => ({
     token: state.auth.token,
-    user: state.home.user,
+    isInn: state.registration.isInn,
+    users: state.auth.user,
+    userDetails: state.registration.userDetails,
     isFetching: state.sideMenu.isFetching,
 })
 

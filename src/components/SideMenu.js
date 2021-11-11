@@ -19,7 +19,7 @@ import { Overlay, Header, CheckBox } from 'react-native-elements';
 function SideMenu(props) {
     const pageActiveKyc = useRef(false);
     const pageActiveEmandate = useRef(false);
-    const { token, isFetchingEkyc, isFetchingEmandate, userDetails, usersDetails, steps, docs, getList, postRequest, kycLists, emandateOptions, emandateRegistration, emandateLists } = props
+    const { token, isFetchingEkyc, isFetchingEmandate, nseDetails, userDetails,  steps, docs, getList, postRequest, kycLists, emandateOptions, emandateRegistration, emandateLists } = props
     const [img, setImg] = useState(null);
     const [visibleKyc, setVisibleKyc] = useState(false);
     const [visibleEmandate, setVisibleEmandate] = useState(false);
@@ -69,16 +69,16 @@ function SideMenu(props) {
             let params = {
                 "service_request":
                 {
-                    "acc_no": usersDetails?.nseDetails?.acc_no,
-                    "acc_type": usersDetails?.nseDetails?.acc_type?.ACC_TYPE,
+                    "acc_no": nseDetails?.acc_no,
+                    "acc_type": nseDetails?.acc_type?.ACC_TYPE,
                     "ach_amount": emandateValue,
                     "ach_fromdate": new Date(),
                     "ach_todate": "31-Dec-2099",
-                    "Bank_holder_name": usersDetails?.nseDetails?.inv_name,
-                    "bank_name": usersDetails?.nseDetails?.bank_name?.BANK_NAME,
-                    "branch_name": usersDetails?.nseDetails?.branch_name,
+                    "Bank_holder_name": nseDetails?.inv_name,
+                    "bank_name": nseDetails?.bank_name?.BANK_NAME,
+                    "branch_name": nseDetails?.branch_name,
                     "channel_type": visibleEmandateValue.channel_type,
-                    "ifsc_code": usersDetails?.nseDetails?.ifsc_code,
+                    "ifsc_code": nseDetails?.ifsc_code,
                     "iin": userDetails.IIN,
                     "micr_no": "",
                     "return_flag": visibleEmandateValue.return_flag
@@ -356,7 +356,7 @@ const mapStateToProps = (state) => ({
     token: state.auth.token,
     steps: state.home.steps,
     docs: state.registration.documents,
-    usersDetails: state.home.user,
+    nseDetails: state.registration.nseDetails,
     userDetails: state.auth.user,
     isFetchingEkyc: state.ekyc.isFetching,
     kycLists: state.ekyc.kycLists,

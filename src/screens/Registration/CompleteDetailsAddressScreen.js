@@ -10,14 +10,14 @@ import {
     Text,
 } from "react-native";
 import { connect } from 'react-redux'
-import { Styles,Colors } from '../../common'
+import { Styles, Colors } from '../../common'
 import { MySelectPicker, MyTextInput } from '../../components'
 import { AntDesign } from 'react-native-vector-icons';
 import { Image, Header } from 'react-native-elements';
 
 function CompleteDetailsAddressScreen(props) {
     const pageActive = useRef(false);
-    const { token, updateRegister, setUserInfo, user, statess, citys, getCitys, getPincode, pincodeInfo, updateSuccess, isFetching } = props;
+    const { token, updateRegister, fatcaDetails, nseDetails, userDetails, statess, citys, getCitys, getPincode, pincodeInfo, updateSuccess, isFetching } = props;
     const [stateList, setStateList] = useState([]);
     const [cityList, setCityList] = useState([]);
 
@@ -28,6 +28,14 @@ function CompleteDetailsAddressScreen(props) {
         city: '',
     });
 
+    const [errors, setErrors] = useState({
+        address: null,
+        pincode: null,
+        states: null,
+        city: null,
+    });
+
+
     useEffect(() => {
         if (updateSuccess && pageActive.current) {
             pageActive.current = false;
@@ -36,18 +44,19 @@ function CompleteDetailsAddressScreen(props) {
     }, [updateSuccess]);
 
     useEffect(() => {
-        if (user) {
+        if (fatcaDetails || nseDetails || userDetails) {
+            // console.log(fatcaDetails, nseDetails, userDetails)
             setState({
-                address: user.nseDetails.addr1,
-                pincode: user.nseDetails.pincode,
-                states: user.nseDetails.state.STATE_CODE,
-                city: user.nseDetails.city.CITY,
+                address: nseDetails.addr1,
+                pincode: nseDetails.pincode,
+                states: nseDetails.state.STATE_CODE,
+                city: nseDetails.city.CITY,
             })
-            if (user.nseDetails.state.STATE_CODE) {
-                getCitys(user.nseDetails.state.STATE_CODE, token)
+            if (nseDetails.state.STATE_CODE) {
+                getCitys(nseDetails.state.STATE_CODE, token)
             }
         }
-    }, [user]);
+    }, [fatcaDetails, nseDetails, userDetails]);
 
     useEffect(() => {
         if (statess) {
@@ -67,12 +76,6 @@ function CompleteDetailsAddressScreen(props) {
         }
     }, [pincodeInfo]);
 
-    const [errors, setErrors] = useState({
-        address: null,
-        pincode: null,
-        states: null,
-        city: null,
-    });
 
     const getStateCitys = async (pincode) => {
         if (pincode && pincode.length > 5) {
@@ -98,7 +101,7 @@ function CompleteDetailsAddressScreen(props) {
             setErrors({ ...errors, city: 'Please Select a Value' })
             return
         }
-        let params = JSON.parse(JSON.stringify(user))
+        let params = { ...{ nseDetails }, ...{ fatcaDetails }, ...{ userDetails } }
         let selStates = statess.find(x => x.STATE_CODE === states);
         let selCity = citys.find(x => x.CITY === city);
         params.nseDetails.addr1 = address
@@ -112,7 +115,6 @@ function CompleteDetailsAddressScreen(props) {
             "STATE_CODE": selStates.STATE_CODE,
         }
         updateRegister(params, token)
-        setUserInfo(params)
         pageActive.current = true;
     }
 
@@ -128,7 +130,7 @@ function CompleteDetailsAddressScreen(props) {
                 />}
                 rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={Colors.RED} /></View>}
             />
-             {isFetching && (<View style={Styles.loading}>
+            {isFetching && (<View style={Styles.loading}>
                 <ActivityIndicator color={Colors.BLACK} size='large' />
             </View>)}
             <ScrollView>
@@ -270,7 +272,9 @@ const styles = StyleSheet.create({
 });
 const mapStateToProps = (state) => ({
     token: state.auth.token,
-    user: state.home.user,
+    nseDetails: state.registration.nseDetails,
+    fatcaDetails: state.registration.fatcaDetails,
+    userDetails: state.registration.userDetails,
     isFetching: state.registration.isFetching,
     pincodeInfo: state.registration.pincodeInfo,
     statess: state.registration.states,
@@ -287,7 +291,6 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
         ...ownProps,
         getCitys: (code, token) => { RegistrationActions.getCitys(dispatch, code, token) },
         getPincode: (code, token) => { RegistrationActions.getPincode(dispatch, code, token) },
-        setUserInfo: (info) => { HomeActions.setUserInfo(dispatch, info) },
         updateRegister: (params, token) => { RegistrationActions.updateRegister(dispatch, params, token) },
     }
 }

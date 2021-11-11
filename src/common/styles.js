@@ -59,5 +59,10 @@ let Styles = {
         justifyContent: 'center',
         paddingBottom: 40
     },
+    error: {
+        paddingTop: 5,
+        color: Colors.RED,
+        fontSize: 13,
+    },
 }
 export default Styles;

@@ -4,6 +4,7 @@ import {
     View,
     Platform,
     ActivityIndicator,
+    BackHandler,
     Dimensions,
     ScrollView,
     Image,
@@ -23,6 +24,20 @@ function OtpScreen(props) {
     const { otp, resendOtp, phone, isFetching, signUpSteps } = props;
     const [locationServiceEnabled, setLocationServiceEnabled] = useState(false);
     const [displayCurrentAddress, setDisplayCurrentAddress] = useState([]);
+
+    useEffect(() => {
+        const backAction = () => {
+            return true;
+        };
+
+        const backHandler = BackHandler.addEventListener(
+            "hardwareBackPress",
+            backAction
+        );
+
+        return () => backHandler.remove();
+    }, []);
+
 
     useEffect(() => {
         CheckIfLocationEnabled();

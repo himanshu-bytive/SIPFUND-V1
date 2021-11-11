@@ -12,16 +12,16 @@ import { Button } from "react-native-paper";
 import MySelectPicker from "./MySelectPicker";
 
 const MyImagePicker = (props) => {
-    const { items, token, fileUpload } = props
+    const { items, token, fileUpload, fileUploadSign } = props
+    const selList = [{ value: 'Aadhaar Card Front', label: 'Aadhaar Card Front', fileType: 'AA1' }, { value: 'Aadhaar Card Back', label: 'Aadhaar Card Back', fileType: 'AA2' }, { value: 'Passport', label: 'Passport', fileType: 'PIC' }, { value: 'Driving Licence', label: 'Driving Licence', fileType: 'DL' }]
     const [img, setImg] = useState(null);
     const [camera, setCamera] = useState(false);
     const [hasPermission, setHasPermission] = useState(null);
     const [cameraRef, setCameraRef] = useState(null);
     const [type, setType] = useState(Camera.Constants.Type.back);
     const [sign, setSign] = useState(false);
-    const [item, setItem] = useState({});
+    const [item, setItem] = useState(selList[0]);
     const signBox = useRef(null);
-    const selList = [{ value: 'Aadhaar Card Front', label: 'Aadhaar Card Front', fileType: 'AA1' }, { value: 'Aadhaar Card Back', label: 'Aadhaar Card Back', fileType: 'AA2' }, { value: 'Passport', label: 'Passport', fileType: 'PIC' }, { value: 'Driving Licence', label: 'Driving Licence', fileType: 'DL' }]
 
     // Check Camera Permissions
     useEffect(() => {
@@ -77,19 +77,10 @@ const MyImagePicker = (props) => {
     };
 
     const signImage = (signature) => {
-        const path = FileSystem.cacheDirectory + "sign.jpeg";
-        FileSystem.writeAsStringAsync(path, signature.replace("data:image/png;base64,", ""), { encoding: FileSystem.EncodingType.Base64 })
-            .then(() => FileSystem.getInfoAsync(path))
-            .then(file => {
-                let params = {
-                    "file": { ...file, "type": "image" },
-                    "fileType": item.fileType
-                }
-                fileUpload(params, token)
-                setImg(file.uri);
-                setSign(false)
-            })
-            .catch((error) => console.log(error));
+        let params = { "signature": signature }
+        fileUploadSign(params, token)
+        setImg(signature);
+        setSign(false)
     };
 
     const setSelectDoc = (val) => {
@@ -266,6 +257,7 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
         ...stateProps,
         ...ownProps,
         fileUpload: (params, token) => { RegistrationActions.fileUpload(dispatch, params, token) },
+        fileUploadSign: (params, token) => { RegistrationActions.fileUploadSign(dispatch, params, token) },
     }
 }
 export default connect(mapStateToProps, undefined, mapDispatchToProps)(MyImagePicker)

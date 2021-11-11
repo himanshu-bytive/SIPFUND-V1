@@ -45,8 +45,8 @@ function ProfileScreen(props) {
             <ScrollView style={styles.containerScroll}>
                 <View style={styles.banner}>
                     <ProfileImagePicker docType='AVATAR' url={docs?.baseUrl} data={docs?.responseString?.documents ? docs.responseString.documents : []} />
-                    <Text style={styles.profile_text}>{user?.userDetails.name}</Text>
-                    <Text style={styles.profile_text2}>{user?.userDetails.state == 0 ? 'ACCOUNT INACTIVE' : 'ACCOUNT ACTIVE'}</Text>
+                    <Text style={styles.profile_text}>{nseDetails.name}</Text>
+                    <Text style={styles.profile_text2}>{nseDetails.state == 0 ? 'ACCOUNT INACTIVE' : 'ACCOUNT ACTIVE'}</Text>
                 </View>
                 <View style={styles.icon_sec}>
                     <View style={(steps && steps > 2) ? styles.icon_bg_act : styles.icon_bg}><FontAwesome name={"phone"} size={25} color={Colors.WHITE} /></View>
@@ -269,7 +269,7 @@ const mapStateToProps = (state) => ({
     token: state.auth.token,
     docs: state.registration.documents,
     steps: state.home.steps,
-    user: state.home.user,
+    nseDetails: state.registration.nseDetails,
     isFetching: state.registration.isFetching,
     uploadSuccess: state.registration.uploadSuccess,
 })

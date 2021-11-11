@@ -5,6 +5,7 @@ import {
     View,
     TouchableOpacity,
     ActivityIndicator,
+    BackHandler,
     Text,
 } from "react-native";
 import { connect } from 'react-redux'
@@ -20,7 +21,7 @@ let documentsKyc = [
 
 let documents = [
     { name: 'PAN', fileType: 'PC', info: 'Upload PAN', type: 'attachment', icon: (<FontAwesome5 name="credit-card" size={18} color="#EE4248" />) },
-    { name: 'Select Doc', multi: true, fileType: '', info: 'Upload Select Doc', type: 'attachment', icon: (<AntDesign name="idcard" size={20} color="#EE4248" />) },
+    { name: 'Aadhaar Card Front', multi: true, fileType: '', info: 'Upload Select Doc', type: 'attachment', icon: (<AntDesign name="idcard" size={20} color="#EE4248" />) },
     { name: 'Cancelled Cheque', fileType: 'CH', info: 'Upload Cancelled Cheque', type: 'attachment', icon: (<MaterialIcons name="cancel" size={22} color="#EE4248" />) },
     { name: 'Investor Form', fileType: 'KF', info: 'Upload Investor Form', type: 'attachment', icon: (<FontAwesome name="wpforms" size={22} color="#EE4248" />) },
     { name: 'Passport Size Image', fileType: 'PA', info: 'Upload Passport Size Image', type: 'attachment', icon: (<FontAwesome name="file-image-o" size={22} color="#EE4248" />) },
@@ -31,6 +32,19 @@ let documents = [
 function UploadDocumentScreen(props) {
     const { token, user, steps, docs, getDocuments, uploadSuccess, isFetching } = props
     const [document, setDocument] = useState(user?.userDetails?.ekycIsDone ? documentsKyc : documents);
+
+    useEffect(() => {
+        const backAction = () => {
+            return true;
+        };
+
+        const backHandler = BackHandler.addEventListener(
+            "hardwareBackPress",
+            backAction
+        );
+
+        return () => backHandler.remove();
+    }, []);
 
     useEffect(() => {
         if (token || uploadSuccess) {
@@ -50,7 +64,7 @@ function UploadDocumentScreen(props) {
                 />}
                 rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={Colors.RED} /></View>}
             />
-             {isFetching && (<View style={Styles.loading}>
+            {isFetching && (<View style={Styles.loading}>
                 <ActivityIndicator color={Colors.BLACK} size='large' />
             </View>)}
             <ScrollView>

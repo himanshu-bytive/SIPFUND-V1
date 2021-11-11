@@ -53,10 +53,12 @@ class ApiClient {
               NativeModules.DevSettings.reload();
             }
             let message = ''
+            let status = null
             if (error?.response?.data?.Data && Array.isArray(error?.response?.data?.Data)) {
               message = error.response.data.Data[0].return_msg
             } else if (error?.response?.data?.Data) {
               message = error.response.data.Data.return_msg
+              status = error.response.data.Data.Status
             } else if (error.response?.data?.responseString) {
               message = error.response?.data?.responseString
             } else if (error.response?.data?.message) {
@@ -65,7 +67,7 @@ class ApiClient {
             if (error.response?.data?.error) {
               message = error.response?.data?.error_description
             }
-            reject({ error: true, message });
+            reject({ error: true, message, status });
           } else if (error.request) {
             // The request was made but no response was received
             console.log('bbb ', error.request);

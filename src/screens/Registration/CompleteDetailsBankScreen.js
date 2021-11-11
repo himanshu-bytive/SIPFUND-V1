@@ -19,32 +19,33 @@ import { Image, Header, Overlay } from 'react-native-elements';
 function CompleteDetailsBankScreen(props) {
     const pageActive = useRef(false);
     const [visible, setVisible] = useState(false);
-    const { token, isFetching, updateRegister, setUserInfo, createRegister, user, accountTypes, banks, getBankDetails, bankDetails, addSuccess } = props;
+    const { token, isFetching, updateRegister, createRegister, user, fatcaDetails, nseDetails, userDetails, accountTypes, banks, getBankDetails, bankDetails, isInn } = props;
     const [accountTypeList, setAccountTypeList] = useState([]);
     const [bankList, setBankList] = useState([]);
 
 
     useEffect(() => {
-        if (addSuccess && pageActive.current) {
+        if (isInn && pageActive.current) {
             pageActive.current = false;
             setVisible(true)
         }
-    }, [addSuccess]);
+    }, [isInn]);
 
     useEffect(() => {
-        if (user) {
+        if (fatcaDetails || nseDetails || userDetails) {
+            // console.log(fatcaDetails, nseDetails, userDetails)
             setTimeout(() => {
                 setState({
-                    accountType: user.nseDetails.acc_type.ACC_TYPE,
-                    accountNumber: user.nseDetails.acc_no,
-                    ifsc: user.nseDetails.ifsc_code,
-                    bank: user.nseDetails.bank_name.BANK_CODE,
-                    branchName: user.nseDetails.branch_name,
-                    branchAddress: user.nseDetails.branch_addr1,
+                    accountType: nseDetails.acc_type.ACC_TYPE,
+                    accountNumber: nseDetails.acc_no,
+                    ifsc: nseDetails.ifsc_code,
+                    bank: nseDetails.bank_name.BANK_CODE,
+                    branchName: nseDetails.branch_name,
+                    branchAddress: nseDetails.branch_addr1,
                 })
             }, 1000)
         }
-    }, [user]);
+    }, [fatcaDetails, nseDetails, userDetails]);
 
     useEffect(() => {
         if (accountTypes) {
@@ -91,6 +92,10 @@ function CompleteDetailsBankScreen(props) {
             setErrors({ ...errors, accountNumber: 'Please Add a Value' })
             return
         }
+        if (accountNumber.length < 12 || accountNumber.length > 21) {
+            setErrors({ ...errors, accountNumber: 'Please Add a Validate Value' })
+            return
+        }
         if (!ifsc) {
             setErrors({ ...errors, ifsc: 'Please Add a Value' })
             return
@@ -107,7 +112,7 @@ function CompleteDetailsBankScreen(props) {
             setErrors({ ...errors, branchAddress: 'Please Add a Value' })
             return
         }
-        let params = JSON.parse(JSON.stringify(user))
+        let params = { ...{ nseDetails }, ...{ fatcaDetails }, ...{ userDetails } }
         let selAccountType = accountTypes.find(x => x.ACC_TYPE === accountType);
         let selBank = banks.find(x => x.BANK_CODE === bank);
         params.nseDetails.acc_type = {
@@ -123,7 +128,6 @@ function CompleteDetailsBankScreen(props) {
         params.nseDetails.branch_name = branchName
         params.nseDetails.branch_addr1 = branchAddress
         updateRegister(params, token)
-        setUserInfo(params)
         let paramsNew = {
             "service_request": {
                 "acc_no": params.nseDetails.acc_no,
@@ -181,7 +185,7 @@ function CompleteDetailsBankScreen(props) {
                 "jh2_valid_pan": params.nseDetails.jh2_valid_pan,
                 "kyc": params.nseDetails.kyc,
                 "mfu_can": params.nseDetails.mfu_can,
-                "mobile_no": params.nseDetails.mobile_no,
+                "mobile_no": user.mobileNo,
                 "mother_name": params.nseDetails.mother_name,
                 "no_of_nominee": params.nseDetails.no_of_nominee,
                 "nominee1_addr1": params.nseDetails.nominee1_addr1,
@@ -192,7 +196,7 @@ function CompleteDetailsBankScreen(props) {
                 "nominee1_guard_name": params.nseDetails.nominee1_guard_name,
                 "nominee1_guard_pan": params.nseDetails.nominee1_guard_pan,
                 "nominee1_name": params.nseDetails.nominee1_name,
-                "nominee1_percent": params.nseDetails.nominee1_percent,
+                "nominee1_percent": 100.0,
                 "nominee1_pincode": params.nseDetails.nominee1_pincode,
                 "nominee1_relation": params.nseDetails.nominee1_relation,
                 "nominee1_state": params.nseDetails.nominee1_state,
@@ -232,13 +236,17 @@ function CompleteDetailsBankScreen(props) {
                 "valid_pan": params.nseDetails.valid_pan,
             }
         }
-        createRegister(paramsNew, token)
+        setTimeout(() => createRegister(paramsNew, token), 3000)
         pageActive.current = true;
     }
 
     const onComplete = () => {
         setVisible(false)
-        props.navigation.navigate('UploadDocument')
+        if (isInn) {
+            props.navigation.navigate('Existing')
+        } else {
+            props.navigation.navigate('UploadDocument')
+        }
     }
 
 
@@ -254,7 +262,7 @@ function CompleteDetailsBankScreen(props) {
                 />}
                 rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={Colors.RED} /></View>}
             />
-             {isFetching && (<View style={Styles.loading}>
+            {isFetching && (<View style={Styles.loading}>
                 <ActivityIndicator color={Colors.BLACK} size='large' />
             </View>)}
             <ScrollView>
@@ -441,11 +449,14 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => ({
     isFetching: state.registration.isFetching,
     token: state.auth.token,
-    user: state.home.user,
+    user: state.auth.user,
+    nseDetails: state.registration.nseDetails,
+    fatcaDetails: state.registration.fatcaDetails,
+    userDetails: state.registration.userDetails,
     accountTypes: state.registration.accountTypes,
     banks: state.registration.banks,
     bankDetails: state.registration.bankDetails,
-    addSuccess: state.registration.addSuccess,
+    isInn: state.registration.isInn,
 })
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
@@ -456,7 +467,6 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
         ...stateProps,
         ...ownProps,
         getBankDetails: (code, token) => { RegistrationActions.getBankDetails(dispatch, code, token) },
-        setUserInfo: (info) => { HomeActions.setUserInfo(dispatch, info) },
         createRegister: (params, token) => { RegistrationActions.createRegister(dispatch, params, token) },
         updateRegister: (params, token) => { RegistrationActions.updateRegister(dispatch, params, token) },
     }

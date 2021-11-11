@@ -101,7 +101,7 @@ function LoginScreen(props) {
                     <View style={styles.conform}>
                         {isFetching ? <View style={styles.botton_box}><ActivityIndicator size={30} color={Colors.WHITE} /></View> :
                             <TouchableOpacity onPress={() => onAction()} style={styles.botton_box}>
-                                <Text style={styles.get_otp}>CONFIRM</Text>
+                                <Text style={styles.get_otp}>PROCEED</Text>
                                 <AntDesign name={"right"} size={26} color={Colors.WHITE} />
                             </TouchableOpacity>}
                     </View>
@@ -203,13 +203,13 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     const { dispatch } = dispatchProps;
-    const { AuthActions } = require('../../store/AuthRedux')
-    const { HomeActions } = require('../../store/HomeRedux')
+    const { AuthActions } = require('../../store/AuthRedux')    
+    const { RegistrationActions } = require('../../store/RegistrationRedux')
     return {
         ...stateProps,
         ...ownProps,
         login: (params, token) => { AuthActions.login(dispatch, params, token) },
-        getUserDetails: (params, token) => { HomeActions.getUserDetails(dispatch, params, token) },
+        getUserDetails: (params, token) => { RegistrationActions.getUserDetails(dispatch, params, token) },
     }
 }
 export default connect(mapStateToProps, undefined, mapDispatchToProps)(LoginScreen)

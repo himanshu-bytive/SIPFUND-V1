@@ -19,7 +19,7 @@ const height = Dimensions.get('window').height;
 function HomeScreen(props) {
     const pageActiveGoles = useRef(false);
     const pageActiveInvest = useRef(false);
-    const { token, logOut, users, isFetching, error, steps, home, user, cart, getsteps, getHomeData, getUserDetails, cartDetails, goalDetails, goals, singleDetails, goalDetail, allPlans, investments, investmentPlans, investment } = props;
+    const { token, logOut, users, isFetching, error, steps, home, cart, getsteps, getHomeData, cartDetails, goalDetails, goals, singleDetails, goalDetail, allPlans, investments, investmentPlans, investment } = props;
     useEffect(() => {
         if (token) {
             getsteps({}, token)
@@ -321,7 +321,7 @@ function HomeScreen(props) {
                 </View>
             </Overlay>
 
-    
+
         </View>
     );
 }
@@ -694,7 +694,6 @@ const mapStateToProps = (state) => ({
     error: state.home.error,
     steps: state.home.steps,
     home: state.home.home,
-    user: state.home.user,
     cart: state.home.cart,
     goals: state.goals.goals,
     goalDetail: state.goals.goalDetail,

@@ -43,6 +43,11 @@ function PanScreen(props) {
             setError({ ...errors, pannumber: 'Please enter Pan' });
             return
         }
+        if (!FormValidate.validatePan(state.pannumber)) {
+            pannumberInput.current.focus();
+            setError({ ...errors, pannumber: 'Please enter Validate Pan' });
+            return
+        }
         pageActive.current = true;
         let params = {
             "mobileNo": phone,
@@ -77,11 +82,11 @@ function PanScreen(props) {
                             ref={pannumberInput}
                             style={styles.inputsec}
                             placeholder={'Pan'}
-                            onChangeText={(pannumber) => { setError({ ...errors, pannumber: null }); setState({ ...state, pannumber }) }}
+                            onChangeText={(pannumber) => { setError({ ...errors, pannumber: null }); setState({ ...state, pannumber: (pannumber).toUpperCase() }) }}
                             value={state.pannumber}
                         />
                     </View>
-                    {(errors.pannumber) && (<Text style={styles.error}>{errors.pannumber}</Text>)}
+                    {(errors.pannumber) && (<Text style={Styles.error}>{errors.pannumber}</Text>)}
                     <View style={styles.button}>
                         {isFetching ? <View style={styles.botton_box}><ActivityIndicator size={30} color={Colors.WHITE} /></View> :
                             <TouchableOpacity onPress={() => onAction()} style={styles.botton_box}>

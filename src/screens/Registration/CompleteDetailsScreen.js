@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { connect } from 'react-redux'
 import moment from 'moment';
-import { Styles,Colors, FormValidate } from '../../common'
+import { Styles, Colors, FormValidate } from '../../common'
 import { MySelectPicker, MyDatePicker, MyTextInput } from '../../components'
 import { AntDesign } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
@@ -21,7 +21,7 @@ const pepList = [{ value: 'N', label: 'No' }, { value: 'Y', label: 'Yes' }, { va
 
 function CompleteDetailsScreen(props) {
     const pageActive = useRef(false);
-    const { token, users, user, pan, updateRegister, setUserInfo, settings, occupations, incomes, updateSuccess, isFetching } = props;
+    const { token, users, fatcaDetails, nseDetails, userDetails, pan, updateRegister, settings, occupations, incomes, updateSuccess, isFetching } = props;
     const [occupationsList, setOccupationsList] = useState([]);
     const [incomesList, setIncomesList] = useState([]);
     const relationList = [
@@ -46,52 +46,6 @@ function CompleteDetailsScreen(props) {
         { value: 'Other', label: 'Other' },
     ]
 
-    useEffect(() => {
-        if (updateSuccess && pageActive.current) {
-            pageActive.current = false;
-            props.navigation.navigate('RegisterAddress')
-        }
-    }, [updateSuccess]);
-
-    useEffect(() => {
-        settings(token)
-    }, []);
-
-    useEffect(() => {
-        if (user) {
-            setState({
-                occupation: user.nseDetails.occupation.OCCUPATION_CODE,
-                dob: new Date(user.nseDetails.dob),
-                title: user.nseDetails.title,
-                investor: user?.nseDetails?.inv_name ? user.nseDetails.inv_name : users.name,
-                investorPan: user?.nseDetails?.pan ? user.nseDetails.pan : (users.pan ? users.pan : pan),
-                email: users.email,
-                fatherName: user.nseDetails.father_name,
-                motherName: user.nseDetails.mother_name,
-                income: user.fatcaDetails.app_income.APP_INCOME_CODE,
-                pep: user.fatcaDetails.pep.code,
-                nominate: user.nseDetails.no_of_nominee ? true : false,
-                nominateMinor: (user.nseDetails.nominee1_type && user.nseDetails.nominee1_type == 'Y') ? true : false,
-                nominate1name: user.nseDetails.nominee1_name,
-                nominate1relation: user.nseDetails.nominee1_relation,
-                nominate1dob: new Date(user.nseDetails.nominee1_dob),
-                nominate1guard_name: user.nseDetails.nominee1_guard_name,
-                nominate1guard_pan: user.nseDetails.nominee1_guard_pan,
-            })
-        }
-    }, [user]);
-
-    useEffect(() => {
-        if (occupations) {
-            const occupationsList = occupations ? occupations.map((item) => ({ value: item.OCCUPATION_CODE, label: String(item.OCCUPATION_DESC) })) : []
-            setOccupationsList(occupationsList)
-        }
-        if (incomes) {
-            const incomesList = incomes ? incomes.map((item) => ({ value: item.APP_INCOME_CODE, label: String(item.APP_INCOME_DESC) })) : []
-            setIncomesList(incomesList)
-        }
-    }, [occupations, incomes]);
-
     const [state, setState] = useState({
         occupation: '',
         dob: null,
@@ -103,7 +57,7 @@ function CompleteDetailsScreen(props) {
         motherName: '',
         income: '',
         pep: '',
-        nominate: false,
+        nominate: true,
         nominateMinor: false,
         nominate1name: '',
         nominate1relation: '',
@@ -126,6 +80,53 @@ function CompleteDetailsScreen(props) {
         nominate: null,
     });
 
+    useEffect(() => {
+        if (updateSuccess && pageActive.current) {
+            pageActive.current = false;
+            props.navigation.navigate('RegisterAddress')
+        }
+    }, [updateSuccess]);
+
+    useEffect(() => {
+        settings(token)
+    }, []);
+
+    useEffect(() => {
+        if (fatcaDetails || nseDetails || userDetails) {
+            setState({
+                occupation: nseDetails.occupation.OCCUPATION_CODE,
+                dob: new Date(nseDetails.dob),
+                title: nseDetails.title,
+                investor: nseDetails?.inv_name ? nseDetails.inv_name : users.name,
+                investorPan: nseDetails?.pan ? nseDetails.pan : (users.pan ? users.pan : pan),
+                email: users.email,
+                fatherName: nseDetails.father_name,
+                motherName: nseDetails.mother_name,
+                income: fatcaDetails.app_income.APP_INCOME_CODE,
+                pep: fatcaDetails.pep.code,
+                nominate: true,
+                nominateMinor: (nseDetails.nominee1_type && nseDetails.nominee1_type == 'Y') ? true : false,
+                nominate1name: nseDetails.nominee1_name,
+                nominate1relation: nseDetails.nominee1_relation,
+                nominate1dob: new Date(nseDetails.nominee1_dob),
+                nominate1guard_name: nseDetails.nominee1_guard_name,
+                nominate1guard_pan: nseDetails.nominee1_guard_pan,
+            })
+        }
+    }, [fatcaDetails, nseDetails, userDetails]);
+
+    useEffect(() => {
+        if (occupations) {
+            const occupationsList = occupations ? occupations.map((item) => ({ value: item.OCCUPATION_CODE, label: String(item.OCCUPATION_DESC) })) : []
+            setOccupationsList(occupationsList)
+        }
+        if (incomes) {
+            const incomesList = incomes ? incomes.map((item) => ({ value: item.APP_INCOME_CODE, label: String(item.APP_INCOME_DESC) })) : []
+            setIncomesList(incomesList)
+        }
+    }, [occupations, incomes]);
+
+
     const onAction = async () => {
         const { occupation, dob, title, investor, investorPan, email, fatherName, motherName, income, pep, nominate, nominateMinor, nominate1name, nominate1relation, nominate1dob, nominate1guard_name, nominate1guard_pan } = state;
         if (!occupation) {
@@ -146,6 +147,10 @@ function CompleteDetailsScreen(props) {
         }
         if (!investorPan) {
             setErrors({ ...errors, investorPan: 'Please Add a Value' })
+            return
+        }
+        if (!FormValidate.validatePan(investorPan)) {
+            setErrors({ ...errors, nominate1guard_pan: 'Please Add Validate PAN' })
             return
         }
         if (!FormValidate.isEmail(email)) {
@@ -191,8 +196,12 @@ function CompleteDetailsScreen(props) {
                 setErrors({ ...errors, nominate1guard_pan: 'Please Add Nominate Guard PAN' })
                 return
             }
+            if (!FormValidate.validatePan(nominate1guard_pan)) {
+                setErrors({ ...errors, nominate1guard_pan: 'Please Add Validate Nominate Guard PAN' })
+                return
+            }
         }
-        let params = JSON.parse(JSON.stringify(user))
+        let params = { ...{ nseDetails }, ...{ fatcaDetails }, ...{ userDetails } }
         let selOccupation = occupations.find(x => x.OCCUPATION_CODE === occupation);
         let selTitle = titleList.find(x => x.value === title);
         let selIncome = incomes.find(x => x.APP_INCOME_CODE === income);
@@ -208,7 +217,7 @@ function CompleteDetailsScreen(props) {
         params.nseDetails.email = email
         params.nseDetails.father_name = fatherName
         params.nseDetails.mother_name = motherName
-        params.fatcaDetails.app_income.income = {
+        params.fatcaDetails.app_income = {
             "APP_INCOME_CODE": selIncome.APP_INCOME_CODE,
             "APP_INCOME_DESC": selIncome.APP_INCOME_DESC
         }
@@ -224,7 +233,6 @@ function CompleteDetailsScreen(props) {
         params.nseDetails.nominee1_guard_pan = nominate1guard_pan
         params.nseDetails.nominee1_type = nominateMinor ? 'Y' : 'N'
         updateRegister(params, token)
-        setUserInfo(params)
         pageActive.current = true;
     }
 
@@ -240,7 +248,7 @@ function CompleteDetailsScreen(props) {
                 />}
                 rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={Colors.RED} /></View>}
             />
-             {isFetching && (<View style={Styles.loading}>
+            {isFetching && (<View style={Styles.loading}>
                 <ActivityIndicator color={Colors.BLACK} size='large' />
             </View>)}
             <ScrollView>
@@ -374,7 +382,7 @@ function CompleteDetailsScreen(props) {
                         onChange={(nominate1relation) => { setErrors({ ...errors, nominate1relation: null }); setState({ ...state, nominate1relation }) }}
                     />
                 </View>)}
-                {state.nominateMinor && (<View style={styles.container_sec}>
+                {(state.nominate && state.nominateMinor) && (<View style={styles.container_sec}>
                     <Text style={styles.occupation}>DOB/DOI <Text style={styles.error}>*</Text></Text>
                     <MyDatePicker defultValue={state.nominate1dob} error={errors.nominate1dob} onChange={(nominate1dob) => { setErrors({ ...errors, nominate1dob: null }); setState({ ...state, nominate1dob }) }} />
 
@@ -391,7 +399,7 @@ function CompleteDetailsScreen(props) {
                         placeholder={'Nominee Guardian PAN'}
                         value={state.nominate1guard_pan}
                         error={errors.nominate1guard_pan}
-                        onChangeText={(nominate1guard_pan) => { setErrors({ ...errors, nominate1guard_pan: null }); setState({ ...state, nominate1guard_pan }) }}
+                        onChangeText={(nominate1guard_pan) => { setErrors({ ...errors, nominate1guard_pan: null }); setState({ ...state, nominate1guard_pan: (nominate1guard_pan).toUpperCase() }) }}
                     />
                 </View>)}
 
@@ -518,7 +526,9 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => ({
     token: state.auth.token,
     users: state.auth.user,
-    user: state.home.user,
+    nseDetails: state.registration.nseDetails,
+    fatcaDetails: state.registration.fatcaDetails,
+    userDetails: state.registration.userDetails,
     pan: state.home.pan,
     isFetching: state.registration.isFetching,
     occupations: state.registration.occupations,
@@ -529,12 +539,10 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     const { dispatch } = dispatchProps;
     const { RegistrationActions } = require('../../store/RegistrationRedux')
-    const { HomeActions } = require('../../store/HomeRedux')
     return {
         ...stateProps,
         ...ownProps,
         settings: (token) => { RegistrationActions.settings(dispatch, token) },
-        setUserInfo: (info) => { HomeActions.setUserInfo(dispatch, info) },
         updateRegister: (params, token) => { RegistrationActions.updateRegister(dispatch, params, token) },
     }
 }
