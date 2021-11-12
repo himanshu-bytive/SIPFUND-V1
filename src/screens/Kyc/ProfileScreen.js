@@ -19,7 +19,7 @@ import { Image, Header, CheckBox } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
 
 function ProfileScreen(props) {
-    const { steps, user, token, uploadSuccess, getDocuments, docs, isFetching } = props
+    const { steps, token, uploadSuccess, getDocuments, docs, isFetching, nseDetails } = props
 
     useEffect(() => {
         if (token || uploadSuccess) {
@@ -83,25 +83,25 @@ function ProfileScreen(props) {
                 <View style={styles.mutual_bottomsec}>
                     <View style={styles.mutual_left}>
                         <Text style={styles.customer}>Customer Id :</Text>
-                        <Text style={styles.id_text}>{user?.nseDetails?.acc_no}</Text>
+                        <Text style={styles.id_text}>{nseDetails?.acc_no}</Text>
                         <Text style={styles.customer}>Holding Nature :</Text>
-                        <Text style={styles.id_text}>{user?.nseDetails?.acc_type?.ACC_TYPE}</Text>
+                        <Text style={styles.id_text}>{nseDetails?.acc_type?.ACC_TYPE}</Text>
                         <Text style={styles.customer}>Email :</Text>
-                        <Text style={styles.id_text}>{user?.nseDetails?.email}</Text>
+                        <Text style={styles.id_text}>{nseDetails?.email}</Text>
 
                     </View>
                     <View style={styles.mutual_right}>
                         <Text style={styles.customer}>PAN :</Text>
-                        <Text style={styles.id_text}>{user?.nseDetails?.pan}</Text>
+                        <Text style={styles.id_text}>{nseDetails?.pan}</Text>
                         <Text style={styles.customer}>Tax Status :</Text>
-                        <Text style={styles.id_text}>{user?.nseDetails?.tax_status?.TAX_STATUS_DESC}</Text>
+                        <Text style={styles.id_text}>{nseDetails?.tax_status?.TAX_STATUS_DESC}</Text>
                         <Text style={styles.customer}>Mobile :</Text>
-                        <Text style={styles.id_text}>{user?.nseDetails?.off_phone}</Text>
+                        <Text style={styles.id_text}>{nseDetails?.off_phone}</Text>
                     </View>
                 </View>
                 <View style={styles.address}>
                     <Text style={styles.customer}>Address :</Text>
-                    <Text style={styles.id_text}>{user?.nseDetails?.addr1 + ' ' + user?.nseDetails?.addr1 + ' ' + user?.nseDetails?.addr3}</Text>
+                    <Text style={styles.id_text}>{nseDetails?.addr1 + ' ' + nseDetails?.addr1 + ' ' + nseDetails?.addr3}</Text>
                 </View>
 
 
@@ -109,24 +109,24 @@ function ProfileScreen(props) {
                 <View style={styles.mutual_bottomsec}>
                     <View style={styles.mutual_left}>
                         <Text style={styles.customer}>Bank Name :</Text>
-                        <Text style={styles.id_text}>{user?.nseDetails?.bank_name?.BANK_NAME}</Text>
+                        <Text style={styles.id_text}>{nseDetails?.bank_name?.BANK_NAME}</Text>
                         <Text style={styles.customer}>IFSC Code :</Text>
-                        <Text style={styles.id_text}>{user?.nseDetails?.ifsc_code}</Text>
+                        <Text style={styles.id_text}>{nseDetails?.ifsc_code}</Text>
                         <Text style={styles.customer}>Branch Name :</Text>
-                        <Text style={styles.id_text}>{user?.nseDetails?.branch_name}</Text>
+                        <Text style={styles.id_text}>{nseDetails?.branch_name}</Text>
                     </View>
                     <View style={styles.mutual_right}>
                         <Text style={styles.customer}>Account Type :</Text>
-                        <Text style={styles.id_text}>{user?.nseDetails?.acc_type?.ACC_TYPE}</Text>
+                        <Text style={styles.id_text}>{nseDetails?.acc_type?.ACC_TYPE}</Text>
                         <Text style={styles.customer}>Account No :</Text>
-                        <Text style={styles.id_text}>{user?.nseDetails?.acc_no}</Text>
+                        <Text style={styles.id_text}>{nseDetails?.acc_no}</Text>
                         <Text style={styles.customer}>Branch Pincode :</Text>
-                        <Text style={styles.id_text}>{user?.nseDetails?.branch_pincode}</Text>
+                        <Text style={styles.id_text}>{nseDetails?.branch_pincode}</Text>
                     </View>
                 </View>
                 <View style={styles.address}>
                     <Text style={styles.customer}>Bank Address :</Text>
-                    <Text style={styles.id_text}>{user?.nseDetails?.branch_addr1 + ' ' + user?.nseDetails?.branch_addr2 + ' ' + user?.nseDetails?.branch_addr3}</Text>
+                    <Text style={styles.id_text}>{nseDetails?.branch_addr1 + ' ' + nseDetails?.branch_addr2 + ' ' + nseDetails?.branch_addr3}</Text>
                 </View>
                 <View style={styles.mutual_sec}><Text style={styles.mutual_text}>BROKER</Text></View>
                 <View style={styles.mutual_bottomsec}>

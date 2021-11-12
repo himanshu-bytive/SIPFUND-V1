@@ -115,12 +115,12 @@ export const RegistrationActions = {
         if (data.error) {
             Alert.alert(data.message)
             if (data.status == 'InActive') {
-                dispatch({ type: types.FETCH_CREATE_REGISTER_SUCCESS, isInn: String(data.message).split('-')[1] });
+                dispatch({ type: types.FETCH_CREATE_REGISTER_SUCCESS, isExit: true, isInn: String(data.message).split('-')[1] });
             } else {
                 dispatch({ type: types.FETCH_CREATE_REGISTER_FAILURE, error: data.message });
             }
         } else {
-            dispatch({ type: types.FETCH_CREATE_REGISTER_SUCCESS, isInn: null });
+            dispatch({ type: types.FETCH_CREATE_REGISTER_SUCCESS, isExit: false, isInn: data.IIN });
         }
     },
     updateRegister: async (dispatch, params, token) => {
@@ -210,13 +210,14 @@ const initialState = {
     nseDetails: null,
     userDetails: null,
     documents: null,
-    isInn: false,
+    isInn: null,
+    isExit: false,
     updateSuccess: false,
     uploadSuccess: false,
 };
 
 export const reducer = (state = initialState, action) => {
-    const { type, error, fatcaDetails, nseDetails, userDetails, occupations, incomes, states, citys, accountTypes, banks, bankDetails, pincodeInfo, documents, isInn } = action;
+    const { type, error, fatcaDetails, nseDetails, userDetails, occupations, incomes, states, citys, accountTypes, banks, bankDetails, pincodeInfo, documents, isInn, isExit } = action;
     switch (type) {
         case types.FETCH_USERDETAILS_PENDING:
         case types.FETCH_DOC_PENDING:
@@ -302,7 +303,8 @@ export const reducer = (state = initialState, action) => {
                 ...state,
                 isFetching: false,
                 error: null,
-                isInn
+                isInn,
+                isExit
             };
         }
         case types.FETCH_UPDATE_REGISTER_SUCCESS: {
@@ -314,7 +316,7 @@ export const reducer = (state = initialState, action) => {
                 fatcaDetails,
                 nseDetails,
                 userDetails,
-                isInn: false
+                isInn: null
             };
         }
         case types.FETCH_FILE_UPLOAD_SUCCESS: {

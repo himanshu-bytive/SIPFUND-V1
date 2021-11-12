@@ -19,7 +19,7 @@ import { Image, Header, Overlay } from 'react-native-elements';
 function CompleteDetailsBankScreen(props) {
     const pageActive = useRef(false);
     const [visible, setVisible] = useState(false);
-    const { token, isFetching, updateRegister, createRegister, user, fatcaDetails, nseDetails, userDetails, accountTypes, banks, getBankDetails, bankDetails, isInn } = props;
+    const { token, isFetching, updateRegister, createRegister, user, fatcaDetails, nseDetails, userDetails, accountTypes, banks, getBankDetails, bankDetails, isInn, isExit } = props;
     const [accountTypeList, setAccountTypeList] = useState([]);
     const [bankList, setBankList] = useState([]);
 
@@ -248,7 +248,7 @@ function CompleteDetailsBankScreen(props) {
 
     const onComplete = () => {
         setVisible(false)
-        if (isInn) {
+        if (isInn && isExit) {
             props.navigation.navigate('Existing')
         } else {
             props.navigation.navigate('UploadDocument')
@@ -303,7 +303,7 @@ function CompleteDetailsBankScreen(props) {
 
                     <View style={{ alignItems: "center", }}>
                         {isFetching ? <View style={styles.botton_box}><ActivityIndicator size={30} color={Colors.WHITE} /></View> :
-                            <TouchableOpacity onPress={() => {getBankDetails(state.ifsc, token); setErrors({ ...errors, showBank: null })}} style={styles.botton_box}>
+                            <TouchableOpacity onPress={() => { getBankDetails(state.ifsc, token); setErrors({ ...errors, showBank: null }) }} style={styles.botton_box}>
                                 <Text style={styles.get_otp}>Fetch Bank Details</Text>
                             </TouchableOpacity>}
                     </View>
@@ -463,6 +463,7 @@ const mapStateToProps = (state) => ({
     accountTypes: state.registration.accountTypes,
     banks: state.registration.banks,
     bankDetails: state.registration.bankDetails,
+    isExit: state.registration.isExit,
     isInn: state.registration.isInn,
 })
 

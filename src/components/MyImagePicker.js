@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from "react";
 import * as ImagePicker from 'expo-image-picker';
 import { Camera } from "expo-camera";
 import SignatureScreen from "react-native-signature-canvas";
-import * as FileSystem from 'expo-file-system';
 import * as Permissions from 'expo-permissions';
 import { Modal, TouchableOpacity, Image, View, Text, StyleSheet, Alert } from 'react-native';
 import { Tooltip } from 'react-native-elements';
@@ -16,6 +15,7 @@ const MyImagePicker = (props) => {
     const selList = [{ value: 'Aadhaar Card Front', label: 'Aadhaar Card Front', fileType: 'AA1' }, { value: 'Aadhaar Card Back', label: 'Aadhaar Card Back', fileType: 'AA2' }, { value: 'Passport', label: 'Passport', fileType: 'PIC' }, { value: 'Driving Licence', label: 'Driving Licence', fileType: 'DL' }]
     const [img, setImg] = useState(null);
     const [camera, setCamera] = useState(false);
+    const [recording, setRecording] = useState(false)
     const [hasPermission, setHasPermission] = useState(null);
     const [cameraRef, setCameraRef] = useState(null);
     const [type, setType] = useState(Camera.Constants.Type.back);
@@ -129,21 +129,8 @@ const MyImagePicker = (props) => {
                         setCameraRef(ref);
                     }}
                 >
-                    <View
-                        style={{
-                            flex: 1,
-                            backgroundColor: "transparent",
-                            justifyContent: "flex-end",
-                        }}
-                    >
-                        <View
-                            style={{
-                                backgroundColor: "black",
-                                flexDirection: "row",
-                                alignItems: "center",
-                                justifyContent: "space-between",
-                            }}
-                        >
+                    <View style={{ flex: 1, backgroundColor: "transparent", justifyContent: "flex-end" }}>
+                        <View style={{ backgroundColor: "black", flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
                             <Button
                                 icon="close"
                                 style={{ marginLeft: 12 }}
@@ -155,27 +142,18 @@ const MyImagePicker = (props) => {
                             >
                                 Close
                             </Button>
-                            <TouchableOpacity
-                                onPress={async () => {
-                                    if (cameraRef) {
-                                        let photo = await cameraRef.takePictureAsync();
-                                        cameraImage(photo);
-                                        setCamera(false);
-                                    }
-                                }}
-                            >
-                                <View
-                                    style={{
-                                        borderWidth: 2,
-                                        borderRadius: 50,
-                                        borderColor: "white",
-                                        height: 50,
-                                        width: 50,
-                                        display: "flex",
-                                        justifyContent: "center",
-                                        alignItems: "center",
-                                        marginBottom: 16,
-                                        marginTop: 16,
+                            {item.name == 'Upload Video' ?
+                                <TouchableOpacity
+                                    onPress={async () => {
+                                        if (!recording) {
+                                            setRecording(true)
+                                            let video = await cameraRef.recordAsync();
+                                            cameraImage(video);
+                                            setCamera(false);
+                                        } else {
+                                            setRecording(false)
+                                            cameraRef.stopRecording()
+                                        }
                                     }}
                                 >
                                     <View
@@ -183,13 +161,62 @@ const MyImagePicker = (props) => {
                                             borderWidth: 2,
                                             borderRadius: 50,
                                             borderColor: "white",
-                                            height: 40,
-                                            width: 40,
-                                            backgroundColor: "white",
+                                            height: 50,
+                                            width: 50,
+                                            display: "flex",
+                                            justifyContent: "center",
+                                            alignItems: "center",
+                                            marginBottom: 16,
+                                            marginTop: 16,
                                         }}
-                                    ></View>
-                                </View>
-                            </TouchableOpacity>
+                                    >
+                                        <View
+                                            style={{
+                                                borderWidth: 2,
+                                                borderRadius: 50,
+                                                borderColor: "white",
+                                                height: 40,
+                                                width: 40,
+                                                backgroundColor: recording ? 'red' : 'white'
+                                            }}
+                                        ></View>
+                                    </View>
+                                </TouchableOpacity> : <TouchableOpacity
+                                    onPress={async () => {
+                                        if (cameraRef) {
+                                            let photo = await cameraRef.takePictureAsync();
+                                            cameraImage(photo);
+                                            setCamera(false);
+                                        }
+                                    }}
+                                >
+                                    <View
+                                        style={{
+                                            borderWidth: 2,
+                                            borderRadius: 50,
+                                            borderColor: "white",
+                                            height: 50,
+                                            width: 50,
+                                            display: "flex",
+                                            justifyContent: "center",
+                                            alignItems: "center",
+                                            marginBottom: 16,
+                                            marginTop: 16,
+                                        }}
+                                    >
+                                        <View
+                                            style={{
+                                                borderWidth: 2,
+                                                borderRadius: 50,
+                                                borderColor: "white",
+                                                height: 40,
+                                                width: 40,
+                                                backgroundColor: "white",
+                                            }}
+                                        ></View>
+                                    </View>
+                                </TouchableOpacity>}
+
                             <Button
                                 icon="axis-z-rotate-clockwise"
                                 style={{ marginRight: 12 }}
@@ -206,6 +233,7 @@ const MyImagePicker = (props) => {
                                 {type === Camera.Constants.Type.back ? "Front" : "Back "}
                             </Button>
                         </View>
+
                     </View>
                 </Camera>
             </Modal>
