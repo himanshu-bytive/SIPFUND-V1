@@ -32,7 +32,7 @@ function GoalsSummaryScreen(props) {
         <View style={styles.container}>
 
             <Header
-                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={Colors.RED} /></TouchableOpacity>}
+                leftComponent={<TouchableOpacity onPress={() => props.navigation.navigate('Home')} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={Colors.RED} /></TouchableOpacity>}
                 backgroundColor={Colors.PEACH}
                 centerComponent={<Image
                     source={require('../../../assets/icon.png')}

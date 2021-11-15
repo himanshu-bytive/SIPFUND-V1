@@ -19,7 +19,7 @@ import { Overlay, Header, CheckBox } from 'react-native-elements';
 function SideMenu(props) {
     const pageActiveKyc = useRef(false);
     const pageActiveEmandate = useRef(false);
-    const { token, isFetchingEkyc, isFetchingEmandate, nseDetails, userDetails,  steps, docs, getList, postRequest, kycLists, emandateOptions, emandateRegistration, emandateLists } = props
+    const { token, isFetchingEkyc, isFetchingEmandate, nseDetails, userDetails, steps, docs, getList, postRequest, kycLists, emandateOptions, emandateRegistration, emandateLists, kycDetails } = props
     const [img, setImg] = useState(null);
     const [visibleKyc, setVisibleKyc] = useState(false);
     const [visibleEmandate, setVisibleEmandate] = useState(false);
@@ -43,8 +43,10 @@ function SideMenu(props) {
         }
     }, [kycLists]);
 
+
     const handleKyc = (value) => {
         setVisibleKyc(false)
+        pageActiveKyc.current = true;
         let params = {
             "service_request":
             {
@@ -56,8 +58,16 @@ function SideMenu(props) {
                 "return_flag": "Y"
             }
         }
-        emandateRegistration(params, token)
+        postRequest(params, token)
     };
+
+    useEffect(() => {
+        if (kycDetails && pageActiveKyc.current) {
+            pageActiveKyc.current = false;
+            Linking.openURL(kycDetails)
+        }
+    }, [kycDetails]);
+
 
     const handlEemandate = (value) => {
         setVisibleEmandate(false)
@@ -84,7 +94,7 @@ function SideMenu(props) {
                     "return_flag": visibleEmandateValue.return_flag
                 }
             }
-            postRequest(params, token)
+            emandateRegistration(params, token)
             setVisibleEmandateValue(null)
             setEmandateValue(null)
         }

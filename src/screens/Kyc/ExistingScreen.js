@@ -24,7 +24,7 @@ function ExistingScreen(props) {
     const panInput = useRef(null);
     const { isFetching, token, nseDetails, updateInn, users, isInn } = props;
     const [state, setState] = useState({
-        inn: isInn ? (isInn).trim() : (users.IIN ? users.IIN : ''),
+        inn: isInn ? String(isInn).trim() : (users.IIN ? users.IIN : ''),
         pan: nseDetails?.pan ? nseDetails.pan : (users.pan ? users.pan : pan)
     });
 

@@ -26,12 +26,11 @@ export const EkycActions = {
     postRequest: async (dispatch, params, token) => {
         dispatch({ type: types.FETCH_POST_REQUEST_PENDING });
         let data = await SiteAPI.apiPostCall(`/apiData/eKYC_REGISTRATION`, params, token);
-        console.log(data)
         if (data.error) {
             Alert.alert(data.message)
             dispatch({ type: types.FETCH_POST_REQUEST_FAILURE, error: data.message });
         } else {
-            dispatch({ type: types.FETCH_POST_REQUEST_SUCCESS, kycDetails: data.response });
+            dispatch({ type: types.FETCH_POST_REQUEST_SUCCESS, kycDetails: data.Data[0].eKyclink });
         }
     },
 };
@@ -51,6 +50,7 @@ export const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 isFetching: true,
+                kycDetails: null,
                 error: null,
             };
         }
