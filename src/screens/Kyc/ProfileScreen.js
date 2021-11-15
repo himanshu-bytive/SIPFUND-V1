@@ -136,7 +136,7 @@ function ProfileScreen(props) {
                 <View style={styles.mutual_bottomsec}>
                     <View style={styles.mutual_left}>
                         <Text style={styles.customer}>Broker Name :</Text>
-                        <Text style={styles.id_text}>{ }</Text>
+                        <Text style={styles.id_text}>{'Sipfund Pvt.Ltd.'}</Text>
 
                     </View>
                     <View style={styles.mutual_right}>
