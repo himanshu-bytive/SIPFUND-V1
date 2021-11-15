@@ -24,6 +24,10 @@ const types = {
     FETCH_SINGLESAVED_USER_PENDING: "FETCH_SINGLESAVED_USER_PENDING",
     FETCH_SINGLESAVED_USER_SUCCESS: "FETCH_SINGLESAVED_USER_SUCCESS",
     FETCH_SINGLESAVED_USER_FAILURE: "FETCH_SINGLESAVED_USER_FAILURE",
+
+    FETCH_SUMMARY_PENDING: "FETCH_SUMMARY_PENDING",
+    FETCH_SUMMARY_SUCCESS: "FETCH_SUMMARY_SUCCESS",
+    FETCH_SUMMARY_FAILURE: "FETCH_SUMMARY_FAILURE",
 };
 
 export const GoalsActions = {
@@ -81,6 +85,17 @@ export const GoalsActions = {
         }
 
     },
+    goalSummary: async (dispatch, params, token) => {
+        dispatch({ type: types.FETCH_SUMMARY_PENDING });
+        let data = await SiteAPI.apiGetCall(`/goalsAndinvestmentHoldings`, params, token);
+        console.log('aaa ', data)
+        if (data.error) {
+            Alert.alert(data.message)
+            dispatch({ type: types.FETCH_SUMMARY_FAILURE, error: data.message });
+        } else {
+            dispatch({ type: types.FETCH_SUMMARY_SUCCESS, summary: data });
+        }
+    },
 
 };
 
@@ -91,24 +106,25 @@ const initialState = {
     goalDetail: null,
     configs: {},
     mygolelist: [],
+    summary: {},
 };
 
 export const reducer = (state = initialState, action) => {
-    const { type, error, goals, goalDetail, configs, mygolelist } = action;
+    const { type, error, goals, goalDetail, configs, mygolelist, summary } = action;
     switch (type) {
+        case types.FETCH_SUMMARY_PENDING:
         case types.FETCH_GOAL_DETAILS_PENDING:
         case types.FETCH_SINGLE_DETAILS_PENDING:
         case types.FETCH_SINGLESAVED_USER_PENDING:
         case types.FETCH_GOALUSER_PENDING:
         case types.FETCH_SAVED_USER_PENDING: {
-
             return {
                 ...state,
                 isFetching: true,
                 error: null,
             };
         }
-
+        case types.FETCH_SUMMARY_FAILURE:
         case types.FETCH_GOAL_DETAILS_FAILURE:
         case types.FETCH_SINGLESAVED_USER_FAILURE:
         case types.FETCH_GOALUSER_FAILURE:
@@ -174,6 +190,14 @@ export const reducer = (state = initialState, action) => {
                 ...state,
                 isFetching: false,
                 error: null,
+            };
+        }
+        case types.FETCH_SUMMARY_SUCCESS: {
+            return {
+                ...state,
+                isFetching: false,
+                error: null,
+                summary
             };
         }
 

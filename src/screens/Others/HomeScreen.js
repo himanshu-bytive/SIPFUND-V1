@@ -50,7 +50,6 @@ function HomeScreen(props) {
         setVisible(!visible);
     };
 
-
     return (
         <View style={styles.container}>
             <Header
@@ -73,7 +72,7 @@ function HomeScreen(props) {
                     </View>
                     <Text style={styles.HelloIinvestor}>Hello, Investor</Text>
                     <Text style={styles.HelloIinvestor1}>You’re almost ready to submit</Text>
-                    {(users?.IIN && steps > 4) ? <TouchableOpacity onPress={() => props.navigation.navigate('Goals')} style={styles.botton_box}>
+                    {(users?.IIN && steps > 3) ? <TouchableOpacity onPress={() => props.navigation.navigate('Goals')} style={styles.botton_box}>
                         <Text style={styles.get_otp}>Start investment</Text>
                     </TouchableOpacity> : <TouchableOpacity onPress={() => props.navigation.navigate(steps === 3 ? 'RegisterDetails' : 'UploadDocument')} style={styles.botton_box}>
                         <Text style={styles.get_otp}>COMPLETE ACCOUNT SETUP</Text>

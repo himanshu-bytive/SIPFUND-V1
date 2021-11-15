@@ -34,7 +34,7 @@ import {
     Goals6Screen,
     OwnerChoice,
     GoalsScreen,
-    Goals1Screen,
+    GoalsSummaryScreen,
 
     ProfileScreen,
     ExistingScreen,
@@ -279,13 +279,13 @@ export const TopRatedFundsStack = createStackNavigator({
 
 export const HoldingsSummaryStack = createStackNavigator({
     Goals: {
-        screen: GoalsScreen,
+        screen: GoalsSummaryScreen,
         navigationOptions: {
             headerShown: false,
         }
     },
     Goals1: {
-        screen: Goals1Screen,
+        screen: GoalsSummaryScreen,
         navigationOptions: {
             headerShown: false,
         }

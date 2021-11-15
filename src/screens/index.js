@@ -41,7 +41,7 @@ import PlanListScreen from './PlanYourGoals/PlanListScreen'
 import PlanSubmitScreen from './PlanYourGoals/PlanSubmitScreen'
 
 import GoalsScreen from './Holdings/GoalsScreen'
-import Goals1Screen from './Holdings/Goals1Screen'
+import GoalsSummaryScreen from './Holdings/GoalsSummaryScreen'
 import Goals2Screen from './Holdings/Goals2Screen'
 import Goals3Screen from './Holdings/Goals3Screen'
 import Goals4Screen from './Holdings/Goals4Screen'
@@ -96,7 +96,7 @@ export {
     Goals6Screen,
     OwnerChoice,
     GoalsScreen,
-    Goals1Screen,
+    GoalsSummaryScreen,
     GoalsLongTermScreen,
     PlanYourGoalScreen,
     InvestmentsScreens,
