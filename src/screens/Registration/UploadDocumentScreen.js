@@ -14,6 +14,15 @@ import { MyImagePicker } from '../../components'
 import { MaterialIcons, AntDesign, Entypo, FontAwesome5, FontAwesome, Foundation } from 'react-native-vector-icons';
 import { Image, Header } from 'react-native-elements';
 
+
+const documentsMap = {
+    "PC": "PAN CARD",
+    "AA1": "AADHAR CARD FRONT",
+    "AA2": "AADHAR CARD BACK",
+    "CH": "CANCELLED CHEQUE",
+    "PA": "PASSPORT"
+}
+
 let documentsKyc = [
     { name: 'PAN', fileType: 'PC', info: 'Upload PAN', type: 'attachment', icon: (<FontAwesome5 name="credit-card" size={18} color="#EE4248" />) },
     { name: 'Cancelled Cheque', fileType: 'CH', info: 'Upload Cancelled Cheque', type: 'attachment', icon: (<MaterialIcons name="cancel" size={22} color="#EE4248" />) },
@@ -76,7 +85,7 @@ function UploadDocumentScreen(props) {
 
                 <View style={styles.document_status}>
                     <Text style={styles.document}>Document Status:</Text>
-                    <Text style={styles.pending}>{docs ? docs?.responseString?.documentVerifiedStatus : 'PENDING'}</Text>
+                    <Text style={styles.pending}>{docs ? docs?.responseString?.documentUploadStatus : 'PENDING'}</Text>
                 </View>
 
                 {/* container_sec */}
@@ -94,7 +103,7 @@ function UploadDocumentScreen(props) {
                 <View style={{ flexDirection: "row", marginHorizontal: 10, marginTop: 20, }}>
                     <ScrollView horizontal={true}>
                         {docs?.responseString.documents ? docs.responseString.documents.map((item, key) => <View key={key} style={{ marginHorizontal: 10, alignItems: 'center', width: Styles.width - 50 }}>
-                            <Text style={{ marginBottom: 5 }}>{item.docType}</Text>
+                            <Text style={{ marginBottom: 5 }}>{documentsMap[item.docType] ? documentsMap[item.docType] : item.docType}</Text>
                             <Image
                                 source={{ uri: `${docs?.baseUrl}${item.fileName}` }}
                                 style={{ width: Styles.width - 50, height: 300 }}

@@ -18,8 +18,8 @@ export default function InvestmentLists(props) {
                         width="100%"
                         height="113"
                         source={{
-                            uri: "https://sipfund.sfo2.digitaloceanspaces.com/master-images/Group-268.svg"
-                            // uri: item.planImagePath
+                            // uri: "https://sipfund.sfo2.digitaloceanspaces.com/master-images/Group-268.svg"
+                            uri: item.planImagePath
                         }}
                     />
                     <Text style={styles.long}>{item.plan}</Text>
@@ -34,8 +34,8 @@ export default function InvestmentLists(props) {
                         width="100%"
                         height="113"
                         source={{
-                            uri: "https://sipfund.sfo2.digitaloceanspaces.com/master-images/Group-268.svg"
-                            // uri: item.planImagePath
+                            // uri: "https://sipfund.sfo2.digitaloceanspaces.com/master-images/Group-268.svg"
+                            uri: item.planImagePath
                         }}
                     />
                     <Text style={styles.long}>{item.plan}</Text>

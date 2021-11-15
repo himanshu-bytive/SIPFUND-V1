@@ -81,6 +81,7 @@ function PanScreen(props) {
                         <TextInput
                             ref={pannumberInput}
                             style={styles.inputsec}
+                            autoCapitalize={'characters'}
                             placeholder={'Pan'}
                             onChangeText={(pannumber) => { setError({ ...errors, pannumber: null }); setState({ ...state, pannumber }) }}
                             value={state.pannumber}

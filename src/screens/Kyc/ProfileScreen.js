@@ -19,7 +19,11 @@ import { Image, Header, CheckBox } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
 
 function ProfileScreen(props) {
-    const { steps, token, uploadSuccess, getDocuments, docs, isFetching, nseDetails } = props
+    const { steps, token, uploadSuccess, getDocuments, docs, isFetching, getProfile, profile, user } = props
+
+    useEffect(() => {
+        getProfile({ "service_request": { "iin": user.iin } }, token)
+    }, []);
 
     useEffect(() => {
         if (token || uploadSuccess) {
@@ -39,23 +43,23 @@ function ProfileScreen(props) {
                 />}
                 rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={Colors.RED} /></View>}
             />
-             {isFetching && (<View style={Styles.loading}>
+            {isFetching && (<View style={Styles.loading}>
                 <ActivityIndicator color={Colors.BLACK} size='large' />
             </View>)}
             <ScrollView style={styles.containerScroll}>
                 <View style={styles.banner}>
                     <ProfileImagePicker docType='AVATAR' url={docs?.baseUrl} data={docs?.responseString?.documents ? docs.responseString.documents : []} />
-                    <Text style={styles.profile_text}>{nseDetails.name}</Text>
-                    <Text style={styles.profile_text2}>{nseDetails.state == 0 ? 'ACCOUNT INACTIVE' : 'ACCOUNT ACTIVE'}</Text>
+                    <Text style={styles.profile_text}>{profile?.INVESTOR_NAME}</Text>
+                    <Text style={styles.profile_text2}>{profile?.ACTIVATION_STATUS}</Text>
                 </View>
                 <View style={styles.icon_sec}>
-                    <View style={(steps && steps > 2) ? styles.icon_bg_act : styles.icon_bg}><FontAwesome name={"phone"} size={25} color={Colors.WHITE} /></View>
+                    <View style={(steps && steps > 0) ? styles.icon_bg_act : styles.icon_bg}><FontAwesome name={"phone"} size={25} color={Colors.WHITE} /></View>
                     <View style={styles.border}></View>
-                    <View style={(steps && steps > 3) ? styles.icon_bg_act : styles.icon_bg}><FontAwesome name={"user-o"} size={25} color={Colors.WHITE} /></View>
+                    <View style={(steps && steps > 1) ? styles.icon_bg_act : styles.icon_bg}><FontAwesome name={"user-o"} size={25} color={Colors.WHITE} /></View>
                     <View style={styles.border}></View>
-                    <View style={(steps && steps > 4) ? styles.icon_bg_act : styles.icon_bg}><Entypo name={"squared-minus"} size={25} color={Colors.WHITE} /></View>
+                    <View style={(steps && steps > 2) ? styles.icon_bg_act : styles.icon_bg}><Entypo name={"squared-minus"} size={25} color={Colors.WHITE} /></View>
                     <View style={styles.border}></View>
-                    <View style={(steps && steps > 5) ? styles.icon_bg_act : styles.icon_bg}><Octicons name={"primitive-dot"} size={25} color={Colors.WHITE} /></View>
+                    <View style={(steps && steps > 3) ? styles.icon_bg_act : styles.icon_bg}><Octicons name={"primitive-dot"} size={25} color={Colors.WHITE} /></View>
                 </View>
 
                 <View style={styles.text_sec}>
@@ -66,11 +70,11 @@ function ProfileScreen(props) {
                 </View>
 
                 <View style={[styles.icon_sec, styles.bottomicon_sec]}>
-                    <View style={(steps && steps > 6) ? styles.icon_bg_act : styles.icon_bg}><AntDesign name={"filetext1"} size={25} color={Colors.WHITE} /></View>
+                    <View style={(steps && steps > 4) ? styles.icon_bg_act : styles.icon_bg}><AntDesign name={"filetext1"} size={25} color={Colors.WHITE} /></View>
                     <View style={[styles.border, styles.border1]}></View>
-                    <View style={(steps && steps > 7) ? styles.icon_bg_act : styles.icon_bg}><Feather name={"check-circle"} size={25} color={Colors.WHITE} /></View>
+                    <View style={(steps && steps > 5) ? styles.icon_bg_act : styles.icon_bg}><Feather name={"check-circle"} size={25} color={Colors.WHITE} /></View>
                     <View style={[styles.border, styles.border1]}></View>
-                    <View style={(steps && steps > 8) ? styles.icon_bg_act : styles.icon_bg}><FontAwesome name={"rupee"} size={25} color={Colors.WHITE} /></View>
+                    <View style={(steps && steps > 6) ? styles.icon_bg_act : styles.icon_bg}><FontAwesome name={"rupee"} size={25} color={Colors.WHITE} /></View>
                 </View>
 
                 <View style={styles.text_sec}>
@@ -83,25 +87,25 @@ function ProfileScreen(props) {
                 <View style={styles.mutual_bottomsec}>
                     <View style={styles.mutual_left}>
                         <Text style={styles.customer}>Customer Id :</Text>
-                        <Text style={styles.id_text}>{nseDetails?.acc_no}</Text>
+                        <Text style={styles.id_text}>{profile?.CUSTOMER_ID}</Text>
                         <Text style={styles.customer}>Holding Nature :</Text>
-                        <Text style={styles.id_text}>{nseDetails?.acc_type?.ACC_TYPE}</Text>
+                        <Text style={styles.id_text}>{profile?.HOLD_N_CODE}</Text>
                         <Text style={styles.customer}>Email :</Text>
-                        <Text style={styles.id_text}>{nseDetails?.email}</Text>
+                        <Text style={styles.id_text}>{profile?.EMAIL}</Text>
 
                     </View>
                     <View style={styles.mutual_right}>
                         <Text style={styles.customer}>PAN :</Text>
-                        <Text style={styles.id_text}>{nseDetails?.pan}</Text>
+                        <Text style={styles.id_text}>{profile?.FH_PAN_NO}</Text>
                         <Text style={styles.customer}>Tax Status :</Text>
-                        <Text style={styles.id_text}>{nseDetails?.tax_status?.TAX_STATUS_DESC}</Text>
+                        <Text style={styles.id_text}>{profile?.tax_status?.TAX_STATUS_DESC}</Text>
                         <Text style={styles.customer}>Mobile :</Text>
-                        <Text style={styles.id_text}>{nseDetails?.off_phone}</Text>
+                        <Text style={styles.id_text}>{profile?.MOBILE_NO}</Text>
                     </View>
                 </View>
                 <View style={styles.address}>
                     <Text style={styles.customer}>Address :</Text>
-                    <Text style={styles.id_text}>{nseDetails?.addr1 + ' ' + nseDetails?.addr1 + ' ' + nseDetails?.addr3}</Text>
+                    <Text style={styles.id_text}>{profile?.ADDRESS1}</Text>
                 </View>
 
 
@@ -109,24 +113,24 @@ function ProfileScreen(props) {
                 <View style={styles.mutual_bottomsec}>
                     <View style={styles.mutual_left}>
                         <Text style={styles.customer}>Bank Name :</Text>
-                        <Text style={styles.id_text}>{nseDetails?.bank_name?.BANK_NAME}</Text>
+                        <Text style={styles.id_text}>{profile?.BANK_NAME}</Text>
                         <Text style={styles.customer}>IFSC Code :</Text>
-                        <Text style={styles.id_text}>{nseDetails?.ifsc_code}</Text>
+                        <Text style={styles.id_text}>{profile?.IFSC_CODE}</Text>
                         <Text style={styles.customer}>Branch Name :</Text>
-                        <Text style={styles.id_text}>{nseDetails?.branch_name}</Text>
+                        <Text style={styles.id_text}>{profile?.BANK_NAME}</Text>
                     </View>
                     <View style={styles.mutual_right}>
                         <Text style={styles.customer}>Account Type :</Text>
-                        <Text style={styles.id_text}>{nseDetails?.acc_type?.ACC_TYPE}</Text>
+                        <Text style={styles.id_text}>{profile?.AC_TYPE}</Text>
                         <Text style={styles.customer}>Account No :</Text>
-                        <Text style={styles.id_text}>{nseDetails?.acc_no}</Text>
+                        <Text style={styles.id_text}>{profile?.AC_NO}</Text>
                         <Text style={styles.customer}>Branch Pincode :</Text>
-                        <Text style={styles.id_text}>{nseDetails?.branch_pincode}</Text>
+                        <Text style={styles.id_text}>{profile?.BRANCH_PINCODE}</Text>
                     </View>
                 </View>
                 <View style={styles.address}>
                     <Text style={styles.customer}>Bank Address :</Text>
-                    <Text style={styles.id_text}>{nseDetails?.branch_addr1 + ' ' + nseDetails?.branch_addr2 + ' ' + nseDetails?.branch_addr3}</Text>
+                    <Text style={styles.id_text}>{profile?.BRANCH_ADDRESS1}</Text>
                 </View>
                 <View style={styles.mutual_sec}><Text style={styles.mutual_text}>BROKER</Text></View>
                 <View style={styles.mutual_bottomsec}>
@@ -137,19 +141,18 @@ function ProfileScreen(props) {
                     </View>
                     <View style={styles.mutual_right}>
                         <Text style={styles.customer}>Code</Text>
-                        <Text style={styles.id_text}>{ }</Text>
+                        <Text style={styles.id_text}>{profile?.BROK_DLR_CODE}</Text>
                     </View>
                 </View>
             </ScrollView>
         </View>
-
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor:Colors.WHITE
+        backgroundColor: Colors.WHITE
     },
     containerScroll: {
         width: '100%'
@@ -254,7 +257,7 @@ const styles = StyleSheet.create({
     id_text: {
         color: Colors.DEEP_GRAY,
         fontSize: 15,
-        paddingBottom:10,
+        paddingBottom: 10,
     },
     customer: {
         fontSize: 15,
@@ -267,9 +270,10 @@ const styles = StyleSheet.create({
 });
 const mapStateToProps = (state) => ({
     token: state.auth.token,
+    user: state.auth.user,
+    profile: state.auth.profile,
     docs: state.registration.documents,
     steps: state.home.steps,
-    nseDetails: state.registration.nseDetails,
     isFetching: state.registration.isFetching,
     uploadSuccess: state.registration.uploadSuccess,
 })
@@ -277,10 +281,12 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     const { dispatch } = dispatchProps;
     const { RegistrationActions } = require('../../store/RegistrationRedux')
+    const { AuthActions } = require('../../store/AuthRedux')
     return {
         ...stateProps,
         ...ownProps,
         getDocuments: (token) => { RegistrationActions.getDocuments(dispatch, token) },
+        getProfile: (params, token) => { AuthActions.getProfile(dispatch, params, token) },
     }
 }
 export default connect(mapStateToProps, undefined, mapDispatchToProps)(ProfileScreen)

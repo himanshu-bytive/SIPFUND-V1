@@ -292,6 +292,7 @@ function CompleteDetailsScreen(props) {
                     <Text style={styles.occupation}>Individual PAN <Text style={styles.error}>*</Text></Text>
                     <MyTextInput
                         placeholder={'Investor Pan'}
+                        autoCapitalize={'characters'}
                         value={state.investorPan}
                         error={errors.investorPan}
                         onChangeText={(investorPan) => { setErrors({ ...errors, investorPan: null }); setState({ ...state, investorPan }) }}
@@ -397,6 +398,7 @@ function CompleteDetailsScreen(props) {
                     <Text style={styles.occupation}>Nominee Guardian PAN <Text style={styles.error}>*</Text></Text>
                     <MyTextInput
                         placeholder={'Nominee Guardian PAN'}
+                        autoCapitalize={'characters'}
                         value={state.nominate1guard_pan}
                         error={errors.nominate1guard_pan}
                         onChangeText={(nominate1guard_pan) => { setErrors({ ...errors, nominate1guard_pan: null }); setState({ ...state, nominate1guard_pan }) }}

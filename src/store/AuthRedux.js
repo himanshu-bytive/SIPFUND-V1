@@ -36,6 +36,10 @@ const types = {
     FETCH_CREAT_ACCOUNT_SUCCESS: "FETCH_CREAT_ACCOUNT_SUCCESS",
     FETCH_CREAT_ACCOUNT_FAILURE: "FETCH_CREAT_ACCOUNT_FAILURE",
 
+    FETCH_PROFILE_PENDING: "FETCH_PROFILE_PENDING",
+    FETCH_PROFILE_SUCCESS: "FETCH_PROFILE_SUCCESS",
+    FETCH_PROFILE_FAILURE: "FETCH_PROFILE_FAILURE",
+
 };
 
 export const AuthActions = {
@@ -199,6 +203,16 @@ export const AuthActions = {
             );
         }
     },
+    getProfile: async (dispatch, params, token) => {
+        dispatch({ type: types.FETCH_PROFILE_PENDING });
+        let data = await SiteAPI.apiPostCall('/apiData/IINDETAILS', params, token);
+        if (data.error) {
+            Alert.alert(data.message)
+            dispatch({ type: types.FETCH_PROFILE_FAILURE, error: data.message });
+        } else {
+            dispatch({ type: types.FETCH_PROFILE_SUCCESS, profile: data.Data });
+        }
+    },
 };
 
 const initialState = {
@@ -212,11 +226,13 @@ const initialState = {
     token: null,
     password: false,
     panNumber: null,
+    profile: null,
 };
 
 export const reducer = (state = initialState, action) => {
-    const { type, error, phone, signUpSteps, validFlag, user, token, panNumber } = action;
+    const { type, error, phone, signUpSteps, validFlag, user, token, panNumber, profile } = action;
     switch (type) {
+        case types.FETCH_PROFILE_PENDING:
         case types.FETCH_CREAT_ACCOUNT_PENDING:
         case types.FETCH_PAN_NUMBER_PENDING:
         case types.FETCH_CHANGE_PASSWORD_PENDING:
@@ -232,6 +248,7 @@ export const reducer = (state = initialState, action) => {
                 error: null,
             };
         }
+        case types.FETCH_PROFILE_FAILURE:
         case types.FETCH_CREAT_ACCOUNT_FAILURE:
         case types.FETCH_PAN_NUMBER_FAILURE:
         case types.FETCH_CHANGE_PASSWORD_FAILURE:
@@ -309,6 +326,14 @@ export const reducer = (state = initialState, action) => {
                 isFetching: false,
                 error: null,
                 signUpSteps
+            };
+        }
+        case types.FETCH_PROFILE_SUCCESS: {
+            return {
+                ...state,
+                isFetching: false,
+                error: null,
+                profile
             };
         }
         case types.FETCH_LOGIN_SUCCESS: {
