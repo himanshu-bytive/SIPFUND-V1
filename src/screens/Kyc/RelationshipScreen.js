@@ -44,6 +44,8 @@ function RelationshipScreen(props) {
         setState({ ...state, data: "" });
     };
 
+    const phoneNumber = 9513355663;
+
     return (
         <View style={styles.container}>
             {/* header  */}
@@ -71,9 +73,12 @@ function RelationshipScreen(props) {
                 <Image source={require("../../../assets/relationship_img.png")} style={styles.qipimg} />
                 <View style={styles.proof}>
                     <Text style={styles.nametext}>VISHNU DARIRA</Text>
-                    <Text style={styles.nametext}>9513355663</Text>
-                    <Text style={styles.nametext}>Vishnu@sipfund.com</Text>
+                    <Text style={styles.nametext}>{phoneNumber}</Text>
+                    <Text style={styles.nametext}>vishnu@sipfund.com</Text>
                     <View style={styles.social}>
+                        <TouchableOpacity onPress={() => Linking.openURL(`tel:${phoneNumber}`)} style={styles.icons}>
+                            <FontAwesome name="phone" size={30} color="#646365" />
+                        </TouchableOpacity>
                         <TouchableOpacity onPress={() => Linking.openURL("whatsapp://send?text=hello")} style={styles.icons}>
                             <FontAwesome name="whatsapp" size={30} color="#4CAF50" />
                         </TouchableOpacity>
