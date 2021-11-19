@@ -79,7 +79,7 @@ function RelationshipScreen(props) {
                         <TouchableOpacity onPress={() => Linking.openURL(`tel:${phoneNumber}`)} style={styles.icons}>
                             <FontAwesome name="phone" size={30} color="#646365" />
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={() => Linking.openURL("whatsapp://send?text=hello")} style={styles.icons}>
+                        <TouchableOpacity onPress={() => Linking.openURL(`whatsapp://send?text=Hello&phone=91${phoneNumber}}`)} style={styles.icons}>
                             <FontAwesome name="whatsapp" size={30} color="#4CAF50" />
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => Linking.openURL("mailto:support@example.com")}>
