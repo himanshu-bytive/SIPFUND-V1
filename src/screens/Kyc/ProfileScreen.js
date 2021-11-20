@@ -1,33 +1,23 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
-import {
-    StyleSheet,
-    Button,
-    View,
-    ImageBackground,
-    TouchableOpacity,
-    Text,
-    Dimensions,
-    KeyboardAvoidingView,
-    TextInput,
-    ActivityIndicator,
-} from "react-native";
-import { connect } from 'react-redux'
-import { ProfileImagePicker } from '../../components'
-import { Styles, Config, Colors, FormValidate } from '../../common'
-import { Ionicons, AntDesign, Feather, Entypo, MaterialCommunityIcons, FontAwesome, Octicons, FontAwesome5, } from 'react-native-vector-icons';
-import { Image, Header, CheckBox } from 'react-native-elements';
+import { StyleSheet, Button, View, ImageBackground, TouchableOpacity, Text, Dimensions, KeyboardAvoidingView, TextInput, ActivityIndicator } from "react-native";
+import { connect } from "react-redux";
+import { ProfileImagePicker } from "../../components";
+import { Styles, Config, Colors, FormValidate } from "../../common";
+import { Ionicons, AntDesign, Feather, Entypo, MaterialCommunityIcons, FontAwesome, Octicons, FontAwesome5 } from "react-native-vector-icons";
+import { Image, Header, CheckBox } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
 
 function ProfileScreen(props) {
-    const { steps, token, uploadSuccess, getDocuments, docs, isFetching, getProfile, profile, user } = props
+    const { steps, token, uploadSuccess, getDocuments, docs, isFetching, getProfile, profile, user } = props;
 
     useEffect(() => {
-        getProfile({ "service_request": { "iin": user.iin } }, token)
+        getProfile({ service_request: { iin: user.iin } }, token);
+        console.log(profile);
     }, []);
 
     useEffect(() => {
         if (token || uploadSuccess) {
-            getDocuments(token)
+            getDocuments(token);
         }
     }, [token, uploadSuccess]);
 
@@ -35,31 +25,47 @@ function ProfileScreen(props) {
         <View style={styles.container}>
             {/* header  */}
             <Header
-                leftComponent={<TouchableOpacity onPress={() => props.navigation.toggleDrawer()} style={{ marginTop: 20 }}><Entypo name={"menu"} size={30} color={Colors.RED} /></TouchableOpacity>} containerStyle={styles.header}
+                leftComponent={
+                    <TouchableOpacity onPress={() => props.navigation.toggleDrawer()} style={{ marginTop: 20 }}>
+                        <Entypo name={"menu"} size={30} color={Colors.RED} />
+                    </TouchableOpacity>
+                }
+                containerStyle={styles.header}
                 backgroundColor={Colors.LIGHT_WHITE}
-                centerComponent={<Image
-                    source={require('../../../assets/icon.png')}
-                    style={styles.logimg}
-                />}
-                rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={Colors.RED} /></View>}
+                centerComponent={<Image source={require("../../../assets/icon.png")} style={styles.logimg} />}
+                rightComponent={
+                    <View style={{ marginTop: 20, marginRight: 10 }}>
+                        <AntDesign name={"shoppingcart"} size={40} color={Colors.RED} />
+                    </View>
+                }
             />
-            {isFetching && (<View style={Styles.loading}>
-                <ActivityIndicator color={Colors.BLACK} size='large' />
-            </View>)}
+            {isFetching && (
+                <View style={Styles.loading}>
+                    <ActivityIndicator color={Colors.BLACK} size="large" />
+                </View>
+            )}
             <ScrollView style={styles.containerScroll}>
                 <View style={styles.banner}>
-                    <ProfileImagePicker docType='AVATAR' url={docs?.baseUrl} data={docs?.responseString?.documents ? docs.responseString.documents : []} />
+                    <ProfileImagePicker docType="AVATAR" url={docs?.baseUrl} data={docs?.responseString?.documents ? docs.responseString.documents : []} />
                     <Text style={styles.profile_text}>{profile?.INVESTOR_NAME}</Text>
                     <Text style={styles.profile_text2}>{profile?.ACTIVATION_STATUS}</Text>
                 </View>
                 <View style={styles.icon_sec}>
-                    <View style={(steps && steps > 0) ? styles.icon_bg_act : styles.icon_bg}><FontAwesome name={"phone"} size={25} color={Colors.WHITE} /></View>
+                    <View style={steps && steps > 0 ? styles.icon_bg_act : styles.icon_bg}>
+                        <FontAwesome name={"phone"} size={25} color={Colors.WHITE} />
+                    </View>
                     <View style={styles.border}></View>
-                    <View style={(steps && steps > 1) ? styles.icon_bg_act : styles.icon_bg}><FontAwesome name={"user-o"} size={25} color={Colors.WHITE} /></View>
+                    <View style={steps && steps > 1 ? styles.icon_bg_act : styles.icon_bg}>
+                        <FontAwesome name={"user-o"} size={25} color={Colors.WHITE} />
+                    </View>
                     <View style={styles.border}></View>
-                    <View style={(steps && steps > 2) ? styles.icon_bg_act : styles.icon_bg}><Entypo name={"squared-minus"} size={25} color={Colors.WHITE} /></View>
+                    <View style={steps && steps > 2 ? styles.icon_bg_act : styles.icon_bg}>
+                        <Entypo name={"squared-minus"} size={25} color={Colors.WHITE} />
+                    </View>
                     <View style={styles.border}></View>
-                    <View style={(steps && steps > 3) ? styles.icon_bg_act : styles.icon_bg}><Octicons name={"primitive-dot"} size={25} color={Colors.WHITE} /></View>
+                    <View style={steps && steps > 3 ? styles.icon_bg_act : styles.icon_bg}>
+                        <Octicons name={"primitive-dot"} size={25} color={Colors.WHITE} />
+                    </View>
                 </View>
 
                 <View style={styles.text_sec}>
@@ -70,20 +76,27 @@ function ProfileScreen(props) {
                 </View>
 
                 <View style={[styles.icon_sec, styles.bottomicon_sec]}>
-                    <View style={(steps && steps > 4) ? styles.icon_bg_act : styles.icon_bg}><AntDesign name={"filetext1"} size={25} color={Colors.WHITE} /></View>
+                    <View style={steps && steps > 4 ? styles.icon_bg_act : styles.icon_bg}>
+                        <AntDesign name={"filetext1"} size={25} color={Colors.WHITE} />
+                    </View>
                     <View style={[styles.border, styles.border1]}></View>
-                    <View style={(steps && steps > 5) ? styles.icon_bg_act : styles.icon_bg}><Feather name={"check-circle"} size={25} color={Colors.WHITE} /></View>
+                    <View style={steps && steps > 5 ? styles.icon_bg_act : styles.icon_bg}>
+                        <Feather name={"check-circle"} size={25} color={Colors.WHITE} />
+                    </View>
                     <View style={[styles.border, styles.border1]}></View>
-                    <View style={(steps && steps > 6) ? styles.icon_bg_act : styles.icon_bg}><FontAwesome name={"rupee"} size={25} color={Colors.WHITE} /></View>
+                    <View style={steps && steps > 6 ? styles.icon_bg_act : styles.icon_bg}>
+                        <FontAwesome name={"rupee"} size={25} color={Colors.WHITE} />
+                    </View>
                 </View>
 
                 <View style={styles.text_sec}>
                     <Text style={styles.bottom_text}>Document Uploaded</Text>
                     <Text style={styles.bottom_text}>IIN Activated</Text>
                     <Text style={styles.bottom_text}>Investment</Text>
-
                 </View>
-                <View style={styles.mutual_sec}><Text style={styles.mutual_text}>Mutual Funds</Text></View>
+                <View style={styles.mutual_sec}>
+                    <Text style={styles.mutual_text}>Mutual Funds</Text>
+                </View>
                 <View style={styles.mutual_bottomsec}>
                     <View style={styles.mutual_left}>
                         <Text style={styles.customer}>Customer Id :</Text>
@@ -92,24 +105,24 @@ function ProfileScreen(props) {
                         <Text style={styles.id_text}>{profile?.HOLD_N_CODE}</Text>
                         <Text style={styles.customer}>Email :</Text>
                         <Text style={styles.id_text}>{profile?.EMAIL}</Text>
-
                     </View>
                     <View style={styles.mutual_right}>
                         <Text style={styles.customer}>PAN :</Text>
                         <Text style={styles.id_text}>{profile?.FH_PAN_NO}</Text>
                         <Text style={styles.customer}>Tax Status :</Text>
-                        <Text style={styles.id_text}>{profile?.tax_status?.TAX_STATUS_DESC}</Text>
+                        <Text style={styles.id_text}>{profile?.TAX_STATUS_DESC}</Text>
                         <Text style={styles.customer}>Mobile :</Text>
                         <Text style={styles.id_text}>{profile?.MOBILE_NO}</Text>
                     </View>
                 </View>
                 <View style={styles.address}>
                     <Text style={styles.customer}>Address :</Text>
-                    <Text style={styles.id_text}>{profile?.ADDRESS1}</Text>
+                    <Text style={styles.id_text}>{`${profile.ADDRESS1} ${profile.CITY} ${profile.STATE_NAME} ${profile.PINCODE}`}</Text>
                 </View>
 
-
-                <View style={styles.mutual_sec}><Text style={styles.mutual_text}>BANK DETAILS</Text></View>
+                <View style={styles.mutual_sec}>
+                    <Text style={styles.mutual_text}>BANK DETAILS</Text>
+                </View>
                 <View style={styles.mutual_bottomsec}>
                     <View style={styles.mutual_left}>
                         <Text style={styles.customer}>Bank Name :</Text>
@@ -132,12 +145,13 @@ function ProfileScreen(props) {
                     <Text style={styles.customer}>Bank Address :</Text>
                     <Text style={styles.id_text}>{profile?.BRANCH_ADDRESS1}</Text>
                 </View>
-                <View style={styles.mutual_sec}><Text style={styles.mutual_text}>BROKER</Text></View>
+                <View style={styles.mutual_sec}>
+                    <Text style={styles.mutual_text}>BROKER</Text>
+                </View>
                 <View style={styles.mutual_bottomsec}>
                     <View style={styles.mutual_left}>
                         <Text style={styles.customer}>Broker Name :</Text>
-                        <Text style={styles.id_text}>{'Sipfund Pvt.Ltd.'}</Text>
-
+                        <Text style={styles.id_text}>{"Sipfund Pvt.Ltd."}</Text>
                     </View>
                     <View style={styles.mutual_right}>
                         <Text style={styles.customer}>Code</Text>
@@ -152,10 +166,10 @@ function ProfileScreen(props) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: Colors.WHITE
+        backgroundColor: Colors.WHITE,
     },
     containerScroll: {
-        width: '100%'
+        width: "100%",
     },
     logimg: {
         height: 65,
@@ -176,10 +190,9 @@ const styles = StyleSheet.create({
         color: Colors.WHITE,
         fontSize: 20,
         fontWeight: "bold",
-
     },
     profile_text2: {
-        color: '#6FF43A',
+        color: "#6FF43A",
         fontSize: 20,
         paddingVertical: 10,
         fontWeight: "bold",
@@ -210,7 +223,7 @@ const styles = StyleSheet.create({
     border: {
         marginTop: 20,
         height: 4,
-        width: '20%',
+        width: "20%",
         backgroundColor: Colors.LIGHTYELLOW,
     },
     text_sec: {
@@ -219,17 +232,17 @@ const styles = StyleSheet.create({
         marginHorizontal: 20,
     },
     icon_text: {
-        width: '23%',
-        textAlign: 'center',
+        width: "23%",
+        textAlign: "center",
         fontSize: 8,
     },
     bottom_text: {
-        width: '30%',
-        textAlign: 'center',
+        width: "30%",
+        textAlign: "center",
         fontSize: 8,
     },
     border1: {
-        width: '75%',
+        width: "75%",
     },
     bottomicon_sec: {
         marginTop: 50,
@@ -252,8 +265,8 @@ const styles = StyleSheet.create({
         flexDirection: "row",
     },
 
-    mutual_left: { width: '50%' },
-    mutual_right: { width: '50%' },
+    mutual_left: { width: "50%" },
+    mutual_right: { width: "50%" },
     id_text: {
         color: Colors.DEEP_GRAY,
         fontSize: 15,
@@ -263,10 +276,7 @@ const styles = StyleSheet.create({
         fontSize: 15,
     },
 
-    address: { paddingLeft: 20, },
-
-
-
+    address: { paddingLeft: 20 },
 });
 const mapStateToProps = (state) => ({
     token: state.auth.token,
@@ -276,17 +286,21 @@ const mapStateToProps = (state) => ({
     steps: state.home.steps,
     isFetching: state.registration.isFetching,
     uploadSuccess: state.registration.uploadSuccess,
-})
+});
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     const { dispatch } = dispatchProps;
-    const { RegistrationActions } = require('../../store/RegistrationRedux')
-    const { AuthActions } = require('../../store/AuthRedux')
+    const { RegistrationActions } = require("../../store/RegistrationRedux");
+    const { AuthActions } = require("../../store/AuthRedux");
     return {
         ...stateProps,
         ...ownProps,
-        getDocuments: (token) => { RegistrationActions.getDocuments(dispatch, token) },
-        getProfile: (params, token) => { AuthActions.getProfile(dispatch, params, token) },
-    }
-}
-export default connect(mapStateToProps, undefined, mapDispatchToProps)(ProfileScreen)
+        getDocuments: (token) => {
+            RegistrationActions.getDocuments(dispatch, token);
+        },
+        getProfile: (params, token) => {
+            AuthActions.getProfile(dispatch, params, token);
+        },
+    };
+};
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(ProfileScreen);
