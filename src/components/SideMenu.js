@@ -249,7 +249,7 @@ function SideMenu(props) {
                             emandateOptions(token);
                             pageActiveEmandate.current = true;
                         } else {
-                            Alert.alert("IIN is not update");
+                            Alert.alert("Your IIN is inactive. Please wait for activation.");
                         }
                     }}
                     style={[styles.profile_sec, styles.profile]}
