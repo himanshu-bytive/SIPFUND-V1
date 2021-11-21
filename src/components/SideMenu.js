@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
-import { StyleSheet, Alert, View, ScrollView, TouchableOpacity, Text, Linking, Image, TextInput, ActivityIndicator } from "react-native";
+import { StyleSheet, Alert, View, ScrollView, TouchableOpacity, Text, Linking, Image, TextInput, ActivityIndicator, StatusBar } from "react-native";
 import { connect } from "react-redux";
 import { Styles, Config, Colors, FormValidate } from "../common";
 import { Ionicons, AntDesign, Feather, Entypo, MaterialCommunityIcons, FontAwesome } from "react-native-vector-icons";
@@ -316,6 +316,7 @@ function SideMenu(props) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        marginTop: StatusBar.currentHeight,
     },
     profile_sec: {
         flexDirection: "row",

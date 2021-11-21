@@ -1,57 +1,55 @@
-import React, { useState, useEffect } from 'react';
-import AppContainer from './src/navigation/AppNavigator';
-import { StatusBar } from 'react-native';
-import { Provider } from 'react-redux'
-import thunk from 'redux-thunk'
-import reducers from './src/store'
-import { createStore, compose, applyMiddleware } from 'redux'
-import { persistStore } from 'redux-persist'
-import { PersistGate } from 'redux-persist/es/integration/react'
+import React, { useState, useEffect } from "react";
+import AppContainer from "./src/navigation/AppNavigator";
+import { StatusBar, SafeAreaView } from "react-native";
+import { Provider } from "react-redux";
+import thunk from "redux-thunk";
+import reducers from "./src/store";
+import { createStore, compose, applyMiddleware } from "redux";
+import { persistStore } from "redux-persist";
+import { PersistGate } from "redux-persist/es/integration/react";
 
-let store = null
-const middleware = [thunk]
-store = compose(applyMiddleware(...middleware))(createStore)(reducers)
-let persistor = persistStore(store)
+let store = null;
+const middleware = [thunk];
+store = compose(applyMiddleware(...middleware))(createStore)(reducers);
+let persistor = persistStore(store);
 
 export default function App() {
-  const [assetsLoaded, setAssetsLoaded] = useState(false);
-  const [updateMsg, setUpdateMsg] = useState('');
+    const [assetsLoaded, setAssetsLoaded] = useState(false);
+    const [updateMsg, setUpdateMsg] = useState("");
 
-  useEffect(() => {
-    onLoad();
-  }, []);
+    useEffect(() => {
+        onLoad();
+    }, []);
 
-  const onLoad = async () => {
-    if (__DEV__) {
-      setUpdateMsg('Loading Assets');
-      setAssetsLoaded(true);
-    } else {
-      try {
-        setUpdateMsg('Cecking Updates');
-        const update = await Updates.checkForUpdateAsync();
-        if (update.isAvailable) {
-          setUpdateMsg('Downloading Updates');
-          await Updates.fetchUpdateAsync();
-          await Updates.reloadAsync();
+    const onLoad = async () => {
+        if (__DEV__) {
+            setUpdateMsg("Loading Assets");
+            setAssetsLoaded(true);
         } else {
-          setAssetsLoaded(true);
+            try {
+                setUpdateMsg("Cecking Updates");
+                const update = await Updates.checkForUpdateAsync();
+                if (update.isAvailable) {
+                    setUpdateMsg("Downloading Updates");
+                    await Updates.fetchUpdateAsync();
+                    await Updates.reloadAsync();
+                } else {
+                    setAssetsLoaded(true);
+                }
+            } catch (e) {
+                console.log(e);
+            }
         }
-      } catch (e) {
-        console.log(e);
-      }
-    }
-  }
+    };
 
-  return (
-    <Provider store={store}>
-      <PersistGate persistor={persistor}>
-        <StatusBar
-          animated={true}
-          backgroundColor="transparent"
-          hidden={true}
-        />
-        <AppContainer />
-      </PersistGate>
-    </Provider>
-  );
+    return (
+        <Provider store={store}>
+            <PersistGate persistor={persistor}>
+                <SafeAreaView>
+                    <StatusBar animated={true} backgroundColor="transparent" barStyle="dark-content" />
+                </SafeAreaView>
+                <AppContainer />
+            </PersistGate>
+        </Provider>
+    );
 }
