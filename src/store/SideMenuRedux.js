@@ -34,7 +34,7 @@ export const SideMenuActions = {
             //Alert.alert(data.message);
             dispatch({ type: types.FETCH_DATA_FAILURE, error: data.message });
         } else {
-            dispatch({ type: types.FETCH_DATA_SUCCESS, rmDetails: data.response });
+            dispatch({ type: types.FETCH_DATA_SUCCESS, rmDetails: data });
         }
     },
     inquiry: async (dispatch, params, tokan) => {
