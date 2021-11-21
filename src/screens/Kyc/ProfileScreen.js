@@ -117,7 +117,7 @@ function ProfileScreen(props) {
                 </View>
                 <View style={styles.address}>
                     <Text style={styles.customer}>Address :</Text>
-                    <Text style={styles.id_text}>{`${profile.ADDRESS1} ${profile.CITY} ${profile.STATE_NAME} ${profile.PINCODE}`}</Text>
+                    <Text style={styles.id_text}>{`${profile?.ADDRESS1} ${profile?.CITY} ${profile?.STATE_NAME} ${profile?.PINCODE}`}</Text>
                 </View>
 
                 <View style={styles.mutual_sec}>
