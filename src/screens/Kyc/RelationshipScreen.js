@@ -9,18 +9,18 @@ import { ScrollView } from "react-native-gesture-handler";
 function RelationshipScreen(props) {
     const pageActive = useRef(false);
     const dataInput = useRef(null);
-    const { isFetching, token, getrm, inquiry, rmDetails } = props;
+    const { isFetching, error, token, getrm, inquiry, rmDetails } = props;
     useEffect(() => {
-        if (token) {
-            if (!getrm(token)) {
-                /* RM not recieved from the API */
-                props.navigation.replace("RmNotFound");
-            }
+        if (rmDetails || error) {
+            if (error) props.navigation.replace("RmNotFound");
+            pageActive.current = false;
         }
-        if (rmDetails) {
-            console.log(rmDetails);
-        }
-    }, [token, rmDetails]);
+    }, [rmDetails, error]);
+
+    useEffect(() => {
+        getrm(token);
+        pageActive.current = true;
+    }, []);
 
     const [state, setState] = useState({
         data: "",
@@ -43,8 +43,6 @@ function RelationshipScreen(props) {
         inquiry(params, token);
         setState({ ...state, data: "" });
     };
-
-    const phoneNumber = 9513355663;
 
     return (
         <View style={styles.container}>
@@ -72,14 +70,14 @@ function RelationshipScreen(props) {
             <ScrollView>
                 <Image source={require("../../../assets/relationship_img.png")} style={styles.qipimg} />
                 <View style={styles.proof}>
-                    <Text style={styles.nametext}>VISHNU DARIRA</Text>
-                    <Text style={styles.nametext}>{phoneNumber}</Text>
-                    <Text style={styles.nametext}>vishnu@sipfund.com</Text>
+                    <Text style={styles.nametext}>{rmDetails?.data.userName}</Text>
+                    <Text style={styles.nametext}>{rmDetails?.data.mobileNo}</Text>
+                    <Text style={styles.nametext}>{rmDetails?.data.email}</Text>
                     <View style={styles.social}>
-                        <TouchableOpacity onPress={() => Linking.openURL(`tel:${phoneNumber}`)} style={styles.icons}>
+                        <TouchableOpacity onPress={() => Linking.openURL(`tel:${rmDetails?.data.phoneNumber}`)} style={styles.icons}>
                             <FontAwesome name="phone" size={30} color="#646365" />
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={() => Linking.openURL(`whatsapp://send?text=Hello&phone=91${phoneNumber}}`)} style={styles.icons}>
+                        <TouchableOpacity onPress={() => Linking.openURL(`whatsapp://send?text=Hello&phone=91${rmDetails?.data.phoneNumber}}`)} style={styles.icons}>
                             <FontAwesome name="whatsapp" size={30} color="#4CAF50" />
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => Linking.openURL("mailto:support@example.com")}>
@@ -178,6 +176,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => ({
     token: state.auth.token,
     isFetching: state.sideMenu.isFetching,
+    error: state.sideMenu.error,
     rmDetails: state.sideMenu.rmDetails,
 });
 
