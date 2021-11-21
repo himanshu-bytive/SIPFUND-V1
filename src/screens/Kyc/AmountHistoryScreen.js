@@ -46,7 +46,7 @@ function AmountHistoryScreen(props) {
                                 if (refers?.creditAmount === 0) {
                                     ToastAndroid.show("Insufficient funds!", ToastAndroid.LONG);
                                 } else {
-                                    passRefer();
+                                    passRefer(token);
                                 }
                             }}
                             style={styles.botton_box}
