@@ -146,7 +146,7 @@ function ReferEarnScreen(props) {
                             <View style={styles.border}></View>
                         </View>
 
-                        {refersConfig?.createdIIN && (
+                        {refersConfig?.createdIIN && refersConfig?.createdIIN.rfyRemarks !== "" && (
                             <View style={[styles.invest_sec, styles.earn_sec]}>
                                 <View style={styles.receive}>
                                     <View style={styles.receive_left}>
@@ -159,7 +159,7 @@ function ReferEarnScreen(props) {
                             </View>
                         )}
 
-                        {refersConfig?.investment && (
+                        {refersConfig?.investment && refersConfig?.createdIIN.rfyRemarks !== "" && (
                             <View style={[styles.invest_sec, styles.earn_sec]}>
                                 <View style={styles.receive}>
                                     <View style={styles.receive_left}>
