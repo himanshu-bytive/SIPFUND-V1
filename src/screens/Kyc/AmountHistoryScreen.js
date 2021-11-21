@@ -10,13 +10,6 @@ import { ScrollView } from "react-native-gesture-handler";
 
 function AmountHistoryScreen(props) {
     const { refers, token, passRefer } = props;
-    useEffect(() => {
-        if (token) {
-            console.log(token);
-        } else {
-            console.log("does not exist");
-        }
-    }, [token]);
     return (
         <View style={styles.container}>
             {/* header  */}
