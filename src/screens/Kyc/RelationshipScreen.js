@@ -9,18 +9,18 @@ import { ScrollView } from "react-native-gesture-handler";
 function RelationshipScreen(props) {
     const pageActive = useRef(false);
     const dataInput = useRef(null);
-    const { isFetching, token, getrm, inquiry, rmDetails } = props;
+    const { isFetching, error, token, getrm, inquiry, rmDetails } = props;
     useEffect(() => {
-        if (token) {
-            if (!getrm(token)) {
-                /* RM not recieved from the API */
-                props.navigation.replace("RmNotFound");
-            }
+        if (rmDetails || error) {
+            if (error) props.navigation.replace("RmNotFound");
+            pageActive.current = false;
         }
-        if (rmDetails) {
-            console.log(rmDetails);
-        }
-    }, [token, rmDetails]);
+    }, [rmDetails, error]);
+
+    useEffect(() => {
+        getrm(token);
+        pageActive.current = true;
+    }, []);
 
     const [state, setState] = useState({
         data: "",
@@ -178,6 +178,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => ({
     token: state.auth.token,
     isFetching: state.sideMenu.isFetching,
+    error: state.sideMenu.error,
     rmDetails: state.sideMenu.rmDetails,
 });
 

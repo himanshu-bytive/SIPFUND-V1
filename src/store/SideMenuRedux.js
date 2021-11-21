@@ -33,10 +33,8 @@ export const SideMenuActions = {
         if (data.error) {
             //Alert.alert(data.message);
             dispatch({ type: types.FETCH_DATA_FAILURE, error: data.message });
-            return false;
         } else {
             dispatch({ type: types.FETCH_DATA_SUCCESS, rmDetails: data.response });
-            return true;
         }
     },
     inquiry: async (dispatch, params, tokan) => {
