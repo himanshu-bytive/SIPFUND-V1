@@ -17,7 +17,7 @@ function SideMenu(props) {
     const [enableMandate, setEnableMandate] = useState(false);
 
     useEffect(() => {
-        if (userDetails.signUpSteps >= 6) {
+        if (userDetails?.signUpSteps >= 6) {
             setEnableMandate(true);
         }
     }, [userDetails]);
