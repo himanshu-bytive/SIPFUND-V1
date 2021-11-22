@@ -36,7 +36,12 @@ const MyImagePicker = (props) => {
         PC: "PC",
         SIGN: "SIGN",
         VID: "VID",
+        /* Documents for address verification */
         AADHAAR: "AA1",
+        AA1: "AA1",
+        DL: "DL",
+        PIC: "PIC",
+        AA2: "AA2",
     };
 
     const docVerificationCompleted = (fileType) => {
@@ -47,10 +52,11 @@ const MyImagePicker = (props) => {
             if (docs.responseString.documents[doc]?.docType === fileType) {
                 if (docs.responseString.documents[doc]?.status === "PENDING") {
                     return true;
+                } else if (docs.responseString.documents[doc]?.status === "COMPLETE") {
+                    return false;
                 }
             }
         }
-        return false;
     };
 
     // Check Camera Permissions
@@ -125,7 +131,7 @@ const MyImagePicker = (props) => {
             <View style={{ flexDirection: "row", width: "70%" }}>
                 {item?.icon}
                 {item?.multi ? (
-                    <View style={{ width: "100%", marginTop: -20 }}>
+                    <View style={{ marginTop: -20, width: "95%" }}>
                         <MySelectPicker values={selList} defultValue={item?.name} onChange={(val) => setSelectDoc(val)} />
                     </View>
                 ) : (
@@ -138,20 +144,18 @@ const MyImagePicker = (props) => {
                 >
                     <AntDesign name="exclamationcircleo" size={18} color="#EE4248" />
                 </TouchableOpacity>
-                {docs[item?.fileType] ? (
-                    <></>
-                ) : (
-                    docVerificationCompleted(item?.fileType) && (
+                {docVerificationCompleted(item?.fileType) !== undefined &&
+                    (docVerificationCompleted(item?.fileType) ? (
                         <TouchableOpacity
                             onPress={() => {
-                                console.log(docs);
                                 ToastAndroid.show("Verification Pending!", ToastAndroid.SHORT);
                             }}
                         >
                             <FontAwesome name="exclamation-circle" size={18} style={{ marginLeft: 10 }} color="#D4A340" />
                         </TouchableOpacity>
-                    )
-                )}
+                    ) : (
+                        <FontAwesome name="check" size={18} style={{ marginLeft: 5 }} color="#00CC00" />
+                    ))}
             </View>
             <View style={{ width: "15%" }}>{img && <Image source={{ uri: img }} style={styles.image} />}</View>
             <View style={{ width: "10%" }}>
