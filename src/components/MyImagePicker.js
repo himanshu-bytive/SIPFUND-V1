@@ -30,24 +30,38 @@ const MyImagePicker = (props) => {
     const signBox = useRef(null);
 
     const mapFileToDocType = {
-        KF: "KF",
-        PA: "PA",
+        KF: "IP",
+        PA: "PIC",
         CH: "CH",
         PC: "PC",
         SIGN: "SIGN",
         VID: "VID",
         /* Documents for address verification */
-        AADHAAR: "AA1",
         AA1: "AA1",
         DL: "DL",
-        PIC: "PIC",
         AA2: "AA2",
     };
 
+    const addressVerificationDocs = ["AA1", "AA2", "DL"];
+
     const docVerificationCompleted = (fileType) => {
         if (fileType === "") {
-            fileType = "AADHAAR";
+            fileType = "AA1";
+        } else {
+            fileType = mapFileToDocType[fileType];
         }
+
+        /* Check if any of the address verification docs are verified */
+        for (var item in addressVerificationDocs) {
+            for (var doc in docs.responseString.documents) {
+                if (docs.responseString.documents[addressVerificationDocs[item]]?.status === "PENDING") {
+                    return true;
+                } else if (docs.responseString.documents[addressVerificationDocs[item]]?.status === "COMPLETE") {
+                    return false;
+                }
+            }
+        }
+
         for (var doc in docs.responseString.documents) {
             if (docs.responseString.documents[doc]?.docType === fileType) {
                 if (docs.responseString.documents[doc]?.status === "PENDING") {
@@ -154,7 +168,13 @@ const MyImagePicker = (props) => {
                             <FontAwesome name="exclamation-circle" size={18} style={{ marginLeft: 10 }} color="#D4A340" />
                         </TouchableOpacity>
                     ) : (
-                        <FontAwesome name="check" size={18} style={{ marginLeft: 5 }} color="#00CC00" />
+                        <TouchableOpacity
+                            onPress={() => {
+                                ToastAndroid.show("Document Verified", ToastAndroid.SHORT);
+                            }}
+                        >
+                            <FontAwesome name="check" size={18} style={{ marginLeft: 5 }} color="#00CC00" />
+                        </TouchableOpacity>
                     ))}
             </View>
             <View style={{ width: "15%" }}>{img && <Image source={{ uri: img }} style={styles.image} />}</View>
