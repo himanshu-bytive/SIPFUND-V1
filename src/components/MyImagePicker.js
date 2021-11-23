@@ -142,10 +142,10 @@ const MyImagePicker = (props) => {
 
     return (
         <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
-            <View style={{ flexDirection: "row", width: "70%" }}>
+            <View style={{ flexDirection: "row", alignItems: "center", width: "70%" }}>
                 {item?.icon}
                 {item?.multi ? (
-                    <View style={{ marginTop: -20, width: "95%" }}>
+                    <View style={{ marginTop: -10, marginRight: 15 }}>
                         <MySelectPicker values={selList} defultValue={item?.name} onChange={(val) => setSelectDoc(val)} />
                     </View>
                 ) : (
@@ -335,7 +335,7 @@ const styles = StyleSheet.create({
     pan: {
         marginHorizontal: 10,
         fontSize: 18,
-        width: "90%",
+        flex: 0,
         fontWeight: "bold",
     },
     image: {
