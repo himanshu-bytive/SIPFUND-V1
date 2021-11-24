@@ -8,7 +8,7 @@ import { Overlay, Header, CheckBox } from "react-native-elements";
 function SideMenu(props) {
     const pageActiveKyc = useRef(false);
     const pageActiveEmandate = useRef(false);
-    const { token, isFetchingEkyc, isFetchingEmandate, nseDetails, userDetails, steps, docs, getList, postRequest, kycLists, emandateOptions, emandateRegistration, emandateLists, kycDetails } = props;
+    const { token, isFetchingEkyc, isFetchingEmandate, nseDetails, userDetails, steps, docs, getList, postRequest, kycLists, emandateOptions, emandateRegistration, emandateLists, kycDetails, profile } = props;
     const [img, setImg] = useState(null);
     const [visibleKyc, setVisibleKyc] = useState(false);
     const [visibleEmandate, setVisibleEmandate] = useState(false);
@@ -68,22 +68,25 @@ function SideMenu(props) {
     };
 
     const handlEemandateValue = () => {
+        var date = new Date();
+        date = date.toDateString().split(" ");
         if (emandateValue) {
             let params = {
                 service_request: {
                     acc_no: nseDetails?.acc_no,
                     acc_type: nseDetails?.acc_type?.ACC_TYPE,
                     ach_amount: emandateValue,
-                    ach_fromdate: new Date(),
+                    ach_fromdate: `${date[2]}-${date[1]}-${date[3]}`,
                     ach_todate: "31-Dec-2099",
                     Bank_holder_name: nseDetails?.inv_name,
-                    bank_name: nseDetails?.bank_name?.BANK_NAME,
+                    bank_name: profile?.BANK_NAME,
                     branch_name: nseDetails?.branch_name,
                     channel_type: visibleEmandateValue.channel_type,
                     ifsc_code: nseDetails?.ifsc_code,
                     iin: userDetails.IIN,
                     micr_no: "",
                     return_flag: visibleEmandateValue.return_flag,
+                    uc: "Y",
                 },
             };
             emandateRegistration(params, token);
@@ -399,11 +402,13 @@ const mapStateToProps = (state) => ({
     isFetchingEmandate: state.emandate.isFetching,
     emandateLists: state.emandate.emandateLists,
     emandateDetails: state.emandate.emandateDetails,
+    profile: state.auth.profile,
 });
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     const { dispatch } = dispatchProps;
     const { EkycActions } = require("../store/EkycRedux");
     const { EmandateActions } = require("../store/EmandateRedux");
+    const { AuthActions } = require("../store/AuthRedux");
     return {
         ...stateProps,
         ...ownProps,
@@ -412,6 +417,9 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
         },
         postRequest: (params, token) => {
             EkycActions.postRequest(dispatch, params, token);
+        },
+        getProfile: (params, token) => {
+            AuthActions.getProfile(dispatch, params, token);
         },
         emandateOptions: (token) => {
             EmandateActions.emandateOptions(dispatch, token);
