@@ -8,7 +8,7 @@ import { Overlay, Header, CheckBox } from "react-native-elements";
 function SideMenu(props) {
     const pageActiveKyc = useRef(false);
     const pageActiveEmandate = useRef(false);
-    const { token, isFetchingEkyc, isFetchingEmandate, nseDetails, userDetails, steps, docs, getList, postRequest, kycLists, emandateOptions, emandateRegistration, emandateLists, kycDetails, profile } = props;
+    const { token, isFetchingEkyc, isFetchingEmandate, nseDetails, userDetails, steps, docs, getList, postRequest, kycLists, emandateOptions, emandateRegistration, emandateLists, kycDetails, profile, getProfile } = props;
     const [img, setImg] = useState(null);
     const [visibleKyc, setVisibleKyc] = useState(false);
     const [visibleEmandate, setVisibleEmandate] = useState(false);
@@ -20,6 +20,10 @@ function SideMenu(props) {
         if (userDetails?.signUpSteps >= 6) {
             setEnableMandate(true);
         }
+    }, [userDetails]);
+
+    useEffect(() => {
+        getProfile({ service_request: { iin: userDetails.IIN } }, token);
     }, [userDetails]);
 
     useEffect(() => {
