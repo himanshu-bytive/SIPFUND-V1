@@ -23,7 +23,7 @@ function SideMenu(props) {
     }, [userDetails]);
 
     useEffect(() => {
-        getProfile({ service_request: { iin: userDetails.IIN } }, token);
+        getProfile({ service_request: { iin: userDetails?.IIN } }, token);
     }, [userDetails]);
 
     useEffect(() => {
