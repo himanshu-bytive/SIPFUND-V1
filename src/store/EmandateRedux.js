@@ -1,7 +1,6 @@
-import SiteAPI from '../services/SiteApis'
-import { Alert } from 'react-native';
+import SiteAPI from "../services/SiteApis";
+import { Alert, Linking } from "react-native";
 const types = {
-
     FETCH_EMANDATE_REGISTRATION_PENDING: "FETCH_EMANDATE_REGISTRATION_PENDING",
     FETCH_EMANDATE_REGISTRATION_SUCCESS: "FETCH_EMANDATE_REGISTRATION_SUCCESS",
     FETCH_EMANDATE_REGISTRATION_FAILURE: "FETCH_EMANDATE_REGISTRATION_FAILURE",
@@ -9,7 +8,6 @@ const types = {
     FETCH_EMANDATE_OPTIONS_PENDING: "FETCH_EMANDATE_OPTIONS_PENDING",
     FETCH_EMANDATE_OPTIONS_SUCCESS: "FETCH_EMANDATE_OPTIONS_SUCCESS",
     FETCH_EMANDATE_OPTIONS_FAILURE: "FETCH_EMANDATE_OPTIONS_FAILURE",
-
 };
 
 export const EmandateActions = {
@@ -17,7 +15,7 @@ export const EmandateActions = {
         dispatch({ type: types.FETCH_EMANDATE_OPTIONS_PENDING });
         let data = await SiteAPI.apiGetCall(`/emandateOptions/`, {}, token);
         if (data.error) {
-            Alert.alert(data.message)
+            Alert.alert(data.message);
             dispatch({ type: types.FETCH_EMANDATE_OPTIONS_FAILURE, error: data.message });
         } else {
             dispatch({ type: types.FETCH_EMANDATE_OPTIONS_SUCCESS, emandateLists: data.response });
@@ -26,15 +24,14 @@ export const EmandateActions = {
     emandateRegistration: async (dispatch, params, token) => {
         dispatch({ type: types.FETCH_EMANDATE_REGISTRATION_PENDING });
         let data = await SiteAPI.apiPostCall(`/apiData/ACHMANDATEREGISTRATIONS`, params, token);
-        console.log(data)
         if (data.error) {
-            Alert.alert(data.message)
+            Alert.alert(data.message);
             dispatch({ type: types.FETCH_EMANDATE_REGISTRATION_FAILURE, error: data.message });
         } else {
+            Linking.openURL(data.Data[0].eMandatelink);
             dispatch({ type: types.FETCH_EMANDATE_REGISTRATION_SUCCESS, emandateDetails: data.response });
         }
     },
-
 };
 
 const initialState = {
@@ -49,7 +46,6 @@ export const reducer = (state = initialState, action) => {
     switch (type) {
         case types.FETCH_EMANDATE_REGISTRATION_PENDING:
         case types.FETCH_EMANDATE_OPTIONS_PENDING: {
-
             return {
                 ...state,
                 isFetching: true,
@@ -71,7 +67,7 @@ export const reducer = (state = initialState, action) => {
                 ...state,
                 isFetching: false,
                 error: null,
-                emandateDetails
+                emandateDetails,
             };
         }
         case types.FETCH_EMANDATE_OPTIONS_SUCCESS: {
@@ -79,7 +75,7 @@ export const reducer = (state = initialState, action) => {
                 ...state,
                 isFetching: false,
                 error: null,
-                emandateLists
+                emandateLists,
             };
         }
 
