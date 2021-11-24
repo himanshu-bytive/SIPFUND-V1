@@ -49,12 +49,16 @@ const styles = StyleSheet.create({
     },
 });
 
+const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
+    return {
+        ...stateProps,
+        ...ownProps,
+    };
+};
 export default connect(
     () => {
         return {};
     },
     undefined,
-    () => {
-        return {};
-    }
+    mapDispatchToProps
 )(RmNotFoundScreen);
