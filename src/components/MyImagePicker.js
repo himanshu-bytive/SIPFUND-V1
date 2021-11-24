@@ -178,7 +178,13 @@ const MyImagePicker = (props) => {
                     ))}
             </View>
             <View style={{ width: "15%" }}>{img && <Image source={{ uri: img }} style={styles.image} />}</View>
-            <View style={{ width: "10%" }}>
+            <View
+                pointerEvents={docVerificationCompleted(item?.fileType) !== undefined ? "none" : "auto"}
+                style={{
+                    width: "10%",
+                    opacity: docVerificationCompleted(item?.fileType) !== undefined ? 0.25 : 1,
+                }}
+            >
                 {item?.type == "attachment" ? (
                     <View style={{ flexDirection: "row" }}>
                         <TouchableOpacity style={{ marginRight: 10 }} onPress={() => setCamera(true)}>
