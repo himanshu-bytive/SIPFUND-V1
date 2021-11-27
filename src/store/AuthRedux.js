@@ -1,8 +1,7 @@
-import SiteAPI from '../services/SiteApis'
-import { Alert } from 'react-native';
+import SiteAPI from "../services/SiteApis";
+import { Alert } from "react-native";
 const types = {
-
-    LOGOUT: 'LOGOUT',
+    LOGOUT: "LOGOUT",
 
     FETCH_VERIFY_PENDING: "FETCH_VERIFY_PENDING",
     FETCH_VERIFY_SUCCESS: "FETCH_VERIFY_SUCCESS",
@@ -39,141 +38,116 @@ const types = {
     FETCH_PROFILE_PENDING: "FETCH_PROFILE_PENDING",
     FETCH_PROFILE_SUCCESS: "FETCH_PROFILE_SUCCESS",
     FETCH_PROFILE_FAILURE: "FETCH_PROFILE_FAILURE",
-
 };
 
 export const AuthActions = {
     verify: async (dispatch, params) => {
         dispatch({ type: types.FETCH_VERIFY_PENDING });
-        let data = await SiteAPI.apiPostCall('/auth/verify', params);
+        let data = await SiteAPI.apiPostCall("/auth/verify", params);
         if (data.error) {
-            Alert.alert(data.message)
+            Alert.alert(data.message);
             dispatch({ type: types.FETCH_VERIFY_FAILURE, error: data.message });
         } else {
-            Alert.alert(
-                'SIP Fund',
-                data.responseString,
-                [
-                    {
-                        text: "OK",
-                        onPress: () => {
-                            dispatch({ type: types.FETCH_VERIFY_SUCCESS, phone: params.mobileNo, signUpSteps: data.signUpSteps, validFlag: data.validFlag });
-                        }
+            Alert.alert("SIP Fund", data.responseString, [
+                {
+                    text: "OK",
+                    onPress: () => {
+                        dispatch({ type: types.FETCH_VERIFY_SUCCESS, phone: params.mobileNo, signUpSteps: data.signUpSteps, validFlag: data.validFlag });
                     },
-                ]
-            );
+                },
+            ]);
         }
     },
     otp: async (dispatch, params) => {
         dispatch({ type: types.FETCH_OTP_PENDING });
-        let data = await SiteAPI.apiPostCall('/auth/validate', params);
+        let data = await SiteAPI.apiPostCall("/auth/validate", params);
         if (data.error) {
-            Alert.alert(data.message)
+            Alert.alert(data.message);
             dispatch({ type: types.FETCH_OTP_FAILURE, error: data.message });
         } else {
-            Alert.alert(
-                'SIP Fund',
-                data.responseString,
-                [
-                    {
-                        text: "OK",
-                        onPress: () => {
-                            dispatch({ type: types.FETCH_OTP_SUCCESS, signUpSteps: data.signUpSteps, validFlag: data.validFlag });
-                        }
+            Alert.alert("SIP Fund", data.responseString, [
+                {
+                    text: "OK",
+                    onPress: () => {
+                        dispatch({ type: types.FETCH_OTP_SUCCESS, signUpSteps: data.signUpSteps, validFlag: data.validFlag });
                     },
-                ]
-            );
+                },
+            ]);
         }
     },
     resendOtp: async (dispatch, params) => {
         dispatch({ type: types.FETCH_RESEND_OTP_PENDING });
-        let data = await SiteAPI.apiPostCall('/auth/resend', params);
+        let data = await SiteAPI.apiPostCall("/auth/resend", params);
         if (data.error) {
-            Alert.alert(data.message)
+            Alert.alert(data.message);
             dispatch({ type: types.FETCH_RESEND_OTP_FAILURE, error: data.message });
         } else {
-            Alert.alert(
-                'SIP Fund',
-                data.responseString,
-                [
-                    {
-                        text: "OK",
-                        onPress: () => {
-                            dispatch({ type: types.FETCH_RESEND_OTP_SUCCESS });
-                        }
+            Alert.alert("SIP Fund", data.responseString, [
+                {
+                    text: "OK",
+                    onPress: () => {
+                        dispatch({ type: types.FETCH_RESEND_OTP_SUCCESS });
                     },
-                ]
-            );
+                },
+            ]);
         }
     },
     changePassword: async (dispatch, params) => {
         dispatch({ type: types.FETCH_CHANGE_PASSWORD_PENDING });
-        let data = await SiteAPI.apiPutCall('/password/changePassword', params);
+        let data = await SiteAPI.apiPutCall("/password/changePassword", params);
         if (data.error) {
-            Alert.alert(data.message)
+            Alert.alert(data.message);
             dispatch({ type: types.FETCH_CHANGE_PASSWORD_FAILURE, error: data.message });
         } else {
-            Alert.alert(
-                'SIP Fund',
-                data.responseString,
-                [
-                    {
-                        text: "OK",
-                        onPress: () => {
-                            dispatch({ type: types.FETCH_CHANGE_PASSWORD_SUCCESS, signUpSteps: data.signUpSteps, validFlag: data.validFlag });
-                        }
+            Alert.alert("SIP Fund", data.responseString, [
+                {
+                    text: "OK",
+                    onPress: () => {
+                        dispatch({ type: types.FETCH_CHANGE_PASSWORD_SUCCESS, signUpSteps: data.signUpSteps, validFlag: data.validFlag });
                     },
-                ]
-            );
+                },
+            ]);
         }
     },
     panNumber: async (dispatch, params) => {
         dispatch({ type: types.FETCH_PAN_NUMBER_PENDING });
-        let data = await SiteAPI.apiPostCall('/user/userPan', params);
+        let data = await SiteAPI.apiPostCall("/user/userPan", params);
         if (data.error) {
-            Alert.alert(data.message)
+            Alert.alert(data.message);
             dispatch({ type: types.FETCH_PAN_NUMBER_FAILURE, error: data.message });
         } else {
-            Alert.alert(
-                'SIP Fund',
-                data.responseString,
-                [
-                    {
-                        text: "OK",
-                        onPress: () => {
-                            dispatch({ type: types.FETCH_PAN_NUMBER_SUCCESS, panNumber: data.data });
-                        }
+            Alert.alert("SIP Fund", data.responseString, [
+                {
+                    text: "OK",
+                    onPress: () => {
+                        dispatch({ type: types.FETCH_PAN_NUMBER_SUCCESS, panNumber: data.data });
                     },
-                ]
-            );
+                },
+            ]);
         }
     },
     forgotPassword: async (dispatch, params) => {
         dispatch({ type: types.FETCH_FORGET_PASS_PENDING });
-        let data = await SiteAPI.apiPostCall('/password/forgotPassword', params);
+        let data = await SiteAPI.apiPostCall("/password/forgotPassword", params);
         if (data.error) {
-            Alert.alert(data.message)
+            Alert.alert(data.message);
             dispatch({ type: types.FETCH_FORGET_PASS_FAILURE, error: data.message });
         } else {
-            Alert.alert(
-                'SIP Fund',
-                data.responseString,
-                [
-                    {
-                        text: "OK",
-                        onPress: () => {
-                            dispatch({ type: types.FETCH_FORGET_PASS_SUCCESS });
-                        }
+            Alert.alert("SIP Fund", data.responseString, [
+                {
+                    text: "OK",
+                    onPress: () => {
+                        dispatch({ type: types.FETCH_FORGET_PASS_SUCCESS });
                     },
-                ]
-            );
+                },
+            ]);
         }
     },
     login: async (dispatch, params, token) => {
         dispatch({ type: types.FETCH_LOGIN_PENDING });
-        let data = await SiteAPI.apiPostCall('/token', params, token);
+        let data = await SiteAPI.apiPostCall("/token", params, token);
         if (data.error) {
-            Alert.alert(data.message)
+            Alert.alert(data.message);
             dispatch({ type: types.FETCH_LOGIN_FAILURE, error: data.message });
         } else {
             dispatch({ type: types.FETCH_LOGIN_SUCCESS, user: data, token: data.access_token });
@@ -184,30 +158,26 @@ export const AuthActions = {
     },
     creatAccount: async (dispatch, params) => {
         dispatch({ type: types.FETCH_CREAT_ACCOUNT_PENDING });
-        let data = await SiteAPI.apiPostCall('/auth', params);
+        let data = await SiteAPI.apiPostCall("/auth", params);
         if (data.error) {
-            Alert.alert(data.message)
+            Alert.alert(data.message);
             dispatch({ type: types.FETCH_CREAT_ACCOUNT_FAILURE, error: data.message });
         } else {
-            Alert.alert(
-                'SIP Fund',
-                data.message,
-                [
-                    {
-                        text: "OK",
-                        onPress: () => {
-                            dispatch({ type: types.FETCH_CREAT_ACCOUNT_SUCCESS, signUpSteps: data.signUpSteps });
-                        }
+            Alert.alert("SIP Fund", data.message, [
+                {
+                    text: "OK",
+                    onPress: () => {
+                        dispatch({ type: types.FETCH_CREAT_ACCOUNT_SUCCESS, signUpSteps: data.signUpSteps });
                     },
-                ]
-            );
+                },
+            ]);
         }
     },
     getProfile: async (dispatch, params, token) => {
         dispatch({ type: types.FETCH_PROFILE_PENDING });
-        let data = await SiteAPI.apiPostCall('/apiData/IINDETAILS', params, token);
+        let data = await SiteAPI.apiPostCall("/apiData/IINDETAILS", params, token);
         if (data.error) {
-            Alert.alert(data.message)
+            //Alert.alert(data.message)
             dispatch({ type: types.FETCH_PROFILE_FAILURE, error: data.message });
         } else {
             dispatch({ type: types.FETCH_PROFILE_SUCCESS, profile: data.Data });
@@ -264,10 +234,10 @@ export const reducer = (state = initialState, action) => {
             };
         }
         case types.FETCH_VERIFY_SUCCESS: {
-            let phones = [...state.phones, phone]
+            let phones = [...state.phones, phone];
             let uniq = [...new Set(phones.reverse())];
             if (uniq.length >= 3) {
-                uniq.length = 3
+                uniq.length = 3;
             }
             return {
                 ...state,
@@ -276,7 +246,7 @@ export const reducer = (state = initialState, action) => {
                 signUpSteps,
                 validFlag,
                 phone,
-                phones: uniq
+                phones: uniq,
             };
         }
         case types.FETCH_OTP_SUCCESS: {
@@ -302,7 +272,7 @@ export const reducer = (state = initialState, action) => {
                 ...state,
                 isFetching: false,
                 error: null,
-                password: true
+                password: true,
             };
         }
         case types.FETCH_CHANGE_PASSWORD_SUCCESS: {
@@ -317,7 +287,7 @@ export const reducer = (state = initialState, action) => {
                 ...state,
                 isFetching: false,
                 error: null,
-                panNumber
+                panNumber,
             };
         }
         case types.FETCH_CREAT_ACCOUNT_SUCCESS: {
@@ -325,7 +295,7 @@ export const reducer = (state = initialState, action) => {
                 ...state,
                 isFetching: false,
                 error: null,
-                signUpSteps
+                signUpSteps,
             };
         }
         case types.FETCH_PROFILE_SUCCESS: {
@@ -333,7 +303,7 @@ export const reducer = (state = initialState, action) => {
                 ...state,
                 isFetching: false,
                 error: null,
-                profile
+                profile,
             };
         }
         case types.FETCH_LOGIN_SUCCESS: {
@@ -341,7 +311,7 @@ export const reducer = (state = initialState, action) => {
                 ...state,
                 isFetching: false,
                 user,
-                token: `Bearer ${token}`
+                token: `Bearer ${token}`,
             };
         }
         case types.LOGOUT:

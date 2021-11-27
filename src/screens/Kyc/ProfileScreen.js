@@ -8,12 +8,18 @@ import { Image, Header, CheckBox } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
 
 function ProfileScreen(props) {
-    const { steps, token, uploadSuccess, getDocuments, docs, isFetching, getProfile, profile, user } = props;
+    const { steps, token, uploadSuccess, getDocuments, docs, isFetching, getProfile, profile, user, error } = props;
+    const [profileCreated, setProfileCreated] = useState(true);
 
     useEffect(() => {
         getProfile({ service_request: { iin: user.iin } }, token);
-        console.log(profile);
     }, []);
+
+    useEffect(() => {
+        if (error === "Error occurred while processing RetriveXelement") {
+            setProfileCreated(false);
+        }
+    }, [error]);
 
     useEffect(() => {
         if (token || uploadSuccess) {
@@ -94,70 +100,85 @@ function ProfileScreen(props) {
                     <Text style={styles.bottom_text}>IIN Activated</Text>
                     <Text style={styles.bottom_text}>Investment</Text>
                 </View>
-                <View style={styles.mutual_sec}>
-                    <Text style={styles.mutual_text}>Mutual Funds</Text>
-                </View>
-                <View style={styles.mutual_bottomsec}>
-                    <View style={styles.mutual_left}>
-                        <Text style={styles.customer}>Customer Id :</Text>
-                        <Text style={styles.id_text}>{profile?.CUSTOMER_ID}</Text>
-                        <Text style={styles.customer}>Holding Nature :</Text>
-                        <Text style={styles.id_text}>{profile?.HOLD_N_CODE}</Text>
-                        <Text style={styles.customer}>Email :</Text>
-                        <Text style={styles.id_text}>{profile?.EMAIL}</Text>
-                    </View>
-                    <View style={styles.mutual_right}>
-                        <Text style={styles.customer}>PAN :</Text>
-                        <Text style={styles.id_text}>{profile?.FH_PAN_NO}</Text>
-                        <Text style={styles.customer}>Tax Status :</Text>
-                        <Text style={styles.id_text}>{profile?.TAX_STATUS_DESC}</Text>
-                        <Text style={styles.customer}>Mobile :</Text>
-                        <Text style={styles.id_text}>{profile?.MOBILE_NO}</Text>
-                    </View>
-                </View>
-                <View style={styles.address}>
-                    <Text style={styles.customer}>Address :</Text>
-                    <Text style={styles.id_text}>{`${profile?.ADDRESS1} ${profile?.CITY} ${profile?.STATE_NAME} ${profile?.PINCODE}`}</Text>
-                </View>
+                {profileCreated ? (
+                    <>
+                        <View style={styles.mutual_sec}>
+                            <Text style={styles.mutual_text}>Mutual Funds</Text>
+                        </View>
+                        <View style={styles.mutual_bottomsec}>
+                            <View style={styles.mutual_left}>
+                                <Text style={styles.customer}>Customer Id :</Text>
+                                <Text style={styles.id_text}>{profile?.CUSTOMER_ID}</Text>
+                                <Text style={styles.customer}>Holding Nature :</Text>
+                                <Text style={styles.id_text}>{profile?.HOLD_N_CODE}</Text>
+                                <Text style={styles.customer}>Email :</Text>
+                                <Text style={styles.id_text}>{profile?.EMAIL}</Text>
+                            </View>
+                            <View style={styles.mutual_right}>
+                                <Text style={styles.customer}>PAN :</Text>
+                                <Text style={styles.id_text}>{profile?.FH_PAN_NO}</Text>
+                                <Text style={styles.customer}>Tax Status :</Text>
+                                <Text style={styles.id_text}>{profile?.TAX_STATUS_DESC}</Text>
+                                <Text style={styles.customer}>Mobile :</Text>
+                                <Text style={styles.id_text}>{profile?.MOBILE_NO}</Text>
+                            </View>
+                        </View>
+                        <View style={styles.address}>
+                            <Text style={styles.customer}>Address :</Text>
+                            <Text style={styles.id_text}>{`${profile?.ADDRESS1} ${profile?.CITY} ${profile?.STATE_NAME} ${profile?.PINCODE}`}</Text>
+                        </View>
 
-                <View style={styles.mutual_sec}>
-                    <Text style={styles.mutual_text}>BANK DETAILS</Text>
-                </View>
-                <View style={styles.mutual_bottomsec}>
-                    <View style={styles.mutual_left}>
-                        <Text style={styles.customer}>Bank Name :</Text>
-                        <Text style={styles.id_text}>{profile?.BANK_NAME}</Text>
-                        <Text style={styles.customer}>IFSC Code :</Text>
-                        <Text style={styles.id_text}>{profile?.IFSC_CODE}</Text>
-                        <Text style={styles.customer}>Branch Name :</Text>
-                        <Text style={styles.id_text}>{profile?.BANK_NAME}</Text>
+                        <View style={styles.mutual_sec}>
+                            <Text style={styles.mutual_text}>BANK DETAILS</Text>
+                        </View>
+                        <View style={styles.mutual_bottomsec}>
+                            <View style={styles.mutual_left}>
+                                <Text style={styles.customer}>Bank Name :</Text>
+                                <Text style={styles.id_text}>{profile?.BANK_NAME}</Text>
+                                <Text style={styles.customer}>IFSC Code :</Text>
+                                <Text style={styles.id_text}>{profile?.IFSC_CODE}</Text>
+                                <Text style={styles.customer}>Branch Name :</Text>
+                                <Text style={styles.id_text}>{profile?.BANK_NAME}</Text>
+                            </View>
+                            <View style={styles.mutual_right}>
+                                <Text style={styles.customer}>Account Type :</Text>
+                                <Text style={styles.id_text}>{profile?.AC_TYPE}</Text>
+                                <Text style={styles.customer}>Account No :</Text>
+                                <Text style={styles.id_text}>{profile?.AC_NO}</Text>
+                                <Text style={styles.customer}>Branch Pincode :</Text>
+                                <Text style={styles.id_text}>{profile?.BRANCH_PINCODE}</Text>
+                            </View>
+                        </View>
+                        <View style={styles.address}>
+                            <Text style={styles.customer}>Bank Address :</Text>
+                            <Text style={styles.id_text}>{profile?.BRANCH_ADDRESS1}</Text>
+                        </View>
+                        <View style={styles.mutual_sec}>
+                            <Text style={styles.mutual_text}>BROKER</Text>
+                        </View>
+                        <View style={styles.mutual_bottomsec}>
+                            <View style={styles.mutual_left}>
+                                <Text style={styles.customer}>Broker Name :</Text>
+                                <Text style={styles.id_text}>{"Sipfund Pvt.Ltd."}</Text>
+                            </View>
+                            <View style={styles.mutual_right}>
+                                <Text style={styles.customer}>Code</Text>
+                                <Text style={styles.id_text}>{profile?.BROK_DLR_CODE}</Text>
+                            </View>
+                        </View>
+                    </>
+                ) : (
+                    <View style={styles.noDetailsContainer}>
+                        <Image
+                            source={require("../../../assets/rm_not_found.png")}
+                            style={{
+                                height: 225,
+                                width: 225,
+                            }}
+                        />
+                        <Text style={styles.noDetailsText}>No details to display</Text>
                     </View>
-                    <View style={styles.mutual_right}>
-                        <Text style={styles.customer}>Account Type :</Text>
-                        <Text style={styles.id_text}>{profile?.AC_TYPE}</Text>
-                        <Text style={styles.customer}>Account No :</Text>
-                        <Text style={styles.id_text}>{profile?.AC_NO}</Text>
-                        <Text style={styles.customer}>Branch Pincode :</Text>
-                        <Text style={styles.id_text}>{profile?.BRANCH_PINCODE}</Text>
-                    </View>
-                </View>
-                <View style={styles.address}>
-                    <Text style={styles.customer}>Bank Address :</Text>
-                    <Text style={styles.id_text}>{profile?.BRANCH_ADDRESS1}</Text>
-                </View>
-                <View style={styles.mutual_sec}>
-                    <Text style={styles.mutual_text}>BROKER</Text>
-                </View>
-                <View style={styles.mutual_bottomsec}>
-                    <View style={styles.mutual_left}>
-                        <Text style={styles.customer}>Broker Name :</Text>
-                        <Text style={styles.id_text}>{"Sipfund Pvt.Ltd."}</Text>
-                    </View>
-                    <View style={styles.mutual_right}>
-                        <Text style={styles.customer}>Code</Text>
-                        <Text style={styles.id_text}>{profile?.BROK_DLR_CODE}</Text>
-                    </View>
-                </View>
+                )}
             </ScrollView>
         </View>
     );
@@ -277,6 +298,16 @@ const styles = StyleSheet.create({
     },
 
     address: { paddingLeft: 20 },
+    noDetailsContainer: {
+        flex: 1,
+        alignItems: "center",
+        marginTop: 20,
+        backgroundColor: Colors.WHITE,
+    },
+    noDetailsText: {
+        fontSize: 18,
+        marginTop: 15,
+    },
 });
 const mapStateToProps = (state) => ({
     token: state.auth.token,
@@ -286,6 +317,7 @@ const mapStateToProps = (state) => ({
     steps: state.home.steps,
     isFetching: state.registration.isFetching,
     uploadSuccess: state.registration.uploadSuccess,
+    error: state.auth.error,
 });
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
