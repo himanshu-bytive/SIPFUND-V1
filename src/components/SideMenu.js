@@ -109,19 +109,13 @@ function SideMenu(props) {
 
     return (
         <View style={styles.container}>
-            <View style={{ backgroundColor: Colors.RED, flexDirection: "row", marginTop: 0 }}>
+            <View style={{ backgroundColor: Colors.RED, flexDirection: "row" }}>
                 <Image source={img ? { uri: img } : require("../../assets/profile_img.png")} style={{ margin: 7, width: 40, height: 40, borderRadius: 100 }} />
                 <View>
                     <Text style={styles.profileText}>{userDetails?.email}</Text>
                     <Text style={styles.profileText}>{userDetails?.mobileNo}</Text>
                 </View>
             </View>
-            {(isFetchingEkyc || isFetchingEmandate) && (
-                <View style={Styles.loading}>
-                    <ActivityIndicator color={Colors.BLACK} size="large" />
-                </View>
-            )}
-
             <Overlay isVisible={visibleKyc} overlayStyle={{ margin: 10, borderRadius: 10, backgroundColor: "#fff" }}>
                 <View style={styles.emaMainbox}>
                     <Text style={styles.emaAmc}>Choose AMC Option:</Text>
