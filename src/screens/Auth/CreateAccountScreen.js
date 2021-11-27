@@ -1,23 +1,10 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
-import {
-    StyleSheet,
-    Button,
-    ScrollView,
-    View,
-    Linking,
-    ImageBackground,
-    TouchableOpacity,
-    Text,
-    KeyboardAvoidingView,
-    Platform,
-    TextInput,
-    ActivityIndicator
-} from "react-native";
-import { connect } from 'react-redux'
-import * as Location from 'expo-location';
-import { Styles, Config, Colors, FormValidate } from '../../common'
-import { Ionicons, AntDesign } from 'react-native-vector-icons';
-import { Image, Header, CheckBox, colors } from 'react-native-elements';
+import { StyleSheet, Button, ScrollView, View, Linking, ImageBackground, TouchableOpacity, Text, KeyboardAvoidingView, Platform, TextInput, ActivityIndicator } from "react-native";
+import { connect } from "react-redux";
+import * as Location from "expo-location";
+import { Styles, Config, Colors, FormValidate } from "../../common";
+import { Ionicons, AntDesign } from "react-native-vector-icons";
+import { Image, Header, CheckBox, colors } from "react-native-elements";
 
 function CreateAccountScreen(props) {
     const pageActive = useRef(false);
@@ -37,12 +24,7 @@ function CreateAccountScreen(props) {
     const CheckIfLocationEnabled = async () => {
         let enabled = await Location.hasServicesEnabledAsync();
         if (!enabled) {
-            Alert.alert(
-                'Location Service not enabled',
-                'Please enable your location services to continue',
-                [{ text: 'OK' }],
-                { cancelable: false }
-            );
+            Alert.alert("Location Service not enabled", "Please enable your location services to continue", [{ text: "OK" }], { cancelable: false });
         } else {
             setLocationServiceEnabled(enabled);
         }
@@ -50,48 +32,43 @@ function CreateAccountScreen(props) {
 
     const GetCurrentLocation = async () => {
         let { status } = await Location.requestForegroundPermissionsAsync();
-        if (status !== 'granted') {
-            Alert.alert(
-                'Permission not granted',
-                'Allow the app to use location service.',
-                [{ text: 'OK' }],
-                { cancelable: false }
-            );
+        if (status !== "granted") {
+            Alert.alert("Permission not granted", "Allow the app to use location service.", [{ text: "OK" }], { cancelable: false });
         }
         let { coords } = await Location.getCurrentPositionAsync();
         if (coords) {
             const { latitude, longitude } = coords;
             let response = await Location.reverseGeocodeAsync({
                 latitude,
-                longitude
+                longitude,
             });
             for (let item of response) {
                 setDisplayCurrentAddress({
-                    "latitude": latitude,
-                    "longitude": longitude,
-                    "address": item.name,
-                    "city": item.city,
-                    "state": item.street,
-                    "pincode": item.postalCode,
+                    latitude: latitude,
+                    longitude: longitude,
+                    address: item.name,
+                    city: item.city,
+                    state: item.street,
+                    pincode: item.postalCode,
                 });
             }
         }
-    }
+    };
 
     useEffect(() => {
         if (signUpSteps >= 3 && pageActive.current) {
             pageActive.current = false;
-            props.navigation.navigate('login')
+            props.navigation.navigate("login");
         }
         if (error) {
-            console.log(error)
+            console.log(error);
         }
     }, [signUpSteps, error]);
 
     const [state, setState] = useState({
-        email: '',
-        password: '',
-        referenceCode: '',
+        email: "",
+        password: "",
+        referenceCode: "",
         term: false,
     });
 
@@ -105,131 +82,143 @@ function CreateAccountScreen(props) {
     const onAction = async () => {
         if (!FormValidate.isEmail(state.email)) {
             emailInput.current.focus();
-            setError({ ...errors, email: 'Please enter Email Address' });
-            return
+            setError({ ...errors, email: "Please enter Email Address" });
+            return;
         }
         if (!state.password) {
             passwordInput.current.focus();
-            setError({ ...errors, password: 'Please enter Password' });
-            return
+            setError({ ...errors, password: "Please enter Password" });
+            return;
         }
         if (!state.term) {
-            setError({ ...errors, term: 'Please check Terms' });
-            return
+            setError({ ...errors, term: "Please check Terms" });
+            return;
         }
         pageActive.current = true;
         let params = {
-            "deviceToken": "",
-            "email": state.email,
-            "minorFlag": false,
-            "mobileNo": String(phone),
-            "pan": "",
-            "password": state.password,
-            "platform": Platform.OS == 'ios' ? 'IOS' : 'ANDROID',
-            "referenceCode": state.referenceCode,
-            "referenceInfo":
-            {
-                "deviceId": "",
-                "latitude": displayCurrentAddress?.latitude,
-                "longitude": displayCurrentAddress?.longitude,
-                "mobileNo": phone,
-                "pincode": displayCurrentAddress?.pincode,
-            }
-        }
+            deviceToken: "",
+            email: state.email,
+            minorFlag: false,
+            mobileNo: String(phone),
+            pan: "",
+            password: state.password,
+            platform: Platform.OS == "ios" ? "IOS" : "ANDROID",
+            referenceCode: state.referenceCode.toUpperCase(), // just in case if its not uppercase
+            referenceInfo: {
+                deviceId: "",
+                latitude: displayCurrentAddress?.latitude,
+                longitude: displayCurrentAddress?.longitude,
+                mobileNo: phone,
+                pincode: displayCurrentAddress?.pincode,
+            },
+        };
         creatAccount(params);
-        setState({ ...state, email: '', password: '', referenceCode:'', term: false });
-    }
+        setState({ ...state, email: "", password: "", referenceCode: "", term: false });
+    };
 
     return (
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container}>
-            <Header
-                backgroundColor={Colors.LIGHT_WHITE}
-                containerStyle={styles.header}
-                centerComponent={<Image
-                    source={require('../../../assets/icon.png')}
-                    style={styles.logimg}
-                />}
-            />
+            <Header backgroundColor={Colors.LIGHT_WHITE} containerStyle={styles.header} centerComponent={<Image source={require("../../../assets/icon.png")} style={styles.logimg} />} />
             <ScrollView style={styles.containerScroll}>
                 <View style={styles.mainBox}>
-                    <Image
-                        source={require('../../../assets/luck.png')}
-                        style={styles.passwordimg2}
-                    />
+                    <Image source={require("../../../assets/luck.png")} style={styles.passwordimg2} />
 
                     <Text style={styles.number}>Enter Email</Text>
                     <TextInput
                         ref={emailInput}
                         style={styles.inputsec}
-                        placeholder={'Email'}
-                        onChangeText={(email) => { setError({ ...errors, email: null }); setState({ ...state, email }) }}
+                        placeholder={"Email"}
+                        onChangeText={(email) => {
+                            setError({ ...errors, email: null });
+                            setState({ ...state, email });
+                        }}
                         value={state.email}
                     />
-                    {(errors.email) && (<Text style={styles.error}>{errors.email}</Text>)}
+                    {errors.email && <Text style={styles.error}>{errors.email}</Text>}
                     <Text style={styles.number}>Enter Password</Text>
                     <TextInput
                         ref={passwordInput}
                         style={styles.inputsec}
-                        placeholder={'Password'}
+                        placeholder={"Password"}
                         secureTextEntry={true}
-                        onChangeText={(password) => { setError({ ...errors, password: null }); setState({ ...state, password }) }}
+                        onChangeText={(password) => {
+                            setError({ ...errors, password: null });
+                            setState({ ...state, password });
+                        }}
                         value={state.password}
                     />
-                    {(errors.password) && (<Text style={styles.error}>{errors.password}</Text>)}
-                    <TouchableOpacity onPress={() => setReferral(!referral)} style={{ alignSelf: 'flex-end', marginVertical: 10 }}>
+                    {errors.password && <Text style={styles.error}>{errors.password}</Text>}
+                    <TouchableOpacity onPress={() => setReferral(!referral)} style={{ alignSelf: "flex-end", marginVertical: 10 }}>
                         <Text style={styles.refreshcode}>Have Referral Code?</Text>
                     </TouchableOpacity>
-                    {referral && (<View style={{ width: '100%' }}>
-                        <Text style={[styles.number, { marginTop: 0, textAlign: 'center' }]}>Referral Code</Text>
-                        <TextInput
-                            ref={referenceCodeInput}
-                            style={styles.inputsec}
-                            placeholder={'Reference Code'}
-                            onChangeText={(referenceCode) => { setError({ ...errors, referenceCode: null }); setState({ ...state, referenceCode }) }}
-                            value={state.referenceCode}
-                        />
-                        {(errors.referenceCode) && (<Text style={styles.error}>{errors.referenceCode}</Text>)}
-                    </View>)}
+                    {referral && (
+                        <View style={{ width: "100%" }}>
+                            <Text style={[styles.number, { marginTop: 0, textAlign: "center" }]}>Referral Code</Text>
+                            <TextInput
+                                ref={referenceCodeInput}
+                                style={styles.inputsec}
+                                autoCapitalize="characters"
+                                placeholder={"Reference Code"}
+                                onChangeText={(referenceCode) => {
+                                    setError({ ...errors, referenceCode: null });
+                                    setState({ ...state, referenceCode });
+                                }}
+                                value={state.referenceCode}
+                            />
+                            {errors.referenceCode && <Text style={styles.error}>{errors.referenceCode}</Text>}
+                        </View>
+                    )}
                     <Text style={styles.confrom_button}>By tapping confirm button, you agreeing to the</Text>
                     <CheckBox
-                        title={<TouchableOpacity onPress={() => Linking.openURL('https://sipfund.com/termofuse.html')}><Text style={{ color: Colors.RED }}>Terms & Conditions</Text></TouchableOpacity>}
+                        title={
+                            <TouchableOpacity onPress={() => Linking.openURL("https://sipfund.com/termofuse.html")}>
+                                <Text style={{ color: Colors.RED }}>Terms & Conditions</Text>
+                            </TouchableOpacity>
+                        }
                         containerStyle={styles.checkbox_style}
                         textStyle={{ color: Colors.RED, fontSize: 14 }}
                         checked={state.term}
                         checkedColor={Colors.BLACK}
                         uncheckedColor={Colors.RED}
-                        onPress={() => { setError({ ...errors, term: null }); setState({ ...state, term: !state.term }) }}
+                        onPress={() => {
+                            setError({ ...errors, term: null });
+                            setState({ ...state, term: !state.term });
+                        }}
                     />
-                    {(errors.term) && (<Text style={styles.error}>{errors.term}</Text>)}
+                    {errors.term && <Text style={styles.error}>{errors.term}</Text>}
                     <View style={styles.button}>
-                        {isFetching ? <View style={styles.botton_box}><ActivityIndicator size={30} color={Colors.WHITE} /></View> :
+                        {isFetching ? (
+                            <View style={styles.botton_box}>
+                                <ActivityIndicator size={30} color={Colors.WHITE} />
+                            </View>
+                        ) : (
                             <TouchableOpacity onPress={() => onAction()} style={styles.botton_box}>
                                 <Text style={styles.get_otp}>CONFIRM</Text>
                                 <AntDesign name={"right"} size={26} color={Colors.WHITE} />
-                            </TouchableOpacity>}
+                            </TouchableOpacity>
+                        )}
                     </View>
                 </View>
             </ScrollView>
         </KeyboardAvoidingView>
-
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center',
+        alignItems: "center",
     },
     containerScroll: {
-        width: '100%'
+        width: "100%",
     },
     header: {
         borderBottomColor: Colors.BLACK,
-        borderBottomWidth: 1
+        borderBottomWidth: 1,
     },
     mainBox: {
-        alignItems: 'center',
-        paddingHorizontal: 30
+        alignItems: "center",
+        paddingHorizontal: 30,
     },
     logimg: {
         height: 65,
@@ -250,21 +239,21 @@ const styles = StyleSheet.create({
 
     slogan: {
         fontSize: 25,
-        color: '#000',
-        marginTop: 100
+        color: "#000",
+        marginTop: 100,
     },
     sloganRed: {
-        color: '#ff0000',
+        color: "#ff0000",
     },
     otpsec: {
         fontSize: 20,
     },
-    nseimg: { marginTop: 50, },
+    nseimg: { marginTop: 50 },
     number: { fontSize: 22, marginTop: 20 },
     inputsec: {
         borderWidth: 2,
         borderColor: Colors.GRAY_LIGHT,
-        width: '100%',
+        width: "100%",
         height: 50,
         fontSize: 20,
         marginTop: 5,
@@ -291,7 +280,7 @@ const styles = StyleSheet.create({
         borderColor: Colors.TRANSPARENT,
     },
     botton_box: {
-        flexDirection: 'row',
+        flexDirection: "row",
         backgroundColor: Colors.RED,
         paddingHorizontal: 70,
         paddingVertical: 10,
@@ -301,7 +290,7 @@ const styles = StyleSheet.create({
     get_otp: {
         color: Colors.WHITE,
         fontSize: 22,
-        fontWeight: 'bold',
+        fontWeight: "bold",
         marginRight: 5,
     },
 });
@@ -312,15 +301,17 @@ const mapStateToProps = (state) => ({
     signUpSteps: state.auth.signUpSteps,
     validFlag: state.auth.validFlag,
     phone: state.auth.phone,
-})
+});
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     const { dispatch } = dispatchProps;
-    const { AuthActions } = require('../../store/AuthRedux')
+    const { AuthActions } = require("../../store/AuthRedux");
     return {
         ...stateProps,
         ...ownProps,
-        creatAccount: (params) => { AuthActions.creatAccount(dispatch, params) },
-    }
-}
-export default connect(mapStateToProps, undefined, mapDispatchToProps)(CreateAccountScreen)
+        creatAccount: (params) => {
+            AuthActions.creatAccount(dispatch, params);
+        },
+    };
+};
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(CreateAccountScreen);
