@@ -117,7 +117,7 @@ function CreateAccountScreen(props) {
     };
 
     return (
-        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container}>
+        <KeyboardAvoidingView style={styles.container}>
             <Header backgroundColor={Colors.LIGHT_WHITE} containerStyle={styles.header} centerComponent={<Image source={require("../../../assets/icon.png")} style={styles.logimg} />} />
             <ScrollView style={styles.containerScroll}>
                 <View style={styles.mainBox}>
