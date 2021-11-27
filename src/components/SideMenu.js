@@ -233,11 +233,11 @@ function SideMenu(props) {
 
                 <TouchableOpacity
                     onPress={() => {
-                        if (userDetails?.IIN) {
+                        if (userDetails?.IIN && enableMandate) {
                             getList(token);
                             pageActiveKyc.current = true;
                         } else {
-                            Alert.alert("IIN is not update");
+                            Alert.alert("Your IIN is not created. Please click on register.");
                         }
                     }}
                     style={[styles.profile_sec, styles.profile]}
