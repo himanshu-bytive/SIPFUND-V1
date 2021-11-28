@@ -37,7 +37,12 @@ const filterList = [
   { name: "2Y", label: "2Y Returns", value: "DP-Return2Yr", status: false },
   { name: "3Y", label: "3Y Returns", value: "DP-Return3Yr", status: false },
   { name: "5Y", label: "5Y Returns", value: "DP-Return5Yr", status: false },
-  { name: "ALL", label: "ALL Returns", value: "10y", status: false },
+  {
+    name: "ALL",
+    label: "ALL Returns",
+    value: "DP-ReturnSinceInception",
+    status: false,
+  },
 ];
 
 const roted = [
@@ -119,6 +124,33 @@ function TopRatedHomeScreen(props) {
     }
   }, [details]);
 
+  // useEffect(() => {
+  //   // if (details) {
+  //   //   console.log("details", details);
+  //   // }
+  //   let date = new Date();
+  //   let params = {
+  //     Category: "Equity",
+  //     Month: "Aug",
+  //     Year: date.getFullYear(),
+  //     Fund_Type: "Consumption",
+  //   };
+  //   console.log("params", params);
+  //   getDetails(params, token);
+  // }, []);
+
+  const roted = () => {
+    let date = new Date();
+    let params = {
+      Category: "Equity",
+      Month: "Aug",
+      Year: date.getFullYear(),
+      Fund_Type: "Consumption",
+    };
+    console.log("params", params);
+    getDetails(params, token);
+  };
+
   const [filter, setFilter] = useState(filterList);
   const [filterValue, setFilterValue] = useState("DP-Return1Yr");
   const updateFilterSelection = (value) => {
@@ -132,8 +164,8 @@ function TopRatedHomeScreen(props) {
     }
   };
 
-  const [selectCat, setSelectCat] = useState(null);
-  const [selectSubCat, setSelectSubCat] = useState(null);
+  const [selectCat, setSelectCat] = useState("Equity");
+  const [selectSubCat, setSelectSubCat] = useState("Consumption");
   const feachDetails = async (item) => {
     setSelectSubCat(item);
     let date = new Date();
@@ -160,6 +192,10 @@ function TopRatedHomeScreen(props) {
   const toggleOverlay = () => {
     setVisible(!visible);
   };
+  const invest = (props) => {
+    const { productName, productCode } = props;
+    setVisible(!visible);
+  };
   // overlay end
 
   const plusMinus = (type, value) => {
@@ -176,6 +212,41 @@ function TopRatedHomeScreen(props) {
       }
       setStates({ ...states, date });
     }
+  };
+
+  const addToCartLumpSum = () => {
+    let params = {
+      cartDetails: {
+        trxn_nature: "N",
+        amc: "K",
+        amc_name: "Kotak Mahindra Mutual Fund",
+        folio: "",
+        product_code: "48",
+        product_name: "Kotak Medium Term Fund - Growth (Regular Plan)",
+        reinvest: "Z",
+        amount: "5000",
+        sip_amount: "5000",
+      },
+    };
+  };
+  const addToCartSip = () => {
+    let params = {
+      cartDetails: {
+        trxn_nature: "S",
+        sip_period_day: "14",
+        sip_from_date: "14-Aug-2018",
+        sip_freq: "OM",
+        sip_end_date: "14-Aug-2048",
+        sip_amount: "5000",
+        reinvest: "Z",
+        product_name: "HDFC Gold Fund",
+        product_code: "GFOF",
+        folio: "",
+        amount: "5000",
+        amc_name: "HDFC Mutual Fund",
+        amc: "H",
+      },
+    };
   };
 
   const [states, setStates] = useState({
@@ -280,48 +351,7 @@ function TopRatedHomeScreen(props) {
         {/* Axis Asset Management Company */}
 
         {details === null
-          ? roted.map((item) => (
-              <View style={styles.axis_asset}>
-                <View style={styles.company}>
-                  <View>
-                    <Image source={item.images} style={styles.axisimg} />
-                  </View>
-                  <View style={styles.axiswid}>
-                    <Text style={styles.axis}>{item.text}</Text>
-                    <Text style={styles.axis2}>{item.text2}</Text>
-                  </View>
-                  <View>
-                    <TouchableOpacity
-                      onPress={toggleOverlay}
-                      style={styles.botton_box}
-                    >
-                      <Text style={styles.get_otp}>{item.button}</Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
-                <View style={styles.value_sec}>
-                  <View style={styles.mininvestment}>
-                    <Text style={styles.min}>{item.mintext}</Text>
-                    <Text style={styles.min}>{item.maxtext}</Text>
-                  </View>
-                  <View style={styles.mininvestment}>
-                    <Text style={styles.min}>{item.aumtext}</Text>
-                    <Text style={styles.min}>{item.aumtext2}</Text>
-                  </View>
-                  <View style={styles.mininvestment}>
-                    <Text style={styles.min}>{item.returntext}</Text>
-                    <Text style={styles.min}>{item.returntext2}</Text>
-                  </View>
-                </View>
-                <View
-                  style={{
-                    borderWidth: 1,
-                    borderColor: Colors.GREY_1,
-                    marginTop: 10,
-                  }}
-                ></View>
-              </View>
-            ))
+          ? roted()
           : details.map((item) => (
               <View key={item[0]["_id"]} style={styles.axis_asset}>
                 <View style={styles.company}>
@@ -479,7 +509,10 @@ function TopRatedHomeScreen(props) {
               </View>
 
               <View style={{ alignItems: "center" }}>
-                <TouchableOpacity style={styles.buttom_botton2box}>
+                <TouchableOpacity
+                  onPress={addToCartSip}
+                  style={styles.buttom_botton2box}
+                >
                   <Text style={styles.sip_text2}>Add To Cart</Text>
                 </TouchableOpacity>
               </View>
@@ -529,7 +562,10 @@ function TopRatedHomeScreen(props) {
               </View>
 
               <View style={{ alignItems: "center" }}>
-                <TouchableOpacity style={styles.buttom_botton2box}>
+                <TouchableOpacity
+                  onPress={addToCartLumpSum}
+                  style={styles.buttom_botton2box}
+                >
                   <Text style={styles.sip_text2}>Add To Cart</Text>
                 </TouchableOpacity>
               </View>
