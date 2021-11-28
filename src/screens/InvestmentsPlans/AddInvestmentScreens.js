@@ -1,22 +1,13 @@
-import React, { useState, useRef, useEffect, useContext } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
-    StyleSheet,
-    Button,
-    View,
-    ImageBackground,
-    TouchableOpacity,
-    Text,
-    Dimensions,
-    KeyboardAvoidingView,
-    TextInput,
-    ActivityIndicator
+    ActivityIndicator, StyleSheet, Text, TextInput, TouchableOpacity, View
 } from "react-native";
-import { connect } from 'react-redux'
-import { Styles, Config, Colors, FormValidate } from '../../common'
-import { MyImage } from '../../components'
-import { Ionicons, AntDesign, EvilIcons, Entypo, FontAwesome5 } from 'react-native-vector-icons';
-import { Image, Header, CheckBox } from 'react-native-elements';
+import { Header, Image } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
+import { AntDesign } from 'react-native-vector-icons';
+import { connect } from 'react-redux';
+import { Colors, Styles } from '../../common';
+import { MyImage } from '../../components';
 
 function AddInvestmentScreens(props) {
     const investInput = useRef(null);
@@ -36,6 +27,37 @@ function AddInvestmentScreens(props) {
 
     const checkFormula = (value) => {
         // console.log(value)
+    };
+
+    const calculateReturnAmount = (amount, noOfYears, expectedReturnPercentage) => {
+        let maturityAmount = 0;
+
+        if (selectTab === 'SIP') {
+            const monthlyReturnPercentage = (expectedReturnPercentage / 12);
+            maturityAmount = (amount * ((Math.pow((1 + monthlyReturnPercentage / 100), (noOfYears * 12))) - 1)) / (monthlyReturnPercentage / 100);
+        }
+        else if (selectTab === 'One Time') {
+            maturityAmount = amount * Math.pow((1 + (expectedReturnPercentage / 100)), noOfYears);
+        }
+
+        const formattedMaturityAmount = currencyFormat(maturityAmount.toFixed(2));
+
+        return formattedMaturityAmount;
+    }
+
+    function currencyFormat(x) {
+        x = x.toString();
+        var afterPoint = '';
+        if (x.indexOf('.') > 0)
+            afterPoint = x.substring(x.indexOf('.'), x.length);
+        x = Math.floor(x);
+        x = x.toString();
+        var lastThree = x.substring(x.length - 3);
+        var otherNumbers = x.substring(0, x.length - 3);
+        if (otherNumbers != '')
+            lastThree = ',' + lastThree;
+        var res = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree + afterPoint;
+        return res;
     };
 
     const submitForm = () => {
@@ -111,18 +133,18 @@ function AddInvestmentScreens(props) {
                         value={invest}
                     />
                 </View>
-                <Text style={styles.number}>Sixteen thousand</Text>
+                {/* <Text style={styles.number}>Sixteen thousand</Text> */}
                 <View style={styles.yearly_section}>
                     <View>
-                        <Text style={styles.cost_top}>12.60 L</Text>
+                        <Text style={styles.cost_top}>₹ {calculateReturnAmount(invest, 5, 12)}</Text>
                         <Text style={styles.cost_botton}>In 5 Years</Text>
                     </View>
                     <View>
-                        <Text style={styles.cost_top}>18.40 L</Text>
+                        <Text style={styles.cost_top}>₹ {calculateReturnAmount(invest, 7, 12)}</Text>
                         <Text style={styles.cost_botton}>In 7 Years</Text>
                     </View>
                     <View>
-                        <Text style={styles.cost_top}>26.60 L</Text>
+                        <Text style={styles.cost_top}>₹ {calculateReturnAmount(invest, 10, 12)}</Text>
                         <Text style={styles.cost_botton}>In 10 Years</Text>
                     </View>
                 </View>
