@@ -109,8 +109,15 @@ const roted = [
 ];
 
 function TopRatedHomeScreen(props) {
-  const { isFetching, token, getAllcategorys, getDetails, category, details } =
-    props;
+  const {
+    isFetching,
+    token,
+    getAllcategorys,
+    getDetails,
+    category,
+    details,
+    addItomToSip,
+  } = props;
 
   useEffect(() => {
     if (token) {
@@ -123,21 +130,6 @@ function TopRatedHomeScreen(props) {
       console.log("details", details);
     }
   }, [details]);
-
-  // useEffect(() => {
-  //   // if (details) {
-  //   //   console.log("details", details);
-  //   // }
-  //   let date = new Date();
-  //   let params = {
-  //     Category: "Equity",
-  //     Month: "Aug",
-  //     Year: date.getFullYear(),
-  //     Fund_Type: "Consumption",
-  //   };
-  //   console.log("params", params);
-  //   getDetails(params, token);
-  // }, []);
 
   const roted = () => {
     let date = new Date();
@@ -194,7 +186,38 @@ function TopRatedHomeScreen(props) {
   };
   const invest = (props) => {
     const { productName, productCode } = props;
+    setStates({
+      ...states,
+      productCode,
+      productName,
+    });
     setVisible(!visible);
+  };
+  const sipFromDate = () => {
+    const date = new Date();
+    let month = date.getMonth();
+    if (states.date < date) {
+      month = date.getMonth() + 1;
+    }
+    let dt = new Date(date.getFullYear(), month);
+    month = new Intl.DateTimeFormat("en-US", { month: "short" }).format(dt);
+
+    let sipDate = states.date + "-" + month + "-" + date.getFullYear();
+    return sipDate;
+  };
+  const sipEndDate = () => {
+    const date = new Date();
+    let month = date.getMonth();
+    if (states.date < date) {
+      month = date.getMonth() + 1;
+    }
+    let dt = new Date(date.getFullYear(), month);
+    month = new Intl.DateTimeFormat("en-US", { month: "short" }).format(dt);
+    let year = new Date(
+      date.setFullYear(date.getFullYear() + 30)
+    ).getFullYear();
+    let sipDate = states.date + "-" + month + "-" + year;
+    return sipDate;
   };
   // overlay end
 
@@ -221,37 +244,41 @@ function TopRatedHomeScreen(props) {
         amc: "K",
         amc_name: "Kotak Mahindra Mutual Fund",
         folio: "",
-        product_code: "48",
-        product_name: "Kotak Medium Term Fund - Growth (Regular Plan)",
+        product_code: states.productCode,
+        product_name: states.productName,
         reinvest: "Z",
-        amount: "5000",
-        sip_amount: "5000",
+        amount: states.amount,
+        sip_amount: states.amount,
       },
     };
+    addItomToSip(params);
   };
   const addToCartSip = () => {
     let params = {
       cartDetails: {
         trxn_nature: "S",
-        sip_period_day: "14",
-        sip_from_date: "14-Aug-2018",
+        sip_period_day: sipEndDate(),
+        sip_from_date: sipFromDate(),
         sip_freq: "OM",
         sip_end_date: "14-Aug-2048",
-        sip_amount: "5000",
+        sip_amount: states.amount,
         reinvest: "Z",
-        product_name: "HDFC Gold Fund",
-        product_code: "GFOF",
+        product_name: states.productName,
+        product_code: states.productCode,
         folio: "",
-        amount: "5000",
+        amount: states.amount,
         amc_name: "HDFC Mutual Fund",
         amc: "H",
       },
     };
+    addItomToSip(params);
   };
 
   const [states, setStates] = useState({
     amount: "",
     date: 5,
+    productName: "",
+    productCode: "",
   });
 
   return (
@@ -466,6 +493,59 @@ function TopRatedHomeScreen(props) {
             </View>
           </View>
 
+          {/* {selectTab == "SIP" && (
+            <View>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  paddingHorizontal: 50,
+                }}
+              >
+                <View style={styles.amount_sec}>
+                  <Text style={styles.amount_tex}>Amount</Text>
+                  <View style={styles.bordersec}>
+                    <TextInput
+                      value={states.amount}
+                      onChangeText={(amount) =>
+                        setStates({ ...states, amount })
+                      }
+                      placeholder="5000"
+                      style={styles.amount_tex2}
+                    />
+                  </View>
+                </View>
+                <View style={styles.amount_sec}>
+                  <Text style={styles.amount_tex}>Date</Text>
+                  <View style={[styles.bordersec, { flexDirection: "row" }]}>
+                    <Text style={styles.new}>{states.date}</Text>
+                    <View>
+                      <TouchableOpacity
+                        onPress={() => plusMinus("plus", states.date)}
+                      >
+                        <AntDesign name="caretup" size={15} color="#C0392B" />
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        onPress={() => plusMinus("minus", states.date)}
+                      >
+                        <AntDesign name="caretdown" size={15} color="#C0392B" />
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                </View>
+              </View>
+
+              <View style={{ alignItems: "center" }}>
+                <TouchableOpacity
+                  onPress={addToCartSip}
+                  style={styles.buttom_botton2box}
+                >
+                  <Text style={styles.sip_text2}>Add To Cart</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          )} */}
+
           {selectTab == "SIP" && (
             <View>
               <View
@@ -518,13 +598,12 @@ function TopRatedHomeScreen(props) {
               </View>
             </View>
           )}
-
           {selectTab == "LUMPSUM" && (
             <View>
               <View
                 style={{
                   flexDirection: "row",
-                  justifyContent: "space-between",
+                  justifyContent: "center",
                   paddingHorizontal: 50,
                 }}
               >
@@ -539,24 +618,6 @@ function TopRatedHomeScreen(props) {
                       placeholder="5000"
                       style={styles.amount_tex2}
                     />
-                  </View>
-                </View>
-                <View style={styles.amount_sec}>
-                  <Text style={styles.amount_tex}>Date</Text>
-                  <View style={[styles.bordersec, { flexDirection: "row" }]}>
-                    <Text style={styles.new}>{states.date}</Text>
-                    <View>
-                      <TouchableOpacity
-                        onPress={() => plusMinus("plus", states.date)}
-                      >
-                        <AntDesign name="caretup" size={15} color="#C0392B" />
-                      </TouchableOpacity>
-                      <TouchableOpacity
-                        onPress={() => plusMinus("minus", states.date)}
-                      >
-                        <AntDesign name="caretdown" size={15} color="#C0392B" />
-                      </TouchableOpacity>
-                    </View>
                   </View>
                 </View>
               </View>
@@ -756,6 +817,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
   const { dispatch } = dispatchProps;
   const { TopRatedActions } = require("../../store/TopRatedFundRedux");
+  const { CartActions } = require("../../store/CartActionsRedux");
   return {
     ...stateProps,
     ...ownProps,
@@ -764,6 +826,9 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     },
     getDetails: (params, token) => {
       TopRatedActions.getDetails(dispatch, params, token);
+    },
+    addItomToSip: (params) => {
+      CartActions.addItomToSip(dispatch, params);
     },
   };
 };
