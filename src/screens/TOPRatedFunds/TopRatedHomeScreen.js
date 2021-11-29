@@ -598,6 +598,7 @@ function TopRatedHomeScreen(props) {
               </View>
             </View>
           )}
+
           {selectTab == "LUMPSUM" && (
             <View>
               <View
@@ -748,7 +749,7 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
   },
   buttom_botton: {
-    width: "45%",
+    width: "46%",
     borderWidth: 1,
     borderColor: Colors.RED,
     borderRadius: 5,
