@@ -138,7 +138,7 @@ function ProfileScreen(props) {
                                 <Text style={styles.customer}>IFSC Code :</Text>
                                 <Text style={styles.id_text}>{profile?.IFSC_CODE}</Text>
                                 <Text style={styles.customer}>Branch Name :</Text>
-                                <Text style={styles.id_text}>{profile?.BANK_NAME}</Text>
+                                <Text style={styles.id_text}>{profile?.BRANCH_NAME}</Text>
                             </View>
                             <View style={styles.mutual_right}>
                                 <Text style={styles.customer}>Account Type :</Text>
