@@ -15,10 +15,13 @@ function SideMenu(props) {
     const [visibleEmandateValue, setVisibleEmandateValue] = useState(null);
     const [emandateValue, setEmandateValue] = useState("");
     const [enableMandate, setEnableMandate] = useState(false);
+    const [enableKyc, setEnableKyc] = useState(false);
 
     useEffect(() => {
         if (userDetails?.signUpSteps >= 6) {
             setEnableMandate(true);
+        } else if (userDetails?.signUpSteps >= 4) {
+            setEnableKyc(true);
         }
     }, [userDetails]);
 
@@ -227,7 +230,7 @@ function SideMenu(props) {
 
                 <TouchableOpacity
                     onPress={() => {
-                        if (userDetails?.IIN && enableMandate) {
+                        if (userDetails?.IIN && enableKyc) {
                             getList(token);
                             pageActiveKyc.current = true;
                         } else {
