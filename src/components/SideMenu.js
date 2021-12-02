@@ -210,7 +210,16 @@ function SideMenu(props) {
                     </View>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => props.navigation.navigate("Existing")} style={[styles.profile_sec, styles.profile]}>
+                <TouchableOpacity
+                    onPress={() => {
+                        if (steps >= 4 && steps < 6) {
+                            alert("Your IIN is inactive. Please wait for activation!");
+                        } else {
+                            props.navigation.navigate("Existing");
+                        }
+                    }}
+                    style={[styles.profile_sec, styles.profile]}
+                >
                     <View>
                         <AntDesign name={"filetext1"} size={30} color={Colors.GRAY_LIGHT_4} />
                     </View>
