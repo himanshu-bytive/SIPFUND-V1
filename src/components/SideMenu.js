@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
-import { StyleSheet, Alert, View, ScrollView, TouchableOpacity, Text, Linking, Image, TextInput, ActivityIndicator, StatusBar } from "react-native";
+import { StyleSheet, Alert, View, ScrollView, TouchableOpacity, Text, Linking, Image, TextInput, ActivityIndicator, StatusBar, ToastAndroid } from "react-native";
 import { connect } from "react-redux";
 import { Styles, Config, Colors, FormValidate } from "../common";
 import { Ionicons, AntDesign, Feather, Entypo, MaterialCommunityIcons, FontAwesome } from "react-native-vector-icons";
@@ -192,7 +192,16 @@ function SideMenu(props) {
                     </View>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => props.navigation.navigate(steps === 3 ? "RegisterDetails" : "UploadDocument")} style={[styles.profile_sec, styles.profile]}>
+                <TouchableOpacity
+                    onPress={() => {
+                        if (steps < 6) {
+                            props.navigation.navigate("RegisterDetails");
+                        } else {
+                            ToastAndroid.show("Your registration is already completed!", ToastAndroid.LONG);
+                        }
+                    }}
+                    style={[styles.profile_sec, styles.profile]}
+                >
                     <View>
                         <FontAwesome name={"user-o"} size={30} color={Colors.GRAY_LIGHT_4} />
                     </View>
