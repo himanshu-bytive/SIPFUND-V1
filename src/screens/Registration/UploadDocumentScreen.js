@@ -25,7 +25,7 @@ let documents = [
     { name: "Cancelled Cheque", fileType: "CH", info: "Upload Cancelled Cheque", type: "attachment", icon: <MaterialIcons name="cancel" size={22} color="#EE4248" /> },
     { name: "Investor Form", fileType: "KF", info: "Upload Investor Form", type: "attachment", icon: <FontAwesome name="wpforms" size={22} color="#EE4248" /> },
     { name: "Passport Size Image", fileType: "PA", info: "Upload Passport Size Image", type: "attachment", icon: <FontAwesome name="file-image-o" size={22} color="#EE4248" /> },
-    { name: "Upload Video", fileType: "VID", info: "Upload Upload Video", type: "attachment", icon: <Foundation name="play-video" size={25} color="#EE4248" /> },
+    //{ name: "Upload Video", fileType: "VID", info: "Upload Upload Video", type: "attachment", icon: <Foundation name="play-video" size={25} color="#EE4248" /> },
     { name: "Upload Signature", fileType: "SIGN", info: "Upload Upload Signature", type: "form", icon: <FontAwesome5 name="file-signature" size={20} color="#EE4248" /> },
 ];
 
