@@ -228,7 +228,16 @@ function SideMenu(props) {
                     </View>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => props.navigation.navigate("UploadDocument")} style={[styles.profile_sec, styles.profile]}>
+                <TouchableOpacity
+                    onPress={() => {
+                        if (steps < 4) {
+                            ToastAndroid.show("We didn't find any investment account for your PAN", ToastAndroid.LONG);
+                        } else {
+                            props.navigation.navigate("UploadDocument");
+                        }
+                    }}
+                    style={[styles.profile_sec, styles.profile]}
+                >
                     <View>
                         <MaterialCommunityIcons name={"file-upload"} size={30} color={Colors.GRAY_LIGHT_4} />
                     </View>
