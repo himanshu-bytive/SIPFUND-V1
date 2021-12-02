@@ -7,11 +7,15 @@ import { MaterialIcons, AntDesign, Entypo, FontAwesome5, FontAwesome, Foundation
 import { Image, Header } from "react-native-elements";
 
 const documentsMap = {
-    PC: "PAN CARD",
-    AA1: "AADHAR CARD FRONT",
-    AA2: "AADHAR CARD BACK",
-    CH: "CANCELLED CHEQUE",
-    PA: "PASSPORT",
+    PC: "Pan Card",
+    AA1: "Aadhaar Card Front",
+    AA2: "Aadhaar Card Back",
+    CH: "Cancelled Cheque",
+    PA: "Passport",
+    PIC: "Passport Size Image",
+    AVATAR: "Avatar",
+    DL: "Driving License",
+    IP: "Investor Form",
 };
 
 let documentsKyc = [
