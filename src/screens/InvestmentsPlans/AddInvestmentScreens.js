@@ -1,21 +1,19 @@
 import React, { useEffect, useRef, useState } from "react";
-import {
-    ActivityIndicator, StyleSheet, Text, TextInput, TouchableOpacity, View
-} from "react-native";
-import { Header, Image } from 'react-native-elements';
+import { ActivityIndicator, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Header, Image } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
-import { AntDesign } from 'react-native-vector-icons';
-import { connect } from 'react-redux';
-import { Colors, Styles } from '../../common';
-import { MyImage } from '../../components';
+import { AntDesign } from "react-native-vector-icons";
+import { connect } from "react-redux";
+import { Colors, Styles } from "../../common";
+import { MyImage } from "../../components";
 
 function AddInvestmentScreens(props) {
     const investInput = useRef(null);
     const pageActive = useRef(false);
-    const { investment, isFetching, investmentConfig } = props
-    const [invest, setInvest] = useState('');
+    const { investment, isFetching, investmentConfig } = props;
+    const [invest, setInvest] = useState("");
     const [investError, setInvestError] = useState(null);
-    const [selectTab, setSelectTab] = useState('SIP');
+    const [selectTab, setSelectTab] = useState("SIP");
     const toggleTab = (value) => {
         investInput.current.focus();
         setSelectTab(value);
@@ -32,86 +30,88 @@ function AddInvestmentScreens(props) {
     const calculateReturnAmount = (amount, noOfYears, expectedReturnPercentage) => {
         let maturityAmount = 0;
 
-        if (selectTab === 'SIP') {
-            const monthlyReturnPercentage = (expectedReturnPercentage / 12);
-            maturityAmount = (amount * ((Math.pow((1 + monthlyReturnPercentage / 100), (noOfYears * 12))) - 1)) / (monthlyReturnPercentage / 100);
-        }
-        else if (selectTab === 'One Time') {
-            maturityAmount = amount * Math.pow((1 + (expectedReturnPercentage / 100)), noOfYears);
+        if (selectTab === "SIP") {
+            const monthlyReturnPercentage = expectedReturnPercentage / 12;
+            maturityAmount = (amount * (Math.pow(1 + monthlyReturnPercentage / 100, noOfYears * 12) - 1)) / (monthlyReturnPercentage / 100);
+        } else if (selectTab === "One Time") {
+            maturityAmount = amount * Math.pow(1 + expectedReturnPercentage / 100, noOfYears);
         }
 
         const formattedMaturityAmount = currencyFormat(maturityAmount.toFixed(2));
 
         return formattedMaturityAmount;
-    }
+    };
 
     function currencyFormat(x) {
-        x = x.toString();
-        var afterPoint = '';
-        if (x.indexOf('.') > 0)
-            afterPoint = x.substring(x.indexOf('.'), x.length);
-        x = Math.floor(x);
-        x = x.toString();
-        var lastThree = x.substring(x.length - 3);
-        var otherNumbers = x.substring(0, x.length - 3);
-        if (otherNumbers != '')
-            lastThree = ',' + lastThree;
-        var res = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree + afterPoint;
+        if (x < 10000) {
+            x = x.toString();
+            var afterPoint = "";
+            if (x.indexOf(".") > 0) afterPoint = x.substring(x.indexOf("."), x.length);
+            x = Math.floor(x);
+            x = x.toString();
+            var lastThree = x.substring(x.length - 3);
+            var otherNumbers = x.substring(0, x.length - 3);
+            if (otherNumbers != "") lastThree = "," + lastThree;
+            var res = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree + afterPoint;
+        } else {
+            res = `${(x / 100000).toFixed(2)}L`;
+        }
         return res;
-    };
+    }
 
     const submitForm = () => {
         if (invest) {
-            let params = { invest }
-            investmentConfig(params)
-            props.navigation.navigate('InvestmentList')
+            let params = { invest };
+            investmentConfig(params);
+            props.navigation.navigate("InvestmentList");
         } else {
-            setInvestError('Add Investment')
+            setInvestError("Add Investment");
         }
     };
 
     return (
         <View style={styles.container}>
             <Header
-                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={40} color={Colors.RED} /></TouchableOpacity>}
+                leftComponent={
+                    <TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}>
+                        <AntDesign name={"arrowleft"} size={40} color={Colors.RED} />
+                    </TouchableOpacity>
+                }
                 containerStyle={Styles.header}
                 backgroundColor={Colors.LIGHT_WHITE}
-                centerComponent={<Image
-                    source={require('../../../assets/icon.png')}
-                    style={styles.logimg}
-                />}
-                rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={Colors.RED} /></View>}
+                centerComponent={<Image source={require("../../../assets/icon.png")} style={styles.logimg} />}
+                rightComponent={
+                    <View style={{ marginTop: 20, marginRight: 10 }}>
+                        <AntDesign name={"shoppingcart"} size={40} color={Colors.RED} />
+                    </View>
+                }
             />
-            {isFetching && (<View style={Styles.loading}>
-                <ActivityIndicator color={Colors.BLACK} size='large' />
-            </View>)}
+            {isFetching && (
+                <View style={Styles.loading}>
+                    <ActivityIndicator color={Colors.BLACK} size="large" />
+                </View>
+            )}
             <ScrollView>
                 <View style={styles.education}>
                     <View style={styles.education_sec}>
                         <Text style={styles.child}>{investment.investmentPlan}</Text>
                         <Text style={styles.child_text}>What amount I can invest?</Text>
-
                     </View>
                     <View style={styles.child_sec}>
-                        <MyImage
-                            width="145"
-                            height="145"
-                            svg={true}
-                            url={investment.planImagePath}
-                        />
+                        <MyImage width="145" height="145" svg={true} url={investment.planImagePath} />
                     </View>
                 </View>
                 {/* button */}
 
                 <View style={styles.click_sec}>
-                    <View style={(selectTab == 'SIP') ? styles.buttom_botton2 : styles.buttom_botton}>
-                        <TouchableOpacity onPress={() => toggleTab('SIP')}>
-                            <Text style={(selectTab == 'SIP') ? styles.sip_text2 : styles.sip_text}>SIP</Text>
+                    <View style={selectTab == "SIP" ? styles.buttom_botton2 : styles.buttom_botton}>
+                        <TouchableOpacity onPress={() => toggleTab("SIP")}>
+                            <Text style={selectTab == "SIP" ? styles.sip_text2 : styles.sip_text}>SIP</Text>
                         </TouchableOpacity>
                     </View>
-                    <View style={(selectTab == 'One Time') ? styles.buttom_botton2 : styles.buttom_botton}>
-                        <TouchableOpacity onPress={() => toggleTab('One Time')}>
-                            <Text style={(selectTab == 'One Time') ? styles.sip_text2 : styles.sip_text}>One Time</Text>
+                    <View style={selectTab == "One Time" ? styles.buttom_botton2 : styles.buttom_botton}>
+                        <TouchableOpacity onPress={() => toggleTab("One Time")}>
+                            <Text style={selectTab == "One Time" ? styles.sip_text2 : styles.sip_text}>One Time</Text>
                         </TouchableOpacity>
                     </View>
                     {/* <View style={(selectTab == 'STP') ? styles.buttom_botton2 : styles.buttom_botton}>
@@ -123,13 +123,17 @@ function AddInvestmentScreens(props) {
                 {/* button  end new*/}
 
                 <Text style={styles.childtext}>Investment</Text>
-                <View style={[styles.investcost_sec, { borderColor: (investError ? Colors.RED : Colors.GREY_1) }]}>
+                <View style={[styles.investcost_sec, { borderColor: investError ? Colors.RED : Colors.GREY_1 }]}>
                     <TextInput
                         ref={investInput}
                         style={styles.cost}
-                        keyboardType='numeric'
-                        placeholder={'RS '}
-                        onChangeText={(value) => { setInvestError(null); setInvest(value); checkFormula(value) }}
+                        keyboardType="numeric"
+                        placeholder={"RS "}
+                        onChangeText={(value) => {
+                            setInvestError(null);
+                            setInvest(value);
+                            checkFormula(value);
+                        }}
                         value={invest}
                     />
                 </View>
@@ -159,7 +163,6 @@ function AddInvestmentScreens(props) {
     );
 }
 
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -175,14 +178,12 @@ const styles = StyleSheet.create({
         marginHorizontal: 20,
     },
     education_sec: {
-        width: '70%',
+        width: "70%",
         paddingTop: 10,
-
     },
     goals_2: {
         height: 118,
         width: 112,
-
     },
     child: {
         fontSize: 22,
@@ -208,9 +209,8 @@ const styles = StyleSheet.create({
     get_otp: {
         color: Colors.WHITE,
         fontSize: 20,
-        fontWeight: 'bold',
+        fontWeight: "bold",
         textAlign: "center",
-
     },
     //  botton
     click_sec: {
@@ -306,22 +306,23 @@ const styles = StyleSheet.create({
         color: Colors.DEEP_GRAY,
         fontSize: 18,
     },
-
 });
 const mapStateToProps = (state) => ({
     token: state.auth.token,
     users: state.auth.users,
     isFetching: state.investmentplan.isFetching,
     investment: state.investmentplan.investment,
-})
+});
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     const { dispatch } = dispatchProps;
-    const { InvestmentPlanActions } = require('../../store/InvestmentPlanRedux')
+    const { InvestmentPlanActions } = require("../../store/InvestmentPlanRedux");
     return {
         ...stateProps,
         ...ownProps,
-        investmentConfig: (data) => { InvestmentPlanActions.investmentConfig(dispatch, data) },
-    }
-}
-export default connect(mapStateToProps, undefined, mapDispatchToProps)(AddInvestmentScreens)
+        investmentConfig: (data) => {
+            InvestmentPlanActions.investmentConfig(dispatch, data);
+        },
+    };
+};
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(AddInvestmentScreens);
