@@ -1,119 +1,113 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
-import {
-    StyleSheet,
-    View,
-    TouchableOpacity,
-    Text,
-    TextInput,
-} from "react-native";
+import { StyleSheet, View, TouchableOpacity, Text, TextInput } from "react-native";
 
-import { AntDesign } from 'react-native-vector-icons';
-import { Image } from 'react-native-elements';
-import { Colors } from '../common'
+import { AntDesign } from "react-native-vector-icons";
+import { Image } from "react-native-elements";
+import { Colors } from "../common";
 
 const randerData = (data, k, onPress, onChange) => {
-
     const plusMinus = (type, value) => {
-        if (type === 'plus') {
-            let newValue = parseInt(value) + 1
+        if (type === "plus") {
+            let newValue = parseInt(value) + 1;
             if (newValue > 30) {
-                newValue = 30
+                newValue = 30;
             }
-            onChange(k, newValue, 'date')
+            onChange(k, newValue, "date");
         } else {
-            let newValue = parseInt(value) - 1
+            let newValue = parseInt(value) - 1;
             if (newValue < 1) {
-                newValue = 1
+                newValue = 1;
             }
-            onChange(k, newValue, 'date')
+            onChange(k, newValue, "date");
         }
-    }
+    };
 
-    if (data.schemes != 'NA') {
-        let schemes = Array.isArray(data.schemes) ? data.schemes : [data.schemes]
-        return <View>
-            <View style={styles.hybrid_sec}><View style={{ backgroundColor: "#EFEFEF" }}><Text style={styles.hybrid}>{data.fund_type}</Text></View></View>
-            <View>{schemes.map((item, key) =>
-                <View key={key} style={styles.axis_asset}>
-                    <View style={styles.company}>
-                        <Image
-                            source={{ uri: item.imagePath }}
-                            style={styles.axisimg}
-                        />
-                        <View style={styles.management}>
-                            <Text style={styles.axis}>{item.name}</Text>
-                            <Text style={styles.moderately}>{item.productCode}</Text>
-                        </View>
-                        {item.type == 'new' && (<TouchableOpacity style={styles.checkbox}>
-                            <AntDesign name="delete" size={20} color="#C0392B" />
-                        </TouchableOpacity>)}
+    if (data.schemes != "NA") {
+        let schemes = Array.isArray(data.schemes) ? data.schemes : [data.schemes];
+        return (
+            <View>
+                <View style={styles.hybrid_sec}>
+                    <View style={{ backgroundColor: "#EFEFEF" }}>
+                        <Text style={styles.hybrid}>{data.fund_type}</Text>
                     </View>
+                </View>
+                <View>
+                    {schemes.map((item, key) => (
+                        <View key={key} style={styles.axis_asset}>
+                            <View style={styles.company}>
+                                <Image source={{ uri: item.imagePath }} style={styles.axisimg} />
+                                <View style={styles.management}>
+                                    <Text style={styles.axis}>{item.name}</Text>
+                                    <Text style={styles.moderately}>{item.productCode}</Text>
+                                </View>
+                                {item.type == "new" && (
+                                    <TouchableOpacity style={styles.checkbox}>
+                                        <AntDesign name="delete" size={20} color="#C0392B" />
+                                    </TouchableOpacity>
+                                )}
+                            </View>
 
-                    <View style={styles.border_sec}>
-                        <View style={styles.border}>
-                            <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY, }}></View>
-                        </View>
-                        <View style={styles.icons}>
-                            <TouchableOpacity style={styles.circle} onPress={onPress}>
-                                <AntDesign name="right" size={30} color="#C0392B" />
-                            </TouchableOpacity>
-                        </View>
-                    </View>
+                            <View style={styles.border_sec}>
+                                <View style={styles.border}>
+                                    <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY }}></View>
+                                </View>
+                                <View style={styles.icons}>
+                                    <TouchableOpacity style={styles.circle} onPress={onPress}>
+                                        <AntDesign name="right" size={30} color="#C0392B" />
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
 
-                    <View style={styles.selectfolio_sec}>
-                        <View style={styles.select}>
-                            <Text style={styles.no}>Min Investment</Text>
-                            <TextInput
-                                style={styles.no}
-                                placeholder={'Investment'}
-                                onChangeText={(value) => onChange(k, value, 'investment')}
-                                value={item.investment ? item.investment : '1000'}
-                            />
-                        </View>
-                        <View style={styles.select}>
-                            <Text style={styles.no}>SIP Date</Text>
-                            <View style={{ flexDirection: "row", }}>
-                                <Text style={styles.new}>{item.date ? item.date : '5'}</Text>
-                                <View style={{ flexDirection: "column", }}>
-                                    <TouchableOpacity onPress={() => plusMinus('plus', (item.date ? item.date : '5'))}><AntDesign name="caretup" size={15} color="#C0392B" /></TouchableOpacity>
-                                    <TouchableOpacity onPress={() => plusMinus('minus', (item.date ? item.date : '5'))}><AntDesign name="caretdown" size={15} color="#C0392B" /></TouchableOpacity>
+                            <View style={styles.selectfolio_sec}>
+                                <View style={styles.select}>
+                                    <Text style={styles.no}>Min Investment</Text>
+                                    <TextInput style={styles.no} placeholder={"Investment"} onChangeText={(value) => onChange(k, value, "investment")} value={item.investment ? item.investment : "1000"} />
+                                </View>
+                                <View style={styles.select}>
+                                    <Text style={styles.no}>SIP Date</Text>
+                                    <View style={{ flexDirection: "row" }}>
+                                        <Text style={styles.new}>{item.date ? item.date : "5"}</Text>
+                                        <View style={{ flexDirection: "column" }}>
+                                            <TouchableOpacity onPress={() => plusMinus("plus", item.date ? item.date : "5")}>
+                                                <AntDesign name="caretup" size={15} color="#C0392B" />
+                                            </TouchableOpacity>
+                                            <TouchableOpacity onPress={() => plusMinus("minus", item.date ? item.date : "5")}>
+                                                <AntDesign name="caretdown" size={15} color="#C0392B" />
+                                            </TouchableOpacity>
+                                        </View>
+                                    </View>
+                                </View>
+                                <View style={styles.select}>
+                                    <Text style={styles.no}>SIP</Text>
+                                    <TextInput style={styles.new} placeholder={"sip"} onChangeText={(value) => onChange(k, value, "sip")} value={item.sip ? item.sip : "0"} />
                                 </View>
                             </View>
                         </View>
-                        <View style={styles.select}>
-                            <Text style={styles.no}>SIP</Text>
-                            <TextInput
-                                style={styles.new}
-                                placeholder={'sip'}
-                                onChangeText={(value) => onChange(k, value, 'sip')}
-                                value={item.sip ? item.sip : '4000'}
-                            />
-                        </View>
-                    </View>
-                </View>)}</View>
-        </View>
+                    ))}
+                </View>
+            </View>
+        );
     }
-    return null
-}
+    return null;
+};
 
 export default function InvestmentFundType(props) {
     const { data, onPress, myInvestments } = props;
     const [newData, setNewData] = useState(data ? data : []);
     useEffect(() => {
         if (data) {
-            setNewData(data)
+            setNewData(data);
         }
     }, [data]);
 
     const onChange = async (key, value, name) => {
-        let data = JSON.parse(JSON.stringify(newData))
-        data[key].schemes[name] = value
-        myInvestments(data)
-        setNewData(data)
-    }
-    return newData.map((item, key) => <View key={key}>{randerData(item, key, onPress, onChange)}</View>)
+        let data = JSON.parse(JSON.stringify(newData));
+        data[key].schemes[name] = value;
+        myInvestments(data);
+        setNewData(data);
+    };
+    return newData.map((item, key) => <View key={key}>{randerData(item, key, onPress, onChange)}</View>);
 }
-
 
 const styles = StyleSheet.create({
     hybrid_sec: {
@@ -146,7 +140,7 @@ const styles = StyleSheet.create({
     },
     management: {
         marginLeft: 10,
-        flexShrink: 1
+        flexShrink: 1,
     },
     axis: {
         fontSize: 15,
@@ -162,7 +156,7 @@ const styles = StyleSheet.create({
     checkbox: {
         position: "absolute",
         right: 5,
-        top: -25
+        top: -25,
     },
     border_sec: {
         flexDirection: "row",
@@ -170,11 +164,11 @@ const styles = StyleSheet.create({
     },
     border: {
         width: "85%",
-        marginRight: 5
+        marginRight: 5,
     },
     icons: {
-        width: '10%',
-        marginTop: -15
+        width: "10%",
+        marginTop: -15,
     },
     selectfolio_sec: {
         flexDirection: "row",
@@ -189,7 +183,7 @@ const styles = StyleSheet.create({
     },
     new: {
         fontSize: 18,
-        paddingRight: 5
+        paddingRight: 5,
     },
     circle: {
         height: 35,
@@ -197,7 +191,6 @@ const styles = StyleSheet.create({
         borderRadius: 100,
         borderWidth: 2,
         borderColor: Colors.DEEP_GRAY,
-        paddingLeft: 2
+        paddingLeft: 2,
     },
-
-})
+});

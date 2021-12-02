@@ -1,41 +1,51 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
-import {
-    StyleSheet,
-    Button,
-    View,
-    ImageBackground,
-    TouchableOpacity,
-    Text,
-    Dimensions,
-    KeyboardAvoidingView,
-    ScrollView,
-    ActivityIndicator
-} from "react-native";
-import { connect } from 'react-redux'
-import { Styles, Config, Colors, FormValidate } from '../../common'
-import { Ionicons, AntDesign, EvilIcons, Entypo, FontAwesome5 } from 'react-native-vector-icons';
-import { Image, Header, CheckBox } from 'react-native-elements';
+import { StyleSheet, Button, View, ImageBackground, TouchableOpacity, Text, Dimensions, KeyboardAvoidingView, ScrollView, ActivityIndicator } from "react-native";
+import { connect } from "react-redux";
+import { Styles, Config, Colors, FormValidate } from "../../common";
+import { Ionicons, AntDesign, EvilIcons, Entypo, FontAwesome5 } from "react-native-vector-icons";
+import { Image, Header, CheckBox } from "react-native-elements";
 import { MyImage, InvestmentFundType } from "../../components";
 
 function InvestmentListScreens(props) {
     const pageActive = useRef(false);
-    const { investment, configs, isFetching, myInvestlist, myInvestments } = props
+    const { investment, configs, isFetching, myInvestlist, myInvestments } = props;
+
+    const [sumInvestment, setSumInvestment] = useState([]);
+
+    const updateInvestments = (data) => {
+        setSumInvestment(data);
+        myInvestments(data);
+    };
+
+    const getSip = (value) => {
+        if (!isNaN(value)) {
+            return Number(value);
+        }
+        return 0;
+    };
 
     return (
         <View style={styles.container}>
             <Header
-                leftComponent={<TouchableOpacity onPress={() => props.navigation.navigate('InvestmentDetail')} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={40} color={Colors.RED} /></TouchableOpacity>}
+                leftComponent={
+                    <TouchableOpacity onPress={() => props.navigation.navigate("InvestmentDetail")} style={{ marginTop: 20 }}>
+                        <AntDesign name={"arrowleft"} size={40} color={Colors.RED} />
+                    </TouchableOpacity>
+                }
                 containerStyle={Styles.header}
                 backgroundColor={Colors.LIGHT_WHITE}
-                centerComponent={<Image
-                    source={require('../../../assets/icon.png')}
-                    style={styles.logimg}
-                />}
-                rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={Colors.RED} /></View>}
+                centerComponent={<Image source={require("../../../assets/icon.png")} style={styles.logimg} />}
+                rightComponent={
+                    <View style={{ marginTop: 20, marginRight: 10 }}>
+                        <AntDesign name={"shoppingcart"} size={40} color={Colors.RED} />
+                    </View>
+                }
             />
-            {isFetching && (<View style={Styles.loading}>
-                <ActivityIndicator color={Colors.BLACK} size='large' />
-            </View>)}
+            {isFetching && (
+                <View style={Styles.loading}>
+                    <ActivityIndicator color={Colors.BLACK} size="large" />
+                </View>
+            )}
             <ScrollView>
                 <View style={styles.education}>
                     <View style={styles.education_sec}>
@@ -44,28 +54,47 @@ function InvestmentListScreens(props) {
                         <Text style={styles.amount}>My Investment Amount</Text>
                     </View>
                     <View style={styles.child_sec}>
-                        <MyImage
-                            width="112"
-                            height="118"
-                            svg={true}
-                            url={investment.planImagePath}
-                        />
+                        <MyImage width="112" height="118" svg={true} url={investment.planImagePath} />
                         <Text style={styles.sip}>SIP Per Month</Text>
                         <Text style={styles.amount_text}>₹ {configs.invest}</Text>
                     </View>
                 </View>
 
-                <InvestmentFundType myInvestments={myInvestments} data={myInvestlist} onPress={() => props.navigation.navigate('FundsDetails')} />
-
+                <InvestmentFundType
+                    setSum={(value) => {
+                        setSumInvestment(Number(value));
+                    }}
+                    myInvestments={updateInvestments}
+                    data={myInvestlist}
+                    onPress={() => props.navigation.navigate("FundsDetails")}
+                />
             </ScrollView>
-            <TouchableOpacity onPress={() => props.navigation.navigate('InvestmentSearch')}><Text style={styles.more_funds}>I would like to add more funds</Text></TouchableOpacity>
-            <TouchableOpacity onPress={() => props.navigation.navigate('InvestmentSubmit')} style={styles.botton_box}>
+            <TouchableOpacity onPress={() => props.navigation.navigate("InvestmentSearch")}>
+                <Text style={styles.more_funds}>I would like to add more funds</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+                onPress={() => {
+                    /* Calculate sum of all the investments */
+                    let sum = 0;
+                    for (let item in sumInvestment) {
+                        console.log("value is", sumInvestment[item].schemes);
+                        sum = sum + getSip(sumInvestment[item].schemes.sip);
+                    }
+
+                    /* Don't allow if sum of all investments exceed the amount */
+                    if (sum > Number(configs.invest)) {
+                        alert("Investments exceed your available funds!");
+                    } else {
+                        props.navigation.navigate("InvestmentsSubmit");
+                    }
+                }}
+                style={styles.botton_box}
+            >
                 <Text style={styles.get_otp}>NEXT</Text>
             </TouchableOpacity>
         </View>
     );
 }
-
 
 const styles = StyleSheet.create({
     container: {
@@ -83,14 +112,12 @@ const styles = StyleSheet.create({
         padding: 20,
     },
     education_sec: {
-        width: '70%',
+        width: "70%",
         paddingTop: 20,
-
     },
     goals_2: {
         height: 112,
         width: 118,
-
     },
     child: {
         fontSize: 22,
@@ -102,10 +129,8 @@ const styles = StyleSheet.create({
         color: Colors.DEEP_GRAY,
         paddingVertical: 5,
         fontWeight: "bold",
-
     },
     botton_box: {
-
         backgroundColor: Colors.RED,
         marginHorizontal: 30,
         marginTop: 30,
@@ -118,30 +143,28 @@ const styles = StyleSheet.create({
     get_otp: {
         color: Colors.WHITE,
         fontSize: 20,
-        fontWeight: 'bold',
+        fontWeight: "bold",
         textAlign: "center",
-
     },
 
     //  new
 
     sip: {
         fontSize: 13,
-        fontWeight: 'bold',
+        fontWeight: "bold",
         color: Colors.DEEP_GRAY,
     },
     amount: {
         paddingTop: 60,
         fontSize: 20,
-        fontWeight: 'bold',
+        fontWeight: "bold",
     },
     amount_text: {
         fontSize: 20,
-        fontWeight: 'bold',
+        fontWeight: "bold",
         color: Colors.RED,
         paddingTop: 5,
     },
-
 
     // hybride
     hybrid_sec: {
@@ -168,7 +191,6 @@ const styles = StyleSheet.create({
         shadowRadius: 2.62,
         elevation: 4,
         padding: 10,
-
     },
     company: {
         flexDirection: "row",
@@ -179,7 +201,6 @@ const styles = StyleSheet.create({
     },
     axis: {
         fontSize: 15,
-
     },
     moderately: {
         fontSize: 12,
@@ -192,7 +213,7 @@ const styles = StyleSheet.create({
     checkbox: {
         position: "absolute",
         right: -20,
-        top: -15
+        top: -15,
     },
     border_sec: {
         flexDirection: "row",
@@ -200,11 +221,11 @@ const styles = StyleSheet.create({
     },
     border: {
         width: "85%",
-        marginRight: 10
+        marginRight: 10,
     },
     icons: {
-        width: '10%',
-        marginTop: -15
+        width: "10%",
+        marginTop: -15,
     },
     selectfolio_sec: {
         flexDirection: "row",
@@ -230,10 +251,6 @@ const styles = StyleSheet.create({
         width: 39,
         height: 43,
     },
-
-
-
-
 });
 const mapStateToProps = (state) => ({
     token: state.auth.token,
@@ -242,16 +259,20 @@ const mapStateToProps = (state) => ({
     investment: state.investmentplan.investment,
     configs: state.investmentplan.configs,
     myInvestlist: state.investmentplan.myInvestlist,
-})
+});
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     const { dispatch } = dispatchProps;
-    const { InvestmentPlanActions } = require('../../store/InvestmentPlanRedux')
+    const { InvestmentPlanActions } = require("../../store/InvestmentPlanRedux");
     return {
         ...stateProps,
         ...ownProps,
-        investmentConfig: (data) => { InvestmentPlanActions.investmentConfig(dispatch, data) },
-        myInvestments: (data) => { InvestmentPlanActions.myInvestments(dispatch, data) },
-    }
-}
-export default connect(mapStateToProps, undefined, mapDispatchToProps)(InvestmentListScreens)
+        investmentConfig: (data) => {
+            InvestmentPlanActions.investmentConfig(dispatch, data);
+        },
+        myInvestments: (data) => {
+            InvestmentPlanActions.myInvestments(dispatch, data);
+        },
+    };
+};
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(InvestmentListScreens);
