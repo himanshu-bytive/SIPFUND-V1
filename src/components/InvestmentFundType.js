@@ -79,7 +79,7 @@ const randerData = (data, k, onPress, onChange) => {
                                 </View>
                                 <View style={styles.select}>
                                     <Text style={styles.no}>SIP</Text>
-                                    <TextInput style={styles.new} placeholder={"sip"} onChangeText={(value) => onChange(k, value, "sip")} value={item.sip ? item.sip : "0"} />
+                                    <TextInput style={styles.new} placeholder={"sip"} onChangeText={(value) => onChange(k, value, "sip")} value={item.sip ? parseInt(item.sip, 10).toString() : "0"} />
                                 </View>
                             </View>
                         </View>
