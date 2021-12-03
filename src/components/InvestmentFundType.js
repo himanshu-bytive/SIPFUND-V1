@@ -98,7 +98,7 @@ export default function InvestmentFundType(props) {
         if (data) {
             setNewData(data);
         }
-    }, [data]);
+    }, [myInvestments]);
 
     const onChange = async (key, value, name) => {
         let data = JSON.parse(JSON.stringify(newData));
