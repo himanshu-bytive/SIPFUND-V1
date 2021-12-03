@@ -77,7 +77,6 @@ function InvestmentListScreens(props) {
                     /* Calculate sum of all the investments */
                     let sum = 0;
                     for (let item in sumInvestment) {
-                        console.log("value is", sumInvestment[item].schemes);
                         sum = sum + getSip(sumInvestment[item].schemes.sip);
                     }
 
@@ -85,7 +84,7 @@ function InvestmentListScreens(props) {
                     if (sum > Number(configs.invest)) {
                         alert("Investments exceed your available funds!");
                     } else {
-                        props.navigation.navigate("InvestmentsSubmit");
+                        props.navigation.navigate("InvestmentSubmit");
                     }
                 }}
                 style={styles.botton_box}
