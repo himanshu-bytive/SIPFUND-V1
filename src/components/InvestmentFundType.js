@@ -41,7 +41,7 @@ const randerData = (data, k, onPress, onChange) => {
                                     <Text style={styles.moderately}>{item.productCode}</Text>
                                 </View>
                                 {item.type == "new" && (
-                                    <TouchableOpacity style={styles.checkbox}>
+                                    <TouchableOpacity onPress={() => console.log("hello")} style={styles.checkbox}>
                                         <AntDesign name="delete" size={20} color="#C0392B" />
                                     </TouchableOpacity>
                                 )}
@@ -98,7 +98,7 @@ export default function InvestmentFundType(props) {
         if (data) {
             setNewData(data);
         }
-    }, [myInvestments]);
+    }, [data]);
 
     const onChange = async (key, value, name) => {
         let data = JSON.parse(JSON.stringify(newData));
