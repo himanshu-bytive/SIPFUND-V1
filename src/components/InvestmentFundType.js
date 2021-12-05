@@ -79,7 +79,7 @@ const randerData = (data, k, onPress, onChange) => {
                                 </View>
                                 <View style={styles.select}>
                                     <Text style={styles.no}>SIP</Text>
-                                    <TextInput style={styles.new} placeholder={"sip"} onChangeText={(value) => onChange(k, value, "sip")} value={item.sip ? parseInt(item.sip, 10).toString() : "0"} />
+                                    <TextInput style={styles.new} placeholder={"sip"} onChangeText={(value) => onChange(k, value, "sip")} value={item.sip ? item.sip : "0"} />
                                 </View>
                             </View>
                         </View>
@@ -102,7 +102,7 @@ export default function InvestmentFundType(props) {
 
     const onChange = async (key, value, name) => {
         let data = JSON.parse(JSON.stringify(newData));
-        data[key].schemes[name] = value;
+        data[key].schemes[name] = isNaN(value) ? "0" : parseInt(value, 10).toString();
         myInvestments(data);
         setNewData(data);
     };
