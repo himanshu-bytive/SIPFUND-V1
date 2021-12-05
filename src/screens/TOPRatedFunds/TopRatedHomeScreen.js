@@ -44,6 +44,20 @@ const filterList = [
     status: false,
   },
 ];
+const monthsArr = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sept",
+  "Oct",
+  "Nov",
+  "Dec",
+];
 
 const roted = [
   {
@@ -184,25 +198,50 @@ function TopRatedHomeScreen(props) {
   const toggleOverlay = () => {
     setVisible(!visible);
   };
-  const invest = (props) => {
-    const { productName, productCode } = props;
+
+  const [states, setStates] = useState({
+    amount: "5000",
+    date: 5,
+    productName: "",
+    productCode: "",
+    amcCode: "",
+    amcName: "",
+    imagePath: "",
+  });
+
+  const invest = (imagePath, amcCode, amcName, productCode, productName) => {
     setStates({
       ...states,
       productCode,
       productName,
+      amcCode,
+      amcName,
+      imagePath,
     });
+    console.log("imagePath", imagePath);
+    console.log("amcCode", amcCode);
+    console.log("amcName", amcName);
+    console.log("productCode", productCode);
+    console.log("productName", productName);
     setVisible(!visible);
   };
   const sipFromDate = () => {
     const date = new Date();
+
     let month = date.getMonth();
     if (states.date < date) {
       month = date.getMonth() + 1;
     }
-    let dt = new Date(date.getFullYear(), month);
-    month = new Intl.DateTimeFormat("en-US", { month: "short" }).format(dt);
+    // console.log("month", month);
+    // let dt = new Date(date.getFullYear(), month);
+    // console.log("dt", dt);
+    // // month = new Intl.DateTimeFormat("en-US", { month: "short" }).format(dt);
+    // month = dt.toLocaleString("en-us", { month: "short" });
+    // console.log("month1", month);
+    month = monthsArr[month];
 
     let sipDate = states.date + "-" + month + "-" + date.getFullYear();
+
     return sipDate;
   };
   const sipEndDate = () => {
@@ -211,8 +250,9 @@ function TopRatedHomeScreen(props) {
     if (states.date < date) {
       month = date.getMonth() + 1;
     }
-    let dt = new Date(date.getFullYear(), month);
-    month = new Intl.DateTimeFormat("en-US", { month: "short" }).format(dt);
+    // let dt = new Date(date.getFullYear(), month);
+    // month = dt.toLocaleString("en-US", { month: "short" });
+    month = monthsArr[month];
     let year = new Date(
       date.setFullYear(date.getFullYear() + 30)
     ).getFullYear();
@@ -241,45 +281,43 @@ function TopRatedHomeScreen(props) {
     let params = {
       cartDetails: {
         trxn_nature: "N",
-        amc: "K",
-        amc_name: "Kotak Mahindra Mutual Fund",
+        amc: states.amcCode,
+        amc_name: states.amcName,
         folio: "",
         product_code: states.productCode,
         product_name: states.productName,
         reinvest: "Z",
         amount: states.amount,
         sip_amount: states.amount,
+        imagePath: states.imagePath,
       },
     };
+    console.log("params", params);
     addItomToSip(params);
   };
   const addToCartSip = () => {
+    let fromDate = sipFromDate();
+    let endDate = sipEndDate();
     let params = {
       cartDetails: {
         trxn_nature: "S",
-        sip_period_day: sipEndDate(),
-        sip_from_date: sipFromDate(),
+        sip_period_day: states.date,
+        sip_from_date: fromDate,
         sip_freq: "OM",
-        sip_end_date: "14-Aug-2048",
+        sip_end_date: endDate,
         sip_amount: states.amount,
         reinvest: "Z",
         product_name: states.productName,
         product_code: states.productCode,
         folio: "",
         amount: states.amount,
-        amc_name: "HDFC Mutual Fund",
-        amc: "H",
+        amc_name: states.amcName,
+        amc: states.amcCode,
       },
     };
+    console.log("params", params);
     addItomToSip(params);
   };
-
-  const [states, setStates] = useState({
-    amount: "",
-    date: 5,
-    productName: "",
-    productCode: "",
-  });
 
   return (
     <View style={styles.container}>
@@ -396,7 +434,15 @@ function TopRatedHomeScreen(props) {
                   </View>
                   <View>
                     <TouchableOpacity
-                      onPress={toggleOverlay}
+                      onPress={() =>
+                        invest(
+                          item[0].imagePath,
+                          item[0].amcCode,
+                          item[0].amcName,
+                          item[0].productCode,
+                          item[0].productName
+                        )
+                      }
                       style={styles.botton_box}
                     >
                       <Text style={styles.get_otp}>INVEST</Text>
@@ -492,59 +538,6 @@ function TopRatedHomeScreen(props) {
               </TouchableOpacity>
             </View>
           </View>
-
-          {/* {selectTab == "SIP" && (
-            <View>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  paddingHorizontal: 50,
-                }}
-              >
-                <View style={styles.amount_sec}>
-                  <Text style={styles.amount_tex}>Amount</Text>
-                  <View style={styles.bordersec}>
-                    <TextInput
-                      value={states.amount}
-                      onChangeText={(amount) =>
-                        setStates({ ...states, amount })
-                      }
-                      placeholder="5000"
-                      style={styles.amount_tex2}
-                    />
-                  </View>
-                </View>
-                <View style={styles.amount_sec}>
-                  <Text style={styles.amount_tex}>Date</Text>
-                  <View style={[styles.bordersec, { flexDirection: "row" }]}>
-                    <Text style={styles.new}>{states.date}</Text>
-                    <View>
-                      <TouchableOpacity
-                        onPress={() => plusMinus("plus", states.date)}
-                      >
-                        <AntDesign name="caretup" size={15} color="#C0392B" />
-                      </TouchableOpacity>
-                      <TouchableOpacity
-                        onPress={() => plusMinus("minus", states.date)}
-                      >
-                        <AntDesign name="caretdown" size={15} color="#C0392B" />
-                      </TouchableOpacity>
-                    </View>
-                  </View>
-                </View>
-              </View>
-
-              <View style={{ alignItems: "center" }}>
-                <TouchableOpacity
-                  onPress={addToCartSip}
-                  style={styles.buttom_botton2box}
-                >
-                  <Text style={styles.sip_text2}>Add To Cart</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          )} */}
 
           {selectTab == "SIP" && (
             <View>
