@@ -121,7 +121,7 @@ function TopRatedHomeScreen(props) {
     };
 
     const [filter, setFilter] = useState(filterList);
-    const [filterValue, setFilterValue] = useState("DP-Return1Yr");
+    const [filterValue, setFilterValue] = useState("DP-Return5Yr");
     const updateFilterSelection = (value) => {
         setFilterValue(value);
         let selected = filter.find((x) => x.value == value);
