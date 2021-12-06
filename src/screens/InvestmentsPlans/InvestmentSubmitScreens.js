@@ -1,59 +1,47 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
-import {
-    StyleSheet,
-    Button,
-    View,
-    ImageBackground,
-    TouchableOpacity,
-    Text,
-    Dimensions,
-    KeyboardAvoidingView,
-    ScrollView,
-    ActivityIndicator
-} from "react-native";
-import { connect } from 'react-redux'
-import { Styles, Config, Colors, FormValidate } from '../../common'
-import { MyImage } from '../../components'
-import { Ionicons, AntDesign, EvilIcons, Entypo, FontAwesome5 } from 'react-native-vector-icons';
-import { Image, Header, CheckBox } from 'react-native-elements';
+import { StyleSheet, Button, View, ImageBackground, TouchableOpacity, Text, Dimensions, KeyboardAvoidingView, ScrollView, ActivityIndicator } from "react-native";
+import { connect } from "react-redux";
+import { Styles, Config, Colors, FormValidate } from "../../common";
+import { MyImage } from "../../components";
+import { Ionicons, AntDesign, EvilIcons, Entypo, FontAwesome5 } from "react-native-vector-icons";
+import { Image, Header, CheckBox } from "react-native-elements";
 
 function InvestmentSubmitScreens(props) {
     const pageActive = useRef(false);
-    const { investment, configs, isFetching, myInvestlist } = props
-    
+    const { investment, configs, isFetching, myInvestlist } = props;
+
     return (
         <View style={styles.container}>
             <Header
-                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={40} color={Colors.RED} /></TouchableOpacity>}
+                leftComponent={
+                    <TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}>
+                        <AntDesign name={"arrowleft"} size={40} color={Colors.RED} />
+                    </TouchableOpacity>
+                }
                 containerStyle={styles.header}
                 backgroundColor={Colors.LIGHT_WHITE}
-                centerComponent={<Image
-                    source={require('../../../assets/icon.png')}
-                    style={styles.logimg}
-                />}
-                rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={Colors.RED} /></View>}
+                centerComponent={<Image source={require("../../../assets/icon.png")} style={styles.logimg} />}
+                rightComponent={
+                    <View style={{ marginTop: 20, marginRight: 10 }}>
+                        <AntDesign name={"shoppingcart"} size={40} color={Colors.RED} />
+                    </View>
+                }
             />
 
             <ScrollView>
                 <View style={styles.education}>
                     <View style={styles.child_sec}>
-                        <MyImage
-                            width="112"
-                            height="118"
-                            svg={true}
-                            url={investment.planImagePath}
-                        />
+                        <MyImage width="112" height="118" svg={true} url={investment.planImagePath} />
                     </View>
                     <View style={styles.education_sec}>
                         <Text style={styles.child}>Summary</Text>
                         <Text style={styles.child_text}>Investment Plan</Text>
-
                     </View>
-
-
                 </View>
 
-                <Text style={styles.mygoal}>My Investment  : <Text style={styles.my_goal}>{investment.investmentPlan}</Text></Text>
+                <Text style={styles.mygoal}>
+                    My Investment : <Text style={styles.my_goal}>{investment.investmentPlan}</Text>
+                </Text>
 
                 <View style={styles.fund_sec}>
                     <Text style={styles.fund_secleft}>Fund List</Text>
@@ -61,24 +49,24 @@ function InvestmentSubmitScreens(props) {
                 </View>
 
                 {/* Axis Asset Management Company Ltd */}
-                {myInvestlist.map((item, key) => <View key={key} style={styles.sbi_sec}>
-                    <Image
-                        source={{ uri: item.schemes.imagePath }}
-                        style={styles.Hybrid}
-                    />
-                    <Text style={styles.sbi_text}>{item.schemes.name}</Text>
-                    <View style={{ flex: 1 }}>
-                        <Text style={styles.price}>₹ {item.schemes.sip}</Text>
-                    </View>
-                </View>)}
+                {myInvestlist
+                    .filter((value) => !isNaN(value.schemes.sip))
+                    .map((item, key) => (
+                        <View key={key} style={styles.sbi_sec}>
+                            <Image source={{ uri: item.schemes.imagePath }} style={styles.Hybrid} />
+                            <Text style={styles.sbi_text}>{item.schemes.name}</Text>
+                            <View style={{ flex: 1 }}>
+                                <Text style={styles.price}>₹ {item.schemes.sip}</Text>
+                            </View>
+                        </View>
+                    ))}
             </ScrollView>
-            <TouchableOpacity onPress={() => props.navigation.navigate('Upi')} style={styles.botton_box}>
+            <TouchableOpacity onPress={() => props.navigation.navigate("Upi")} style={styles.botton_box}>
                 <Text style={styles.get_otp}>MAKE PAYMENT</Text>
             </TouchableOpacity>
         </View>
     );
 }
-
 
 const styles = StyleSheet.create({
     container: {
@@ -95,23 +83,19 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
     },
 
-
     education: {
         flexDirection: "row",
         marginHorizontal: 20,
         padding: 20,
-
     },
-    child_sec: { width: '30%', },
+    child_sec: { width: "30%" },
     education_sec: {
-        width: '70%',
+        width: "70%",
         marginLeft: 30,
-
     },
     goals_2: {
         height: 112,
         width: 118,
-
     },
     child: {
         fontSize: 22,
@@ -142,7 +126,7 @@ const styles = StyleSheet.create({
         marginTop: 5,
         color: Colors.DEEP_GRAY,
     },
-    sbi_sec:{
+    sbi_sec: {
         flexDirection: "row",
         marginHorizontal: 10,
         borderBottomWidth: 1,
@@ -157,13 +141,13 @@ const styles = StyleSheet.create({
     sbi_text: {
         marginLeft: 10,
         fontSize: 15,
-        width: '70%'
+        width: "70%",
     },
     price: {
         paddingTop: 10,
         fontSize: 15,
         paddingRight: 10,
-        textAlign: 'right',
+        textAlign: "right",
         fontWeight: "bold",
     },
     fund_sec: {
@@ -194,7 +178,7 @@ const styles = StyleSheet.create({
     },
     my_goal: {
         color: Colors.DEEP_GRAY,
-        fontWeight: "normal"
+        fontWeight: "normal",
     },
     add: {
         marginVertical: 20,
@@ -203,7 +187,6 @@ const styles = StyleSheet.create({
         fontSize: 18,
     },
     botton_box: {
-
         backgroundColor: Colors.RED,
         marginHorizontal: 30,
         marginVertical: 20,
@@ -215,9 +198,8 @@ const styles = StyleSheet.create({
     get_otp: {
         color: Colors.WHITE,
         fontSize: 20,
-        fontWeight: 'bold',
+        fontWeight: "bold",
         textAlign: "center",
-
     },
     childbottom: {
         flexDirection: "row",
@@ -232,7 +214,6 @@ const styles = StyleSheet.create({
         fontSize: 15,
         paddingLeft: 10,
     },
-
 });
 const mapStateToProps = (state) => ({
     token: state.auth.token,
@@ -241,15 +222,17 @@ const mapStateToProps = (state) => ({
     myInvestlist: state.investmentplan.myInvestlist,
     investment: state.investmentplan.investment,
     configs: state.investmentplan.configs,
-})
+});
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     const { dispatch } = dispatchProps;
-    const { InvestmentPlanActions } = require('../../store/InvestmentPlanRedux')
+    const { InvestmentPlanActions } = require("../../store/InvestmentPlanRedux");
     return {
         ...stateProps,
         ...ownProps,
-        investmentConfig: (data) => { InvestmentPlanActions.investmentConfig(dispatch, data) },
-    }
-}
-export default connect(mapStateToProps, undefined, mapDispatchToProps)(InvestmentSubmitScreens)
+        investmentConfig: (data) => {
+            InvestmentPlanActions.investmentConfig(dispatch, data);
+        },
+    };
+};
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(InvestmentSubmitScreens);

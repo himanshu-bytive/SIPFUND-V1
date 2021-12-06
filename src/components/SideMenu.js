@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
-import { StyleSheet, Alert, View, ScrollView, TouchableOpacity, Text, Linking, Image, TextInput, ActivityIndicator, StatusBar } from "react-native";
+import { StyleSheet, Alert, View, ScrollView, TouchableOpacity, Text, Linking, Image, TextInput, ActivityIndicator, StatusBar, ToastAndroid } from "react-native";
 import { connect } from "react-redux";
 import { Styles, Config, Colors, FormValidate } from "../common";
 import { Ionicons, AntDesign, Feather, Entypo, MaterialCommunityIcons, FontAwesome } from "react-native-vector-icons";
@@ -15,10 +15,13 @@ function SideMenu(props) {
     const [visibleEmandateValue, setVisibleEmandateValue] = useState(null);
     const [emandateValue, setEmandateValue] = useState("");
     const [enableMandate, setEnableMandate] = useState(false);
+    const [enableKyc, setEnableKyc] = useState(false);
 
     useEffect(() => {
         if (userDetails?.signUpSteps >= 6) {
             setEnableMandate(true);
+        } else if (userDetails?.signUpSteps >= 4) {
+            setEnableKyc(true);
         }
     }, [userDetails]);
 
@@ -109,19 +112,13 @@ function SideMenu(props) {
 
     return (
         <View style={styles.container}>
-            <View style={{ backgroundColor: Colors.RED, flexDirection: "row", marginTop: 0 }}>
+            <View style={{ backgroundColor: Colors.RED, flexDirection: "row" }}>
                 <Image source={img ? { uri: img } : require("../../assets/profile_img.png")} style={{ margin: 7, width: 40, height: 40, borderRadius: 100 }} />
                 <View>
                     <Text style={styles.profileText}>{userDetails?.email}</Text>
                     <Text style={styles.profileText}>{userDetails?.mobileNo}</Text>
                 </View>
             </View>
-            {(isFetchingEkyc || isFetchingEmandate) && (
-                <View style={Styles.loading}>
-                    <ActivityIndicator color={Colors.BLACK} size="large" />
-                </View>
-            )}
-
             <Overlay isVisible={visibleKyc} overlayStyle={{ margin: 10, borderRadius: 10, backgroundColor: "#fff" }}>
                 <View style={styles.emaMainbox}>
                     <Text style={styles.emaAmc}>Choose AMC Option:</Text>
@@ -195,7 +192,16 @@ function SideMenu(props) {
                     </View>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => props.navigation.navigate(steps === 3 ? "RegisterDetails" : "UploadDocument")} style={[styles.profile_sec, styles.profile]}>
+                <TouchableOpacity
+                    onPress={() => {
+                        if (steps < 6) {
+                            props.navigation.navigate("RegisterDetails");
+                        } else {
+                            ToastAndroid.show("Your registration is already completed!", ToastAndroid.LONG);
+                        }
+                    }}
+                    style={[styles.profile_sec, styles.profile]}
+                >
                     <View>
                         <FontAwesome name={"user-o"} size={30} color={Colors.GRAY_LIGHT_4} />
                     </View>
@@ -204,7 +210,16 @@ function SideMenu(props) {
                     </View>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => props.navigation.navigate("Existing")} style={[styles.profile_sec, styles.profile]}>
+                <TouchableOpacity
+                    onPress={() => {
+                        if (steps >= 4 && steps < 6) {
+                            alert("Your IIN is inactive. Please wait for activation!");
+                        } else {
+                            props.navigation.navigate("Existing");
+                        }
+                    }}
+                    style={[styles.profile_sec, styles.profile]}
+                >
                     <View>
                         <AntDesign name={"filetext1"} size={30} color={Colors.GRAY_LIGHT_4} />
                     </View>
@@ -222,7 +237,16 @@ function SideMenu(props) {
                     </View>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => props.navigation.navigate("UploadDocument")} style={[styles.profile_sec, styles.profile]}>
+                <TouchableOpacity
+                    onPress={() => {
+                        if (steps < 4) {
+                            ToastAndroid.show("We didn't find any investment account for your PAN", ToastAndroid.LONG);
+                        } else {
+                            props.navigation.navigate("UploadDocument");
+                        }
+                    }}
+                    style={[styles.profile_sec, styles.profile]}
+                >
                     <View>
                         <MaterialCommunityIcons name={"file-upload"} size={30} color={Colors.GRAY_LIGHT_4} />
                     </View>
@@ -233,11 +257,11 @@ function SideMenu(props) {
 
                 <TouchableOpacity
                     onPress={() => {
-                        if (userDetails?.IIN) {
+                        if (userDetails?.IIN && enableKyc) {
                             getList(token);
                             pageActiveKyc.current = true;
                         } else {
-                            Alert.alert("IIN is not update");
+                            Alert.alert("Your IIN is not created. Please click on register.");
                         }
                     }}
                     style={[styles.profile_sec, styles.profile]}
