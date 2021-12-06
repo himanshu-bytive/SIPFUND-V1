@@ -293,7 +293,8 @@ function TopRatedHomeScreen(props) {
       },
     };
     console.log("params", params);
-    addItomToSip(params);
+    console.log("token=", token);
+    addItomToSip(params, token);
   };
   const addToCartSip = () => {
     let fromDate = sipFromDate();
@@ -316,7 +317,8 @@ function TopRatedHomeScreen(props) {
       },
     };
     console.log("params", params);
-    addItomToSip(params);
+    console.log("token=", token);
+    addItomToSip(params, token);
   };
 
   return (
@@ -821,8 +823,8 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     getDetails: (params, token) => {
       TopRatedActions.getDetails(dispatch, params, token);
     },
-    addItomToSip: (params) => {
-      CartActions.addItomToSip(dispatch, params);
+    addItomToSip: (params, token) => {
+      CartActions.addItomToSip(dispatch, params, token);
     },
   };
 };
