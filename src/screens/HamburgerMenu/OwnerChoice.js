@@ -151,14 +151,14 @@ function OwnerChoice(props) {
                     <View style={styles.axis_asset}>
                         <View style={styles.company}>
                             <View>
-                                <Image source={{ uri: choices[0]?.nseProductDetail.imagePath }} style={styles.axisimg} />
+                                <Image source={{ uri: `https://sipfund.sfo2.digitaloceanspaces.com/product-AMC-images/${choices[0]?.nseProductDetail.productAMCImage}` }} style={styles.axisimg} />
                             </View>
                             <View style={styles.axiswid}>
                                 <Text style={styles.axis}>{choices[0]?.nseProductDetail?.productName}</Text>
                                 <Text style={styles.axis2}>{choices[0]?.text2}</Text>
                             </View>
                             <View>
-                                <TouchableOpacity onPress={() => invest(choices[0]?.nseProductDetail?.imagePath, choices[0]?.nseProductDetail?.amcCode, choices[0]?.nseProductDetail?.amcName, choices[0]?.nseProductDetail?.productCode, choices[0]?.nseProductDetail.productName)} style={styles.botton_box}>
+                                <TouchableOpacity onPress={() => invest(`https://sipfund.sfo2.digitaloceanspaces.com/product-AMC-images/${choices[0]?.nseProductDetail.productAMCImage}`, choices[0]?.nseProductDetail?.amcCode, choices[0]?.nseProductDetail?.amcName, choices[0]?.nseProductDetail?.productCode, choices[0]?.nseProductDetail.productName)} style={styles.botton_box}>
                                     <Text style={styles.get_otp}>INVEST</Text>
                                 </TouchableOpacity>
                             </View>
