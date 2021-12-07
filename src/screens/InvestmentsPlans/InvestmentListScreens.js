@@ -9,7 +9,6 @@ import { MyImage, InvestmentFundType } from "../../components";
 function InvestmentListScreens(props) {
     const pageActive = useRef(false);
     const { investment, configs, isFetching, myInvestlist, myInvestments } = props;
-
     const [sumInvestment, setSumInvestment] = useState([]);
 
     const updateInvestments = (data) => {
