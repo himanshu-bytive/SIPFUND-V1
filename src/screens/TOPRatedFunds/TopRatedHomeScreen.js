@@ -256,6 +256,7 @@ function TopRatedHomeScreen(props) {
         console.log("params", params);
         console.log("token=", token);
         addItomToSip(params, token);
+        setVisible(false);
     };
     const addToCartSip = () => {
         let fromDate = sipFromDate();
@@ -280,6 +281,7 @@ function TopRatedHomeScreen(props) {
         console.log("params", params);
         console.log("token=", token);
         addItomToSip(params, token);
+        setVisible(false);
     };
 
     return (
