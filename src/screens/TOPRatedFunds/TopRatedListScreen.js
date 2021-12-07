@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     },
     sip_left: {
         width: "50%",
-        borderBottomWidth: 1,
+        borderBottomWidth: 2,
         borderBottomColor: Colors.RED,
     },
     lumpsum: {
@@ -127,6 +127,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         textAlign: "center",
         marginBottom: 10,
+        color: Colors.BLACK,
     },
     fund_sec: {
         flexDirection: "row",
