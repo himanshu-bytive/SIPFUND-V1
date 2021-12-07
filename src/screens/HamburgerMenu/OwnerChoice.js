@@ -132,6 +132,7 @@ function OwnerChoice(props) {
         console.log("params", params);
         console.log("token=", token);
         addItomToSip(params, token);
+        setVisible(false);
     };
     const addToCartSip = () => {
         let fromDate = sipFromDate();
@@ -156,6 +157,7 @@ function OwnerChoice(props) {
         console.log("params", params);
         console.log("token=", token);
         addItomToSip(params, token);
+        setVisible(false);
     };
     const sipFromDate = () => {
         const date = new Date();
@@ -202,9 +204,9 @@ function OwnerChoice(props) {
                 backgroundColor={Colors.LIGHT_WHITE}
                 centerComponent={<Image source={require("../../../assets/icon.png")} style={styles.logimg} />}
                 rightComponent={
-                    <View style={{ marginTop: 20, marginRight: 10 }}>
+                    <TouchableOpacity onPress={() => props.navigation.navigate("TopRatedList")} style={{ marginTop: 20, marginRight: 10 }}>
                         <AntDesign name={"shoppingcart"} size={40} color={Colors.RED} />
-                    </View>
+                    </TouchableOpacity>
                 }
             />
             {isFetching && (
