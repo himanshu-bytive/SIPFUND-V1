@@ -1,7 +1,6 @@
 export default {
   // apiBaseUrl: 'https://www.sipfund.com/api',
   apiBaseUrl: 'http://103.252.169.2:8084/api',
-  apiSocketUrl: 'http://moclass.in:3008',
   uploadPath: '/',
   loginToken: 'Basic U2lwRnVuZC1JZDpTaXBGdW5kLVNlY3JldA==',
   groupIds: {
