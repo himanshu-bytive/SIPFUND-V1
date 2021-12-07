@@ -126,7 +126,7 @@ function OwnerChoice(props) {
                 reinvest: "Z",
                 amount: states.amount,
                 sip_amount: states.amount,
-                imagePath: states.imagePath,
+                image_path: states.imagePath,
             },
         };
         console.log("params", params);
@@ -152,6 +152,7 @@ function OwnerChoice(props) {
                 amount: states.amount,
                 amc_name: states.amcName,
                 amc: states.amcCode,
+                image_path: states.imagePath,
             },
         };
         console.log("params", params);
@@ -190,6 +191,9 @@ function OwnerChoice(props) {
         let year = new Date(date.setFullYear(date.getFullYear() + 30)).getFullYear();
         let sipDate = states.date + "-" + month + "-" + year;
         return sipDate;
+    };
+    const toggleTab = (value) => {
+        setSelectTab(value);
     };
 
     return (
