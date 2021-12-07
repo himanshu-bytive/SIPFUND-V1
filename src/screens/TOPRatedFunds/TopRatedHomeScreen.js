@@ -350,8 +350,10 @@ function TopRatedHomeScreen(props) {
                                 onValueChange={(value) => updateFilterSelection(value)}
                                 value={filterValue}
                                 items={filter}
+                                Icon={() => {
+                                    return <AntDesign name="caretdown" size={15} style={{ marginTop: 7, marginRight: -20 }} color="#C0392B" />;
+                                }}
                             />
-                            <AntDesign name="caretdown" size={15} color="#C0392B" />
                         </View>
                         <View style={{ borderWidth: 1, borderColor: Colors.RED }}></View>
                     </View>
