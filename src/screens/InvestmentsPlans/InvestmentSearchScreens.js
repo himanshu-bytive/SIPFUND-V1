@@ -40,7 +40,7 @@ function InvestmentSearchScreens(props) {
     };
 
     const addRemove = (value) => {
-        let list = myInvestlist ? myInvestlist : []
+        let list = myInvestlist ? JSON.parse(JSON.stringify(myInvestlist)) : []
         list.push({
             "fund_type": value.productName,
             "schemes": {

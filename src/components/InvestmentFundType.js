@@ -35,7 +35,7 @@ const randerData = (data, k, onPress, onChange) => {
                     {schemes.map((item, key) => (
                         <View key={key} style={styles.axis_asset}>
                             <View style={styles.company}>
-                                <Image source={{ uri: item.imagePath }} style={styles.axisimg} />
+                                <Image source={{ uri: item?.imagePath }} style={styles.axisimg} />
                                 <View style={styles.management}>
                                     <Text style={styles.axis}>{item.name}</Text>
                                     <Text style={styles.moderately}>{item.productCode}</Text>
