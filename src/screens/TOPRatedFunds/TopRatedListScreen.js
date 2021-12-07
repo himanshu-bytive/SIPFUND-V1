@@ -15,6 +15,8 @@ function TopRatedListScreen(props) {
     const toggleTab = (value) => {
         setSelectTab(value);
     };
+    const [sipTotal, setSipTotal] = useState(0);
+    const [lumpsumTotal, setLumpsumTotal] = useState(0);
 
     useEffect(() => {
         getCartDetails(token);
@@ -24,6 +26,18 @@ function TopRatedListScreen(props) {
         if (cartDetails) {
             console.log("this", cartDetails.cartDetails);
             setCart(cartDetails.cartDetails);
+
+            let sip = 0;
+            let lump = 0;
+            for (var item in cartDetails.cartDetails) {
+                if (cartDetails.cartDetails[item].trxn_nature === "S") {
+                    sip = sip + Number(cartDetails.cartDetails[item].amount);
+                } else if (cartDetails.cartDetails[item].trxn_nature === "N") {
+                    lump = lump + Number(cartDetails.cartDetails[item].amount);
+                }
+            }
+            setSipTotal(sip);
+            setLumpsumTotal(lump);
         }
     }, [cartDetails]);
 
@@ -67,7 +81,7 @@ function TopRatedListScreen(props) {
 
                 <View style={styles.fund_sec}>
                     <Text style={styles.investment}>Monthly Investment</Text>
-                    <Text style={styles.price}>₹ 16,000</Text>
+                    <Text style={styles.price}>₹ {selectTab === "SIP" ? sipTotal : lumpsumTotal}</Text>
                 </View>
 
                 {selectTab === "SIP" && cart.filter((item) => item.trxn_nature === "S").map((item, key) => <TopRatedFundType key={key} title={item.product_name} sip={item.sip_amount} image={item.image_path} onPress={() => props.navigation.navigate("FundsDetails")} />)}
