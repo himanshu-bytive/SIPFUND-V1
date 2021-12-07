@@ -1,15 +1,15 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
-import { StyleSheet, View, TouchableOpacity, ActivityIndicator, Text } from "react-native";
+import { StyleSheet, View, TouchableOpacity, ActivityIndicator, Text, TextInput } from "react-native";
 import { connect } from "react-redux";
 import { Styles, Config, Colors } from "../../common";
 import { MySelectPicker } from "../../components";
 import { AntDesign } from "react-native-vector-icons";
-import { Image, Header } from "react-native-elements";
+import { Image, Header, Overlay } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
 
 function OwnerChoice(props) {
     const pageActive = useRef(false);
-    const { token, isFetching, mainCategory, mainCat, subCatagorys, subCat, fetchScheme, schemeCat, schemeGo, choices } = props;
+    const { token, isFetching, mainCategory, mainCat, subCatagorys, subCat, fetchScheme, schemeCat, schemeGo, choices, addItomToSip } = props;
     const [catList, setCatList] = useState([]);
     const [subcatList, setSubCatList] = useState([]);
     const [schemeList, setSchemeList] = useState([]);
@@ -80,6 +80,114 @@ function OwnerChoice(props) {
             pageActive.current = true;
             schemeGo({ isin: state.scheme }, token);
         }
+    };
+    const monthsArr = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"];
+
+    const [visible, setVisible] = useState(false);
+    const [selectTab, setSelectTab] = useState("SIP");
+    const [states, setStates] = useState({
+        amount: "5000",
+        date: 5,
+        productName: "",
+        productCode: "",
+        amcCode: "",
+        amcName: "",
+        imagePath: "",
+    });
+
+    const invest = (imagePath, amcCode, amcName, productCode, productName) => {
+        setStates({
+            ...states,
+            productCode,
+            productName,
+            amcCode,
+            amcName,
+            imagePath,
+        });
+        console.log("imagePath", imagePath);
+        console.log("amcCode", amcCode);
+        console.log("amcName", amcName);
+        console.log("productCode", productCode);
+        console.log("productName", productName);
+        setVisible(!visible);
+    };
+    const toggleOverlay = () => {
+        setVisible(!visible);
+    };
+    const addToCartLumpSum = () => {
+        let params = {
+            cartDetails: {
+                trxn_nature: "N",
+                amc: states.amcCode,
+                amc_name: states.amcName,
+                folio: "",
+                product_code: states.productCode,
+                product_name: states.productName,
+                reinvest: "Z",
+                amount: states.amount,
+                sip_amount: states.amount,
+                imagePath: states.imagePath,
+            },
+        };
+        console.log("params", params);
+        console.log("token=", token);
+        addItomToSip(params, token);
+    };
+    const addToCartSip = () => {
+        let fromDate = sipFromDate();
+        let endDate = sipEndDate();
+        let params = {
+            cartDetails: {
+                trxn_nature: "S",
+                sip_period_day: states.date,
+                sip_from_date: fromDate,
+                sip_freq: "OM",
+                sip_end_date: endDate,
+                sip_amount: states.amount,
+                reinvest: "Z",
+                product_name: states.productName,
+                product_code: states.productCode,
+                folio: "",
+                amount: states.amount,
+                amc_name: states.amcName,
+                amc: states.amcCode,
+            },
+        };
+        console.log("params", params);
+        console.log("token=", token);
+        addItomToSip(params, token);
+    };
+    const sipFromDate = () => {
+        const date = new Date();
+
+        let month = date.getMonth();
+        if (states.date < date) {
+            month = date.getMonth() + 1;
+        }
+        // console.log("month", month);
+        // let dt = new Date(date.getFullYear(), month);
+        // console.log("dt", dt);
+        // // month = new Intl.DateTimeFormat("en-US", { month: "short" }).format(dt);
+        // month = dt.toLocaleString("en-us", { month: "short" });
+        // console.log("month1", month);
+        month = monthsArr[month];
+
+        let sipDate = states.date + "-" + month + "-" + date.getFullYear();
+
+        return sipDate;
+    };
+    const sipEndDate = () => {
+        const date = new Date();
+        let month = date.getMonth();
+        if (states.date < date) {
+            month = date.getMonth() + 1;
+        }
+        // let dt = new Date(date.getFullYear(), month);
+        // month = dt.toLocaleString("en-US", { month: "short" });
+        month = monthsArr[month];
+        let year = new Date(date.setFullYear(date.getFullYear() + 30)).getFullYear();
+        let sipDate = states.date + "-" + month + "-" + year;
+        return sipDate;
     };
 
     return (
@@ -194,6 +302,86 @@ function OwnerChoice(props) {
                         <Text style={styles.category}>For changing scheme please press the scheme nameagain</Text>
                     </View>
                 )}
+                <Overlay isVisible={visible} onBackdropPress={toggleOverlay}>
+                    <View style={styles.pop_top}>
+                        <View style={styles.click_sec}>
+                            <View style={selectTab == "SIP" ? styles.buttom_botton2 : styles.buttom_botton}>
+                                <TouchableOpacity onPress={() => toggleTab("SIP")}>
+                                    <Text style={selectTab == "SIP" ? styles.sip_text2 : styles.sip_text}>SIP</Text>
+                                </TouchableOpacity>
+                            </View>
+                            <View style={selectTab == "LUMPSUM" ? styles.buttom_botton2 : styles.buttom_botton}>
+                                <TouchableOpacity onPress={() => toggleTab("LUMPSUM")}>
+                                    <Text style={selectTab == "LUMPSUM" ? styles.sip_text2 : styles.sip_text}>Lumpsum</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+
+                        {selectTab == "SIP" && (
+                            <View>
+                                <View
+                                    style={{
+                                        flexDirection: "row",
+                                        justifyContent: "space-between",
+                                        paddingHorizontal: 50,
+                                    }}
+                                >
+                                    <View style={styles.amount_sec}>
+                                        <Text style={styles.amount_tex}>Amount</Text>
+                                        <View style={styles.bordersec}>
+                                            <TextInput value={states.amount} onChangeText={(amount) => setStates({ ...states, amount })} placeholder="5000" style={styles.amount_tex2} />
+                                        </View>
+                                    </View>
+                                    <View style={styles.amount_sec}>
+                                        <Text style={styles.amount_tex}>Date</Text>
+                                        <View style={[styles.bordersec, { flexDirection: "row" }]}>
+                                            <Text style={styles.new}>{states.date}</Text>
+                                            <View>
+                                                <TouchableOpacity onPress={() => plusMinus("plus", states.date)}>
+                                                    <AntDesign name="caretup" size={15} color="#C0392B" />
+                                                </TouchableOpacity>
+                                                <TouchableOpacity onPress={() => plusMinus("minus", states.date)}>
+                                                    <AntDesign name="caretdown" size={15} color="#C0392B" />
+                                                </TouchableOpacity>
+                                            </View>
+                                        </View>
+                                    </View>
+                                </View>
+
+                                <View style={{ alignItems: "center" }}>
+                                    <TouchableOpacity onPress={addToCartSip} style={styles.buttom_botton2box}>
+                                        <Text style={styles.sip_text2}>Add To Cart</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        )}
+
+                        {selectTab == "LUMPSUM" && (
+                            <View>
+                                <View
+                                    style={{
+                                        flexDirection: "row",
+                                        justifyContent: "center",
+                                        paddingHorizontal: 50,
+                                    }}
+                                >
+                                    <View style={styles.amount_sec}>
+                                        <Text style={styles.amount_tex}>Amount</Text>
+                                        <View style={styles.bordersec}>
+                                            <TextInput value={states.amount} onChangeText={(amount) => setStates({ ...states, amount })} placeholder="5000" style={styles.amount_tex2} />
+                                        </View>
+                                    </View>
+                                </View>
+
+                                <View style={{ alignItems: "center" }}>
+                                    <TouchableOpacity onPress={addToCartLumpSum} style={styles.buttom_botton2box}>
+                                        <Text style={styles.sip_text2}>Add To Cart</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        )}
+                    </View>
+                </Overlay>
             </ScrollView>
         </View>
     );
@@ -310,6 +498,70 @@ const styles = StyleSheet.create({
     },
     rupees_sec: { alignItems: "center" },
     rupees_text: { fontSize: 12 },
+    pop_top: { marginHorizontal: 30 },
+    click_sec: {
+        flexDirection: "row",
+        paddingVertical: 20,
+    },
+    buttom_botton: {
+        width: "46%",
+        borderWidth: 1,
+        borderColor: Colors.RED,
+        borderRadius: 5,
+        marginHorizontal: 2,
+        alignItems: "center",
+    },
+    buttom_botton2: {
+        width: "45%",
+        borderRadius: 5,
+        backgroundColor: Colors.RED,
+        marginHorizontal: 2,
+        alignItems: "center",
+    },
+    sip_text: {
+        fontSize: 20,
+        color: Colors.RED,
+        fontWeight: "bold",
+        paddingVertical: 12,
+        paddingHorizontal: 20,
+    },
+    sip_text2: {
+        fontSize: 20,
+        color: Colors.WHITE,
+        fontWeight: "bold",
+        paddingVertical: 12,
+        paddingHorizontal: 20,
+    },
+    amount_sec: { alignItems: "center" },
+    bordersec: {
+        borderWidth: 1,
+        borderColor: Colors.GRAY_DEEP_1,
+        paddingVertical: 5,
+        paddingHorizontal: 10,
+        marginTop: 3,
+    },
+    new: {
+        fontSize: 20,
+        fontWeight: "bold",
+        padding: 5,
+    },
+    buttom_botton2box: {
+        alignItems: "center",
+        borderRadius: 5,
+        backgroundColor: Colors.RED,
+        marginLeft: 2,
+        alignItems: "center",
+        marginVertical: 30,
+        paddingHorizontal: 30,
+    },
+    amount_tex2: {
+        color: Colors.DEEP_GRAY,
+        width: 100,
+        textAlign: "center",
+        paddingVertical: 5,
+        fontSize: 18,
+    },
+    amount_tex: { fontSize: 18 },
 });
 
 const mapStateToProps = (state) => ({
@@ -325,6 +577,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     const { dispatch } = dispatchProps;
     const { OwnerChoiceActions } = require("../../store/OwnerChoiceRedux");
+    const { CartActions } = require("../../store/CartActionsRedux");
     return {
         ...stateProps,
         ...ownProps,
@@ -339,6 +592,9 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
         },
         schemeGo: (params, token) => {
             OwnerChoiceActions.schemeGo(dispatch, params, token);
+        },
+        addItomToSip: (params, token) => {
+            CartActions.addItomToSip(dispatch, params, token);
         },
     };
 };
