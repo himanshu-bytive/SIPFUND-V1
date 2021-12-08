@@ -31,38 +31,13 @@ const investmentData = [
 ];
 
 function TransactionHistoryScreen(props) {
-  const { token, user, fetchTransaction, transactionHistory } = props;
+  const { token, user, fetchTransaction, transactionHistory, profile } = props;
   const [visible, setVisible] = useState(false);
 
   const toggleOverlay = () => {
     setVisible(!visible);
   };
-  const fromDate = () => {
-    const monthArr = [
-      "JAN",
-      "FEB",
-      "MAR",
-      "APR",
-      "MAY",
-      "JUN",
-      "JUL",
-      "AUG",
-      "SEPT",
-      "OCT",
-      "NOV",
-      "DEC",
-    ];
-    const date = new Date();
-    const month = date.getMonth();
-    const day = date.getDate();
-    const year = date.getFullYear();
-    const prevYear = year - 1;
-    // var toDate = ("0" + day).slice(-2) + "-" + monthArr[month] + "-" + year;
-    var fromDate =
-      ("0" + day).slice(-2) + "-" + monthArr[month] + "-" + prevYear;
 
-    return fromDate;
-  };
   const toDate = () => {
     const monthArr = [
       "JAN",
@@ -91,13 +66,14 @@ function TransactionHistoryScreen(props) {
   };
 
   useEffect(() => {
-    if (user !== null) {
-      //   console.log("user=", user);
+    if (user !== null && profile !== null) {
+      // console.log("user=", user);
+      console.log("profile=", profile);
 
       let params = {
         service_request: {
           iin: user.IIN,
-          from_date: fromDate(),
+          from_date: profile.CREATED_DATE,
           to_date: toDate(),
           unique_no: "",
         },
@@ -107,7 +83,7 @@ function TransactionHistoryScreen(props) {
       // console.log("params=", params);
       fetchTransaction(params, token);
     }
-  }, [user]);
+  }, [user, profile]);
 
   return (
     <View style={styles.container}>
@@ -230,6 +206,7 @@ const mapStateToProps = (state) => ({
   users: state.auth.users,
   user: state.auth.user,
   transactionHistory: state.transactionHis.transactionHistory,
+  profile: state.auth.profile,
 });
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {

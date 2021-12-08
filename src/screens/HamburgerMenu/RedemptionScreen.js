@@ -162,12 +162,16 @@ function RedemptionScreen(props) {
 
                   <View style={styles.folio_sec}>
                     <Text style={styles.folio}>Units</Text>
-                    <Text style={styles.folio}>{item.units}</Text>
+                    <Text style={styles.folio}>
+                      {parseFloat(item.units).toFixed(3)}
+                    </Text>
                   </View>
 
                   <View style={styles.folio_sec}>
                     <Text style={styles.folio}>value</Text>
-                    <Text style={styles.folio}>{item.currentValue}</Text>
+                    <Text style={styles.folio}>
+                      {parseFloat(item.currentValue).toFixed(3)}
+                    </Text>
                   </View>
                 </View>
                 <Text style={styles.folio}>Switch To</Text>
@@ -228,12 +232,16 @@ function RedemptionScreen(props) {
 
                   <View style={styles.folio_sec}>
                     <Text style={styles.folio}>Units</Text>
-                    <Text style={styles.folio}>{item.units}</Text>
+                    <Text style={styles.folio}>
+                      {parseFloat(item.units).toFixed(3)}
+                    </Text>
                   </View>
 
                   <View style={styles.folio_sec}>
                     <Text style={styles.folio}>value</Text>
-                    <Text style={styles.folio}>{item.currentValue}</Text>
+                    <Text style={styles.folio}>
+                      {parseFloat(item.currentValue).toFixed(3)}
+                    </Text>
                   </View>
                 </View>
                 <Text style={styles.folio}>Switch To</Text>
