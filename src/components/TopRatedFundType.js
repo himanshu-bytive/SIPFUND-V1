@@ -10,7 +10,7 @@ export default function TopRatedFundType(props) {
     return (
         <View style={styles.axis_asset}>
             <View style={styles.company}>
-                <Image source={{ url: image }} style={styles.axisimg} />
+                <Image source={{ uri: image }} style={styles.axisimg} />
                 <View style={styles.management}>
                     <Text style={styles.axis}>{title}</Text>
                     <Text style={styles.moderately}>Moderately High Risk</Text>
