@@ -59,7 +59,7 @@ import {
   HamburgerMenu9Screen,
 } from "../screens";
 import { SideMenu } from "../components";
-import RedemptionScreen from "../screens/HamburgerMenu/RedemptionScreen";
+import RedeemScreen from "../screens/HamburgerMenu/RedeemScreen";
 
 export const LoginFlowStack = createStackNavigator(
   {
@@ -120,7 +120,7 @@ export const Hamburgmenu = createStackNavigator(
       },
     },
     Redeem: {
-      screen: RedemptionScreen,
+      screen: RedeemScreen,
       navigationOptions: {
         headerShown: false,
       },

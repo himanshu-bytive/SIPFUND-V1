@@ -48,7 +48,7 @@ const mutualfund = [
   },
 ];
 
-function RedemptionScreen(props) {
+function RedeemScreen(props) {
   const {
     token,
     fetchTransactionDetails,
@@ -452,4 +452,4 @@ export default connect(
   mapStateToProps,
   undefined,
   mapDispatchToProps
-)(RedemptionScreen);
+)(RedeemScreen);
