@@ -20,12 +20,10 @@ function TopRatedListScreen(props) {
 
     useEffect(() => {
         getCartDetails(token);
-        console.log("hello");
     }, []);
 
     useEffect(() => {
         if (cartDetails) {
-            console.log("this", cartDetails.cartDetails);
             setCart(cartDetails.cartDetails);
 
             let sip = 0;
@@ -43,7 +41,6 @@ function TopRatedListScreen(props) {
     }, [cartDetails]);
 
     const deleteItem = (key) => {
-        console.log("hello", key);
         let data = cart;
         for (let item in data) {
             if (data[item].product_name === key) {
@@ -106,7 +103,17 @@ function TopRatedListScreen(props) {
             <TouchableOpacity onPress={() => props.navigation.navigate("TopRatedSearch")}>
                 <Text style={styles.more_funds}>I would like to add more funds</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => props.navigation.navigate("TopRatedSubmit")} style={styles.botton_box}>
+            <TouchableOpacity
+                onPress={() => {
+                    let type = selectTab === "SIP" ? "S" : "N";
+                    if (cart.filter((item) => item.trxn_nature === type).length === 0) {
+                        alert("Cart is empty!");
+                    } else {
+                        props.navigation.navigate("TopRatedSubmit");
+                    }
+                }}
+                style={styles.botton_box}
+            >
                 <Text style={styles.get_otp}>NEXT</Text>
             </TouchableOpacity>
         </View>

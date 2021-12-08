@@ -37,10 +37,8 @@ export const CartActions = {
         }
     },
     deletCart: async (dispatch, params, token) => {
-        console.log("***");
         dispatch({ type: types.FETCH_DELET_CART_PENDING });
         let data = await SiteAPI.apiPostCall("/addCart/delete", params, token);
-        console.log("###", data);
         if (data.error) {
             Alert.alert(data.message);
             dispatch({ type: types.FETCH_DELET_CART_FAILURE, error: data.message });
