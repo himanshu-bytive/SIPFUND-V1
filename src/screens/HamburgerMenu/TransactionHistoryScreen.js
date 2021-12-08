@@ -1,312 +1,254 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
 import {
-    StyleSheet,
-    Button,
-    View,
-    Image,
-    ImageBackground,
-    TouchableOpacity,
-    Text,
-    Dimensions,
-    KeyboardAvoidingView,
-    TextInput,
-    ActivityIndicator,
-    ScrollView,
+  StyleSheet,
+  Button,
+  View,
+  Image,
+  ImageBackground,
+  TouchableOpacity,
+  Text,
+  Dimensions,
+  KeyboardAvoidingView,
+  TextInput,
+  ActivityIndicator,
+  ScrollView,
 } from "react-native";
-import { connect } from 'react-redux'
-import { Styles, Config, Colors, FormValidate } from '../../common'
-import { Entypo, AntDesign } from 'react-native-vector-icons';
-import { Header, Overlay } from 'react-native-elements';
+import { connect } from "react-redux";
+import { Styles, Config, Colors, FormValidate } from "../../common";
+import { Entypo, AntDesign } from "react-native-vector-icons";
+import { Header, Overlay } from "react-native-elements";
 
-const width = Dimensions.get('window').width;
-const height = Dimensions.get('window').height;
+const width = Dimensions.get("window").width;
+const height = Dimensions.get("window").height;
 
 const investmentData = [
-    { title: 'Long Term', image: require('../../../assets/term1.png') },
-    { title: 'Tax Saving Funds', image: require('../../../assets/term2.png') },
-    { title: 'Better Than', image: require('../../../assets/term3.png') },
-    { title: 'Tax Saving Funds', image: require('../../../assets/term4.png') },
-    { title: 'Better Than FD', image: require('../../../assets/term5.png') },
-    { title: 'Aggressive Funds', image: require('../../../assets/term6.png') },
-]
+  { title: "Long Term", image: require("../../../assets/term1.png") },
+  { title: "Tax Saving Funds", image: require("../../../assets/term2.png") },
+  { title: "Better Than", image: require("../../../assets/term3.png") },
+  { title: "Tax Saving Funds", image: require("../../../assets/term4.png") },
+  { title: "Better Than FD", image: require("../../../assets/term5.png") },
+  { title: "Aggressive Funds", image: require("../../../assets/term6.png") },
+];
 
 function TransactionHistoryScreen(props) {
+  const { token, user, fetchTransaction, transactionHistory } = props;
+  const [visible, setVisible] = useState(false);
 
-    const [visible, setVisible] = useState(false);
+  const toggleOverlay = () => {
+    setVisible(!visible);
+  };
+  const fromDate = () => {
+    const monthArr = [
+      "JAN",
+      "FEB",
+      "MAR",
+      "APR",
+      "MAY",
+      "JUN",
+      "JUL",
+      "AUG",
+      "SEPT",
+      "OCT",
+      "NOV",
+      "DEC",
+    ];
+    const date = new Date();
+    const month = date.getMonth();
+    const day = date.getDate();
+    const year = date.getFullYear();
+    const prevYear = year - 1;
+    // var toDate = ("0" + day).slice(-2) + "-" + monthArr[month] + "-" + year;
+    var fromDate =
+      ("0" + day).slice(-2) + "-" + monthArr[month] + "-" + prevYear;
 
-    const toggleOverlay = () => {
-        setVisible(!visible);
-    };
+    return fromDate;
+  };
+  const toDate = () => {
+    const monthArr = [
+      "JAN",
+      "FEB",
+      "MAR",
+      "APR",
+      "MAY",
+      "JUN",
+      "JUL",
+      "AUG",
+      "SEPT",
+      "OCT",
+      "NOV",
+      "DEC",
+    ];
+    const date = new Date();
+    const month = date.getMonth();
+    const day = date.getDate();
+    const year = date.getFullYear();
+    const prevYear = year - 1;
+    var toDate = ("0" + day).slice(-2) + "-" + monthArr[month] + "-" + year;
+    // var fromDate =
+    //   ("0" + day).slice(-2) + "-" + monthArr[month] + "-" + prevYear;
 
-    return (
-        <View style={styles.container}>
-            <Header
-                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={Colors.RED} /></TouchableOpacity>}
-                rightComponent={<TouchableOpacity onPress={() => props.navigation.navigate('Toprated')} style={{ marginTop: 20 }}><AntDesign name={"shoppingcart"} size={30} color={Colors.RED} /></TouchableOpacity>}
-                backgroundColor={Colors.LIGHT_WHITE}
-                containerStyle={styles.header}
-                centerComponent={<Image
-                    source={require('../../../assets/icon.png')}
-                    style={styles.logimg}
-                />}
-            />
-            <ScrollView style={styles.containerScroll}>
+    return toDate;
+  };
 
-                <View style={styles.switch_sec}>
-                    <Text style={styles.transaction}>Transaction History</Text>
-                </View>
+  useEffect(() => {
+    if (user !== null) {
+      //   console.log("user=", user);
 
-                    <View style={styles.transaction_history}>
+      let params = {
+        service_request: {
+          iin: user.IIN,
+          from_date: fromDate(),
+          to_date: toDate(),
+          unique_no: "",
+        },
+      };
+      console.log("params His=", params);
+      // console.log("token=", token);
+      // console.log("params=", params);
+      fetchTransaction(params, token);
+    }
+  }, [user]);
 
-                        <View style={styles.fund_sec}>
-                            <Text style={styles.Fund}>Fund</Text>
-                            <Text style={styles.axis}>Axis Mutual Fund</Text>
-                        </View>
-                        <View style={styles.fund_sec}>
-                            <Text style={styles.Fund}>Folio No</Text>
-
-                        </View>
-                        <View style={styles.fund_sec}>
-                            <Text style={styles.Fund}>Scheme Name</Text>
-                            <Text style={styles.axis}>TAGPGGR / Axis Treasury Advantage</Text>
-                        </View>
-                        <View style={styles.fund_sec}>
-                            <Text style={styles.Fund}>Trxn Type</Text>
-                            <Text style={styles.axis}>Switch</Text>
-                        </View>
-                        <View style={styles.fund_sec}>
-                            <Text style={styles.Fund}>Trxn Status</Text>
-                            <Text style={styles.axis}>Pending Authorization</Text>
-                        </View>
-                        <View style={styles.fund_sec}>
-                            <Text style={styles.Fund}>Amount</Text>
-                            <Text style={styles.axis}>1000</Text>
-                        </View>
-                        <View style={styles.fund_sec}>
-                            <Text style={styles.Fund}>Unit</Text>
-
-                        </View>
-                        <View style={styles.fund_sec}>
-                            <Text style={styles.Fund}>Date</Text>
-                            <Text style={styles.axis}>09-JUL-2021</Text>
-                        </View>
-                    </View>
-               
-
-                    <View style={styles.transaction_history}>
-
-                        <View style={styles.fund_sec}>
-                            <Text style={styles.Fund}>Fund</Text>
-                            <Text style={styles.axis}>Axis Mutual Fund</Text>
-                        </View>
-                        <View style={styles.fund_sec}>
-                            <Text style={styles.Fund}>Folio No</Text>
-
-                        </View>
-                        <View style={styles.fund_sec}>
-                            <Text style={styles.Fund}>Scheme Name</Text>
-                            <Text style={styles.axis}>TAGPGGR / Axis Treasury Advantage</Text>
-                        </View>
-                        <View style={styles.fund_sec}>
-                            <Text style={styles.Fund}>Trxn Type</Text>
-                            <Text style={styles.axis}>Switch</Text>
-                        </View>
-                        <View style={styles.fund_sec}>
-                            <Text style={styles.Fund}>Trxn Status</Text>
-                            <Text style={styles.axis}>Pending Authorization</Text>
-                        </View>
-                        <View style={styles.fund_sec}>
-                            <Text style={styles.Fund}>Amount</Text>
-                            <Text style={styles.axis}>1000</Text>
-                        </View>
-                        <View style={styles.fund_sec}>
-                            <Text style={styles.Fund}>Unit</Text>
-
-                        </View>
-                        <View style={styles.fund_sec}>
-                            <Text style={styles.Fund}>Date</Text>
-                            <Text style={styles.axis}>09-JUL-2021</Text>
-                        </View>
-                    </View>
-                    <View style={styles.transaction_history}>
-
-                        <View style={styles.fund_sec}>
-                            <Text style={styles.Fund}>Fund</Text>
-                            <Text style={styles.axis}>Axis Mutual Fund</Text>
-                        </View>
-                        <View style={styles.fund_sec}>
-                            <Text style={styles.Fund}>Folio No</Text>
-
-                        </View>
-                        <View style={styles.fund_sec}>
-                            <Text style={styles.Fund}>Scheme Name</Text>
-                            <Text style={styles.axis}>TAGPGGR / Axis Treasury Advantage</Text>
-                        </View>
-                        <View style={styles.fund_sec}>
-                            <Text style={styles.Fund}>Trxn Type</Text>
-                            <Text style={styles.axis}>Switch</Text>
-                        </View>
-                        <View style={styles.fund_sec}>
-                            <Text style={styles.Fund}>Trxn Status</Text>
-                            <Text style={styles.axis}>Pending Authorization</Text>
-                        </View>
-                        <View style={styles.fund_sec}>
-                            <Text style={styles.Fund}>Amount</Text>
-                            <Text style={styles.axis}>1000</Text>
-                        </View>
-                        <View style={styles.fund_sec}>
-                            <Text style={styles.Fund}>Unit</Text>
-
-                        </View>
-                        <View style={styles.fund_sec}>
-                            <Text style={styles.Fund}>Date</Text>
-                            <Text style={styles.axis}>09-JUL-2021</Text>
-                        </View>
-                    </View>
-                    <View style={styles.transaction_history}>
-
-                        <View style={styles.fund_sec}>
-                            <Text style={styles.Fund}>Fund</Text>
-                            <Text style={styles.axis}>Axis Mutual Fund</Text>
-                        </View>
-                        <View style={styles.fund_sec}>
-                            <Text style={styles.Fund}>Folio No</Text>
-
-                        </View>
-                        <View style={styles.fund_sec}>
-                            <Text style={styles.Fund}>Scheme Name</Text>
-                            <Text style={styles.axis}>TAGPGGR / Axis Treasury Advantage</Text>
-                        </View>
-                        <View style={styles.fund_sec}>
-                            <Text style={styles.Fund}>Trxn Type</Text>
-                            <Text style={styles.axis}>Switch</Text>
-                        </View>
-                        <View style={styles.fund_sec}>
-                            <Text style={styles.Fund}>Trxn Status</Text>
-                            <Text style={styles.axis}>Pending Authorization</Text>
-                        </View>
-                        <View style={styles.fund_sec}>
-                            <Text style={styles.Fund}>Amount</Text>
-                            <Text style={styles.axis}>1000</Text>
-                        </View>
-                        <View style={styles.fund_sec}>
-                            <Text style={styles.Fund}>Unit</Text>
-
-                        </View>
-                        <View style={styles.fund_sec}>
-                            <Text style={styles.Fund}>Date</Text>
-                            <Text style={styles.axis}>09-JUL-2021</Text>
-                        </View>
-                    </View>
-                    <View style={styles.transaction_history}>
-
-                        <View style={styles.fund_sec}>
-                            <Text style={styles.Fund}>Fund</Text>
-                            <Text style={styles.axis}>Axis Mutual Fund</Text>
-                        </View>
-                        <View style={styles.fund_sec}>
-                            <Text style={styles.Fund}>Folio No</Text>
-
-                        </View>
-                        <View style={styles.fund_sec}>
-                            <Text style={styles.Fund}>Scheme Name</Text>
-                            <Text style={styles.axis}>TAGPGGR / Axis Treasury Advantage</Text>
-                        </View>
-                        <View style={styles.fund_sec}>
-                            <Text style={styles.Fund}>Trxn Type</Text>
-                            <Text style={styles.axis}>Switch</Text>
-                        </View>
-                        <View style={styles.fund_sec}>
-                            <Text style={styles.Fund}>Trxn Status</Text>
-                            <Text style={styles.axis}>Pending Authorization</Text>
-                        </View>
-                        <View style={styles.fund_sec}>
-                            <Text style={styles.Fund}>Amount</Text>
-                            <Text style={styles.axis}>1000</Text>
-                        </View>
-                        <View style={styles.fund_sec}>
-                            <Text style={styles.Fund}>Unit</Text>
-
-                        </View>
-                        <View style={styles.fund_sec}>
-                            <Text style={styles.Fund}>Date</Text>
-                            <Text style={styles.axis}>09-JUL-2021</Text>
-                        </View>
-                    </View>
-                
-
-
-            </ScrollView>
-
-
-
+  return (
+    <View style={styles.container}>
+      <Header
+        leftComponent={
+          <TouchableOpacity
+            onPress={() => props.navigation.goBack()}
+            style={{ marginTop: 20 }}
+          >
+            <AntDesign name={"arrowleft"} size={30} color={Colors.RED} />
+          </TouchableOpacity>
+        }
+        rightComponent={
+          <TouchableOpacity
+            onPress={() => props.navigation.navigate("Toprated")}
+            style={{ marginTop: 20 }}
+          >
+            <AntDesign name={"shoppingcart"} size={30} color={Colors.RED} />
+          </TouchableOpacity>
+        }
+        backgroundColor={Colors.LIGHT_WHITE}
+        containerStyle={styles.header}
+        centerComponent={
+          <Image
+            source={require("../../../assets/icon.png")}
+            style={styles.logimg}
+          />
+        }
+      />
+      <ScrollView style={styles.containerScroll}>
+        <View style={styles.switch_sec}>
+          <Text style={styles.transaction}>Transaction History</Text>
         </View>
-    );
+        {transactionHistory !== null &&
+          transactionHistory.map((item) => {
+            return (
+              <View style={styles.transaction_history}>
+                <View style={styles.fund_sec}>
+                  <Text style={styles.Fund}>Fund</Text>
+                  <Text style={styles.axis}>{item.LONG_NAME}</Text>
+                </View>
+                <View style={styles.fund_sec}>
+                  <Text style={styles.Fund}>Folio No</Text>
+                </View>
+                <View style={styles.fund_sec}>
+                  <Text style={styles.Fund}>Scheme Name</Text>
+                  <Text style={styles.axis}>{item.PRODUCT_CODE}</Text>
+                </View>
+                <View style={styles.fund_sec}>
+                  <Text style={styles.Fund}>Trxn Type</Text>
+                  <Text style={styles.axis}>{item.TRXN_TYPE}</Text>
+                </View>
+                <View style={styles.fund_sec}>
+                  <Text style={styles.Fund}>Trxn Status</Text>
+                  <Text style={styles.axis}>{item.TRXN_STATUS}</Text>
+                </View>
+                <View style={styles.fund_sec}>
+                  <Text style={styles.Fund}>Amount</Text>
+                  <Text style={styles.axis}>{item.AMOUNT}</Text>
+                </View>
+                <View style={styles.fund_sec}>
+                  <Text style={styles.Fund}>Unit</Text>
+                </View>
+                <View style={styles.fund_sec}>
+                  <Text style={styles.Fund}>Date</Text>
+                  <Text style={styles.axis}>{item.DATE_OF_TRXN_REQUEST}</Text>
+                </View>
+              </View>
+            );
+          })}
+      </ScrollView>
+    </View>
+  );
 }
 
-
 const styles = StyleSheet.create({
-    container: { flex: 1,
-    backgroundColor:'#D3D6DB' },
+  container: { flex: 1, backgroundColor: "#D3D6DB" },
 
-    logimg: {
-        height: 65,
-        width: 203,
-        marginTop: 10,
-    },
-    switch_sec: {
-        backgroundColor: Colors.RED,
-    },
-    transaction: {
-        fontSize: 21,
-        fontWeight: "bold",
-        textAlign: "center",
-        marginVertical: 20,
-        color: Colors.WHITE,
-    },
-   
-    transaction_history: {
-        backgroundColor: Colors.WHITE,
-        marginHorizontal:15,
-        marginTop:10,
-        padding: 10,
+  logimg: {
+    height: 65,
+    width: 203,
+    marginTop: 10,
+  },
+  switch_sec: {
+    backgroundColor: Colors.RED,
+  },
+  transaction: {
+    fontSize: 21,
+    fontWeight: "bold",
+    textAlign: "center",
+    marginVertical: 20,
+    color: Colors.WHITE,
+  },
 
-    },
-    fund_sec: {
-        flexDirection: "row",
-        marginBottom: 5,
-    },
-    Fund: {
-        width: "40%",
-        fontSize: 12,
-        fontWeight: "bold",
-    },
-    axis: {
-        fontSize: 12,
-        fontWeight: "bold",
-        color: Colors.DEEP_GRAY,
-    },
-
-
-
-
-
-
-
+  transaction_history: {
+    backgroundColor: Colors.WHITE,
+    marginHorizontal: 15,
+    marginTop: 10,
+    padding: 10,
+  },
+  fund_sec: {
+    flexDirection: "row",
+    marginBottom: 5,
+  },
+  Fund: {
+    width: "30%",
+    fontSize: 12,
+    fontWeight: "bold",
+  },
+  axis: {
+    width: "70%",
+    fontSize: 12,
+    fontWeight: "bold",
+    color: Colors.DEEP_GRAY,
+  },
 });
 
 const mapStateToProps = (state) => ({
-    token: state.auth.token,
-    users: state.auth.users,
-})
+  token: state.auth.token,
+  users: state.auth.users,
+  user: state.auth.user,
+  transactionHistory: state.transactionHis.transactionHistory,
+});
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
-    const { dispatch } = dispatchProps;
-    const { AuthActions } = require('../../store/AuthRedux')
-    return {
-        ...stateProps,
-        ...ownProps,
-        logOut: () => { AuthActions.logOut(dispatch) },
-    }
-}
-export default connect(mapStateToProps, undefined, mapDispatchToProps)(TransactionHistoryScreen)
+  const { dispatch } = dispatchProps;
+  const { AuthActions } = require("../../store/AuthRedux");
+  const { TransactionHisActions } = require("../../store/TransactionHisRedux");
+  return {
+    ...stateProps,
+    ...ownProps,
+    logOut: () => {
+      AuthActions.logOut(dispatch);
+    },
+    fetchTransaction: (params, token) => {
+      TransactionHisActions.fetchTransaction(dispatch, params, token);
+    },
+  };
+};
+export default connect(
+  mapStateToProps,
+  undefined,
+  mapDispatchToProps
+)(TransactionHistoryScreen);

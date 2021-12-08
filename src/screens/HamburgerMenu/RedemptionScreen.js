@@ -48,17 +48,17 @@ const mutualfund = [
   },
 ];
 
-function SwitchScreen(props) {
+function RedemptionScreen(props) {
   const {
     token,
     fetchTransactionDetails,
     panNumber,
     isInn,
     user,
-    switchRes,
-    externalSwitch,
+    redemptionRes,
+    externalRedemption,
   } = props;
-  const [selectTab, setSelectTab] = useState("SWITCH");
+  const [selectTab, setSelectTab] = useState("REDEMPTION");
   const toggleTab = (value) => {
     setSelectTab(value);
   };
@@ -67,9 +67,9 @@ function SwitchScreen(props) {
     // console.log("token=", token);
     // console.log("isInn=", isInn);
     // console.log("user=", user);
-    console.log("switch=", switchRes);
-    console.log("externalSwitch=", externalSwitch);
-  }, [panNumber, isInn, user, switchRes, externalSwitch]);
+    console.log("switch=", redemptionRes);
+    console.log("externalSwitch=", externalRedemption);
+  }, [panNumber, isInn, user, redemptionRes, redemptionRes]);
 
   useEffect(() => {
     if (user !== null) {
@@ -112,16 +112,18 @@ function SwitchScreen(props) {
       />
       <ScrollView style={styles.containerScroll}>
         <View style={styles.switch_sec}>
-          <Text style={styles.transaction}>Switch</Text>
+          <Text style={styles.transaction}>Redeem</Text>
           <View style={styles.tab_sec}>
             <TouchableOpacity
-              onPress={() => toggleTab("SWITCH")}
-              style={selectTab == "SWITCH" ? styles.tab1 : styles.tab2}
+              onPress={() => toggleTab("REDEMPTION")}
+              style={selectTab == "REDEMPTION" ? styles.tab1 : styles.tab2}
             >
               <Text
-                style={selectTab == "SWITCH" ? styles.switch : styles.switchAct}
+                style={
+                  selectTab == "REDEMPTION" ? styles.switch : styles.switchAct
+                }
               >
-                SWITCH
+                REDEEM
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -133,7 +135,7 @@ function SwitchScreen(props) {
                   selectTab == "EXTERNAL" ? styles.switch : styles.switchAct
                 }
               >
-                EXTERNAL SWITCH
+                EXTERNAL REDEEM
               </Text>
             </TouchableOpacity>
           </View>
@@ -141,9 +143,9 @@ function SwitchScreen(props) {
 
         {/* Axis Mutual Fund_sec... */}
 
-        {selectTab === "SWITCH" &&
-          switchRes !== null &&
-          switchRes.map((item) => (
+        {selectTab === "REDEMPTION" &&
+          redemptionRes !== null &&
+          redemptionRes.map((item) => (
             <View style={styles.fund_sec}>
               <View style={styles.axis_sec}>
                 <Text style={styles.axis}>
@@ -208,8 +210,8 @@ function SwitchScreen(props) {
             </View>
           ))}
         {selectTab === "EXTERNAL" &&
-          externalSwitch !== null &&
-          externalSwitch.map((item) => (
+          externalRedemption !== null &&
+          externalRedemption.map((item) => (
             <View style={styles.fund_sec}>
               <View style={styles.axis_sec}>
                 <Text style={styles.axis}>
@@ -350,16 +352,10 @@ const styles = StyleSheet.create({
   },
   value_sec: {
     width: "90%",
-    display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
     marginVertical: 20,
   },
-  // folio_sec: {
-  //   width: "34%",
-  //   fontSize: 15,
-  //   color: Colors.DEEP_GRAY,
-  // },
   folio: {
     fontSize: 15,
     color: Colors.DEEP_GRAY,
@@ -425,8 +421,8 @@ const mapStateToProps = (state) => ({
   panNumber: state.auth.panNumber,
   isInn: state.registration.isInn,
   user: state.auth.user,
-  switchRes: state.switch.switchRes,
-  externalSwitch: state.switch.externalSwitch,
+  redemptionRes: state.switch.switchRes,
+  externalRedemption: state.switch.externalSwitch,
 });
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
@@ -448,4 +444,4 @@ export default connect(
   mapStateToProps,
   undefined,
   mapDispatchToProps
-)(SwitchScreen);
+)(RedemptionScreen);
