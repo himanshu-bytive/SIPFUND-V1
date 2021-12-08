@@ -8,7 +8,7 @@ import { Image, Header, CheckBox } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
 
 function TopRatedListScreen(props) {
-    const { token, cartDetails, getCartDetails } = props;
+    const { token, cartDetails, getCartDetails, deleteItemFromCart } = props;
 
     const [cart, setCart] = useState([]);
     const [selectTab, setSelectTab] = useState("SIP");
@@ -20,6 +20,7 @@ function TopRatedListScreen(props) {
 
     useEffect(() => {
         getCartDetails(token);
+        console.log("hello");
     }, []);
 
     useEffect(() => {
@@ -40,6 +41,21 @@ function TopRatedListScreen(props) {
             setLumpsumTotal(lump);
         }
     }, [cartDetails]);
+
+    const deleteItem = (key) => {
+        console.log("hello", key);
+        let data = cart;
+        for (let item in data) {
+            if (data[item].product_name === key) {
+                console.log(data[item]);
+                let params = [data[item]._id];
+                deleteItemFromCart(params, token);
+                delete data[item];
+                break;
+            }
+        }
+        props.navigation.replace("TopRatedList");
+    };
 
     return (
         <View style={styles.container}>
@@ -84,8 +100,8 @@ function TopRatedListScreen(props) {
                     <Text style={styles.price}>₹ {selectTab === "SIP" ? sipTotal : lumpsumTotal}</Text>
                 </View>
 
-                {selectTab === "SIP" && cart.filter((item) => item.trxn_nature === "S").map((item, key) => <TopRatedFundType key={key} title={item.product_name} sip={item.sip_amount} image={item.image_path} onPress={() => props.navigation.navigate("FundsDetails")} />)}
-                {selectTab === "LUMPSUM" && cart.filter((item) => item.trxn_nature === "N").map((item, key) => <TopRatedFundType key={key} title={item.product_name} sip={item.sip_amount} image={item.image_path} onPress={() => props.navigation.navigate("FundsDetails")} />)}
+                {selectTab === "SIP" && cart.filter((item) => item.trxn_nature === "S").map((item, key) => <TopRatedFundType key={key} deleteItem={deleteItem} title={item.product_name} sip={item.sip_amount} image={item.image_path} onPress={() => props.navigation.navigate("FundsDetails")} />)}
+                {selectTab === "LUMPSUM" && cart.filter((item) => item.trxn_nature === "N").map((item, key) => <TopRatedFundType key={key} deleteItem={deleteItem} title={item.product_name} sip={item.sip_amount} image={item.image_path} onPress={() => props.navigation.navigate("FundsDetails")} />)}
             </ScrollView>
             <TouchableOpacity onPress={() => props.navigation.navigate("TopRatedSearch")}>
                 <Text style={styles.more_funds}>I would like to add more funds</Text>
@@ -221,8 +237,11 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
         logOut: () => {
             AuthActions.logOut(dispatch);
         },
-        getCartDetails: (dispatch, token) => {
+        getCartDetails: (token) => {
             CartActions.cartDetails(dispatch, token);
+        },
+        deleteItemFromCart: (params, token) => {
+            CartActions.deletCart(dispatch, params, token);
         },
     };
 };

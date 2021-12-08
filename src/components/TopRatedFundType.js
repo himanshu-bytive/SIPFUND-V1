@@ -6,7 +6,8 @@ import { Image, CheckBox } from "react-native-elements";
 import { Styles, Config, Colors, FormValidate } from "../common";
 
 export default function TopRatedFundType(props) {
-    const { onPress, type, title, sip, image } = props;
+    const { onPress, type, title, sip, image, deleteItem } = props;
+
     return (
         <View style={styles.axis_asset}>
             <View style={styles.company}>
@@ -16,9 +17,7 @@ export default function TopRatedFundType(props) {
                     <Text style={styles.moderately}>Moderately High Risk</Text>
                 </View>
 
-                <View style={styles.checkbox}>
-                    <CheckBox title="" containerStyle={styles.checkbox_style} textStyle={{ color: Colors.RED, fontSize: 14 }} checked={type} checkedColor={Colors.RED} uncheckedColor={Colors.DARK_GREY} />
-                </View>
+                <AntDesign onPress={() => deleteItem(title)} name={"delete"} size={25} color={Colors.RED} />
             </View>
 
             {/* border_sec */}
@@ -80,6 +79,7 @@ const styles = StyleSheet.create({
     },
     company: {
         flexDirection: "row",
+        justifyContent: "space-evenly",
     },
     management: {
         marginLeft: 10,
