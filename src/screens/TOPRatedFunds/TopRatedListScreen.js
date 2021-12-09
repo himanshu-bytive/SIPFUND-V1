@@ -109,7 +109,7 @@ function TopRatedListScreen(props) {
                     if (cart.filter((item) => item.trxn_nature === type).length === 0) {
                         alert("Cart is empty!");
                     } else {
-                        props.navigation.navigate("TopRatedSubmit");
+                        props.navigation.navigate("TopRatedSubmit", { cart: cart.filter((item) => item.trxn_nature === type) });
                     }
                 }}
                 style={styles.botton_box}

@@ -8,16 +8,20 @@ import { ScrollView } from "react-native-gesture-handler";
 import { color } from "react-native-elements/dist/helpers";
 
 function TopRatedSubmitScreen(props) {
-    const { cartDetails } = props;
     const [sum, setSum] = useState(0);
+    const [cart, setCart] = useState([]);
 
     useEffect(() => {
         let sip = 0;
-        for (var item in cartDetails.cartDetails) {
-            sip = sip + Number(cartDetails.cartDetails[item].amount);
+        for (var item in cart) {
+            sip = sip + Number(cart[item].amount);
         }
         setSum(sip);
-    }, [cartDetails]);
+    }, [cart]);
+
+    useEffect(() => {
+        setCart(props.navigation.state.params.cart);
+    }, [props.navigation.state.params.cart]);
 
     return (
         <View style={styles.container}>
@@ -54,7 +58,7 @@ function TopRatedSubmitScreen(props) {
                     <Text style={styles.fund_secleft}>Fund List</Text>
                     <Text style={styles.fund_secright}>₹ {sum}</Text>
                 </View>
-                {cartDetails.cartDetails.map((item) => (
+                {cart.map((item) => (
                     <View style={styles.sbi_sec}>
                         <Image source={{ uri: item?.image_path }} style={styles.Hybrid} />
                         <Text style={styles.sbi_text}>{item?.product_name}</Text>
@@ -222,7 +226,6 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => ({
     token: state.auth.token,
     users: state.auth.users,
-    cartDetails: state.cartActions.cart,
 });
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
