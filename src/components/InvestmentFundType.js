@@ -5,7 +5,7 @@ import { AntDesign } from "react-native-vector-icons";
 import { Image } from "react-native-elements";
 import { Colors } from "../common";
 
-const randerData = (data, k, onPress, onChange) => {
+const randerData = (data, k, onPress, onChange, handleDelete) => {
     const plusMinus = (type, value) => {
         if (type === "plus") {
             let newValue = parseInt(value) + 1;
@@ -22,29 +22,35 @@ const randerData = (data, k, onPress, onChange) => {
         }
     };
 
-    if (data.schemes != "NA") {
-        let schemes = Array.isArray(data.schemes) ? data.schemes : [data.schemes];
+    if (data?.schemes != "NA") {
+        let schemes = Array.isArray(data?.schemes) ? data?.schemes : [data?.schemes];
         return (
             <View>
                 <View style={styles.hybrid_sec}>
                     <View style={{ backgroundColor: "#EFEFEF" }}>
-                        <Text style={styles.hybrid}>{data.fund_type}</Text>
+                        <Text style={styles.hybrid}>{data?.fund_type}</Text>
                     </View>
                 </View>
                 <View>
                     {schemes.map((item, key) => (
                         <View key={key} style={styles.axis_asset}>
                             <View style={styles.company}>
-                                <Image source={{ uri: item?.imagePath }} style={styles.axisimg} />
-                                <View style={styles.management}>
-                                    <Text style={styles.axis}>{item.name}</Text>
-                                    <Text style={styles.moderately}>{item.productCode}</Text>
+                                <View style={{ flexDirection: "row" }}>
+                                    <Image source={{ uri: item?.imagePath }} style={styles.axisimg} />
+                                    <View style={styles.management}>
+                                        <Text style={styles.axis}>{item.name}</Text>
+                                        <Text style={styles.moderately}>{item.productCode}</Text>
+                                    </View>
                                 </View>
-                                {item.type == "new" && (
-                                    <TouchableOpacity onPress={() => console.log("hello")} style={styles.checkbox}>
-                                        <AntDesign name="delete" size={20} color="#C0392B" />
-                                    </TouchableOpacity>
-                                )}
+                                <AntDesign
+                                    style={{
+                                        display: item.type === "new" ? "flex" : "none",
+                                    }}
+                                    name="delete"
+                                    size={24}
+                                    color="#C0392B"
+                                    onPress={() => handleDelete(item.productCode)}
+                                />
                             </View>
 
                             <View style={styles.border_sec}>
@@ -92,7 +98,7 @@ const randerData = (data, k, onPress, onChange) => {
 };
 
 export default function InvestmentFundType(props) {
-    const { data, onPress, myInvestments } = props;
+    const { data, onPress, myInvestments, handleDelete } = props;
     const [newData, setNewData] = useState(data ? data : []);
     useEffect(() => {
         if (data) {
@@ -106,7 +112,7 @@ export default function InvestmentFundType(props) {
         myInvestments(data);
         setNewData(data);
     };
-    return newData.map((item, key) => <View key={key}>{randerData(item, key, onPress, onChange)}</View>);
+    return newData.map((item, key) => <View key={key}>{randerData(item, key, onPress, onChange, handleDelete)}</View>);
 }
 
 const styles = StyleSheet.create({
@@ -137,6 +143,8 @@ const styles = StyleSheet.create({
     },
     company: {
         flexDirection: "row",
+        justifyContent: "space-between",
+        paddingHorizontal: 10,
     },
     management: {
         marginLeft: 10,

@@ -23,6 +23,18 @@ function InvestmentListScreens(props) {
         return 0;
     };
 
+    const handleDelete = (productCode) => {
+        let investments = myInvestlist;
+        for (let index in investments) {
+            if (investments[index].schemes.productCode === productCode) {
+                delete investments[index];
+                break;
+            }
+        }
+        myInvestments(investments);
+        props.navigation.replace("InvestmentList");
+    };
+
     return (
         <View style={styles.container}>
             <Header
@@ -65,6 +77,7 @@ function InvestmentListScreens(props) {
                     }}
                     myInvestments={updateInvestments}
                     data={myInvestlist}
+                    handleDelete={handleDelete}
                     onPress={() => props.navigation.navigate("FundsDetails")}
                 />
             </ScrollView>
