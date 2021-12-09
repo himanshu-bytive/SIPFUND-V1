@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
-import { StyleSheet, Button, View, ImageBackground, TouchableOpacity, Text, Dimensions, KeyboardAvoidingView, ScrollView, ActivityIndicator } from "react-native";
+import { StyleSheet, Button, View, ImageBackground, TouchableOpacity, Text, Alert, ScrollView, ActivityIndicator } from "react-native";
 import { connect } from "react-redux";
 import { Styles, Config, Colors, FormValidate } from "../../common";
 import { Ionicons, AntDesign, EvilIcons, Entypo, FontAwesome5 } from "react-native-vector-icons";
@@ -94,7 +94,23 @@ function InvestmentListScreens(props) {
 
                     /* Don't allow if sum of all investments exceed the amount */
                     if (sum > Number(configs.invest)) {
-                        alert("Investments exceed your available funds!");
+                        Alert.alert(
+                            "Amount exceeds total",
+                            "Total invested amount exceeds the amount specified. Proceed?",
+                            [
+                                {
+                                    text: "Don't",
+                                    onPress: () => console.log("Cancel Pressed"),
+                                },
+                                {
+                                    text: "Yes, please",
+                                    onPress: () => props.navigation.navigate("InvestmentSubmit"),
+                                },
+                            ],
+                            { cancelable: false }
+                        );
+                    } else if (sum < Number(configs.invest)) {
+                        alert("Invested amount less than the total!");
                     } else {
                         props.navigation.navigate("InvestmentSubmit");
                     }
