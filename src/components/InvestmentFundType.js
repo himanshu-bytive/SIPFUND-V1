@@ -38,18 +38,18 @@ const randerData = (data, k, onPress, onChange, handleDelete) => {
                                 <View style={{ flexDirection: "row" }}>
                                     <Image source={{ uri: item?.imagePath }} style={styles.axisimg} />
                                     <View style={styles.management}>
-                                        <Text style={styles.axis}>{item.name}</Text>
-                                        <Text style={styles.moderately}>{item.productCode}</Text>
+                                        <Text style={styles.axis}>{item?.name}</Text>
+                                        <Text style={styles.moderately}>{item?.productCode}</Text>
                                     </View>
                                 </View>
                                 <AntDesign
                                     style={{
-                                        display: item.type === "new" ? "flex" : "none",
+                                        display: item?.type === "new" ? "flex" : "none",
                                     }}
                                     name="delete"
                                     size={24}
                                     color="#C0392B"
-                                    onPress={() => handleDelete(item.productCode)}
+                                    onPress={() => handleDelete(item?.productCode)}
                                 />
                             </View>
 
@@ -67,17 +67,17 @@ const randerData = (data, k, onPress, onChange, handleDelete) => {
                             <View style={styles.selectfolio_sec}>
                                 <View style={styles.select}>
                                     <Text style={styles.no}>Min Investment</Text>
-                                    <TextInput style={styles.no} placeholder={"Investment"} onChangeText={(value) => onChange(k, value, "investment")} value={item.investment ? item.investment : "1000"} />
+                                    <TextInput style={styles.no} placeholder={"Investment"} onChangeText={(value) => onChange(k, value, "investment")} value={item?.investment ? item?.investment : "1000"} />
                                 </View>
                                 <View style={styles.select}>
                                     <Text style={styles.no}>SIP Date</Text>
                                     <View style={{ flexDirection: "row" }}>
-                                        <Text style={styles.new}>{item.date ? item.date : "5"}</Text>
+                                        <Text style={styles.new}>{item?.date ? item?.date : "5"}</Text>
                                         <View style={{ flexDirection: "column" }}>
-                                            <TouchableOpacity onPress={() => plusMinus("plus", item.date ? item.date : "5")}>
+                                            <TouchableOpacity onPress={() => plusMinus("plus", item?.date ? item?.date : "5")}>
                                                 <AntDesign name="caretup" size={15} color="#C0392B" />
                                             </TouchableOpacity>
-                                            <TouchableOpacity onPress={() => plusMinus("minus", item.date ? item.date : "5")}>
+                                            <TouchableOpacity onPress={() => plusMinus("minus", item?.date ? item?.date : "5")}>
                                                 <AntDesign name="caretdown" size={15} color="#C0392B" />
                                             </TouchableOpacity>
                                         </View>
@@ -85,7 +85,7 @@ const randerData = (data, k, onPress, onChange, handleDelete) => {
                                 </View>
                                 <View style={styles.select}>
                                     <Text style={styles.no}>SIP</Text>
-                                    <TextInput style={styles.new} placeholder={"sip"} onChangeText={(value) => onChange(k, value, "sip")} value={item.sip ? item.sip : "0"} />
+                                    <TextInput style={styles.new} placeholder={"sip"} onChangeText={(value) => onChange(k, value, "sip")} value={item?.sip ? item?.sip : "0"} />
                                 </View>
                             </View>
                         </View>
