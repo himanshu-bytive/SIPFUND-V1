@@ -37,7 +37,7 @@ const randerData = (data, k, onPress, onChange) => {
                 <View key={key} style={styles.axis_asset}>
                     <View style={styles.company}>
                         <Image
-                            source={{ uri: item.imagePath }}
+                            source={{ uri: item?.imagePath }}
                             style={styles.axisimg}
                         />
                         <View style={styles.management}>

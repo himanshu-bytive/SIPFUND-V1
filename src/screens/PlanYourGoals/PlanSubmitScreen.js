@@ -45,17 +45,17 @@ function PlanSubmitScreen(props) {
                             width="117"
                             height="117"
                             svg={true}
-                            url={goalDetail.goalImagePath}
+                            url={goalDetail?.goalImagePath}
                         />
                     </View>
                     <View style={styles.education_sec}>
                         <Text style={styles.child}>Summary</Text>
-                        <Text style={styles.child_text}>{goalDetail.goalDescription}</Text>
+                        <Text style={styles.child_text}>{goalDetail?.goalDescription}</Text>
                         <Text style={styles.child_master}>Master Vijay Deshmukh</Text>
                     </View>
                 </View>
 
-                <Text style={styles.mygoal}>My Goal : <Text style={styles.my_goal}>{goalDetail.goal}</Text></Text>
+                <Text style={styles.mygoal}>My Goal : <Text style={styles.my_goal}>{goalDetail?.goal}</Text></Text>
 
                 <View style={styles.fund_sec}>
                     <Text style={styles.fund_secleft}>Fund List</Text>

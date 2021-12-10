@@ -1,83 +1,64 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
-import {
-    StyleSheet,
-    View,
-    TouchableOpacity,
-    Text,
-} from "react-native";
+import { StyleSheet, View, TouchableOpacity, Text } from "react-native";
 
-import { AntDesign } from 'react-native-vector-icons';
-import { Image, CheckBox } from 'react-native-elements';
-import { Styles, Config, Colors, FormValidate } from '../common'
+import { AntDesign } from "react-native-vector-icons";
+import { Image, CheckBox } from "react-native-elements";
+import { Styles, Config, Colors, FormValidate } from "../common";
 
 export default function TopRatedFundType(props) {
-    const { onPress, type } = props
-    return (<View style={styles.axis_asset}>
-        <View style={styles.company}>
-            <Image
-                source={require('../../assets/axis_img.png')}
-                style={styles.axisimg}
-            />
-            <View style={styles.management}>
-                <Text style={styles.axis}>Axis Asset Management Company Ltd</Text>
-                <Text style={styles.moderately}>Moderately High Risk</Text>
+    const { onPress, type, title, sip, image, deleteItem } = props;
+
+    return (
+        <View style={styles.axis_asset}>
+            <View style={styles.company}>
+                <Image source={{ uri: image }} style={styles.axisimg} />
+                <View style={styles.management}>
+                    <Text style={styles.axis}>{title}</Text>
+                    <Text style={styles.moderately}>Moderately High Risk</Text>
+                </View>
+
+                <AntDesign onPress={() => deleteItem(title)} name={"delete"} size={25} color={Colors.RED} />
             </View>
 
-            <View style={styles.checkbox}>
-                <CheckBox
-                    title=''
-                    containerStyle={styles.checkbox_style}
-                    textStyle={{ color: Colors.RED, fontSize: 14 }}
-                    checked={type}
-                    checkedColor={Colors.RED}
-                    uncheckedColor={Colors.DARK_GREY}
-                />
-            </View>
-        </View>
-
-        {/* border_sec */}
-        <View style={styles.border_sec}>
-            <View style={styles.border}>
-                <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY, }}></View>
-            </View>
-            <View style={styles.icons}>
-                <TouchableOpacity style={styles.circle} onPress={onPress}>
-                    <AntDesign name="right" size={30} color="#C0392B" />
-                </TouchableOpacity>
-            </View>
-        </View>
-
-
-        {/* Select Folio No._sec */}
-
-        <View style={styles.selectfolio_sec}>
-            <View style={styles.select}>
-                <Text style={styles.no}>Select Folio No.</Text>
-                <View style={{ flexDirection: "row", borderBottomWidth: 1, borderBottomColor: "#707070", }}>
-                    <Text style={styles.new}>New Folio</Text>
-                    <AntDesign name="caretdown" size={20} color="#C0392B" />
+            {/* border_sec */}
+            <View style={styles.border_sec}>
+                <View style={styles.border}>
+                    <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY }}></View>
+                </View>
+                <View style={styles.icons}>
+                    <TouchableOpacity style={styles.circle} onPress={onPress}>
+                        <AntDesign name="right" size={30} color="#C0392B" />
+                    </TouchableOpacity>
                 </View>
             </View>
 
-            <View style={styles.select}>
-                <Text style={styles.no}>SIP Date</Text>
+            {/* Select Folio No._sec */}
 
-                <View style={{ flexDirection: "row", }}>
-                    <Text style={styles.new}>5</Text>
-                    <AntDesign name="caretdown" size={20} color="#C0392B" />
+            <View style={styles.selectfolio_sec}>
+                <View style={styles.select}>
+                    <Text style={styles.no}>Select Folio No.</Text>
+                    <View style={{ flexDirection: "row", borderBottomWidth: 1, borderBottomColor: "#707070" }}>
+                        <Text style={styles.new}>New Folio</Text>
+                        <AntDesign name="caretdown" size={20} color="#C0392B" />
+                    </View>
                 </View>
 
+                <View style={styles.select}>
+                    <Text style={styles.no}>SIP Date</Text>
 
+                    <View style={{ flexDirection: "row" }}>
+                        <Text style={styles.new}>5</Text>
+                        <AntDesign name="caretdown" size={20} color="#C0392B" />
+                    </View>
+                </View>
+                <View style={styles.select}>
+                    <Text style={styles.no}>SIP</Text>
+                    <Text style={styles.new}>{sip}</Text>
+                </View>
             </View>
-            <View style={styles.select}>
-                <Text style={styles.no}>SIP</Text>
-                <Text style={styles.new}>4000</Text>
-            </View>
-
         </View>
-    </View>)
+    );
 }
-
 
 const styles = StyleSheet.create({
     axis_asset: {
@@ -98,6 +79,7 @@ const styles = StyleSheet.create({
     },
     company: {
         flexDirection: "row",
+        justifyContent: "space-evenly",
     },
     management: {
         marginLeft: 10,
@@ -105,7 +87,6 @@ const styles = StyleSheet.create({
     },
     axis: {
         fontSize: 15,
-
     },
     moderately: {
         fontSize: 12,
@@ -118,7 +99,7 @@ const styles = StyleSheet.create({
     checkbox: {
         position: "absolute",
         right: -20,
-        top: -15
+        top: -15,
     },
     border_sec: {
         flexDirection: "row",
@@ -128,7 +109,7 @@ const styles = StyleSheet.create({
         width: "80%",
     },
     icons: {
-        width: '10%',
+        width: "10%",
         marginTop: -15,
         marginLeft: 10,
     },
@@ -154,5 +135,4 @@ const styles = StyleSheet.create({
         width: 35,
         paddingLeft: 2,
     },
-
-})
+});

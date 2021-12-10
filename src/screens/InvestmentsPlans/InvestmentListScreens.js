@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
-import { StyleSheet, Button, View, ImageBackground, TouchableOpacity, Text, Dimensions, KeyboardAvoidingView, ScrollView, ActivityIndicator } from "react-native";
+import { StyleSheet, Button, View, ImageBackground, TouchableOpacity, Text, Alert, ScrollView, ActivityIndicator } from "react-native";
 import { connect } from "react-redux";
 import { Styles, Config, Colors, FormValidate } from "../../common";
 import { Ionicons, AntDesign, EvilIcons, Entypo, FontAwesome5 } from "react-native-vector-icons";
@@ -9,7 +9,6 @@ import { MyImage, InvestmentFundType } from "../../components";
 function InvestmentListScreens(props) {
     const pageActive = useRef(false);
     const { investment, configs, isFetching, myInvestlist, myInvestments } = props;
-
     const [sumInvestment, setSumInvestment] = useState([]);
 
     const updateInvestments = (data) => {
@@ -22,6 +21,18 @@ function InvestmentListScreens(props) {
             return Number(value);
         }
         return 0;
+    };
+
+    const handleDelete = (productCode) => {
+        let investments = myInvestlist;
+        for (let index in investments) {
+            if (investments[index].schemes.productCode === productCode) {
+                delete investments[index];
+                break;
+            }
+        }
+        myInvestments(investments);
+        props.navigation.replace("InvestmentList");
     };
 
     return (
@@ -66,6 +77,7 @@ function InvestmentListScreens(props) {
                     }}
                     myInvestments={updateInvestments}
                     data={myInvestlist}
+                    handleDelete={handleDelete}
                     onPress={() => props.navigation.navigate("FundsDetails")}
                 />
             </ScrollView>
@@ -82,7 +94,23 @@ function InvestmentListScreens(props) {
 
                     /* Don't allow if sum of all investments exceed the amount */
                     if (sum > Number(configs.invest)) {
-                        alert("Investments exceed your available funds!");
+                        Alert.alert(
+                            "Amount exceeds total",
+                            "Total invested amount exceeds the amount specified. Proceed?",
+                            [
+                                {
+                                    text: "Don't",
+                                    onPress: () => console.log("Cancel Pressed"),
+                                },
+                                {
+                                    text: "Yes, please",
+                                    onPress: () => props.navigation.navigate("InvestmentSubmit"),
+                                },
+                            ],
+                            { cancelable: false }
+                        );
+                    } else if (sum < Number(configs.invest)) {
+                        alert("Invested amount less than the total!");
                     } else {
                         props.navigation.navigate("InvestmentSubmit");
                     }

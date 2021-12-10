@@ -1,123 +1,78 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
-import {
-    StyleSheet,
-    Button,
-    View,
-    ImageBackground,
-    TouchableOpacity,
-    Text,
-    Dimensions,
-    KeyboardAvoidingView,
-    TextInput,
-    ActivityIndicator
-} from "react-native";
-import { connect } from 'react-redux'
-import { Styles, Config, Colors, FormValidate } from '../../common'
-import { Ionicons, AntDesign, EvilIcons, Entypo, FontAwesome5 } from 'react-native-vector-icons';
-import { Image, Header, CheckBox } from 'react-native-elements';
+import { StyleSheet, Button, View, ImageBackground, TouchableOpacity, Text, Dimensions, KeyboardAvoidingView, TextInput, ActivityIndicator } from "react-native";
+import { connect } from "react-redux";
+import { Styles, Config, Colors, FormValidate } from "../../common";
+import { Ionicons, AntDesign, EvilIcons, Entypo, FontAwesome5 } from "react-native-vector-icons";
+import { Image, Header, CheckBox } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
 import { color } from "react-native-elements/dist/helpers";
 
 function TopRatedSubmitScreen(props) {
+    const [sum, setSum] = useState(0);
+    const [cart, setCart] = useState([]);
+
+    useEffect(() => {
+        let sip = 0;
+        for (var item in cart) {
+            sip = sip + Number(cart[item].amount);
+        }
+        setSum(sip);
+    }, [cart]);
+
+    useEffect(() => {
+        setCart(props.navigation.state.params.cart);
+    }, [props.navigation.state.params.cart]);
 
     return (
-
-
         <View style={styles.container}>
-
             <Header
-                leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={40} color={Colors.RED} /></TouchableOpacity>}
+                leftComponent={
+                    <TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}>
+                        <AntDesign name={"arrowleft"} size={40} color={Colors.RED} />
+                    </TouchableOpacity>
+                }
                 containerStyle={styles.header}
                 backgroundColor={Colors.LIGHT_WHITE}
-                centerComponent={<Image
-                    source={require('../../../assets/icon.png')}
-                    style={styles.logimg}
-                />}
-                rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={Colors.RED} /></View>}
+                centerComponent={<Image source={require("../../../assets/icon.png")} style={styles.logimg} />}
+                rightComponent={
+                    <View style={{ marginTop: 20, marginRight: 10 }}>
+                        <AntDesign name={"shoppingcart"} size={40} color={Colors.RED} />
+                    </View>
+                }
             />
 
             <ScrollView>
                 <View style={styles.education}>
                     <View style={styles.child_sec}>
-                        <Image
-                            source={require('../../../assets/term7.png')}
-                            style={styles.goals_2}
-                        />
+                        <Image source={require("../../../assets/term7.png")} style={styles.goals_2} />
                     </View>
                     <View style={styles.education_sec}>
                         <Text style={styles.child}>Summary</Text>
                         <Text style={styles.child_text}>Top Rated Funds</Text>
-                        
                     </View>
-
-
                 </View>
 
                 <Text style={styles.mygoal}>My Investment</Text>
 
                 <View style={styles.fund_sec}>
                     <Text style={styles.fund_secleft}>Fund List</Text>
-                    <Text style={styles.fund_secright}>16,000</Text>
+                    <Text style={styles.fund_secright}>₹ {sum}</Text>
                 </View>
-
-                {/* Axis Asset Management Company Ltd */}
-
-                <View style={styles.sbi_sec}>
-                    <Image
-                        source={require('../../../assets/axis_img.png')}
-                        style={styles.Hybrid}
-                    />
-                    <Text style={styles.sbi_text}>SBI Equity Hybrid Fund</Text>
-                    <Text style={styles.price}>5,000</Text>
-                </View>
-
-                <View style={styles.sbi_sec}>
-                    <Image
-                        source={require('../../../assets/axis_img.png')}
-                        style={styles.Hybrid}
-                    />
-                    <Text style={styles.sbi_text}>Axis Asset Management Company Ltd</Text>
-                    <Text style={styles.price}>4,000</Text>
-                </View>
-
-                <View style={styles.sbi_sec}>
-                    <Image
-                        source={require('../../../assets/MultiCap_img.png')}
-                        style={styles.Hybrid}
-                    />
-                    <Text style={styles.sbi_text}>Kotak Standard Multicap Fund</Text>
-                    <Text style={styles.price}>3,000</Text>
-                </View>
-
-                <View style={styles.sbi_sec}>
-                    <Image
-                        source={require('../../../assets/MidCap_img.png')}
-                        style={styles.Hybrid}
-                    />
-                    <Text style={styles.sbi_text}>BNP Paribas Mid Cap Fund</Text>
-                    <Text style={styles.price}>4,000</Text>
-                </View>
-               
+                {cart.map((item) => (
+                    <View style={styles.sbi_sec}>
+                        <Image source={{ uri: item?.image_path }} style={styles.Hybrid} />
+                        <Text style={styles.sbi_text}>{item?.product_name}</Text>
+                        <Text style={styles.price}>₹ {item?.amount}</Text>
+                    </View>
+                ))}
             </ScrollView>
 
-            <TouchableOpacity onPress={() => props.navigation.navigate('Upi')} style={styles.botton_box}>
-                    <Text style={styles.get_otp}>MAKE PAYMENT</Text>
-
+            <TouchableOpacity onPress={() => props.navigation.navigate("Upi")} style={styles.botton_box}>
+                <Text style={styles.get_otp}>MAKE PAYMENT</Text>
             </TouchableOpacity>
         </View>
-
-
     );
 }
-
-
-
-
-
-
-
-
-
 
 const styles = StyleSheet.create({
     container: {
@@ -134,24 +89,20 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
     },
 
-
     education: {
         flexDirection: "row",
         marginHorizontal: 20,
         padding: 20,
-
     },
-    child_sec:{ width: '30%',},
+    child_sec: { width: "30%" },
     education_sec: {
-        width: '70%',
-        marginLeft:30,
-        paddingTop:15,
-
+        width: "70%",
+        marginLeft: 30,
+        paddingTop: 15,
     },
     goals_2: {
         height: 102,
         width: 105,
-
     },
     child: {
         fontSize: 18,
@@ -181,8 +132,7 @@ const styles = StyleSheet.create({
         marginTop: 5,
         color: Colors.DEEP_GRAY,
     },
-    sbi_sec:
-    {
+    sbi_sec: {
         flexDirection: "row",
         marginHorizontal: 20,
         borderBottomWidth: 1,
@@ -193,19 +143,19 @@ const styles = StyleSheet.create({
     Hybrid: {
         width: 32,
         height: 36,
-
     },
     sbi_text: {
         marginLeft: 10,
         paddingTop: 10,
         fontSize: 15,
+        maxWidth: "70%",
     },
     price: {
         position: "absolute",
         right: 0,
         paddingTop: 10,
         fontSize: 15,
-        fontWeight:"bold",
+        fontWeight: "bold",
     },
     fund_sec: {
         flexDirection: "row",
@@ -232,11 +182,11 @@ const styles = StyleSheet.create({
         marginHorizontal: 20,
         color: Colors.RED,
         marginBottom: 20,
-        paddingTop:60,
+        paddingTop: 60,
     },
     my_goal: {
         color: Colors.DEEP_GRAY,
-        fontWeight: "normal"
+        fontWeight: "normal",
     },
     add: {
         marginVertical: 20,
@@ -245,10 +195,9 @@ const styles = StyleSheet.create({
         fontSize: 18,
     },
     botton_box: {
-
         backgroundColor: Colors.RED,
         marginHorizontal: 30,
-       marginBottom:10,
+        marginBottom: 10,
         borderWidth: 1,
         borderRadius: 10,
         borderColor: Colors.DEEP_GRAY,
@@ -257,9 +206,8 @@ const styles = StyleSheet.create({
     get_otp: {
         color: Colors.WHITE,
         fontSize: 20,
-        fontWeight: 'bold',
+        fontWeight: "bold",
         textAlign: "center",
-
     },
     childbottom: {
         flexDirection: "row",
@@ -274,20 +222,21 @@ const styles = StyleSheet.create({
         fontSize: 15,
         paddingLeft: 10,
     },
-
 });
 const mapStateToProps = (state) => ({
     token: state.auth.token,
     users: state.auth.users,
-})
+});
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     const { dispatch } = dispatchProps;
-    const { AuthActions } = require('../../store/AuthRedux')
+    const { AuthActions } = require("../../store/AuthRedux");
     return {
         ...stateProps,
         ...ownProps,
-        logOut: () => { AuthActions.logOut(dispatch) },
-    }
-}
-export default connect(mapStateToProps, undefined, mapDispatchToProps)(TopRatedSubmitScreen)
+        logOut: () => {
+            AuthActions.logOut(dispatch);
+        },
+    };
+};
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(TopRatedSubmitScreen);

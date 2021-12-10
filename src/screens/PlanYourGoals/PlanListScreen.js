@@ -45,12 +45,12 @@ function PlanListScreen(props) {
                             width="117"
                             height="117"
                             svg={true}
-                            url={goalDetail.goalImagePath}
+                            url={goalDetail?.goalImagePath}
                         />
                     </View>
                     <View style={styles.education_sec}>
-                        <Text style={styles.child}>{goalDetail.goal}</Text>
-                        <Text style={styles.child_text}>{goalDetail.goalDescription}</Text>
+                        <Text style={styles.child}>{goalDetail?.goal}</Text>
+                        <Text style={styles.child_text}>{goalDetail?.goalDescription}</Text>
                     </View>
                 </View>
 
