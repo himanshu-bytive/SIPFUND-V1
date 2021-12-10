@@ -9,6 +9,14 @@ const types = {
     "FETCH_FET_TRANSACTION_DETAILS_SUCCESS",
   FETCH_FET_TRANSACTION_DETAILS_FAILURE:
     "FETCH_FET_TRANSACTION_DETAILS_FAILURE",
+
+  FETCH_SCHEME_DETAILS_PENDING: "FETCH_SCHEME_DETAILS_PENDING",
+  FETCH_SCHEME_DETAILS_FAILURE: "FETCH_SCHEME_DETAILS_FAILURE",
+  FETCH_SCHEME_DETAILS_SUCCES: "FETCH_SCHEME_DETAILS_SUCCES",
+
+  FETCH_AMC_CODE_SUCCES: "FETCH_AMC_CODE_SUCCES",
+
+  SET_SELECTED_AMC_SCHEME: "SET_SELECTED_AMC_SCHEME",
 };
 
 export const SwitchActions = {
@@ -45,6 +53,34 @@ export const SwitchActions = {
       });
     }
   },
+  getSchemeList: async (dispatch, params, token) => {
+    dispatch({ type: types.FETCH_SCHEME_DETAILS_PENDING });
+    let data = await SiteAPI.apiGetCall(
+      `/apiData/Product?AMCCODE=${params}`,
+      {},
+      token
+    );
+    if (data.error) {
+      Alert.alert(data.message);
+      dispatch({
+        type: types.FETCH_SCHEME_DETAILS_FAILURE,
+        error: data.message,
+      });
+    } else {
+      // console.log("schemeDetails=", data.Data.product_master);
+      dispatch({
+        type: types.FETCH_SCHEME_DETAILS_SUCCES,
+        schemeDetails: data.Data.product_master,
+      });
+    }
+  },
+  setAmcCode: (dispatch, params) => {
+    // dispatch({type:types.FETCH_AMC_CODE_PENDING})
+    dispatch({ type: types.FETCH_AMC_CODE_SUCCES, amcCode: params });
+  },
+  selectedAmcScheme: (dispatch, params) => {
+    dispatch({ type: types.SET_SELECTED_AMC_SCHEME, amcScheme: params });
+  },
 
   logout() {
     return { type: types.LOGOUT };
@@ -62,6 +98,9 @@ const initialState = {
   externalSwitch: null,
   user: null,
   token: null,
+  schemeDetails: null,
+  amcCode: null,
+  amcScheme: null,
 };
 
 export const reducer = (state = initialState, action) => {
@@ -75,9 +114,13 @@ export const reducer = (state = initialState, action) => {
     token,
     switchRes,
     externalSwitch,
+    schemeDetails,
+    amcCode,
+    amcScheme,
   } = action;
   switch (type) {
-    case types.FETCH_FET_TRANSACTION_DETAILS_PENDING: {
+    case types.FETCH_FET_TRANSACTION_DETAILS_PENDING:
+    case types.FETCH_SCHEME_DETAILS_PENDING: {
       return {
         ...state,
         isFetching: true,
@@ -85,7 +128,8 @@ export const reducer = (state = initialState, action) => {
       };
     }
 
-    case types.FETCH_FET_TRANSACTION_DETAILS_FAILURE: {
+    case types.FETCH_FET_TRANSACTION_DETAILS_FAILURE:
+    case types.FETCH_SCHEME_DETAILS_FAILURE: {
       return {
         ...state,
         isFetching: false,
@@ -100,6 +144,29 @@ export const reducer = (state = initialState, action) => {
         error: null,
         switchRes,
         externalSwitch,
+      };
+    }
+
+    case types.FETCH_SCHEME_DETAILS_SUCCES: {
+      return {
+        ...state,
+        isFetching: false,
+        error: null,
+        schemeDetails,
+      };
+    }
+
+    case types.FETCH_AMC_CODE_SUCCES: {
+      return {
+        ...state,
+        amcCode,
+      };
+    }
+
+    case types.SET_SELECTED_AMC_SCHEME: {
+      return {
+        ...state,
+        amcScheme,
       };
     }
 
