@@ -17,7 +17,6 @@ import { connect } from "react-redux";
 import { Styles, Config, Colors, FormValidate } from "../../common";
 import { Entypo, AntDesign } from "react-native-vector-icons";
 import { Header, Overlay, CheckBox } from "react-native-elements";
-import RNPickerSelect from "react-native-picker-select";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
@@ -49,27 +48,28 @@ const mutualfund = [
   },
 ];
 
-function SwitchScreen(props) {
+function RedeemScreen(props) {
   const {
     token,
     fetchTransactionDetails,
     panNumber,
     isInn,
     user,
-    switchRes,
-    externalSwitch,
-    getSchemeList,
-    schemeDetails,
-    setAmcCode,
-    amcScheme,
+    redemptionRes,
+    externalRedemption,
   } = props;
-  const [selectTab, setSelectTab] = useState("SWITCH");
-
-  const [schemeindex, setSchemeIndex] = useState(null);
-  // const [externalIndex, setExternalIndex] = useState(null);
+  const [selectTab, setSelectTab] = useState("REDEMPTION");
   const toggleTab = (value) => {
     setSelectTab(value);
   };
+  useEffect(() => {
+    // console.log("panNumber=", panNumber);
+    // console.log("token=", token);
+    // console.log("isInn=", isInn);
+    // console.log("user=", user);
+    console.log("switch=", redemptionRes);
+    console.log("externalSwitch=", externalRedemption);
+  }, [panNumber, isInn, user, redemptionRes, redemptionRes]);
 
   useEffect(() => {
     if (user !== null) {
@@ -81,22 +81,6 @@ function SwitchScreen(props) {
       fetchTransactionDetails(params, token);
     }
   }, [user]);
-
-  const selectScheme = (params, index) => {
-    console.log("Index=", index);
-    setAmcCode(params);
-    setSchemeIndex(index);
-    getSchemeList(params, token);
-    props.navigation.navigate("SchemeList");
-  };
-
-  // const externalScheme = (params, index) => {
-  //   console.log("Index=", index);
-  //   setAmcCode(params);
-  //   setExternalIndex(index);
-  //   getSchemeList(params, token);
-  //   props.navigation.navigate("SchemeList");
-  // };
 
   return (
     <View style={styles.container}>
@@ -128,16 +112,18 @@ function SwitchScreen(props) {
       />
       <ScrollView style={styles.containerScroll}>
         <View style={styles.switch_sec}>
-          <Text style={styles.transaction}>Switch</Text>
+          <Text style={styles.transaction}>Redeem</Text>
           <View style={styles.tab_sec}>
             <TouchableOpacity
-              onPress={() => toggleTab("SWITCH")}
-              style={selectTab == "SWITCH" ? styles.tab1 : styles.tab2}
+              onPress={() => toggleTab("REDEMPTION")}
+              style={selectTab == "REDEMPTION" ? styles.tab1 : styles.tab2}
             >
               <Text
-                style={selectTab == "SWITCH" ? styles.switch : styles.switchAct}
+                style={
+                  selectTab == "REDEMPTION" ? styles.switch : styles.switchAct
+                }
               >
-                SWITCH
+                REDEEM
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -149,7 +135,7 @@ function SwitchScreen(props) {
                   selectTab == "EXTERNAL" ? styles.switch : styles.switchAct
                 }
               >
-                EXTERNAL SWITCH
+                EXTERNAL REDEEM
               </Text>
             </TouchableOpacity>
           </View>
@@ -157,9 +143,9 @@ function SwitchScreen(props) {
 
         {/* Axis Mutual Fund_sec... */}
 
-        {selectTab === "SWITCH" &&
-          switchRes !== null &&
-          switchRes.map((item, index) => (
+        {selectTab === "REDEMPTION" &&
+          redemptionRes !== null &&
+          redemptionRes.map((item) => (
             <View style={styles.fund_sec}>
               <View style={styles.axis_sec}>
                 <Text style={styles.axis}>
@@ -189,23 +175,10 @@ function SwitchScreen(props) {
                   </View>
                 </View>
                 <Text style={styles.folio}>Switch To</Text>
-
-                <TouchableOpacity
-                  onPress={() =>
-                    selectScheme(item.amc_code, `${index}${item.scheme}`)
-                  }
-                >
-                  <View style={styles.scheme_sec}>
-                    <Text style={styles.select}>
-                      {schemeindex !== null &&
-                      schemeindex === `${index}${item.scheme}` &&
-                      amcScheme !== null
-                        ? amcScheme
-                        : "Select Scheme"}
-                    </Text>
-                    <AntDesign name="right" size={15} />
-                  </View>
-                </TouchableOpacity>
+                <View style={styles.scheme_sec}>
+                  <Text style={styles.select}>Select Scheme</Text>
+                  <AntDesign name="right" size={15} />
+                </View>
                 <View style={styles.units_sec}>
                   <CheckBox
                     containerStyle={{
@@ -241,8 +214,8 @@ function SwitchScreen(props) {
             </View>
           ))}
         {selectTab === "EXTERNAL" &&
-          externalSwitch !== null &&
-          externalSwitch.map((item, index) => (
+          externalRedemption !== null &&
+          externalRedemption.map((item) => (
             <View style={styles.fund_sec}>
               <View style={styles.axis_sec}>
                 <Text style={styles.axis}>
@@ -272,22 +245,10 @@ function SwitchScreen(props) {
                   </View>
                 </View>
                 <Text style={styles.folio}>Switch To</Text>
-                <TouchableOpacity
-                  onPress={() =>
-                    selectScheme(item.amc_code, `${index}${item.scheme}`)
-                  }
-                >
-                  <View style={styles.scheme_sec}>
-                    <Text style={styles.select}>
-                      {schemeindex !== null &&
-                      schemeindex === `${index}${item.scheme}` &&
-                      amcScheme !== null
-                        ? amcScheme
-                        : "Select Scheme"}
-                    </Text>
-                    <AntDesign name="right" size={15} />
-                  </View>
-                </TouchableOpacity>
+                <View style={styles.scheme_sec}>
+                  <Text style={styles.select}>Select Scheme</Text>
+                  <AntDesign name="right" size={15} />
+                </View>
                 <View style={styles.units_sec}>
                   <CheckBox
                     containerStyle={{
@@ -399,16 +360,10 @@ const styles = StyleSheet.create({
   },
   value_sec: {
     width: "90%",
-    display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
     marginVertical: 20,
   },
-  // folio_sec: {
-  //   width: "34%",
-  //   fontSize: 15,
-  //   color: Colors.DEEP_GRAY,
-  // },
   folio: {
     fontSize: 15,
     color: Colors.DEEP_GRAY,
@@ -474,10 +429,8 @@ const mapStateToProps = (state) => ({
   panNumber: state.auth.panNumber,
   isInn: state.registration.isInn,
   user: state.auth.user,
-  switchRes: state.switch.switchRes,
-  externalSwitch: state.switch.externalSwitch,
-  schemeDetails: state.switch.schemeDetails,
-  amcScheme: state.switch.amcScheme,
+  redemptionRes: state.switch.switchRes,
+  externalRedemption: state.switch.externalSwitch,
 });
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
@@ -493,16 +446,10 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     fetchTransactionDetails: (params, token) => {
       SwitchActions.fetchTransactionDetails(dispatch, params, token);
     },
-    getSchemeList: (params, token) => {
-      SwitchActions.getSchemeList(dispatch, params, token);
-    },
-    setAmcCode: (params) => {
-      SwitchActions.setAmcCode(dispatch, params);
-    },
   };
 };
 export default connect(
   mapStateToProps,
   undefined,
   mapDispatchToProps
-)(SwitchScreen);
+)(RedeemScreen);
