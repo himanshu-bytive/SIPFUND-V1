@@ -12,11 +12,14 @@ import {
   TextInput,
   ActivityIndicator,
   ScrollView,
+  Alert,
 } from "react-native";
 import { connect } from "react-redux";
 import { Styles, Config, Colors, FormValidate } from "../../common";
 import { Entypo, AntDesign } from "react-native-vector-icons";
-import { Header, Overlay, CheckBox } from "react-native-elements";
+import { Header, Overlay, CheckBox, colors } from "react-native-elements";
+import RNPickerSelect from "react-native-picker-select";
+import RedeemItem from "./RedeemItem";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
@@ -55,32 +58,67 @@ function RedeemScreen(props) {
     panNumber,
     isInn,
     user,
-    redemptionRes,
-    externalRedemption,
+    switchRes,
+    externalSwitch,
+    setRedeemCheckoutDetails,
+    setRedeemExternalCheckoutDetails,
   } = props;
-  const [selectTab, setSelectTab] = useState("REDEMPTION");
+  const [selectTab, setSelectTab] = useState("REDEEM");
+  const [addedScheme, setAddedScheme] = useState([]);
+  const [keys, setKeys] = useState([]);
+
   const toggleTab = (value) => {
     setSelectTab(value);
   };
-  useEffect(() => {
-    // console.log("panNumber=", panNumber);
-    // console.log("token=", token);
-    // console.log("isInn=", isInn);
-    // console.log("user=", user);
-    console.log("switch=", redemptionRes);
-    console.log("externalSwitch=", externalRedemption);
-  }, [panNumber, isInn, user, redemptionRes, redemptionRes]);
 
   useEffect(() => {
     if (user !== null) {
       let params = {
         pan: user.pan,
-        // pan: "AUZPS9522L",
       };
       console.log("params=", params);
       fetchTransactionDetails(params, token);
     }
   }, [user]);
+
+  // useEffect(() => {
+  //   console.log("Added Scheme=", addedScheme);
+  //   console.log("typeOf=", typeof addedScheme);
+  // }, [addedScheme]);
+
+  const setAddedSchemeFun = (key, newElement) => {
+    if (keys.indexOf(key) === -1) {
+      setKeys((prevState) => [...prevState, key]);
+      setAddedScheme((prevState) => [...prevState, newElement]);
+    } else {
+      let keyIndex = keys.indexOf(key);
+      setAddedScheme((prevState) => prevState[keyIndex] === newElement);
+    }
+  };
+
+  const remove = (key) => {
+    let filteredArray = addedScheme.filter((item) => item.key !== key);
+    setAddedScheme(filteredArray);
+    let filteredKeys = keys.filter((item) => item !== key);
+    setKeys(filteredKeys);
+  };
+
+  const RedeemCheckout = () => {
+    console.log("RedeemCheckOut");
+    let filteredArray = addedScheme.filter((item) => item.type === "REDEEM");
+    if (filteredArray.length >= 1) {
+      setRedeemCheckoutDetails(filteredArray);
+      props.navigation.navigate("RedeemCheckout");
+    }
+  };
+  const RedeemExternalCheckout = () => {
+    console.log("ExternalCheckOut");
+    let filteredArray = addedScheme.filter((item) => item.type === "EXTERNAL");
+    if (filteredArray.length >= 1) {
+      setRedeemExternalCheckoutDetails(filteredArray);
+      props.navigation.navigate("RedeemCheckout");
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -115,13 +153,11 @@ function RedeemScreen(props) {
           <Text style={styles.transaction}>Redeem</Text>
           <View style={styles.tab_sec}>
             <TouchableOpacity
-              onPress={() => toggleTab("REDEMPTION")}
-              style={selectTab == "REDEMPTION" ? styles.tab1 : styles.tab2}
+              onPress={() => toggleTab("REDEEM")}
+              style={selectTab == "REDEEM" ? styles.tab1 : styles.tab2}
             >
               <Text
-                style={
-                  selectTab == "REDEMPTION" ? styles.switch : styles.switchAct
-                }
+                style={selectTab == "REDEEM" ? styles.switch : styles.switchAct}
               >
                 REDEEM
               </Text>
@@ -143,148 +179,37 @@ function RedeemScreen(props) {
 
         {/* Axis Mutual Fund_sec... */}
 
-        {selectTab === "REDEMPTION" &&
-          redemptionRes !== null &&
-          redemptionRes.map((item) => (
-            <View style={styles.fund_sec}>
-              <View style={styles.axis_sec}>
-                <Text style={styles.axis}>
-                  {item.nseSchemeDetails.productAmcName}
-                </Text>
-              </View>
-              <View style={styles.growth_sec}>
-                <Text style={styles.axis_treasury}>{item.scheme}</Text>
-                <View style={styles.value_sec}>
-                  <View style={styles.folio_sec}>
-                    <Text style={styles.folio}>Folio</Text>
-                    <Text style={styles.folio}>{item.folio_no}</Text>
-                  </View>
-
-                  <View style={styles.folio_sec}>
-                    <Text style={styles.folio}>Units</Text>
-                    <Text style={styles.folio}>
-                      {parseFloat(item.units).toFixed(3)}
-                    </Text>
-                  </View>
-
-                  <View style={styles.folio_sec}>
-                    <Text style={styles.folio}>value</Text>
-                    <Text style={styles.folio}>
-                      {parseFloat(item.currentValue).toFixed(3)}
-                    </Text>
-                  </View>
-                </View>
-                <Text style={styles.folio}>Switch To</Text>
-                <View style={styles.scheme_sec}>
-                  <Text style={styles.select}>Select Scheme</Text>
-                  <AntDesign name="right" size={15} />
-                </View>
-                <View style={styles.units_sec}>
-                  <CheckBox
-                    containerStyle={{
-                      backgroundColor: Colors.TRANSPARENT,
-                      borderColor: Colors.TRANSPARENT,
-                    }}
-                    checkedColor={Colors.RED}
-                    checked={true}
-                    title="Amount"
-                    checkedIcon="dot-circle-o"
-                    uncheckedIcon="circle-o"
-                  />
-                  <CheckBox
-                    containerStyle={{
-                      backgroundColor: Colors.TRANSPARENT,
-                      borderColor: Colors.TRANSPARENT,
-                    }}
-                    title="All Units"
-                    checkedIcon="dot-circle-o"
-                    uncheckedIcon="circle-o"
-                  />
-                </View>
-                <View style={styles.input_box}>
-                  <TextInput
-                    style={styles.inputsec}
-                    placeholder="Enter Amount"
-                  />
-                  <TouchableOpacity style={styles.botton_box}>
-                    <Text style={styles.get_otp}>ADD</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-            </View>
+        {selectTab === "REDEEM" &&
+          switchRes !== null &&
+          switchRes.map((item, index) => (
+            <RedeemItem
+              item={item}
+              index={index}
+              keys={keys}
+              setAddedScheme={setAddedSchemeFun}
+              remove={remove}
+              type="REDEEM"
+            />
           ))}
         {selectTab === "EXTERNAL" &&
-          externalRedemption !== null &&
-          externalRedemption.map((item) => (
-            <View style={styles.fund_sec}>
-              <View style={styles.axis_sec}>
-                <Text style={styles.axis}>
-                  {item.nseSchemeDetails.productAmcName}
-                </Text>
-              </View>
-              <View style={styles.growth_sec}>
-                <Text style={styles.axis_treasury}>{item.scheme}</Text>
-                <View style={styles.value_sec}>
-                  <View style={styles.folio_sec}>
-                    <Text style={styles.folio}>Folio</Text>
-                    <Text style={styles.folio}>{item.folio_no}</Text>
-                  </View>
-
-                  <View style={styles.folio_sec}>
-                    <Text style={styles.folio}>Units</Text>
-                    <Text style={styles.folio}>
-                      {parseFloat(item.units).toFixed(3)}
-                    </Text>
-                  </View>
-
-                  <View style={styles.folio_sec}>
-                    <Text style={styles.folio}>value</Text>
-                    <Text style={styles.folio}>
-                      {parseFloat(item.currentValue).toFixed(3)}
-                    </Text>
-                  </View>
-                </View>
-                <Text style={styles.folio}>Switch To</Text>
-                <View style={styles.scheme_sec}>
-                  <Text style={styles.select}>Select Scheme</Text>
-                  <AntDesign name="right" size={15} />
-                </View>
-                <View style={styles.units_sec}>
-                  <CheckBox
-                    containerStyle={{
-                      backgroundColor: Colors.TRANSPARENT,
-                      borderColor: Colors.TRANSPARENT,
-                    }}
-                    checkedColor={Colors.RED}
-                    checked={true}
-                    title="Amount"
-                    checkedIcon="dot-circle-o"
-                    uncheckedIcon="circle-o"
-                  />
-                  <CheckBox
-                    containerStyle={{
-                      backgroundColor: Colors.TRANSPARENT,
-                      borderColor: Colors.TRANSPARENT,
-                    }}
-                    title="All Units"
-                    checkedIcon="dot-circle-o"
-                    uncheckedIcon="circle-o"
-                  />
-                </View>
-                <View style={styles.input_box}>
-                  <TextInput
-                    style={styles.inputsec}
-                    placeholder="Enter Amount"
-                  />
-                  <TouchableOpacity style={styles.botton_box}>
-                    <Text style={styles.get_otp}>ADD</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-            </View>
+          externalSwitch !== null &&
+          externalSwitch.map((item, index) => (
+            <RedeemItem
+              item={item}
+              index={index}
+              keys={keys}
+              setAddedScheme={setAddedSchemeFun}
+              remove={remove}
+              type="EXTERNAL"
+            />
           ))}
       </ScrollView>
-      <TouchableOpacity style={styles.botton_box2}>
+      <TouchableOpacity
+        onPress={() =>
+          selectTab === "REDEEM" ? RedeemCheckout() : RedeemExternalCheckout()
+        }
+        style={styles.botton_box2}
+      >
         <Text style={styles.proceed}>PROCEED</Text>
       </TouchableOpacity>
     </View>
@@ -360,6 +285,7 @@ const styles = StyleSheet.create({
   },
   value_sec: {
     width: "90%",
+    display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
     marginVertical: 20,
@@ -410,6 +336,17 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
   },
+  disabledBox: {
+    width: "30%",
+    backgroundColor: Colors.LIGHT_RED1,
+    paddingVertical: 10,
+  },
+  disabled: {
+    color: Colors.GRAY_LIGHT,
+    fontSize: 16,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
   botton_box2: {
     backgroundColor: Colors.RED,
     paddingVertical: 10,
@@ -429,8 +366,15 @@ const mapStateToProps = (state) => ({
   panNumber: state.auth.panNumber,
   isInn: state.registration.isInn,
   user: state.auth.user,
-  redemptionRes: state.switch.switchRes,
-  externalRedemption: state.switch.externalSwitch,
+  switchRes: state.switch.switchRes,
+  externalSwitch: state.switch.externalSwitch,
+  schemeDetails: state.switch.schemeDetails,
+  amcScheme: state.switch.amcScheme,
+  targetCode: state.switch.targetCode,
+  targetReinvest: state.switch.targetReinvest,
+  userDetails: state.registration.userDetails,
+  nseDetails: state.registration.nseDetails,
+  fatcaDetails: state.registration.fatcaDetails,
 });
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
@@ -445,6 +389,12 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     },
     fetchTransactionDetails: (params, token) => {
       SwitchActions.fetchTransactionDetails(dispatch, params, token);
+    },
+    setRedeemCheckoutDetails: (params) => {
+      SwitchActions.setRedeemCheckoutDetails(dispatch, params);
+    },
+    setRedeemExternalCheckoutDetails: (params) => {
+      SwitchActions.setRedeemExternalCheckoutDetails(dispatch, params);
     },
   };
 };

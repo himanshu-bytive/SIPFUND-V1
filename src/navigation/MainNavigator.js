@@ -62,6 +62,7 @@ import { SideMenu } from "../components";
 import RedeemScreen from "../screens/HamburgerMenu/RedeemScreen";
 import SchemeList from "../screens/HamburgerMenu/SchemeList";
 import SwitchCheckout from "../screens/HamburgerMenu/SwitchCheckout";
+import RedeemCheckout from "../screens/HamburgerMenu/RedeemCheckout";
 
 export const LoginFlowStack = createStackNavigator(
   {
@@ -135,6 +136,12 @@ export const Hamburgmenu = createStackNavigator(
     },
     SwitchCheckout: {
       screen: SwitchCheckout,
+      navigationOptions: {
+        headerShown: false,
+      },
+    },
+    RedeemCheckout: {
+      screen: RedeemCheckout,
       navigationOptions: {
         headerShown: false,
       },

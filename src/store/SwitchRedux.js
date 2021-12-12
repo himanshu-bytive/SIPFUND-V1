@@ -21,6 +21,10 @@ const types = {
   SWITCH_CHECKOUT_DETAILS: "SWITCH_CHECKOUT_DETAILS",
 
   SWITCH_EXTERNAL_CHECKOUT_DETAILS: "SWITCH_EXTERNAL_CHECKOUT_DETAILS",
+
+  REDEEM_CHECKOUT_DETAILS: "REDEEM_CHECKOUT_DETAILS",
+
+  REDEEM_EXTERNAL_CHECKOUT_DETAILS: "REDEEM_EXTERNAL_CHECKOUT_DETAILS",
 };
 
 export const SwitchActions = {
@@ -89,6 +93,20 @@ export const SwitchActions = {
       switchActive: "EXTERNAL",
     });
   },
+  setRedeemCheckoutDetails: (dispatch, params) => {
+    dispatch({
+      type: types.REDEEM_CHECKOUT_DETAILS,
+      redeemCheckoutDetails: params,
+      redeemActive: "REDEEM",
+    });
+  },
+  setRedeemExternalCheckoutDetails: (dispatch, params) => {
+    dispatch({
+      type: types.REDEEM_EXTERNAL_CHECKOUT_DETAILS,
+      redeemExternalCheckoutDetails: params,
+      redeemActive: "EXTERNAL",
+    });
+  },
 
   logout() {
     return { type: types.LOGOUT };
@@ -114,6 +132,9 @@ const initialState = {
   switchCheckoutDetails: null,
   switchExternalCheckoutDetails: null,
   switchActive: null,
+  redeemCheckoutDetails: null,
+  redeemExternalCheckoutDetails: null,
+  redeemActive: null,
 };
 
 export const reducer = (state = initialState, action) => {
@@ -135,6 +156,9 @@ export const reducer = (state = initialState, action) => {
     switchActive,
     targetCode,
     targetReinvest,
+    redeemCheckoutDetails,
+    redeemExternalCheckoutDetails,
+    redeemActive,
   } = action;
   switch (type) {
     case types.FETCH_FET_TRANSACTION_DETAILS_PENDING:
@@ -203,6 +227,22 @@ export const reducer = (state = initialState, action) => {
         ...state,
         switchExternalCheckoutDetails,
         switchActive,
+      };
+    }
+
+    case types.REDEEM_CHECKOUT_DETAILS: {
+      return {
+        ...state,
+        redeemCheckoutDetails,
+        redeemActive,
+      };
+    }
+
+    case types.REDEEM_EXTERNAL_CHECKOUT_DETAILS: {
+      return {
+        ...state,
+        redeemExternalCheckoutDetails,
+        redeemActive,
       };
     }
 
