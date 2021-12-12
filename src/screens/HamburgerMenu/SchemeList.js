@@ -42,8 +42,13 @@ function SchemeList(props) {
     setSearch("");
   };
 
-  const selectedScheme = (itemName) => {
-    selectedAmcScheme(itemName);
+  const selectedScheme = (itemName, targetCode, targetReinvest) => {
+    let params = {
+      amcScheme: itemName,
+      targetCode: targetCode,
+      targetReinvest: targetReinvest,
+    };
+    selectedAmcScheme(params);
     props.navigation.navigate("Switch");
   };
 
@@ -85,7 +90,13 @@ function SchemeList(props) {
           filteredSchemes.map((item) => {
             return (
               <TouchableOpacity
-                onPress={() => selectedScheme(item.PRODUCT_LONG_NAME)}
+                onPress={() =>
+                  selectedScheme(
+                    item.PRODUCT_LONG_NAME,
+                    item.PRODUCT_CODE,
+                    item.REINVEST_TAG
+                  )
+                }
               >
                 <Text style={styles.fund_sec}>{item.PRODUCT_LONG_NAME}</Text>
               </TouchableOpacity>

@@ -17,20 +17,13 @@ const types = {
   FETCH_AMC_CODE_SUCCES: "FETCH_AMC_CODE_SUCCES",
 
   SET_SELECTED_AMC_SCHEME: "SET_SELECTED_AMC_SCHEME",
+
+  SWITCH_CHECKOUT_DETAILS: "SWITCH_CHECKOUT_DETAILS",
+
+  SWITCH_EXTERNAL_CHECKOUT_DETAILS: "SWITCH_EXTERNAL_CHECKOUT_DETAILS",
 };
 
 export const SwitchActions = {
-  // fetchTransactionDetails: async (dispatch, params) => {
-  //     dispatch({ type: types.FETCH_FET_TRANSACTION_DETAILS_PENDING });
-  //     let auth = await SiteAPI.apiPostCall('/operationData', params);
-  //     if (auth.error) {
-  //         Alert.alert(auth.message)
-  //         dispatch({ type: types.FETCH_FET_TRANSACTION_DETAILS_FAILURE, error: auth.message });
-  //     } else {
-  //         Alert.alert(auth.responseString)
-  //         dispatch({ type: types.FETCH_FET_TRANSACTION_DETAILS_SUCCESS, phone: params.mobileNo, signUpSteps: auth.signUpSteps, validFlag: auth.validFlag });
-  //     }
-  // },
   fetchTransactionDetails: async (dispatch, params, token) => {
     dispatch({ type: types.FETCH_FET_TRANSACTION_DETAILS_PENDING });
     let data = await SiteAPI.apiPostCall("/operationData", params, token);
@@ -41,10 +34,6 @@ export const SwitchActions = {
         error: data.message,
       });
     } else {
-      //   Alert.alert(data.responseString);
-      //   console.log("token=", token);
-      //   console.log("params=", params);
-      //   console.log("data=", data);
       dispatch({
         type: types.FETCH_FET_TRANSACTION_DETAILS_SUCCESS,
         switchRes: data.responseString,
@@ -79,7 +68,26 @@ export const SwitchActions = {
     dispatch({ type: types.FETCH_AMC_CODE_SUCCES, amcCode: params });
   },
   selectedAmcScheme: (dispatch, params) => {
-    dispatch({ type: types.SET_SELECTED_AMC_SCHEME, amcScheme: params });
+    dispatch({
+      type: types.SET_SELECTED_AMC_SCHEME,
+      amcScheme: params.amcScheme,
+      targetCode: params.targetCode,
+      targetReinvest: params.targetReinvest,
+    });
+  },
+  setSwitchCheckoutDetails: (dispatch, params) => {
+    dispatch({
+      type: types.SWITCH_CHECKOUT_DETAILS,
+      switchCheckoutDetails: params,
+      switchActive: "SWITCH",
+    });
+  },
+  setSwitchExternalCheckoutDetails: (dispatch, params) => {
+    dispatch({
+      type: types.SWITCH_EXTERNAL_CHECKOUT_DETAILS,
+      switchExternalCheckoutDetails: params,
+      switchActive: "EXTERNAL",
+    });
   },
 
   logout() {
@@ -101,6 +109,11 @@ const initialState = {
   schemeDetails: null,
   amcCode: null,
   amcScheme: null,
+  targetCode: null,
+  targetReinvest: null,
+  switchCheckoutDetails: null,
+  switchExternalCheckoutDetails: null,
+  switchActive: null,
 };
 
 export const reducer = (state = initialState, action) => {
@@ -117,6 +130,11 @@ export const reducer = (state = initialState, action) => {
     schemeDetails,
     amcCode,
     amcScheme,
+    switchCheckoutDetails,
+    switchExternalCheckoutDetails,
+    switchActive,
+    targetCode,
+    targetReinvest,
   } = action;
   switch (type) {
     case types.FETCH_FET_TRANSACTION_DETAILS_PENDING:
@@ -167,6 +185,24 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         amcScheme,
+        targetCode,
+        targetReinvest,
+      };
+    }
+
+    case types.SWITCH_CHECKOUT_DETAILS: {
+      return {
+        ...state,
+        switchCheckoutDetails,
+        switchActive,
+      };
+    }
+
+    case types.SWITCH_EXTERNAL_CHECKOUT_DETAILS: {
+      return {
+        ...state,
+        switchExternalCheckoutDetails,
+        switchActive,
       };
     }
 
