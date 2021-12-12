@@ -87,7 +87,7 @@ function OwnerChoice(props) {
     const [selectTab, setSelectTab] = useState("SIP");
     const [states, setStates] = useState({
         amount: "5000",
-        date: 5,
+        date: "",
         productName: "",
         productCode: "",
         amcCode: "",
@@ -163,34 +163,12 @@ function OwnerChoice(props) {
     const sipFromDate = () => {
         const date = new Date();
 
-        let month = date.getMonth();
-        if (states.date < date) {
-            month = date.getMonth() + 1;
-        }
-        // console.log("month", month);
-        // let dt = new Date(date.getFullYear(), month);
-        // console.log("dt", dt);
-        // // month = new Intl.DateTimeFormat("en-US", { month: "short" }).format(dt);
-        // month = dt.toLocaleString("en-us", { month: "short" });
-        // console.log("month1", month);
-        month = monthsArr[month];
-
-        let sipDate = states.date + "-" + month + "-" + date.getFullYear();
-
-        return sipDate;
+        return date.getDate() + "-" + monthsArr[date.getMonth()] + "-" + date.getFullYear();
     };
     const sipEndDate = () => {
         const date = new Date();
-        let month = date.getMonth();
-        if (states.date < date) {
-            month = date.getMonth() + 1;
-        }
-        // let dt = new Date(date.getFullYear(), month);
-        // month = dt.toLocaleString("en-US", { month: "short" });
-        month = monthsArr[month];
-        let year = new Date(date.setFullYear(date.getFullYear() + 30)).getFullYear();
-        let sipDate = states.date + "-" + month + "-" + year;
-        return sipDate;
+
+        return date.getDate() + "-" + monthsArr[date.getMonth()] + "-" + (parseInt(date.getFullYear(), 10) + 30);
     };
     const toggleTab = (value) => {
         setSelectTab(value);
