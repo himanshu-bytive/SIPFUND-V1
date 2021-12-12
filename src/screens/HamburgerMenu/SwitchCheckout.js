@@ -123,12 +123,10 @@ function SwitchCheckout(props) {
               </View>
               <View style={styles.growth_sec}>
                 <Text style={styles.axis_treasury}>{item.fromScheme}</Text>
-                <Text style={styles.folio}>Switch To</Text>
-                <Text style={styles.axis_treasury}>{item.toScheme}</Text>
                 <View style={styles.value_sec}>
                   <View style={styles.folio_sec}>
                     <Text style={styles.folio}>Folio</Text>
-                    <Text style={styles.folio}>{item.folio_no}</Text>
+                    <Text style={styles.folio}>{item.folioNo}</Text>
                   </View>
 
                   <View style={styles.folio_sec}>

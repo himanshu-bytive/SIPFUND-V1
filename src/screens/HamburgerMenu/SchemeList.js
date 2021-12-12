@@ -19,8 +19,14 @@ import { Entypo, AntDesign } from "react-native-vector-icons";
 import { Header, Overlay, CheckBox, SearchBar } from "react-native-elements";
 
 function SchemeList(props) {
-  const { getSchemeList, amcCode, schemeDetails, token, selectedAmcScheme } =
-    props;
+  const {
+    getSchemeList,
+    amcCode,
+    schemeDetails,
+    token,
+    selectedAmcScheme,
+    schemeListKey,
+  } = props;
   const [search, setSearch] = useState("");
   const [showSearch, setShowSearch] = useState(false);
   const [filteredSchemes, setFilteredSchemes] = useState([]);
@@ -44,6 +50,7 @@ function SchemeList(props) {
 
   const selectedScheme = (itemName, targetCode, targetReinvest) => {
     let params = {
+      key: schemeListKey,
       amcScheme: itemName,
       targetCode: targetCode,
       targetReinvest: targetReinvest,
@@ -160,6 +167,7 @@ const mapStateToProps = (state) => ({
   token: state.auth.token,
   schemeDetails: state.switch.schemeDetails,
   amcCode: state.switch.amcCode,
+  schemeListKey: state.switch.schemeListKey,
 });
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {

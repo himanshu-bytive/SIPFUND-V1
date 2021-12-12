@@ -25,6 +25,8 @@ const types = {
   REDEEM_CHECKOUT_DETAILS: "REDEEM_CHECKOUT_DETAILS",
 
   REDEEM_EXTERNAL_CHECKOUT_DETAILS: "REDEEM_EXTERNAL_CHECKOUT_DETAILS",
+
+  SET_SCHEME_LIST_KEY: "SET_SCHEME_LIST_KEY",
 };
 
 export const SwitchActions = {
@@ -74,9 +76,10 @@ export const SwitchActions = {
   selectedAmcScheme: (dispatch, params) => {
     dispatch({
       type: types.SET_SELECTED_AMC_SCHEME,
-      amcScheme: params.amcScheme,
-      targetCode: params.targetCode,
-      targetReinvest: params.targetReinvest,
+      // amcScheme: params.amcScheme,
+      // targetCode: params.targetCode,
+      // targetReinvest: params.targetReinvest,
+      Scheme: params,
     });
   },
   setSwitchCheckoutDetails: (dispatch, params) => {
@@ -108,6 +111,13 @@ export const SwitchActions = {
     });
   },
 
+  setSchemeListKey: (dispatch, params) => {
+    dispatch({
+      type: types.SET_SCHEME_LIST_KEY,
+      schemeListKey: params,
+    });
+  },
+
   logout() {
     return { type: types.LOGOUT };
   },
@@ -126,15 +136,17 @@ const initialState = {
   token: null,
   schemeDetails: null,
   amcCode: null,
-  amcScheme: null,
-  targetCode: null,
-  targetReinvest: null,
+  // amcScheme: null,
+  // targetCode: null,
+  // targetReinvest: null,
   switchCheckoutDetails: null,
   switchExternalCheckoutDetails: null,
   switchActive: null,
   redeemCheckoutDetails: null,
   redeemExternalCheckoutDetails: null,
   redeemActive: null,
+  schemeListKey: null,
+  Scheme: null,
 };
 
 export const reducer = (state = initialState, action) => {
@@ -150,15 +162,17 @@ export const reducer = (state = initialState, action) => {
     externalSwitch,
     schemeDetails,
     amcCode,
-    amcScheme,
+    // amcScheme,
     switchCheckoutDetails,
     switchExternalCheckoutDetails,
     switchActive,
-    targetCode,
-    targetReinvest,
+    // targetCode,
+    // targetReinvest,
     redeemCheckoutDetails,
     redeemExternalCheckoutDetails,
     redeemActive,
+    schemeListKey,
+    Scheme,
   } = action;
   switch (type) {
     case types.FETCH_FET_TRANSACTION_DETAILS_PENDING:
@@ -208,9 +222,7 @@ export const reducer = (state = initialState, action) => {
     case types.SET_SELECTED_AMC_SCHEME: {
       return {
         ...state,
-        amcScheme,
-        targetCode,
-        targetReinvest,
+        Scheme,
       };
     }
 
@@ -243,6 +255,13 @@ export const reducer = (state = initialState, action) => {
         ...state,
         redeemExternalCheckoutDetails,
         redeemActive,
+      };
+    }
+
+    case types.SET_SCHEME_LIST_KEY: {
+      return {
+        ...state,
+        schemeListKey,
       };
     }
 

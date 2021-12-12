@@ -19,6 +19,7 @@ import { Styles, Config, Colors, FormValidate } from "../../common";
 import { Entypo, AntDesign } from "react-native-vector-icons";
 import { Header, Overlay, CheckBox, colors } from "react-native-elements";
 import RNPickerSelect from "react-native-picker-select";
+import SwitchItem from "./SwitchItem";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
@@ -117,29 +118,45 @@ function SwitchScreen(props) {
     console.log("typeOf=", typeof addedScheme);
   }, [addedScheme]);
 
-  const selectScheme = (params, index) => {
-    if (keys.indexOf(index) !== -1) {
-      remove(index);
+  const setAddedSchemeFun = (key, newElement) => {
+    if (keys.indexOf(key) === -1) {
+      setKeys((prevState) => [...prevState, key]);
+      setAddedScheme((prevState) => [...prevState, newElement]);
+    } else {
+      let keyIndex = keys.indexOf(key);
+      setAddedScheme((prevState) => prevState[keyIndex] === newElement);
     }
-    console.log("Index=", index);
-    setAmcCode(params);
-    setSchemeIndex(index);
-    getSchemeList(params, token);
-    props.navigation.navigate("SchemeList");
   };
 
-  const toggleRadio = (key, identifier) => {
-    console.log("key=", key);
-    console.log("Identifier=", identifier);
-    setToggle(key);
-    if (identifier === "AMOUNT") {
-      setAmount(true);
-      setAllUnits(false);
-    } else {
-      setAllUnits(true);
-      setAmount(false);
+  const navToSchemeList = (param) => {
+    if (param === true) {
+      props.navigation.navigate("SchemeList");
     }
   };
+
+  // const selectScheme = (params, index) => {
+  //   if (keys.indexOf(index) !== -1) {
+  //     remove(index);
+  //   }
+  //   console.log("Index=", index);
+  //   setAmcCode(params);
+  //   setSchemeIndex(index);
+  //   getSchemeList(params, token);
+  //   props.navigation.navigate("SchemeList");
+  // };
+
+  // const toggleRadio = (key, identifier) => {
+  //   console.log("key=", key);
+  //   console.log("Identifier=", identifier);
+  //   setToggle(key);
+  //   if (identifier === "AMOUNT") {
+  //     setAmount(true);
+  //     setAllUnits(false);
+  //   } else {
+  //     setAllUnits(true);
+  //     setAmount(false);
+  //   }
+  // };
 
   // const externalScheme = (params, index) => {
   //   console.log("Index=", index);
@@ -149,91 +166,91 @@ function SwitchScreen(props) {
   //   props.navigation.navigate("SchemeList");
   // };
 
-  const add = (
-    key,
-    longName,
-    units,
-    folio,
-    value,
-    identifier,
-    productAmcName,
-    amcCode,
-    productCode,
-    sourceReinvest
-  ) => {
-    if (keys.indexOf(key) === -1) {
-      if (key === schemeindex) {
-        console.log("AMOUNT=", typeof amountValue);
-        console.log("value=", typeof value);
-        if (amount && +amountValue > value) {
-          console.log("here");
-          Alert.alert("Alert", "Amount should be less than value");
-          return;
-        }
-        let value;
-        let valueName;
-        if (amount === true) {
-          valueName = "Amount";
-          value = amountValue;
-        } else {
-          valueName = "Unit";
-          value = units;
-        }
-        let newElement = {
-          key: key,
-          amcCode: amcCode,
-          productAmcName: productAmcName,
-          productCode: productCode,
-          targetCode: targetCode,
-          sourceReinvest: sourceReinvest,
-          targetReinvest: targetReinvest,
-          fromScheme: longName,
-          toScheme: amcScheme,
-          folioNo: folio,
-          valueName: valueName,
-          value: value,
-          type: identifier,
-        };
-        setKeys((prevState) => [...prevState, key]);
-        setAddedScheme((prevState) => [...prevState, newElement]);
-        console.log("NEwss ElementSSSSSS=", newElement);
-      }
-    } else {
-      if (key === schemeindex) {
-        if (amount > value) {
-          Alert.alert("Alert", "Amount should be less than value");
-          return;
-        }
-        let keyIndex = keys.indexOf(key);
-        let value;
-        let valueName;
-        if (amount === true) {
-          valueName = "Amount";
-          value = amountValue;
-        } else {
-          valueName = "Unit";
-          value = units;
-        }
-        let newElement = {
-          key: key,
-          amcCode: amcCode,
-          productAmcName: productAmcName,
-          productCode: productCode,
-          targetCode: targetCode,
-          sourceReinvest: sourceReinvest,
-          targetReinvest: targetReinvest,
-          fromScheme: longName,
-          toScheme: amcScheme,
-          folioNo: folio,
-          valueName: valueName,
-          value: value,
-          type: identifier,
-        };
-        setAddedScheme((prevState) => prevState[keyIndex] === newElement);
-        console.log("New Element=", newElement);
-      }
-    }
-  };
+  // const add = (
+  //   key,
+  //   longName,
+  //   units,
+  //   folio,
+  //   currentvalue,
+  //   identifier,
+  //   productAmcName,
+  //   amcCode,
+  //   productCode,
+  //   sourceReinvest
+  // ) => {
+  //   if (keys.indexOf(key) === -1) {
+  //     if (key === schemeindex) {
+  //       console.log("AMOUNT=", typeof amountValue);
+  //       console.log("value=", typeof value);
+  //       if (amount && +amountValue > currentvalue) {
+  //         console.log("here");
+  //         Alert.alert("Alert", "Amount should be less than value");
+  //         return;
+  //       }
+  //       let value;
+  //       let valueName;
+  //       if (amount === true) {
+  //         valueName = "Amount";
+  //         value = amountValue;
+  //       } else {
+  //         valueName = "Unit";
+  //         value = units;
+  //       }
+  //       let newElement = {
+  //         key: key,
+  //         amcCode: amcCode,
+  //         productAmcName: productAmcName,
+  //         productCode: productCode,
+  //         targetCode: targetCode,
+  //         sourceReinvest: sourceReinvest,
+  //         targetReinvest: targetReinvest,
+  //         fromScheme: longName,
+  //         toScheme: amcScheme,
+  //         folioNo: folio,
+  //         valueName: valueName,
+  //         value: value,
+  //         type: identifier,
+  //       };
+  //       setKeys((prevState) => [...prevState, key]);
+  //       setAddedScheme((prevState) => [...prevState, newElement]);
+  //       console.log("NEwss ElementSSSSSS=", newElement);
+  //     }
+  //   } else {
+  //     if (key === schemeindex) {
+  //       if (amount > value) {
+  //         Alert.alert("Alert", "Amount should be less than value");
+  //         return;
+  //       }
+  //       let keyIndex = keys.indexOf(key);
+  //       let value;
+  //       let valueName;
+  //       if (amount === true) {
+  //         valueName = "Amount";
+  //         value = amountValue;
+  //       } else {
+  //         valueName = "Unit";
+  //         value = units;
+  //       }
+  //       let newElement = {
+  //         key: key,
+  //         amcCode: amcCode,
+  //         productAmcName: productAmcName,
+  //         productCode: productCode,
+  //         targetCode: targetCode,
+  //         sourceReinvest: sourceReinvest,
+  //         targetReinvest: targetReinvest,
+  //         fromScheme: longName,
+  //         toScheme: amcScheme,
+  //         folioNo: folio,
+  //         valueName: valueName,
+  //         value: value,
+  //         type: identifier,
+  //       };
+  //       setAddedScheme((prevState) => prevState[keyIndex] === newElement);
+  //       console.log("New Element=", newElement);
+  //     }
+  //   }
+  // };
 
   const remove = (key) => {
     let filteredArray = addedScheme.filter((item) => item.key !== key);
@@ -321,340 +338,358 @@ function SwitchScreen(props) {
         {selectTab === "SWITCH" &&
           switchRes !== null &&
           switchRes.map((item, index) => (
-            <View style={styles.fund_sec}>
-              <View style={styles.axis_sec}>
-                <Text style={styles.axis}>
-                  {item.nseSchemeDetails.productAmcName}
-                </Text>
-              </View>
-              <View style={styles.growth_sec}>
-                <Text style={styles.axis_treasury}>{item.scheme}</Text>
-                <View style={styles.value_sec}>
-                  <View style={styles.folio_sec}>
-                    <Text style={styles.folio}>Folio</Text>
-                    <Text style={styles.folio}>{item.folio_no}</Text>
-                  </View>
+            <SwitchItem
+              item={item}
+              index={index}
+              keys={keys}
+              setAddedScheme={setAddedSchemeFun}
+              remove={remove}
+              type="SWITCH"
+              navToSchemeList={navToSchemeList}
+            />
+            // <View style={styles.fund_sec}>
+            //   <View style={styles.axis_sec}>
+            //     <Text style={styles.axis}>
+            //       {item.nseSchemeDetails.productAmcName}
+            //     </Text>
+            //   </View>
+            //   <View style={styles.growth_sec}>
+            //     <Text style={styles.axis_treasury}>{item.scheme}</Text>
+            //     <View style={styles.value_sec}>
+            //       <View style={styles.folio_sec}>
+            //         <Text style={styles.folio}>Folio</Text>
+            //         <Text style={styles.folio}>{item.folio_no}</Text>
+            //       </View>
 
-                  <View style={styles.folio_sec}>
-                    <Text style={styles.folio}>Units</Text>
-                    <Text style={styles.folio}>
-                      {parseFloat(item.units).toFixed(3)}
-                    </Text>
-                  </View>
+            //       <View style={styles.folio_sec}>
+            //         <Text style={styles.folio}>Units</Text>
+            //         <Text style={styles.folio}>
+            //           {parseFloat(item.units).toFixed(3)}
+            //         </Text>
+            //       </View>
 
-                  <View style={styles.folio_sec}>
-                    <Text style={styles.folio}>value</Text>
-                    <Text style={styles.folio}>
-                      {parseFloat(item.currentValue).toFixed(3)}
-                    </Text>
-                  </View>
-                </View>
-                <Text style={styles.folio}>Switch To</Text>
+            //       <View style={styles.folio_sec}>
+            //         <Text style={styles.folio}>value</Text>
+            //         <Text style={styles.folio}>
+            //           {parseFloat(item.currentValue).toFixed(3)}
+            //         </Text>
+            //       </View>
+            //     </View>
+            //     <Text style={styles.folio}>Switch To</Text>
 
-                <TouchableOpacity
-                  onPress={() =>
-                    selectScheme(item.amc_code, `${index}${item.scheme}`)
-                  }
-                >
-                  <View style={styles.scheme_sec}>
-                    <Text style={styles.select}>
-                      {schemeindex !== null &&
-                      schemeindex === `${index}${item.scheme}` &&
-                      amcScheme !== null
-                        ? amcScheme
-                        : "Select Scheme"}
-                    </Text>
-                    <AntDesign name="right" size={15} />
-                  </View>
-                </TouchableOpacity>
-                <View style={styles.units_sec}>
-                  <CheckBox
-                    containerStyle={{
-                      backgroundColor: Colors.TRANSPARENT,
-                      borderColor: Colors.TRANSPARENT,
-                    }}
-                    checkedColor={
-                      keys !== [] &&
-                      keys.indexOf(`${index}${item.scheme}`) === -1
-                        ? Colors.RED
-                        : Colors.GRAY_DEEP_1
-                    }
-                    checked={
-                      toggle === `${index}${item.scheme}` && amount === false
-                        ? false
-                        : true
-                    }
-                    title="Amount"
-                    checkedIcon="dot-circle-o"
-                    uncheckedIcon="circle-o"
-                    onPress={() =>
-                      toggleRadio(`${index}${item.scheme}`, "AMOUNT")
-                    }
-                    disabled={
-                      keys !== [] &&
-                      keys.indexOf(`${index}${item.scheme}`) === -1
-                        ? false
-                        : true
-                    }
-                  />
+            //     <TouchableOpacity
+            //       onPress={() =>
+            //         selectScheme(item.amc_code, `${index}${item.scheme}`)
+            //       }
+            //     >
+            //       <View style={styles.scheme_sec}>
+            //         <Text style={styles.select}>
+            //           {schemeindex !== null &&
+            //           schemeindex === `${index}${item.scheme}` &&
+            //           amcScheme !== null
+            //             ? amcScheme
+            //             : "Select Scheme"}
+            //         </Text>
+            //         <AntDesign name="right" size={15} />
+            //       </View>
+            //     </TouchableOpacity>
+            //     <View style={styles.units_sec}>
+            //       <CheckBox
+            //         containerStyle={{
+            //           backgroundColor: Colors.TRANSPARENT,
+            //           borderColor: Colors.TRANSPARENT,
+            //         }}
+            //         checkedColor={
+            //           keys !== [] &&
+            //           keys.indexOf(`${index}${item.scheme}`) === -1
+            //             ? Colors.RED
+            //             : Colors.GRAY_DEEP_1
+            //         }
+            //         checked={
+            //           toggle === `${index}${item.scheme}` && amount === false
+            //             ? false
+            //             : true
+            //         }
+            //         title="Amount"
+            //         checkedIcon="dot-circle-o"
+            //         uncheckedIcon="circle-o"
+            //         onPress={() =>
+            //           toggleRadio(`${index}${item.scheme}`, "AMOUNT")
+            //         }
+            //         disabled={
+            //           keys !== [] &&
+            //           keys.indexOf(`${index}${item.scheme}`) === -1
+            //             ? false
+            //             : true
+            //         }
+            //       />
 
-                  <CheckBox
-                    containerStyle={{
-                      backgroundColor: Colors.TRANSPARENT,
-                      borderColor: Colors.TRANSPARENT,
-                    }}
-                    checked={
-                      toggle === `${index}${item.scheme}` && allUnits === true
-                        ? true
-                        : false
-                    }
-                    checkedColor={
-                      keys !== [] &&
-                      keys.indexOf(`${index}${item.scheme}`) === -1
-                        ? Colors.RED
-                        : Colors.GRAY_DEEP_1
-                    }
-                    title="All Units"
-                    checkedIcon="dot-circle-o"
-                    uncheckedIcon="circle-o"
-                    onPress={() =>
-                      toggleRadio(`${index}${item.scheme}`, "ALLUNITS")
-                    }
-                    disabled={
-                      keys !== [] &&
-                      keys.indexOf(`${index}${item.scheme}`) === -1
-                        ? false
-                        : true
-                    }
-                  />
-                </View>
-                <View style={styles.input_box}>
-                  {toggle === `${index}${item.scheme}` && allUnits === true ? (
-                    <TextInput
-                      style={styles.inputsec}
-                      placeholder={`${parseFloat(item.units).toFixed(3)}`}
-                      editable={false}
-                      selectTextOnFocus={false}
-                    />
-                  ) : (
-                    <TextInput
-                      style={styles.inputsec}
-                      placeholder="Enter Amount"
-                      onChangeText={setAmountValue}
-                      editable={
-                        keys !== [] &&
-                        keys.indexOf(`${index}${item.scheme}`) === -1
-                          ? true
-                          : false
-                      }
-                    />
-                  )}
-                  {keys !== [] &&
-                  keys.indexOf(`${index}${item.scheme}`) === -1 ? (
-                    <Text />
-                  ) : (
-                    <TouchableOpacity
-                      onPress={() => remove(`${index}${item.scheme}`)}
-                    >
-                      <Entypo name={"cross"} size={30} color={Colors.RED} />
-                    </TouchableOpacity>
-                  )}
+            //       <CheckBox
+            //         containerStyle={{
+            //           backgroundColor: Colors.TRANSPARENT,
+            //           borderColor: Colors.TRANSPARENT,
+            //         }}
+            //         checked={
+            //           toggle === `${index}${item.scheme}` && allUnits === true
+            //             ? true
+            //             : false
+            //         }
+            //         checkedColor={
+            //           keys !== [] &&
+            //           keys.indexOf(`${index}${item.scheme}`) === -1
+            //             ? Colors.RED
+            //             : Colors.GRAY_DEEP_1
+            //         }
+            //         title="All Units"
+            //         checkedIcon="dot-circle-o"
+            //         uncheckedIcon="circle-o"
+            //         onPress={() =>
+            //           toggleRadio(`${index}${item.scheme}`, "ALLUNITS")
+            //         }
+            //         disabled={
+            //           keys !== [] &&
+            //           keys.indexOf(`${index}${item.scheme}`) === -1
+            //             ? false
+            //             : true
+            //         }
+            //       />
+            //     </View>
+            //     <View style={styles.input_box}>
+            //       {toggle === `${index}${item.scheme}` && allUnits === true ? (
+            //         <TextInput
+            //           style={styles.inputsec}
+            //           placeholder={`${parseFloat(item.units).toFixed(3)}`}
+            //           editable={false}
+            //           selectTextOnFocus={false}
+            //         />
+            //       ) : (
+            //         <TextInput
+            //           style={styles.inputsec}
+            //           placeholder="Enter Amount"
+            //           onChangeText={setAmountValue}
+            //           editable={
+            //             keys !== [] &&
+            //             keys.indexOf(`${index}${item.scheme}`) === -1
+            //               ? true
+            //               : false
+            //           }
+            //         />
+            //       )}
+            //       {keys !== [] &&
+            //       keys.indexOf(`${index}${item.scheme}`) === -1 ? (
+            //         <Text />
+            //       ) : (
+            //         <TouchableOpacity
+            //           onPress={() => remove(`${index}${item.scheme}`)}
+            //         >
+            //           <Entypo name={"cross"} size={30} color={Colors.RED} />
+            //         </TouchableOpacity>
+            //       )}
 
-                  {keys !== [] &&
-                  keys.indexOf(`${index}${item.scheme}`) === -1 ? (
-                    <TouchableOpacity
-                      onPress={() =>
-                        add(
-                          `${index}${item.scheme}`,
-                          item.scheme,
-                          item.units,
-                          item.folio_no,
-                          item.currentValue,
-                          "SWITCH",
-                          item.nseSchemeDetails.productAmcName,
-                          item.amc_code,
-                          item.nseSchemeDetails.productCode,
-                          item.nseSchemeDetails.reinvestTag
-                        )
-                      }
-                      style={styles.botton_box}
-                    >
-                      <Text style={styles.get_otp}>ADD</Text>
-                    </TouchableOpacity>
-                  ) : (
-                    <View style={styles.disabledBox}>
-                      <Text style={styles.disabled}>ADDED</Text>
-                    </View>
-                  )}
-                </View>
-              </View>
-            </View>
+            //       {keys !== [] &&
+            //       keys.indexOf(`${index}${item.scheme}`) === -1 ? (
+            //         <TouchableOpacity
+            //           onPress={() =>
+            //             add(
+            //               `${index}${item.scheme}`,
+            //               item.scheme,
+            //               item.units,
+            //               item.folio_no,
+            //               item.currentValue,
+            //               "SWITCH",
+            //               item.nseSchemeDetails.productAmcName,
+            //               item.amc_code,
+            //               item.nseSchemeDetails.productCode,
+            //               item.nseSchemeDetails.reinvestTag
+            //             )
+            //           }
+            //           style={styles.botton_box}
+            //         >
+            //           <Text style={styles.get_otp}>ADD</Text>
+            //         </TouchableOpacity>
+            //       ) : (
+            //         <View style={styles.disabledBox}>
+            //           <Text style={styles.disabled}>ADDED</Text>
+            //         </View>
+            //       )}
+            //     </View>
+            //   </View>
+            // </View>
           ))}
         {selectTab === "EXTERNAL" &&
           externalSwitch !== null &&
           externalSwitch.map((item, index) => (
-            <View style={styles.fund_sec}>
-              <View style={styles.axis_sec}>
-                <Text style={styles.axis}>
-                  {item.nseSchemeDetails.productAmcName}
-                </Text>
-              </View>
-              <View style={styles.growth_sec}>
-                <Text style={styles.axis_treasury}>{item.scheme}</Text>
-                <View style={styles.value_sec}>
-                  <View style={styles.folio_sec}>
-                    <Text style={styles.folio}>Folio</Text>
-                    <Text style={styles.folio}>{item.folio_no}</Text>
-                  </View>
+            <SwitchItem
+              item={item}
+              index={index}
+              keys={keys}
+              setAddedScheme={setAddedSchemeFun}
+              remove={remove}
+              type="EXTERNAL"
+              navToSchemeList={navToSchemeList}
+            />
+            // <View style={styles.fund_sec}>
+            //   <View style={styles.axis_sec}>
+            //     <Text style={styles.axis}>
+            //       {item.nseSchemeDetails.productAmcName}
+            //     </Text>
+            //   </View>
+            //   <View style={styles.growth_sec}>
+            //     <Text style={styles.axis_treasury}>{item.scheme}</Text>
+            //     <View style={styles.value_sec}>
+            //       <View style={styles.folio_sec}>
+            //         <Text style={styles.folio}>Folio</Text>
+            //         <Text style={styles.folio}>{item.folio_no}</Text>
+            //       </View>
 
-                  <View style={styles.folio_sec}>
-                    <Text style={styles.folio}>Units</Text>
-                    <Text style={styles.folio}>
-                      {parseFloat(item.units).toFixed(3)}
-                    </Text>
-                  </View>
+            //       <View style={styles.folio_sec}>
+            //         <Text style={styles.folio}>Units</Text>
+            //         <Text style={styles.folio}>
+            //           {parseFloat(item.units).toFixed(3)}
+            //         </Text>
+            //       </View>
 
-                  <View style={styles.folio_sec}>
-                    <Text style={styles.folio}>value</Text>
-                    <Text style={styles.folio}>
-                      {parseFloat(item.currentValue).toFixed(3)}
-                    </Text>
-                  </View>
-                </View>
-                <Text style={styles.folio}>Switch To</Text>
-                <TouchableOpacity
-                  onPress={() =>
-                    selectScheme(item.amc_code, `${index}${item.scheme}`)
-                  }
-                >
-                  <View style={styles.scheme_sec}>
-                    <Text style={styles.select}>
-                      {schemeindex !== null &&
-                      schemeindex === `${index}${item.scheme}` &&
-                      amcScheme !== null
-                        ? amcScheme
-                        : "Select Scheme"}
-                    </Text>
-                    <AntDesign name="right" size={15} />
-                  </View>
-                </TouchableOpacity>
-                <View style={styles.units_sec}>
-                  <CheckBox
-                    containerStyle={{
-                      backgroundColor: Colors.TRANSPARENT,
-                      borderColor: Colors.TRANSPARENT,
-                    }}
-                    checkedColor={
-                      keys !== [] &&
-                      keys.indexOf(`${index}${item.scheme}`) === -1
-                        ? Colors.RED
-                        : Colors.GRAY_DEEP_1
-                    }
-                    checked={
-                      toggle === `${index}${item.scheme}` && amount === false
-                        ? false
-                        : true
-                    }
-                    title="Amount"
-                    checkedIcon="dot-circle-o"
-                    uncheckedIcon="circle-o"
-                    onPress={() =>
-                      toggleRadio(`${index}${item.scheme}`, "AMOUNT")
-                    }
-                    disabled={
-                      keys !== [] &&
-                      keys.indexOf(`${index}${item.scheme}`) === -1
-                        ? false
-                        : true
-                    }
-                  />
-                  <CheckBox
-                    containerStyle={{
-                      backgroundColor: Colors.TRANSPARENT,
-                      borderColor: Colors.TRANSPARENT,
-                    }}
-                    checked={
-                      toggle === `${index}${item.scheme}` && allUnits === true
-                        ? true
-                        : false
-                    }
-                    checkedColor={
-                      keys !== [] &&
-                      keys.indexOf(`${index}${item.scheme}`) === -1
-                        ? Colors.RED
-                        : Colors.GRAY_DEEP_1
-                    }
-                    title="All Units"
-                    checkedIcon="dot-circle-o"
-                    uncheckedIcon="circle-o"
-                    onPress={() =>
-                      toggleRadio(`${index}${item.scheme}`, "ALLUNITS")
-                    }
-                    disabled={
-                      keys !== [] &&
-                      keys.indexOf(`${index}${item.scheme}`) === -1
-                        ? false
-                        : true
-                    }
-                  />
-                </View>
-                <View style={styles.input_box}>
-                  {toggle === `${index}${item.scheme}` && allUnits === true ? (
-                    <TextInput
-                      style={styles.inputsec}
-                      placeholder={`${parseFloat(item.units).toFixed(3)}`}
-                      editable={false}
-                      selectTextOnFocus={false}
-                    />
-                  ) : (
-                    <TextInput
-                      style={styles.inputsec}
-                      placeholder="Enter Amount"
-                      onChangeText={setAmountValue}
-                      editable={
-                        keys !== [] &&
-                        keys.indexOf(`${index}${item.scheme}`) === -1
-                          ? true
-                          : false
-                      }
-                    />
-                  )}
-                  {keys !== [] &&
-                  keys.indexOf(`${index}${item.scheme}`) === -1 ? (
-                    <Text />
-                  ) : (
-                    <TouchableOpacity
-                      onPress={() => remove(`${index}${item.scheme}`)}
-                    >
-                      <Entypo name={"cross"} size={30} color={Colors.RED} />
-                    </TouchableOpacity>
-                  )}
-                  {keys !== [] &&
-                  keys.indexOf(`${index}${item.scheme}`) === -1 ? (
-                    <TouchableOpacity
-                      onPress={() =>
-                        add(
-                          `${index}${item.scheme}`,
-                          item.scheme,
-                          item.units,
-                          item.folio_no,
-                          item.currentValue,
-                          "EXTERNAL",
-                          item.nseSchemeDetails.productAmcName
-                        )
-                      }
-                      style={styles.botton_box}
-                    >
-                      <Text style={styles.get_otp}>ADD</Text>
-                    </TouchableOpacity>
-                  ) : (
-                    <View style={styles.disabledBox}>
-                      <Text style={styles.disabled}>ADDED</Text>
-                    </View>
-                  )}
-                </View>
-              </View>
-            </View>
+            //       <View style={styles.folio_sec}>
+            //         <Text style={styles.folio}>value</Text>
+            //         <Text style={styles.folio}>
+            //           {parseFloat(item.currentValue).toFixed(3)}
+            //         </Text>
+            //       </View>
+            //     </View>
+            //     <Text style={styles.folio}>Switch To</Text>
+            //     <TouchableOpacity
+            //       onPress={() =>
+            //         selectScheme(item.amc_code, `${index}${item.scheme}`)
+            //       }
+            //     >
+            //       <View style={styles.scheme_sec}>
+            //         <Text style={styles.select}>
+            //           {schemeindex !== null &&
+            //           schemeindex === `${index}${item.scheme}` &&
+            //           amcScheme !== null
+            //             ? amcScheme
+            //             : "Select Scheme"}
+            //         </Text>
+            //         <AntDesign name="right" size={15} />
+            //       </View>
+            //     </TouchableOpacity>
+            //     <View style={styles.units_sec}>
+            //       <CheckBox
+            //         containerStyle={{
+            //           backgroundColor: Colors.TRANSPARENT,
+            //           borderColor: Colors.TRANSPARENT,
+            //         }}
+            //         checkedColor={
+            //           keys !== [] &&
+            //           keys.indexOf(`${index}${item.scheme}`) === -1
+            //             ? Colors.RED
+            //             : Colors.GRAY_DEEP_1
+            //         }
+            //         checked={
+            //           toggle === `${index}${item.scheme}` && amount === false
+            //             ? false
+            //             : true
+            //         }
+            //         title="Amount"
+            //         checkedIcon="dot-circle-o"
+            //         uncheckedIcon="circle-o"
+            //         onPress={() =>
+            //           toggleRadio(`${index}${item.scheme}`, "AMOUNT")
+            //         }
+            //         disabled={
+            //           keys !== [] &&
+            //           keys.indexOf(`${index}${item.scheme}`) === -1
+            //             ? false
+            //             : true
+            //         }
+            //       />
+            //       <CheckBox
+            //         containerStyle={{
+            //           backgroundColor: Colors.TRANSPARENT,
+            //           borderColor: Colors.TRANSPARENT,
+            //         }}
+            //         checked={
+            //           toggle === `${index}${item.scheme}` && allUnits === true
+            //             ? true
+            //             : false
+            //         }
+            //         checkedColor={
+            //           keys !== [] &&
+            //           keys.indexOf(`${index}${item.scheme}`) === -1
+            //             ? Colors.RED
+            //             : Colors.GRAY_DEEP_1
+            //         }
+            //         title="All Units"
+            //         checkedIcon="dot-circle-o"
+            //         uncheckedIcon="circle-o"
+            //         onPress={() =>
+            //           toggleRadio(`${index}${item.scheme}`, "ALLUNITS")
+            //         }
+            //         disabled={
+            //           keys !== [] &&
+            //           keys.indexOf(`${index}${item.scheme}`) === -1
+            //             ? false
+            //             : true
+            //         }
+            //       />
+            //     </View>
+            //     <View style={styles.input_box}>
+            //       {toggle === `${index}${item.scheme}` && allUnits === true ? (
+            //         <TextInput
+            //           style={styles.inputsec}
+            //           placeholder={`${parseFloat(item.units).toFixed(3)}`}
+            //           editable={false}
+            //           selectTextOnFocus={false}
+            //         />
+            //       ) : (
+            //         <TextInput
+            //           style={styles.inputsec}
+            //           placeholder="Enter Amount"
+            //           onChangeText={setAmountValue}
+            //           editable={
+            //             keys !== [] &&
+            //             keys.indexOf(`${index}${item.scheme}`) === -1
+            //               ? true
+            //               : false
+            //           }
+            //         />
+            //       )}
+            //       {keys !== [] &&
+            //       keys.indexOf(`${index}${item.scheme}`) === -1 ? (
+            //         <Text />
+            //       ) : (
+            //         <TouchableOpacity
+            //           onPress={() => remove(`${index}${item.scheme}`)}
+            //         >
+            //           <Entypo name={"cross"} size={30} color={Colors.RED} />
+            //         </TouchableOpacity>
+            //       )}
+            //       {keys !== [] &&
+            //       keys.indexOf(`${index}${item.scheme}`) === -1 ? (
+            //         <TouchableOpacity
+            //           onPress={() =>
+            //             add(
+            //               `${index}${item.scheme}`,
+            //               item.scheme,
+            //               item.units,
+            //               item.folio_no,
+            //               item.currentValue,
+            //               "EXTERNAL",
+            //               item.nseSchemeDetails.productAmcName
+            //             )
+            //           }
+            //           style={styles.botton_box}
+            //         >
+            //           <Text style={styles.get_otp}>ADD</Text>
+            //         </TouchableOpacity>
+            //       ) : (
+            //         <View style={styles.disabledBox}>
+            //           <Text style={styles.disabled}>ADDED</Text>
+            //         </View>
+            //       )}
+            //     </View>
+            //   </View>
+            // </View>
           ))}
       </ScrollView>
       <TouchableOpacity
