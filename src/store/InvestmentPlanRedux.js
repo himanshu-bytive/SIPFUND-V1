@@ -1,7 +1,6 @@
-import SiteAPI from '../services/SiteApis'
-import { Alert } from 'react-native';
+import SiteAPI from "../services/SiteApis";
+import { Alert } from "react-native";
 const types = {
-
     FETCH_PLAN_NAME_PENDING: "FETCH_PLAN_NAME_PENDING",
     FETCH_PLAN_NAME_SUCCESS: "FETCH_PLAN_NAME_SUCCESS",
     FETCH_PLAN_NAME_FAILURE: "FETCH_PLAN_NAME_FAILURE",
@@ -31,7 +30,7 @@ export const InvestmentPlanActions = {
         dispatch({ type: types.FETCH_PLAN_NAME_PENDING });
         let data = await SiteAPI.apiGetCall(`/investmentPlans/allInvestmentPlans`, {}, token);
         if (data.error) {
-            Alert.alert(data.message)
+            Alert.alert(data.message);
             dispatch({ type: types.FETCH_PLAN_NAME_FAILURE, error: data.message });
         } else {
             dispatch({ type: types.FETCH_PLAN_NAME_SUCCESS, investments: data.response });
@@ -41,7 +40,7 @@ export const InvestmentPlanActions = {
         dispatch({ type: types.FETCH_INVESTMENT_PLAN_PENDING });
         let data = await SiteAPI.apiPostCall(`/investmentPlans/singlePlan`, params, token);
         if (data.error) {
-            Alert.alert(data.message)
+            Alert.alert(data.message);
             dispatch({ type: types.FETCH_INVESTMENT_PLAN_FAILURE, error: data.message });
         } else {
             dispatch({ type: types.FETCH_INVESTMENT_PLAN_SUCCESS, investment: data.response, myInvestlist: data.response.schemes });
@@ -53,13 +52,11 @@ export const InvestmentPlanActions = {
     myInvestments: async (dispatch, myInvestlist) => {
         dispatch({ type: types.FETCH_MY_INVESTMENTS, myInvestlist });
     },
-    newInvestment: async (dispatch, code, token) => {
-        if (code) {
-            dispatch({ type: types.FETCH_NEW_INVESTMENT_PENDING });
-            let pincodes = await SiteAPI.apiPostCall(`/investmentPlans/createPlan`, {}, token);
-            if (pincodes.data) {
-                dispatch({ type: types.FETCH_NEW_INVESTMENT_SUCCESS, pincodeInfo: pincodes.data });
-            }
+    newInvestment: async (dispatch, params, token) => {
+        dispatch({ type: types.FETCH_NEW_INVESTMENT_PENDING });
+        let pincodes = await SiteAPI.apiPostCall(`/investmentPlans/createPlan`, params, token);
+        if (pincodes.data) {
+            dispatch({ type: types.FETCH_NEW_INVESTMENT_SUCCESS, pincodeInfo: pincodes.data });
         }
     },
     userInvetment: async (dispatch, code, token) => {
@@ -79,9 +76,7 @@ export const InvestmentPlanActions = {
                 dispatch({ type: types.FETCH_INDIVIDUAL_INVESTMENT_SUCCESS, bankDetails: banks.responseString });
             }
         }
-
     },
-
 };
 
 const initialState = {
@@ -124,7 +119,7 @@ export const reducer = (state = initialState, action) => {
                 ...state,
                 isFetching: false,
                 error: null,
-                investments
+                investments,
             };
         }
         case types.FETCH_INVESTMENT_PLAN_SUCCESS: {
@@ -133,7 +128,7 @@ export const reducer = (state = initialState, action) => {
                 isFetching: false,
                 error: null,
                 investment,
-                myInvestlist
+                myInvestlist,
             };
         }
         case types.FETCH_MY_INVESTMENTS: {
@@ -141,7 +136,7 @@ export const reducer = (state = initialState, action) => {
                 ...state,
                 isFetching: false,
                 error: null,
-                myInvestlist
+                myInvestlist,
             };
         }
         case types.FETCH_INVESTMENT_CONFIG: {
@@ -149,7 +144,7 @@ export const reducer = (state = initialState, action) => {
                 ...state,
                 isFetching: false,
                 error: null,
-                configs
+                configs,
             };
         }
         case types.FETCH_NEW_INVESTMENT_SUCCESS: {
@@ -157,7 +152,6 @@ export const reducer = (state = initialState, action) => {
                 ...state,
                 isFetching: false,
                 error: null,
-
             };
         }
         case types.FETCH_USER_INVESTMENT_SUCCESS: {
@@ -165,7 +159,6 @@ export const reducer = (state = initialState, action) => {
                 ...state,
                 isFetching: false,
                 error: null,
-
             };
         }
         case types.FETCH_INDIVIDUAL_INVESTMENT_SUCCESS: {

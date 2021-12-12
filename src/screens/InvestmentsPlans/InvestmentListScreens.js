@@ -8,7 +8,7 @@ import { MyImage, InvestmentFundType } from "../../components";
 
 function InvestmentListScreens(props) {
     const pageActive = useRef(false);
-    const { investment, configs, isFetching, myInvestlist, myInvestments } = props;
+    const { phone, investment, newInvestment, token, configs, isFetching, myInvestlist, myInvestments } = props;
     const [sumInvestment, setSumInvestment] = useState([]);
 
     const updateInvestments = (data) => {
@@ -26,13 +26,43 @@ function InvestmentListScreens(props) {
     const handleDelete = (productCode) => {
         let investments = myInvestlist;
         for (let index in investments) {
-            if (investments[index].schemes.productCode === productCode) {
+            if (investments[index]?.schemes.productCode === productCode) {
                 delete investments[index];
                 break;
             }
         }
         myInvestments(investments);
         props.navigation.replace("InvestmentList");
+    };
+
+    const getHoldings = (data) => {
+        let formatted = [];
+        let format = {};
+        for (let item in data) {
+            format = {
+                category: data[item].fund_type,
+                amount: data[item].schemes.sip,
+                schemeName: data[item].schemes.name,
+                imagePath: data[item].schemes.imagePath,
+                amc_code: data[item].schemes.amc_code,
+                productCode: data[item].schemes.productCode,
+            };
+            formatted.push(format);
+        }
+        return formatted;
+    };
+
+    const getParams = (data, sum) => {
+        return {
+            userPhoneNumber: phone,
+            planName: "Aggressive Funds",
+            sip_date: "",
+            userID: "",
+            holdings: getHoldings(data),
+            planCreatedAt: "",
+            investmentPlanAmount: sum,
+            paidAmount: sum,
+        };
     };
 
     return (
@@ -104,7 +134,14 @@ function InvestmentListScreens(props) {
                                 },
                                 {
                                     text: "Yes, please",
-                                    onPress: () => props.navigation.navigate("InvestmentSubmit"),
+                                    onPress: () => {
+                                        let params = getParams(
+                                            myInvestlist.filter((value) => !isNaN(value.schemes.sip)),
+                                            sum
+                                        );
+                                        newInvestment(params, token);
+                                        props.navigation.navigate("InvestmentSubmit");
+                                    },
                                 },
                             ],
                             { cancelable: false }
@@ -112,6 +149,11 @@ function InvestmentListScreens(props) {
                     } else if (sum < Number(configs.invest)) {
                         alert("Invested amount less than the total!");
                     } else {
+                        let params = getParams(
+                            myInvestlist.filter((value) => !isNaN(value.schemes.sip)),
+                            sum
+                        );
+                        newInvestment(params, token);
                         props.navigation.navigate("InvestmentSubmit");
                     }
                 }}
@@ -281,7 +323,7 @@ const styles = StyleSheet.create({
 });
 const mapStateToProps = (state) => ({
     token: state.auth.token,
-    users: state.auth.users,
+    phone: state.auth.phone,
     isFetching: state.investmentplan.isFetching,
     investment: state.investmentplan.investment,
     configs: state.investmentplan.configs,
@@ -299,6 +341,9 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
         },
         myInvestments: (data) => {
             InvestmentPlanActions.myInvestments(dispatch, data);
+        },
+        newInvestment: (params, token) => {
+            InvestmentPlanActions.newInvestment(dispatch, params, token);
         },
     };
 };

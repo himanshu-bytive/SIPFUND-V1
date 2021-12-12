@@ -10,6 +10,16 @@ function InvestmentSubmitScreens(props) {
     const pageActive = useRef(false);
     const { investment, configs, isFetching, myInvestlist } = props;
 
+    const [sum, setSum] = useState(0);
+
+    useEffect(() => {
+        let total = 0;
+        for (let item in myInvestlist.filter((value) => !isNaN(value.schemes.sip))) {
+            total = total + myInvestlist.filter((value) => !isNaN(value.schemes.sip))[item].schemes.sip;
+        }
+        setSum(parseInt(total, 10));
+    }, [myInvestlist]);
+
     return (
         <View style={styles.container}>
             <Header
@@ -45,7 +55,7 @@ function InvestmentSubmitScreens(props) {
 
                 <View style={styles.fund_sec}>
                     <Text style={styles.fund_secleft}>Fund List</Text>
-                    <Text style={styles.fund_secright}>₹ {configs.invest}</Text>
+                    <Text style={styles.fund_secright}>₹ {sum}</Text>
                 </View>
 
                 {/* Axis Asset Management Company Ltd */}
