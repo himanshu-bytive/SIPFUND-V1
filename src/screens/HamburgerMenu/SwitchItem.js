@@ -88,40 +88,42 @@ function SwitchItem(props) {
     productCode,
     sourceReinvest
   ) => {
-    console.log("AMOUNT=", typeof amountValue);
-    console.log("value=", typeof value);
-    if (amount && +amountValue > currentvalue) {
-      console.log("here");
-      Alert.alert("Alert", "Amount should be less than value");
-      return;
+    if (selectedScheme !== "") {
+      console.log("AMOUNT=", typeof amountValue);
+      console.log("value=", typeof value);
+      if (amount && +amountValue > currentvalue) {
+        console.log("here");
+        Alert.alert("Alert", "Amount should be less than value");
+        return;
+      }
+      let value;
+      let valueName;
+      if (amount === true) {
+        valueName = "Amount";
+        value = amountValue;
+      } else {
+        valueName = "Unit";
+        value = units;
+      }
+      let newElement = {
+        key: key,
+        amcCode: amcCode,
+        productAmcName: productAmcName,
+        productCode: productCode,
+        targetCode: selectedScheme.targetCode,
+        sourceReinvest: sourceReinvest,
+        targetReinvest: selectedScheme.targetReinvest,
+        fromScheme: longName,
+        toScheme: selectedScheme.amcScheme,
+        folioNo: folio,
+        valueName: valueName,
+        value: value,
+        type: identifier,
+      };
+      // setKeys((prevState) => [...prevState, key]);
+      setAddedScheme(key, newElement);
+      console.log("NEwss ElementSSSSSS=", newElement);
     }
-    let value;
-    let valueName;
-    if (amount === true) {
-      valueName = "Amount";
-      value = amountValue;
-    } else {
-      valueName = "Unit";
-      value = units;
-    }
-    let newElement = {
-      key: key,
-      amcCode: amcCode,
-      productAmcName: productAmcName,
-      productCode: productCode,
-      targetCode: selectedScheme.targetCode,
-      sourceReinvest: sourceReinvest,
-      targetReinvest: selectedScheme.targetReinvest,
-      fromScheme: longName,
-      toScheme: selectedScheme.amcScheme,
-      folioNo: folio,
-      valueName: valueName,
-      value: value,
-      type: identifier,
-    };
-    // setKeys((prevState) => [...prevState, key]);
-    setAddedScheme(key, newElement);
-    console.log("NEwss ElementSSSSSS=", newElement);
   };
 
   return (

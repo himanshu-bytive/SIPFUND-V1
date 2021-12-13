@@ -40,6 +40,12 @@ function SwitchCheckout(props) {
     }
   };
 
+  useEffect(() => {
+    if (switchCheckoutDetails !== null) {
+      console.log("SWITCH CHECKOUT DETAILS=", switchCheckoutDetails);
+    }
+  }, [switchCheckoutDetails]);
+
   const checkout = () => {
     if (switchActive === "SWITCH" && switchCheckoutDetails !== null) {
       let child = switchCheckoutDetails.map((item) => {
@@ -83,17 +89,17 @@ function SwitchCheckout(props) {
                 <Text style={styles.axis}>{item.productAmcName}</Text>
               </View>
               <View style={styles.growth_sec}>
-                <Text style={styles.axis_treasury}>{item.fromScheme}</Text>
-                <Text style={styles.folio}>Switch To</Text>
-                <Text style={styles.axis_treasury}>{item.toScheme}</Text>
+                <Text style={styles.schemes}>{item.fromScheme}</Text>
+                <Text style={styles.switchTo}>Switch To</Text>
+                <Text style={styles.schemes}>{item.toScheme}</Text>
                 <View style={styles.value_sec}>
                   <View style={styles.folio_sec}>
-                    <Text style={styles.folio}>Folio</Text>
+                    <Text style={styles.axis_treasury}>Folio</Text>
                     <Text style={styles.folio}>{item.folioNo}</Text>
                   </View>
 
                   <View style={styles.folio_sec}>
-                    <Text style={styles.folio}>{item.valueName}</Text>
+                    <Text style={styles.axis_treasury}>{item.valueName}</Text>
                     <Text style={styles.folio}>
                       {parseFloat(item.value).toFixed(3)}
                     </Text>
@@ -123,6 +129,8 @@ function SwitchCheckout(props) {
               </View>
               <View style={styles.growth_sec}>
                 <Text style={styles.axis_treasury}>{item.fromScheme}</Text>
+                <Text style={styles.switchTo}>Switch To</Text>
+                <Text style={styles.schemes}>{item.toScheme}</Text>
                 <View style={styles.value_sec}>
                   <View style={styles.folio_sec}>
                     <Text style={styles.folio}>Folio</Text>
@@ -226,8 +234,15 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   axis_treasury: {
-    fontSize: 13,
+    fontSize: 15,
     marginBottom: 10,
+    color: Colors.DEEP_GRAY,
+  },
+  schemes: {
+    fontSize: 15,
+    marginBottom: 5,
+    color: Colors.DEEP_GRAY,
+    // textAlign: "center",
   },
   value_sec: {
     width: "90%",
@@ -243,7 +258,10 @@ const styles = StyleSheet.create({
   // },
   folio: {
     fontSize: 15,
-    color: Colors.DEEP_GRAY,
+  },
+  switchTo: {
+    fontSize: 15,
+    textAlign: "center",
   },
   scheme_sec: {
     flexDirection: "row",

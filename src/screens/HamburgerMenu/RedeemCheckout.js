@@ -125,12 +125,12 @@ function RedeemCheckout(props) {
                 <View style={styles.value_sec}>
                   <View style={styles.folio_sec}>
                     <Text style={styles.folio}>Folio</Text>
-                    <Text style={styles.folio}>{item.folioNo}</Text>
+                    <Text style={styles.unit}>{item.folioNo}</Text>
                   </View>
 
                   <View style={styles.folio_sec}>
                     <Text style={styles.folio}>Units</Text>
-                    <Text style={styles.folio}>
+                    <Text style={styles.unit}>
                       {parseFloat(item.value).toFixed(3)}
                     </Text>
                   </View>
@@ -225,8 +225,13 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   axis_treasury: {
-    fontSize: 13,
+    fontSize: 15,
     marginBottom: 10,
+  },
+  unit: {
+    fontSize: 15,
+    marginBottom: 10,
+    color: Colors.BLACK,
   },
   value_sec: {
     width: "90%",
