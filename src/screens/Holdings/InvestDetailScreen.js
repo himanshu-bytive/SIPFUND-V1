@@ -20,7 +20,9 @@ import { Image, Header, CheckBox } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
 import { HoldingFundType } from "../../components";
 
-function Goals3Screen(props) {
+function InvestDetailScreen(props) {
+    const { summaryInvestmentDetails } = props
+
     return (
         <View style={styles.container}>
             <View style={Styles.Header_top}>
@@ -34,46 +36,17 @@ function Goals3Screen(props) {
                     rightComponent={<View style={Styles.headerkn}><Text style={Styles.textkn}>KN</Text></View>}
                 />
                 <Image
-                    source={require('../../../assets/childimg.png')}
+                    source={{ uri: summaryInvestmentDetails?.details?.holdings[0].imagePath }}
                     style={styles.Goalsimg}
                 />
-                <Text style={styles.text_goals}>Child’s Education Plan</Text>
-                <View style={styles.education_plan}>
-                    <View style={styles.plan_1}>
-                        <Image
-                            source={require('../../../assets/plan_img.png')}
-                            style={styles.plan_img}
-                        />
-                        <Text style={styles.rate}>₹ 10,00,000/-</Text>
-                        <Text style={styles.Target_Set}>Target Set</Text>
-                    </View>
-
-
-                    <View style={styles.plan_2}>
-                        <Image
-                            source={require('../../../assets/Iconmaterial_img.png')}
-                            style={styles.plan2_img}
-                        />
-
-                        <Text style={styles.year}>12 Years</Text>
-
-                        <Text style={styles.Target_Set}>Time Left to Achieve</Text>
-                    </View>
-
-
-                </View>
+                <Text style={styles.text_goals}>{summaryInvestmentDetails?.details?.planName}</Text>
             </View>
-
-
             <ScrollView style={styles.containerScroll}>
-
-               <HoldingFundType onPress={() => props.navigation.navigate('Goals4')} />
-
+                <HoldingFundType data={summaryInvestmentDetails} holdings={summaryInvestmentDetails?.details?.holdings ? summaryInvestmentDetails?.details?.holdings : []} />
             </ScrollView>
-            <TouchableOpacity style={styles.botton_box}>
-                    <Text style={styles.get_otp}>SET OTHER GOALS</Text>
-                </TouchableOpacity>
-
+            <TouchableOpacity onPress={() => props.navigation.navigate("Home")} style={styles.botton_box}>
+                <Text style={styles.get_otp}>SET OTHER GOALS</Text>
+            </TouchableOpacity>
         </View>
 
 
@@ -106,7 +79,7 @@ const styles = StyleSheet.create({
     education_plan: {
         flexDirection: "row",
         width: '100%',
-        paddingBottom:10,
+        paddingBottom: 10,
     },
     plan_1: {
         width: "50%",
@@ -137,8 +110,8 @@ const styles = StyleSheet.create({
         height: 60,
         width: 60,
     },
-    
-   
+
+
     botton_box: {
         marginHorizontal: 10,
         backgroundColor: Colors.RED,
@@ -147,20 +120,21 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         borderColor: Colors.DEEP_GRAY,
         borderWidth: 1,
-        marginBottom:20
+        marginBottom: 20
     },
     get_otp: {
         color: Colors.WHITE,
         fontSize: 18,
         fontWeight: 'bold',
         textAlign: "center",
-        paddingHorizontal:70,
-        
+        paddingHorizontal: 70,
+
     },
 });
 const mapStateToProps = (state) => ({
     token: state.auth.token,
     users: state.auth.users,
+    summaryInvestmentDetails: state.goals.summaryInvestmentDetails,
 })
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
@@ -172,4 +146,4 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
         logOut: () => { AuthActions.logOut(dispatch) },
     }
 }
-export default connect(mapStateToProps, undefined, mapDispatchToProps)(Goals3Screen)
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(InvestDetailScreen)

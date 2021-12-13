@@ -20,7 +20,7 @@ import { Image, Header, CheckBox, Overlay } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
 import GoalsTable from './GoalsTable'
 
-function Goals6Screen(props) {
+function TopRatedFundDetailsScreen(props) {
 
     // overlay start
     const [visible, setVisible] = useState(null);
@@ -376,4 +376,4 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
         logOut: () => { AuthActions.logOut(dispatch) },
     }
 }
-export default connect(mapStateToProps, undefined, mapDispatchToProps)(Goals6Screen)
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(TopRatedFundDetailsScreen)

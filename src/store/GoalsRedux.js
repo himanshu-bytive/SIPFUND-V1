@@ -28,6 +28,9 @@ const types = {
     FETCH_SUMMARY_PENDING: "FETCH_SUMMARY_PENDING",
     FETCH_SUMMARY_SUCCESS: "FETCH_SUMMARY_SUCCESS",
     FETCH_SUMMARY_FAILURE: "FETCH_SUMMARY_FAILURE",
+
+    FETCH_SUMMARY_DETAILS: "FETCH_SUMMARY_DETAILS",
+    FETCH_SUMMARY_DETAILS_INVESTMENT: "FETCH_SUMMARY_DETAILS_INVESTMENT",
 };
 
 export const GoalsActions = {
@@ -96,7 +99,12 @@ export const GoalsActions = {
             dispatch({ type: types.FETCH_SUMMARY_SUCCESS, summary: data });
         }
     },
-
+    goalSummaryDetails: async (dispatch, summaryDetails) => {
+        dispatch({ type: types.FETCH_SUMMARY_DETAILS, summaryDetails });
+    },
+    InvestmentSummaryDetails: async (dispatch, summaryInvestmentDetails) => {
+        dispatch({ type: types.FETCH_SUMMARY_DETAILS_INVESTMENT, summaryInvestmentDetails });
+    },
 };
 
 const initialState = {
@@ -107,10 +115,12 @@ const initialState = {
     configs: {},
     mygolelist: [],
     summary: {},
+    summaryDetails: {},
+    summaryInvestmentDetails: {},
 };
 
 export const reducer = (state = initialState, action) => {
-    const { type, error, goals, goalDetail, configs, mygolelist, summary } = action;
+    const { type, error, goals, goalDetail, configs, mygolelist, summary, summaryDetails, summaryInvestmentDetails } = action;
     switch (type) {
         case types.FETCH_SUMMARY_PENDING:
         case types.FETCH_GOAL_DETAILS_PENDING:
@@ -198,6 +208,22 @@ export const reducer = (state = initialState, action) => {
                 isFetching: false,
                 error: null,
                 summary
+            };
+        }
+        case types.FETCH_SUMMARY_DETAILS: {
+            return {
+                ...state,
+                isFetching: false,
+                error: null,
+                summaryDetails
+            };
+        }
+        case types.FETCH_SUMMARY_DETAILS_INVESTMENT: {
+            return {
+                ...state,
+                isFetching: false,
+                error: null,
+                summaryInvestmentDetails
             };
         }
 

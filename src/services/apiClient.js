@@ -11,7 +11,7 @@ class ApiClient {
   }
 
   get(endpoint, params, headers = null) {
-    return this.requestHttp('GET', this.baseUrl + endpoint, params, headers);
+    return this.requestHttp('GET', this.baseUrl + endpoint, null, headers);
   }
 
   put(endpoint, params, headers = null) {
