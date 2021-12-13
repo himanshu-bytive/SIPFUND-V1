@@ -40,13 +40,14 @@ import PlanSearchScreen from "./PlanYourGoals/PlanSearchScreen";
 import PlanListScreen from "./PlanYourGoals/PlanListScreen";
 import PlanSubmitScreen from "./PlanYourGoals/PlanSubmitScreen";
 
-import GoalsScreen from "./Holdings/GoalsScreen";
 import GoalsSummaryScreen from "./Holdings/GoalsSummaryScreen";
-import Goals2Screen from "./Holdings/Goals2Screen";
-import Goals3Screen from "./Holdings/Goals3Screen";
-import Goals4Screen from "./Holdings/Goals4Screen";
-import Goals5Screen from "./Holdings/Goals5Screen";
-import Goals6Screen from "./Holdings/Goals6Screen";
+import NoGoalsScreen from "./Holdings/NoGoalsScreen";
+import GoalsListScreen from "./Holdings/GoalsListScreen";
+import GoalDetailScreen from "./Holdings/GoalDetailScreen";
+import InvestmentListScreen from "./Holdings/InvestmentListScreen";
+import InvestDetailScreen from "./Holdings/InvestDetailScreen";
+import TopRatedFundsScreen from "./Holdings/TopRatedFundsScreen";
+import TopRatedFundDetailsScreen from "./Holdings/TopRatedFundDetailsScreen";
 import OwnerChoice from "./HamburgerMenu/OwnerChoice";
 import GoalsLongTermScreen from "./Holdings/GoalsLongTermScreen";
 import PlanYourGoalScreen from "./Holdings/PlanYourGoalScreen";
@@ -86,14 +87,15 @@ export {
     FaqScreen,
     UpiScreen,
     PanScreen,
-    Goals2Screen,
-    Goals3Screen,
-    Goals4Screen,
-    Goals5Screen,
-    Goals6Screen,
+    GoalsListScreen,
+    GoalDetailScreen,
+    InvestmentListScreen,
+    InvestDetailScreen,
+    TopRatedFundsScreen,
+    TopRatedFundDetailsScreen,
     OwnerChoice,
-    GoalsScreen,
     GoalsSummaryScreen,
+    NoGoalsScreen,
     GoalsLongTermScreen,
     PlanYourGoalScreen,
     InvestmentsScreens,

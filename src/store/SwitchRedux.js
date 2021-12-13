@@ -17,20 +17,19 @@ const types = {
   FETCH_AMC_CODE_SUCCES: "FETCH_AMC_CODE_SUCCES",
 
   SET_SELECTED_AMC_SCHEME: "SET_SELECTED_AMC_SCHEME",
+
+  SWITCH_CHECKOUT_DETAILS: "SWITCH_CHECKOUT_DETAILS",
+
+  SWITCH_EXTERNAL_CHECKOUT_DETAILS: "SWITCH_EXTERNAL_CHECKOUT_DETAILS",
+
+  REDEEM_CHECKOUT_DETAILS: "REDEEM_CHECKOUT_DETAILS",
+
+  REDEEM_EXTERNAL_CHECKOUT_DETAILS: "REDEEM_EXTERNAL_CHECKOUT_DETAILS",
+
+  SET_SCHEME_LIST_KEY: "SET_SCHEME_LIST_KEY",
 };
 
 export const SwitchActions = {
-  // fetchTransactionDetails: async (dispatch, params) => {
-  //     dispatch({ type: types.FETCH_FET_TRANSACTION_DETAILS_PENDING });
-  //     let auth = await SiteAPI.apiPostCall('/operationData', params);
-  //     if (auth.error) {
-  //         Alert.alert(auth.message)
-  //         dispatch({ type: types.FETCH_FET_TRANSACTION_DETAILS_FAILURE, error: auth.message });
-  //     } else {
-  //         Alert.alert(auth.responseString)
-  //         dispatch({ type: types.FETCH_FET_TRANSACTION_DETAILS_SUCCESS, phone: params.mobileNo, signUpSteps: auth.signUpSteps, validFlag: auth.validFlag });
-  //     }
-  // },
   fetchTransactionDetails: async (dispatch, params, token) => {
     dispatch({ type: types.FETCH_FET_TRANSACTION_DETAILS_PENDING });
     let data = await SiteAPI.apiPostCall("/operationData", params, token);
@@ -41,10 +40,6 @@ export const SwitchActions = {
         error: data.message,
       });
     } else {
-      //   Alert.alert(data.responseString);
-      //   console.log("token=", token);
-      //   console.log("params=", params);
-      //   console.log("data=", data);
       dispatch({
         type: types.FETCH_FET_TRANSACTION_DETAILS_SUCCESS,
         switchRes: data.responseString,
@@ -79,7 +74,48 @@ export const SwitchActions = {
     dispatch({ type: types.FETCH_AMC_CODE_SUCCES, amcCode: params });
   },
   selectedAmcScheme: (dispatch, params) => {
-    dispatch({ type: types.SET_SELECTED_AMC_SCHEME, amcScheme: params });
+    dispatch({
+      type: types.SET_SELECTED_AMC_SCHEME,
+      // amcScheme: params.amcScheme,
+      // targetCode: params.targetCode,
+      // targetReinvest: params.targetReinvest,
+      Scheme: params,
+    });
+  },
+  setSwitchCheckoutDetails: (dispatch, params) => {
+    dispatch({
+      type: types.SWITCH_CHECKOUT_DETAILS,
+      switchCheckoutDetails: params,
+      switchActive: "SWITCH",
+    });
+  },
+  setSwitchExternalCheckoutDetails: (dispatch, params) => {
+    dispatch({
+      type: types.SWITCH_EXTERNAL_CHECKOUT_DETAILS,
+      switchExternalCheckoutDetails: params,
+      switchActive: "EXTERNAL",
+    });
+  },
+  setRedeemCheckoutDetails: (dispatch, params) => {
+    dispatch({
+      type: types.REDEEM_CHECKOUT_DETAILS,
+      redeemCheckoutDetails: params,
+      redeemActive: "REDEEM",
+    });
+  },
+  setRedeemExternalCheckoutDetails: (dispatch, params) => {
+    dispatch({
+      type: types.REDEEM_EXTERNAL_CHECKOUT_DETAILS,
+      redeemExternalCheckoutDetails: params,
+      redeemActive: "EXTERNAL",
+    });
+  },
+
+  setSchemeListKey: (dispatch, params) => {
+    dispatch({
+      type: types.SET_SCHEME_LIST_KEY,
+      schemeListKey: params,
+    });
   },
 
   logout() {
@@ -100,7 +136,17 @@ const initialState = {
   token: null,
   schemeDetails: null,
   amcCode: null,
-  amcScheme: null,
+  // amcScheme: null,
+  // targetCode: null,
+  // targetReinvest: null,
+  switchCheckoutDetails: null,
+  switchExternalCheckoutDetails: null,
+  switchActive: null,
+  redeemCheckoutDetails: null,
+  redeemExternalCheckoutDetails: null,
+  redeemActive: null,
+  schemeListKey: null,
+  Scheme: null,
 };
 
 export const reducer = (state = initialState, action) => {
@@ -116,7 +162,17 @@ export const reducer = (state = initialState, action) => {
     externalSwitch,
     schemeDetails,
     amcCode,
-    amcScheme,
+    // amcScheme,
+    switchCheckoutDetails,
+    switchExternalCheckoutDetails,
+    switchActive,
+    // targetCode,
+    // targetReinvest,
+    redeemCheckoutDetails,
+    redeemExternalCheckoutDetails,
+    redeemActive,
+    schemeListKey,
+    Scheme,
   } = action;
   switch (type) {
     case types.FETCH_FET_TRANSACTION_DETAILS_PENDING:
@@ -166,7 +222,46 @@ export const reducer = (state = initialState, action) => {
     case types.SET_SELECTED_AMC_SCHEME: {
       return {
         ...state,
-        amcScheme,
+        Scheme,
+      };
+    }
+
+    case types.SWITCH_CHECKOUT_DETAILS: {
+      return {
+        ...state,
+        switchCheckoutDetails,
+        switchActive,
+      };
+    }
+
+    case types.SWITCH_EXTERNAL_CHECKOUT_DETAILS: {
+      return {
+        ...state,
+        switchExternalCheckoutDetails,
+        switchActive,
+      };
+    }
+
+    case types.REDEEM_CHECKOUT_DETAILS: {
+      return {
+        ...state,
+        redeemCheckoutDetails,
+        redeemActive,
+      };
+    }
+
+    case types.REDEEM_EXTERNAL_CHECKOUT_DETAILS: {
+      return {
+        ...state,
+        redeemExternalCheckoutDetails,
+        redeemActive,
+      };
+    }
+
+    case types.SET_SCHEME_LIST_KEY: {
+      return {
+        ...state,
+        schemeListKey,
       };
     }
 

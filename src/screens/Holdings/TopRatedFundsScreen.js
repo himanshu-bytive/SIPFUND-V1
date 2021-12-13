@@ -19,19 +19,15 @@ import { Ionicons, AntDesign, FontAwesome, FontAwesome5, } from 'react-native-ve
 import { Image, Header, CheckBox } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
 
-function Goals5Screen(props) {
-
-    const [visibleBNP, setVisibleBNP] = useState(false);
-    const [visibleBOI, setVisibleBOI] = useState(false);
-
-    const toggleOverlayBNP = () => { setVisibleBNP(!visibleBNP) };
-    const toggleOverlayBOI = () => { setVisibleBOI(!visibleBOI) };
+function TopRatedFundsScreen(props) {
+    const { isFetching, token, goalSummary, users, summary } = props
+    const [data, setData] = useState(summary?.holdings?.topRatedFunds ? summary?.holdings?.topRatedFunds : []);
+    const [visible, setVisible] = useState(null);
 
     return (
         <View style={styles.container}>
 
             {/* Header_sec */}
-
             <View style={Styles.Header_top}>
                 <Header
                     leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={Colors.RED} /></TouchableOpacity>} backgroundColor={Colors.PEACH}
@@ -41,14 +37,12 @@ function Goals5Screen(props) {
                         style={styles.logimg}
                     />}
                     rightComponent={<View style={Styles.headerkn}><Text style={Styles.textkn}>KN</Text></View>}
-
                 />
                 <Image
                     source={require('../../../assets/goles_new.png')}
                     style={styles.goles5logo}
                 />
                 <Text style={styles.text_goals}>Top Rated Funds</Text>
-
             </View>
 
             {/* container_box_sec */}
@@ -57,66 +51,44 @@ function Goals5Screen(props) {
 
                 <View style={styles.mainbox}>
 
-                    <TouchableOpacity onPress={() => props.navigation.navigate('Goals6')}>
+                    {data.map((item, key) => <TouchableOpacity style={{ width: '95%' }} key={key} onPress={() => setVisible(key)}>
                         <View style={styles.container_box}>
                             <View style={styles.smallbox}>
                                 <Image
                                     source={require('../../../assets/MidCap_img_new.png')}
                                     style={styles.mid_capimg}
                                 />
-
-                                <Text style={styles.Longterm}>BNP Paribas Mid Cap Fund</Text>
+                                <Text style={styles.Longterm}>{item.schemeName}</Text>
                             </View>
-                            <AntDesign name={visibleBNP ? "up" : "down"} size={20} color="#C0392B" />
-                        </View>
-                    </TouchableOpacity>
-                    {/* {visibleBNP && (
-                        <View style={styles.smallbox}></View>
-                    )} */}
-
-
-                    <TouchableOpacity onPress={toggleOverlayBOI}>
-                        <View style={styles.container_box}>
-                            <View style={styles.smallbox}>
-                                <Image
-                                    source={require('../../../assets/BOI_img.png')}
-                                    style={styles.mid_capimg}
-                                />
-
-                                <Text style={styles.Longterm}>BOI AXA Investment Managers</Text>
-                            </View>
-                            <AntDesign name={visibleBOI ? "up" : "down"} size={20} color="#C0392B" />
-                        </View>
-                    </TouchableOpacity>
-
-                    {visibleBOI && (<View style={styles.valua_sec}>
-                        <View style={styles.price}>
-
-                            <Text style={styles.rate_2}>₹ 10,00,000</Text>
-                            <Text style={styles.Current_Value}>Current Value</Text>
+                            <AntDesign name={(visible === key) ? "up" : "down"} size={20} color="#C0392B" />
                         </View>
 
-
-                        <View style={styles.Investment}>
-                            <View style={styles.Investment_value}>
-                                <Text style={styles.rate_2}>₹  9,50,000</Text>
-                                <Text style={styles.Current_Value}>Investment</Text>
+                        {(visible === key) && (<TouchableOpacity style={styles.valua_sec} onPress={() => props.navigation.navigate('TopRatedFundDetails')}>
+                            <View style={styles.price}>
+                                <Text style={styles.rate_2}>₹ {item.amount}</Text>
+                                <Text style={styles.Current_Value}>Current Value</Text>
                             </View>
 
+                            <View style={styles.Investment}>
+                                <View style={styles.Investment_value}>
+                                    <Text style={styles.rate_2}>₹  {item.investment}</Text>
+                                    <Text style={styles.Current_Value}>Investment</Text>
+                                </View>
 
-                            <View style={styles.Investment_value}>
-                                <Text style={styles.rate_2}>₹ 50,000</Text>
-                                <Text style={styles.Current_Value}>Profit/Loss</Text>
+
+                                <View style={styles.Investment_value}>
+                                    <Text style={styles.rate_2}>₹ {item.profitloss}</Text>
+                                    <Text style={styles.Current_Value}>Profit/Loss</Text>
+                                </View>
+
+                                <View style={styles.Investment_value}>
+                                    <Text style={styles.rate_2}>{item.cagr}%</Text>
+                                    <Text style={styles.Current_Value}>CAGR</Text>
+                                </View>
                             </View>
+                        </TouchableOpacity>)}
+                    </TouchableOpacity>)}
 
-                            <View style={styles.Investment_value}>
-
-                                <Text style={styles.rate_2}>17.01%</Text>
-                                <Text style={styles.Current_Value}>CAGR</Text>
-
-                            </View>
-                        </View>
-                    </View>)}
 
 
                 </View>
@@ -285,7 +257,6 @@ function Goals5Screen(props) {
 
 
 // StyleSheet
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -432,9 +403,10 @@ const styles = StyleSheet.create({
     },
 
     valua_sec: {
-        width: "90%",
+        width: "100%",
         borderRadius: 15,
         backgroundColor: Colors.RED,
+        marginBottom: 10,
         alignItems: "center",
     },
     price: {
@@ -472,6 +444,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => ({
     token: state.auth.token,
     users: state.auth.users,
+    summary: state.goals.summary,
 })
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
@@ -483,4 +456,4 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
         logOut: () => { AuthActions.logOut(dispatch) },
     }
 }
-export default connect(mapStateToProps, undefined, mapDispatchToProps)(Goals5Screen)
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(TopRatedFundsScreen)

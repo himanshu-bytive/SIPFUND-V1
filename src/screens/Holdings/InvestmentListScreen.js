@@ -14,17 +14,47 @@ import {
 } from "react-native";
 import { connect } from 'react-redux'
 import { Styles, Config, Colors, FormValidate } from '../../common'
-
+import { MyImage } from "../../components";
 import { Ionicons, AntDesign, FontAwesome, FontAwesome5, } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
 
-function Goals4Screen(props) {
+function InvestmentListScreen(props) {
+    const pageActiveInvest = useRef(false);
+    const { token, summary, investments, InvestmentSummaryDetails, investmentPlans, investment } = props
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+        if (summary?.holdings?.investplan) {
+            let data = summary?.holdings?.investplan ? summary?.holdings?.investplan : []
+            let newData = {}
+            for (let item of data) {
+                if (item.details.planName in newData === false) {
+                    newData[item.details.planName] = item
+                }
+            }
+            setData(newData)
+        }
+    }, [summary]);
+
+
+    const investDetails = (item) => {
+        InvestmentSummaryDetails(item)
+        props.navigation.navigate('InvestDetail')
+    }
+
+    useEffect(() => {
+        if (investment && pageActiveInvest.current) {
+            pageActiveInvest.current = false;
+            props.navigation.navigate("InvestmentDetail");
+        }
+    }, [investment]);
+
+
     return (
         <View style={styles.container}>
 
             {/* Header_sec */}
-
             <View style={Styles.Header_top}>
                 <Header
                     leftComponent={<TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 25 }}><AntDesign name={"arrowleft"} size={30} color={Colors.RED} /></TouchableOpacity>} backgroundColor={Colors.PEACH}
@@ -39,79 +69,38 @@ function Goals4Screen(props) {
                     source={require('../../../assets/Goles_4logo.png')}
                     style={styles.Goles_4logo}
                 />
-                <Text style={styles.text_goals}>INVESTMENT PLAN SET AS OF NOW</Text>
-
+                <Text style={styles.text_goals}>{data.length > 0 ? 'INVESTMENT PLAN SET AS OF NOW' : 'No investment Plan set as of now !'}</Text>
             </View>
 
             {/* container_box_sec */}
             <ScrollView style={styles.containerScroll}>
                 <Text style={styles.Investments}>My Investments</Text>
-
                 <View style={styles.mainbox}>
-
-                    <TouchableOpacity onPress={() => props.navigation.navigate('Goals5')}>
+                    {Object.keys(data).map((item, key) => <TouchableOpacity key={key} onPress={() => investDetails(data[item])}>
                         <View style={styles.container_box}>
                             <Image
-                                source={require('../../../assets/long-termimg.png')}
+                                source={{ uri: data[item].details?.holdings[0].imagePath }}
                                 style={styles.longtermimg}
                             />
-                            <Text style={styles.Longterm}>Long Term</Text>
+                            <Text style={styles.Longterm}>{item}</Text>
                         </View>
-                    </TouchableOpacity>
-
-                    <View style={styles.container_box}>
-                        <Image
-                            source={require('../../../assets/tax_img.png')}
-                            style={styles.longtermimg}
-                        />
-                        <Text style={styles.Longterm}>Tax Saving Funds</Text>
-                    </View>
-
-                    <View style={styles.container_box}>
-                        <Image
-                            source={require('../../../assets/Maskimg.png')}
-                            style={styles.longtermimg}
-                        />
-                        <Text style={styles.Longterm}>Better Than FD</Text>
-                    </View>
+                    </TouchableOpacity>)}
                 </View>
-
 
                 {/* Invest Now sec */}
-
-
                 <Text style={styles.Investments}>Invest Now</Text>
-
                 <View style={styles.mainbox}>
-
-                    <TouchableOpacity onPress={() => props.navigation.navigate('Goals5')}>
+                    {investments.map((item, key) => <TouchableOpacity key={key} onPress={(item) => {
+                        investmentPlans(item, token);
+                        pageActiveInvest.current = true;
+                    }}>
                         <View style={styles.container_box}>
-                            <Image
-                                source={require('../../../assets/aggressive_img.png')}
-                                style={styles.longtermimg}
-                            />
-                            <Text style={styles.Longterm}>Aggressive Funds</Text>
+                            {/* <MyImage width="80" height="80" svg={true} url={item.planImagePath} /> */}
+                            <Text style={styles.Longterm}>{item.plan}</Text>
                         </View>
-                    </TouchableOpacity>
+                    </TouchableOpacity>)}
 
-                    <View style={styles.container_box}>
-                        <Image
-                            source={require('../../../assets/fundsip_img.png')}
-                            style={styles.longtermimg}
-                        />
-                        <Text style={styles.Longterm}>Funds For SIP</Text>
-                    </View>
-
-                    <View style={styles.container_box}>
-                        <Image
-                            source={require('../../../assets/emergency_img.png')}
-                            style={styles.longtermimg}
-                        />
-                        <Text style={styles.Longterm}>Emergency Funds</Text>
-                    </View>
                 </View>
-
-
             </ScrollView>
         </View>
 
@@ -121,7 +110,6 @@ function Goals4Screen(props) {
 
 
 // StyleSheet
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -189,15 +177,20 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => ({
     token: state.auth.token,
     users: state.auth.users,
+    summary: state.goals.summary,
+    investments: state.investmentplan.investments,
+    investment: state.investmentplan.investment,
 })
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     const { dispatch } = dispatchProps;
-    const { AuthActions } = require('../../store/AuthRedux')
+    const { GoalsActions } = require('../../store/GoalsRedux')
+    const { InvestmentPlanActions } = require("../../store/InvestmentPlanRedux");
     return {
         ...stateProps,
         ...ownProps,
-        logOut: () => { AuthActions.logOut(dispatch) },
+        InvestmentSummaryDetails: (data) => { GoalsActions.InvestmentSummaryDetails(dispatch, data) },
+        investmentPlans: (params, token) => { InvestmentPlanActions.investmentPlans(dispatch, params, token) },
     }
 }
-export default connect(mapStateToProps, undefined, mapDispatchToProps)(Goals4Screen)
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(InvestmentListScreen)
