@@ -8,6 +8,10 @@ import { Image, Header, CheckBox } from "react-native-elements";
 function UpiScreen(props) {
     const { token, profile, user, checkout } = props;
 
+    useEffect(() => {
+        console.log(props.navigation.state.params.cart);
+    }, []);
+
     const monthsArr = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"];
     const fromDate = () => {
         const date = new Date();
@@ -59,18 +63,33 @@ function UpiScreen(props) {
         let formatted = [];
         let format = {};
         for (let item in data) {
-            format = {
-                amc: data[item].schemes.amc_code,
-                amount: data[item].schemes.sip,
-                folio: "",
-                product_code: data[item].schemes.productCode,
-                reinvest: "Z",
-                sip_amount: data[item].schemes.sip,
-                sip_end_date: sipEndDate(data[item].schemes.default_date),
-                sip_freq: "OM",
-                sip_from_date: sipFromDate(data[item].schemes.default_date),
-                sip_period_day: data[item].schemes.default_date,
-            };
+            if (props.navigation.state.params.fromCart) {
+                format = {
+                    amc: data[item].amc,
+                    amount: data[item].sip_amount,
+                    folio: "",
+                    product_code: data[item].product_code,
+                    reinvest: "Z",
+                    sip_amount: data[item].sip_amount,
+                    sip_end_date: data[item].sip_end_date,
+                    sip_freq: "OM",
+                    sip_from_date: data[item].sip_from_date,
+                    sip_period_day: data[item].sip_period_day,
+                };
+            } else {
+                format = {
+                    amc: data[item].schemes.amc_code,
+                    amount: data[item].schemes.sip,
+                    folio: "",
+                    product_code: data[item].schemes.productCode,
+                    reinvest: "Z",
+                    sip_amount: data[item].schemes.sip,
+                    sip_end_date: sipEndDate(data[item].schemes.default_date),
+                    sip_freq: "OM",
+                    sip_from_date: sipFromDate(data[item].schemes.default_date),
+                    sip_period_day: data[item].schemes.default_date,
+                };
+            }
             formatted.push(format);
         }
         return formatted;

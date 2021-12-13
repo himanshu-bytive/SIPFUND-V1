@@ -186,22 +186,43 @@ function TopRatedHomeScreen(props) {
             amcName,
             imagePath,
         });
-        console.log("imagePath", imagePath);
-        console.log("amcCode", amcCode);
-        console.log("amcName", amcName);
-        console.log("productCode", productCode);
-        console.log("productName", productName);
         setVisible(!visible);
     };
-    const sipFromDate = () => {
+
+    const sipFromDate = (default_date) => {
         const date = new Date();
 
-        return date.getDate() + "-" + monthsArr[date.getMonth()] + "-" + date.getFullYear();
+        let month = date.getMonth();
+        let year = date.getFullYear();
+
+        if (month === 11) {
+            month = 0;
+            year = year + 1;
+        }
+
+        if (date.getDate() > default_date) {
+            month = month + 1;
+        }
+
+        return ("00" + default_date).match(/\d{2}$/) + "-" + monthsArr[month] + "-" + year;
     };
-    const sipEndDate = () => {
+
+    const sipEndDate = (default_date) => {
         const date = new Date();
 
-        return date.getDate() + "-" + monthsArr[date.getMonth()] + "-" + (parseInt(date.getFullYear(), 10) + 30);
+        let month = date.getMonth();
+        let year = date.getFullYear();
+
+        if (month === 11) {
+            month = 0;
+            year = year + 1;
+        }
+
+        if (date.getDate() > default_date) {
+            month = month + 1;
+        }
+
+        return ("00" + default_date).match(/\d{2}$/) + "-" + monthsArr[month] + "-" + (parseInt(year, 10) + 30);
     };
     // overlay end
 
@@ -236,20 +257,17 @@ function TopRatedHomeScreen(props) {
                 image_path: states.imagePath,
             },
         };
-        console.log("params", params);
-        console.log("token=", token);
+        toggleOverlay();
         addItomToSip(params, token);
     };
     const addToCartSip = () => {
-        let fromDate = sipFromDate();
-        let endDate = sipEndDate();
         let params = {
             cartDetails: {
                 trxn_nature: "S",
                 sip_period_day: states.date,
-                sip_from_date: fromDate,
+                sip_from_date: sipFromDate(states.date),
                 sip_freq: "OM",
-                sip_end_date: endDate,
+                sip_end_date: sipEndDate(states.date),
                 sip_amount: states.amount,
                 reinvest: "Z",
                 product_name: states.productName,
@@ -261,8 +279,7 @@ function TopRatedHomeScreen(props) {
                 image_path: states.imagePath,
             },
         };
-        console.log("params", params);
-        console.log("token=", token);
+        toggleOverlay();
         addItomToSip(params, token);
     };
 
