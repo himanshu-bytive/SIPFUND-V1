@@ -23,14 +23,15 @@ import {
   HomeScreen,
   UpiScreen,
   PanScreen,
-  Goals2Screen,
-  Goals3Screen,
-  Goals4Screen,
-  Goals5Screen,
-  Goals6Screen,
+  GoalsListScreen,
+  GoalDetailScreen,
+  InvestmentListScreen,
+  InvestDetailScreen,
+  TopRatedFundsScreen,
+  TopRatedFundDetailsScreen,
   OwnerChoice,
-  GoalsScreen,
   GoalsSummaryScreen,
+  NoGoalsScreen,
   ProfileScreen,
   ExistingScreen,
   ReferEarnScreen,
@@ -318,43 +319,49 @@ export const HoldingsSummaryStack = createStackNavigator(
         headerShown: false,
       },
     },
-    Goals1: {
-      screen: GoalsSummaryScreen,
+    NoGoals: {
+      screen: NoGoalsScreen,
       navigationOptions: {
         headerShown: false,
       },
     },
-    Goals2: {
-      screen: Goals2Screen,
+    GoalsList: {
+      screen: GoalsListScreen,
       navigationOptions: {
         headerShown: false,
       },
     },
-    Goals3: {
-      screen: Goals3Screen,
+    GoalDetail: {
+      screen: GoalDetailScreen,
       navigationOptions: {
         headerShown: false,
       },
     },
-    Goals4: {
-      screen: Goals4Screen,
+    InvestmentList: {
+      screen: InvestmentListScreen,
       navigationOptions: {
         headerShown: false,
       },
     },
-    Goals5: {
-      screen: Goals5Screen,
+    InvestDetail: {
+      screen: InvestDetailScreen,
       navigationOptions: {
         headerShown: false,
       },
     },
-    Goals6: {
-      screen: Goals6Screen,
+    TopRatedFunds: {
+      screen: TopRatedFundsScreen,
       navigationOptions: {
         headerShown: false,
       },
     },
-    Goals7: {
+    TopRatedFundDetails: {
+      screen: TopRatedFundDetailsScreen,
+      navigationOptions: {
+        headerShown: false,
+      },
+    },
+    Owner: {
       screen: OwnerChoice,
       navigationOptions: {
         headerShown: false,

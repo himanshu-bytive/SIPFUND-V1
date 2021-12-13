@@ -14,11 +14,20 @@ import {
 } from "react-native";
 import { connect } from 'react-redux'
 import { Styles, Config, Colors, FormValidate } from '../../common'
-
+import { MyImage } from "../../components";
 import { Ionicons, AntDesign, Entypo, FontAwesome5 } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 
-function Goals2Screen(props) {
+function GoalsListScreen(props) {
+    const { summary, goalSummaryDetails } = props
+    const [data, setData] = useState(summary?.holdings?.plansAndGoalsData ? summary?.holdings?.plansAndGoalsData : []);
+
+
+    const GoalDetailPage = (item) => {
+        goalSummaryDetails(item)
+        props.navigation.navigate('GoalDetail')
+    }
+
     return (
         <View style={styles.container}>
             <View style={Styles.Header_top}>
@@ -37,30 +46,20 @@ function Goals2Screen(props) {
                 <Text style={styles.text_goals}>Goals</Text>
             </View>
             <ScrollView style={styles.containerScroll}>
-
-                <TouchableOpacity onPress={() => props.navigation.navigate('Goals3')}>
+                {data.map((item, key) => <TouchableOpacity key={key} onPress={() => GoalDetailPage(item)}>
                     <View style={styles.education}>
-
-
                         <View style={styles.child_sec}>
-
                             <Image
                                 source={require('../../../assets/childimg.png')}
                                 style={styles.goals_2}
                             />
                         </View>
-
                         <View tyle={styles.education_sec}>
-                            <Text style={styles.child}>Child’s Education</Text>
-                            <Text style={styles.sip}>SIP Investment</Text>
+                            <Text style={styles.child}>{item.details.goal.name}</Text>
+                            <Text style={styles.sip}>{item.details.goal.holdings[0].category}</Text>
                             <View style={styles.img_sec}>
-                                <Image
-                                    source={require('../../../assets/Goalsimg.png')}
-                                    style={styles.goals_3}
-                                />
-
-                                <Text style={styles.price}>10,00,000/-</Text>
-
+                                <MyImage width="145" height="145" svg={true} url={item.details.goal.holdings[0].imagePath} />
+                                <Text style={styles.price}>₹ {item.details.goal.totalAmount}/-</Text>
                             </View>
                             <Text style={styles.child_text}>Target Set</Text>
                             <View style={styles.img_sec}>
@@ -68,94 +67,14 @@ function Goals2Screen(props) {
                                     source={require('../../../assets/clock_icon.png')}
                                     style={styles.clock_icon}
                                 />
-
-                                <Text style={styles.price}>10 Years</Text>
+                                <Text style={styles.price}>{item.details.goal.numberOfYears} Years</Text>
                             </View>
                             <Text style={styles.child_text}>Time to achieve</Text>
-
                         </View>
-
                     </View>
-                </TouchableOpacity>
+                </TouchableOpacity>)}
 
-                <TouchableOpacity onPress={() => props.navigation.navigate('Goals3')}>
-                    <View style={styles.education}>
-
-
-                        <View style={styles.child_sec}>
-
-                            <Image
-                                source={require('../../../assets/Rich.png')}
-                                style={styles.goals_2}
-                            />
-                        </View>
-
-                        <View tyle={styles.education_sec}>
-                            <Text style={styles.child}>Retire Rich</Text>
-                            <Text style={styles.sip}>SIP Investment</Text>
-                            <View style={styles.img_sec}>
-                                <Image
-                                    source={require('../../../assets/Goalsimg.png')}
-                                    style={styles.goals_3}
-                                />
-
-                                <Text style={styles.price}>10,00,000/-</Text>
-
-                            </View>
-                            <Text style={styles.child_text}>Target Set</Text>
-                            <View style={styles.img_sec}>
-                                <Image
-                                    source={require('../../../assets/clock_icon.png')}
-                                    style={styles.clock_icon}
-                                />
-
-                                <Text style={styles.price}>10 Years</Text>
-                            </View>
-                            <Text style={styles.child_text}>Time to achieve</Text>
-
-                        </View>
-
-                    </View>
-                </TouchableOpacity>
-
-                <TouchableOpacity onPress={() => props.navigation.navigate('Goals3')}>
-                    <View style={styles.education}>
-
-
-                        <View style={styles.child_sec}>
-
-                            <Image
-                                source={require('../../../assets/marrige_img.png')}
-                                style={styles.goals_2}
-                            />
-                        </View>
-
-                        <View tyle={styles.education_sec}>
-                            <Text style={styles.child}>Child’s Marrige</Text>
-                            <Text style={styles.sip}>SIP Investment</Text>
-                            <View style={styles.img_sec}>
-                                <Image
-                                    source={require('../../../assets/Goalsimg.png')}
-                                    style={styles.goals_3}
-                                />
-                                <Text style={styles.price}>₹ 10,00,000/-</Text>
-                            </View>
-                            <Text style={styles.child_text}>Target Set</Text>
-                            <View style={styles.img_sec}>
-                                <Image
-                                    source={require('../../../assets/clock_icon.png')}
-                                    style={styles.clock_icon}
-                                />
-                                <Text style={styles.price}>10 Years</Text>
-                            </View>
-                            <Text style={styles.child_text}>Time to achieve</Text>
-
-                        </View>
-
-                    </View>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.botton_box}>
+                <TouchableOpacity onPress={() => props.navigation.navigate("Home")} style={styles.botton_box}>
                     <Text style={styles.get_otp}>SET OTHER GOALS</Text>
                 </TouchableOpacity>
 
@@ -174,7 +93,7 @@ const styles = StyleSheet.create({
     containerScroll: {
         width: '100%'
     },
-  
+
     Goalsimg: {
         height: 87,
         width: 94,
@@ -271,15 +190,16 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => ({
     token: state.auth.token,
     users: state.auth.users,
+    summary: state.goals.summary,
 })
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     const { dispatch } = dispatchProps;
-    const { AuthActions } = require('../../store/AuthRedux')
+    const { GoalsActions } = require('../../store/GoalsRedux')
     return {
         ...stateProps,
         ...ownProps,
-        logOut: () => { AuthActions.logOut(dispatch) },
+        goalSummaryDetails: (data) => { GoalsActions.goalSummaryDetails(dispatch, data) },
     }
 }
-export default connect(mapStateToProps, undefined, mapDispatchToProps)(Goals2Screen)
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(GoalsListScreen)

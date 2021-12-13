@@ -43,7 +43,7 @@ export const InvestmentPlanActions = {
             Alert.alert(data.message);
             dispatch({ type: types.FETCH_INVESTMENT_PLAN_FAILURE, error: data.message });
         } else {
-            dispatch({ type: types.FETCH_INVESTMENT_PLAN_SUCCESS, investment: data.response, myInvestlist: data.response.schemes });
+            dispatch({ type: types.FETCH_INVESTMENT_PLAN_SUCCESS, investment: data.response, myInvestlist: data.response ? data.response.schemes : [] });
         }
     },
     investmentConfig: async (dispatch, configs) => {

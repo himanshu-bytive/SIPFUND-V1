@@ -11,6 +11,7 @@ import {
     TextInput,
     ActivityIndicator
 } from "react-native";
+import moment from 'moment';
 import { connect } from 'react-redux'
 import { Styles, Config, Colors, FormValidate } from '../../common'
 
@@ -19,14 +20,30 @@ import { Image, Header, CheckBox } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
 
 function GoalsSummaryScreen(props) {
-
     const { isFetching, token, goalSummary, users, summary } = props
+    const [data, setData] = useState(summary?.holdings?.summary ? summary?.holdings?.summary : {});
 
     useEffect(() => {
-        goalSummary({ "phoneNumber": users.mobileNo }, token)
+        // goalSummary({ "phoneNumber": users.mobileNo }, token)
     }, []);
 
-    console.log(summary)
+    useEffect(() => {
+        setData(summary?.holdings?.summary ? summary?.holdings?.summary : {})
+    }, [summary]);
+
+
+    const plansAndGoalsData = () => {
+        if (summary?.holdings?.plansAndGoalsData && summary?.holdings?.plansAndGoalsData.length > 0) {
+            props.navigation.navigate('GoalsList')
+        } else {
+            props.navigation.navigate('NoGoals')
+        }
+    }
+
+    const investplanData = () => {
+        props.navigation.navigate('InvestmentList')
+    }
+
 
     return (
         <View style={styles.container}>
@@ -56,26 +73,22 @@ function GoalsSummaryScreen(props) {
                 </View>
 
                 {/* Summary....sec */}
-
-
                 <View style={styles.education1}>
-
                     <View style={{ alignItems: "center", }}>
                         <Text style={styles.child5}>Summary</Text>
-                        <Text style={styles.value}>Value as of Feb 8,2021</Text>
-                        <Text style={styles.rupees}>₹ 1,02,50,000</Text>
-
+                        <Text style={styles.value}>Value as of {moment(new Date()).format('DD-MM-YYYY')}</Text>
+                        <Text style={styles.rupees}>₹ {data?.currentvalue}</Text>
                         <Text style={styles.value}>Current Value</Text>
                     </View>
 
                     <View style={styles.value_sec}>
 
                         <View style={styles.Profit}>
-                            <Text style={styles.investment}>₹ 1,00,00,000</Text>
+                            <Text style={styles.investment}>{data?.investment}</Text>
                             <Text style={styles.investment2}>Investment</Text>
                         </View>
                         <View style={styles.Profit}>
-                            <Text style={styles.investment}>₹ 2,50,000</Text>
+                            <Text style={styles.investment}>₹ {data?.['profit-loss']}</Text>
                             <Text style={styles.investment2}>Profit/Loss</Text>
                         </View>
 
@@ -83,7 +96,7 @@ function GoalsSummaryScreen(props) {
 
                 </View>
 
-                <TouchableOpacity onPress={() => props.navigation.navigate('Goals2')}>
+                <TouchableOpacity onPress={() => plansAndGoalsData()}>
                     <View style={styles.education}>
                         <View style={styles.education_sec}>
                             <Image
@@ -94,13 +107,13 @@ function GoalsSummaryScreen(props) {
                                 <Text style={styles.Goals}>Goals</Text>
                             </View>
                         </View>
-                        <Text style={styles.number}><Text style={styles.red_color}>3</Text>/5</Text>
+                        <Text style={styles.number}>{data?.goals}</Text>
                     </View>
                 </TouchableOpacity>
 
                 {/* Investment Plan..._sec */}
 
-                <TouchableOpacity onPress={() => props.navigation.navigate('Goals2')}>
+                <TouchableOpacity onPress={() => investplanData()}>
                     <View style={styles.education_2}>
                         <View style={styles.education_sec}>
                             <Image
@@ -111,13 +124,12 @@ function GoalsSummaryScreen(props) {
                                 <Text style={styles.Goals}>Investment Plan</Text>
                             </View>
                         </View>
-                        <Text style={styles.number}><Text style={styles.red_color}>8</Text>/12</Text>
+                        <Text style={styles.number}>{data?.investment}</Text>
                     </View>
                 </TouchableOpacity>
 
                 {/* Top Rated Funds..._sec */}
-
-                <TouchableOpacity onPress={() => props.navigation.navigate('Goals2')}>
+                <TouchableOpacity onPress={() => props.navigation.navigate('TopRatedFunds')}>
                     <View style={styles.education}>
                         <View style={styles.education_sec}>
                             <Image
@@ -128,14 +140,13 @@ function GoalsSummaryScreen(props) {
                                 <Text style={styles.Goals}>Top Rated Funds</Text>
                             </View>
                         </View>
-                        <Text style={styles.number}><Text style={styles.red_color}>5</Text>/10</Text>
+                        <Text style={styles.number}>{data?.topratedfund}</Text>
                     </View>
                 </TouchableOpacity>
 
 
                 {/* Own Choice...sec */}
-
-                <TouchableOpacity onPress={() => props.navigation.navigate('Goals2')}>
+                <TouchableOpacity onPress={() => props.navigation.navigate('Owner')}>
                     <View style={styles.education_2}>
                         <View style={styles.education_sec}>
                             <Image
@@ -146,7 +157,7 @@ function GoalsSummaryScreen(props) {
                                 <Text style={styles.Goals}>Own Choice</Text>
                             </View>
                         </View>
-                        <Text style={styles.number}><Text style={styles.red_color}>3</Text>/8</Text>
+                        <Text style={styles.number}>{data?.ownchoice}</Text>
                     </View>
                 </TouchableOpacity>
             </ScrollView>
@@ -158,7 +169,6 @@ function GoalsSummaryScreen(props) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-
     },
 
     header: {
