@@ -40,7 +40,7 @@ function SwitchItem(props) {
   } = props;
   const [amount, setAmount] = useState(true);
   const [allUnits, setAllUnits] = useState(false);
-  const [amountValue, setAmountValue] = useState();
+  const [amountValue, setAmountValue] = useState("");
   const [schemeIndex, setSchemeIndex] = useState();
   const [selectedScheme, setSelectedScheme] = useState("");
 
@@ -88,8 +88,11 @@ function SwitchItem(props) {
     productCode,
     sourceReinvest
   ) => {
-    if (selectedScheme !== "") {
-      console.log("AMOUNT=", typeof amountValue);
+    if (
+      selectedScheme !== "" &&
+      (amount && amountValue.length === 0 ? false : true)
+    ) {
+      console.log("AMOUNT=", amountValue.length);
       console.log("value=", typeof value);
       if (amount && +amountValue > currentvalue) {
         console.log("here");
