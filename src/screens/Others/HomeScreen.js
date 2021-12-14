@@ -70,7 +70,7 @@ function HomeScreen(props) {
                             <Text style={styles.get_otp}>Start investment</Text>
                         </TouchableOpacity>
                     ) : (
-                        <TouchableOpacity onPress={() => props.navigation.navigate(steps === 3 ? "Goals" : "Goals")} style={styles.botton_box}>
+                        <TouchableOpacity onPress={() => props.navigation.navigate(steps === 3 ? "RegisterDetails" : "UploadDocument")} style={styles.botton_box}>
                             <Text style={styles.get_otp}>COMPLETE ACCOUNT SETUP</Text>
                         </TouchableOpacity>
                     )}

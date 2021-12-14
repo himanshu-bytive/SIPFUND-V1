@@ -2,26 +2,133 @@ import React, { useState, useRef, useEffect, useContext } from "react";
 import {
     StyleSheet,
     View,
+    ScrollView,
     Text,
 } from "react-native";
 import { connect } from 'react-redux'
+import { DataTable } from 'react-native-paper';
 import { Styles, Config, Colors, FormValidate } from '../../common'
-import { Ionicons, AntDesign, MaterialIcons, Feather, Entypo, FontAwesome, FontAwesome5, } from 'react-native-vector-icons';
-
-
-const fund_type = [
-    { text: 'History', number: '2016', class: 'red' },
-    { text: 'Axis Asset Management..', number: '5.3%' },
-    { text: 'Category (Multi-cap)', number: '5.38' },
-    { text: '+/- Category (Multi-Cap)', number: '-4.68' },
-]
 
 function PerformanceHistory(props) {
+    const { detailsInfo } = props
+    const [historyRow, setHistoryRow] = useState([])
+    const [historyData, setHistoryData] = useState([])
+
+
+    useEffect(() => {
+        let detailedPortFolio = detailsInfo ? detailsInfo[0].api : {};
+        let currentYear = new Date(detailedPortFolio["FHV2-PortfolioDate"]);
+        let year = currentYear.getFullYear();
+        let data = [];
+        for (var i = 0; i < 4; i++) {
+            var tempObj = [];
+            if (i == 0) {
+                for (var j = 10; j >= 1; j--) {
+                    tempObj.push(year - j);
+                }
+            } else if (i == 1) {
+                for (var j = 10; j >= 1; j--) {
+                    if (detailedPortFolio['CYR-Year' + j]) {
+                        tempObj.push(parseFloat(detailedPortFolio['CYR-Year' + j]).toFixed(2));
+                    } else {
+                        tempObj.push('-');
+                    }
+                }
+            } else if (i == 2) {
+                for (var j = 10; j >= 1; j--) {
+                    if (detailedPortFolio['CYR-CategoryYear' + j]) {
+                        tempObj.push(parseFloat(detailedPortFolio['CYR-CategoryYear' + j]).toFixed(2));
+                    } else {
+                        tempObj.push('-');
+                    }
+                }
+            } else if (i == 3) {
+                for (var j = 10; j >= 1; j--) {
+                    if (detailedPortFolio['CYR-CategoryYear' + j] && detailedPortFolio['CYR-Year' + j]) {
+                        tempObj.push(parseFloat(detailedPortFolio['CYR-Year' + j] - detailedPortFolio['CYR-CategoryYear' + j]).toFixed(2));
+                    } else {
+                        tempObj.push('-');
+                    }
+                }
+            }
+            data.push(tempObj);
+        }
+        let historyRow = []
+        let historyTable = []
+        for (var i = 0; i < data.length; i++) {
+            if (i == 0) {
+                for (var j = 0; j < 10; j++) {
+                    if (j == 0) {
+                        historyRow.push(`History (${detailedPortFolio["FHV2-PortfolioDate"]})`)
+                    } else if (j == 9) {
+                        historyRow.push(data[i][j])
+                    } else {
+                        historyRow.push(data[i][j])
+                    }
+                }
+            } else if (i == 1) {
+                let dataArray = []
+                for (var j = 0; j < 10; j++) {
+                    if (j == 0) {
+                        dataArray.push(`${detailedPortFolio["FSCBI-FundName"]}`)
+                        dataArray.push(data[i][j])
+                    } else if (j == 9) {
+                        dataArray.push(data[i][j])
+                    } else {
+                        dataArray.push(data[i][j])
+                    }
+                }
+                historyTable.push(dataArray)
+            } else if (i == 2) {
+                let dataArray = []
+                for (var j = 0; j < 10; j++) {
+                    if (j == 0) {
+                        dataArray.push(`Category ${detailedPortFolio["DP-CategoryName"]}`)
+                        dataArray.push(data[i][j])
+                    } else if (j == 9) {
+                        dataArray.push(data[i][j])
+                    } else {
+                        dataArray.push(data[i][j])
+                    }
+                }
+                historyTable.push(dataArray)
+            } else if (i == 3) {
+                let dataArray = []
+                for (var j = 0; j < 10; j++) {
+                    if (j == 0) {
+                        dataArray.push(`+/- Category  ${detailedPortFolio["DP-CategoryName"]}`)
+                        dataArray.push(data[i][j])
+                    } else if (j == 9) {
+                        dataArray.push(data[i][j])
+                    } else {
+                        dataArray.push(data[i][j])
+                    }
+                }
+                historyTable.push(dataArray)
+            }
+
+        }
+        setHistoryRow(historyRow)
+        setHistoryData(historyTable)
+    }, [detailsInfo]);
+
     return (<View style={styles.history}>
-        {fund_type.map((item) => <View style={styles.name_sec}>
-            <View style={styles.name_left}><Text style={[styles.name, (item.class === 'red' ? styles.name_text_red : '')]}>{item.text}</Text></View>
-            <View style={styles.name_right}><Text style={[styles.name_text, (item.class === 'red' ? styles.name_text_red : '')]}>{item.number}</Text></View>
-        </View>)}
+        <ScrollView
+            horizontal={true}
+            style={{
+                width: '100%',
+                borderColor: "#D3D3D3"
+            }}>
+            <DataTable style={styles.dataTable}>
+                <DataTable.Header style={styles.headerbg}>
+                    {historyRow.map((item, key) => <DataTable.Title key={key} style={styles.headerCell}>{item}</DataTable.Title>)}
+                </DataTable.Header>
+
+                {historyData.map((item, key) => <DataTable.Row key={key} style={styles.headersec}>
+                    {item.map((sub, k) => <DataTable.Cell key={k} style={styles.bodyCell}>{sub}</DataTable.Cell>)}
+                </DataTable.Row>)}
+            </DataTable>
+        </ScrollView>
     </View>);
 }
 
@@ -29,111 +136,26 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
-    logimg: {
-        height: 65,
-        width: 203,
-        marginTop: 10,
-    },
-    contain_box: { margin: 20, },
-
-    bottom_sec: {
-        paddingVertical: 20,
-        marginHorizontal: 10,
-    },
-    holding: {
-        flexDirection: "row",
-        borderBottomWidth: 2,
-        borderBottomColor: Colors.RED,
-        paddingVertical: 5,
-
-    },
-    holding_text: {
-        fontSize: 20,
-        color: Colors.RED,
-    },
-    holding_icon: {
-        position: 'absolute',
-        right: 0,
-        marginTop: 5,
-    },
-    history: {
+    dataTable: {
         borderWidth: 1,
-        borderColor: Colors.DEEP_GRAY_5,
+        borderColor: Colors.DEEP_GRAY,
     },
-
-    name_sec: {
-        flexDirection: "row",
-
-        borderBottomWidth: 1,
-        borderColor: Colors.DEEP_GRAY_5,
+    headerCell: {
+        padding: 5,
+        width: 70,
     },
-    name_left: {
-        width: '70%',
-        borderRightWidth: 1,
-        borderColor: Colors.DEEP_GRAY_5,
-        paddingVertical: 5,
+    bodyCell: {
+        padding: 5,
+        width: 120,
         paddingLeft: 20,
     },
-    name_right: {
-        alignItems: "center",
-        width: '30%',
-        paddingVertical: 5,
-    },
-    name_text: {
-        fontSize: 15,
-    },
-    name_text_red: {
-        color: Colors.RED
-    },
-    name: { fontSize: 15, },
-    current: { fontSize: 10, },
-    value: {
-        fontSize: 11,
-        marginHorizontal: 10,
-        marginBottom: 20,
-    },
-
-    minimum: {
-        flexDirection: "row",
-
-
-    },
-    minimum_sec: {
-        borderLeftWidth: 1,
-        borderBottomWidth: 1,
-        borderColor: Colors.DEEP_GRAY_5,
-        alignItems: "center",
-        width: '33.3333333%',
-        paddingVertical: 5,
-
-    },
-    mini_tex: {
-        fontSize: 11,
-        textAlign: "center",
-    },
-    bottom_holding: {
-        borderWidth: 1,
-        marginVertical: 20,
-        borderColor: Colors.DEEP_GRAY_5,
-    },
-    bottom_holdingleft: { width: '40%' },
-    bottom_holdingright: { width: '60%' }
-
 
 });
 
 const mapStateToProps = (state) => ({
     token: state.auth.token,
-    users: state.auth.users,
+    users: state.auth.user,
+    detailsInfo: state.fundDetail.detailsInfo,
 })
 
-const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
-    const { dispatch } = dispatchProps;
-    const { AuthActions } = require('../../store/AuthRedux')
-    return {
-        ...stateProps,
-        ...ownProps,
-        logOut: () => { AuthActions.logOut(dispatch) },
-    }
-}
-export default connect(mapStateToProps, undefined, mapDispatchToProps)(PerformanceHistory)
+export default connect(mapStateToProps)(PerformanceHistory)

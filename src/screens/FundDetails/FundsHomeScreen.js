@@ -55,12 +55,12 @@ function FundsHomeScreen(props) {
 
     useEffect(() => {
         var detailedPortFolio = detailsInfo[0].api['FHV2-HoldingDetail'];
-        console.log('aaa ')
-        console.log(detailedPortFolio)
+        // console.log('aaa ')
+        // console.log(detailedPortFolio)
         if (detailsInfo[0] && detailsInfo[0].api) {
             // console.log(detailsInfo[0].api)
         }
-    }, [detailsMap]);
+    }, [detailsInfo]);
 
     return (
         <View style={styles.container}>

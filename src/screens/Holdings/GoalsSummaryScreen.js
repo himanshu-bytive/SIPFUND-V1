@@ -24,7 +24,7 @@ function GoalsSummaryScreen(props) {
     const [data, setData] = useState(summary?.holdings?.summary ? summary?.holdings?.summary : {});
 
     useEffect(() => {
-        // goalSummary({ "phoneNumber": users.mobileNo }, token)
+        goalSummary({ "phoneNumber": users.mobileNo }, token)
     }, []);
 
     useEffect(() => {

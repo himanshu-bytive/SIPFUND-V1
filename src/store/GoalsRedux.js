@@ -90,8 +90,7 @@ export const GoalsActions = {
     },
     goalSummary: async (dispatch, params, token) => {
         dispatch({ type: types.FETCH_SUMMARY_PENDING });
-        let data = await SiteAPI.apiGetCall(`/goalsAndinvestmentHoldings`, params, token);
-        console.log('aaa ', data)
+        let data = await SiteAPI.apiPostCall(`/goalsAndinvestmentHoldings`, params, token);
         if (data.error) {
             Alert.alert(data.message)
             dispatch({ type: types.FETCH_SUMMARY_FAILURE, error: data.message });
