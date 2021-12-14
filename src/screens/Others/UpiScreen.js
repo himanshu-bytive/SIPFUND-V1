@@ -6,15 +6,17 @@ import { Ionicons, Entypo } from "react-native-vector-icons";
 import { Image, Header, CheckBox } from "react-native-elements";
 
 function UpiScreen(props) {
-  const { token, profile, user, checkout } = props;
+  const { token, profile, user, checkout, umrn, getUMRN } = props;
 
   useEffect(() => {
-    console.log(props.navigation.state.params.cart);
-  }, []);
+    if (user) {
+      getUMRN(user.IIN, token);
+    }
+  }, [user]);
 
   useEffect(() => {
-    if (profile) console.log(profile);
-  }, [profile]);
+    if (umrn) console.log(umrn);
+  }, [umrn]);
 
   const monthsArr = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"];
   const fromDate = () => {
@@ -110,11 +112,10 @@ function UpiScreen(props) {
   };
 
   const getParams = (upi, mandate) => {
-    console.log("mode", getPaymentMode(upi, mandate));
     return {
       service_request: {
         ac_no: profile?.AC_NO,
-        ach_amt: props.navigation.state.params.sum,
+        ach_amt: props.navigation.state.params?.sum,
         ach_enddate: endDate(),
         ach_fromdate: fromDate(),
         advisory_charge: " ",
@@ -131,7 +132,7 @@ function UpiScreen(props) {
         ifsc_code: profile?.IFSC_CODE,
         iin: user?.IIN,
         instrm_ac_no: " ",
-        instrm_amount: props.navigation.state.params.sum,
+        instrm_amount: props.navigation.state.params?.sum,
         instrm_bank: profile?.BANK_NAME,
         instrm_branch: " ",
         instrm_charges: " ",
@@ -180,9 +181,9 @@ function UpiScreen(props) {
         sub_broker_code: " ",
         sub_trxn_type: "S",
         trans_count: props.navigation.state.params.cart.length,
-        trxn_acceptance: upi ? "OL" : "ALL",
+        trxn_acceptance: upi || mandate ? "OL" : "ALL",
         trxn_execution: " ",
-        umrn: " ",
+        umrn: mandate ? umrn.UMRN_NO : " ",
         until_cancelled: "Y",
         utr: "",
       },
@@ -239,7 +240,7 @@ function UpiScreen(props) {
               <TouchableOpacity
                 onPress={() => {
                   let params = getParams(false, true);
-                  checkout(params, token);
+                  checkout(params, token, true);
                 }}
                 style={styles.botton_box}
               >
@@ -312,6 +313,7 @@ const mapStateToProps = (state) => ({
   users: state.auth.users,
   profile: state.auth.profile,
   user: state.auth.user,
+  umrn: state.checkout.umrn,
 });
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
@@ -327,8 +329,11 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     getProfile: (params, token) => {
       AuthActions.getProfile(dispatch, params, token);
     },
-    checkout: (params, token) => {
-      CheckoutActions.checkoutButton(dispatch, params, token);
+    checkout: (params, token, mandate) => {
+      CheckoutActions.checkoutButton(dispatch, params, token, mandate);
+    },
+    getUMRN: (iin, token) => {
+      CheckoutActions.getUMRN(dispatch, iin, token);
     },
   };
 };
