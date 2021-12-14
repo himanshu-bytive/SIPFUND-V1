@@ -207,7 +207,7 @@ const initialState = {
   externalSwitch: null,
   user: null,
   token: null,
-  schemeDetails: null,
+  schemeDetails: [],
   amcCode: null,
   switchCheckoutDetails: null,
   switchExternalCheckoutDetails: null,

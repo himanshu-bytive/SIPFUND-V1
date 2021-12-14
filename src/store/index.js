@@ -17,6 +17,7 @@ import { reducer as CheckoutRedux } from './CheckoutRedux';
 import { reducer as GoalsRedux } from './GoalsRedux';
 import { reducer as AddMoreFundsRedux } from './AddMoreFundsRedux';
 import { reducer as ReportsRedux } from './ReportsRedux';
+import { reducer as FundDetailRedux } from './FundDetailRedux';
 const config = {
     key: 'root',
     storage: AsyncStorage,
@@ -41,5 +42,6 @@ export default persistCombineReducers(config, {
     goals: GoalsRedux,
     addmorefunds: AddMoreFundsRedux,
     reports: ReportsRedux,
+    fundDetail: FundDetailRedux,
 
 });

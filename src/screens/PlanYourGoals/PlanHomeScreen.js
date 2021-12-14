@@ -8,7 +8,7 @@ import { Image, Header } from "react-native-elements";
 
 function PlanHomeScreen(props) {
     const pageActive = useRef(false);
-    const { token, goalDetail, mygolelist, isFetching, golesConfig, myGoles } = props;
+    const { token, goalDetail, mygolelist, isFetching, golesConfig, myGoles, fundDetails } = props;
 
     const [amount, setAmount] = useState(65000);
     const [time, setTime] = useState(15);
@@ -197,7 +197,7 @@ function PlanHomeScreen(props) {
                         <Text style={styles.price}>₹{Number(sipAmount).toFixed(2)}</Text>
                     </View>
 
-                    <GoalFundType data={mygolelist} myGoles={myGoles} onPress={() => props.navigation.navigate("FundsDetails")} />
+                    <GoalFundType data={mygolelist} myGoles={myGoles} onPress={(item) => { fundDetails(item); props.navigation.navigate("FundsDetails") }} />
                 </View>
             </ScrollView>
             <TouchableOpacity onPress={() => props.navigation.navigate("PlanSearch")}>
@@ -488,6 +488,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     const { dispatch } = dispatchProps;
     const { GoalsActions } = require("../../store/GoalsRedux");
+    const { FundDetailActions } = require('../../store/FundDetailRedux')
     return {
         ...stateProps,
         ...ownProps,
@@ -500,6 +501,7 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
         myGoles: (data) => {
             GoalsActions.myGoles(dispatch, data);
         },
+        fundDetails: (data) => { FundDetailActions.fundDetails(dispatch, data) },
     };
 };
 export default connect(mapStateToProps, undefined, mapDispatchToProps)(PlanHomeScreen);

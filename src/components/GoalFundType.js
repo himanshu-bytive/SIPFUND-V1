@@ -54,7 +54,7 @@ const randerData = (data, k, onPress, onChange) => {
                             <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY, }}></View>
                         </View>
                         <View style={styles.icons}>
-                            <TouchableOpacity style={styles.circle} onPress={onPress}>
+                            <TouchableOpacity style={styles.circle} onPress={() => onPress(item)}>
                                 <AntDesign name="right" size={30} color="#C0392B" />
                             </TouchableOpacity>
                         </View>

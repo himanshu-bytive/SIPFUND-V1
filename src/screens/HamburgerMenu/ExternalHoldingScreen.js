@@ -18,25 +18,20 @@ import { Styles, Config, Colors, FormValidate } from '../../common'
 import { Entypo, AntDesign } from 'react-native-vector-icons';
 import { Header, Overlay } from 'react-native-elements';
 
-const width = Dimensions.get('window').width;
-const height = Dimensions.get('window').height;
-
-const investmentData = [
-    { title: 'Long Term', image: require('../../../assets/term1.png') },
-    { title: 'Tax Saving Funds', image: require('../../../assets/term2.png') },
-    { title: 'Better Than', image: require('../../../assets/term3.png') },
-    { title: 'Tax Saving Funds', image: require('../../../assets/term4.png') },
-    { title: 'Better Than FD', image: require('../../../assets/term5.png') },
-    { title: 'Aggressive Funds', image: require('../../../assets/term6.png') },
-]
 
 function HoldingsScreen(props) {
+    const { token, users, getSchemeList, schemeDetails } = props
+    const [data, setData] = useState(schemeDetails);
+    const [investment, setInvestment] = useState(999.95);
+    const [currentValue, setCurrentValue] = useState(1532.69);
+    const [profit, setProfit] = useState(532.74);
 
-    const [visible, setVisible] = useState(false);
 
-    const toggleOverlay = () => {
-        setVisible(!visible);
-    };
+    useEffect(() => {
+        getSchemeList('128', token)
+    }, []);
+
+    // console.log(schemeDetails)
 
     return (
         <View style={styles.container}>
@@ -53,12 +48,7 @@ function HoldingsScreen(props) {
             <ScrollView style={styles.containerScroll}>
 
 
-
-
-
                 {/* External Holding_ tab sec */}
-
-
                 <View style={styles.holding_sec}>
                     <Text style={styles.transaction}>External Holding</Text>
                 </View>
@@ -66,58 +56,48 @@ function HoldingsScreen(props) {
                     <View style={styles.investment_sec}>
                         <View style={styles.blue_sec}>
                             <Text style={styles.total_investment}>Total Investment</Text>
-                            <Text style={styles.price}>₹ 999.95</Text>
+                            <Text style={styles.price}>₹ {investment}</Text>
                         </View>
                         <View style={styles.red_sec}>
                             <Text style={styles.total_investment}>Current Value</Text>
-                            <Text style={styles.price}>₹ 1,532.69</Text>
+                            <Text style={styles.price}>₹ {currentValue}</Text>
                         </View>
                         <View style={styles.green_sec}>
                             <Text style={styles.total_investment}>Unrealized Profit</Text>
-                            <Text style={styles.price}>₹ 532.74</Text>
+                            <Text style={styles.price}>₹ {profit}</Text>
 
                         </View>
                     </View>
 
                     {/* SBI Mutual Fund_2_sec */}
 
-                    <View style={styles.fund_sec}>
-
+                    {data.map((item, key) => <View key={key} style={styles.fund_sec}>
                         <View style={styles.axis_sec}>
-                            <Text style={styles.axis}>SBI Mutual Fund</Text>
-
+                            <Text style={styles.axis}>{item.PRODUCT_CODE}</Text>
                         </View>
 
                         <View style={styles.growth_sec}>
-                            <Text style={styles.axis_treasury}>SBI BANKING & FINANCIAL SERVICES FUND</Text>
-
-
-
+                            <Text style={styles.axis_treasury}>{item.PRODUCT_LONG_NAME}</Text>
                             <View style={styles.value_sec}>
                                 <View style={styles.folio_sec}>
-
-                                    <Text style={styles.folio}>64.159</Text>
+                                    <Text style={styles.folio}>{item.PRODUCT_LONG_NAME}</Text>
                                     <Text style={styles.folio}>Units</Text>
                                 </View>
 
                                 <View style={styles.folio_sec}>
-
-                                    <Text style={styles.folio}>999.95</Text>
+                                    <Text style={styles.folio}>{item.PRODUCT_LONG_NAME}</Text>
                                     <Text style={styles.folio}>Invested Amount</Text>
                                 </View>
 
                                 <View style={styles.folio_sec}>
-                                    <Text style={styles.folio}>57.12</Text>
+                                    <Text style={styles.folio}>{item.PRODUCT_LONG_NAME}</Text>
                                     <Text style={styles.folio}>CAGR %</Text>
-
                                 </View>
                             </View>
 
                             {/* value_sec_end */}
-
                             <View style={styles.value_sec}>
                                 <View style={styles.folio_sec}>
-
                                     <Text style={styles.folio}>1532.691</Text>
                                     <Text style={styles.folio}>Market Value</Text>
                                     <Text style={styles.folio}>On 13-Jul-2021</Text>
@@ -139,7 +119,7 @@ function HoldingsScreen(props) {
                             </View>
 
                         </View>
-                    </View>
+                    </View>)}
 
                     {/* External Holding_ end */}
                 </View>
@@ -304,16 +284,17 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
     token: state.auth.token,
-    users: state.auth.users,
+    users: state.auth.user,
+    schemeDetails: state.switch.schemeDetails,
 })
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     const { dispatch } = dispatchProps;
-    const { AuthActions } = require('../../store/AuthRedux')
+    const { SwitchActions } = require('../../store/SwitchRedux')
     return {
         ...stateProps,
         ...ownProps,
-        logOut: () => { AuthActions.logOut(dispatch) },
+        getSchemeList: (params, token) => { SwitchActions.getSchemeList(dispatch, params, token) },
     }
 }
 export default connect(mapStateToProps, undefined, mapDispatchToProps)(HoldingsScreen)

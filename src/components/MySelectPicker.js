@@ -33,7 +33,7 @@ const MySelectPicker = (props) => {
                     value={defultValue}
                     items={values}
                     Icon={() => {
-                        return <AntDesign style={{ position: "absolute", right: -12, top: 5 }} name="down" color={"#444"} size={18} />;
+                        return <AntDesign style={{ position: "absolute", right: 12, top: 5 }} name="down" color={"#444"} size={18} />;
                     }}
                 />
             </View>

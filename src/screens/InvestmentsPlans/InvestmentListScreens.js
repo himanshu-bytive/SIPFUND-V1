@@ -8,7 +8,7 @@ import { MyImage, InvestmentFundType } from "../../components";
 
 function InvestmentListScreens(props) {
     const pageActive = useRef(false);
-    const { phone, investment, newInvestment, token, configs, isFetching, myInvestlist, myInvestments } = props;
+    const { phone, investment, newInvestment, token, configs, isFetching, myInvestlist, myInvestments, fundDetails } = props;
     const [sumInvestment, setSumInvestment] = useState([]);
 
     const updateInvestments = (data) => {
@@ -108,7 +108,7 @@ function InvestmentListScreens(props) {
                     myInvestments={updateInvestments}
                     data={myInvestlist}
                     handleDelete={handleDelete}
-                    onPress={() => props.navigation.navigate("FundsDetails")}
+                    onPress={(item) => { fundDetails(item); props.navigation.navigate("FundsDetails") }}
                 />
             </ScrollView>
             <TouchableOpacity onPress={() => props.navigation.navigate("InvestmentSearch")}>
@@ -333,6 +333,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     const { dispatch } = dispatchProps;
     const { InvestmentPlanActions } = require("../../store/InvestmentPlanRedux");
+    const { FundDetailActions } = require('../../store/FundDetailRedux')
     return {
         ...stateProps,
         ...ownProps,
@@ -345,6 +346,7 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
         newInvestment: (params, token) => {
             InvestmentPlanActions.newInvestment(dispatch, params, token);
         },
+        fundDetails: (data) => { FundDetailActions.fundDetails(dispatch, data) },
     };
 };
 export default connect(mapStateToProps, undefined, mapDispatchToProps)(InvestmentListScreens);
