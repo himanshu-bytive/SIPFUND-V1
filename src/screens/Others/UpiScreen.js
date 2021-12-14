@@ -9,7 +9,7 @@ function UpiScreen(props) {
   const { token, profile, user, checkout } = props;
 
   useEffect(() => {
-    console.log(props.navigation.state.params.cart);
+    // console.log(props.navigation.state.params.cart);
   }, []);
 
   useEffect(() => {
@@ -179,14 +179,14 @@ function UpiScreen(props) {
         sub_broker_arn_code: " ",
         sub_broker_code: " ",
         sub_trxn_type: "S",
-        trans_count: props.navigation.state.params.cart.length,
+        trans_count: props.navigation.state?.params?.cart?.length,
         trxn_acceptance: upi ? "OL" : "ALL",
         trxn_execution: " ",
         umrn: " ",
         until_cancelled: "Y",
         utr: "",
       },
-      childtrans: getTransactions(props.navigation.state.params.cart),
+      childtrans: getTransactions(props.navigation.state?.params?.cart),
     };
   };
 
