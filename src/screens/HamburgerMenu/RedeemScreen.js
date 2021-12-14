@@ -195,7 +195,7 @@ function RedeemScreen(props) {
             />
           ))}
         {selectTab === "EXTERNAL" &&
-          externalSwitch !== null &&
+          externalSwitch &&
           externalSwitch.map((item, index) => (
             <RedeemItem
               key={`${index}${item.scheme}`}
