@@ -25,7 +25,22 @@ function SwitchCheckout(props) {
     switchExternalCheckoutDetails,
     setSwitchCheckoutDetails,
     setSwitchExternalCheckoutDetails,
+    user,
+    switchCheckout,
+    token,
+    isFetching,
+    error,
+    setSwitchTransactionSucces,
+    switchTransactionSucces,
   } = props;
+
+  useEffect(() => {
+    if (switchTransactionSucces === true) {
+      setSwitchTransactionSucces(false);
+      props.navigation.navigate("dashboard");
+    }
+  }, [switchTransactionSucces]);
+
   const remove = (key, type) => {
     if (type === "SWITCH") {
       let filteredArray = switchCheckoutDetails.filter(
@@ -39,6 +54,12 @@ function SwitchCheckout(props) {
       setSwitchExternalCheckoutDetails(filteredArray);
     }
   };
+
+  useEffect(() => {
+    if (switchCheckoutDetails !== null) {
+      console.log("SWITCH CHECKOUT DETAILS=", switchCheckoutDetails);
+    }
+  }, [switchCheckoutDetails]);
 
   const checkout = () => {
     if (switchActive === "SWITCH" && switchCheckoutDetails !== null) {
@@ -56,20 +77,73 @@ function SwitchCheckout(props) {
         };
       });
       let params = {
-        service_request: {},
+        service_request: {
+          iin: user.IIN,
+          poa: "N",
+          trxn_acceptance: "OL",
+          dp_id: "",
+          sub_broker_arn_code: "",
+          sub_broker_code: "",
+          euin_opted: "N",
+          euin: "",
+          remarks: "",
+          iin_conf_flag: "N",
+          trxn_initiator: "O",
+          trans_count: switchCheckoutDetails.length,
+        },
         childtrans: [...child],
       };
       console.log("Switch CHeckout Params =", params);
+      switchCheckout(params, token);
     } else if (switchExternalCheckoutDetails !== null) {
+      let child = switchExternalCheckoutDetails.map((item) => {
+        return {
+          amc: item.amcCode,
+          folio: item.folioNo,
+          source_product_code: item.productCode,
+          target_product_code: item.targetCode,
+          amt_unit_type: item.valueName,
+          source_reinvest: item.sourceReinvest,
+          target_reinvest: item.targetReinvest,
+          amt_unit: item.value,
+          all_units: item.valueName === "Unit" ? "Y" : "N",
+        };
+      });
       let params = {
-        service_request: {},
-        childtrans: [],
+        service_request: {
+          iin: user.IIN,
+          poa: "N",
+          trxn_acceptance: "OL",
+          dp_id: "",
+          sub_broker_arn_code: "",
+          sub_broker_code: "",
+          euin_opted: "N",
+          euin: "",
+          remarks: "Switch",
+          iin_conf_flag: "N",
+          trxn_initiator: "O",
+          trans_count: switchExternalCheckoutDetails.length,
+        },
+        childtrans: [...child],
       };
+      console.log("Switch External CHeckout Params =", params);
+      switchCheckout(params, token);
     }
+  };
+  const back = () => {
+    props.navigation.navigate("Switch");
   };
   return (
     <View style={styles.container}>
-      <View style={styles.switch_sec}>
+      <View style={styles.search}>
+        <TouchableOpacity onPress={back}>
+          <AntDesign
+            name={"arrowleft"}
+            size={28}
+            color={Colors.WHITE}
+            style={styles.arrow}
+          />
+        </TouchableOpacity>
         <Text style={styles.transaction}>Switch Checkout</Text>
       </View>
       <ScrollView style={styles.containerScroll}>
@@ -83,17 +157,17 @@ function SwitchCheckout(props) {
                 <Text style={styles.axis}>{item.productAmcName}</Text>
               </View>
               <View style={styles.growth_sec}>
-                <Text style={styles.axis_treasury}>{item.fromScheme}</Text>
-                <Text style={styles.folio}>Switch To</Text>
-                <Text style={styles.axis_treasury}>{item.toScheme}</Text>
+                <Text style={styles.schemes}>{item.fromScheme}</Text>
+                <Text style={styles.switchTo}>Switch To</Text>
+                <Text style={styles.schemes}>{item.toScheme}</Text>
                 <View style={styles.value_sec}>
                   <View style={styles.folio_sec}>
-                    <Text style={styles.folio}>Folio</Text>
+                    <Text style={styles.axis_treasury}>Folio</Text>
                     <Text style={styles.folio}>{item.folioNo}</Text>
                   </View>
 
                   <View style={styles.folio_sec}>
-                    <Text style={styles.folio}>{item.valueName}</Text>
+                    <Text style={styles.axis_treasury}>{item.valueName}</Text>
                     <Text style={styles.folio}>
                       {parseFloat(item.value).toFixed(3)}
                     </Text>
@@ -123,6 +197,8 @@ function SwitchCheckout(props) {
               </View>
               <View style={styles.growth_sec}>
                 <Text style={styles.axis_treasury}>{item.fromScheme}</Text>
+                <Text style={styles.switchTo}>Switch To</Text>
+                <Text style={styles.schemes}>{item.toScheme}</Text>
                 <View style={styles.value_sec}>
                   <View style={styles.folio_sec}>
                     <Text style={styles.folio}>Folio</Text>
@@ -163,6 +239,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#D3D6DB",
+  },
+  search: {
+    display: "flex",
+    flexDirection: "row",
+    backgroundColor: Colors.RED,
+    marginTop: 20,
+  },
+  arrow: {
+    marginLeft: 10,
+    marginVertical: 20,
+    marginRight: 20,
   },
 
   logimg: {
@@ -226,8 +313,15 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   axis_treasury: {
-    fontSize: 13,
+    fontSize: 15,
     marginBottom: 10,
+    color: Colors.DEEP_GRAY,
+  },
+  schemes: {
+    fontSize: 15,
+    marginBottom: 5,
+    color: Colors.DEEP_GRAY,
+    // textAlign: "center",
   },
   value_sec: {
     width: "90%",
@@ -243,7 +337,10 @@ const styles = StyleSheet.create({
   // },
   folio: {
     fontSize: 15,
-    color: Colors.DEEP_GRAY,
+  },
+  switchTo: {
+    fontSize: 15,
+    textAlign: "center",
   },
   scheme_sec: {
     flexDirection: "row",
@@ -316,6 +413,10 @@ const mapStateToProps = (state) => ({
   switchActive: state.switch.switchActive,
   switchCheckoutDetails: state.switch.switchCheckoutDetails,
   switchExternalCheckoutDetails: state.switch.switchExternalCheckoutDetails,
+  user: state.auth.user,
+  isFetching: state.switch.isFetching,
+  error: state.switch.error,
+  switchTransactionSucces: state.switch.switchTransactionSucces,
 });
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
@@ -333,6 +434,12 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     },
     setSwitchExternalCheckoutDetails: (params) => {
       SwitchActions.setSwitchExternalCheckoutDetails(dispatch, params);
+    },
+    switchCheckout: (params, token) => {
+      SwitchActions.switchCheckout(dispatch, params, token);
+    },
+    setSwitchTransactionSucces: (params) => {
+      SwitchActions.setSwitchTransactionSucces(dispatch, params);
     },
   };
 };

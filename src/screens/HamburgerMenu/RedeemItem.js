@@ -24,7 +24,7 @@ function RedeemItem(props) {
   const { item, keys, setAddedScheme, index, remove, type } = props;
   const [amount, setAmount] = useState(true);
   const [allUnits, setAllUnits] = useState(false);
-  const [amountValue, setAmountValue] = useState();
+  const [amountValue, setAmountValue] = useState("");
 
   const toggleRadio = (identifier) => {
     // setToggle(key);
@@ -49,40 +49,42 @@ function RedeemItem(props) {
     productCode,
     sourceReinvest
   ) => {
-    console.log("AMOUNT=", typeof amountValue);
-    console.log("value=", typeof value);
-    if (amount && +amountValue > currentvalue) {
-      console.log("here");
-      Alert.alert("Alert", "Amount should be less than value");
-      return;
-    }
-    let value;
-    let valueName;
-    if (amount === true) {
-      valueName = "Amount";
-      value = amountValue;
-    } else {
-      valueName = "Unit";
-      value = units;
-    }
-    let newElement = {
-      key: key,
-      amcCode: amcCode,
-      productAmcName: productAmcName,
-      productCode: productCode,
-      //   targetCode: targetCode,
-      sourceReinvest: sourceReinvest,
-      //   targetReinvest: targetReinvest,
-      fromScheme: longName,
-      //   toScheme: amcScheme,
-      folioNo: folio,
-      valueName: valueName,
-      value: value,
-      type: identifier,
-    };
+    if (amount && amountValue.length === 0 ? false : true) {
+      console.log("AMOUNT=", typeof amountValue);
+      console.log("value=", typeof value);
+      if (amount && +amountValue > currentvalue) {
+        console.log("here");
+        Alert.alert("Alert", "Amount should be less than value");
+        return;
+      }
+      let value;
+      let valueName;
+      if (amount === true) {
+        valueName = "Amount";
+        value = amountValue;
+      } else {
+        valueName = "Unit";
+        value = units;
+      }
+      let newElement = {
+        key: key,
+        amcCode: amcCode,
+        productAmcName: productAmcName,
+        productCode: productCode,
+        //   targetCode: targetCode,
+        sourceReinvest: sourceReinvest,
+        //   targetReinvest: targetReinvest,
+        fromScheme: longName,
+        //   toScheme: amcScheme,
+        folioNo: folio,
+        valueName: valueName,
+        value: value,
+        type: identifier,
+      };
 
-    setAddedScheme(key, newElement);
-    console.log("NEwss ElementSSSSSS=", newElement);
+      setAddedScheme(key, newElement);
+      console.log("NEwss ElementSSSSSS=", newElement);
+    }
   };
 
   return (

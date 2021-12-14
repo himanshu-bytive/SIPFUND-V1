@@ -27,6 +27,18 @@ const types = {
   REDEEM_EXTERNAL_CHECKOUT_DETAILS: "REDEEM_EXTERNAL_CHECKOUT_DETAILS",
 
   SET_SCHEME_LIST_KEY: "SET_SCHEME_LIST_KEY",
+
+  SWITCH_CHECKOUT_PENDING: "SWITCH_CHECKOUT_PENDING",
+  SWITCH_CHECKOUT_FAILURE: "SWITCH_CHECKOUT_FAILURE",
+  SWITCH_CHECKOUT_SUCCES: "SWITCH_CHECKOUT_SUCCES",
+
+  REDEEM_CHECKOUT_PENDING: "REDEEEM_CHECKOUT_PENDING",
+  REDEEM_CHECKOUT_FAILURE: "REDEEM_CHECKOUT_FAILURE",
+  REDEEM_CHECKOUT_SUCCES: "REDEEM_CHECKOUT_SUCCES",
+
+  SET_SWITCH_TRANSACTION_SUCCES: "SET_SWITCH_TRANSACTION_SUCCES",
+
+  SET_REDEEM_TRANSACTION_SUCCES: "SET_REDEEM_TRANSACTION_SUCCES",
 };
 
 export const SwitchActions = {
@@ -40,6 +52,7 @@ export const SwitchActions = {
         error: data.message,
       });
     } else {
+      console.log("Called");
       dispatch({
         type: types.FETCH_FET_TRANSACTION_DETAILS_SUCCESS,
         switchRes: data.responseString,
@@ -118,6 +131,66 @@ export const SwitchActions = {
     });
   },
 
+  switchCheckout: async (dispatch, params, token) => {
+    console.log("Params=", params, token);
+    dispatch({ type: types.SWITCH_CHECKOUT_PENDING });
+    let data = await SiteAPI.apiPostCall(
+      "/exceptional/SWITCHTRXNEXCEPTION",
+      params,
+      token
+    );
+    console.log("Data=", data);
+    if (data.error) {
+      Alert.alert(data.message);
+      dispatch({
+        type: types.SWITCH_CHECKOUT_FAILURE,
+        error: data.message,
+      });
+    } else {
+      dispatch({
+        type: types.SWITCH_CHECKOUT_SUCCES,
+        switchTransactionSucces: true,
+      });
+    }
+  },
+
+  setSwitchTransactionSucces: (dispatch, params) => {
+    dispatch({
+      type: types.SET_SWITCH_TRANSACTION_SUCCES,
+      switchTransactionSucces: params,
+    });
+  },
+
+  redeemCheckout: async (dispatch, params, token) => {
+    dispatch({ type: types.REDEEM_CHECKOUT_PENDING });
+    let data = await SiteAPI.apiPostCall(
+      "/exceptional/REDEEMTRXNEXCEPTION",
+      params,
+      token
+    );
+    console.log("Data=", data);
+    if (data.error) {
+      Alert.alert(data.message);
+      dispatch({
+        type: types.REDEEM_CHECKOUT_FAILURE,
+        error: data.message,
+      });
+    } else {
+      console.log("REDEEM SUCCES", data);
+      dispatch({
+        type: types.REDEEM_CHECKOUT_SUCCES,
+        redeemTransactionSucces: true,
+      });
+    }
+  },
+
+  setRedeemTransactionSucces: (dispatch, params) => {
+    dispatch({
+      type: types.SET_REDEEM_TRANSACTION_SUCCES,
+      redeemTransactionSucces: params,
+    });
+  },
+
   logout() {
     return { type: types.LOGOUT };
   },
@@ -136,9 +209,6 @@ const initialState = {
   token: null,
   schemeDetails: [],
   amcCode: null,
-  // amcScheme: null,
-  // targetCode: null,
-  // targetReinvest: null,
   switchCheckoutDetails: null,
   switchExternalCheckoutDetails: null,
   switchActive: null,
@@ -147,6 +217,8 @@ const initialState = {
   redeemActive: null,
   schemeListKey: null,
   Scheme: null,
+  switchTransactionSucces: false,
+  redeemTransactionSucces: false,
 };
 
 export const reducer = (state = initialState, action) => {
@@ -173,10 +245,14 @@ export const reducer = (state = initialState, action) => {
     redeemActive,
     schemeListKey,
     Scheme,
+    switchTransactionSucces,
+    redeemTransactionSucces,
   } = action;
   switch (type) {
     case types.FETCH_FET_TRANSACTION_DETAILS_PENDING:
-    case types.FETCH_SCHEME_DETAILS_PENDING: {
+    case types.FETCH_SCHEME_DETAILS_PENDING:
+    case types.SWITCH_CHECKOUT_PENDING:
+    case types.REDEEM_CHECKOUT_PENDING: {
       return {
         ...state,
         isFetching: true,
@@ -185,7 +261,9 @@ export const reducer = (state = initialState, action) => {
     }
 
     case types.FETCH_FET_TRANSACTION_DETAILS_FAILURE:
-    case types.FETCH_SCHEME_DETAILS_FAILURE: {
+    case types.FETCH_SCHEME_DETAILS_FAILURE:
+    case types.SWITCH_CHECKOUT_FAILURE:
+    case types.REDEEM_CHECKOUT_FAILURE: {
       return {
         ...state,
         isFetching: false,
@@ -262,6 +340,37 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         schemeListKey,
+      };
+    }
+
+    case types.SWITCH_CHECKOUT_SUCCES: {
+      return {
+        ...state,
+        isFetching: false,
+        error: null,
+        switchTransactionSucces,
+      };
+    }
+
+    case types.SET_SWITCH_TRANSACTION_SUCCES: {
+      return {
+        ...state,
+        switchTransactionSucces,
+      };
+    }
+
+    case types.REDEEM_CHECKOUT_SUCCES: {
+      return {
+        isFetching: false,
+        error: null,
+        redeemTransactionSucces,
+      };
+    }
+
+    case types.SET_REDEEM_TRANSACTION_SUCCES: {
+      return {
+        ...state,
+        redeemTransactionSucces,
       };
     }
 

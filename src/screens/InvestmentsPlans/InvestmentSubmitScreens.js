@@ -71,7 +71,7 @@ function InvestmentSubmitScreens(props) {
                         </View>
                     ))}
             </ScrollView>
-            <TouchableOpacity onPress={() => props.navigation.navigate("Upi")} style={styles.botton_box}>
+            <TouchableOpacity onPress={() => props.navigation.navigate("Upi", { cart: myInvestlist.filter((value) => !isNaN(value.schemes.sip)), sum: sum })} style={styles.botton_box}>
                 <Text style={styles.get_otp}>MAKE PAYMENT</Text>
             </TouchableOpacity>
         </View>

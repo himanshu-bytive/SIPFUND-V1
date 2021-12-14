@@ -62,6 +62,7 @@ function RedeemScreen(props) {
     externalSwitch,
     setRedeemCheckoutDetails,
     setRedeemExternalCheckoutDetails,
+    getSchemeList,
   } = props;
   const [selectTab, setSelectTab] = useState("REDEEM");
   const [addedScheme, setAddedScheme] = useState([]);
@@ -72,6 +73,7 @@ function RedeemScreen(props) {
   };
 
   useEffect(() => {
+    console.log("USER=", user);
     if (user !== null) {
       let params = {
         pan: user.pan,
@@ -178,11 +180,12 @@ function RedeemScreen(props) {
         </View>
 
         {/* Axis Mutual Fund_sec... */}
-
+        {console.log("SWITCH REs=", switchRes)}
         {selectTab === "REDEEM" &&
-          switchRes !== null &&
+          switchRes &&
           switchRes.map((item, index) => (
             <RedeemItem
+              key={`${index}${item.scheme}`}
               item={item}
               index={index}
               keys={keys}
@@ -192,9 +195,10 @@ function RedeemScreen(props) {
             />
           ))}
         {selectTab === "EXTERNAL" &&
-          externalSwitch !== null &&
+          externalSwitch &&
           externalSwitch.map((item, index) => (
             <RedeemItem
+              key={`${index}${item.scheme}`}
               item={item}
               index={index}
               keys={keys}
@@ -389,6 +393,9 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     },
     fetchTransactionDetails: (params, token) => {
       SwitchActions.fetchTransactionDetails(dispatch, params, token);
+    },
+    getSchemeList: (params, token) => {
+      SwitchActions.getSchemeList(dispatch, params, token);
     },
     setRedeemCheckoutDetails: (params) => {
       SwitchActions.setRedeemCheckoutDetails(dispatch, params);

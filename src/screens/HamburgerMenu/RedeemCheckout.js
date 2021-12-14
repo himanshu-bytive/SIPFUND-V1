@@ -25,7 +25,22 @@ function RedeemCheckout(props) {
     redeemExternalCheckoutDetails,
     setRedeemCheckoutDetails,
     setRedeemExternalCheckoutDetails,
+    redeemTransactionSucces,
+    redeemCheckout,
+    setRedeemTransactionSucces,
+    nseDetails,
+    user,
+    token,
   } = props;
+
+  useEffect(() => {
+    if (redeemTransactionSucces === true) {
+      setRedeemTransactionSucces(false);
+
+      props.navigation.navigate("dashboard");
+    }
+  }, [redeemTransactionSucces]);
+
   const remove = (key, type) => {
     if (type === "REDEEM") {
       let filteredArray = redeemCheckoutDetails.filter(
@@ -46,30 +61,82 @@ function RedeemCheckout(props) {
         return {
           amc: item.amcCode,
           folio: item.folioNo,
-          source_product_code: item.productCode,
-          target_product_code: item.targetCode,
+          product_code: item.productCode,
+          // target_product_code: item.targetCode,
           amt_unit_type: item.valueName,
-          source_reinvest: item.sourceReinvest,
-          target_reinvest: item.targetReinvest,
+          reinvest: item.sourceReinvest,
+          // target_reinvest: item.targetReinvest,
           amt_unit: item.value,
           all_units: item.valueName === "Unit" ? "Y" : "N",
         };
       });
       let params = {
-        service_request: {},
+        service_request: {
+          iin: user.IIN,
+          poa: "N",
+          trxn_acceptance: "OL",
+          dp_id: " ",
+          acc_no: nseDetails.acc_no,
+          bank_name: nseDetails.bank_name.BANK_NAME,
+          ifsc_code: nseDetails.ifsc_code,
+          remarks: "Redemption",
+          iin_conf_flag: "N",
+          trxn_initiator: "O",
+          trans_count: redeemCheckoutDetails.length,
+        },
         childtrans: [...child],
       };
       console.log("Redeem CHeckout Params =", params);
-    } else if (switchExternalCheckoutDetails !== null) {
+      redeemCheckout(params, token);
+    } else if (redeemExternalCheckoutDetails !== null) {
+      let child = redeemExternalCheckoutDetails.map((item) => {
+        return {
+          amc: item.amcCode,
+          folio: item.folioNo,
+          product_code: item.productCode,
+          // target_product_code: item.targetCode,
+          amt_unit_type: item.valueName,
+          reinvest: "N",
+          // target_reinvest: item.targetReinvest,
+          amt_unit: item.value,
+          all_units: item.valueName === "Unit" ? "Y" : "N",
+        };
+      });
       let params = {
-        service_request: {},
-        childtrans: [],
+        service_request: {
+          iin: user.IIN,
+          poa: "N",
+          trxn_acceptance: "OL",
+          dp_id: " ",
+          acc_no: nseDetails.acc_no,
+          bank_name: nseDetails.bank_name.BANK_NAME,
+          ifsc_code: nseDetails.ifsc_code,
+          remarks: "Redemption",
+          iin_conf_flag: "N",
+          trxn_initiator: "O",
+          trans_count: redeemExternalCheckoutDetails.length,
+        },
+        childtrans: [...child],
       };
+      console.log("Redeem External CHeckout Params =", params);
+      redeemCheckout(params, token);
     }
+  };
+
+  const back = () => {
+    props.navigation.navigate("Redeem");
   };
   return (
     <View style={styles.container}>
-      <View style={styles.switch_sec}>
+      <View style={styles.search}>
+        <TouchableOpacity onPress={back}>
+          <AntDesign
+            name={"arrowleft"}
+            size={28}
+            color={Colors.WHITE}
+            style={styles.arrow}
+          />
+        </TouchableOpacity>
         <Text style={styles.transaction}>Redeem Checkout</Text>
       </View>
       <ScrollView style={styles.containerScroll}>
@@ -125,12 +192,12 @@ function RedeemCheckout(props) {
                 <View style={styles.value_sec}>
                   <View style={styles.folio_sec}>
                     <Text style={styles.folio}>Folio</Text>
-                    <Text style={styles.folio}>{item.folioNo}</Text>
+                    <Text style={styles.unit}>{item.folioNo}</Text>
                   </View>
 
                   <View style={styles.folio_sec}>
                     <Text style={styles.folio}>Units</Text>
-                    <Text style={styles.folio}>
+                    <Text style={styles.unit}>
                       {parseFloat(item.value).toFixed(3)}
                     </Text>
                   </View>
@@ -163,7 +230,17 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#D3D6DB",
   },
-
+  search: {
+    display: "flex",
+    flexDirection: "row",
+    backgroundColor: Colors.RED,
+    marginTop: 20,
+  },
+  arrow: {
+    marginLeft: 10,
+    marginVertical: 20,
+    marginRight: 20,
+  },
   logimg: {
     height: 65,
     width: 203,
@@ -225,8 +302,13 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   axis_treasury: {
-    fontSize: 13,
+    fontSize: 15,
     marginBottom: 10,
+  },
+  unit: {
+    fontSize: 15,
+    marginBottom: 10,
+    color: Colors.BLACK,
   },
   value_sec: {
     width: "90%",
@@ -315,6 +397,9 @@ const mapStateToProps = (state) => ({
   redeemActive: state.switch.redeemActive,
   redeemCheckoutDetails: state.switch.redeemCheckoutDetails,
   redeemExternalCheckoutDetails: state.switch.redeemExternalCheckoutDetails,
+  redeemTransactionSucces: state.switch.redeemTransactionSucces,
+  user: state.auth.user,
+  nseDetails: state.registration.nseDetails,
 });
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
@@ -332,6 +417,12 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     },
     setRedeemExternalCheckoutDetails: (params) => {
       SwitchActions.setRedeemExternalCheckoutDetails(dispatch, params);
+    },
+    redeemCheckout: (params, token) => {
+      SwitchActions.redeemCheckout(dispatch, params, token);
+    },
+    setRedeemTransactionSucces: (params) => {
+      SwitchActions.setRedeemTransactionSucces(dispatch, params);
     },
   };
 };
