@@ -14,14 +14,6 @@ import { Image, Header, CheckBox } from 'react-native-elements';
 import { VictoryChartCode } from '../../components'
 import FundDetailScreen from './FundDetailScreen'
 
-const data = [
-    { x: 0, y: 0 },
-    { x: 1, y: 2 },
-    { x: 2, y: 1 },
-    { x: 3, y: 4 },
-    { x: 4, y: 3 },
-    { x: 5, y: 5 }
-];
 
 const investment = [
     { price: 1000, min: 'Min Investment' },
@@ -41,10 +33,35 @@ const rupees = [
 ]
 
 function FundsHomeScreen(props) {
+    const { token, users, fundDetail, fundDetailsList, detailsMap, detailsInfo } = props
     const [selectTab, setSelectTab] = useState('1M');
+    const [mapData, setMapData] = useState([]);
     const toggleTab = (value) => {
         setSelectTab(value);
     };
+
+    useEffect(() => {
+        fundDetailsList({ iin: users.IIN }, token)
+    }, [fundDetail]);
+
+    useEffect(() => {
+        let mapData = []
+        for (let item of detailsMap) {
+            mapData.push({ x: Number(item.d), y: Number(item.v) })
+        }
+        // setMapData(mapData)
+
+    }, [detailsMap]);
+
+    useEffect(() => {
+        var detailedPortFolio = detailsInfo[0].api['FHV2-HoldingDetail'];
+        console.log('aaa ')
+        console.log(detailedPortFolio)
+        if (detailsInfo[0] && detailsInfo[0].api) {
+            // console.log(detailsInfo[0].api)
+        }
+    }, [detailsMap]);
+
     return (
         <View style={styles.container}>
             <Header
@@ -60,28 +77,26 @@ function FundsHomeScreen(props) {
             <ScrollView style={styles.containerScroll}>
                 <View style={styles.management_company}>
                     <Image
-                        source={require('../../../assets/axis_img.png')}
+                        source={{ uri: fundDetail.imagePath }}
                         style={styles.axis_img}
                     />
                     <TouchableOpacity>
                         <View style={styles.axis}>
-                            <Text style={styles.axis_asset}>Axis Asset Management Company</Text>
-                            <Text style={styles.midcap}>Midcap Diversified </Text>
+                            <Text style={styles.axis_asset}>{fundDetail.name}</Text>
+                            <Text style={styles.midcap}>{fundDetail.productCode}</Text>
                         </View>
                     </TouchableOpacity>
                 </View>
 
                 <View style={{ padding: 20 }}>
-
                     <View style={styles.fund_returns}>
                         <Text style={styles.fund}>Fund Returns</Text>
                         <View style={styles.since_inception}>
                             <Text style={styles.number}>13.5%</Text>
                             <Text style={styles.since}>Since Inception</Text>
-
                         </View>
                     </View>
-                    <VictoryChartCode data={data} />
+                    <VictoryChartCode data={mapData} />
                     <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY, }}></View>
 
                     {/* imges_sec */}
@@ -105,7 +120,6 @@ function FundsHomeScreen(props) {
                 </View>
                 <FundDetailScreen />
             </ScrollView>
-
         </View>
 
 
@@ -258,16 +272,19 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
     token: state.auth.token,
-    users: state.auth.users,
+    users: state.auth.user,
+    fundDetail: state.fundDetail.details,
+    detailsMap: state.fundDetail.detailsMap,
+    detailsInfo: state.fundDetail.detailsInfo,
 })
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     const { dispatch } = dispatchProps;
-    const { AuthActions } = require('../../store/AuthRedux')
+    const { FundDetailActions } = require('../../store/FundDetailRedux')
     return {
         ...stateProps,
         ...ownProps,
-        logOut: () => { AuthActions.logOut(dispatch) },
+        fundDetailsList: (params, token) => { FundDetailActions.fundDetailsList(dispatch, params, token) },
     }
 }
 export default connect(mapStateToProps, undefined, mapDispatchToProps)(FundsHomeScreen)

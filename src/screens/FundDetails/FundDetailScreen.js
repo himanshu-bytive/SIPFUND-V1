@@ -49,28 +49,27 @@ function FundDetailScreen(props) {
         setFundType(values);
     };
 
-    return (
-                <View style={styles.contain_box}>
-                    {/* loop start */}
-                    {fundType.map((item, key) => <View key={key}>
-                        <View style={styles.bottom_sec}>
-                            <View style={styles.holding}>
-                                <View><Text style={styles.holding_text}>{item.text} {(item.text === 'Portfolio Summary') && (<Text style={styles.current}>(Current Date)</Text>)} </Text></View>
-                                <View style={styles.holding_icon}><TouchableOpacity onPress={() => toggleFundType(key)}><AntDesign name={item.show ? "up" : "down"} size={20} color={Colors.RED} /></TouchableOpacity></View>
-                            </View>
-                        </View>
-                        {item.show && (<View>
-                            {(item.text === 'Returns Calculator') && (<ReturnsCalculator />)}
-                            {(item.text === 'Returns') && (<Returns />)}
-                            {(item.text === 'Top 10 Holdings') && (<Top10Holdings />)}
-                            {(item.text === 'Minimum Investments') && (<MinimumInvestments />)}
-                            {(item.text === 'Performance History') && (<PerformanceHistory />)}
-                            {(item.text === 'Portfolio Summary') && (<PortfolioSummary />)}
-                            {(item.text === 'Risk & Rating') && (<RiskRating />)}
-                            {(item.text === 'Expense Ratio - Exit Load - Tax') && (<ExpenseRatio />)}
-                            {(item.text === 'Fund Managers') && (<FundManagers />)}
-                        </View>)}
-                    </View>)}
+    return (<View style={styles.contain_box}>
+            {/* loop start */}
+            {fundType.map((item, key) => <View key={key}>
+                <View style={styles.bottom_sec}>
+                    <View style={styles.holding}>
+                        <View><Text style={styles.holding_text}>{item.text} {(item.text === 'Portfolio Summary') && (<Text style={styles.current}>(Current Date)</Text>)} </Text></View>
+                        <View style={styles.holding_icon}><TouchableOpacity onPress={() => toggleFundType(key)}><AntDesign name={item.show ? "up" : "down"} size={20} color={Colors.RED} /></TouchableOpacity></View>
+                    </View>
+                </View>
+                {item.show && (<View>
+                    {(item.text === 'Returns Calculator') && (<ReturnsCalculator />)}
+                    {(item.text === 'Returns') && (<Returns />)}
+                    {(item.text === 'Top 10 Holdings') && (<Top10Holdings />)}
+                    {(item.text === 'Minimum Investments') && (<MinimumInvestments />)}
+                    {(item.text === 'Performance History') && (<PerformanceHistory />)}
+                    {(item.text === 'Portfolio Summary') && (<PortfolioSummary />)}
+                    {(item.text === 'Risk & Rating') && (<RiskRating />)}
+                    {(item.text === 'Expense Ratio - Exit Load - Tax') && (<ExpenseRatio />)}
+                    {(item.text === 'Fund Managers') && (<FundManagers />)}
+                </View>)}
+            </View>)}
             <View style={styles.submit}><TouchableOpacity><Text style={styles.submit_text}>SELECT FUND</Text></TouchableOpacity></View>
         </View>
 

@@ -95,7 +95,7 @@ function InvestmentListScreen(props) {
                         pageActiveInvest.current = true;
                     }}>
                         <View style={styles.container_box}>
-                            {/* <MyImage width="80" height="80" svg={true} url={item.planImagePath} /> */}
+                            <MyImage width="80" height="80" svg={true} url={item.planImagePath} />
                             <Text style={styles.Longterm}>{item.plan}</Text>
                         </View>
                     </TouchableOpacity>)}
