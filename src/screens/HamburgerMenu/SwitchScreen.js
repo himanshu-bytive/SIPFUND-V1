@@ -219,7 +219,7 @@ function SwitchScreen(props) {
         {/* Axis Mutual Fund_sec... */}
 
         {selectTab === "SWITCH" &&
-          switchRes !== null &&
+          switchRes &&
           switchRes.map((item, index) => (
             <SwitchItem
               key={`${index}${item.scheme}`}
@@ -233,7 +233,7 @@ function SwitchScreen(props) {
             />
           ))}
         {selectTab === "EXTERNAL" &&
-          externalSwitch !== null &&
+          externalSwitch &&
           externalSwitch.map((item, index) => (
             <SwitchItem
               key={`${index}${item.scheme}`}

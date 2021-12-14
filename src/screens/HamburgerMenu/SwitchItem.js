@@ -45,7 +45,7 @@ function SwitchItem(props) {
   const [selectedScheme, setSelectedScheme] = useState("");
 
   useEffect(() => {
-    if (Scheme !== null) {
+    if (Scheme && Scheme !== null) {
       if (Scheme.key === `${index}${item.scheme}`) {
         setSelectedScheme(Scheme);
       }

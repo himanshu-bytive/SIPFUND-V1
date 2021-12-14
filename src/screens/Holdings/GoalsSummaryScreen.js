@@ -47,7 +47,6 @@ function GoalsSummaryScreen(props) {
 
     return (
         <View style={styles.container}>
-
             <Header
                 leftComponent={<TouchableOpacity onPress={() => props.navigation.navigate('Home')} style={{ marginTop: 20 }}><AntDesign name={"arrowleft"} size={30} color={Colors.RED} /></TouchableOpacity>}
                 backgroundColor={Colors.PEACH}

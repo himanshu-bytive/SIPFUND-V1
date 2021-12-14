@@ -37,7 +37,7 @@ function RedeemCheckout(props) {
     if (redeemTransactionSucces === true) {
       setRedeemTransactionSucces(false);
 
-      props.navigation.navigate("Redeem");
+      props.navigation.navigate("dashboard");
     }
   }, [redeemTransactionSucces]);
 
@@ -114,7 +114,7 @@ function RedeemCheckout(props) {
           remarks: "Redemption",
           iin_conf_flag: "N",
           trxn_initiator: "O",
-          trans_count: redeemCheckoutDetails.length,
+          trans_count: redeemExternalCheckoutDetails.length,
         },
         childtrans: [...child],
       };

@@ -20,7 +20,8 @@ import { MyImage, GoalFundType } from "../../components";
 
 function PlanListScreen(props) {
     const pageActive = useRef(false);
-    const { token, goalDetail, isFetching, mygolelist, myGoles } = props;
+    const { token, goalDetail, isFetching, mygolelist, myGoles, fundDetails } = props;
+
     return (
         <View style={styles.container}>
             <Header
@@ -67,7 +68,7 @@ function PlanListScreen(props) {
                     <Text style={styles.price}>₹ 16,000</Text>
                 </View>
 
-                <GoalFundType data={mygolelist} myGoles={myGoles} onPress={() => props.navigation.navigate('FundsDetails')} />
+                <GoalFundType data={mygolelist} myGoles={myGoles} onPress={(item) => { fundDetails(item); props.navigation.navigate('FundsDetails') }} />
 
             </ScrollView>
             <TouchableOpacity onPress={() => props.navigation.navigate('PlanSearch')}><Text style={styles.add}>I would like to add more funds</Text></TouchableOpacity>
@@ -83,7 +84,7 @@ function PlanListScreen(props) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor:Colors.WHITE,
+        backgroundColor: Colors.WHITE,
     },
     logimg: {
         height: 65,
@@ -320,11 +321,13 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     const { dispatch } = dispatchProps;
     const { GoalsActions } = require('../../store/GoalsRedux')
+    const { FundDetailActions } = require('../../store/FundDetailRedux')
     return {
         ...stateProps,
         ...ownProps,
         singleDetails: (params, token) => { GoalsActions.singleDetails(dispatch, params, token) },
         myGoles: (data) => { GoalsActions.myGoles(dispatch, data) },
+        fundDetails: (data) => { FundDetailActions.fundDetails(dispatch, data) },
     }
 }
 export default connect(mapStateToProps, undefined, mapDispatchToProps)(PlanListScreen)
