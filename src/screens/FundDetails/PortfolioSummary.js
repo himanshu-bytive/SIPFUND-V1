@@ -10,6 +10,13 @@ import { Colors } from '../../common'
 import { VictoryPieCode } from '../../components'
 
 function PortfolioSummary(props) {
+    const { detailsInfo } = props
+
+    useEffect(() => {
+        let detailedPortFolio = detailsInfo ? detailsInfo[0].api : {};
+
+    }, [detailsInfo]);
+
 
     return (
         <View style={{ marginHorizontal: 5 }}>
@@ -258,16 +265,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
     token: state.auth.token,
-    users: state.auth.users,
+    users: state.auth.user,
+    detailsInfo: state.fundDetail.detailsInfo,
 })
-
-const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
-    const { dispatch } = dispatchProps;
-    const { AuthActions } = require('../../store/AuthRedux')
-    return {
-        ...stateProps,
-        ...ownProps,
-        logOut: () => { AuthActions.logOut(dispatch) },
-    }
-}
-export default connect(mapStateToProps, undefined, mapDispatchToProps)(PortfolioSummary)
+export default connect(mapStateToProps)(PortfolioSummary)

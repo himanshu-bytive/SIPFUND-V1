@@ -11,177 +11,370 @@ import {
     KeyboardAvoidingView,
     TextInput,
     ActivityIndicator,
-
-
 } from "react-native";
 import { connect } from 'react-redux'
+import { DataTable } from 'react-native-paper';
 import { Styles, Config, Colors, FormValidate } from '../../common'
 import { Ionicons, AntDesign, MaterialIcons, Feather, Entypo, FontAwesome, FontAwesome5, } from 'react-native-vector-icons';
-import { Image, Header, ListItem, Overlay, Slider } from 'react-native-elements';
+import { Tab, TabView, Image, Header, ListItem, Overlay, Slider } from 'react-native-elements';
 
 function RiskRating(props) {
+    const { detailsInfo } = props
+    const [index, setIndex] = React.useState(0);
+    const [index1, setIndex1] = React.useState(0);
+    const [mptStats3Yr, setMptStats3Yr] = useState([])
+    const [mptStats5Yr, setMptStats5Yr] = useState([])
+    const [mptStats10Yr, setMptStats10Yr] = useState([])
+    const [volatility3Yr, setVolatility3Yr] = useState([])
+    const [volatility5Yr, setVolatility5Yr] = useState([])
+    const [volatility10Yr, setVolatility10Yr] = useState([])
+    const [upDownCaptureRatio, setUpDownCaptureRatio] = useState([])
+
+    useEffect(() => {
+        let schemeDetail = detailsInfo ? detailsInfo[0].api : {};
+
+        //MPT Statistics start
+        // mptStats3Yr
+        let mptStats3Yr = []
+        mptStats3Yr.push({
+            name: (schemeDetail["RMC-IndexName"] || '-'),
+            RSquared: (schemeDetail["RMC-₹quared3Yr"] || '-'),
+            beta: (schemeDetail["RMC-Beta3Yr"] || '-'),
+            alpha: (schemeDetail["RMC-Alpha3Yr"] || '-'),
+            treynor: (schemeDetail["RMC-TreynorRatio3Yr"] || '-'),
+            currency: 'INR',
+        })
+        mptStats3Yr.push({
+            name: (schemeDetail["RMC-CategoryIndexName"] || '-'),
+            RSquared: (schemeDetail["RMC-Category₹quared3Yr"] || '-'),
+            beta: (schemeDetail["RMC-CategoryBeta3Yr"] || '-'),
+            alpha: (schemeDetail["RMC-CategoryAlpha3Yr"] || '-'),
+            treynor: (schemeDetail["RMC-CategoryTreynorRatio3Yr"] || '-'),
+            currency: 'INR',
+        })
+        setMptStats3Yr(mptStats3Yr)
+
+        // mptStats5Yr
+        let mptStats5Yr = []
+        mptStats5Yr.push({
+            name: (schemeDetail["RMC-IndexName"] || '-'),
+            RSquared: (schemeDetail["RMC-₹quared5Yr"] || '-'),
+            beta: (schemeDetail["RMC-Beta5Yr"] || '-'),
+            alpha: (schemeDetail["RMC-Alpha5Yr"] || '-'),
+            treynor: (schemeDetail["RMC-TreynorRatio5Yr"] || '-'),
+            currency: 'INR',
+        })
+        mptStats5Yr.push({
+            name: (schemeDetail["RMC-CategoryIndexName"] || '-'),
+            RSquared: (schemeDetail["RMC-Category₹quared5Yr"] || '-'),
+            beta: (schemeDetail["RMC-CategoryBeta5Yr"] || '-'),
+            alpha: (schemeDetail["RMC-CategoryAlpha5Yr"] || '-'),
+            treynor: (schemeDetail["RMC-CategoryTreynorRatio5Yr"] || '-'),
+            currency: 'INR',
+        })
+        setMptStats5Yr(mptStats5Yr)
+
+        // setMptStats10Yr
+        let mptStats10Yr = []
+        mptStats10Yr.push({
+            name: (schemeDetail["RMC-IndexName"] || '-'),
+            RSquared: (schemeDetail["RMC-₹quared10Yr"] || '-'),
+            beta: (schemeDetail["RMC-Beta10Yr"] || '-'),
+            alpha: (schemeDetail["RMC-Alpha10Yr"] || '-'),
+            treynor: (schemeDetail["RMC-TreynorRatio10Yr"] || '-'),
+            currency: 'INR',
+        })
+        mptStats10Yr.push({
+            name: (schemeDetail["RMC-CategoryIndexName"] || '-'),
+            RSquared: (schemeDetail["RMC-Category₹quared10Yr"] || '-'),
+            beta: (schemeDetail["RMC-CategoryBeta10Yr"] || '-'),
+            alpha: (schemeDetail["RMC-CategoryAlpha10Yr"] || '-'),
+            treynor: (schemeDetail["RMC-CategoryTreynorRatio10Yr"] || '-'),
+            currency: 'INR',
+        })
+        setMptStats10Yr(mptStats10Yr)
+
+
+        // Volatility measure start
+        // volatility3Yr
+        let volatility3Yr = []
+        volatility3Yr.push({
+            trailing: (schemeDetail["FSCBI-FundName"] || '-'),
+            standard: (schemeDetail["RM-StdDev3Yr"] || '-'),
+            sharpe: (schemeDetail["RM-SharpeRatio3Yr"] || '-'),
+            sortino: (schemeDetail["RM-SortinoRatio3Y"] || '-'),
+        })
+        volatility3Yr.push({
+            trailing: (schemeDetail["DP-CategoryName"] || '-'),
+            standard: (schemeDetail["RM-CategoryStdDev3Yr"] || '-'),
+            sharpe: (schemeDetail["RM-CategorySharpeRatio3Yr"] || '-'),
+            sortino: (schemeDetail["RM-CategorySortinoRatio3Yr"] || '-'),
+        })
+        setVolatility3Yr(volatility3Yr)
+
+        // volatility5Yr
+        let volatility5Yr = []
+        volatility5Yr.push({
+            trailing: (schemeDetail["FSCBI-FundName"] || '-'),
+            standard: (schemeDetail["RM-StdDev5Yr"] || '-'),
+            sharpe: (schemeDetail["RM-SharpeRatio5Yr"] || '-'),
+            sortino: (schemeDetail["RM-SortinoRatio5Y"] || '-'),
+        })
+        volatility5Yr.push({
+            trailing: (schemeDetail["DP-CategoryName"] || '-'),
+            standard: (schemeDetail["RM-CategoryStdDev5Yr"] || '-'),
+            sharpe: (schemeDetail["RM-CategorySharpeRatio5Yr"] || '-'),
+            sortino: (schemeDetail["RM-CategorySortinoRatio5Yr"] || '-'),
+        })
+        setVolatility5Yr(volatility5Yr)
+
+        // volatility10Yr
+        let volatility10Yr = []
+        volatility10Yr.push({
+            trailing: (schemeDetail["FSCBI-FundName"] || '-'),
+            standard: (schemeDetail["RM-StdDev10Yr"] || '-'),
+            sharpe: (schemeDetail["RM-SharpeRatio10Yr"] || '-'),
+            sortino: (schemeDetail["RM-SortinoRatio10Y"] || '-'),
+        })
+        volatility10Yr.push({
+            trailing: (schemeDetail["DP-CategoryName"] || '-'),
+            standard: (schemeDetail["RM-CategoryStdDev10Yr"] || '-'),
+            sharpe: (schemeDetail["RM-CategorySharpeRatio10Yr"] || '-'),
+            sortino: (schemeDetail["RM-CategorySortinoRatio10Yr"] || '-'),
+        })
+        setVolatility10Yr(volatility10Yr)
+
+        // UPside Downside Capture Ratio start
+        let upDownCaptureRatio = []
+        upDownCaptureRatio.push({
+            name: (schemeDetail["FSCBI-FundName"] || '-'),
+            year1: ([schemeDetail["RMC-CaptureRatioUpside1Yr"] || '-', schemeDetail["RMC-CaptureRatioDownside1Yr"] || '-']),
+            year3: ([schemeDetail["RMC-CaptureRatioUpside3Yr"] || '-', schemeDetail["RMC-CaptureRatioDownside3Yr"] || '-']),
+            year5: ([schemeDetail["RMC-CaptureRatioUpside5Yr"] || '-', schemeDetail["RMC-CaptureRatioDownside5Yr"] || '-']),
+            year10: ([schemeDetail["RMC-CaptureRatioUpside10Yr"] || '-', schemeDetail["RMC-CaptureRatioDownside10Yr"] || '-']),
+            year15: ([schemeDetail["RMC-CaptureRatioUpside15Yr"] || '-', schemeDetail["RMC-CaptureRatioDownside15Yr"] || '-']),
+        })
+        upDownCaptureRatio.push({
+            name: (schemeDetail["DP-CategoryName"] || '-'),
+            year1: ([schemeDetail["RMC-CategoryCaptureRatioUpside1Yr"] || '-', schemeDetail["RMC-CategoryCaptureRatioDownside1Yr"] || '-']),
+            year3: ([schemeDetail["RMC-CategoryCaptureRatioUpside3Yr"] || '-', schemeDetail["RMC-CategoryCaptureRatioDownside3Yr"] || '-']),
+            year5: ([schemeDetail["RMC-CategoryCaptureRatioUpside5Yr"] || '-', schemeDetail["RMC-CategoryCaptureRatioDownside5Yr"] || '-']),
+            year10: ([schemeDetail["RMC-CategoryCaptureRatioUpside10Yr"] || '-', schemeDetail["RMC-CategoryCaptureRatioDownside10Yr"] || '-']),
+            year15: ([schemeDetail["RMC-CategoryCaptureRatioUpside15Yr"] || '-', schemeDetail["RMC-CategoryCaptureRatioDownside15Yr"] || '-']),
+        })
+        setUpDownCaptureRatio(upDownCaptureRatio)
+
+    }, [detailsInfo]);
+
+
     return (
-
         <View style={styles.mainbox}>
-            <Text style={styles.Upside}>MPT Statistics (Date)</Text>
+            <Text style={styles.Upside}>MPT Statistics</Text>
+            <Tab
+                value={index}
+                onChange={(e) => setIndex(e)}
+                style={{ backgroundColor: '#ffffff' }}
+                indicatorStyle={{
+                    backgroundColor: '#ffffff',
+                    color: Colors.RED,
+                    height: 0,
+                }}
+                variant="default"
+            >
+                <Tab.Item
+                    title="3 Years"
+                    titleStyle={{ fontSize: 15, color: Colors.BLACK }}
+                />
+                <Tab.Item
+                    title="5 Years"
+                    titleStyle={{ fontSize: 15, color: Colors.BLACK }}
+                />
+                <Tab.Item
+                    title="10 Years"
+                    titleStyle={{ fontSize: 15, color: Colors.BLACK }}
+                />
+            </Tab>
+            <View style={{ borderWidth: 1, borderColor: Colors.BLACK, marginTop: 5, }}></View>
 
-            <View style={styles.back_sec}>
-                <View style={styles.back1}>
-                    <Text style={styles.back_year}>3 Years</Text>
-                    <View style={{ borderWidth: 1, borderColor: Colors.RED, marginTop: 5, }}></View>
+            <TabView value={index} onChange={setIndex} animationType="spring">
+                <TabView.Item style={{ width: '100%' }}>
 
-                </View>
-                <View style={styles.back1}>
-                    <Text style={styles.back_year2}>5 Years</Text>
+                    <DataTable style={styles.dataTable}>
+                        <DataTable.Header style={styles.headerbg}>
+                            <DataTable.Title numberOfLines={4} style={styles.headerCell}>Index</DataTable.Title>
+                            <DataTable.Title numberOfLines={4} style={styles.headerCell}>R-Squared</DataTable.Title>
+                            <DataTable.Title numberOfLines={4} style={styles.headerCell}>Beta</DataTable.Title>
+                            <DataTable.Title numberOfLines={4} style={styles.headerCell}>Alpha</DataTable.Title>
+                            <DataTable.Title numberOfLines={4} style={styles.headerCell}>Treynor Ratio</DataTable.Title>
+                            <DataTable.Title numberOfLines={4} style={[styles.headerCell, { borderRightWidth: 0 }]} >Currency</DataTable.Title>
+                        </DataTable.Header>
 
-                </View>
+                        {mptStats3Yr.map((item, key) => <DataTable.Row key={key} style={styles.headersec}>
+                            <DataTable.Cell style={styles.bodyCell}>{item.name}</DataTable.Cell>
+                            <DataTable.Cell style={styles.bodyCell}>{item.RSquared}</DataTable.Cell>
+                            <DataTable.Cell style={styles.bodyCell}>{item.beta}</DataTable.Cell>
+                            <DataTable.Cell style={styles.bodyCell}>{item.alpha}</DataTable.Cell>
+                            <DataTable.Cell style={styles.bodyCell}>{item.treynor}</DataTable.Cell>
+                            <DataTable.Cell style={[styles.bodyCell, { borderRightWidth: 0 }]} >{item.currency}</DataTable.Cell>
+                        </DataTable.Row>)}
+                    </DataTable>
 
-                <View style={styles.back1}>
-                    <Text style={styles.back_year2}>10 Years</Text>
+                </TabView.Item>
+                <TabView.Item style={{ width: '100%' }}>
 
-                </View>
+                    <DataTable style={styles.dataTable}>
+                        <DataTable.Header style={styles.headerbg}>
+                            <DataTable.Title numberOfLines={4} style={styles.headerCell}>Index</DataTable.Title>
+                            <DataTable.Title numberOfLines={4} style={styles.headerCell}>R-Squared</DataTable.Title>
+                            <DataTable.Title numberOfLines={4} style={styles.headerCell}>Beta</DataTable.Title>
+                            <DataTable.Title numberOfLines={4} style={styles.headerCell}>Alpha</DataTable.Title>
+                            <DataTable.Title numberOfLines={4} style={styles.headerCell}>Treynor Ratio</DataTable.Title>
+                            <DataTable.Title numberOfLines={4} style={[styles.headerCell, { borderRightWidth: 0 }]} >Currency</DataTable.Title>
+                        </DataTable.Header>
 
-            </View>
+                        {mptStats5Yr.map((item, key) => <DataTable.Row key={key} style={styles.headersec}>
+                            <DataTable.Cell style={styles.bodyCell}>{item.name}</DataTable.Cell>
+                            <DataTable.Cell style={styles.bodyCell}>{item.RSquared}</DataTable.Cell>
+                            <DataTable.Cell style={styles.bodyCell}>{item.beta}</DataTable.Cell>
+                            <DataTable.Cell style={styles.bodyCell}>{item.alpha}</DataTable.Cell>
+                            <DataTable.Cell style={styles.bodyCell}>{item.treynor}</DataTable.Cell>
+                            <DataTable.Cell style={[styles.bodyCell, { borderRightWidth: 0 }]} >{item.currency}</DataTable.Cell>
+                        </DataTable.Row>)}
+                    </DataTable>
 
-            <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY, }}></View>
+                </TabView.Item>
+                <TabView.Item style={{ width: '100%' }}>
 
-            {/* Invesco India_sec */}
+                    <DataTable style={styles.dataTable}>
+                        <DataTable.Header style={styles.headerbg}>
+                            <DataTable.Title numberOfLines={4} style={styles.headerCell}>Index</DataTable.Title>
+                            <DataTable.Title numberOfLines={4} style={styles.headerCell}>R-Squared</DataTable.Title>
+                            <DataTable.Title numberOfLines={4} style={styles.headerCell}>Beta</DataTable.Title>
+                            <DataTable.Title numberOfLines={4} style={styles.headerCell}>Alpha</DataTable.Title>
+                            <DataTable.Title numberOfLines={4} style={styles.headerCell}>Treynor Ratio</DataTable.Title>
+                            <DataTable.Title numberOfLines={4} style={[styles.headerCell, { borderRightWidth: 0 }]} >Currency</DataTable.Title>
+                        </DataTable.Header>
 
-            <View style={styles.invesco_india}>
+                        {mptStats10Yr.map((item, key) => <DataTable.Row key={key} style={styles.headersec}>
+                            <DataTable.Cell style={styles.bodyCell}>{item.name}</DataTable.Cell>
+                            <DataTable.Cell style={styles.bodyCell}>{item.RSquared}</DataTable.Cell>
+                            <DataTable.Cell style={styles.bodyCell}>{item.beta}</DataTable.Cell>
+                            <DataTable.Cell style={styles.bodyCell}>{item.alpha}</DataTable.Cell>
+                            <DataTable.Cell style={styles.bodyCell}>{item.treynor}</DataTable.Cell>
+                            <DataTable.Cell style={[styles.bodyCell, { borderRightWidth: 0 }]} >{item.currency}</DataTable.Cell>
+                        </DataTable.Row>)}
+                    </DataTable>
 
-                <Text style={styles.Invesco}>Invesco India
-                    Multicap GR</Text>
-                <Text style={styles.Invesco}>Category-
-                    Multi Cap
-                    (Std. Index)</Text>
-            </View>
+                </TabView.Item>
+            </TabView>
 
-            {/* mainbox_sec */}
+            <Text style={styles.Upside}>Volatility Measures</Text>
+            <Tab
+                value={index1}
+                onChange={(e) => setIndex1(e)}
+                style={{ backgroundColor: '#ffffff' }}
+                indicatorStyle={{
+                    backgroundColor: '#ffffff',
+                    color: Colors.RED,
+                    height: 0,
+                }}
+                variant="default"
+            >
+                <Tab.Item
+                    title="3 Years"
+                    titleStyle={{ fontSize: 15, color: Colors.BLACK }}
+                />
+                <Tab.Item
+                    title="5 Years"
+                    titleStyle={{ fontSize: 15, color: Colors.BLACK }}
+                />
+                <Tab.Item
+                    title="10 Years"
+                    titleStyle={{ fontSize: 15, color: Colors.BLACK }}
+                />
+            </Tab>
+            <View style={{ borderWidth: 1, borderColor: Colors.BLACK, marginTop: 5, }}></View>
 
+            <TabView value={index1} onChange={setIndex1} animationType="spring">
+                <TabView.Item style={{ width: '100%' }}>
 
-            <View style={styles.mainbox_2}>
+                    <DataTable style={styles.dataTable}>
+                        <DataTable.Header style={styles.headerbg}>
+                            <DataTable.Title numberOfLines={4} style={styles.headerCell}>3 − Year Trailing</DataTable.Title>
+                            <DataTable.Title numberOfLines={4} style={styles.headerCell}>Standard Deviation</DataTable.Title>
+                            <DataTable.Title numberOfLines={4} style={styles.headerCell}>Sharpe Ratio</DataTable.Title>
+                            <DataTable.Title numberOfLines={4} style={[styles.headerCell, { borderRightWidth: 0 }]} >Sortino Ratio</DataTable.Title>
+                        </DataTable.Header>
 
-                <View style={styles.bse}>
-                    <Text style={styles.index1}>Index</Text>
-                    <Text style={styles.index}>R-Squared</Text>
-                    <Text style={styles.index}>Beta</Text>
-                    <Text style={styles.index}>Alpha</Text>
-                    <Text style={styles.index}>Treynor Ratio</Text>
-                    <Text style={styles.index}>Currency</Text>
+                        {volatility3Yr.map((item, key) => <DataTable.Row key={key} style={styles.headersec}>
+                            <DataTable.Cell style={styles.bodyCell}>{item.trailing}</DataTable.Cell>
+                            <DataTable.Cell style={styles.bodyCell}>{item.standard}</DataTable.Cell>
+                            <DataTable.Cell style={styles.bodyCell}>{item.sharpe}</DataTable.Cell>
+                            <DataTable.Cell style={[styles.bodyCell, { borderRightWidth: 0 }]} >{item.sortino}</DataTable.Cell>
+                        </DataTable.Row>)}
+                    </DataTable>
 
-                </View>
-                <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY, }}></View>
+                </TabView.Item>
+                <TabView.Item style={{ width: '100%' }}>
 
-                <View style={styles.bse}>
-                    <View style={{ alignItems: "center", }}>
+                    <DataTable style={styles.dataTable}>
+                        <DataTable.Header style={styles.headerbg}>
+                            <DataTable.Title numberOfLines={4} style={styles.headerCell}>5 − Year Trailing</DataTable.Title>
+                            <DataTable.Title numberOfLines={4} style={styles.headerCell}>Standard Deviation</DataTable.Title>
+                            <DataTable.Title numberOfLines={4} style={styles.headerCell}>Sharpe Ratio</DataTable.Title>
+                            <DataTable.Title numberOfLines={4} style={[styles.headerCell, { borderRightWidth: 0 }]} >Sortino Ratio</DataTable.Title>
+                        </DataTable.Header>
 
-                        <Text style={styles.index1}>S&P BSE 500
-                            India TR INR</Text>
-                        <View style={{ borderWidth: 2, borderColor: Colors.DEEP_GRAY, }}></View>
-                        <Text style={styles.index}>0.99</Text>
-                        <Text style={styles.index}>4.33</Text>
-                        <Text style={styles.index}>8.22</Text>
-                        <Text style={styles.index}>INR</Text>
-                    </View>
-                </View>
-                <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY, }}></View>
+                        {volatility5Yr.map((item, key) => <DataTable.Row key={key} style={styles.headersec}>
+                            <DataTable.Cell style={styles.bodyCell}>{item.trailing}</DataTable.Cell>
+                            <DataTable.Cell style={styles.bodyCell}>{item.standard}</DataTable.Cell>
+                            <DataTable.Cell style={styles.bodyCell}>{item.sharpe}</DataTable.Cell>
+                            <DataTable.Cell style={[styles.bodyCell, { borderRightWidth: 0 }]} >{item.sortino}</DataTable.Cell>
+                        </DataTable.Row>)}
+                    </DataTable>
 
-                <View style={styles.bse}>
+                </TabView.Item>
+                <TabView.Item style={{ width: '100%' }}>
 
-                    <View style={{ alignItems: "center", }}>
+                    <DataTable style={styles.dataTable}>
+                        <DataTable.Header style={styles.headerbg}>
+                            <DataTable.Title numberOfLines={4} style={styles.headerCell}>10 − Year Trailing</DataTable.Title>
+                            <DataTable.Title numberOfLines={4} style={styles.headerCell}>Standard Deviation</DataTable.Title>
+                            <DataTable.Title numberOfLines={4} style={styles.headerCell}>Sharpe Ratio</DataTable.Title>
+                            <DataTable.Title numberOfLines={4} style={[styles.headerCell, { borderRightWidth: 0 }]} >Sortino Ratio</DataTable.Title>
+                        </DataTable.Header>
 
-                        <Text style={styles.index1}>S&P BSE 500
-                            India TR INR</Text>
-                        <View style={{ borderWidth: 2, borderColor: Colors.DEEP_GRAY, }}></View>
-                        <Text style={styles.index}>0.97</Text>
-                        <Text style={styles.index}>0.74</Text>
-                        <Text style={styles.index}>4.46</Text>
-                        <Text style={styles.index}>INR</Text>
-                    </View>
-                </View>
+                        {volatility10Yr.map((item, key) => <DataTable.Row key={key} style={styles.headersec}>
+                            <DataTable.Cell style={styles.bodyCell}>{item.trailing}</DataTable.Cell>
+                            <DataTable.Cell style={styles.bodyCell}>{item.standard}</DataTable.Cell>
+                            <DataTable.Cell style={styles.bodyCell}>{item.sharpe}</DataTable.Cell>
+                            <DataTable.Cell style={[styles.bodyCell, { borderRightWidth: 0 }]} >{item.sortino}</DataTable.Cell>
+                        </DataTable.Row>)}
+                    </DataTable>
 
-            </View>
+                </TabView.Item>
+            </TabView>
 
-            {/* Volatility Measures (Date)_sec */}
-
-
-            <Text style={styles.Upside}>Volatility Measures (Date)</Text>
-
-            <View style={styles.back_sec}>
-                <View style={styles.back1}>
-                    <Text style={styles.back_year}>3 Years</Text>
-                    <View style={{ borderWidth: 1, borderColor: Colors.RED, marginTop: 5, }}></View>
-
-                </View>
-                <View style={styles.back1}>
-                    <Text style={styles.back_year2}>5 Years</Text>
-
-
-                </View>
-
-                <View style={styles.back1}>
-                    <Text style={styles.back_year2}>10 Years</Text>
-
-                </View>
-
-            </View>
-            <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY, }}></View>
-
-            {/* Invesco India_sec_2 */}
-
-            <View style={styles.invesco_india}>
-
-                <Text style={styles.Invesco}>Invesco India
-                    Multicap GR</Text>
-                <Text style={styles.Invesco}>Category-
-                    Multi Cap
-                </Text>
-            </View>
-
-
-
-            {/* mainbox_2sec */}
-
-
-            <View style={styles.mainbox_2}>
-
-                <View style={styles.bse}>
-
-                    <Text style={styles.index}>Standard Dev</Text>
-                    <Text style={styles.index}>Sharp Ratio</Text>
-                    <Text style={styles.index}>Sortino Ratio</Text>
-
-                </View>
-                <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY, }}></View>
-
-                <View style={styles.bse}>
-                    <View style={{ alignItems: "center", }}>
-
-
-                        <Text style={styles.index}>23.33</Text>
-                        <Text style={styles.index}>-0.04</Text>
-                        <Text style={styles.index}>-0.05</Text>
-
-                    </View>
-                </View>
-                <View style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY, }}></View>
-
-                <View style={styles.bse}>
-
-                    <View style={{ alignItems: "center", }}>
-                        <Text style={styles.index}>21.16</Text>
-                        <Text style={styles.index}>-0.01</Text>
-                        <Text style={styles.index}>-0.00</Text>
-
-                    </View>
-                </View>
-
-            </View>
             <Text style={styles.Upside}>Upside & Downside Capture Ratio</Text>
-            <Image
-                                    source={require('../../../assets/upside.png')}
-                                    style={styles.upside}
-                                />
+            <DataTable style={styles.dataTable}>
+                <DataTable.Header style={styles.headerbg}>
+                    <DataTable.Title numberOfLines={4} style={styles.headerCell}>Name</DataTable.Title>
+                    <DataTable.Title numberOfLines={4} style={styles.headerCell}>1 − Years</DataTable.Title>
+                    <DataTable.Title numberOfLines={4} style={styles.headerCell}>3 − Years</DataTable.Title>
+                    <DataTable.Title numberOfLines={4} style={styles.headerCell}>5 − Years</DataTable.Title>
+                    <DataTable.Title numberOfLines={4} style={styles.headerCell}>10 − Years</DataTable.Title>
+                    <DataTable.Title numberOfLines={4} style={[styles.headerCell, { borderRightWidth: 0 }]} >15 − Years</DataTable.Title>
+                </DataTable.Header>
+
+                {upDownCaptureRatio.map((item, key) => <DataTable.Row key={key} style={styles.headersec}>
+                    <DataTable.Cell style={styles.bodyCell}>{item.name}</DataTable.Cell>
+                    <DataTable.Cell style={styles.bodyCell}><Text>{item.year1[0]}</Text><Text>{item.year1[1]}</Text></DataTable.Cell>
+                    <DataTable.Cell style={styles.bodyCell}><Text>{item.year3[0]}</Text><Text>{item.year3[1]}</Text></DataTable.Cell>
+                    <DataTable.Cell style={styles.bodyCell}><Text>{item.year5[0]}</Text><Text>{item.year5[1]}</Text></DataTable.Cell>
+                    <DataTable.Cell style={styles.bodyCell}><Text>{item.year10[0]}</Text><Text>{item.year10[1]}</Text></DataTable.Cell>
+                    <DataTable.Cell style={[styles.bodyCell, { borderRightWidth: 0 }]} ><Text>{item.year15[0]}</Text><Text>{item.year15[1]}</Text></DataTable.Cell>
+                </DataTable.Row>)}
+            </DataTable>
 
 
         </View>);
@@ -251,9 +444,11 @@ const styles = StyleSheet.create({
         marginLeft: 30,
 
     },
-   
-    mainbox_2:{flexDirection:"row",
-    margin: 10,},
+
+    mainbox_2: {
+        flexDirection: "row",
+        margin: 10,
+    },
     bse: {
         width: "33%",
 
@@ -274,24 +469,18 @@ const styles = StyleSheet.create({
 
 
 
-    upside:{width:322,
-    height:135,},
+    upside: {
+        width: 322,
+        height: 135,
+    },
 
 
 });
 
+
 const mapStateToProps = (state) => ({
     token: state.auth.token,
-    users: state.auth.users,
+    users: state.auth.user,
+    detailsInfo: state.fundDetail.detailsInfo,
 })
-
-const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
-    const { dispatch } = dispatchProps;
-    const { AuthActions } = require('../../store/AuthRedux')
-    return {
-        ...stateProps,
-        ...ownProps,
-        logOut: () => { AuthActions.logOut(dispatch) },
-    }
-}
-export default connect(mapStateToProps, undefined, mapDispatchToProps)(RiskRating)
+export default connect(mapStateToProps)(RiskRating)

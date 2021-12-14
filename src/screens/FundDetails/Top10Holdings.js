@@ -11,60 +11,42 @@ import {
     KeyboardAvoidingView,
     TextInput,
     ActivityIndicator,
-
-
 } from "react-native";
 import { connect } from 'react-redux'
+import { DataTable } from 'react-native-paper';
 import { Styles, Config, Colors, FormValidate } from '../../common'
 import { Ionicons, AntDesign, MaterialIcons, Feather, Entypo, FontAwesome, FontAwesome5, } from 'react-native-vector-icons';
 import { Image, Header, ListItem, Overlay, Slider } from 'react-native-elements';
 
 function Top10Holdings(props) {
+    const { detailsInfo } = props
+    const [topHoldings, setTopHoldings] = useState([])
+    const [totalWeight, setTotalWeight] = useState(0)
+
+    useEffect(() => {
+        let detailedPortFolio = detailsInfo ? detailsInfo[0].api['FHV2-HoldingDetail'] : [];
+        let topHoldings = []
+        let totalWeight = 0
+        for (let i = 0; i < 5; i++) {
+            totalWeight += parseFloat(detailedPortFolio[i].Weighting);
+            topHoldings.push(detailedPortFolio[i])
+        }
+        setTopHoldings(topHoldings)
+        setTotalWeight(totalWeight)
+    }, [detailsInfo]);
 
     return (<View style={styles.contain_box}>
+        <DataTable style={styles.dataTable}>
+            <DataTable.Header style={styles.headerbg}>
+                <DataTable.Title numberOfLines={4} style={styles.headerCell}>Name</DataTable.Title>
+                <DataTable.Title numberOfLines={4} style={[styles.headerCell, { borderRightWidth: 0 }]} >Assets%</DataTable.Title>
+            </DataTable.Header>
 
-
-        <View style={styles.nametop}>
-            <View style={styles.name_sec}>
-                <View style={styles.name_left}><Text style={styles.name}>Name</Text></View>
-                <View style={styles.name_right}><Text style={styles.name_text}>Assets%</Text></View>
-            </View>
-        </View>
-
-        <View><Text></Text></View>
-
-        <View style={styles.nametop}>
-            <View style={styles.name_sec}>
-                <View style={styles.name_left}><Text style={styles.name}>Avenue Supermarkets Ltd.</Text></View>
-                <View style={styles.name_right}><Text style={styles.name_text}>5.3%</Text></View>
-            </View>
-        </View>
-        <View style={styles.nametop}>
-            <View style={styles.name_sec}>
-                <View style={styles.name_left}><Text style={styles.name}>Avenue Supermarkets Ltd.</Text></View>
-                <View style={styles.name_right}><Text style={styles.name_text}>5.3%</Text></View>
-            </View>
-        </View>
-        <View style={styles.nametop}>
-            <View style={styles.name_sec}>
-                <View style={styles.name_left}><Text style={styles.name}>Bata India Ltd</Text></View>
-                <View style={styles.name_right}><Text style={styles.name_text}>3.83%</Text></View>
-            </View>
-        </View>
-        <View style={styles.nametop}>
-            <View style={styles.name_sec}>
-                <View style={styles.name_left}><Text style={styles.name}>PI Industries Ltd</Text></View>
-                <View style={styles.name_right}><Text style={styles.name_text}>3.79%</Text></View>
-            </View>
-        </View>
-
-        <View style={styles.nametop}>
-            <View style={styles.name_sec}>
-                <View style={styles.name_left}><Text style={styles.name}>Voltas Ltd</Text></View>
-                <View style={styles.name_right}><Text style={styles.name_text}>3.18%</Text></View>
-            </View>
-        </View>
-
+            {topHoldings.map((item, key) => <DataTable.Row key={key} style={styles.headersec}>
+                <DataTable.Cell style={styles.bodyCell}>{item.Name}</DataTable.Cell>
+                <DataTable.Cell style={[styles.bodyCell, { borderRightWidth: 0 }]} >{item.Weighting} %</DataTable.Cell>
+            </DataTable.Row>)}
+        </DataTable>
     </View>);
 }
 
@@ -72,66 +54,29 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
-    logimg: {
-        height: 65,
-        width: 203,
-        marginTop: 10,
+    dataTable: {
+        borderWidth: 1,
+        borderColor: Colors.DEEP_GRAY,
     },
-
-    bottom_sec: { paddingVertical: 20, },
-    holding: {
-        flexDirection: "row",
+    dataTablebottom: {
+        borderRightWidth: 1,
+        borderColor: Colors.DEEP_GRAY,
+    },
+    headerbg: {
         borderBottomWidth: 1,
-        borderBottomColor: Colors.RED,
-        paddingVertical: 5,
-
+        borderBottomColor: Colors.DEEP_GRAY,
     },
-    holding_text: {
-        fontSize: 20,
-        color: Colors.RED,
+    headerCell: {
+        padding: 5,
+        borderRightWidth: 1,
+        borderRightColor: Colors.DEEP_GRAY,
+        justifyContent: 'center',
     },
-    holding_icon: {
-        position: 'absolute',
-        right: 0,
-        marginTop: 5,
-    },
-    submit: {
-        backgroundColor: Colors.LIGHT_RED,
-        alignItems: "center",
-        borderRadius: 5,
-        marginTop: 120,
-    },
-    submit_text: {
-        fontSize: 25,
-        color: Colors.WHITE,
-        paddingVertical: 10,
-    },
-    name_sec: {
-        flexDirection: "row",
-        paddingVertical: 5,
-    },
-    name: { fontSize: 15, },
-    name_text: {
-        color: Colors.RED,
-        fontSize: 15,
-    },
-    name_right: {
-        alignItems: "flex-end",
-        width: '20%'
-    },
-    name_left: {
-        width: '80%'
-    },
-    nametop: { paddingVertical: 5, },
-    minimum: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-        marginBottom: 40,
-    },
-    mini_tex: { fontSize: 15, },
-    minimum_tex: {
-        fontSize: 12,
-        paddingVertical: 5
+    bodyCell: {
+        padding: 5,
+        borderRightWidth: 1,
+        borderRightColor: Colors.DEEP_GRAY,
+        justifyContent: 'center',
     },
 
 
@@ -139,16 +84,9 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
     token: state.auth.token,
-    users: state.auth.users,
+    users: state.auth.user,
+    detailsInfo: state.fundDetail.detailsInfo,
 })
 
-const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
-    const { dispatch } = dispatchProps;
-    const { AuthActions } = require('../../store/AuthRedux')
-    return {
-        ...stateProps,
-        ...ownProps,
-        logOut: () => { AuthActions.logOut(dispatch) },
-    }
-}
-export default connect(mapStateToProps, undefined, mapDispatchToProps)(Top10Holdings)
+
+export default connect(mapStateToProps)(Top10Holdings)
