@@ -12,6 +12,10 @@ function UpiScreen(props) {
     console.log(props.navigation.state.params.cart);
   }, []);
 
+  useEffect(() => {
+    if (profile) console.log(profile);
+  }, [profile]);
+
   const monthsArr = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"];
   const fromDate = () => {
     const date = new Date();
@@ -95,7 +99,18 @@ function UpiScreen(props) {
     return formatted;
   };
 
-  const getParams = (upi) => {
+  const getPaymentMode = (upi, mandate) => {
+    if (upi) {
+      return "UPI";
+    } else if (mandate) {
+      return "M";
+    } else {
+      return "OL";
+    }
+  };
+
+  const getParams = (upi, mandate) => {
+    console.log("mode", getPaymentMode(upi, mandate));
     return {
       service_request: {
         ac_no: profile?.AC_NO,
@@ -150,7 +165,7 @@ function UpiScreen(props) {
         nominee3_percent: " ",
         nominee3_relation: " ",
         nominee_flag: "C",
-        payment_mode: upi ? "UPI" : "OL",
+        payment_mode: getPaymentMode(upi, mandate),
         poa: "N",
         remarks: " ",
         Return_paymnt_flag: "Y",
@@ -201,7 +216,7 @@ function UpiScreen(props) {
             <View style={styles.button}>
               <TouchableOpacity
                 onPress={() => {
-                  let params = getParams(true);
+                  let params = getParams(true, false);
                   checkout(params, token);
                 }}
                 style={[styles.botton_box, styles.botton_box_none]}
@@ -212,7 +227,7 @@ function UpiScreen(props) {
             <View style={styles.button}>
               <TouchableOpacity
                 onPress={() => {
-                  let params = getParams(false);
+                  let params = getParams(false, false);
                   checkout(params, token);
                 }}
                 style={styles.botton_box}
@@ -221,7 +236,13 @@ function UpiScreen(props) {
               </TouchableOpacity>
             </View>
             <View style={styles.button}>
-              <TouchableOpacity onPress={() => props.navigation.navigate("Home")} style={styles.botton_box}>
+              <TouchableOpacity
+                onPress={() => {
+                  let params = getParams(false, true);
+                  checkout(params, token);
+                }}
+                style={styles.botton_box}
+              >
                 <Text style={styles.get_otp}>e-Mandate</Text>
               </TouchableOpacity>
             </View>
