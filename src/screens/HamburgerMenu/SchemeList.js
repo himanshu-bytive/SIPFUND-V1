@@ -32,7 +32,7 @@ function SchemeList(props) {
   const [filteredSchemes, setFilteredSchemes] = useState([]);
 
   useEffect(() => {
-    if (schemeDetails !== null) {
+    if (schemeDetails && schemeDetails !== null) {
       setFilteredSchemes(
         schemeDetails.filter((scheme) => {
           return scheme.PRODUCT_LONG_NAME.toLowerCase().includes(
