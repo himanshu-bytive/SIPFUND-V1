@@ -187,7 +187,7 @@ function UpiScreen(props) {
         until_cancelled: "Y",
         utr: "",
       },
-      childtrans: getTransactions(props.navigation.state.params.cart),
+      childtrans: getTransactions(props.navigation.state?.params?.cart),
     };
   };
 

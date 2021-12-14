@@ -20,7 +20,9 @@ function TopRatedSubmitScreen(props) {
     }, [cart]);
 
     useEffect(() => {
-        setCart(props.navigation.state.params.cart);
+        if (props.navigation) {
+            setCart(props.navigation.state.params.cart);
+        }
     }, [props.navigation.state.params.cart]);
 
     return (
