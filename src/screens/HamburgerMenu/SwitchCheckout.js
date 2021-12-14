@@ -37,7 +37,7 @@ function SwitchCheckout(props) {
   useEffect(() => {
     if (switchTransactionSucces === true) {
       setSwitchTransactionSucces(false);
-      props.navigation.navigate("Switch");
+      props.navigation.navigate("dashboard");
     }
   }, [switchTransactionSucces]);
 

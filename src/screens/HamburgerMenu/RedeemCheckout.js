@@ -37,7 +37,7 @@ function RedeemCheckout(props) {
     if (redeemTransactionSucces === true) {
       setRedeemTransactionSucces(false);
 
-      props.navigation.navigate("Redeem");
+      props.navigation.navigate("dashboard");
     }
   }, [redeemTransactionSucces]);
 
