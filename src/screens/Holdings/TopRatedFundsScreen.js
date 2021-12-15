@@ -13,6 +13,7 @@ import {
 
 } from "react-native";
 import { connect } from 'react-redux'
+import TopRatedHomeScreen from '../TOPRatedFunds/TopRatedHomeScreen'
 import { Styles, Config, Colors, FormValidate } from '../../common'
 
 import { Ionicons, AntDesign, FontAwesome, FontAwesome5, } from 'react-native-vector-icons';
@@ -51,7 +52,7 @@ function TopRatedFundsScreen(props) {
 
                 <View style={styles.mainbox}>
 
-                    {data.map((item, key) => <TouchableOpacity style={{ width: '95%' }} key={key} onPress={() => setVisible(key)}>
+                    {data.map((item, key) => <TouchableOpacity style={{ width: '95%' }} key={key} onPress={() => setVisible(visible === key ? null : key)}>
                         <View style={styles.container_box}>
                             <View style={styles.smallbox}>
                                 <Image
@@ -62,8 +63,8 @@ function TopRatedFundsScreen(props) {
                             </View>
                             <AntDesign name={(visible === key) ? "up" : "down"} size={20} color="#C0392B" />
                         </View>
-
-                        {(visible === key) && (<TouchableOpacity style={styles.valua_sec} onPress={() => props.navigation.navigate('TopRatedFundDetails')}>
+                        {/* onPress={() => props.navigation.navigate('TopRatedFundDetails')} */}
+                        {(visible === key) && (<TouchableOpacity style={styles.valua_sec} >
                             <View style={styles.price}>
                                 <Text style={styles.rate_2}>₹ {item.amount}</Text>
                                 <Text style={styles.Current_Value}>Current Value</Text>
@@ -94,159 +95,8 @@ function TopRatedFundsScreen(props) {
                 </View>
 
                 <Text style={styles.Investments}>Invest Now</Text>
+                <TopRatedHomeScreen showInside={true} />
 
-                {/* Invest Now sec */}
-
-                <View style={styles.Investnow_sec}>
-                    <Text style={styles.Equity}>Equity</Text>
-                    <Text style={styles.Debt}>Debt</Text>
-                    <Text style={styles.Debt}>Balanced</Text>
-                    <Text style={styles.Debt}>Liquid</Text>
-                    <Text style={styles.Debt}>Overnite</Text>
-                    <Text style={styles.Debt}>Multicap</Text>
-                    <Text style={styles.Debt}>Mid Cap</Text>
-                </View>
-                <View style={{ borderWidth: 1, borderColor: Colors.GREY_1, }}></View>
-
-                {/* Topratedfunds_sec */}
-
-                <View style={styles.topratedmainbox}>
-
-                    <View style={styles.toprated}>
-                        <Text style={styles.top}>Top Rated Funds</Text>
-
-
-                        <View style={styles.returnsright}>
-                            <View style={styles.returnsbox}>
-
-                                <Text style={styles.return}>5Y Returns</Text>
-
-
-                                <AntDesign name="caretdown" size={15} color="#C0392B" />
-                            </View>
-                            <View style={{ borderWidth: 1, borderColor: Colors.RED, }}></View>
-                        </View>
-
-
-                    </View>
-
-
-                    {/* Axis Asset Management Company */}
-
-                    <View style={styles.axis_asset}>
-
-                        <View style={styles.company}>
-
-                            <Image
-                                source={require('../../../assets/axis_img.png')}
-                                style={styles.axisimg}
-                            />
-                            <Text style={styles.axis}>Axis Asset Management Company</Text>
-                            <TouchableOpacity style={styles.botton_box}>
-                                <Text style={styles.get_otp}>INVEST</Text>
-                            </TouchableOpacity>
-
-                        </View>
-                        <View style={styles.value_sec}>
-
-
-                            <View style={styles.mininvestment}>
-                                <Text style={styles.min}>Min. Investment</Text>
-                                <Text style={styles.min}>1000</Text>
-                            </View>
-
-                            <View style={styles.mininvestment}>
-                                <Text style={styles.min}>AUM</Text>
-                                <Text style={styles.min}>2097 Cr</Text>
-
-                            </View>
-                            <View style={styles.mininvestment}>
-                                <Text style={styles.min}>Returns</Text>
-                                <Text style={styles.min}>16.0%</Text>
-                            </View>
-                        </View>
-                        <View style={{ borderWidth: 1, borderColor: Colors.GREY_1, marginTop: 10, }}></View>
-
-
-                    </View>
-
-                    {/* Aditya Birla Sun Life AMC Limited_ sec */}
-
-                    <View style={styles.axis_asset}>
-
-                        <View style={styles.company}>
-
-                            <Image
-                                source={require('../../../assets/adityabirlaimg.png')}
-                                style={styles.axisimg}
-                            />
-                            <Text style={styles.axis}>Aditya Birla Sun Life AMC Limited</Text>
-                            <TouchableOpacity style={styles.botton_box}>
-                                <Text style={styles.get_otp}>INVEST</Text>
-                            </TouchableOpacity>
-
-                        </View>
-                        <View style={styles.value_sec}>
-
-
-                            <View style={styles.mininvestment}>
-                                <Text style={styles.min}>Min. Investment</Text>
-                                <Text style={styles.min}>1000</Text>
-                            </View>
-
-                            <View style={styles.mininvestment}>
-                                <Text style={styles.min}>AUM</Text>
-                                <Text style={styles.min}>2097 Cr</Text>
-
-                            </View>
-                            <View style={styles.mininvestment}>
-                                <Text style={styles.min}>Returns</Text>
-                                <Text style={styles.min}>16.0%</Text>
-                            </View>
-                        </View>
-                        <View style={{ borderWidth: 1, borderColor: Colors.GREY_1, marginTop: 10, }}></View>
-
-
-                    </View>
-
-                    {/* Baroda Asset Management India_ sec */}
-
-                    <View style={styles.axis_asset}>
-
-                        <View style={styles.company}>
-
-                            <Image
-                                source={require('../../../assets/barodaimg.png')}
-                                style={styles.axisimg}
-                            />
-                            <Text style={styles.axis}>Baroda Asset Management India</Text>
-                            <TouchableOpacity style={styles.botton_box}>
-                                <Text style={styles.get_otp}>INVEST</Text>
-                            </TouchableOpacity>
-
-                        </View>
-                        <View style={styles.value_sec}>
-
-
-                            <View style={styles.mininvestment}>
-                                <Text style={styles.min}>Min. Investment</Text>
-                                <Text style={styles.min}>1000</Text>
-                            </View>
-
-                            <View style={styles.mininvestment}>
-                                <Text style={styles.min}>AUM</Text>
-                                <Text style={styles.min}>2097 Cr</Text>
-
-                            </View>
-                            <View style={styles.mininvestment}>
-                                <Text style={styles.min}>Returns</Text>
-                                <Text style={styles.min}>16.0%</Text>
-                            </View>
-                        </View>
-                        <View style={{ borderWidth: 1, borderColor: Colors.GREY_1, marginTop: 10, }}></View>
-                    </View>
-
-                </View>
 
             </ScrollView>
         </View>

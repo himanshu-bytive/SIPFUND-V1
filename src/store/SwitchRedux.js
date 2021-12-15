@@ -3,6 +3,19 @@ import { Alert } from "react-native";
 const types = {
   LOGOUT: "LOGOUT",
 
+
+  FETCH_EXT_HOLDING_PENDING: "FETCH_EXT_HOLDING_PENDING",
+  FETCH_EXT_HOLDING_FAILURE: "FETCH_EXT_HOLDING_FAILURE",
+  FETCH_EXT_HOLDING_SUCCES: "FETCH_EXT_HOLDING_SUCCES",
+
+  FETCH_AMC_LIST_PENDING: "FETCH_AMC_LIST_PENDING",
+  FETCH_AMC_LIST_FAILURE: "FETCH_AMC_LIST_FAILURE",
+  FETCH_AMC_LIST_SUCCES: "FETCH_AMC_LIST_SUCCES",
+
+  FETCH_EXT_HOLD_ADD_LUM_PENDING: "FETCH_EXT_HOLD_ADD_LUM_PENDING",
+  FETCH_EXT_HOLD_ADD_LUM_FAILURE: "FETCH_EXT_HOLD_ADD_LUM_FAILURE",
+  FETCH_EXT_HOLD_ADD_LUM_SUCCES: "FETCH_EXT_HOLD_ADD_LUM_SUCCES",
+
   FETCH_FET_TRANSACTION_DETAILS_PENDING:
     "FETCH_FET_TRANSACTION_DETAILS_PENDING",
   FETCH_FET_TRANSACTION_DETAILS_SUCCESS:
@@ -42,6 +55,52 @@ const types = {
 };
 
 export const SwitchActions = {
+  fetchExtHoldings: async (dispatch, params, token) => {
+    dispatch({ type: types.FETCH_EXT_HOLDING_PENDING });
+    let data = await SiteAPI.apiPostCall("/retrieveData", params, token);
+    if (data.error) {
+      dispatch({
+        type: types.FETCH_EXT_HOLDING_FAILURE,
+        error: data.message,
+      });
+    } else {
+      dispatch({
+        type: types.FETCH_EXT_HOLDING_SUCCES,
+        extHolding: data,
+      });
+    }
+  },
+  fetchAmcLists: async (dispatch, token) => {
+    dispatch({ type: types.FETCH_AMC_LIST_PENDING });
+    let data = await SiteAPI.apiGetCall("/apiData/Amc", {}, token);
+    if (data.error) {
+      dispatch({
+        type: types.FETCH_AMC_LIST_FAILURE,
+        error: data.message,
+      });
+    } else {
+      dispatch({
+        type: types.FETCH_AMC_LIST_SUCCES,
+        amcLists: data.Data.amc_master,
+      });
+    }
+  },
+  addExternalHoldingLumpsum: async (dispatch, params, token) => {
+    dispatch({ type: types.FETCH_EXT_HOLD_ADD_LUM_PENDING });
+    let data = await SiteAPI.apiPostCall(((params.type = 'sip') ? "/externalTransactions" : "/externalTransactions/uploadsntrn"), params, token);
+    if (data.error) {
+      dispatch({
+        type: types.FETCH_EXT_HOLD_ADD_LUM_FAILURE,
+        error: data.message,
+      });
+    } else {
+      console.log(data)
+      dispatch({
+        type: types.FETCH_EXT_HOLD_ADD_LUM_SUCCES,
+        addList: data
+      });
+    }
+  },
   fetchTransactionDetails: async (dispatch, params, token) => {
     dispatch({ type: types.FETCH_FET_TRANSACTION_DETAILS_PENDING });
     let data = await SiteAPI.apiPostCall("/operationData", params, token);
@@ -199,6 +258,8 @@ export const SwitchActions = {
 const initialState = {
   isFetching: false,
   error: null,
+  extHolding: null,
+  amcLists: [],
   signUpSteps: null,
   validFlag: null,
   phone: null,
@@ -225,11 +286,8 @@ export const reducer = (state = initialState, action) => {
   const {
     type,
     error,
-    phone,
-    signUpSteps,
-    validFlag,
-    user,
-    token,
+    extHolding,
+    amcLists,
     switchRes,
     externalSwitch,
     schemeDetails,
@@ -249,6 +307,9 @@ export const reducer = (state = initialState, action) => {
     redeemTransactionSucces,
   } = action;
   switch (type) {
+    case types.FETCH_EXT_HOLD_ADD_LUM_PENDING:
+    case types.FETCH_AMC_LIST_PENDING:
+    case types.FETCH_EXT_HOLDING_PENDING:
     case types.FETCH_FET_TRANSACTION_DETAILS_PENDING:
     case types.FETCH_SCHEME_DETAILS_PENDING:
     case types.SWITCH_CHECKOUT_PENDING:
@@ -260,6 +321,9 @@ export const reducer = (state = initialState, action) => {
       };
     }
 
+    case types.FETCH_EXT_HOLD_ADD_LUM_FAILURE:
+    case types.FETCH_AMC_LIST_FAILURE:
+    case types.FETCH_EXT_HOLDING_FAILURE:
     case types.FETCH_FET_TRANSACTION_DETAILS_FAILURE:
     case types.FETCH_SCHEME_DETAILS_FAILURE:
     case types.SWITCH_CHECKOUT_FAILURE:
@@ -271,6 +335,29 @@ export const reducer = (state = initialState, action) => {
       };
     }
 
+    case types.FETCH_EXT_HOLDING_SUCCES: {
+      return {
+        ...state,
+        isFetching: false,
+        error: null,
+        extHolding,
+      };
+    }
+    case types.FETCH_AMC_LIST_SUCCES: {
+      return {
+        ...state,
+        isFetching: false,
+        error: null,
+        amcLists,
+      };
+    }
+    case types.FETCH_EXT_HOLD_ADD_LUM_SUCCES: {
+      return {
+        ...state,
+        isFetching: false,
+        error: null,
+      };
+    }
     case types.FETCH_FET_TRANSACTION_DETAILS_SUCCESS: {
       return {
         ...state,

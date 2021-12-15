@@ -65,7 +65,7 @@ import TransactionHistoryScreen from "./HamburgerMenu/TransactionHistoryScreen";
 import HoldingsScreen from "./HamburgerMenu/HoldingsScreen";
 import ExternalHoldingScreen from "./HamburgerMenu/ExternalHoldingScreen";
 import HamburgerMenu6Screen from "./HamburgerMenu/HamburgerMenu6Screen";
-import HamburgerMenu7Screen from "./HamburgerMenu/HamburgerMenu7Screen";
+import AddExternalHoldingScreen from "./HamburgerMenu/AddExternalHoldingScreen";
 import HamburgerMenu8Screen from "./HamburgerMenu/HamburgerMenu8Screen";
 import HamburgerMenu9Screen from "./HamburgerMenu/HamburgerMenu9Screen";
 import HamburgerMenu10Screen from "./HamburgerMenu/HamburgerMenu10Screen";
@@ -129,7 +129,7 @@ export {
     HoldingsScreen,
     ExternalHoldingScreen,
     HamburgerMenu6Screen,
-    HamburgerMenu7Screen,
+    AddExternalHoldingScreen,
     HamburgerMenu8Screen,
     HamburgerMenu9Screen,
     HamburgerMenu10Screen,

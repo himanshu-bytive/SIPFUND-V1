@@ -23,7 +23,7 @@ export const CheckoutActions = {
   getUMRN: async (dispatch, iin, token) => {
     dispatch({ type: types.FETCH_CHECKOUT_BUTTON_PENDING });
     let data = await SiteAPI.apiGetCall(`/retrieveData/mandateList?iin=${iin}`, {}, token);
-    if (data.responseString) {
+    if (data.responseString && data.responseString[0]) {
       dispatch({ type: types.FETCH_CHECKOUT_BUTTON_SUCCESS, umrn: data.responseString[0].achReports });
     }
   },

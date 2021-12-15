@@ -94,7 +94,7 @@ const roted = [
 ];
 
 function TopRatedHomeScreen(props) {
-    const { isFetching, token, getAllcategorys, getDetails, category, details, addItomToSip } = props;
+    const { isFetching, token, getAllcategorys, getDetails, category, details, addItomToSip, showInside } = props;
 
     useEffect(() => {
         if (token) {
@@ -286,7 +286,7 @@ function TopRatedHomeScreen(props) {
     return (
         <View style={styles.container}>
             {/* Header_sec */}
-            <Header
+            {!showInside && (<Header
                 leftComponent={
                     <TouchableOpacity onPress={() => props.navigation.navigate("Home")} style={{ marginTop: 20 }}>
                         <AntDesign name={"arrowleft"} size={30} color={Colors.RED} />
@@ -300,7 +300,7 @@ function TopRatedHomeScreen(props) {
                         <AntDesign name={"shoppingcart"} size={40} color={Colors.RED} />
                     </TouchableOpacity>
                 }
-            />
+            />)}
             {isFetching && (
                 <View style={Styles.loading}>
                     <ActivityIndicator color={Colors.BLACK} size="large" />

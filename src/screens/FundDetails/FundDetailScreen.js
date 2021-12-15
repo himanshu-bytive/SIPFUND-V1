@@ -34,13 +34,12 @@ function FundDetailScreen(props) {
     const [fundType, setFundType] = useState([
         { text: 'Returns Calculator', show: true },
         { text: 'Returns', show: false },
-        { text: 'Top 5 Holdings', show: false },
+        { text: 'Top Holdings', show: false },
         { text: 'Minimum Investments', show: false },
         { text: 'Performance History', show: false },
         { text: 'Portfolio Summary', show: false },
         { text: 'Risk & Rating', show: false },
         { text: 'Expense Ratio - Exit Load - Tax', show: false },
-        { text: 'Fund Managers', show: false },
     ]);
 
     const toggleFundType = (key) => {
@@ -61,13 +60,12 @@ function FundDetailScreen(props) {
             {item.show && (<View>
                 {(item.text === 'Returns Calculator') && (<ReturnsCalculator />)}
                 {(item.text === 'Returns') && (<Returns />)}
-                {(item.text === 'Top 5 Holdings') && (<Top10Holdings />)}
+                {(item.text === 'Top Holdings') && (<Top10Holdings />)}
                 {(item.text === 'Minimum Investments') && (<MinimumInvestments />)}
                 {(item.text === 'Performance History') && (<PerformanceHistory />)}
                 {(item.text === 'Portfolio Summary') && (<PortfolioSummary />)}
                 {(item.text === 'Risk & Rating') && (<RiskRating />)}
                 {(item.text === 'Expense Ratio - Exit Load - Tax') && (<ExpenseRatio />)}
-                {(item.text === 'Fund Managers') && (<FundManagers />)}
             </View>)}
         </View>)}
         <View style={styles.submit}><TouchableOpacity><Text style={styles.submit_text}>SELECT FUND</Text></TouchableOpacity></View>

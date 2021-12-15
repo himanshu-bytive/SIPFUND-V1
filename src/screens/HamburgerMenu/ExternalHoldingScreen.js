@@ -14,24 +14,42 @@ import {
     ScrollView,
 } from "react-native";
 import { connect } from 'react-redux'
+import moment from 'moment';
 import { Styles, Config, Colors, FormValidate } from '../../common'
 import { Entypo, AntDesign } from 'react-native-vector-icons';
 import { Header, Overlay } from 'react-native-elements';
 
 
 function HoldingsScreen(props) {
-    const { token, users, getSchemeList, schemeDetails } = props
-    const [data, setData] = useState(schemeDetails);
+    const { token, users, userDetails, fetchExtHoldings, extHolding } = props
+    const [data, setData] = useState([]);
     const [investment, setInvestment] = useState(999.95);
     const [currentValue, setCurrentValue] = useState(1532.69);
     const [profit, setProfit] = useState(532.74);
 
-
     useEffect(() => {
-        getSchemeList('128', token)
+        fetchExtHoldings({ "pan": userDetails.pan ? userDetails.pan : users.pan }, token)
     }, []);
 
-    // console.log(schemeDetails)
+    useEffect(() => {
+        if (extHolding) {
+            let data = []
+            let investment = 0
+            let currentValue = 0
+            let profit = 0
+            for (let item of extHolding.externalTrnx) {
+                data.push(item)
+                investment += Number(item.investedAmt)
+                currentValue += Number(item.currentValue)
+                profit += Number(item.trxnDetails[0].purprice)
+            }
+            setData(data)
+            setInvestment(investment)
+            setCurrentValue(currentValue)
+            setProfit(profit)
+        }
+    }, [extHolding]);
+
 
     return (
         <View style={styles.container}>
@@ -47,7 +65,6 @@ function HoldingsScreen(props) {
             />
             <ScrollView style={styles.containerScroll}>
 
-
                 {/* External Holding_ tab sec */}
                 <View style={styles.holding_sec}>
                     <Text style={styles.transaction}>External Holding</Text>
@@ -56,15 +73,15 @@ function HoldingsScreen(props) {
                     <View style={styles.investment_sec}>
                         <View style={styles.blue_sec}>
                             <Text style={styles.total_investment}>Total Investment</Text>
-                            <Text style={styles.price}>₹ {investment}</Text>
+                            <Text style={styles.price}>₹ {(investment).toFixed(2)}</Text>
                         </View>
                         <View style={styles.red_sec}>
                             <Text style={styles.total_investment}>Current Value</Text>
-                            <Text style={styles.price}>₹ {currentValue}</Text>
+                            <Text style={styles.price}>₹ {(currentValue).toFixed(2)}</Text>
                         </View>
                         <View style={styles.green_sec}>
                             <Text style={styles.total_investment}>Unrealized Profit</Text>
-                            <Text style={styles.price}>₹ {profit}</Text>
+                            <Text style={styles.price}>₹ {(profit).toFixed(2)}</Text>
 
                         </View>
                     </View>
@@ -73,24 +90,24 @@ function HoldingsScreen(props) {
 
                     {data.map((item, key) => <View key={key} style={styles.fund_sec}>
                         <View style={styles.axis_sec}>
-                            <Text style={styles.axis}>{item.PRODUCT_CODE}</Text>
+                            <Text style={styles.axis}>{item.scheme}</Text>
                         </View>
 
                         <View style={styles.growth_sec}>
-                            <Text style={styles.axis_treasury}>{item.PRODUCT_LONG_NAME}</Text>
+                            <Text style={styles.axis_treasury}>{item.scheme}</Text>
                             <View style={styles.value_sec}>
                                 <View style={styles.folio_sec}>
-                                    <Text style={styles.folio}>{item.PRODUCT_LONG_NAME}</Text>
+                                    <Text style={styles.folio}>{(item.units).toFixed(3)}</Text>
                                     <Text style={styles.folio}>Units</Text>
                                 </View>
 
                                 <View style={styles.folio_sec}>
-                                    <Text style={styles.folio}>{item.PRODUCT_LONG_NAME}</Text>
+                                    <Text style={styles.folio}>{item.investedAmt}</Text>
                                     <Text style={styles.folio}>Invested Amount</Text>
                                 </View>
 
                                 <View style={styles.folio_sec}>
-                                    <Text style={styles.folio}>{item.PRODUCT_LONG_NAME}</Text>
+                                    <Text style={styles.folio}>{item.cagr}</Text>
                                     <Text style={styles.folio}>CAGR %</Text>
                                 </View>
                             </View>
@@ -98,23 +115,22 @@ function HoldingsScreen(props) {
                             {/* value_sec_end */}
                             <View style={styles.value_sec}>
                                 <View style={styles.folio_sec}>
-                                    <Text style={styles.folio}>1532.691</Text>
+                                    <Text style={styles.folio}>{(item.currentValue).toFixed(3)}</Text>
                                     <Text style={styles.folio}>Market Value</Text>
-                                    <Text style={styles.folio}>On 13-Jul-2021</Text>
+                                    <Text style={styles.folio}>On {moment(item.nav_date).format('DD-MM-YYYY')}</Text>
                                 </View>
 
                                 <View style={styles.folio_sec}>
                                     <View style={{ flexDirection: "row", }}>
-                                        <Text style={[styles.folio, styles.green]}>532.741</Text>
+                                        <Text style={[styles.folio, styles.green]}>{Number(item.trxnDetails[0].purprice).toFixed(3)}</Text>
                                         <AntDesign name="caretup" size={15} color="#5DA753" />
                                     </View>
                                     <Text style={styles.folio}>Unrealized Profit</Text>
                                 </View>
 
                                 <View style={styles.folio_sec}>
-                                    <Text style={[styles.folio, styles.green]}>53.277</Text>
+                                    <Text style={[styles.folio, styles.green]}>{Number(item.trxnDetails[0].units).toFixed(3)}</Text>
                                     <Text style={styles.folio}>Unrealized Profit %</Text>
-
                                 </View>
                             </View>
 
@@ -129,7 +145,7 @@ function HoldingsScreen(props) {
                     <Text style={styles.proceed}>DOWNLOAD YOUR STATEMENT</Text>
                 </TouchableOpacity>
                 <View style={styles.footer_box}>
-                    <TouchableOpacity onPress={() => props.navigation.navigate('Holdings')} style={styles.botton_box2}>
+                    <TouchableOpacity onPress={() => props.navigation.navigate('AddExternalHolding')} style={styles.botton_box2}>
                         <Text style={styles.proceed}>ADD HOLDING</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.botton_box2}>
@@ -285,7 +301,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => ({
     token: state.auth.token,
     users: state.auth.user,
-    schemeDetails: state.switch.schemeDetails,
+    userDetails: state.registration.userDetails,
+    extHolding: state.switch.extHolding,
 })
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
@@ -294,7 +311,7 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     return {
         ...stateProps,
         ...ownProps,
-        getSchemeList: (params, token) => { SwitchActions.getSchemeList(dispatch, params, token) },
+        fetchExtHoldings: (params, token) => { SwitchActions.fetchExtHoldings(dispatch, params, token) },
     }
 }
 export default connect(mapStateToProps, undefined, mapDispatchToProps)(HoldingsScreen)

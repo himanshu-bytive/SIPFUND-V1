@@ -46,7 +46,7 @@ export default function App() {
         <Provider store={store}>
             <PersistGate persistor={persistor}>
                 <SafeAreaView>
-                    <StatusBar animated={true} backgroundColor="transparent" barStyle="dark-content" />
+                    <StatusBar animated={true} backgroundColor="transparent" barStyle="dark-content" hidden={true} />
                 </SafeAreaView>
                 <AppContainer />
             </PersistGate>

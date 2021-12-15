@@ -56,8 +56,7 @@ import {
   TransactionHistoryScreen,
   HoldingsScreen,
   ExternalHoldingScreen,
-  HamburgerMenu7Screen,
-  HamburgerMenu9Screen,
+  AddExternalHoldingScreen,
 } from "../screens";
 import { SideMenu } from "../components";
 import RedeemScreen from "../screens/HamburgerMenu/RedeemScreen";
@@ -165,14 +164,8 @@ export const Hamburgmenu = createStackNavigator(
         headerShown: false,
       },
     },
-    HamburgerMenu7: {
-      screen: HamburgerMenu7Screen,
-      navigationOptions: {
-        headerShown: false,
-      },
-    },
-    HamburgerMenu7: {
-      screen: HamburgerMenu9Screen,
+    AddExternalHolding: {
+      screen: AddExternalHoldingScreen,
       navigationOptions: {
         headerShown: false,
       },
