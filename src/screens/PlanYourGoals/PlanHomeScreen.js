@@ -33,6 +33,7 @@ function PlanHomeScreen(props) {
     golesConfig,
     myGoles,
     fundDetails,
+    setPlanYourGoalDetails,
   } = props;
 
   const [additionalInfo, setAdditionalInfo] = useState({});
@@ -104,17 +105,14 @@ function PlanHomeScreen(props) {
     }
   }, [amount, time, investment, params.inflation, params.returnRate]);
 
-  const costOfEduction = (max, min, input) => {
-    console.log("input=", input);
-    console.log("MIN=", min);
-    console.log("MAX=", max);
-    let range = max - min;
-    let correctedStartValue = input - min;
-    let percentage = (correctedStartValue * 100) / range;
-    console.log("PERCENTAGE=", percentage);
-    let value = (percentage * (max - min)) / 100 + min;
-    console.log("VALUE=", value);
-    return value.toFixed(2);
+  const startGoal = () => {
+    if (selectTab === "SIP") {
+      value = Number(sipAmount);
+    } else {
+      value = Number(lumpsumAmount);
+    }
+    setPlanYourGoalDetails(value);
+    props.navigation.navigate("PlanList");
   };
 
   return (
@@ -372,7 +370,7 @@ function PlanHomeScreen(props) {
             </View>
           ) : (
             <View style={styles.fund_sec}>
-              <Text style={styles.investment}>MonthlyS Investment</Text>
+              <Text style={styles.investment}>Monthly Investment</Text>
               <Text style={styles.price}>
                 ₹{Number(lumpsumAmount).toFixed(2)}
               </Text>
@@ -392,10 +390,7 @@ function PlanHomeScreen(props) {
       <TouchableOpacity onPress={() => props.navigation.navigate("PlanSearch")}>
         <Text style={styles.more_funds}>I would like to add more funds</Text>
       </TouchableOpacity>
-      <TouchableOpacity
-        onPress={() => props.navigation.navigate("PlanList")}
-        style={styles.botton_box}
-      >
+      <TouchableOpacity onPress={startGoal} style={styles.botton_box}>
         <Text style={styles.get_otp}>START GOAL</Text>
       </TouchableOpacity>
     </View>
@@ -695,6 +690,9 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     },
     fundDetails: (data) => {
       FundDetailActions.fundDetails(dispatch, data);
+    },
+    setPlanYourGoalDetails: (props) => {
+      GoalsActions.setPlanYourGoalDetails(dispatch, props);
     },
   };
 };
