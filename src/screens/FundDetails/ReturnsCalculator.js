@@ -19,7 +19,6 @@ import { Ionicons, AntDesign, MaterialIcons, Feather, Entypo, FontAwesome, FontA
 import { Image, Header, ListItem, Overlay, Slider } from 'react-native-elements';
 
 function ReturnsCalculator(props) {
-
     const [selectTab, setSelectTab] = useState('SIP');
     const toggleTab = (value) => {
         setSelectTab(value);
@@ -27,15 +26,15 @@ function ReturnsCalculator(props) {
 
     return (<View style={styles.mainbox}>
         <Text style={styles.check}>Check if you would have invested in the past.</Text>
-       
+
         <View style={styles.click_sec}>
-                    <TouchableOpacity onPress={() => toggleTab('SIP')} style={(selectTab == 'SIP') ? styles.buttom_botton2 : styles.buttom_botton}>
-                        <Text style={(selectTab == 'SIP') ? styles.sip_text2 : styles.sip_text}>SIP</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => toggleTab('LUMPSUM')} style={(selectTab == 'LUMPSUM') ? styles.buttom_botton2 : styles.buttom_botton}>
-                        <Text style={(selectTab == 'LUMPSUM') ? styles.sip_text2 : styles.sip_text}>Lumpsum</Text>
-                    </TouchableOpacity>
-                </View>
+            <TouchableOpacity onPress={() => toggleTab('SIP')} style={(selectTab == 'SIP') ? styles.buttom_botton2 : styles.buttom_botton}>
+                <Text style={(selectTab == 'SIP') ? styles.sip_text2 : styles.sip_text}>SIP</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => toggleTab('LUMPSUM')} style={(selectTab == 'LUMPSUM') ? styles.buttom_botton2 : styles.buttom_botton}>
+                <Text style={(selectTab == 'LUMPSUM') ? styles.sip_text2 : styles.sip_text}>Lumpsum</Text>
+            </TouchableOpacity>
+        </View>
 
         <View>
             <MySlider />
@@ -124,7 +123,7 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
 
-click_sec: {
+    click_sec: {
         flexDirection: "row",
         padding: 20,
     },

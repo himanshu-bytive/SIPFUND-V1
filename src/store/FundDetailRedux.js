@@ -13,7 +13,6 @@ export const FundDetailActions = {
         dispatch({ type: types.FETCH_FUND_DETAILS, details });
     },
     fundDetailsList: async (dispatch, params, token) => {
-        console.log(params.iin)
         dispatch({ type: types.FETCH_FUND_DETAILS_PENDING });
         let date = new Date()
         let preDate = new Date().setYear(new Date().getYear() - 1)

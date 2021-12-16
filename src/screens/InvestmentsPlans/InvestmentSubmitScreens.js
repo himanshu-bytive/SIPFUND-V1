@@ -15,7 +15,7 @@ function InvestmentSubmitScreens(props) {
     useEffect(() => {
         let total = 0;
         for (let item in myInvestlist.filter((value) => !isNaN(value.schemes.sip))) {
-            total = total + myInvestlist.filter((value) => !isNaN(value.schemes.sip))[item].schemes.sip;
+            total = total + Number(myInvestlist.filter((value) => !isNaN(value.schemes.sip))[item].schemes.sip);
         }
         setSum(parseInt(total, 10));
     }, [myInvestlist]);
@@ -24,7 +24,7 @@ function InvestmentSubmitScreens(props) {
         <View style={styles.container}>
             <Header
                 leftComponent={
-                    <TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}>
+                    <TouchableOpacity onPress={() => props.navigation.navigate("InvestmentDetail")} style={{ marginTop: 20 }}>
                         <AntDesign name={"arrowleft"} size={40} color={Colors.RED} />
                     </TouchableOpacity>
                 }

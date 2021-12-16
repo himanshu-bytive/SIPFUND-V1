@@ -131,8 +131,8 @@ function DashboardScreen(props) {
         </View>
 
         <View style={styles.holdings_sec}>
-          {/* <TouchableOpacity
-            onPress={() => props.navigation.navigate("Holdings")}
+          <TouchableOpacity
+            onPress={() => props.navigation.navigate("ExternalHolding")}
           >
             <View style={styles.Switch_sec}>
               <View style={styles.box}>
@@ -143,7 +143,7 @@ function DashboardScreen(props) {
               </View>
               <Text style={styles.transaction}>Holdings</Text>
             </View>
-          </TouchableOpacity> */}
+          </TouchableOpacity>
 
           <TouchableOpacity
             onPress={() => props.navigation.navigate("ExternalHolding")}

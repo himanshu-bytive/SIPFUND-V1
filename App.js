@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import AppContainer from "./src/navigation/AppNavigator";
-import { StatusBar, SafeAreaView } from "react-native";
+import { StatusBar, SafeAreaView, Platform } from "react-native";
 import { Provider } from "react-redux";
 import thunk from "redux-thunk";
 import reducers from "./src/store";
@@ -46,7 +46,7 @@ export default function App() {
         <Provider store={store}>
             <PersistGate persistor={persistor}>
                 <SafeAreaView>
-                    <StatusBar animated={true} backgroundColor="transparent" barStyle="dark-content" hidden={true} />
+                    <StatusBar animated={true} backgroundColor="transparent" barStyle="dark-content" hidden={Platform.OS === 'ios' ? false : true} />
                 </SafeAreaView>
                 <AppContainer />
             </PersistGate>

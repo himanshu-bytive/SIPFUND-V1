@@ -34,9 +34,9 @@ function InvestmentDetailScreens(props) {
                 />}
                 rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={Colors.RED} /></View>}
             />
-            {isFetching && (<View style={Styles.loading}>
+            {/* {isFetching && (<View style={Styles.loading}>
                 <ActivityIndicator color={Colors.BLACK} size='large' />
-            </View>)}
+            </View>)} */}
             <ScrollView>
                 <View style={styles.education}>
                     <View style={styles.education_sec}>

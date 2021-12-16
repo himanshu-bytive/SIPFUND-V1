@@ -10,10 +10,10 @@ function PlanHomeScreen(props) {
     const pageActive = useRef(false);
     const { token, goalDetail, mygolelist, isFetching, golesConfig, myGoles, fundDetails } = props;
 
-    const [amount, setAmount] = useState(65000);
-    const [time, setTime] = useState(15);
+    const [additionalInfo, setAdditionalInfo] = useState({});
+    const [amount, setAmount] = useState(1000);
+    const [time, setTime] = useState(10);
     const [investment, setInvestment] = useState(100000);
-
     const [params, setParams] = useState({
         name: "",
         inflation: 2.49,
@@ -31,6 +31,16 @@ function PlanHomeScreen(props) {
     };
 
     useEffect(() => {
+        if (goalDetail.additionalInfo) {
+            setAdditionalInfo(goalDetail.additionalInfo)
+            setAmount(goalDetail.additionalInfo.current_edu_cost)
+            setTime(goalDetail.additionalInfo.time_years)
+            setInvestment(goalDetail.additionalInfo.current_investment)
+        }
+    }, [goalDetail]);
+
+
+    useEffect(() => {
         let data = Utility.calculatorformula(params);
         golesConfig(data);
     }, []);
@@ -42,7 +52,6 @@ function PlanHomeScreen(props) {
         } else {
             setInflationAdjusted(requiredCorp.toFixed(2));
         }
-
         const constant2 = requiredCorp - investment * Math.pow(1 + params.returnRate / 100, time);
         const rate1 = params.returnRate / 1200;
         const sipAmount1 = constant2 * ((1 - (1 + rate1)) / (1 - Math.pow(1 + rate1, time * 12)));
@@ -106,7 +115,7 @@ function PlanHomeScreen(props) {
                     <Text style={styles.childtext}>₹{amount}</Text>
                 </View>
                 <View style={{ marginHorizontal: 20 }}>
-                    <MySlider value={Number(amount)} change={(amount) => setAmount(amount.toFixed(2))} min="1000" max="100000" />
+                    <MySlider value={Number(amount)} change={(amount) => setAmount(amount.toFixed(2))} min={additionalInfo.current_cost_amt_req_min ? additionalInfo.current_cost_amt_req_min : "1000"} max={additionalInfo.current_cost_amt_req_max ? additionalInfo.current_cost_amt_req_max : "100000"} />
                 </View>
 
                 <View style={[styles.vijay_sec, styles.vijay]}>
@@ -114,7 +123,7 @@ function PlanHomeScreen(props) {
                     <Text style={styles.childtext}>{time}Y</Text>
                 </View>
                 <View style={{ marginHorizontal: 20 }}>
-                    <MySlider value={Number(time)} change={(time) => setTime(time.toFixed(0))} min="1" max="50" />
+                    <MySlider value={Number(time)} change={(time) => setTime(time.toFixed(0))} min={additionalInfo.time_when_req_min ? additionalInfo.time_when_req_min : "1"} max={additionalInfo.time_when_req_max ? additionalInfo.time_when_req_max : "50"} />
                 </View>
 
                 <View style={[styles.vijay_sec, styles.vijay]}>
@@ -122,12 +131,13 @@ function PlanHomeScreen(props) {
                     <Text style={styles.childtext}>₹{investment}</Text>
                 </View>
                 <View style={{ marginHorizontal: 20 }}>
-                    <MySlider value={Number(investment)} change={(investment) => setInvestment(investment.toFixed(2))} min="1000" max="100000" />
+                    <MySlider value={Number(investment)} change={(investment) => setInvestment(investment.toFixed(2))} min={additionalInfo.current_investment_min ? additionalInfo.current_investment_min : "1000"} max={additionalInfo.current_investment_max ? additionalInfo.current_investment_max : "100000"} />
                 </View>
 
                 <Text style={styles.note}>
                     Note : Assuming current inflation rate at {params.inflation}% and expected return rate on saving as {params.returnRate}%.
                 </Text>
+                
 
                 <View style={styles.click_sec}>
                     <TouchableOpacity onPress={() => toggleTab("SIP")} style={selectTab == "SIP" ? styles.buttom_botton2 : styles.buttom_botton}>

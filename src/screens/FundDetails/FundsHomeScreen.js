@@ -41,16 +41,19 @@ function FundsHomeScreen(props) {
     };
 
     useEffect(() => {
-        fundDetailsList({ iin: users.IIN }, token)
-    }, [fundDetail]);
+        if (users) {
+            fundDetailsList({ iin: users.IIN }, token)
+        }
+    }, [users]);
 
     useEffect(() => {
-        let mapData = []
-        for (let item of detailsMap) {
-            mapData.push({ x: Number(item.d), y: Number(item.v) })
+        if (detailsMap) {
+            let mapData = []
+            for (let item of detailsMap) {
+                mapData.push({ x: Number(item.d), y: Number(item.v) })
+            }
+            // setMapData(mapData)
         }
-        // setMapData(mapData)
-
     }, [detailsMap]);
 
     return (
