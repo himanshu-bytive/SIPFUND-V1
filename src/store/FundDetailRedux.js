@@ -17,7 +17,7 @@ export const FundDetailActions = {
     },
     fundChartList: async (dispatch, params, token) => {
         dispatch({ type: types.FETCH_CHART_PENDING });
-        let data = await SiteAPI.apiGetCall(`/proxy/morningstar/service/mf/Price/isin/INF200K01T28/accesscode/startdate=${params.from}&enddate=${params.to}`, params, token);
+        let data = await SiteAPI.apiGetCall(`/proxy/morningstar/service/mf/Price/isin/${params.ISIN}/accesscode/startdate=${params.from}&enddate=${params.to}`, params, token);
         if (data.error) {
             dispatch({ type: types.FETCH_CHART_FAILURE, error: data.message });
         } else {
@@ -26,7 +26,7 @@ export const FundDetailActions = {
     },
     fundDetailsList: async (dispatch, params, token) => {
         dispatch({ type: types.FETCH_FUND_DETAILS_PENDING });
-        let data = await SiteAPI.apiGetCall(`/proxy/morningstar/v2/service/mf/r5soaer67qpg88tr/isin/INF200K01T28/accesscode/`, params, token);
+        let data = await SiteAPI.apiGetCall(`/proxy/morningstar/v2/service/mf/r5soaer67qpg88tr/isin/${params.ISIN}/accesscode/`, params, token);
         if (data.error) {
             dispatch({ type: types.FETCH_FUND_DETAILS_FAILURE, error: data.message });
         } else {

@@ -36,14 +36,14 @@ const rupees = [
 ]
 
 function FundsHomeScreen(props) {
-    const { token, users, fundChartList, fundDetail, fundDetailsList, detailsMap, detailsInfo } = props
+    const { token, users, fetchFunds, funds, fundChartList, fundDetail, fundDetailsList, detailsMap, detailsInfo } = props
     const [selectTab, setSelectTab] = useState('1M');
     const [assets, setAssets] = useState(0)
     const [invest, setInvest] = useState(0)
     const [category, setCategory] = useState(0)
     const [navPercentage, setNavPercentage] = useState(0);
-    const [labels, setLabels] = useState(['','','','']);
-    const [datasets, setDatasets] = useState([0,0,0,0]);
+    const [labels, setLabels] = useState(['', '', '', '']);
+    const [datasets, setDatasets] = useState([0, 0, 0, 0]);
 
     const toggleTab = (value) => {
         setSelectTab(value)
@@ -61,17 +61,25 @@ function FundsHomeScreen(props) {
             lastDay = new Date((y + (year?.value ? year.value : 1)), 1, -29);
         }
         setLabels(Utility.getDatesBetweenDates(firstDay, lastDay))
-        fundChartList({ iin: users.IIN, from: moment(firstDay).format('YYYY-MM-DD'), to: moment(lastDay).format('YYYY-MM-DD') }, token)
+        fundChartList({ ISIN: 'INF200K01T28', from: moment(firstDay).format('YYYY-MM-DD'), to: moment(lastDay).format('YYYY-MM-DD') }, token)
     };
+
+    // useEffect(() => {
+    //     fetchFunds({ name: fundDetail?.name }, token)
+    // }, [users]);
 
     useEffect(() => {
         if (users) {
-            var date = new Date(), y = date.getFullYear(), m = date.getMonth();
-            var firstDay = new Date(y, m, 1);
-            var lastDay = new Date(y, m + 1, 0);
+            // let fund = funds.find(x => x.productName == fundDetail?.name);
+            // console.log(fundDetail)
+            // console.log(funds)
+            // console.log(fund)
+            let date = new Date(), y = date.getFullYear(), m = date.getMonth();
+            let firstDay = new Date(y, m, 1);
+            let lastDay = new Date(y, m + 1, 0);
             setLabels(Utility.getDatesBetweenDates(firstDay, lastDay))
-            fundChartList({ iin: users.IIN, from: moment(firstDay).format('YYYY-MM-DD'), to: moment(lastDay).format('YYYY-MM-DD') }, token)
-            fundDetailsList({ iin: users.IIN }, token)
+            fundChartList({ ISIN: 'INF200K01T28', from: moment(firstDay).format('YYYY-MM-DD'), to: moment(lastDay).format('YYYY-MM-DD') }, token)
+            fundDetailsList({ ISIN: 'INF200K01T28', }, token)
         }
     }, [users]);
 
@@ -367,6 +375,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => ({
     token: state.auth.token,
     users: state.auth.user,
+    funds: state.addmorefunds.funds,
     fundDetail: state.fundDetail.details,
     detailsMap: state.fundDetail.detailsMap,
     detailsInfo: state.fundDetail.detailsInfo,
@@ -374,10 +383,12 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     const { dispatch } = dispatchProps;
+    const { AddMoreFundsActions } = require('../../store/AddMoreFundsRedux')
     const { FundDetailActions } = require('../../store/FundDetailRedux')
     return {
         ...stateProps,
         ...ownProps,
+        fetchFunds: (params, token) => { AddMoreFundsActions.fetchFunds(dispatch, params, token) },
         fundChartList: (params, token) => { FundDetailActions.fundChartList(dispatch, params, token) },
         fundDetailsList: (params, token) => { FundDetailActions.fundDetailsList(dispatch, params, token) },
     }
