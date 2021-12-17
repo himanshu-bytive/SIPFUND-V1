@@ -14,13 +14,6 @@ import { Image, Header, CheckBox } from 'react-native-elements';
 import { VictoryChartCode } from '../../components'
 import FundDetailScreen from './FundDetailScreen'
 
-
-const investment = [
-    { price: 1000, min: 'Min Investment' },
-    { price: '2700 Cr', min: 'AUM' },
-    { price: '60.28', min: 'Lumpsum' },
-]
-
 const rupees = [
     { text: '1M' },
     { text: '1Y' },
@@ -35,16 +28,28 @@ const rupees = [
 function FundsHomeScreen(props) {
     const { token, users, fundDetail, fundDetailsList, detailsMap, detailsInfo } = props
     const [selectTab, setSelectTab] = useState('1M');
+    const [assets, setAssets] = useState(0)
+    const [invest, setInvest] = useState(0)
+    const [category, setCategory] = useState(0)
     const [mapData, setMapData] = useState([]);
-    const toggleTab = (value) => {
-        setSelectTab(value);
-    };
+    const toggleTab = (value) => {setSelectTab(value)};
 
     useEffect(() => {
         if (users) {
             fundDetailsList({ iin: users.IIN }, token)
         }
     }, [users]);
+
+    useEffect(() => {
+        let detailedPortFolio = detailsInfo ? detailsInfo[0].api : {};
+        let assets = detailedPortFolio["PSRP-TotalMarketValueNet"] ? Number(detailedPortFolio["PSRP-TotalMarketValueNet"]).toFixed(2) : 0
+        let invest = detailedPortFolio["PI-MinimumInitial"] ? Number(detailedPortFolio["PI-MinimumInitial"]).toFixed(2) : 0
+        let category = detailedPortFolio["DP-CategoryName"] ? detailedPortFolio["DP-CategoryName"] : ''
+        setAssets(assets)
+        setInvest(invest)
+        setCategory(category)
+
+    }, [detailsInfo]);
 
     useEffect(() => {
         if (detailsMap) {
@@ -71,13 +76,13 @@ function FundsHomeScreen(props) {
             <ScrollView style={styles.containerScroll}>
                 <View style={styles.management_company}>
                     <Image
-                        source={{ uri: fundDetail.imagePath }}
+                        source={{ uri: fundDetail?.imagePath }}
                         style={styles.axis_img}
                     />
                     <TouchableOpacity>
                         <View style={styles.axis}>
-                            <Text style={styles.axis_asset}>{fundDetail.name}</Text>
-                            <Text style={styles.midcap}>{fundDetail.productCode}</Text>
+                            <Text style={styles.axis_asset}>{fundDetail?.name}</Text>
+                            <Text style={styles.midcap}>{fundDetail?.productCode}</Text>
                         </View>
                     </TouchableOpacity>
                 </View>
@@ -106,10 +111,18 @@ function FundsHomeScreen(props) {
 
                     {/* Min Investment_sec */}
                     <View style={styles.investment_sec}>
-                        {investment.map((item, key) => <View key={key} style={styles.investment}>
-                            <Text style={styles.price}>{item.price}</Text>
-                            <Text style={styles.min}>{item.min}</Text>
-                        </View>)}
+                        <View style={styles.investment}>
+                            <Text style={styles.price}>₹{assets}</Text>
+                            <Text style={styles.min}>Total Assets</Text>
+                        </View>
+                        <View style={styles.investment}>
+                            <Text style={styles.price}>₹{invest}</Text>
+                            <Text style={styles.min}>Min. Invest</Text>
+                        </View>
+                        <View style={styles.investment}>
+                            <Text style={styles.price}>{category}</Text>
+                            <Text style={styles.min}>Category</Text>
+                        </View>
                     </View>
                 </View>
                 <FundDetailScreen />

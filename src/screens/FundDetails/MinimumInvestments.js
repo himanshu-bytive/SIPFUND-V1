@@ -18,24 +18,35 @@ import { Ionicons, AntDesign, MaterialIcons, Feather, Entypo, FontAwesome, FontA
 import { Image, Header, ListItem, Overlay, Slider } from 'react-native-elements';
 
 function MinimumInvestments(props) {
+    const { detailsInfo } = props
+    const [assets, setAssets] = useState(0)
+    const [invest, setInvest] = useState(0)
+    const [category, setCategory] = useState(0)
+
+    useEffect(() => {
+        let detailedPortFolio = detailsInfo ? detailsInfo[0].api : {};
+        let assets = detailedPortFolio["PSRP-TotalMarketValueNet"] ? Number(detailedPortFolio["PSRP-TotalMarketValueNet"]).toFixed(2) : 0
+        let invest = detailedPortFolio["PI-MinimumInitial"] ? Number(detailedPortFolio["PI-MinimumInitial"]).toFixed(2) : 0
+        let category = detailedPortFolio["DP-CategoryName"] ? detailedPortFolio["DP-CategoryName"] : ''
+        setAssets(assets)
+        setInvest(invest)
+        setCategory(category)
+
+    }, [detailsInfo]);
+
 
     return (<View style={styles.minimum}>
         <View>
-            <Text style={styles.mini_tex}>R 5,000</Text>
-            <Text style={styles.minimum_tex}>Min. For{'\n'}
-                Lumpsum</Text>
+            <Text style={styles.mini_tex}>₹ {assets}</Text>
+            <Text style={styles.minimum_tex}>Total Assets</Text>
         </View>
         <View>
-            <Text style={styles.mini_tex}>R 1000</Text>
-            <Text style={styles.minimum_tex}>Min. SIP
-                {'\n'}Amount
-                Lumpsum</Text>
+            <Text style={styles.mini_tex}>₹ {invest}</Text>
+            <Text style={styles.minimum_tex}>Min. Invest</Text>
         </View>
         <View>
-            <Text style={styles.mini_tex}>R 100</Text>
-            <Text style={styles.minimum_tex}>Min. 2nd{'\n'}
-                Investment{'\n'}
-                Onwards</Text>
+            <Text style={styles.mini_tex}>{category}</Text>
+            <Text style={styles.minimum_tex}>Category</Text>
         </View>
     </View>);
 }
@@ -102,8 +113,10 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         marginBottom: 40,
     },
-    mini_tex: { fontSize: 15,
-    fontWeight:"bold", },
+    mini_tex: {
+        fontSize: 15,
+        fontWeight: "bold",
+    },
     minimum_tex: {
         fontSize: 12,
         paddingVertical: 5
@@ -114,16 +127,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
     token: state.auth.token,
-    users: state.auth.users,
+    users: state.auth.user,
+    detailsInfo: state.fundDetail.detailsInfo,
 })
-
-const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
-    const { dispatch } = dispatchProps;
-    const { AuthActions } = require('../../store/AuthRedux')
-    return {
-        ...stateProps,
-        ...ownProps,
-        logOut: () => { AuthActions.logOut(dispatch) },
-    }
-}
-export default connect(mapStateToProps, undefined, mapDispatchToProps)(MinimumInvestments)
+export default connect(mapStateToProps)(MinimumInvestments)
