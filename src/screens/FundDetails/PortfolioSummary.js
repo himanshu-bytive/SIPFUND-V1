@@ -11,17 +11,44 @@ import { VictoryPieCode } from '../../components'
 
 function PortfolioSummary(props) {
     const { detailsInfo } = props
+    const [totalmarktValue, setTotalmarktValue] = useState(0)
+    const [holdings, setHoldings] = useState([])
+    const [holdingType, setHoldingType] = useState([])
 
     useEffect(() => {
         let detailedPortFolio = detailsInfo ? detailsInfo[0].api : {};
+        let totalmarktValue = detailedPortFolio["PSRP-TotalMarketValueNet"] ? Number(detailedPortFolio["PSRP-TotalMarketValueNet"]).toFixed(2) : 0
+        setTotalmarktValue(totalmarktValue)
 
+        // Holdings
+        let holdings = [{
+            holding: (detailedPortFolio["PSRP-NumberOfHoldingsLong"] ? detailedPortFolio["PSRP-NumberOfHoldingsLong"] : ''),
+            stock: (detailedPortFolio["PSRP-NumberOfStockHoldingsLong"] ? detailedPortFolio["PSRP-NumberOfStockHoldingsLong"] : ''),
+            bond: (detailedPortFolio["PSRP-NumberOfBondHoldingsLong"] ? detailedPortFolio["PSRP-NumberOfBondHoldingsLong"] : ''),
+        }]
+        setHoldings(holdings)
+
+        // Holding Type
+        let holdingType = []
+        let portFolio = detailedPortFolio['FHV2-HoldingDetail'] ? detailedPortFolio['FHV2-HoldingDetail'] : [];
+        let portFolioObj = {}
+        for (let item of portFolio) {
+            if (item.HoldingType in portFolioObj === false) {
+                portFolioObj[item.HoldingType] = { x: item.HoldingType, y: (Number(item.Weighting) ? Number(item.Weighting) : 0) }
+            } else {
+                portFolioObj[item.HoldingType].y = portFolioObj[item.HoldingType].y + (Number(item.Weighting) ? Number(item.Weighting) : 0)
+            }
+        }
+        for (let key in portFolioObj) {
+            holdingType.push({ x: portFolioObj[key].x, y: portFolioObj[key].y })
+        }
+        setHoldingType(holdingType)
     }, [detailsInfo]);
 
 
     return (
         <View style={{ marginHorizontal: 5 }}>
-            <Text style={styles.value}>Total Market Value - Rs. 845.6 cr</Text>
-
+            <Text style={styles.value}>Total Market Value - Rs. {totalmarktValue} cr</Text>
 
             <DataTable style={styles.dataTable}>
                 <DataTable.Header style={styles.headerbg}>
@@ -30,16 +57,15 @@ function PortfolioSummary(props) {
                     <DataTable.Title numberOfLines={4} style={[styles.headerCell, { borderRightWidth: 0 }]} >No. Of Bond Holdings</DataTable.Title>
                 </DataTable.Header>
 
-                <DataTable.Row style={styles.headersec}>
-                    <DataTable.Cell style={styles.bodyCell}>41</DataTable.Cell>
-                    <DataTable.Cell style={styles.bodyCell} >40</DataTable.Cell>
-                    <DataTable.Cell style={[styles.bodyCell, { borderRightWidth: 0 }]} >0</DataTable.Cell>
-                </DataTable.Row>
+                {holdings.map((item, key) => <DataTable.Row key={key} style={styles.headersec}>
+                    <DataTable.Cell style={styles.bodyCell}>{item.holding}</DataTable.Cell>
+                    <DataTable.Cell style={styles.bodyCell} >{item.stock}</DataTable.Cell>
+                    <DataTable.Cell style={[styles.bodyCell, { borderRightWidth: 0 }]} >{item.bond}</DataTable.Cell>
+                </DataTable.Row>)}
             </DataTable>
 
 
             <View style={styles.graph_sec}>
-
                 <View style={styles.holding_sec}>
                     <DataTable style={styles.dataTablebottom}>
                         <DataTable.Header style={styles.headerbg}>
@@ -47,35 +73,18 @@ function PortfolioSummary(props) {
                             <DataTable.Title numberOfLines={4} style={[styles.headerCell, { borderRightWidth: 0 }]} ><Text style={styles.type}>%Net</Text></DataTable.Title>
                         </DataTable.Header>
 
-                        <DataTable.Row style={styles.headerbg}>
-                            <DataTable.Cell style={styles.bodyCell}>E</DataTable.Cell>
-                            <DataTable.Cell style={[styles.bodyCell, { borderRightWidth: 0 }]} >85.14</DataTable.Cell>
-                        </DataTable.Row>
-                        <DataTable.Row style={styles.headerbg}>
-                            <DataTable.Cell style={styles.bodyCell}>CR</DataTable.Cell>
-                            <DataTable.Cell style={[styles.bodyCell, { borderRightWidth: 0 }]} >85.14</DataTable.Cell>
-                        </DataTable.Row>
-                        <DataTable.Row style={styles.headerbg}>
-                            <DataTable.Cell style={styles.bodyCell}>EW</DataTable.Cell>
-                            <DataTable.Cell style={[styles.bodyCell, { borderRightWidth: 0 }]} >85.14</DataTable.Cell>
-                        </DataTable.Row>
-                        <DataTable.Row style={styles.headersec}>
-                            <DataTable.Cell style={styles.bodyCell}>C</DataTable.Cell>
-                            <DataTable.Cell style={[styles.bodyCell, { borderRightWidth: 0 }]} >85.14</DataTable.Cell>
-                        </DataTable.Row>
+                        {holdingType.map((item, key) => <DataTable.Row key={key} style={styles.headerbg}>
+                            <DataTable.Cell style={styles.bodyCell}>{item.x}</DataTable.Cell>
+                            <DataTable.Cell style={[styles.bodyCell, { borderRightWidth: 0 }]} >{item.y}</DataTable.Cell>
+                        </DataTable.Row>)}
                     </DataTable>
                 </View>
 
                 <View style={styles.allocation}>
                     <Text style={styles.asset}>Asset Allocation</Text>
                     <VictoryPieCode
-                        colors={["#669ED1", "#E08349", "#A1A6A9", "#C6DC5B"]}
-                        data={[
-                            { x: "E", y: 80 },
-                            { x: "CR", y: 10 },
-                            { x: "EW", y: 8 },
-                            { x: "C", y: 2 }
-                        ]} />
+                        colors={["#3B75AF", "#EF8636", "#519E3E", "#C53A32", "#8D69B8"]}
+                        data={holdingType} />
                 </View>
             </View>
         </View>
