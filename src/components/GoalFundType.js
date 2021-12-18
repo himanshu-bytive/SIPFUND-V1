@@ -67,7 +67,7 @@ const randerData = (data, k, onPress, onChange, handleDelete) => {
               <View style={styles.selectfolio_sec}>
                 <View style={styles.select}>
                   <Text style={styles.no}>Min Investment</Text>
-                  <TextInput style={styles.no} placeholder={"Investment"} onChangeText={(value) => onChange(k, value, "investment")} value={item.investment ? item.investment : "1000"} />
+                  <Text>{item.investment ? item.investment : "1000"}</Text>
                 </View>
                 <View style={styles.select}>
                   <Text style={styles.no}>SIP Date</Text>
