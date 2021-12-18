@@ -85,7 +85,7 @@ const randerData = (data, k, onPress, onChange, handleDelete) => {
                 </View>
                 <View style={styles.select}>
                   <Text style={styles.no}>SIP</Text>
-                  <TextInput style={styles.new} placeholder={"sip"} onChangeText={(value) => onChange(k, value, "sip")} value={item.sip ? item.sip : "0"} />
+                  <TextInput style={styles.new} placeholder={"sip"} onChangeText={(value) => onChange(k, value, "sip")} value={item?.sip ? item?.sip : "0"} />
                 </View>
               </View>
             </View>
@@ -108,7 +108,7 @@ export default function GoalFundType(props) {
 
   const onChange = async (key, value, name) => {
     let data = JSON.parse(JSON.stringify(newData));
-    data[key].schemeInfo[name] = value;
+    data[key].schemeInfo[name] = isNaN(value) || value === "" ? "0" : parseInt(value, 10).toString();
     myGoles(data);
     setNewData(data);
   };
