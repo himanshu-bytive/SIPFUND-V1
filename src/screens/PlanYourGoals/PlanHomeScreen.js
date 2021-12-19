@@ -70,7 +70,7 @@ function PlanHomeScreen(props) {
     }
   }, [amount, time, investment, params.inflation, params.returnRate]);
 
-  const startGoal = () => {
+  const startGoal = (value) => {
     if (selectTab === "SIP") {
       value = Number(sipAmount);
     } else {
