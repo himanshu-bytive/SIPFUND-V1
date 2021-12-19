@@ -9,7 +9,7 @@ import { MyImage, GoalFundType } from "../../components";
 
 function PlanListScreen(props) {
   const pageActive = useRef(false);
-  const { token, goalDetail, isFetching, mygolelist, myGoles, fundDetails, planYourGoalsDetails, details } = props;
+  const { token, goalDetail, isFetching, mygolelist, myGoles, fundDetails, planYourGoalsDetails } = props;
 
   const handleDelete = (productCode) => {
     let goals = mygolelist;
@@ -28,6 +28,24 @@ function PlanListScreen(props) {
       return Number(value);
     }
     return 0;
+  };
+
+  const getHoldings = () => {
+    return [];
+  };
+
+  const getParams = () => {
+    return {
+      userPhoneNumber: "",
+      goal: {
+        name: goalDetail?.goal,
+        numberOfYears: goalDetail?.additionalInfo.time_years,
+        totalAmount: "",
+        yearOfComplition: "",
+        holdings: getHoldings(),
+        createdAt: "",
+      },
+    };
   };
 
   return (
