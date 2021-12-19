@@ -780,7 +780,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   buttom_botton2: {
-    width: "45%",
+    width: "46%",
     borderRadius: 5,
     backgroundColor: Colors.RED,
     marginHorizontal: 2,
