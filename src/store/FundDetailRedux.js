@@ -1,7 +1,10 @@
 import SiteAPI from "../services/SiteApis";
-import moment from 'moment';
 const types = {
     FETCH_FUND_DETAILS: "FETCH_FUND_DETAILS",
+
+    FETCH_CHART_PENDING: "FETCH_CHART_PENDING",
+    FETCH_CHART_SUCCESS: "FETCH_CHART_SUCCESS",
+    FETCH_CHART_FAILURE: "FETCH_CHART_FAILURE",
 
     FETCH_FUND_DETAILS_PENDING: "FETCH_FUND_DETAILS_PENDING",
     FETCH_FUND_DETAILS_SUCCESS: "FETCH_FUND_DETAILS_SUCCESS",
@@ -12,16 +15,22 @@ export const FundDetailActions = {
     fundDetails: async (dispatch, details) => {
         dispatch({ type: types.FETCH_FUND_DETAILS, details });
     },
+    fundChartList: async (dispatch, params, token) => {
+        dispatch({ type: types.FETCH_CHART_PENDING });
+        let data = await SiteAPI.apiGetCall(`/proxy/morningstar/service/mf/Price/isin/${params.ISIN}/accesscode/startdate=${params.from}&enddate=${params.to}`, params, token);
+        if (data.error) {
+            dispatch({ type: types.FETCH_CHART_FAILURE, error: data.message });
+        } else {
+            dispatch({ type: types.FETCH_CHART_SUCCESS, detailsMap: data.data.Prices });
+        }
+    },
     fundDetailsList: async (dispatch, params, token) => {
         dispatch({ type: types.FETCH_FUND_DETAILS_PENDING });
-        let date = new Date()
-        let preDate = new Date().setYear(new Date().getYear() - 1)
-        let data = await SiteAPI.apiGetCall(`/proxy/morningstar/service/mf/Price/isin/INF200K01T28/accesscode/startdate=${moment(preDate).format('YYYY-MM-DD')}&enddate=${moment(date).format('YYYY-MM-DD')}`, params, token);
-        let dataNew = await SiteAPI.apiGetCall(`/proxy/morningstar/v2/service/mf/r5soaer67qpg88tr/isin/INF200K01T28/accesscode/`, params, token);
+        let data = await SiteAPI.apiGetCall(`/proxy/morningstar/v2/service/mf/r5soaer67qpg88tr/isin/${params.ISIN}/accesscode/`, params, token);
         if (data.error) {
             dispatch({ type: types.FETCH_FUND_DETAILS_FAILURE, error: data.message });
         } else {
-            dispatch({ type: types.FETCH_FUND_DETAILS_SUCCESS, detailsMap: data.data.Prices, detailsInfo: dataNew.data });
+            dispatch({ type: types.FETCH_FUND_DETAILS_SUCCESS, detailsInfo: data.data });
         }
     },
 };
@@ -37,6 +46,7 @@ const initialState = {
 export const reducer = (state = initialState, action) => {
     const { type, error, details, detailsMap, detailsInfo } = action;
     switch (type) {
+        case types.FETCH_CHART_PENDING:
         case types.FETCH_FUND_DETAILS_PENDING: {
             return {
                 ...state,
@@ -44,6 +54,7 @@ export const reducer = (state = initialState, action) => {
                 error: null,
             };
         }
+        case types.FETCH_CHART_FAILURE:
         case types.FETCH_FUND_DETAILS_FAILURE: {
             return {
                 ...state,
@@ -60,12 +71,19 @@ export const reducer = (state = initialState, action) => {
                 details,
             };
         }
-        case types.FETCH_FUND_DETAILS_SUCCESS: {
+        case types.FETCH_CHART_SUCCESS: {
             return {
                 ...state,
                 isFetching: false,
                 error: null,
                 detailsMap,
+            };
+        }
+        case types.FETCH_FUND_DETAILS_SUCCESS: {
+            return {
+                ...state,
+                isFetching: false,
+                error: null,
                 detailsInfo
             };
         }

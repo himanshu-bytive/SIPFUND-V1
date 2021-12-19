@@ -1,4 +1,6 @@
+import moment from 'moment';
 class Utility {
+
     calculatorformula(data) {
         let lm1 = data.amount
         let lm2 = data.time
@@ -71,6 +73,20 @@ class Utility {
             res = `${(x / 100000).toFixed(2)}L`;
         }
         return res;
+    }
+    getDatesBetweenDates(start, end) {
+        let startDate = new Date(start)
+        let endDate = new Date(end)
+        let days = []
+        let diffDays = endDate.getTime() - startDate.getTime();
+        let diffBy4 = diffDays / 5
+        days.push(moment(startDate.getTime()).format('YYYY-MM-DD'))
+        days.push(moment(startDate.getTime() + diffBy4).format('YYYY-MM-DD'))
+        days.push(moment(startDate.getTime() + diffBy4 * 2).format('YYYY-MM-DD'))
+        days.push(moment(startDate.getTime() + diffBy4 * 3).format('YYYY-MM-DD'))
+        // days.push(moment(startDate.getTime() + diffBy4 * 4).format('YYYY-MM-DD'))
+        // days.push(moment(startDate.getTime() + diffBy4 * 5).format('YYYY-MM-DD'))
+        return days;
     }
 }
 export default new Utility();
