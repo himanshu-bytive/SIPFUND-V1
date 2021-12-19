@@ -135,7 +135,7 @@ function PlanListScreen(props) {
                     //sum
                     //);
                     //newInvestment(params, token);
-                    props.navigation.navigate("PlanSubmit");
+                    props.navigation.navigate("PlanSubmit", { sum: sum });
                   },
                 },
               ],
@@ -149,7 +149,7 @@ function PlanListScreen(props) {
             //sum
             //);
             //newInvestment(params, token);
-            props.navigation.navigate("PlanSubmit");
+            props.navigation.navigate("PlanSubmit", { sum: sum });
           }
         }}
         style={styles.botton_box}
