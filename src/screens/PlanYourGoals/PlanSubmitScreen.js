@@ -73,7 +73,13 @@ function PlanSubmitScreen(props) {
       <TouchableOpacity onPress={() => props.navigation.navigate("Home")}>
         <Text style={styles.add}>Add another child’s education plan</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => props.navigation.navigate("Upi")} style={styles.botton_box}>
+      <TouchableOpacity
+        onPress={() => {
+          //console.log(mygolelist.filter((item) => !isNaN(item.schemeInfo.sip)));
+          props.navigation.navigate("Upi", { cart: mygolelist.filter((item) => !isNaN(item.schemeInfo.sip)), sum: props.navigation.state.params.sum, fromPlanGoals: true });
+        }}
+        style={styles.botton_box}
+      >
         <Text style={styles.get_otp}>START GOAL</Text>
       </TouchableOpacity>
     </View>
