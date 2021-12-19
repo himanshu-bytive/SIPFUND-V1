@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
-import { StyleSheet, Button, View, ImageBackground, TouchableOpacity, Text, Dimensions, KeyboardAvoidingView, TextInput, ActivityIndicator } from "react-native";
+import { StyleSheet, Button, View, ImageBackground, TouchableOpacity, Text, ActivityIndicator, Alert } from "react-native";
 import { connect } from "react-redux";
 import { Styles, Config, Colors, FormValidate } from "../../common";
 import { Ionicons, AntDesign, Entypo, FontAwesome5 } from "react-native-vector-icons";
@@ -9,7 +9,7 @@ import { MyImage, GoalFundType } from "../../components";
 
 function PlanListScreen(props) {
   const pageActive = useRef(false);
-  const { token, goalDetail, isFetching, mygolelist, myGoles, fundDetails, planYourGoalsDetails } = props;
+  const { token, goalDetail, isFetching, mygolelist, myGoles, fundDetails, planYourGoalsDetails, details } = props;
 
   const handleDelete = (productCode) => {
     let goals = mygolelist;
@@ -21,6 +21,13 @@ function PlanListScreen(props) {
     }
     myGoles(goals);
     props.navigation.replace("PlanList");
+  };
+
+  const getSip = (value) => {
+    if (!isNaN(value)) {
+      return Number(value);
+    }
+    return 0;
   };
 
   return (
@@ -67,7 +74,6 @@ function PlanListScreen(props) {
 
         <View style={styles.fund_sec}>
           <Text style={styles.investment}>Monthly Investment</Text>
-          {console.log("PLAN_YOUR_GOALS=", planYourGoalsDetails)}
           {/* {planYourGoalsDetails && ( */}
           <Text style={styles.price}>{`₹${planYourGoalsDetails.toFixed(2)}`}</Text>
           {/* )} */}
@@ -86,7 +92,50 @@ function PlanListScreen(props) {
       <TouchableOpacity onPress={() => props.navigation.navigate("PlanSearch")}>
         <Text style={styles.add}>I would like to add more funds</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => props.navigation.navigate("PlanSubmit")} style={styles.botton_box}>
+      <TouchableOpacity
+        onPress={() => {
+          let sum = 0;
+          for (let item in mygolelist) {
+            sum = sum + getSip(mygolelist[item].schemeInfo.sip);
+          }
+
+          /* Don't allow if sum of all investments exceed the amount */
+          if (sum > Number(planYourGoalsDetails)) {
+            Alert.alert(
+              "Amount exceeds total",
+              "Total invested amount exceeds the amount specified. Proceed?",
+              [
+                {
+                  text: "Don't",
+                  onPress: () => console.log("Cancel Pressed"),
+                },
+                {
+                  text: "Yes, please",
+                  onPress: () => {
+                    //let params = getParams(
+                    //myInvestlist.filter((value) => !isNaN(value.schemes.sip)),
+                    //sum
+                    //);
+                    //newInvestment(params, token);
+                    props.navigation.navigate("PlanSubmit");
+                  },
+                },
+              ],
+              { cancelable: false }
+            );
+          } else if (sum < Number(planYourGoalsDetails)) {
+            alert("Invested amount less than the total!");
+          } else {
+            //let params = getParams(
+            //myInvestlist.filter((value) => !isNaN(value.schemes.sip)),
+            //sum
+            //);
+            //newInvestment(params, token);
+            props.navigation.navigate("PlanSubmit");
+          }
+        }}
+        style={styles.botton_box}
+      >
         <Text style={styles.get_otp}>NEXT</Text>
       </TouchableOpacity>
     </View>
