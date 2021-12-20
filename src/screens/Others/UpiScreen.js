@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useContext } from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, Button, View, ImageBackground, TouchableOpacity, Text, ScrollView } from "react-native";
 import { connect } from "react-redux";
 import { Styles, Config, Colors, FormValidate } from "../../common";
@@ -192,7 +192,7 @@ function UpiScreen(props) {
         sip_micr_no: " ",
         sub_broker_arn_code: " ",
         sub_broker_code: " ",
-        sub_trxn_type: "S",
+        sub_trxn_type: props.navigation.state.params.isLumpsum ? "N" : "S",
         trans_count: props.navigation.state.params.cart.length,
         trxn_acceptance: upi || mandate ? "OL" : "ALL",
         trxn_execution: " ",

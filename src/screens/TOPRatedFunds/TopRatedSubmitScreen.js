@@ -8,237 +8,237 @@ import { ScrollView } from "react-native-gesture-handler";
 import { color } from "react-native-elements/dist/helpers";
 
 function TopRatedSubmitScreen(props) {
-    const [sum, setSum] = useState(0);
-    const [cart, setCart] = useState([]);
+  const [sum, setSum] = useState(0);
+  const [cart, setCart] = useState([]);
 
-    useEffect(() => {
-        let sip = 0;
-        for (var item in cart) {
-            sip = sip + Number(cart[item].amount);
+  useEffect(() => {
+    let sip = 0;
+    for (var item in cart) {
+      sip = sip + Number(cart[item].amount);
+    }
+    setSum(sip);
+  }, [cart]);
+
+  useEffect(() => {
+    if (props.navigation) {
+      setCart(props.navigation.state.params.cart);
+    }
+  }, [props.navigation.state.params.cart]);
+
+  return (
+    <View style={styles.container}>
+      <Header
+        leftComponent={
+          <TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}>
+            <AntDesign name={"arrowleft"} size={40} color={Colors.RED} />
+          </TouchableOpacity>
         }
-        setSum(sip);
-    }, [cart]);
-
-    useEffect(() => {
-        if (props.navigation) {
-            setCart(props.navigation.state.params.cart);
+        containerStyle={styles.header}
+        backgroundColor={Colors.LIGHT_WHITE}
+        centerComponent={<Image source={require("../../../assets/icon.png")} style={styles.logimg} />}
+        rightComponent={
+          <View style={{ marginTop: 20, marginRight: 10 }}>
+            <AntDesign name={"shoppingcart"} size={40} color={Colors.RED} />
+          </View>
         }
-    }, [props.navigation.state.params.cart]);
+      />
 
-    return (
-        <View style={styles.container}>
-            <Header
-                leftComponent={
-                    <TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}>
-                        <AntDesign name={"arrowleft"} size={40} color={Colors.RED} />
-                    </TouchableOpacity>
-                }
-                containerStyle={styles.header}
-                backgroundColor={Colors.LIGHT_WHITE}
-                centerComponent={<Image source={require("../../../assets/icon.png")} style={styles.logimg} />}
-                rightComponent={
-                    <View style={{ marginTop: 20, marginRight: 10 }}>
-                        <AntDesign name={"shoppingcart"} size={40} color={Colors.RED} />
-                    </View>
-                }
-            />
-
-            <ScrollView>
-                <View style={styles.education}>
-                    <View style={styles.child_sec}>
-                        <Image source={require("../../../assets/term7.png")} style={styles.goals_2} />
-                    </View>
-                    <View style={styles.education_sec}>
-                        <Text style={styles.child}>Summary</Text>
-                        <Text style={styles.child_text}>Top Rated Funds</Text>
-                    </View>
-                </View>
-
-                <Text style={styles.mygoal}>My Investment</Text>
-
-                <View style={styles.fund_sec}>
-                    <Text style={styles.fund_secleft}>Fund List</Text>
-                    <Text style={styles.fund_secright}>₹ {sum}</Text>
-                </View>
-                {cart.map((item) => (
-                    <View style={styles.sbi_sec}>
-                        <Image source={{ uri: item?.image_path }} style={styles.Hybrid} />
-                        <Text style={styles.sbi_text}>{item?.product_name}</Text>
-                        <Text style={styles.price}>₹ {item?.amount}</Text>
-                    </View>
-                ))}
-            </ScrollView>
-
-            <TouchableOpacity onPress={() => props.navigation.navigate("Upi", { cart, sum, fromCart: true })} style={styles.botton_box}>
-                <Text style={styles.get_otp}>MAKE PAYMENT</Text>
-            </TouchableOpacity>
+      <ScrollView>
+        <View style={styles.education}>
+          <View style={styles.child_sec}>
+            <Image source={require("../../../assets/term7.png")} style={styles.goals_2} />
+          </View>
+          <View style={styles.education_sec}>
+            <Text style={styles.child}>Summary</Text>
+            <Text style={styles.child_text}>Top Rated Funds</Text>
+          </View>
         </View>
-    );
+
+        <Text style={styles.mygoal}>My Investment</Text>
+
+        <View style={styles.fund_sec}>
+          <Text style={styles.fund_secleft}>Fund List</Text>
+          <Text style={styles.fund_secright}>₹ {sum}</Text>
+        </View>
+        {cart.map((item) => (
+          <View style={styles.sbi_sec}>
+            <Image source={{ uri: item?.image_path }} style={styles.Hybrid} />
+            <Text style={styles.sbi_text}>{item?.product_name}</Text>
+            <Text style={styles.price}>₹ {item?.amount}</Text>
+          </View>
+        ))}
+      </ScrollView>
+
+      <TouchableOpacity onPress={() => props.navigation.navigate("Upi", { cart, sum, fromCart: true, isLumpsum: props.navigation.state.params.isLumpsum })} style={styles.botton_box}>
+        <Text style={styles.get_otp}>MAKE PAYMENT</Text>
+      </TouchableOpacity>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-    logimg: {
-        height: 65,
-        width: 203,
-        marginTop: 10,
-    },
+  container: {
+    flex: 1,
+  },
+  logimg: {
+    height: 65,
+    width: 203,
+    marginTop: 10,
+  },
 
-    header: {
-        borderBottomColor: Colors.BLACK,
-        borderBottomWidth: 1,
-    },
+  header: {
+    borderBottomColor: Colors.BLACK,
+    borderBottomWidth: 1,
+  },
 
-    education: {
-        flexDirection: "row",
-        marginHorizontal: 20,
-        padding: 20,
-    },
-    child_sec: { width: "30%" },
-    education_sec: {
-        width: "70%",
-        marginLeft: 30,
-        paddingTop: 15,
-    },
-    goals_2: {
-        height: 102,
-        width: 105,
-    },
-    child: {
-        fontSize: 18,
-        color: Colors.DEEP_GRAY,
-    },
-    child_text: {
-        fontSize: 18,
-        color: Colors.RED,
-        paddingVertical: 8,
-        fontWeight: "bold",
-    },
-    formsec: {
-        flexDirection: "row",
-        borderWidth: 1,
-        borderRadius: 50,
-        borderColor: Colors.DEEP_GRAY,
-        marginHorizontal: 20,
-        padding: 10,
-    },
-    Midcap: {
-        fontSize: 18,
-        paddingLeft: 10,
-    },
-    results: {
-        fontSize: 12,
-        marginLeft: 50,
-        marginTop: 5,
-        color: Colors.DEEP_GRAY,
-    },
-    sbi_sec: {
-        flexDirection: "row",
-        marginHorizontal: 20,
-        borderBottomWidth: 1,
-        borderColor: Colors.DEEP_GRAY,
-        paddingBottom: 10,
-        marginVertical: 5,
-    },
-    Hybrid: {
-        width: 32,
-        height: 36,
-    },
-    sbi_text: {
-        marginLeft: 10,
-        paddingTop: 10,
-        fontSize: 15,
-        maxWidth: "70%",
-    },
-    price: {
-        position: "absolute",
-        right: 0,
-        paddingTop: 10,
-        fontSize: 15,
-        fontWeight: "bold",
-    },
-    fund_sec: {
-        flexDirection: "row",
-        backgroundColor: Colors.LIGHT_GRAY,
-        marginHorizontal: 20,
-        paddingVertical: 10,
-        paddingHorizontal: 10,
-    },
-    fund_secright: {
-        position: "absolute",
-        right: 0,
-        fontSize: 18,
-        fontWeight: "bold",
-        paddingTop: 10,
-        paddingRight: 10,
-    },
-    fund_secleft: {
-        fontSize: 18,
-        fontWeight: "bold",
-    },
-    mygoal: {
-        fontSize: 18,
-        fontWeight: "bold",
-        marginHorizontal: 20,
-        color: Colors.RED,
-        marginBottom: 20,
-        paddingTop: 60,
-    },
-    my_goal: {
-        color: Colors.DEEP_GRAY,
-        fontWeight: "normal",
-    },
-    add: {
-        marginVertical: 20,
-        textAlign: "center",
-        color: Colors.RED,
-        fontSize: 18,
-    },
-    botton_box: {
-        backgroundColor: Colors.RED,
-        marginHorizontal: 30,
-        marginBottom: 10,
-        borderWidth: 1,
-        borderRadius: 10,
-        borderColor: Colors.DEEP_GRAY,
-        paddingVertical: 10,
-    },
-    get_otp: {
-        color: Colors.WHITE,
-        fontSize: 20,
-        fontWeight: "bold",
-        textAlign: "center",
-    },
-    childbottom: {
-        flexDirection: "row",
-        paddingLeft: 20,
-    },
+  education: {
+    flexDirection: "row",
+    marginHorizontal: 20,
+    padding: 20,
+  },
+  child_sec: { width: "30%" },
+  education_sec: {
+    width: "70%",
+    marginLeft: 30,
+    paddingTop: 15,
+  },
+  goals_2: {
+    height: 102,
+    width: 105,
+  },
+  child: {
+    fontSize: 18,
+    color: Colors.DEEP_GRAY,
+  },
+  child_text: {
+    fontSize: 18,
+    color: Colors.RED,
+    paddingVertical: 8,
+    fontWeight: "bold",
+  },
+  formsec: {
+    flexDirection: "row",
+    borderWidth: 1,
+    borderRadius: 50,
+    borderColor: Colors.DEEP_GRAY,
+    marginHorizontal: 20,
+    padding: 10,
+  },
+  Midcap: {
+    fontSize: 18,
+    paddingLeft: 10,
+  },
+  results: {
+    fontSize: 12,
+    marginLeft: 50,
+    marginTop: 5,
+    color: Colors.DEEP_GRAY,
+  },
+  sbi_sec: {
+    flexDirection: "row",
+    marginHorizontal: 20,
+    borderBottomWidth: 1,
+    borderColor: Colors.DEEP_GRAY,
+    paddingBottom: 10,
+    marginVertical: 5,
+  },
+  Hybrid: {
+    width: 32,
+    height: 36,
+  },
+  sbi_text: {
+    marginLeft: 10,
+    paddingTop: 10,
+    fontSize: 15,
+    maxWidth: "70%",
+  },
+  price: {
+    position: "absolute",
+    right: 0,
+    paddingTop: 10,
+    fontSize: 15,
+    fontWeight: "bold",
+  },
+  fund_sec: {
+    flexDirection: "row",
+    backgroundColor: Colors.LIGHT_GRAY,
+    marginHorizontal: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+  },
+  fund_secright: {
+    position: "absolute",
+    right: 0,
+    fontSize: 18,
+    fontWeight: "bold",
+    paddingTop: 10,
+    paddingRight: 10,
+  },
+  fund_secleft: {
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  mygoal: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginHorizontal: 20,
+    color: Colors.RED,
+    marginBottom: 20,
+    paddingTop: 60,
+  },
+  my_goal: {
+    color: Colors.DEEP_GRAY,
+    fontWeight: "normal",
+  },
+  add: {
+    marginVertical: 20,
+    textAlign: "center",
+    color: Colors.RED,
+    fontSize: 18,
+  },
+  botton_box: {
+    backgroundColor: Colors.RED,
+    marginHorizontal: 30,
+    marginBottom: 10,
+    borderWidth: 1,
+    borderRadius: 10,
+    borderColor: Colors.DEEP_GRAY,
+    paddingVertical: 10,
+  },
+  get_otp: {
+    color: Colors.WHITE,
+    fontSize: 20,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  childbottom: {
+    flexDirection: "row",
+    paddingLeft: 20,
+  },
 
-    sf: {
-        width: 16,
-        height: 16,
-    },
-    year: {
-        fontSize: 15,
-        paddingLeft: 10,
-    },
+  sf: {
+    width: 16,
+    height: 16,
+  },
+  year: {
+    fontSize: 15,
+    paddingLeft: 10,
+  },
 });
 const mapStateToProps = (state) => ({
-    token: state.auth.token,
-    users: state.auth.users,
+  token: state.auth.token,
+  users: state.auth.users,
 });
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
-    const { dispatch } = dispatchProps;
-    const { AuthActions } = require("../../store/AuthRedux");
-    return {
-        ...stateProps,
-        ...ownProps,
-        logOut: () => {
-            AuthActions.logOut(dispatch);
-        },
-    };
+  const { dispatch } = dispatchProps;
+  const { AuthActions } = require("../../store/AuthRedux");
+  return {
+    ...stateProps,
+    ...ownProps,
+    logOut: () => {
+      AuthActions.logOut(dispatch);
+    },
+  };
 };
 export default connect(mapStateToProps, undefined, mapDispatchToProps)(TopRatedSubmitScreen);
