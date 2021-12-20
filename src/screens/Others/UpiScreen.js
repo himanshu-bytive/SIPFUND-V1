@@ -82,6 +82,19 @@ function UpiScreen(props) {
           sip_from_date: data[item].sip_from_date,
           sip_period_day: data[item].sip_period_day,
         };
+      } else if (props.navigation.state.params.fromPlanGoals) {
+        format = {
+          amc: data[item].schemeInfo.amc_code,
+          amount: data[item].schemeInfo.sip,
+          folio: "",
+          product_code: data[item].schemeInfo.productCode,
+          reinvest: "Z",
+          sip_amount: data[item].schemeInfo.sip,
+          sip_end_date: sipEndDate(data[item].schemeInfo.default_date),
+          sip_freq: "OM",
+          sip_from_date: sipFromDate(data[item].schemeInfo.default_date),
+          sip_period_day: data[item].schemeInfo.default_date,
+        };
       } else {
         format = {
           amc: data[item].schemes.amc_code,

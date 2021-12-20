@@ -1,59 +1,64 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
-import {
-  StyleSheet,
-  Button,
-  View,
-  ImageBackground,
-  TouchableOpacity,
-  Text,
-  Dimensions,
-  KeyboardAvoidingView,
-  TextInput,
-  ActivityIndicator,
-} from "react-native";
+import { StyleSheet, Button, View, ImageBackground, TouchableOpacity, Text, ActivityIndicator, Alert } from "react-native";
 import { connect } from "react-redux";
 import { Styles, Config, Colors, FormValidate } from "../../common";
-import {
-  Ionicons,
-  AntDesign,
-  Entypo,
-  FontAwesome5,
-} from "react-native-vector-icons";
+import { Ionicons, AntDesign, Entypo, FontAwesome5 } from "react-native-vector-icons";
 import { Image, Header, CheckBox, colors } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
 import { MyImage, GoalFundType } from "../../components";
 
 function PlanListScreen(props) {
   const pageActive = useRef(false);
-  const {
-    token,
-    goalDetail,
-    isFetching,
-    mygolelist,
-    myGoles,
-    fundDetails,
-    planYourGoalsDetails,
-  } = props;
+  const { token, goalDetail, isFetching, mygolelist, myGoles, fundDetails, planYourGoalsDetails } = props;
+
+  const handleDelete = (productCode) => {
+    let goals = mygolelist;
+    for (let index in goals) {
+      if (goals[index]?.schemeInfo.productCode === productCode) {
+        delete goals[index];
+        break;
+      }
+    }
+    myGoles(goals);
+    props.navigation.replace("PlanList");
+  };
+
+  const getSip = (value) => {
+    if (!isNaN(value)) {
+      return Number(value);
+    }
+    return 0;
+  };
+
+  const getHoldings = () => {
+    return [];
+  };
+
+  const getParams = () => {
+    return {
+      userPhoneNumber: "",
+      goal: {
+        name: goalDetail?.goal,
+        numberOfYears: goalDetail?.additionalInfo.time_years,
+        totalAmount: "",
+        yearOfComplition: "",
+        holdings: getHoldings(),
+        createdAt: "",
+      },
+    };
+  };
 
   return (
     <View style={styles.container}>
       <Header
         leftComponent={
-          <TouchableOpacity
-            onPress={() => props.navigation.goBack()}
-            style={{ marginTop: 20 }}
-          >
+          <TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}>
             <AntDesign name={"arrowleft"} size={40} color={Colors.RED} />
           </TouchableOpacity>
         }
         containerStyle={Styles.header}
         backgroundColor={Colors.LIGHT_WHITE}
-        centerComponent={
-          <Image
-            source={require("../../../assets/icon.png")}
-            style={styles.logimg}
-          />
-        }
+        centerComponent={<Image source={require("../../../assets/icon.png")} style={styles.logimg} />}
         rightComponent={
           <View style={{ marginTop: 20, marginRight: 10 }}>
             <AntDesign name={"shoppingcart"} size={40} color={Colors.RED} />
@@ -69,12 +74,7 @@ function PlanListScreen(props) {
         {/* SIP_sec */}
         <View style={styles.education}>
           <View style={styles.child_sec}>
-            <MyImage
-              width="117"
-              height="117"
-              svg={true}
-              url={goalDetail?.goalImagePath}
-            />
+            <MyImage width="117" height="117" svg={true} url={goalDetail?.goalImagePath} />
           </View>
           <View style={styles.education_sec}>
             <Text style={styles.child}>{goalDetail?.goal}</Text>
@@ -92,11 +92,8 @@ function PlanListScreen(props) {
 
         <View style={styles.fund_sec}>
           <Text style={styles.investment}>Monthly Investment</Text>
-          {console.log("PLAN_YOUR_GOALS=", planYourGoalsDetails)}
           {/* {planYourGoalsDetails && ( */}
-          <Text style={styles.price}>{`₹${planYourGoalsDetails.toFixed(
-            2
-          )}`}</Text>
+          <Text style={styles.price}>{`₹${planYourGoalsDetails.toFixed(2)}`}</Text>
           {/* )} */}
         </View>
 
@@ -107,13 +104,54 @@ function PlanListScreen(props) {
             fundDetails(item);
             props.navigation.navigate("FundsDetails");
           }}
+          handleDelete={handleDelete}
         />
       </ScrollView>
       <TouchableOpacity onPress={() => props.navigation.navigate("PlanSearch")}>
         <Text style={styles.add}>I would like to add more funds</Text>
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={() => props.navigation.navigate("PlanSubmit")}
+        onPress={() => {
+          let sum = 0;
+          for (let item in mygolelist) {
+            sum = sum + getSip(mygolelist[item].schemeInfo.sip);
+          }
+
+          /* Don't allow if sum of all investments exceed the amount */
+          if (sum > Number(planYourGoalsDetails)) {
+            Alert.alert(
+              "Amount exceeds total",
+              "Total invested amount exceeds the amount specified. Proceed?",
+              [
+                {
+                  text: "Don't",
+                  onPress: () => console.log("Cancel Pressed"),
+                },
+                {
+                  text: "Yes, please",
+                  onPress: () => {
+                    //let params = getParams(
+                    //myInvestlist.filter((value) => !isNaN(value.schemes.sip)),
+                    //sum
+                    //);
+                    //newInvestment(params, token);
+                    props.navigation.navigate("PlanSubmit", { sum: sum });
+                  },
+                },
+              ],
+              { cancelable: false }
+            );
+          } else if (sum < Number(planYourGoalsDetails)) {
+            alert("Invested amount less than the total!");
+          } else {
+            //let params = getParams(
+            //myInvestlist.filter((value) => !isNaN(value.schemes.sip)),
+            //sum
+            //);
+            //newInvestment(params, token);
+            props.navigation.navigate("PlanSubmit", { sum: sum });
+          }
+        }}
         style={styles.botton_box}
       >
         <Text style={styles.get_otp}>NEXT</Text>
@@ -370,8 +408,4 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     },
   };
 };
-export default connect(
-  mapStateToProps,
-  undefined,
-  mapDispatchToProps
-)(PlanListScreen);
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(PlanListScreen);
