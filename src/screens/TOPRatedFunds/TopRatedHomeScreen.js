@@ -132,7 +132,7 @@ function TopRatedHomeScreen(props) {
     details,
     addItomToSip,
     showInside,
-    fundDetails
+    fundDetails,
   } = props;
 
   useEffect(() => {
@@ -342,8 +342,22 @@ function TopRatedHomeScreen(props) {
       ISIN: item[0]._id,
     });
     props.navigation.navigate("FundsDetails");
+  };
+
+  function numberWithCommas(x) {
+    // console.log("X=", x);
+    x = x.toString();
+    var lastThree = x.substring(x.length - 3);
+    var otherNumbers = x.substring(0, x.length - 3);
+    if (otherNumbers != "") lastThree = "," + lastThree;
+    var res = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree;
+    return res;
   }
 
+  const removeComma = (val) => {
+    let amount = val.replace(/,/g, "");
+    setStates({ ...states, amount });
+  };
   return (
     <View style={styles.container}>
       {/* Header_sec */}
@@ -398,14 +412,14 @@ function TopRatedHomeScreen(props) {
         <ScrollView horizontal={true} style={styles.Investnow_sec}>
           {category && category[0] && selectCat
             ? category[0][selectCat].map((item, key) => (
-              <TouchableOpacity key={key} onPress={() => feachDetails(item)}>
-                <Text
-                  style={item == selectSubCat ? styles.Equity : styles.Debt}
-                >
-                  {item}
-                </Text>
-              </TouchableOpacity>
-            ))
+                <TouchableOpacity key={key} onPress={() => feachDetails(item)}>
+                  <Text
+                    style={item == selectSubCat ? styles.Equity : styles.Debt}
+                  >
+                    {item}
+                  </Text>
+                </TouchableOpacity>
+              ))
             : null}
         </ScrollView>
         {selectSubCat && (
@@ -454,68 +468,74 @@ function TopRatedHomeScreen(props) {
         {details === null
           ? roted()
           : details.map((item) => (
-            <View key={item[0]["_id"]} style={styles.axis_asset}>
-              <View style={styles.company}>
-                <TouchableOpacity onPress={() => openFundDetails(item)}>
-                  <Image
-                    source={{ uri: item[0].imagePath }}
-                    style={styles.axisimg}
-                  />
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => openFundDetails(item)} style={styles.axiswid}>
-                  <Text style={styles.axis}>
-                    {item[0].api["FSCBI-FundName"]}
-                  </Text>
-                  <Text style={styles.axis2}>{item.text2}</Text>
-                </TouchableOpacity>
-                <View>
-                  <TouchableOpacity
-                    onPress={() =>
-                      invest(
-                        item[0].imagePath,
-                        item[0].amcCode,
-                        item[0].amcName,
-                        item[0].productCode,
-                        item[0].productName
-                      )
-                    }
-                    style={styles.botton_box}
-                  >
-                    <Text style={styles.get_otp}>INVEST</Text>
+              <View key={item[0]["_id"]} style={styles.axis_asset}>
+                <View style={styles.company}>
+                  <TouchableOpacity onPress={() => openFundDetails(item)}>
+                    <Image
+                      source={{ uri: item[0].imagePath }}
+                      style={styles.axisimg}
+                    />
                   </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => openFundDetails(item)}
+                    style={styles.axiswid}
+                  >
+                    <Text style={styles.axis}>
+                      {item[0].api["FSCBI-FundName"]}
+                    </Text>
+                    <Text style={styles.axis2}>{item.text2}</Text>
+                  </TouchableOpacity>
+                  <View>
+                    <TouchableOpacity
+                      onPress={() =>
+                        invest(
+                          item[0].imagePath,
+                          item[0].amcCode,
+                          item[0].amcName,
+                          item[0].productCode,
+                          item[0].productName
+                        )
+                      }
+                      style={styles.botton_box}
+                    >
+                      <Text style={styles.get_otp}>INVEST</Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
+                <TouchableOpacity
+                  onPress={() => openFundDetails(item)}
+                  style={styles.value_sec}
+                >
+                  <View style={styles.mininvestment}>
+                    <Text style={styles.min}>Min. Investment</Text>
+                    <Text style={styles.min}>
+                      {+item[0].api["PI-MinimumInitial"] > 1000
+                        ? "Rs." + 1000
+                        : "Rs." + item[0].api["PI-MinimumInitial"]}
+                    </Text>
+                  </View>
+                  <View style={styles.mininvestment}>
+                    <Text style={styles.min}>AUM</Text>
+                    <Text style={styles.min}>
+                      {`Rs.${item[0].api["PSRP-TotalMarketValueNet"]}`}
+                    </Text>
+                  </View>
+                  <View style={styles.mininvestment}>
+                    <Text style={styles.min}>Returns</Text>
+                    <Text style={styles.min}>{`${parseFloat(
+                      item[0].api[filterValue]
+                    ).toFixed(2)}%`}</Text>
+                  </View>
+                </TouchableOpacity>
+                <View
+                  style={{
+                    borderWidth: 1,
+                    borderColor: Colors.GREY_1,
+                    marginTop: 10,
+                  }}
+                ></View>
               </View>
-              <TouchableOpacity onPress={() => openFundDetails(item)} style={styles.value_sec}>
-                <View style={styles.mininvestment}>
-                  <Text style={styles.min}>Min. Investment</Text>
-                  <Text style={styles.min}>
-                    {+item[0].api["PI-MinimumInitial"] > 1000
-                      ? "Rs." + 1000
-                      : "Rs." + item[0].api["PI-MinimumInitial"]}
-                  </Text>
-                </View>
-                <View style={styles.mininvestment}>
-                  <Text style={styles.min}>AUM</Text>
-                  <Text style={styles.min}>
-                    {`Rs.${item[0].api["PSRP-TotalMarketValueNet"]}`}
-                  </Text>
-                </View>
-                <View style={styles.mininvestment}>
-                  <Text style={styles.min}>Returns</Text>
-                  <Text style={styles.min}>{`${parseFloat(
-                    item[0].api[filterValue]
-                  ).toFixed(2)}%`}</Text>
-                </View>
-              </TouchableOpacity>
-              <View
-                style={{
-                  borderWidth: 1,
-                  borderColor: Colors.GREY_1,
-                  marginTop: 10,
-                }}
-              ></View>
-            </View>
-          ))}
+            ))}
 
         <View style={styles.footer_sec}>
           {filter.map((item, key) => (
@@ -590,10 +610,8 @@ function TopRatedHomeScreen(props) {
                   <Text style={styles.amount_tex}>Amount</Text>
                   <View style={styles.bordersec}>
                     <TextInput
-                      value={states.amount}
-                      onChangeText={(amount) =>
-                        setStates({ ...states, amount })
-                      }
+                      value={numberWithCommas(states.amount)}
+                      onChangeText={(amount) => removeComma(amount)}
                       placeholder="5000"
                       style={styles.amount_tex2}
                     />
@@ -643,10 +661,8 @@ function TopRatedHomeScreen(props) {
                   <Text style={styles.amount_tex}>Amount</Text>
                   <View style={styles.bordersec}>
                     <TextInput
-                      value={states.amount}
-                      onChangeText={(amount) =>
-                        setStates({ ...states, amount })
-                      }
+                      value={numberWithCommas(states.amount)}
+                      onChangeText={(amount) => removeComma(amount)}
                       placeholder="5000"
                       style={styles.amount_tex2}
                     />
