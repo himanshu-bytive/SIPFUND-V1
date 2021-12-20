@@ -7,11 +7,11 @@ import { Ionicons, AntDesign } from "react-native-vector-icons";
 import { Image, Header, CheckBox, colors } from "react-native-elements";
 
 function CreateAccountScreen(props) {
+    const { creatAccount, isFetching, error, signUpSteps, phone, login, getUserDetails, token, user } = props;
     const pageActive = useRef(false);
     const emailInput = useRef(null);
     const passwordInput = useRef(null);
     const referenceCodeInput = useRef(null);
-    const { creatAccount, isFetching, error, signUpSteps, phone } = props;
     const [locationServiceEnabled, setLocationServiceEnabled] = useState(false);
     const [displayCurrentAddress, setDisplayCurrentAddress] = useState([]);
     const [referral, setReferral] = useState(false);
@@ -58,12 +58,34 @@ function CreateAccountScreen(props) {
     useEffect(() => {
         if (signUpSteps >= 3 && pageActive.current) {
             pageActive.current = false;
-            props.navigation.navigate("login");
+            // props.navigation.navigate("login");
+            let params = {
+                "username": String(phone),
+                "password": state.password,
+                "grant_type": "password",
+                "scope": "user",
+                "deviceToken": ""
+            }
+            login(params, Config.loginToken);
+            setState({ ...state, email: "", password: "", referenceCode: "", term: false });
         }
         if (error) {
             console.log(error);
         }
     }, [signUpSteps, error]);
+
+    useEffect(() => {
+        if (token) {
+            getUserDetails({}, token)
+        }
+        if (user) {
+            if (user.pan) {
+                props.navigation.navigate('Home')
+            } else {
+                props.navigation.navigate('Pan')
+            }
+        }
+    }, [token, user]);
 
     const [state, setState] = useState({
         email: "",
@@ -113,7 +135,7 @@ function CreateAccountScreen(props) {
             },
         };
         creatAccount(params);
-        setState({ ...state, email: "", password: "", referenceCode: "", term: false });
+        // setState({ ...state, email: "", password: "", referenceCode: "", term: false });
     };
 
     return (
@@ -301,17 +323,20 @@ const mapStateToProps = (state) => ({
     signUpSteps: state.auth.signUpSteps,
     validFlag: state.auth.validFlag,
     phone: state.auth.phone,
+    token: state.auth.token,
+    user: state.auth.user,
 });
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     const { dispatch } = dispatchProps;
     const { AuthActions } = require("../../store/AuthRedux");
+    const { RegistrationActions } = require('../../store/RegistrationRedux')
     return {
         ...stateProps,
         ...ownProps,
-        creatAccount: (params) => {
-            AuthActions.creatAccount(dispatch, params);
-        },
+        creatAccount: (params) => { AuthActions.creatAccount(dispatch, params) },
+        login: (params, token) => { AuthActions.login(dispatch, params, token) },
+        getUserDetails: (params, token) => { RegistrationActions.getUserDetails(dispatch, params, token) },
     };
 };
 export default connect(mapStateToProps, undefined, mapDispatchToProps)(CreateAccountScreen);

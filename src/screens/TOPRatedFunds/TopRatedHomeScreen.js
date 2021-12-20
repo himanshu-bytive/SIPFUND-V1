@@ -132,6 +132,7 @@ function TopRatedHomeScreen(props) {
     details,
     addItomToSip,
     showInside,
+    fundDetails,
   } = props;
 
   useEffect(() => {
@@ -333,6 +334,30 @@ function TopRatedHomeScreen(props) {
     addItomToSip(params, token);
   };
 
+  const openFundDetails = (item) => {
+    fundDetails({
+      name: item[0].api["FSCBI-FundName"],
+      productCode: item[0].amcCode,
+      imagePath: item[0].imagePath,
+      ISIN: item[0]._id,
+    });
+    props.navigation.navigate("FundsDetails");
+  };
+
+  function numberWithCommas(x) {
+    // console.log("X=", x);
+    x = x.toString();
+    var lastThree = x.substring(x.length - 3);
+    var otherNumbers = x.substring(0, x.length - 3);
+    if (otherNumbers != "") lastThree = "," + lastThree;
+    var res = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree;
+    return res;
+  }
+
+  const removeComma = (val) => {
+    let amount = val.replace(/,/g, "");
+    setStates({ ...states, amount });
+  };
   return (
     <View style={styles.container}>
       {/* Header_sec */}
@@ -445,18 +470,21 @@ function TopRatedHomeScreen(props) {
           : details.map((item) => (
               <View key={item[0]["_id"]} style={styles.axis_asset}>
                 <View style={styles.company}>
-                  <View>
+                  <TouchableOpacity onPress={() => openFundDetails(item)}>
                     <Image
                       source={{ uri: item[0].imagePath }}
                       style={styles.axisimg}
                     />
-                  </View>
-                  <View style={styles.axiswid}>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => openFundDetails(item)}
+                    style={styles.axiswid}
+                  >
                     <Text style={styles.axis}>
                       {item[0].api["FSCBI-FundName"]}
                     </Text>
                     <Text style={styles.axis2}>{item.text2}</Text>
-                  </View>
+                  </TouchableOpacity>
                   <View>
                     <TouchableOpacity
                       onPress={() =>
@@ -474,7 +502,10 @@ function TopRatedHomeScreen(props) {
                     </TouchableOpacity>
                   </View>
                 </View>
-                <View style={styles.value_sec}>
+                <TouchableOpacity
+                  onPress={() => openFundDetails(item)}
+                  style={styles.value_sec}
+                >
                   <View style={styles.mininvestment}>
                     <Text style={styles.min}>Min. Investment</Text>
                     <Text style={styles.min}>
@@ -495,7 +526,7 @@ function TopRatedHomeScreen(props) {
                       item[0].api[filterValue]
                     ).toFixed(2)}%`}</Text>
                   </View>
-                </View>
+                </TouchableOpacity>
                 <View
                   style={{
                     borderWidth: 1,
@@ -579,10 +610,8 @@ function TopRatedHomeScreen(props) {
                   <Text style={styles.amount_tex}>Amount</Text>
                   <View style={styles.bordersec}>
                     <TextInput
-                      value={states.amount}
-                      onChangeText={(amount) =>
-                        setStates({ ...states, amount })
-                      }
+                      value={numberWithCommas(states.amount)}
+                      onChangeText={(amount) => removeComma(amount)}
                       placeholder="5000"
                       style={styles.amount_tex2}
                     />
@@ -632,10 +661,8 @@ function TopRatedHomeScreen(props) {
                   <Text style={styles.amount_tex}>Amount</Text>
                   <View style={styles.bordersec}>
                     <TextInput
-                      value={states.amount}
-                      onChangeText={(amount) =>
-                        setStates({ ...states, amount })
-                      }
+                      value={numberWithCommas(states.amount)}
+                      onChangeText={(amount) => removeComma(amount)}
                       placeholder="5000"
                       style={styles.amount_tex2}
                     />
@@ -842,6 +869,7 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
   const { dispatch } = dispatchProps;
   const { TopRatedActions } = require("../../store/TopRatedFundRedux");
   const { CartActions } = require("../../store/CartActionsRedux");
+  const { FundDetailActions } = require("../../store/FundDetailRedux");
   return {
     ...stateProps,
     ...ownProps,
@@ -853,6 +881,9 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     },
     addItomToSip: (params, token) => {
       CartActions.addItomToSip(dispatch, params, token);
+    },
+    fundDetails: (data) => {
+      FundDetailActions.fundDetails(dispatch, data);
     },
   };
 };

@@ -1,96 +1,52 @@
 import SiteAPI from '../services/SiteApis'
 import { Alert } from 'react-native';
 const types = {
-    
+
     FETCH_REPORT_SUMMARY_PENDING: "FETCH_REPORT_SUMMARY_PENDING",
     FETCH_REPORT_SUMMARY_SUCCESS: "FETCH_REPORT_SUMMARY_SUCCESS",
     FETCH_REPORT_SUMMARY_FAILURE: "FETCH_REPORT_SUMMARY_FAILURE",
 
-    FETCH_REPORT_DETAILS_PENDING: "FETCH_REPORT_DETAILS_PENDING",
-    FETCH_REPORT_DETAILS_SUCCESS: "FETCH_REPORT_DETAILS_SUCCESS",
-    FETCH_REPORT_DETAILS_FAILURE: "FETCH_REPORT_DETAILS_FAILURE",
 
-    FETCH_FREE_UNITS_PENDING: "FETCH_FREE_UNITS_PENDING",
-    FETCH_FREE_UNITS_SUCCESS: "FETCH_FREE_UNITS_SUCCESS",
-    FETCH_FREE_UNITS_FAILURE: "FETCH_FREE_UNITS_FAILURE",
 
 };
 
 export const ReportsActions = {
-    
-    reportSummary: async (dispatch, token) => {
+    downloadReport: async (dispatch, params, token) => {
         dispatch({ type: types.FETCH_REPORT_SUMMARY_PENDING });
-        let documents = await SiteAPI.apiGetCall(`/reports/live-portfolio-report-summary`, {}, token);
-        if (documents.responseString) {
-            dispatch({ type: types.FETCH_REPORT_SUMMARY_SUCCESS, documents: documents });
+        let data = await SiteAPI.apiGetCall(`/reports/${params}`, {}, token);
+        if (data.error) {
+            Alert.alert(data.message)
+            dispatch({ type: types.FETCH_REPORT_SUMMARY_FAILURE, error: data.message, urls: null });
+        } else {
+            dispatch({ type: types.FETCH_REPORT_SUMMARY_SUCCESS, urls: data });
         }
     },
-    reportDetails: async (dispatch, code, token) => {
-        if (code) {
-            dispatch({ type: types.FETCH_REPORT_DETAILS_PENDING });
-            let citys = await SiteAPI.apiGetCall(`/reports/live-portfolio-report-details`, {}, token);
-            if (citys.Data) {
-                dispatch({ type: types.FETCH_REPORT_DETAILS_SUCCESS, citys: citys.Data.city_master });
-            }
-        }
-    },
-    freeUnits: async (dispatch, code, token) => {
-        if (code) {
-            dispatch({ type: types.FETCH_FREE_UNITS_PENDING });
-            let pincodes = await SiteAPI.apiGetCall(`/reports/load-free-unit-report`, {}, token);
-            if (pincodes.data) {
-                dispatch({ type: types.FETCH_FREE_UNITS_SUCCESS, pincodeInfo: pincodes.data });
-            }
-        }
-    },
-    
 
 };
 
 const initialState = {
     isFetching: false,
     error: null,
-    occupations: [],
-    incomes: [],
-    states: [],
-    citys: [],
-    pincodeInfo: null,
-    accountTypes: [],
-    banks: [],
-    bankDetails: {},
-    documents: null,
-    addSuccess: false,
-    updateSuccess: false,
-    uploadSuccess: false,
+    urls: null,
 };
 
 export const reducer = (state = initialState, action) => {
-    const { type, error, occupations, incomes, states, citys, accountTypes, banks, bankDetails, pincodeInfo, documents } = action;
+    const { type, error, urls } = action;
     switch (type) {
-        case types.FETCH_REPORT_SUMMARY_PENDING:
-        case types.FETCH_REPORT_DETAILS_PENDING:
-        case types.FETCH_FREE_UNITS_PENDING:{
+        case types.FETCH_REPORT_SUMMARY_PENDING: {
 
             return {
                 ...state,
                 isFetching: true,
                 error: null,
-                addSuccess: false,
-                updateSuccess: false,
-                uploadSuccess: false,
             };
         }
-
-        case types.FETCH_REPORT_SUMMARY_FAILURE:
-        case types.FETCH_FREE_UNITS_FAILURE:
-        case types.FETCH_REPORT_DETAILS_FAILURE: {
+        case types.FETCH_REPORT_SUMMARY_FAILURE: {
             return {
                 ...state,
                 isFetching: false,
-                addSuccess: false,
-                updateSuccess: false,
-                uploadSuccess: false,
                 error,
+                urls,
             };
         }
         case types.FETCH_REPORT_SUMMARY_SUCCESS: {
@@ -98,26 +54,9 @@ export const reducer = (state = initialState, action) => {
                 ...state,
                 isFetching: false,
                 error: null,
-                documents
+                urls
             };
         }
-        case types.FETCH_REPORT_DETAILS_SUCCESS: {
-            return {
-                ...state,
-                isFetching: false,
-                error: null,
-                citys
-            };
-        }
-        case types.FETCH_FREE_UNITS_SUCCESS: {
-            return {
-                ...state,
-                isFetching: false,
-                error: null,
-                pincodeInfo
-            };
-        }
-    
         default:
             return state;
     }
