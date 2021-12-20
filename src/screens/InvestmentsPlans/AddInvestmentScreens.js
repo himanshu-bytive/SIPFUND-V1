@@ -1,12 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import {
-  ActivityIndicator,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { ActivityIndicator, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { Header, Image } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
 import { AntDesign } from "react-native-vector-icons";
@@ -34,22 +27,14 @@ function AddInvestmentScreens(props) {
     // console.log(value)
   };
 
-  const calculateReturnAmount = (
-    amount,
-    noOfYears,
-    expectedReturnPercentage
-  ) => {
+  const calculateReturnAmount = (amount, noOfYears, expectedReturnPercentage) => {
     let maturityAmount = 0;
 
     if (selectTab === "SIP") {
       const monthlyReturnPercentage = expectedReturnPercentage / 12;
-      maturityAmount =
-        (amount *
-          (Math.pow(1 + monthlyReturnPercentage / 100, noOfYears * 12) - 1)) /
-        (monthlyReturnPercentage / 100);
+      maturityAmount = (amount * (Math.pow(1 + monthlyReturnPercentage / 100, noOfYears * 12) - 1)) / (monthlyReturnPercentage / 100);
     } else if (selectTab === "One Time") {
-      maturityAmount =
-        amount * Math.pow(1 + expectedReturnPercentage / 100, noOfYears);
+      maturityAmount = amount * Math.pow(1 + expectedReturnPercentage / 100, noOfYears);
     }
 
     const formattedMaturityAmount = currencyFormat(maturityAmount.toFixed(2));
@@ -61,17 +46,13 @@ function AddInvestmentScreens(props) {
     if (x < 10000) {
       x = x.toString();
       var afterPoint = "";
-      if (x.indexOf(".") > 0)
-        afterPoint = x.substring(x.indexOf("."), x.length);
+      if (x.indexOf(".") > 0) afterPoint = x.substring(x.indexOf("."), x.length);
       x = Math.floor(x);
       x = x.toString();
       var lastThree = x.substring(x.length - 3);
       var otherNumbers = x.substring(0, x.length - 3);
       if (otherNumbers != "") lastThree = "," + lastThree;
-      var res =
-        otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") +
-        lastThree +
-        afterPoint;
+      var res = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree + afterPoint;
     } else {
       res = `${(x / 100000).toFixed(2)}L`;
     }
@@ -85,7 +66,7 @@ function AddInvestmentScreens(props) {
         selectedOption: selectTab,
       };
       investmentConfig(params);
-      props.navigation.navigate("InvestmentList");
+      props.navigation.navigate("InvestmentList", { isLumpsum: selectTab === "SIP" ? false : true });
     } else {
       setInvestError("Add Investment");
       alert("Enter Investment Amount");
@@ -111,21 +92,13 @@ function AddInvestmentScreens(props) {
     <View style={styles.container}>
       <Header
         leftComponent={
-          <TouchableOpacity
-            onPress={() => props.navigation.goBack()}
-            style={{ marginTop: 20 }}
-          >
+          <TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}>
             <AntDesign name={"arrowleft"} size={40} color={Colors.RED} />
           </TouchableOpacity>
         }
         containerStyle={Styles.header}
         backgroundColor={Colors.LIGHT_WHITE}
-        centerComponent={
-          <Image
-            source={require("../../../assets/icon.png")}
-            style={styles.logimg}
-          />
-        }
+        centerComponent={<Image source={require("../../../assets/icon.png")} style={styles.logimg} />}
         rightComponent={
           <View style={{ marginTop: 20, marginRight: 10 }}>
             <AntDesign name={"shoppingcart"} size={40} color={Colors.RED} />
@@ -144,45 +117,20 @@ function AddInvestmentScreens(props) {
             <Text style={styles.child_text}>What amount I can invest?</Text>
           </View>
           <View style={styles.child_sec}>
-            <MyImage
-              width="145"
-              height="145"
-              svg={true}
-              url={investment.planImagePath}
-            />
+            <MyImage width="145" height="145" svg={true} url={investment.planImagePath} />
           </View>
         </View>
         {/* button */}
 
         <View style={styles.click_sec}>
-          <View
-            style={
-              selectTab == "SIP" ? styles.buttom_botton2 : styles.buttom_botton
-            }
-          >
+          <View style={selectTab == "SIP" ? styles.buttom_botton2 : styles.buttom_botton}>
             <TouchableOpacity onPress={() => toggleTab("SIP")}>
-              <Text
-                style={selectTab == "SIP" ? styles.sip_text2 : styles.sip_text}
-              >
-                SIP
-              </Text>
+              <Text style={selectTab == "SIP" ? styles.sip_text2 : styles.sip_text}>SIP</Text>
             </TouchableOpacity>
           </View>
-          <View
-            style={
-              selectTab == "One Time"
-                ? styles.buttom_botton2
-                : styles.buttom_botton
-            }
-          >
+          <View style={selectTab == "One Time" ? styles.buttom_botton2 : styles.buttom_botton}>
             <TouchableOpacity onPress={() => toggleTab("One Time")}>
-              <Text
-                style={
-                  selectTab == "One Time" ? styles.sip_text2 : styles.sip_text
-                }
-              >
-                Lump Sum
-              </Text>
+              <Text style={selectTab == "One Time" ? styles.sip_text2 : styles.sip_text}>Lump Sum</Text>
             </TouchableOpacity>
           </View>
           {/* <View style={(selectTab == 'STP') ? styles.buttom_botton2 : styles.buttom_botton}>
@@ -194,12 +142,7 @@ function AddInvestmentScreens(props) {
         {/* button  end new*/}
 
         <Text style={styles.childtext}>Investment</Text>
-        <View
-          style={[
-            styles.investcost_sec,
-            { borderColor: investError ? Colors.RED : Colors.GREY_1 },
-          ]}
-        >
+        <View style={[styles.investcost_sec, { borderColor: investError ? Colors.RED : Colors.GREY_1 }]}>
           <TextInput
             ref={investInput}
             style={styles.cost}
@@ -216,21 +159,15 @@ function AddInvestmentScreens(props) {
         {/* <Text style={styles.number}>Sixteen thousand</Text> */}
         <View style={styles.yearly_section}>
           <View>
-            <Text style={styles.cost_top}>
-              ₹ {calculateReturnAmount(invest, 5, 12)}
-            </Text>
+            <Text style={styles.cost_top}>₹ {calculateReturnAmount(invest, 5, 12)}</Text>
             <Text style={styles.cost_botton}>In 5 Years</Text>
           </View>
           <View>
-            <Text style={styles.cost_top}>
-              ₹ {calculateReturnAmount(invest, 7, 12)}
-            </Text>
+            <Text style={styles.cost_top}>₹ {calculateReturnAmount(invest, 7, 12)}</Text>
             <Text style={styles.cost_botton}>In 7 Years</Text>
           </View>
           <View>
-            <Text style={styles.cost_top}>
-              ₹ {calculateReturnAmount(invest, 10, 12)}
-            </Text>
+            <Text style={styles.cost_top}>₹ {calculateReturnAmount(invest, 10, 12)}</Text>
             <Text style={styles.cost_botton}>In 10 Years</Text>
           </View>
         </View>
@@ -407,8 +344,4 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     },
   };
 };
-export default connect(
-  mapStateToProps,
-  undefined,
-  mapDispatchToProps
-)(AddInvestmentScreens);
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(AddInvestmentScreens);
