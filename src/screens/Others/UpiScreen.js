@@ -109,6 +109,7 @@ function UpiScreen(props) {
           sip_period_day: data[item].schemes.default_date,
         };
       }
+      console.log(format);
       formatted.push(format);
     }
     return formatted;

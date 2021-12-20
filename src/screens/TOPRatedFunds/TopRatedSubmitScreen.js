@@ -69,7 +69,7 @@ function TopRatedSubmitScreen(props) {
         ))}
       </ScrollView>
 
-      <TouchableOpacity onPress={() => props.navigation.navigate("Upi", { cart, sum, fromCart: true, isLumpsum: props.navigation.state.params.isLumpsum })} style={styles.botton_box}>
+      <TouchableOpacity onPress={() => props.navigation.navigate("Upi", { cart, sum, fromCart: true, fromPlanGoals: false, isLumpsum: props.navigation.state.params.isLumpsum })} style={styles.botton_box}>
         <Text style={styles.get_otp}>MAKE PAYMENT</Text>
       </TouchableOpacity>
     </View>
