@@ -24,7 +24,7 @@ function InvestmentSubmitScreens(props) {
     <View style={styles.container}>
       <Header
         leftComponent={
-          <TouchableOpacity onPress={() => props.navigation.navigate("InvestmentDetail")} style={{ marginTop: 20 }}>
+          <TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}>
             <AntDesign name={"arrowleft"} size={40} color={Colors.RED} />
           </TouchableOpacity>
         }

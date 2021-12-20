@@ -82,11 +82,6 @@ function InvestmentListScreens(props) {
           </View>
         }
       />
-      {isFetching && (
-        <View style={Styles.loading}>
-          <ActivityIndicator color={Colors.BLACK} size="large" />
-        </View>
-      )}
       <ScrollView>
         <View style={styles.education}>
           <View style={styles.education_sec}>
