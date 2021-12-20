@@ -20,19 +20,29 @@ import { Image, Header, ListItem, Overlay } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
 
 const reports = [
-    { number: '1.', title: 'Live Portfolio Report', link: 'Download' },
-    { number: '2.', title: 'Load Free units Report', link: 'Download' }
+    { number: '1.', title: 'Live Portfolio Report', link: 'Download', api: 'live-portfolio-report-summary' },
+    { number: '2.', title: 'Load Free units Report', link: 'Download', api: 'live-portfolio-report-details' }
 ]
 
 const tax = [
-    { number: '1.', title: 'Live Portfolio Report', link: 'Download' },
-    { number: '2.', title: 'Load Free units Report', link: 'Download' },
-    { number: '3.', title: 'Dividend Report', link: 'Download' },
-    { number: '4.', title: 'Financial Year Transaction Report', link: 'Download' },
+    { number: '1.', title: 'Live Portfolio Report', link: 'Download', api: 'live-portfolio-report-details' },
+    { number: '2.', title: 'Load Free units Report', link: 'Download', api: 'load-free-unit-report' },
+    { number: '3.', title: 'Dividend Report', link: 'Download', api: 'live-portfolio-report-summary' },
+    { number: '4.', title: 'Financial Year Transaction Report', link: 'Download', api: 'live-portfolio-report-summary' },
 ]
 
 
 function ReportsScreen(props) {
+    const { token, isFetching, urls, downloadReport } = props
+
+
+    useEffect(() => {
+        if (urls) {
+            console.log('url ', urls)
+        }
+    }, [urls]);
+
+
     return (
         <View style={styles.container}>
             {/* header  */}
@@ -46,6 +56,11 @@ function ReportsScreen(props) {
 
                 rightComponent={<View style={{ marginTop: 20, marginRight: 10, }}><AntDesign name={"shoppingcart"} size={40} color={Colors.RED} /></View>}
             />
+            {isFetching && (
+                <View style={Styles.loading}>
+                    <ActivityIndicator color={Colors.BLACK} size="large" />
+                </View>
+            )}
             <ScrollView>
                 <View style={styles.contain}>
                     <Text style={styles.nametext}>Reports</Text>
@@ -59,7 +74,7 @@ function ReportsScreen(props) {
                             <Text style={styles.tax_left_text}>{item.title}</Text>
                         </View>
                         <View style={styles.bottom}>
-                            <TouchableOpacity style={styles.botton_box}>
+                            <TouchableOpacity onPress={() => downloadReport(item.api, token)} style={styles.botton_box}>
                                 <Text style={styles.get_otp}>{item.link}</Text>
                             </TouchableOpacity>
                         </View>
@@ -71,8 +86,6 @@ function ReportsScreen(props) {
                     <Text style={styles.nametext}>Tax Package Reports</Text>
                 </View>
 
-
-
                 {/* bottom loop start */}
                 {tax.map((item) => <View style={styles.report_sec}>
                     <View style={styles.tax_left}>
@@ -80,17 +93,13 @@ function ReportsScreen(props) {
                         <Text style={styles.tax_left_text}>{item.title}</Text>
                     </View>
                     <View style={styles.bottom}>
-                        <TouchableOpacity style={styles.botton_box}>
+                        <TouchableOpacity onPress={() => downloadReport(item.api, token)} style={styles.botton_box}>
                             <Text style={styles.get_otp}>{item.link}</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
                 )}
-
                 {/* bottom loop end */}
-
-
-
             </ScrollView>
         </View>
 
@@ -149,16 +158,17 @@ const styles = StyleSheet.create({
 });
 const mapStateToProps = (state) => ({
     token: state.auth.token,
-    users: state.auth.users,
+    isFetching: state.reports.isFetching,
+    urls: state.reports.urls,
 })
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     const { dispatch } = dispatchProps;
-    const { AuthActions } = require('../../store/AuthRedux')
+    const { ReportsActions } = require('../../store/ReportsRedux')
     return {
         ...stateProps,
         ...ownProps,
-        logOut: () => { AuthActions.logOut(dispatch) },
+        downloadReport: (params, token) => { ReportsActions.downloadReport(dispatch, params, token) },
     }
 }
 export default connect(mapStateToProps, undefined, mapDispatchToProps)(ReportsScreen)

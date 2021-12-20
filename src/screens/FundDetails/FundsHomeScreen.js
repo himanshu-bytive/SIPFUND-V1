@@ -57,29 +57,22 @@ function FundsHomeScreen(props) {
         } else {
             let year = rupees.find(x => x.text == value);
             date = new Date(), y = date.getFullYear();
-            firstDay = new Date(y, 1, -29);
-            lastDay = new Date((y + (year?.value ? year.value : 1)), 1, -29);
+            firstDay = new Date((y - (year?.value ? year.value : 1)), 1, -29);
+            lastDay = new Date(y, 1, -29);
         }
         setLabels(Utility.getDatesBetweenDates(firstDay, lastDay))
-        fundChartList({ ISIN: 'INF200K01T28', from: moment(firstDay).format('YYYY-MM-DD'), to: moment(lastDay).format('YYYY-MM-DD') }, token)
+        fundChartList({ ISIN: fundDetail?.ISIN ? fundDetail.ISIN : 'INF200K01T28', from: moment(firstDay).format('YYYY-MM-DD'), to: moment(lastDay).format('YYYY-MM-DD') }, token)
     };
 
-    // useEffect(() => {
-    //     fetchFunds({ name: fundDetail?.name }, token)
-    // }, [users]);
 
     useEffect(() => {
         if (users) {
-            // let fund = funds.find(x => x.productName == fundDetail?.name);
-            // console.log(fundDetail)
-            // console.log(funds)
-            // console.log(fund)
             let date = new Date(), y = date.getFullYear(), m = date.getMonth();
             let firstDay = new Date(y, m, 1);
             let lastDay = new Date(y, m + 1, 0);
             setLabels(Utility.getDatesBetweenDates(firstDay, lastDay))
-            fundChartList({ ISIN: 'INF200K01T28', from: moment(firstDay).format('YYYY-MM-DD'), to: moment(lastDay).format('YYYY-MM-DD') }, token)
-            fundDetailsList({ ISIN: 'INF200K01T28', }, token)
+            fundChartList({ ISIN: fundDetail?.ISIN ? fundDetail.ISIN : 'INF200K01T28', from: moment(firstDay).format('YYYY-MM-DD'), to: moment(lastDay).format('YYYY-MM-DD') }, token)
+            fundDetailsList({ ISIN: fundDetail?.ISIN ? fundDetail.ISIN : 'INF200K01T28', }, token)
         }
     }, [users]);
 

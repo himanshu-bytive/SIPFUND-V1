@@ -13,6 +13,7 @@ import {
     ActivityIndicator
 } from "react-native";
 import { connect } from 'react-redux'
+import RNSimData from 'react-native-sim-data'
 import { Colors, FormValidate } from '../../common'
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
@@ -123,6 +124,8 @@ function VerifyScreen(props) {
             setError({ ...errors, phone: 'Please enter phone number' });
         }
     }
+
+    // alert(JSON.stringify(RNSimData.getSimInfo()))
 
     return (
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container}>

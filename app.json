@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "SIP Fund",
+    "name": "SIP FUND",
     "slug": "sipfund",
-    "version": "1.0.1",
+    "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/iconLogo.png",
     "splash": {
@@ -17,26 +17,47 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "Allow $(PRODUCT_NAME) to access your photos",
+        "NSCameraUsageDescription": "Allow $(PRODUCT_NAME) to access your camera",
+        "NSMicrophoneUsageDescription": "Allow $(PRODUCT_NAME) to access your microphone"
+      },
+      "bundleIdentifier": "com.sipfund.app"
     },
     "android": {
+      "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/iconLogo.png",
         "backgroundColor": "#FFFFFF"
       },
       "package": "com.sipfund.app",
       "permissions": [
-        "LOCATION",
-        "CAMERA",
-        "WRITE_EXTERNAL_STORAGE",
-        "CAMERA_ROLL"
+        "android.permission.CAMERA",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.READ_PHONE_NUMBERS",
+        "android.permission.READ_PHONE_STATE"
       ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      "expo-location"
+      "expo-image-picker",
+      [
+        "expo-notifications",
+        {
+          "icon": "./local/assets/notification-icon.png",
+          "color": "#ffffff",
+          "sounds": [
+            "./local/assets/notification-sound.wav",
+            "./local/assets/notification-sound-other.wav"
+          ]
+        }
+      ],
+      "expo-cellular"
     ]
   }
 }
