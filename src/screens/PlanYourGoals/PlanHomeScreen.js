@@ -72,8 +72,16 @@ function PlanHomeScreen(props) {
 
   const startGoal = (value) => {
     if (selectTab === "SIP") {
+      if (sipAmount < 1) {
+        alert(`Can't proceed further with ₹${sipAmount}!`);
+        return;
+      }
       value = Number(sipAmount);
     } else {
+      if (lumpsumAmount < 1) {
+        alert(`Can't proceed further with ₹${lumpsumAmount}!`);
+        return;
+      }
       value = Number(lumpsumAmount);
     }
     setPlanYourGoalDetails(value);
