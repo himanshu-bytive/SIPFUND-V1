@@ -77,7 +77,7 @@ function PlanHomeScreen(props) {
       value = Number(lumpsumAmount);
     }
     setPlanYourGoalDetails(value);
-    props.navigation.navigate("PlanList");
+    props.navigation.navigate("PlanList", { isLumpsum: selectTab === "LUMPSUM" ? true : false });
   };
 
   return (

@@ -135,7 +135,7 @@ function PlanListScreen(props) {
                     //sum
                     //);
                     //newInvestment(params, token);
-                    props.navigation.navigate("PlanSubmit", { sum: sum });
+                    props.navigation.navigate("PlanSubmit", { sum: sum, isLumpsum: props.navigation.state.params.isLumpsum });
                   },
                 },
               ],
@@ -149,7 +149,7 @@ function PlanListScreen(props) {
             //sum
             //);
             //newInvestment(params, token);
-            props.navigation.navigate("PlanSubmit", { sum: sum });
+            props.navigation.navigate("PlanSubmit", { sum: sum, isLumpsum: props.navigation.state.params.isLumpsum });
           }
         }}
         style={styles.botton_box}
