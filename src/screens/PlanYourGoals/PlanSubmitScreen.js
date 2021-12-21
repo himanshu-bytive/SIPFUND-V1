@@ -75,8 +75,7 @@ function PlanSubmitScreen(props) {
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
-          //console.log(mygolelist.filter((item) => !isNaN(item.schemeInfo.sip)));
-          props.navigation.navigate("Upi", { cart: mygolelist.filter((item) => !isNaN(item.schemeInfo.sip)), sum: props.navigation.state.params.sum, fromPlanGoals: true });
+          props.navigation.navigate("Upi", { cart: mygolelist.filter((item) => !isNaN(item.schemeInfo.sip)), sum: props.navigation.state.params.sum, fromPlanGoals: true, fromCart: false, isLumpsum: props.navigation.state.params.isLumpsum });
         }}
         style={styles.botton_box}
       >
