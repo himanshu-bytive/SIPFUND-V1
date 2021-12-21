@@ -7,7 +7,7 @@ import reducers from "./src/store";
 import { createStore, compose, applyMiddleware } from "redux";
 import { persistStore } from "redux-persist";
 import { PersistGate } from "redux-persist/es/integration/react";
-// import PushNotification from "./PushNotification";
+import PushNotification from "./PushNotification";
 
 let store = null;
 const middleware = [thunk];
