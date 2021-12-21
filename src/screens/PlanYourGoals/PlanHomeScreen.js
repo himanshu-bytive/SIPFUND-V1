@@ -34,11 +34,16 @@ function PlanHomeScreen(props) {
 
   useEffect(() => {
     if (goalDetail.additionalInfo) {
-      console.log("ADDITIONAL INFO=", parseInt(goalDetail.additionalInfo.current_cost_amt_req_max));
       setcostEducationMin(parseInt(goalDetail.additionalInfo.current_cost_amt_req_min));
       setcostEducationMax(parseInt(goalDetail.additionalInfo.current_cost_amt_req_max));
       setAdditionalInfo(goalDetail.additionalInfo);
-      setAmount(goalDetail.additionalInfo.current_edu_cost);
+      if (goalDetail.additionalInfo.current_living_cost) {
+        setAmount(goalDetail.additionalInfo.current_living_cost);
+      } else if (goalDetail.additionalInfo.current_edu_cost) {
+        setAmount(goalDetail.additionalInfo.current_edu_cost);
+      } else {
+        setAmount(goalDetail.additionalInfo.current_cost_amt_req_min);
+      }
       setTime(goalDetail.additionalInfo.time_years);
       setInvestment(goalDetail.additionalInfo.current_investment);
     }
@@ -136,19 +141,19 @@ function PlanHomeScreen(props) {
           </Text>
           <Text style={styles.childtext}>₹{amount}</Text>
         </View>
-        <View style={{ marginHorizontal: 20 }}>{additionalInfo.current_cost_amt_req_max && <MySlider value={Number(amount)} change={(amount) => setAmount(amount.toFixed(0))} min={costEducationMin} max={costEducationMax} />}</View>
+        <View style={{ marginHorizontal: 20 }}>{additionalInfo.current_cost_amt_req_max && <MySlider value={Number(amount)} change={(amount) => setAmount(amount.toFixed(0))} min={Number(additionalInfo.current_investment_min)} max={Number(additionalInfo.current_investment_max)} />}</View>
 
         <View style={[styles.vijay_sec, styles.vijay]}>
           <Text style={styles.child2}>Year when this is required</Text>
           <Text style={styles.childtext}>{time}Y</Text>
         </View>
-        <View style={{ marginHorizontal: 20 }}>{additionalInfo.time_when_req_min && <MySlider value={Number(time)} change={(time) => setTime(time.toFixed(0))} min={additionalInfo.time_when_req_min} max={additionalInfo.time_when_req_max} />}</View>
+        <View style={{ marginHorizontal: 20 }}>{additionalInfo.time_when_req_min && <MySlider value={Number(time)} change={(time) => setTime(time.toFixed(0))} min={Number(additionalInfo.time_when_req_min)} max={Number(additionalInfo.time_when_req_max)} />}</View>
 
         <View style={[styles.vijay_sec, styles.vijay]}>
           <Text style={styles.child2}>Current Investment Value (If Any)</Text>
           <Text style={styles.childtext}>₹{investment}</Text>
         </View>
-        <View style={{ marginHorizontal: 20 }}>{additionalInfo.current_investment_max && <MySlider value={Number(investment)} change={(investment) => setInvestment(investment.toFixed(0))} min={additionalInfo.current_investment_min} max={additionalInfo.current_investment_max} />}</View>
+        <View style={{ marginHorizontal: 20 }}>{additionalInfo.current_investment_max && <MySlider value={Number(investment)} change={(investment) => setInvestment(investment.toFixed(0))} min={Number(additionalInfo.current_investment_min)} max={Number(additionalInfo.current_investment_max)} />}</View>
 
         <Text style={styles.note}>
           Note : Assuming current inflation rate at {params.inflation}% and expected return rate on saving as {params.returnRate}%.
