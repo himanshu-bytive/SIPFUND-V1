@@ -14,13 +14,8 @@ function PlanHomeScreen(props) {
   const [amount, setAmount] = useState(1000);
   const [time, setTime] = useState(10);
   const [investment, setInvestment] = useState(100000);
-  const [costEducationMin, setcostEducationMin] = useState();
-  const [costEducationMax, setcostEducationMax] = useState();
-  const [params, setParams] = useState({
-    name: "",
-    inflation: 2.49,
-    returnRate: 5,
-  });
+  const [inflation, setInflation] = useState(2.49);
+  const [returnRate, setReturnRate] = useState(5);
 
   const [inflationAdjusted, setInflationAdjusted] = useState(0);
   const [sipAmount, setSipAmount] = useState(0);
@@ -34,8 +29,6 @@ function PlanHomeScreen(props) {
 
   useEffect(() => {
     if (goalDetail.additionalInfo) {
-      setcostEducationMin(parseInt(goalDetail.additionalInfo.current_cost_amt_req_min));
-      setcostEducationMax(parseInt(goalDetail.additionalInfo.current_cost_amt_req_max));
       setAdditionalInfo(goalDetail.additionalInfo);
       if (goalDetail.additionalInfo.current_living_cost) {
         setAmount(goalDetail.additionalInfo.current_living_cost);
@@ -49,20 +42,20 @@ function PlanHomeScreen(props) {
     }
   }, [goalDetail]);
 
-  useEffect(() => {
-    let data = Utility.calculatorformula(params);
-    golesConfig(data);
-  }, []);
+  //useEffect(() => {
+  //let data = Utility.calculatorformula(params);
+  //golesConfig(data);
+  //}, []);
 
   useEffect(() => {
-    const requiredCorp = amount * Math.pow(1 + params.inflation / 100, time);
+    const requiredCorp = amount * Math.pow(1 + inflation / 100, time);
     if (requiredCorp <= 0 || !isFinite(requiredCorp)) {
       setInflationAdjusted(0);
     } else {
       setInflationAdjusted(requiredCorp.toFixed(2));
     }
-    const constant2 = requiredCorp - investment * Math.pow(1 + params.returnRate / 100, time);
-    const rate1 = params.returnRate / 1200;
+    const constant2 = requiredCorp - investment * Math.pow(1 + returnRate / 100, time);
+    const rate1 = returnRate / 1200;
     const sipAmount1 = constant2 * ((1 - (1 + rate1)) / (1 - Math.pow(1 + rate1, time * 12)));
     if (sipAmount1 <= 0 || !isFinite(sipAmount1)) {
       setSipAmount(0);
@@ -71,9 +64,9 @@ function PlanHomeScreen(props) {
     } else {
       setSipAmount(sipAmount1.toFixed(2));
       setRequiredInvestment(sipAmount1 * time * 12);
-      setLumpsumAmount(constant2 / Math.pow(1 + params.returnRate / 100, time));
+      setLumpsumAmount(constant2 / Math.pow(1 + returnRate / 100, time));
     }
-  }, [amount, time, investment, params.inflation, params.returnRate]);
+  }, [amount, time, investment, inflation, returnRate]);
 
   const startGoal = (value) => {
     if (selectTab === "SIP") {
@@ -141,13 +134,29 @@ function PlanHomeScreen(props) {
         <View style={{ marginHorizontal: 20 }}>{additionalInfo.time_when_req_min && <MySlider value={Number(time)} change={(time) => setTime(time.toFixed(0))} min={Number(additionalInfo.time_when_req_min)} max={Number(additionalInfo.time_when_req_max)} steps={1} />}</View>
 
         <View style={[styles.vijay_sec, styles.vijay]}>
+          <Text style={styles.child2}>Expected inflation rate %</Text>
+          <Text style={styles.childtext}>{inflation}%</Text>
+        </View>
+        <View style={{ marginHorizontal: 20 }}>
+          <MySlider value={Number(inflation)} change={(amount) => setInflation(amount.toFixed(2))} min={1} max={100} steps={0.1} />
+        </View>
+
+        <View style={[styles.vijay_sec, styles.vijay]}>
+          <Text style={styles.child2}>Expected Rate of Return on Saving %</Text>
+          <Text style={styles.childtext}>{returnRate}%</Text>
+        </View>
+        <View style={{ marginHorizontal: 20 }}>
+          <MySlider value={Number(returnRate)} change={(amount) => setReturnRate(amount.toFixed(2))} min={0.1} max={100} steps={0.1} />
+        </View>
+
+        <View style={[styles.vijay_sec, styles.vijay]}>
           <Text style={styles.child2}>Current Investment set aside (if any)</Text>
           <Text style={styles.childtext}>₹{investment}</Text>
         </View>
         <View style={{ marginHorizontal: 20 }}>{additionalInfo.current_investment_max && <MySlider value={Number(investment)} change={(investment) => setInvestment(investment.toFixed(0))} min={Number(additionalInfo.current_investment_min)} max={Number(additionalInfo.current_investment_max)} steps={100} />}</View>
 
         <Text style={styles.note}>
-          Note : Assuming current inflation rate at {params.inflation}% and expected return rate on saving as {params.returnRate}%.
+          Note : Assuming current inflation rate at {inflation}% and expected return rate on saving as {returnRate}%.
         </Text>
 
         <View style={styles.click_sec}>
