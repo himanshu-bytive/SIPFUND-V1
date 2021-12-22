@@ -14,6 +14,7 @@ import {
 } from "react-native";
 import { connect } from "react-redux";
 import { Colors, FormValidate } from "../../common";
+import PushNotification from "./PushNotification";
 import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
 import { MaterialIcons } from "react-native-vector-icons";
@@ -128,6 +129,7 @@ function VerifyScreen(props) {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}
     >
+      <PushNotification />
       <View>
         <Text style={styles.slogan}>
           Achieve Your <Text style={styles.sloganRed}>Dreams</Text>
