@@ -1,15 +1,37 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
-import { StyleSheet, Button, View, ImageBackground, TouchableOpacity, Text, ActivityIndicator, Alert } from "react-native";
+import {
+  StyleSheet,
+  Button,
+  View,
+  ImageBackground,
+  TouchableOpacity,
+  Text,
+  ActivityIndicator,
+  Alert,
+} from "react-native";
 import { connect } from "react-redux";
 import { Styles, Config, Colors, FormValidate } from "../../common";
-import { Ionicons, AntDesign, Entypo, FontAwesome5 } from "react-native-vector-icons";
+import {
+  Ionicons,
+  AntDesign,
+  Entypo,
+  FontAwesome5,
+} from "react-native-vector-icons";
 import { Image, Header, CheckBox, colors } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
 import { MyImage, GoalFundType } from "../../components";
 
 function PlanListScreen(props) {
   const pageActive = useRef(false);
-  const { token, goalDetail, isFetching, mygolelist, myGoles, fundDetails, planYourGoalsDetails } = props;
+  const {
+    token,
+    goalDetail,
+    isFetching,
+    mygolelist,
+    myGoles,
+    fundDetails,
+    planYourGoalsDetails,
+  } = props;
 
   const handleDelete = (productCode) => {
     let goals = mygolelist;
@@ -52,13 +74,21 @@ function PlanListScreen(props) {
     <View style={styles.container}>
       <Header
         leftComponent={
-          <TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}>
+          <TouchableOpacity
+            onPress={() => props.navigation.goBack()}
+            style={{ marginTop: 20 }}
+          >
             <AntDesign name={"arrowleft"} size={40} color={Colors.RED} />
           </TouchableOpacity>
         }
         containerStyle={Styles.header}
         backgroundColor={Colors.LIGHT_WHITE}
-        centerComponent={<Image source={require("../../../assets/icon.png")} style={styles.logimg} />}
+        centerComponent={
+          <Image
+            source={require("../../../assets/icon.png")}
+            style={styles.logimg}
+          />
+        }
         rightComponent={
           <View style={{ marginTop: 20, marginRight: 10 }}>
             <AntDesign name={"shoppingcart"} size={40} color={Colors.RED} />
@@ -74,7 +104,12 @@ function PlanListScreen(props) {
         {/* SIP_sec */}
         <View style={styles.education}>
           <View style={styles.child_sec}>
-            <MyImage width="117" height="117" svg={true} url={goalDetail?.goalImagePath} />
+            <MyImage
+              width="117"
+              height="117"
+              svg={true}
+              url={goalDetail?.goalImagePath}
+            />
           </View>
           <View style={styles.education_sec}>
             <Text style={styles.child}>{goalDetail?.goal}</Text>
@@ -93,7 +128,9 @@ function PlanListScreen(props) {
         <View style={styles.fund_sec}>
           <Text style={styles.investment}>Monthly Investment</Text>
           {/* {planYourGoalsDetails && ( */}
-          <Text style={styles.price}>{`₹${planYourGoalsDetails.toFixed(2)}`}</Text>
+          <Text style={styles.price}>{`₹${planYourGoalsDetails.toFixed(
+            2
+          )}`}</Text>
           {/* )} */}
         </View>
 
@@ -113,8 +150,26 @@ function PlanListScreen(props) {
       <TouchableOpacity
         onPress={() => {
           let sum = 0;
+          console.log("GOAL LIST=", mygolelist);
           for (let item in mygolelist) {
             sum = sum + getSip(mygolelist[item].schemeInfo.sip);
+          }
+
+          let goals = mygolelist.filter((item) => {
+            return parseInt(item.schemeInfo.sip) > 0 ? true : false;
+          });
+          console.log("GOALS=", goals);
+
+          if (goals) {
+            for (let item in goals) {
+              if (
+                parseInt(goals[item].schemeInfo.sip) <
+                parseInt(goals[item].schemeInfo.default_min_amount)
+              ) {
+                alert("Amount is less than minimum ammount");
+                return;
+              }
+            }
           }
 
           /* Don't allow if sum of all investments exceed the amount */
@@ -135,7 +190,10 @@ function PlanListScreen(props) {
                     //sum
                     //);
                     //newInvestment(params, token);
-                    props.navigation.navigate("PlanSubmit", { sum: sum, isLumpsum: props.navigation.state.params.isLumpsum });
+                    props.navigation.navigate("PlanSubmit", {
+                      sum: sum,
+                      isLumpsum: props.navigation.state.params.isLumpsum,
+                    });
                   },
                 },
               ],
@@ -149,7 +207,10 @@ function PlanListScreen(props) {
             //sum
             //);
             //newInvestment(params, token);
-            props.navigation.navigate("PlanSubmit", { sum: sum, isLumpsum: props.navigation.state.params.isLumpsum });
+            props.navigation.navigate("PlanSubmit", {
+              sum: sum,
+              isLumpsum: props.navigation.state.params.isLumpsum,
+            });
           }
         }}
         style={styles.botton_box}
@@ -408,4 +469,8 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     },
   };
 };
-export default connect(mapStateToProps, undefined, mapDispatchToProps)(PlanListScreen);
+export default connect(
+  mapStateToProps,
+  undefined,
+  mapDispatchToProps
+)(PlanListScreen);
