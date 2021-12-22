@@ -1,20 +1,55 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
-import { StyleSheet, Button, View, ImageBackground, TouchableOpacity, Text, Alert, ScrollView, ActivityIndicator } from "react-native";
+import {
+  StyleSheet,
+  Button,
+  View,
+  ImageBackground,
+  TouchableOpacity,
+  Text,
+  Alert,
+  ScrollView,
+  ActivityIndicator,
+} from "react-native";
 import { connect } from "react-redux";
 import { Styles, Config, Colors, FormValidate } from "../../common";
-import { Ionicons, AntDesign, EvilIcons, Entypo, FontAwesome5 } from "react-native-vector-icons";
+import {
+  Ionicons,
+  AntDesign,
+  EvilIcons,
+  Entypo,
+  FontAwesome5,
+} from "react-native-vector-icons";
 import { Image, Header, CheckBox } from "react-native-elements";
 import { MyImage, InvestmentFundType } from "../../components";
 
 function InvestmentListScreens(props) {
   const pageActive = useRef(false);
-  const { phone, investment, newInvestment, token, configs, isFetching, myInvestlist, myInvestments, fundDetails } = props;
+  const {
+    phone,
+    investment,
+    newInvestment,
+    token,
+    configs,
+    isFetching,
+    myInvestlist,
+    myInvestments,
+    fundDetails,
+  } = props;
   const [sumInvestment, setSumInvestment] = useState([]);
 
   const updateInvestments = (data) => {
     setSumInvestment(data);
     myInvestments(data);
   };
+
+  useEffect(() => {
+    // if (myInvestlist) {
+    //   console.log("MY INVEST LIST=", myInvestlist);
+    // }
+    // if (configs) {
+    //   console.log("CONFIGS=", configs);
+    // }
+  }, [myInvestlist, configs]);
 
   const getSip = (value) => {
     if (!isNaN(value)) {
@@ -69,13 +104,21 @@ function InvestmentListScreens(props) {
     <View style={styles.container}>
       <Header
         leftComponent={
-          <TouchableOpacity onPress={() => props.navigation.navigate("InvestmentDetail")} style={{ marginTop: 20 }}>
+          <TouchableOpacity
+            onPress={() => props.navigation.navigate("InvestmentDetail")}
+            style={{ marginTop: 20 }}
+          >
             <AntDesign name={"arrowleft"} size={40} color={Colors.RED} />
           </TouchableOpacity>
         }
         containerStyle={Styles.header}
         backgroundColor={Colors.LIGHT_WHITE}
-        centerComponent={<Image source={require("../../../assets/icon.png")} style={styles.logimg} />}
+        centerComponent={
+          <Image
+            source={require("../../../assets/icon.png")}
+            style={styles.logimg}
+          />
+        }
         rightComponent={
           <View style={{ marginTop: 20, marginRight: 10 }}>
             <AntDesign name={"shoppingcart"} size={40} color={Colors.RED} />
@@ -90,12 +133,21 @@ function InvestmentListScreens(props) {
             <Text style={styles.amount}>My Investment Amount</Text>
           </View>
           <View style={styles.child_sec}>
-            <MyImage width="112" height="118" svg={true} url={investment.planImagePath} />
-            <Text style={styles.sip}>{configs.selectedOption === "SIP" ? "SIP Per Month" : "LumpSum Amount"}</Text>
+            <MyImage
+              width="112"
+              height="118"
+              svg={true}
+              url={investment.planImagePath}
+            />
+            <Text style={styles.sip}>
+              {configs.selectedOption === "SIP"
+                ? "SIP Per Month"
+                : "LumpSum Amount"}
+            </Text>
             <Text style={styles.amount_text}>₹ {configs.invest}</Text>
           </View>
         </View>
-        {console.log("CONFIGS=", configs)}
+        {/* {console.log("CONFIGS=", configs)} */}
         {configs && configs.selectedOption && (
           <InvestmentFundType
             setSum={(value) => {
@@ -112,7 +164,9 @@ function InvestmentListScreens(props) {
           />
         )}
       </ScrollView>
-      <TouchableOpacity onPress={() => props.navigation.navigate("InvestmentSearch")}>
+      <TouchableOpacity
+        onPress={() => props.navigation.navigate("InvestmentSearch")}
+      >
         <Text style={styles.more_funds}>I would like to add more funds</Text>
       </TouchableOpacity>
       <TouchableOpacity
@@ -123,7 +177,33 @@ function InvestmentListScreens(props) {
             sum = sum + getSip(sumInvestment[item].schemes.sip);
           }
 
+          /* Filtering the investments*/
+          // let investments=myInvestlist;
+          // for(let item in investments){
+
+          console.log("MY INVESTMENT LIST=", myInvestlist);
+          let investments = myInvestlist.filter((item) => {
+            console.log("ITEM=", parseInt(item.schemes.sip));
+
+            return parseInt(item.schemes.sip) > 0 ? true : false;
+          });
+          // }?
+
           /* Don't allow if sum of all investments exceed the amount */
+          if (investments) {
+            console.log("INVESTMENTS=", investments);
+            for (let item in investments) {
+              console.log("ITEM INVESTMENT=", item);
+              if (
+                parseInt(investments[item].schemes.sip) <
+                parseInt(investments[item].schemes.default_min_amount)
+              ) {
+                console.log("ALERT");
+                alert("Amount is less than minimum ammount");
+                return;
+              }
+            }
+          }
           if (sum > Number(configs.invest)) {
             Alert.alert(
               "Amount exceeds total",
@@ -141,7 +221,9 @@ function InvestmentListScreens(props) {
                       sum
                     );
                     newInvestment(params, token);
-                    props.navigation.navigate("InvestmentSubmit", { isLumpsum: props.navigation.state.params.isLumpsum });
+                    props.navigation.navigate("InvestmentSubmit", {
+                      isLumpsum: props.navigation.state.params.isLumpsum,
+                    });
                   },
                 },
               ],
@@ -155,7 +237,9 @@ function InvestmentListScreens(props) {
               sum
             );
             newInvestment(params, token);
-            props.navigation.navigate("InvestmentSubmit", { isLumpsum: props.navigation.state.params.isLumpsum });
+            props.navigation.navigate("InvestmentSubmit", {
+              isLumpsum: props.navigation.state.params.isLumpsum,
+            });
           }
         }}
         style={styles.botton_box}
@@ -352,4 +436,8 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     },
   };
 };
-export default connect(mapStateToProps, undefined, mapDispatchToProps)(InvestmentListScreens);
+export default connect(
+  mapStateToProps,
+  undefined,
+  mapDispatchToProps
+)(InvestmentListScreens);

@@ -128,7 +128,7 @@ function OwnerChoice(props) {
   const [selectTab, setSelectTab] = useState("SIP");
   const [states, setStates] = useState({
     amount: "5000",
-    date: "",
+    date: 5,
     productName: "",
     productCode: "",
     amcCode: "",
@@ -225,6 +225,22 @@ function OwnerChoice(props) {
   };
   const toggleTab = (value) => {
     setSelectTab(value);
+  };
+
+  const plusMinus = (type, value) => {
+    if (type === "plus") {
+      let date = parseInt(value) + 1;
+      if (date > 30) {
+        date = 30;
+      }
+      setStates({ ...states, date });
+    } else {
+      let date = parseInt(value) - 1;
+      if (date < 1) {
+        date = 1;
+      }
+      setStates({ ...states, date });
+    }
   };
 
   return (

@@ -155,6 +155,8 @@ export default function InvestmentFundType(props) {
 
   const onChange = async (key, value, name) => {
     let data = JSON.parse(JSON.stringify(newData));
+    // console.log("CHANGE DATA=", data);
+
     data[key].schemes[name] =
       isNaN(value) || value === "" ? "0" : parseInt(value, 10).toString();
     myInvestments(data);

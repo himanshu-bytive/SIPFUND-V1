@@ -131,9 +131,7 @@ function DashboardScreen(props) {
         </View>
 
         <View style={styles.holdings_sec}>
-          <TouchableOpacity
-            onPress={() => props.navigation.navigate("Holdings")}
-          >
+          <TouchableOpacity onPress={() => props.navigation.navigate("Goals")}>
             <View style={styles.Switch_sec}>
               <View style={styles.box}>
                 <Image

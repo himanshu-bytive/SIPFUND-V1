@@ -234,6 +234,13 @@ function CompleteDetailsScreen(props) {
         setErrors({ ...errors, nominate1name: "Please Add Nominate Name" });
         return;
       }
+      if (!FormValidate.validateName(nominate1name)) {
+        setErrors({
+          ...errors,
+          nominate1name: "Please Add Validate Nominate Name",
+        });
+        return;
+      }
       if (!nominate1relation) {
         setErrors({ ...errors, nominate1relation: "Please Select a Value" });
         return;
@@ -248,6 +255,13 @@ function CompleteDetailsScreen(props) {
         setErrors({
           ...errors,
           nominate1guard_name: "Please Add Nominate Guard Name",
+        });
+        return;
+      }
+      if (!FormValidate.validateName(nominate1guard_name)) {
+        setErrors({
+          ...errors,
+          nominate1guard_name: "Please Add Validate Nominate Guard NAME",
         });
         return;
       }
@@ -304,6 +318,15 @@ function CompleteDetailsScreen(props) {
     updateRegister(params, token);
     pageActive.current = true;
   };
+
+  // const validateNomineePan = (pan) => {
+  //   console.log("STATE=", state.nominate1guard_pan);
+  //   console.log("PAN=", pan);
+  //   // let modifiedPan = pan.toUpperCase();
+  //   // console.log("MODIFIED PAN=", modifiedPan);
+  //   setErrors({ ...errors, nominate1guard_pan: null });
+  //   setState({ ...state, nominate1guard_pan: pan });
+  // };
 
   return (
     <KeyboardAvoidingView
@@ -519,6 +542,7 @@ function CompleteDetailsScreen(props) {
             <MyTextInput
               placeholder={"Nominate Name"}
               value={state.nominate1name}
+              maxLength={30}
               error={errors.nominate1name}
               onChangeText={(nominate1name) => {
                 setErrors({ ...errors, nominate1name: null });
@@ -561,6 +585,7 @@ function CompleteDetailsScreen(props) {
               placeholder={"Nominee Guardian Name"}
               value={state.nominate1guard_name}
               error={errors.nominate1guard_name}
+              maxLength={30}
               onChangeText={(nominate1guard_name) => {
                 setErrors({ ...errors, nominate1guard_name: null });
                 setState({ ...state, nominate1guard_name });
@@ -574,6 +599,7 @@ function CompleteDetailsScreen(props) {
               placeholder={"Nominee Guardian PAN"}
               autoCapitalize={"characters"}
               value={state.nominate1guard_pan}
+              maxLength={10}
               error={errors.nominate1guard_pan}
               onChangeText={(nominate1guard_pan) => {
                 setErrors({ ...errors, nominate1guard_pan: null });
