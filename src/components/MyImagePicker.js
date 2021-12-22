@@ -4,7 +4,6 @@ import { Camera } from "expo-camera";
 import SignatureScreen from "react-native-signature-canvas";
 import * as Permissions from "expo-permissions";
 import { Modal, TouchableOpacity, Image, View, Text, StyleSheet, Alert, ToastAndroid } from "react-native";
-import { Tooltip } from "react-native-elements";
 import { connect } from "react-redux";
 import { AntDesign, Entypo, FontAwesome } from "react-native-vector-icons";
 import { Button } from "react-native-paper";
@@ -76,7 +75,7 @@ const MyImagePicker = (props) => {
     // Check Camera Permissions
     useEffect(() => {
         (async () => {
-            const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+            const { status } = await Camera.requestCameraPermissionsAsync();
             if (status !== "granted") {
                 Alert.alert("Sorry, we need camera roll permissions to make this work!");
             }

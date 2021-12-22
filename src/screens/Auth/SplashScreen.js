@@ -4,13 +4,14 @@ import { connect } from "react-redux";
 import { Colors } from "../../common";
 
 function SplashScreen(props) {
-  const { logout, resetData } = props;
+  const { logout, resetData, setToken } = props;
   useEffect(() => {
     logout();
     resetData();
     props.navigation.navigate("verify");
     // props.navigation.navigate("Home");
   }, []);
+
 
   return (
     <View style={styles.container}>

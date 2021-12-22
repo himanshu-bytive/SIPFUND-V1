@@ -33,12 +33,15 @@
       },
       "package": "com.sipfund.app",
       "permissions": [
-        "android.permission.CAMERA",
-        "android.permission.READ_EXTERNAL_STORAGE",
-        "android.permission.WRITE_EXTERNAL_STORAGE",
-        "android.permission.RECORD_AUDIO",
-        "android.permission.READ_PHONE_NUMBERS",
-        "android.permission.READ_PHONE_STATE"
+        "LOCATION",
+        "CAMERA",
+        "CAMERA_ROLL",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE",
+        "RECORD_AUDIO",
+        "READ_PHONE_NUMBERS",
+        "READ_PHONE_STATE",
+        "NOTIFICATIONS"
       ]
     },
     "web": {
@@ -55,8 +58,7 @@
             
           ]
         }
-      ],
-      "expo-cellular"
+      ]
     ]
   }
 }
