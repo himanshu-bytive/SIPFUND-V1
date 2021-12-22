@@ -89,7 +89,7 @@ function HomeScreen(props) {
                     },
                   ]}
                 >
-                  Hello, Investor
+                  {users?.IIN && steps > 3 ? "Congratulations" : "Hello, Investor"}
                 </Text>
                 <Text
                   style={[
@@ -100,12 +100,12 @@ function HomeScreen(props) {
                     },
                   ]}
                 >
-                  You’re almost ready to invest
+                  {users?.IIN && steps > 3 ? "Your Account is Active" : "You're almost ready to submit"}
                 </Text>
               </View>
               {users?.IIN && steps > 3 ? (
                 <Text onPress={() => props.navigation.navigate("Goals")} style={styles.startInvestmentText}>
-                  Start investment
+                  + Start Investing
                 </Text>
               ) : (
                 <TouchableOpacity onPress={() => props.navigation.navigate(steps === 3 ? "RegisterDetails" : "UploadDocument")} style={styles.botton_box}>
@@ -483,9 +483,11 @@ const styles = StyleSheet.create({
   },
   home_top_completed: {
     flexDirection: "row",
+    margin: 10,
   },
   startInvestmentText: {
-    color: "red",
+    color: Colors.LIGHT_RED,
+    fontWeight: "bold",
     fontSize: 16,
   },
   logimg: {
