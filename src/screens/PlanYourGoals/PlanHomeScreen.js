@@ -1,14 +1,40 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
-import { StyleSheet, Button, View, ImageBackground, TouchableOpacity, ScrollView, Text, Dimensions, KeyboardAvoidingView, TextInput, ActivityIndicator } from "react-native";
+import {
+  StyleSheet,
+  Button,
+  View,
+  ImageBackground,
+  TouchableOpacity,
+  ScrollView,
+  Text,
+  Dimensions,
+  KeyboardAvoidingView,
+  TextInput,
+  ActivityIndicator,
+} from "react-native";
 import { connect } from "react-redux";
 import { Styles, Config, Colors, FormValidate, Utility } from "../../common";
 import { MySlider, GoalFundType, MyImage } from "../../components";
-import { Ionicons, AntDesign, Entypo, FontAwesome5 } from "react-native-vector-icons";
+import {
+  Ionicons,
+  AntDesign,
+  Entypo,
+  FontAwesome5,
+} from "react-native-vector-icons";
 import { Image, Header } from "react-native-elements";
 
 function PlanHomeScreen(props) {
   const pageActive = useRef(false);
-  const { token, goalDetail, mygolelist, isFetching, golesConfig, myGoles, fundDetails, setPlanYourGoalDetails } = props;
+  const {
+    token,
+    goalDetail,
+    mygolelist,
+    isFetching,
+    golesConfig,
+    myGoles,
+    fundDetails,
+    setPlanYourGoalDetails,
+  } = props;
 
   const [additionalInfo, setAdditionalInfo] = useState({});
   const [amount, setAmount] = useState(1000);
@@ -49,9 +75,11 @@ function PlanHomeScreen(props) {
     } else {
       setInflationAdjusted(requiredCorp.toFixed(2));
     }
-    const constant2 = requiredCorp - investment * Math.pow(1 + returnRate / 100, time);
+    const constant2 =
+      requiredCorp - investment * Math.pow(1 + returnRate / 100, time);
     const rate1 = returnRate / 1200;
-    const sipAmount1 = constant2 * ((1 - (1 + rate1)) / (1 - Math.pow(1 + rate1, time * 12)));
+    const sipAmount1 =
+      constant2 * ((1 - (1 + rate1)) / (1 - Math.pow(1 + rate1, time * 12)));
     if (sipAmount1 <= 0 || !isFinite(sipAmount1)) {
       setSipAmount(0);
       setRequiredInvestment(0);
@@ -78,20 +106,30 @@ function PlanHomeScreen(props) {
       value = Number(lumpsumAmount);
     }
     setPlanYourGoalDetails(value);
-    props.navigation.navigate("PlanList", { isLumpsum: selectTab === "LUMPSUM" ? true : false });
+    props.navigation.navigate("PlanList", {
+      isLumpsum: selectTab === "LUMPSUM" ? true : false,
+    });
   };
 
   return (
     <View style={styles.container}>
       <Header
         leftComponent={
-          <TouchableOpacity onPress={() => props.navigation.navigate("Home")} style={{ marginTop: 20 }}>
+          <TouchableOpacity
+            onPress={() => props.navigation.navigate("Home")}
+            style={{ marginTop: 20 }}
+          >
             <AntDesign name={"arrowleft"} size={40} color={Colors.RED} />
           </TouchableOpacity>
         }
         containerStyle={Styles.header}
         backgroundColor={Colors.LIGHT_WHITE}
-        centerComponent={<Image source={require("../../../assets/icon.png")} style={Styles.headerImg} />}
+        centerComponent={
+          <Image
+            source={require("../../../assets/icon.png")}
+            style={Styles.headerImg}
+          />
+        }
         rightComponent={
           <View style={{ marginTop: 20, marginRight: 10 }}>
             <AntDesign name={"shoppingcart"} size={40} color={Colors.RED} />
@@ -108,7 +146,12 @@ function PlanHomeScreen(props) {
 
         <View style={styles.education}>
           <View style={styles.child_sec}>
-            <MyImage width="117" height="117" svg={true} url={goalDetail?.goalImagePath} />
+            <MyImage
+              width="117"
+              height="117"
+              svg={true}
+              url={goalDetail?.goalImagePath}
+            />
           </View>
           <View style={styles.education_sec}>
             <Text style={styles.child}>{goalDetail?.goal}</Text>
@@ -120,20 +163,46 @@ function PlanHomeScreen(props) {
           <Text style={styles.child2}>{additionalInfo?.currentcostlabel}</Text>
           <Text style={styles.childtext}>₹{amount}</Text>
         </View>
-        <View style={{ marginHorizontal: 20 }}>{additionalInfo.current_cost_amt_req_max && <MySlider value={Number(amount)} change={(amount) => setAmount(amount.toFixed(0))} min={Number(additionalInfo.current_investment_min)} max={Number(additionalInfo.current_investment_max)} steps={100} />}</View>
+        <View style={{ marginHorizontal: 20 }}>
+          {additionalInfo.current_cost_amt_req_max && (
+            <MySlider
+              value={Number(amount)}
+              change={(amount) => setAmount(amount.toFixed(0))}
+              min={Number(additionalInfo.current_investment_min)}
+              max={Number(additionalInfo.current_investment_max)}
+              steps={100}
+            />
+          )}
+        </View>
 
         <View style={[styles.vijay_sec, styles.vijay]}>
           <Text style={styles.child2}>{additionalInfo?.timelabel}</Text>
           <Text style={styles.childtext}>{time}Y</Text>
         </View>
-        <View style={{ marginHorizontal: 20 }}>{additionalInfo.time_when_req_min && <MySlider value={Number(time)} change={(time) => setTime(time.toFixed(0))} min={Number(additionalInfo.time_when_req_min)} max={Number(additionalInfo.time_when_req_max)} steps={1} />}</View>
+        <View style={{ marginHorizontal: 20 }}>
+          {additionalInfo.time_when_req_min && (
+            <MySlider
+              value={Number(time)}
+              change={(time) => setTime(time.toFixed(0))}
+              min={Number(additionalInfo.time_when_req_min)}
+              max={Number(additionalInfo.time_when_req_max)}
+              steps={1}
+            />
+          )}
+        </View>
 
         <View style={[styles.vijay_sec, styles.vijay]}>
           <Text style={styles.child2}>{additionalInfo?.inflationlabel}</Text>
           <Text style={styles.childtext}>{inflation}%</Text>
         </View>
         <View style={{ marginHorizontal: 20 }}>
-          <MySlider value={Number(inflation)} change={(amount) => setInflation(amount.toFixed(2))} min={1} max={100} steps={0.1} />
+          <MySlider
+            value={Number(inflation)}
+            change={(amount) => setInflation(amount.toFixed(2))}
+            min={1}
+            max={100}
+            steps={0.1}
+          />
         </View>
 
         <View style={[styles.vijay_sec, styles.vijay]}>
@@ -141,31 +210,74 @@ function PlanHomeScreen(props) {
           <Text style={styles.childtext}>{returnRate}%</Text>
         </View>
         <View style={{ marginHorizontal: 20 }}>
-          <MySlider value={Number(returnRate)} change={(amount) => setReturnRate(amount.toFixed(2))} min={0.1} max={100} steps={0.1} />
+          <MySlider
+            value={Number(returnRate)}
+            change={(amount) => setReturnRate(amount.toFixed(2))}
+            min={0.1}
+            max={100}
+            steps={0.1}
+          />
         </View>
 
         <View style={[styles.vijay_sec, styles.vijay]}>
-          <Text style={styles.child2}>{additionalInfo?.currentinvestlable}</Text>
+          <Text style={styles.child2}>
+            {additionalInfo?.currentinvestlable}
+          </Text>
           <Text style={styles.childtext}>₹{investment}</Text>
         </View>
-        <View style={{ marginHorizontal: 20 }}>{additionalInfo.current_investment_max && <MySlider value={Number(investment)} change={(investment) => setInvestment(investment.toFixed(0))} min={Number(additionalInfo.current_investment_min)} max={Number(additionalInfo.current_investment_max)} steps={100} />}</View>
+        <View style={{ marginHorizontal: 20 }}>
+          {additionalInfo.current_investment_max && (
+            <MySlider
+              value={Number(investment)}
+              change={(investment) => setInvestment(investment.toFixed(0))}
+              min={Number(additionalInfo.current_investment_min)}
+              max={Number(additionalInfo.current_investment_max)}
+              steps={100}
+            />
+          )}
+        </View>
 
         <Text style={styles.note}>
-          Note : Assuming current inflation rate at {inflation}% and expected return rate on saving as {returnRate}%.
+          Note : Assuming current inflation rate at {inflation}% and expected
+          return rate on saving as {returnRate}%.
         </Text>
 
         <View style={styles.click_sec}>
-          <TouchableOpacity onPress={() => toggleTab("SIP")} style={selectTab == "SIP" ? styles.buttom_botton2 : styles.buttom_botton}>
-            <Text style={selectTab == "SIP" ? styles.sip_text2 : styles.sip_text}>SIP</Text>
+          <TouchableOpacity
+            onPress={() => toggleTab("SIP")}
+            style={
+              selectTab == "SIP" ? styles.buttom_botton2 : styles.buttom_botton
+            }
+          >
+            <Text
+              style={selectTab == "SIP" ? styles.sip_text2 : styles.sip_text}
+            >
+              SIP
+            </Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => toggleTab("LUMPSUM")} style={selectTab == "LUMPSUM" ? styles.buttom_botton2 : styles.buttom_botton}>
-            <Text style={selectTab == "LUMPSUM" ? styles.sip_text2 : styles.sip_text}>Lumpsum</Text>
+          <TouchableOpacity
+            onPress={() => toggleTab("LUMPSUM")}
+            style={
+              selectTab == "LUMPSUM"
+                ? styles.buttom_botton2
+                : styles.buttom_botton
+            }
+          >
+            <Text
+              style={
+                selectTab == "LUMPSUM" ? styles.sip_text2 : styles.sip_text
+              }
+            >
+              Lumpsum
+            </Text>
           </TouchableOpacity>
         </View>
 
         {/* image_sec end */}
         <View style={{ marginHorizontal: 20 }}>
-          <View style={{ borderWidth: 2, borderColor: Colors.GRAY_LIGHT }}></View>
+          <View
+            style={{ borderWidth: 2, borderColor: Colors.GRAY_LIGHT }}
+          ></View>
         </View>
 
         {/* SIP */}
@@ -173,7 +285,11 @@ function PlanHomeScreen(props) {
           <View>
             <View style={styles.calender}>
               <View style={styles.date}>
-                <FontAwesome5 name={"calendar-alt"} size={30} color={Colors.RED} />
+                <FontAwesome5
+                  name={"calendar-alt"}
+                  size={30}
+                  color={Colors.RED}
+                />
                 <Text style={styles.datered}>2028</Text>
               </View>
               <View
@@ -183,9 +299,13 @@ function PlanHomeScreen(props) {
                   borderColor: Colors.GRAY_LIGHT,
                 }}
               ></View>
-              <Text style={styles.datered}>₹{Number(requiredInvestment).toFixed(2)}</Text>
+              <Text style={styles.datered}>
+                ₹{Number(requiredInvestment).toFixed(2)}
+              </Text>
             </View>
-            <Text style={styles.requird}>Required amount to achieve your GOAL</Text>
+            <Text style={styles.requird}>
+              Required amount to achieve your GOAL
+            </Text>
             <View
               style={{
                 borderWidth: 1,
@@ -194,10 +314,15 @@ function PlanHomeScreen(props) {
                 borderColor: Colors.GRAY_LIGHT,
               }}
             ></View>
-            <Text style={styles.rupeestext}>₹{Number(sipAmount).toFixed(2)}</Text>
+            <Text style={styles.rupeestext}>
+              ₹{Number(sipAmount).toFixed(2)}
+            </Text>
             <Text style={styles.requird}>Monthly SIP required</Text>
             <View style={styles.want}>
-              <Text style={styles.want_text}>I want to know total monthly amount to be invested to achieve my goal</Text>
+              <Text style={styles.want_text}>
+                I want to know total monthly amount to be invested to achieve my
+                goal
+              </Text>
             </View>
           </View>
         )}
@@ -207,7 +332,11 @@ function PlanHomeScreen(props) {
           <View>
             <View style={styles.calender}>
               <View style={styles.date}>
-                <FontAwesome5 name={"calendar-alt"} size={30} color={Colors.RED} />
+                <FontAwesome5
+                  name={"calendar-alt"}
+                  size={30}
+                  color={Colors.RED}
+                />
                 <Text style={styles.datered}>2028</Text>
               </View>
               <View
@@ -217,10 +346,14 @@ function PlanHomeScreen(props) {
                   borderColor: Colors.GRAY_LIGHT,
                 }}
               ></View>
-              <Text style={styles.datered}>₹{Number(requiredInvestment).toFixed(2)}</Text>
+              <Text style={styles.datered}>
+                ₹{Number(requiredInvestment).toFixed(2)}
+              </Text>
             </View>
 
-            <Text style={styles.requird}>Required amount to achieve your GOAL</Text>
+            <Text style={styles.requird}>
+              Required amount to achieve your GOAL
+            </Text>
             <View
               style={{
                 borderWidth: 1,
@@ -229,7 +362,9 @@ function PlanHomeScreen(props) {
                 borderColor: Colors.GRAY_LIGHT,
               }}
             ></View>
-            <Text style={styles.rupeestext}>₹{Number(lumpsumAmount).toFixed(2)}</Text>
+            <Text style={styles.rupeestext}>
+              ₹{Number(lumpsumAmount).toFixed(2)}
+            </Text>
             <Text style={styles.requird}>Lumpsum Amount</Text>
           </View>
         )}
@@ -390,6 +525,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "bold",
     color: Colors.DEEP_GRAY,
+    maxWidth: "80%",
   },
   childtext: {
     position: "absolute",
@@ -540,4 +676,8 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     },
   };
 };
-export default connect(mapStateToProps, undefined, mapDispatchToProps)(PlanHomeScreen);
+export default connect(
+  mapStateToProps,
+  undefined,
+  mapDispatchToProps
+)(PlanHomeScreen);
