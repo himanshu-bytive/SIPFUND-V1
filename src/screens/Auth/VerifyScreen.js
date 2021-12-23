@@ -11,21 +11,20 @@ import {
   Platform,
   TouchableOpacity,
   ActivityIndicator,
+  BackHandler,
 } from "react-native";
 import { connect } from "react-redux";
 import { Colors, FormValidate } from "../../common";
-import PushNotification from "./PushNotification";
 import * as Location from "expo-location";
-import * as Permissions from "expo-permissions";
+import * as Notifications from 'expo-notifications';
 import { MaterialIcons } from "react-native-vector-icons";
 const width = Dimensions.get("window").width;
 
 function VerifyScreen(props) {
   const pageActive = useRef(false);
   const phoneInput = useRef(null);
-  const [locationServiceEnabled, setLocationServiceEnabled] = useState(false);
   const [displayCurrentAddress, setDisplayCurrentAddress] = useState([]);
-  const { verify, isFetching, signUpSteps, phones } = props;
+  const { verify, isFetching, signUpSteps, phones, setToken } = props;
   useEffect(() => {
     if (signUpSteps == 0 && pageActive.current) {
       pageActive.current = false;
@@ -46,34 +45,47 @@ function VerifyScreen(props) {
   }, [signUpSteps]);
 
   useEffect(() => {
-    CheckIfLocationEnabled();
+    checkAllPermissions()
     GetCurrentLocation();
   }, []);
 
-  const CheckIfLocationEnabled = async () => {
-    const { status } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status !== "granted") {
-      Alert.alert(
-        "Location Service not enabled",
-        "Please enable your location services to continue",
-        [{ text: "OK" }],
-        { cancelable: false }
-      );
-    } else {
-      setLocationServiceEnabled(status);
+  async function checkAllPermissions() {
+    let status;
+
+    status = await Notifications.getPermissionsAsync();
+    let statusNotifications = status.status;
+    console.log("Notifications Permissions: ", statusNotifications);
+
+    status = await Location.getForegroundPermissionsAsync()
+    let statusLocation = status.status;
+    console.log("Location Permissions: ", statusLocation);
+
+    if (statusNotifications !== "granted") {
+      console.log("Requesting Notification Permissions");
+      status = await Notifications.requestPermissionsAsync();
+      statusNotifications = status.status;
     }
-  };
+
+    // hasServicesEnabledAsync
+    if (statusLocation !== "granted") {
+      console.log("Requesting Location Permissions");
+      status = await Location.requestForegroundPermissionsAsync()
+      statusLocation = status.status;
+    }
+
+
+    if (statusNotifications !== "granted" || statusLocation !== "granted") {
+      console.log("Permissions not granted");
+      return;
+    }
+
+    let token = (await Notifications.getExpoPushTokenAsync()).data;
+    // alert(token)
+    setToken(token)
+
+  }
 
   const GetCurrentLocation = async () => {
-    let { status } = await Location.requestForegroundPermissionsAsync();
-    if (status !== "granted") {
-      Alert.alert(
-        "Permission not granted",
-        "Allow the app to use location service.",
-        [{ text: "OK" }],
-        { cancelable: false }
-      );
-    }
     let { coords } = await Location.getCurrentPositionAsync();
     if (coords) {
       const { latitude, longitude } = coords;
@@ -104,6 +116,11 @@ function VerifyScreen(props) {
 
   const onAction = async (ph) => {
     let phone = ph ? ph : state.phone;
+    if (phone === "") {
+      phoneInput.current.focus();
+      setError({ ...errors, phone: "Please enter phone number" });
+      return;
+    }
     if (FormValidate.isPhone(phone)) {
       pageActive.current = true;
       let params = {
@@ -120,16 +137,34 @@ function VerifyScreen(props) {
       setState({ ...state, phone: "" });
     } else {
       phoneInput.current.focus();
-      setError({ ...errors, phone: "Please enter phone number" });
+      setError({ ...errors, phone: "Please check your mobile number" });
     }
   };
+
+  const backAction = () => {
+    Alert.alert("Hold on!", "Are you sure you want to go back?", [
+      {
+        text: "Cancel",
+        onPress: () => null,
+        style: "cancel",
+      },
+      { text: "YES", onPress: () => BackHandler.exitApp() },
+    ]);
+    return true;
+  };
+
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
+  }, []);
 
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}
     >
-      <PushNotification />
       <View>
         <Text style={styles.slogan}>
           Achieve Your <Text style={styles.sloganRed}>Dreams</Text>
@@ -170,6 +205,7 @@ function VerifyScreen(props) {
             style={styles.inputsec}
             placeholder={"Phone"}
             keyboardType="numeric"
+            maxLength={10}
             onChangeText={(phone) => {
               setError({ ...errors, phone: null });
               setState({ ...state, phone });
@@ -308,12 +344,14 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
   const { dispatch } = dispatchProps;
   const { AuthActions } = require("../../store/AuthRedux");
+  const { PushNotificationActions } = require("../../store/PushNotificationRedux");
+
   return {
     ...stateProps,
     ...ownProps,
-    verify: (params) => {
-      AuthActions.verify(dispatch, params);
-    },
+    verify: (params) => {AuthActions.verify(dispatch, params)},
+    setToken: (token) => dispatch(PushNotificationActions.setToken(token)),
+
   };
 };
 export default connect(

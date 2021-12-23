@@ -17,7 +17,7 @@ const ProfileImagePicker = (props) => {
     // Check Camera Permissions
     useEffect(() => {
         (async () => {
-            const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+            const { status } = await Camera.requestCameraPermissionsAsync();
             if (status !== 'granted') {
                 Alert.alert('Sorry, we need camera roll permissions to make this work!');
             }

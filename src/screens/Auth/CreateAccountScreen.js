@@ -7,34 +7,19 @@ import { Ionicons, AntDesign } from "react-native-vector-icons";
 import { Image, Header, CheckBox, colors } from "react-native-elements";
 
 function CreateAccountScreen(props) {
-    const { creatAccount, isFetching, error, signUpSteps, phone, login, getUserDetails, token, user } = props;
+    const { creatAccount, isFetching, error, signUpSteps, phone, login, getUserDetails, token, user, appToken } = props;
     const pageActive = useRef(false);
     const emailInput = useRef(null);
     const passwordInput = useRef(null);
     const referenceCodeInput = useRef(null);
-    const [locationServiceEnabled, setLocationServiceEnabled] = useState(false);
     const [displayCurrentAddress, setDisplayCurrentAddress] = useState([]);
     const [referral, setReferral] = useState(false);
 
     useEffect(() => {
-        CheckIfLocationEnabled();
         GetCurrentLocation();
     }, []);
 
-    const CheckIfLocationEnabled = async () => {
-        let enabled = await Location.hasServicesEnabledAsync();
-        if (!enabled) {
-            Alert.alert("Location Service not enabled", "Please enable your location services to continue", [{ text: "OK" }], { cancelable: false });
-        } else {
-            setLocationServiceEnabled(enabled);
-        }
-    };
-
     const GetCurrentLocation = async () => {
-        let { status } = await Location.requestForegroundPermissionsAsync();
-        if (status !== "granted") {
-            Alert.alert("Permission not granted", "Allow the app to use location service.", [{ text: "OK" }], { cancelable: false });
-        }
         let { coords } = await Location.getCurrentPositionAsync();
         if (coords) {
             const { latitude, longitude } = coords;
@@ -64,7 +49,7 @@ function CreateAccountScreen(props) {
                 "password": state.password,
                 "grant_type": "password",
                 "scope": "user",
-                "deviceToken": ""
+                "deviceToken": appToken
             }
             login(params, Config.loginToken);
             setState({ ...state, email: "", password: "", referenceCode: "", term: false });
@@ -118,7 +103,7 @@ function CreateAccountScreen(props) {
         }
         pageActive.current = true;
         let params = {
-            deviceToken: "",
+            deviceToken: appToken,
             email: state.email,
             minorFlag: false,
             mobileNo: String(phone),
@@ -325,6 +310,7 @@ const mapStateToProps = (state) => ({
     phone: state.auth.phone,
     token: state.auth.token,
     user: state.auth.user,
+    appToken: state.notification.token,
 });
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {

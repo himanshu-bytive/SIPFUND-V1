@@ -27,15 +27,13 @@ function LoginScreen(props) {
     phone,
     profile,
     userDetails,
+    appToken,
   } = props;
 
   useEffect(() => {
     if (token && pageActive.current) {
       pageActive.current = false;
       getUserDetails({}, token);
-    }
-    if (userDetails) {
-      console.log("USER=", userDetails);
     }
     if (user) {
       if (user.pan) {
@@ -66,7 +64,7 @@ function LoginScreen(props) {
       password: state.password,
       grant_type: "password",
       scope: "user",
-      deviceToken: "",
+      deviceToken: appToken,
     };
     login(params, Config.loginToken);
     setState({ ...state, password: "", term: false });
@@ -244,6 +242,7 @@ const mapStateToProps = (state) => ({
   token: state.auth.token,
   profile: state.auth.profile,
   userDetails: state.registration.userDetails,
+  appToken: state.notification.token,
 });
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
