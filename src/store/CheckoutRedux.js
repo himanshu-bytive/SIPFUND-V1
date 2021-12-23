@@ -17,6 +17,8 @@ export const CheckoutActions = {
         dispatch({ type: types.FETCH_CHECKOUT_BUTTON_SUCCESS, citys: citys.Data.city_master });
         Linking.openURL(citys?.Data[0].Paymentlink.split(">")[1].split("<")[0]);
       }
+    } else {
+      alert(citys.message);
     }
   },
 

@@ -21,7 +21,7 @@ const width = Dimensions.get('window').width;
 
 function OtpScreen(props) {
     const pageActive = useRef(false);
-    const { otp, resendOtp, phone, isFetching, signUpSteps } = props;
+    const { otp, resendOtp, phone, isFetching, signUpSteps, appToken } = props;
     const [locationServiceEnabled, setLocationServiceEnabled] = useState(false);
     const [displayCurrentAddress, setDisplayCurrentAddress] = useState([]);
 
@@ -40,7 +40,6 @@ function OtpScreen(props) {
 
 
     useEffect(() => {
-        CheckIfLocationEnabled();
         GetCurrentLocation();
     }, []);
 
@@ -51,30 +50,8 @@ function OtpScreen(props) {
         }
     }, [signUpSteps]);
 
-    const CheckIfLocationEnabled = async () => {
-        let enabled = await Location.hasServicesEnabledAsync();
-        if (!enabled) {
-            Alert.alert(
-                'Location Service not enabled',
-                'Please enable your location services to continue',
-                [{ text: 'OK' }],
-                { cancelable: false }
-            );
-        } else {
-            setLocationServiceEnabled(enabled);
-        }
-    };
 
     const GetCurrentLocation = async () => {
-        let { status } = await Location.requestForegroundPermissionsAsync();
-        if (status !== 'granted') {
-            Alert.alert(
-                'Permission not granted',
-                'Allow the app to use location service.',
-                [{ text: 'OK' }],
-                { cancelable: false }
-            );
-        }
         let { coords } = await Location.getCurrentPositionAsync();
         if (coords) {
             const { latitude, longitude } = coords;
@@ -100,7 +77,7 @@ function OtpScreen(props) {
     const onAction = async (text) => {
         if (text.length === 4) {
             let params = {
-                "deviceToken": "",
+                "deviceToken": appToken,
                 "minorFlag": false,
                 "mobileNo": phone,
                 "otp": text,
@@ -232,6 +209,7 @@ const mapStateToProps = (state) => ({
     isFetching: state.auth.isFetching,
     phone: state.auth.phone,
     signUpSteps: state.auth.signUpSteps,
+    appToken: state.notification.token,
 })
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {

@@ -42,11 +42,6 @@ function PlanHomeScreen(props) {
     }
   }, [goalDetail]);
 
-  //useEffect(() => {
-  //let data = Utility.calculatorformula(params);
-  //golesConfig(data);
-  //}, []);
-
   useEffect(() => {
     const requiredCorp = amount * Math.pow(1 + inflation / 100, time);
     if (requiredCorp <= 0 || !isFinite(requiredCorp)) {
@@ -122,19 +117,19 @@ function PlanHomeScreen(props) {
         </View>
 
         <View style={[styles.vijay_sec, styles.vijay]}>
-          <Text style={styles.child2}>Amount of down payment required</Text>
+          <Text style={styles.child2}>{additionalInfo?.currentcostlabel}</Text>
           <Text style={styles.childtext}>₹{amount}</Text>
         </View>
         <View style={{ marginHorizontal: 20 }}>{additionalInfo.current_cost_amt_req_max && <MySlider value={Number(amount)} change={(amount) => setAmount(amount.toFixed(0))} min={Number(additionalInfo.current_investment_min)} max={Number(additionalInfo.current_investment_max)} steps={100} />}</View>
 
         <View style={[styles.vijay_sec, styles.vijay]}>
-          <Text style={styles.child2}>Time when this is required (years)</Text>
+          <Text style={styles.child2}>{additionalInfo?.timelabel}</Text>
           <Text style={styles.childtext}>{time}Y</Text>
         </View>
         <View style={{ marginHorizontal: 20 }}>{additionalInfo.time_when_req_min && <MySlider value={Number(time)} change={(time) => setTime(time.toFixed(0))} min={Number(additionalInfo.time_when_req_min)} max={Number(additionalInfo.time_when_req_max)} steps={1} />}</View>
 
         <View style={[styles.vijay_sec, styles.vijay]}>
-          <Text style={styles.child2}>Expected inflation rate %</Text>
+          <Text style={styles.child2}>{additionalInfo?.inflationlabel}</Text>
           <Text style={styles.childtext}>{inflation}%</Text>
         </View>
         <View style={{ marginHorizontal: 20 }}>
@@ -142,7 +137,7 @@ function PlanHomeScreen(props) {
         </View>
 
         <View style={[styles.vijay_sec, styles.vijay]}>
-          <Text style={styles.child2}>Expected Rate of Return on Saving %</Text>
+          <Text style={styles.child2}>{additionalInfo?.returnratelabel}</Text>
           <Text style={styles.childtext}>{returnRate}%</Text>
         </View>
         <View style={{ marginHorizontal: 20 }}>
@@ -150,7 +145,7 @@ function PlanHomeScreen(props) {
         </View>
 
         <View style={[styles.vijay_sec, styles.vijay]}>
-          <Text style={styles.child2}>Current Investment set aside (if any)</Text>
+          <Text style={styles.child2}>{additionalInfo?.currentinvestlable}</Text>
           <Text style={styles.childtext}>₹{investment}</Text>
         </View>
         <View style={{ marginHorizontal: 20 }}>{additionalInfo.current_investment_max && <MySlider value={Number(investment)} change={(investment) => setInvestment(investment.toFixed(0))} min={Number(additionalInfo.current_investment_min)} max={Number(additionalInfo.current_investment_max)} steps={100} />}</View>

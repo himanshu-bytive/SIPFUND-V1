@@ -1,5 +1,6 @@
 import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
+import { connect } from "react-redux";
 import React, { useState, useEffect, useRef } from 'react';
 import { Text, View, Button, Platform } from 'react-native';
 
@@ -11,7 +12,7 @@ Notifications.setNotificationHandler({
     }),
 });
 
-export default function PushNotification() {
+function PushNotification() {
     const [expoPushToken, setExpoPushToken] = useState('');
     const [notification, setNotification] = useState(false);
     const notificationListener = useRef();
@@ -33,27 +34,7 @@ export default function PushNotification() {
         };
     }, []);
 
-    return (
-        <View
-            style={{
-                flex: 1,
-                alignItems: 'center',
-                justifyContent: 'space-around',
-            }}>
-            <Text>Your expo push token: {expoPushToken}</Text>
-            <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                <Text>Title: {notification && notification.request.content.title} </Text>
-                <Text>Body: {notification && notification.request.content.body}</Text>
-                <Text>Data: {notification && JSON.stringify(notification.request.content.data)}</Text>
-            </View>
-            <Button
-                title="Press to schedule a notification"
-                onPress={async () => {
-                    await schedulePushNotification();
-                }}
-            />
-        </View>
-    );
+    return null
 }
 
 async function schedulePushNotification() {
@@ -81,7 +62,6 @@ async function registerForPushNotificationsAsync() {
             return;
         }
         token = (await Notifications.getExpoPushTokenAsync()).data;
-        console.log(token);
     } else {
         alert('Must use physical device for Push Notifications');
     }
@@ -97,3 +77,19 @@ async function registerForPushNotificationsAsync() {
 
     return token;
 }
+
+
+const mapStateToProps = (state) => ({
+    token: state.auth.token,
+});
+
+const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
+    const { dispatch } = dispatchProps;
+    const { HomeActions } = require("../../store/HomeRedux");
+    return {
+        ...stateProps,
+        ...ownProps,
+        resetData: () => dispatch(HomeActions.resetData()),
+    };
+};
+export default connect(mapStateToProps, undefined, mapDispatchToProps)(PushNotification);
