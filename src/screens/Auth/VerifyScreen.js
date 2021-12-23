@@ -11,6 +11,7 @@ import {
   Platform,
   TouchableOpacity,
   ActivityIndicator,
+  BackHandler,
 } from "react-native";
 import { connect } from "react-redux";
 import { Colors, FormValidate } from "../../common";
@@ -104,6 +105,11 @@ function VerifyScreen(props) {
 
   const onAction = async (ph) => {
     let phone = ph ? ph : state.phone;
+    if (phone === "") {
+      phoneInput.current.focus();
+      setError({ ...errors, phone: "Please enter phone number" });
+      return;
+    }
     if (FormValidate.isPhone(phone)) {
       pageActive.current = true;
       let params = {
@@ -120,9 +126,28 @@ function VerifyScreen(props) {
       setState({ ...state, phone: "" });
     } else {
       phoneInput.current.focus();
-      setError({ ...errors, phone: "Please enter phone number" });
+      setError({ ...errors, phone: "Please check your mobile number" });
     }
   };
+
+  const backAction = () => {
+    Alert.alert("Hold on!", "Are you sure you want to go back?", [
+      {
+        text: "Cancel",
+        onPress: () => null,
+        style: "cancel",
+      },
+      { text: "YES", onPress: () => BackHandler.exitApp() },
+    ]);
+    return true;
+  };
+
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
+  }, []);
 
   return (
     <KeyboardAvoidingView
@@ -170,6 +195,7 @@ function VerifyScreen(props) {
             style={styles.inputsec}
             placeholder={"Phone"}
             keyboardType="numeric"
+            maxLength={10}
             onChangeText={(phone) => {
               setError({ ...errors, phone: null });
               setState({ ...state, phone });
