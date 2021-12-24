@@ -200,8 +200,8 @@ function PlanHomeScreen(props) {
             value={Number(inflation)}
             change={(amount) => setInflation(amount.toFixed(2))}
             min={1}
-            max={100}
-            steps={0.1}
+            max={20}
+            steps={0.05}
           />
         </View>
 
@@ -213,9 +213,9 @@ function PlanHomeScreen(props) {
           <MySlider
             value={Number(returnRate)}
             change={(amount) => setReturnRate(amount.toFixed(2))}
-            min={0.1}
-            max={100}
-            steps={0.1}
+            min={1}
+            max={20}
+            steps={0.5}
           />
         </View>
 
