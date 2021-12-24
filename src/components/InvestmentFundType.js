@@ -90,7 +90,7 @@ const randerData = (
               <View style={styles.selectfolio_sec}>
                 <View style={styles.select}>
                   <Text style={styles.no}>Min Investment</Text>
-                  <Text>{item?.investment ? item?.investment : "1000"}</Text>
+                  <Text>₹{item?.investment ? item?.investment : "1000"}</Text>
                 </View>
                 {selectedOption && selectedOption === "SIP" && (
                   <View style={styles.select}>
@@ -127,12 +127,15 @@ const randerData = (
                   <Text style={styles.no}>
                     {selectedOption === "SIP" ? "SIP Amount" : "Amount"}
                   </Text>
-                  <TextInput
-                    style={styles.new}
-                    placeholder={"sip"}
-                    onChangeText={(value) => onChange(k, value, "sip")}
-                    value={item?.sip ? item?.sip : "0"}
-                  />
+                  <View style={{ flexDirection: "row", alignItems: "center" }}>
+                    <Text style={styles.new}>₹</Text>
+                    <TextInput
+                      style={styles.new}
+                      placeholder={"sip"}
+                      onChangeText={(value) => onChange(k, value, "sip")}
+                      value={item?.sip ? item?.sip : "0"}
+                    />
+                  </View>
                 </View>
               </View>
             </View>
@@ -245,7 +248,6 @@ const styles = StyleSheet.create({
   },
   new: {
     fontSize: 18,
-    paddingRight: 5,
   },
   circle: {
     height: 35,
