@@ -52,7 +52,7 @@ function AddInvestmentScreens(props) {
         amount * Math.pow(1 + expectedReturnPercentage / 100, noOfYears);
     }
 
-    const formattedMaturityAmount = currencyFormat(maturityAmount.toFixed(4));
+    const formattedMaturityAmount = currencyFormat(maturityAmount.toFixed(2));
 
     return formattedMaturityAmount;
   };

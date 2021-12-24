@@ -79,36 +79,36 @@ function HomeScreen(props) {
     setVisible(!visible);
   };
 
-  useEffect(() => {
-    console.log("routeName=", props.navigation.state.routeName);
-  }, []);
+  // useEffect(() => {
+  //   console.log("routeName=", props.navigation.state.routeName);
+  // }, []);
 
-  const backAction = () => {
-    if (props.navigation.state.routeName === "Home") {
-      Alert.alert(
-        "Exit from Sipfund!",
-        "Do you want to close this application?",
-        [
-          {
-            text: "Cancel",
-            onPress: () => null,
-            style: "cancel",
-          },
-          { text: "YES", onPress: () => BackHandler.exitApp() },
-        ]
-      );
-      return true;
-    } else {
-      props.navigation.goBack(null);
-    }
-  };
+  // const backAction = () => {
+  //   if (props.navigation.state.routeName === "Home") {
+  //     Alert.alert(
+  //       "Exit from Sipfund!",
+  //       "Do you want to close this application?",
+  //       [
+  //         {
+  //           text: "Cancel",
+  //           onPress: () => null,
+  //           style: "cancel",
+  //         },
+  //         { text: "YES", onPress: () => BackHandler.exitApp() },
+  //       ]
+  //     );
+  //     return true;
+  //   } else {
+  //     props.navigation.navigate("Home");
+  //   }
+  // };
 
-  useEffect(() => {
-    BackHandler.addEventListener("hardwareBackPress", backAction);
+  // useEffect(() => {
+  //   BackHandler.addEventListener("hardwareBackPress", backAction);
 
-    return () =>
-      BackHandler.removeEventListener("hardwareBackPress", backAction);
-  }, []);
+  //   return () =>
+  //     BackHandler.removeEventListener("hardwareBackPress", backAction);
+  // }, []);
 
   return (
     <View style={styles.container}>
@@ -338,6 +338,24 @@ function HomeScreen(props) {
                   </Text>
                 </View>
               </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={() => props.navigation.navigate("Owner")}
+                style={[styles.education, styles.quick_access]}
+              >
+                <View style={styles.child_sec}>
+                  <AntDesign name={"search1"} size={80} color={Colors.RED} />
+
+                  {/* <Image
+                    source={require("../../../assets/quick_img3.png")}
+                    style={styles.quick_img3}
+                  /> */}
+                </View>
+                <View style={styles.education_sec}>
+                  <Text style={styles.earn}>Own Choice</Text>
+                  <Text style={styles.child_text}>Make your plan</Text>
+                </View>
+              </TouchableOpacity>
             </View>
           </ScrollView>
         </View>
@@ -484,14 +502,14 @@ function HomeScreen(props) {
       >
         <View
           style={{
-            backgroundColor: "#12478D",
+            backgroundColor: "#11370a",
             alignItems: "center",
             paddingVertical: 5,
           }}
         >
           <Image
-            source={require("../../../assets/overlay_img.png")}
-            style={{ width: 56, height: 51 }}
+            source={require("../../../assets/term9.png")}
+            style={{ width: 56, paddingVertical: 3 }}
           />
         </View>
         <View style={{ padding: 20 }}>
@@ -531,7 +549,7 @@ function HomeScreen(props) {
           }}
         >
           <Image
-            source={require("../../../assets/overlay_img.png")}
+            source={require("../../../assets/term10.png")}
             style={{ width: 56, height: 51 }}
           />
         </View>
@@ -572,7 +590,7 @@ function HomeScreen(props) {
           }}
         >
           <Image
-            source={require("../../../assets/overlay_img.png")}
+            source={require("../../../assets/choice.png")}
             style={{ width: 56, height: 51 }}
           />
         </View>
@@ -615,7 +633,7 @@ function HomeScreen(props) {
           }}
         >
           <Image
-            source={require("../../../assets/overlay_img.png")}
+            source={require("../../../assets/term12.png")}
             style={{ width: 56, height: 51 }}
           />
         </View>

@@ -1,14 +1,36 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
-import { StyleSheet, Button, View, ImageBackground, TouchableOpacity, Text, Dimensions, KeyboardAvoidingView, TextInput, ActivityIndicator } from "react-native";
+import {
+  StyleSheet,
+  Button,
+  View,
+  ImageBackground,
+  TouchableOpacity,
+  Text,
+  Dimensions,
+  KeyboardAvoidingView,
+  TextInput,
+  ActivityIndicator,
+} from "react-native";
 import { connect } from "react-redux";
 import { Styles, Config, Colors, FormValidate } from "../../common";
 import { TopRatedFundType } from "../../components";
-import { Ionicons, AntDesign, Entypo, FontAwesome5 } from "react-native-vector-icons";
+import {
+  Ionicons,
+  AntDesign,
+  Entypo,
+  FontAwesome5,
+} from "react-native-vector-icons";
 import { Image, Header, CheckBox } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
 
 function TopRatedListScreen(props) {
-  const { token, cartDetails, getCartDetails, deleteItemFromCart, fundDetails } = props;
+  const {
+    token,
+    cartDetails,
+    getCartDetails,
+    deleteItemFromCart,
+    fundDetails,
+  } = props;
 
   const [cart, setCart] = useState([]);
   const [selectTab, setSelectTab] = useState("SIP");
@@ -58,13 +80,21 @@ function TopRatedListScreen(props) {
     <View style={styles.container}>
       <Header
         leftComponent={
-          <TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}>
+          <TouchableOpacity
+            onPress={() => props.navigation.goBack()}
+            style={{ marginTop: 20 }}
+          >
             <AntDesign name={"arrowleft"} size={40} color={Colors.RED} />
           </TouchableOpacity>
         }
         containerStyle={styles.header}
         backgroundColor={Colors.LIGHT_WHITE}
-        centerComponent={<Image source={require("../../../assets/icon.png")} style={styles.logimg} />}
+        centerComponent={
+          <Image
+            source={require("../../../assets/icon.png")}
+            style={styles.logimg}
+          />
+        }
         rightComponent={
           <View style={{ marginTop: 20, marginRight: 10 }}>
             <AntDesign name={"shoppingcart"} size={40} color={Colors.RED} />
@@ -75,11 +105,19 @@ function TopRatedListScreen(props) {
       {/* SIP_sec */}
 
       <View style={styles.sip_sec}>
-        <TouchableOpacity onPress={() => toggleTab("SIP")} style={selectTab == "SIP" ? styles.sip_left : styles.lumpsum}>
+        <TouchableOpacity
+          onPress={() => toggleTab("SIP")}
+          style={selectTab == "SIP" ? styles.sip_left : styles.lumpsum}
+        >
           <Text style={selectTab == "SIP" ? styles.sip : styles.lump}>SIP</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => toggleTab("LUMPSUM")} style={selectTab == "LUMPSUM" ? styles.sip_left : styles.lumpsum}>
-          <Text style={selectTab == "LUMPSUM" ? styles.sip : styles.lump}>LUMPSUM</Text>
+        <TouchableOpacity
+          onPress={() => toggleTab("LUMPSUM")}
+          style={selectTab == "LUMPSUM" ? styles.sip_left : styles.lumpsum}
+        >
+          <Text style={selectTab == "LUMPSUM" ? styles.sip : styles.lump}>
+            LUMPSUM
+          </Text>
         </TouchableOpacity>
       </View>
 
@@ -94,7 +132,9 @@ function TopRatedListScreen(props) {
 
         <View style={styles.fund_sec}>
           <Text style={styles.investment}>Monthly Investment</Text>
-          <Text style={styles.price}>₹ {selectTab === "SIP" ? sipTotal : lumpsumTotal}</Text>
+          <Text style={styles.price}>
+            ₹ {selectTab === "SIP" ? sipTotal : lumpsumTotal}
+          </Text>
         </View>
 
         {selectTab === "SIP" &&
@@ -130,7 +170,9 @@ function TopRatedListScreen(props) {
               />
             ))}
       </ScrollView>
-      <TouchableOpacity onPress={() => props.navigation.navigate("TopRatedSearch")}>
+      <TouchableOpacity
+        onPress={() => props.navigation.navigate("TopRatedSearch")}
+      >
         <Text style={styles.more_funds}>I would like to add more funds</Text>
       </TouchableOpacity>
       <TouchableOpacity
@@ -139,7 +181,10 @@ function TopRatedListScreen(props) {
           if (cart.filter((item) => item.trxn_nature === type).length === 0) {
             alert("Cart is empty!");
           } else {
-            props.navigation.navigate("TopRatedSubmit", { cart: cart.filter((item) => item.trxn_nature === type), isLumpsum: type === "N" ? true : false });
+            props.navigation.navigate("TopRatedSubmit", {
+              cart: cart.filter((item) => item.trxn_nature === type),
+              isLumpsum: type === "N" ? true : false,
+            });
           }
         }}
         style={styles.botton_box}
@@ -286,4 +331,8 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     },
   };
 };
-export default connect(mapStateToProps, undefined, mapDispatchToProps)(TopRatedListScreen);
+export default connect(
+  mapStateToProps,
+  undefined,
+  mapDispatchToProps
+)(TopRatedListScreen);
