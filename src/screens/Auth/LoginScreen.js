@@ -110,6 +110,7 @@ function LoginScreen(props) {
             ref={passwordInput}
             style={styles.inputsec}
             placeholder={"Password"}
+            maxLength={30}
             secureTextEntry={true}
             onChangeText={(password) => {
               setError({ ...errors, password: null });

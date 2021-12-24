@@ -201,6 +201,10 @@ function CompleteDetailsScreen(props) {
       setErrors({ ...errors, investor: "Please Add a Value" });
       return;
     }
+    if (!FormValidate.validateName(investor)) {
+      setErrors({ ...errors, investor: "Please Add a Valid Name" });
+      return;
+    }
     if (!investorPan) {
       setErrors({ ...errors, investorPan: "Please Add a Value" });
       return;
@@ -217,8 +221,16 @@ function CompleteDetailsScreen(props) {
       setErrors({ ...errors, fatherName: "Please Add Fathers Name" });
       return;
     }
+    if (!FormValidate.validateName(fatherName)) {
+      setErrors({ ...errors, fatherName: "Please Add a Valid Fathers Name" });
+      return;
+    }
     if (!FormValidate.isString(motherName)) {
       setErrors({ ...errors, motherName: "Please Add Mothers Name" });
+      return;
+    }
+    if (!FormValidate.validateName(motherName)) {
+      setErrors({ ...errors, motherName: "Please Add a Valid Mothers Name" });
       return;
     }
     if (!income) {
@@ -414,6 +426,7 @@ function CompleteDetailsScreen(props) {
             value={state.investor}
             placeholder={"Investor Name"}
             error={errors.investor}
+            maxLength={30}
             onChangeText={(investor) => {
               setErrors({ ...errors, investor: null });
               setState({ ...state, investor });
@@ -458,6 +471,7 @@ function CompleteDetailsScreen(props) {
             placeholder={"Father Name"}
             value={state.fatherName}
             error={errors.fatherName}
+            maxLength={30}
             onChangeText={(fatherName) => {
               setErrors({ ...errors, fatherName: null });
               setState({ ...state, fatherName });
@@ -471,6 +485,7 @@ function CompleteDetailsScreen(props) {
             placeholder={"Mother Name"}
             value={state.motherName}
             error={errors.motherName}
+            maxLength={30}
             onChangeText={(motherName) => {
               setErrors({ ...errors, motherName: null });
               setState({ ...state, motherName });

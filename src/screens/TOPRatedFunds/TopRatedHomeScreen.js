@@ -136,6 +136,10 @@ function TopRatedHomeScreen(props) {
   } = props;
 
   useEffect(() => {
+    console.log("routeName=", props.navigation.state.routeName);
+  }, []);
+
+  useEffect(() => {
     if (token) {
       getAllcategorys(token);
       updateFilterSelection(filterList[4].value);
@@ -282,18 +286,24 @@ function TopRatedHomeScreen(props) {
       let date = parseInt(value) + 1;
       if (date > 30) {
         date = 30;
+        alert("It cannot go above");
       }
       setStates({ ...states, date });
     } else {
       let date = parseInt(value) - 1;
       if (date < 1) {
         date = 1;
+        alert("It cannot go below");
       }
       setStates({ ...states, date });
     }
   };
 
   const addToCartLumpSum = () => {
+    if (+states.amount < 1000) {
+      alert("Amount is less than minimum amount");
+      return;
+    }
     let params = {
       cartDetails: {
         trxn_nature: "N",
@@ -312,6 +322,10 @@ function TopRatedHomeScreen(props) {
     addItomToSip(params, token);
   };
   const addToCartSip = () => {
+    if (+states.amount < 1000) {
+      alert("Amount is less than minimum amount");
+      return;
+    }
     let params = {
       cartDetails: {
         trxn_nature: "S",

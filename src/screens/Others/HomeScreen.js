@@ -1,5 +1,15 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
-import { StyleSheet, View, Image, TouchableOpacity, Text, Dimensions, ScrollView } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Image,
+  TouchableOpacity,
+  Text,
+  Dimensions,
+  ScrollView,
+  BackHandler,
+  Alert,
+} from "react-native";
 import { connect } from "react-redux";
 import { Styles, Config, Colors, FormValidate } from "../../common";
 import { InvestmentLists, MyImage } from "../../components";
@@ -11,7 +21,27 @@ const height = Dimensions.get("window").height;
 function HomeScreen(props) {
   const pageActiveGoles = useRef(false);
   const pageActiveInvest = useRef(false);
-  const { token, logOut, users, isFetching, error, steps, home, cart, getsteps, getHomeData, cartDetails, goalDetails, goals, singleDetails, goalDetail, allPlans, investments, investmentPlans, investment } = props;
+  const {
+    token,
+    logOut,
+    users,
+    isFetching,
+    error,
+    steps,
+    home,
+    cart,
+    getsteps,
+    getHomeData,
+    cartDetails,
+    goalDetails,
+    goals,
+    singleDetails,
+    goalDetail,
+    allPlans,
+    investments,
+    investmentPlans,
+    investment,
+  } = props;
   useEffect(() => {
     if (token) {
       getsteps({}, token);
@@ -36,6 +66,12 @@ function HomeScreen(props) {
     }
   }, [investment]);
 
+  useEffect(() => {
+    if (users) {
+      console.log("USERS=", users);
+    }
+  }, [users]);
+
   const [visible, setVisible] = useState(false);
   const [overlay, setOverlay] = useState("");
   const toggleOverlay = (value) => {
@@ -43,32 +79,85 @@ function HomeScreen(props) {
     setVisible(!visible);
   };
 
+  useEffect(() => {
+    console.log("routeName=", props.navigation.state.routeName);
+  }, []);
+
+  const backAction = () => {
+    if (props.navigation.state.routeName === "Home") {
+      Alert.alert(
+        "Exit from Sipfund!",
+        "Do you want to close this application?",
+        [
+          {
+            text: "Cancel",
+            onPress: () => null,
+            style: "cancel",
+          },
+          { text: "YES", onPress: () => BackHandler.exitApp() },
+        ]
+      );
+      return true;
+    } else {
+      props.navigation.goBack(null);
+    }
+  };
+
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
+  }, []);
+
   return (
     <View style={styles.container}>
       <Header
         leftComponent={
-          <TouchableOpacity onPress={() => props.navigation.toggleDrawer()} style={{ marginTop: 20 }}>
+          <TouchableOpacity
+            onPress={() => props.navigation.toggleDrawer()}
+            style={{ marginTop: 20 }}
+          >
             <Entypo name={"menu"} size={30} color={Colors.RED} />
           </TouchableOpacity>
         }
         rightComponent={
-          <TouchableOpacity onPress={() => props.navigation.navigate("TopRatedList")} style={{ marginTop: 20 }}>
+          <TouchableOpacity
+            onPress={() => props.navigation.navigate("TopRatedList")}
+            style={{ marginTop: 20 }}
+          >
             <AntDesign name={"shoppingcart"} size={30} color={Colors.RED} />
           </TouchableOpacity>
         }
         backgroundColor={Colors.LIGHT_WHITE}
         containerStyle={Styles.header}
-        centerComponent={<Image source={require("../../../assets/icon.png")} style={styles.logimg} />}
+        centerComponent={
+          <Image
+            source={require("../../../assets/icon.png")}
+            style={styles.logimg}
+          />
+        }
       />
       <ScrollView style={styles.containerScroll}>
-        <View style={users?.IIN && steps > 3 ? styles.home_top_completed : styles.home_top}>
+        <View
+          style={
+            users?.IIN && steps > 3
+              ? styles.home_top_completed
+              : styles.home_top
+          }
+        >
           <View
             style={{
               alignItems: users?.IIN && steps > 3 ? "flex-start" : "center",
               flexDirection: users?.IIN && steps > 3 ? "row" : "column",
             }}
           >
-            <Image source={require("../../../assets/Hello.png")} style={users?.IIN && steps > 3 ? styles.Helloimgsmall : styles.Helloimg} />
+            <Image
+              source={require("../../../assets/Hello.png")}
+              style={
+                users?.IIN && steps > 3 ? styles.Helloimgsmall : styles.Helloimg
+              }
+            />
             <View
               style={{
                 flexDirection: "column",
@@ -89,7 +178,9 @@ function HomeScreen(props) {
                     },
                   ]}
                 >
-                  {users?.IIN && steps > 3 ? "Congratulations" : "Hello, Investor"}
+                  {users?.IIN && steps > 3
+                    ? "Congratulations"
+                    : `Hello, ${users.name}`}
                 </Text>
                 <Text
                   style={[
@@ -100,15 +191,27 @@ function HomeScreen(props) {
                     },
                   ]}
                 >
-                  {users?.IIN && steps > 3 ? "Your Account is Active" : "You're almost ready to submit"}
+                  {users?.IIN && steps > 3
+                    ? "Your Account is Active"
+                    : "You're almost ready to submit"}
                 </Text>
               </View>
               {users?.IIN && steps > 3 ? (
-                <Text onPress={() => props.navigation.navigate("Goals")} style={styles.startInvestmentText}>
+                <Text
+                  onPress={() => props.navigation.navigate("Goals")}
+                  style={styles.startInvestmentText}
+                >
                   + Start Investing
                 </Text>
               ) : (
-                <TouchableOpacity onPress={() => props.navigation.navigate(steps === 3 ? "RegisterDetails" : "UploadDocument")} style={styles.botton_box}>
+                <TouchableOpacity
+                  onPress={() =>
+                    props.navigation.navigate(
+                      steps === 3 ? "RegisterDetails" : "UploadDocument"
+                    )
+                  }
+                  style={styles.botton_box}
+                >
                   <Text style={styles.get_otp}>COMPLETE ACCOUNT SETUP</Text>
                 </TouchableOpacity>
               )}
@@ -129,7 +232,12 @@ function HomeScreen(props) {
             >
               <View style={styles.education}>
                 <View style={styles.child_sec}>
-                  <MyImage width="145" height="145" svg={true} url={item.goalImagePath} />
+                  <MyImage
+                    width="145"
+                    height="145"
+                    svg={true}
+                    url={item.goalImagePath}
+                  />
                 </View>
                 <View style={styles.education_sec}>
                   <Text style={styles.child}>{item.goal}</Text>
@@ -153,7 +261,9 @@ function HomeScreen(props) {
           }}
         />
         <View style={{ alignItems: "center" }}>
-          <TouchableOpacity onPress={() => props.navigation.navigate("InvestmentListAll")}>
+          <TouchableOpacity
+            onPress={() => props.navigation.navigate("InvestmentListAll")}
+          >
             <View style={styles.all_plan}>
               <Text style={styles.all_plan_text}>See All Investment Plan</Text>
               <AntDesign name="down" size={20} color="#C0392B" />
@@ -166,14 +276,21 @@ function HomeScreen(props) {
         {/* Top roted fund section */}
 
         <Text style={styles.roted_text}>Top Rated Funds</Text>
-        <TouchableOpacity onPress={() => props.navigation.navigate("TopRatedHome")}>
+        <TouchableOpacity
+          onPress={() => props.navigation.navigate("TopRatedHome")}
+        >
           <View style={[styles.education, styles.education_roted]}>
             <View style={styles.child_sec}>
-              <Image source={require("../../../assets/term7.png")} style={styles.fund_img} />
+              <Image
+                source={require("../../../assets/term7.png")}
+                style={styles.fund_img}
+              />
             </View>
             <View style={styles.education_sec}>
               <Text style={styles.child}>Get Top Rated Funds</Text>
-              <Text style={styles.child_text}>At SIPFund.com we help you in choosing the best for you!</Text>
+              <Text style={styles.child_text}>
+                At SIPFund.com we help you in choosing the best for you!
+              </Text>
             </View>
           </View>
         </TouchableOpacity>
@@ -186,23 +303,39 @@ function HomeScreen(props) {
           <Text style={styles.quick_text}>Quick Access</Text>
           <ScrollView horizontal={true}>
             <View style={styles.education_top}>
-              <TouchableOpacity onPress={() => props.navigation.navigate("ReferEarn")} style={[styles.education, styles.quick_access]}>
+              <TouchableOpacity
+                onPress={() => props.navigation.navigate("ReferEarn")}
+                style={[styles.education, styles.quick_access]}
+              >
                 <View style={styles.child_sec}>
-                  <Image source={require("../../../assets/term8.png")} style={styles.quick_img} />
+                  <Image
+                    source={require("../../../assets/term8.png")}
+                    style={styles.quick_img}
+                  />
                 </View>
                 <View style={styles.education_sec}>
                   <Text style={styles.earn}>Refer & Earn</Text>
-                  <Text style={styles.child_text}>Now earn upto Rs. 5,000/-</Text>
+                  <Text style={styles.child_text}>
+                    Now earn upto Rs. 5,000/-
+                  </Text>
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => props.navigation.navigate("Relationship")} style={[styles.education, styles.quick_access]}>
+              <TouchableOpacity
+                onPress={() => props.navigation.navigate("Relationship")}
+                style={[styles.education, styles.quick_access]}
+              >
                 <View style={styles.child_sec}>
-                  <Image source={require("../../../assets/quick_img3.png")} style={styles.quick_img3} />
+                  <Image
+                    source={require("../../../assets/quick_img3.png")}
+                    style={styles.quick_img3}
+                  />
                 </View>
                 <View style={styles.education_sec}>
                   <Text style={styles.earn}>Talk To Experts</Text>
-                  <Text style={styles.child_text}>Get best advice while investing money</Text>
+                  <Text style={styles.child_text}>
+                    Get best advice while investing money
+                  </Text>
                 </View>
               </TouchableOpacity>
             </View>
@@ -214,43 +347,77 @@ function HomeScreen(props) {
         <TouchableOpacity onPress={() => props.navigation.navigate("Goals")}>
           <Text style={styles.roted_text}>Any questions?</Text>
         </TouchableOpacity>
-        <Text style={styles.child_text}>We would love to have your questions!</Text>
-        <Text style={[styles.child_text, styles.ship_text]}>SIPFund.com brings 5 things you must know before investing.</Text>
+        <Text style={styles.child_text}>
+          We would love to have your questions!
+        </Text>
+        <Text style={[styles.child_text, styles.ship_text]}>
+          SIPFund.com brings 5 things you must know before investing.
+        </Text>
 
         {/* top roted fund sec2 */}
         <ScrollView horizontal={true}>
           <View style={styles.roted_bottom}>
             <View style={styles.amount_sec}>
-              <TouchableOpacity onPress={() => toggleOverlay("MINIMUM_AMOUNT")} style={{ alignItems: "center" }}>
-                <Image source={require("../../../assets/term9.png")} style={styles.term9} />
+              <TouchableOpacity
+                onPress={() => toggleOverlay("MINIMUM_AMOUNT")}
+                style={{ alignItems: "center" }}
+              >
+                <Image
+                  source={require("../../../assets/term9.png")}
+                  style={styles.term9}
+                />
                 <Text style={styles.minimum}>Minimum Amount</Text>
               </TouchableOpacity>
             </View>
 
             <View style={styles.amount_sec}>
-              <TouchableOpacity onPress={() => toggleOverlay("LOCK_INS")} style={{ alignItems: "center" }}>
-                <Image source={require("../../../assets/term10.png")} style={styles.term9} />
+              <TouchableOpacity
+                onPress={() => toggleOverlay("LOCK_INS")}
+                style={{ alignItems: "center" }}
+              >
+                <Image
+                  source={require("../../../assets/term10.png")}
+                  style={styles.term9}
+                />
                 <Text style={styles.minimum}>Lock-ins</Text>
               </TouchableOpacity>
             </View>
 
             <View style={styles.amount_sec}>
-              <TouchableOpacity onPress={() => toggleOverlay("FLEXIBILITY")} style={{ alignItems: "center" }}>
-                <Image source={require("../../../assets/term11.png")} style={styles.Flexibility} />
+              <TouchableOpacity
+                onPress={() => toggleOverlay("FLEXIBILITY")}
+                style={{ alignItems: "center" }}
+              >
+                <Image
+                  source={require("../../../assets/term11.png")}
+                  style={styles.Flexibility}
+                />
                 <Text style={styles.minimum}>Flexibility</Text>
               </TouchableOpacity>
             </View>
 
             <View style={styles.amount_sec}>
-              <TouchableOpacity onPress={() => toggleOverlay("PAYMENT_METHODS")} style={{ alignItems: "center" }}>
-                <Image source={require("../../../assets/term12.png")} style={styles.Flexibility} />
+              <TouchableOpacity
+                onPress={() => toggleOverlay("PAYMENT_METHODS")}
+                style={{ alignItems: "center" }}
+              >
+                <Image
+                  source={require("../../../assets/term12.png")}
+                  style={styles.Flexibility}
+                />
                 <Text style={styles.minimum}>Payment Methods</Text>
               </TouchableOpacity>
             </View>
 
             <View style={styles.amount_sec}>
-              <TouchableOpacity onPress={() => toggleOverlay("EASY_WITHDRAWAL")} style={{ alignItems: "center" }}>
-                <Image source={require("../../../assets/term13.png")} style={styles.Flexibility} />
+              <TouchableOpacity
+                onPress={() => toggleOverlay("EASY_WITHDRAWAL")}
+                style={{ alignItems: "center" }}
+              >
+                <Image
+                  source={require("../../../assets/term13.png")}
+                  style={styles.Flexibility}
+                />
                 <Text style={styles.minimum}>Easy Withdrawal</Text>
               </TouchableOpacity>
             </View>
@@ -265,7 +432,10 @@ function HomeScreen(props) {
             <Text style={styles.faqs}>FAQ’s</Text>
           </View>
           <View style={styles.imgbox}>
-            <Image source={require("../../../assets/FAQimg.png")} style={styles.FAQimg} />
+            <Image
+              source={require("../../../assets/FAQimg.png")}
+              style={styles.FAQimg}
+            />
           </View>
           <View style={styles.singletext}>
             <Entypo name="dot-single" size={40} color="#FFCE00" />
@@ -276,7 +446,10 @@ function HomeScreen(props) {
             <Text style={styles.Mutualfund}>What is Open Ended Fund?</Text>
           </View>
 
-          <TouchableOpacity onPress={() => props.navigation.navigate("Upi")} style={styles.botton_box}>
+          <TouchableOpacity
+            onPress={() => props.navigation.navigate("Upi")}
+            style={styles.botton_box}
+          >
             <Text style={styles.get_otp}>MORE FAQ’s</Text>
           </TouchableOpacity>
         </View>
@@ -287,16 +460,28 @@ function HomeScreen(props) {
 
         <View style={styles.gallary}>
           {/* <View style={styles.qip_sec}> */}
-          <Image source={require("../../../assets/qip_img.png")} style={styles.qipimg} />
+          <Image
+            source={require("../../../assets/qip_img.png")}
+            style={styles.qipimg}
+          />
           {/* </View> */}
-          <Image source={require("../../../assets/fundimg.png")} style={styles.qipimg} />
-          <Image source={require("../../../assets/ratingimg.png")} style={styles.qipimg} />
+          <Image
+            source={require("../../../assets/fundimg.png")}
+            style={styles.qipimg}
+          />
+          <Image
+            source={require("../../../assets/ratingimg.png")}
+            style={styles.qipimg}
+          />
         </View>
         <Text style={styles.view}>View All</Text>
         <View style={styles.border}></View>
       </ScrollView>
 
-      <Overlay isVisible={visible && overlay === "MINIMUM_AMOUNT"} overlayStyle={{ margin: 10, padding: 0, backgroundColor: "#fff" }}>
+      <Overlay
+        isVisible={visible && overlay === "MINIMUM_AMOUNT"}
+        overlayStyle={{ margin: 10, padding: 0, backgroundColor: "#fff" }}
+      >
         <View
           style={{
             backgroundColor: "#12478D",
@@ -304,13 +489,21 @@ function HomeScreen(props) {
             paddingVertical: 5,
           }}
         >
-          <Image source={require("../../../assets/overlay_img.png")} style={{ width: 56, height: 51 }} />
+          <Image
+            source={require("../../../assets/overlay_img.png")}
+            style={{ width: 56, height: 51 }}
+          />
         </View>
         <View style={{ padding: 20 }}>
           <Text style={styles.mutual}>
-            What is the <Text style={styles.view}>minimal amount</Text> for investing in Mutual Funds?
+            What is the <Text style={styles.view}>minimal amount</Text> for
+            investing in Mutual Funds?
           </Text>
-          <Text style={{ paddingTop: 10, fontSize: 15 }}>The minimum amount required to invest in mutual funds is very low. You can start investing in Systematic Investment Plan(SIP) with an amount of ₹500 only.</Text>
+          <Text style={{ paddingTop: 10, fontSize: 15 }}>
+            The minimum amount required to invest in mutual funds is very low.
+            You can start investing in Systematic Investment Plan(SIP) with an
+            amount of ₹500 only.
+          </Text>
           <TouchableOpacity onPress={() => toggleOverlay("")}>
             <Text
               style={{
@@ -326,7 +519,10 @@ function HomeScreen(props) {
         </View>
       </Overlay>
 
-      <Overlay isVisible={visible && overlay === "LOCK_INS"} overlayStyle={{ margin: 10, padding: 0, backgroundColor: "#fff" }}>
+      <Overlay
+        isVisible={visible && overlay === "LOCK_INS"}
+        overlayStyle={{ margin: 10, padding: 0, backgroundColor: "#fff" }}
+      >
         <View
           style={{
             backgroundColor: "#12478D",
@@ -334,13 +530,21 @@ function HomeScreen(props) {
             paddingVertical: 5,
           }}
         >
-          <Image source={require("../../../assets/overlay_img.png")} style={{ width: 56, height: 51 }} />
+          <Image
+            source={require("../../../assets/overlay_img.png")}
+            style={{ width: 56, height: 51 }}
+          />
         </View>
         <View style={{ padding: 20 }}>
           <Text style={styles.mutual}>
-            What is <Text style={styles.view}>lock-in</Text> period in Mutual Funds?
+            What is <Text style={styles.view}>lock-in</Text> period in Mutual
+            Funds?
           </Text>
-          <Text style={{ paddingTop: 10, fontSize: 15 }}>A lock-in period is a specific period during which an investor is not allowed to redeem the units of the mutual fund either partially or fully. In an ELSS fund, the lock-in period is 3 years</Text>
+          <Text style={{ paddingTop: 10, fontSize: 15 }}>
+            A lock-in period is a specific period during which an investor is
+            not allowed to redeem the units of the mutual fund either partially
+            or fully. In an ELSS fund, the lock-in period is 3 years
+          </Text>
           <TouchableOpacity onPress={() => toggleOverlay("")}>
             <Text
               style={{
@@ -356,7 +560,10 @@ function HomeScreen(props) {
         </View>
       </Overlay>
 
-      <Overlay isVisible={visible && overlay === "FLEXIBILITY"} overlayStyle={{ margin: 10, padding: 0, backgroundColor: "#fff" }}>
+      <Overlay
+        isVisible={visible && overlay === "FLEXIBILITY"}
+        overlayStyle={{ margin: 10, padding: 0, backgroundColor: "#fff" }}
+      >
         <View
           style={{
             backgroundColor: "#12478D",
@@ -364,13 +571,23 @@ function HomeScreen(props) {
             paddingVertical: 5,
           }}
         >
-          <Image source={require("../../../assets/overlay_img.png")} style={{ width: 56, height: 51 }} />
+          <Image
+            source={require("../../../assets/overlay_img.png")}
+            style={{ width: 56, height: 51 }}
+          />
         </View>
         <View style={{ padding: 20 }}>
           <Text style={styles.mutual}>
-            What is the <Text style={styles.view}>flexibility</Text> that Mutual Funds offer?
+            What is the <Text style={styles.view}>flexibility</Text> that Mutual
+            Funds offer?
           </Text>
-          <Text style={{ paddingTop: 10, fontSize: 15 }}>Mutual Funds offer flexibility to investors by means of Systematic Investment Plan(SIP), Systematic Withdrawal Plan (SWP), Systematic Transfer Plan(STP), Growth Plan,Dividend Payout or Reinvestment Plans.They are also affordable as they allow investors to start investing with a little amount as low as ₹500.</Text>
+          <Text style={{ paddingTop: 10, fontSize: 15 }}>
+            Mutual Funds offer flexibility to investors by means of Systematic
+            Investment Plan(SIP), Systematic Withdrawal Plan (SWP), Systematic
+            Transfer Plan(STP), Growth Plan,Dividend Payout or Reinvestment
+            Plans.They are also affordable as they allow investors to start
+            investing with a little amount as low as ₹500.
+          </Text>
           <TouchableOpacity onPress={() => toggleOverlay("")}>
             <Text
               style={{
@@ -386,7 +603,10 @@ function HomeScreen(props) {
         </View>
       </Overlay>
 
-      <Overlay isVisible={visible && overlay === "PAYMENT_METHODS"} overlayStyle={{ margin: 10, padding: 0, backgroundColor: "#fff" }}>
+      <Overlay
+        isVisible={visible && overlay === "PAYMENT_METHODS"}
+        overlayStyle={{ margin: 10, padding: 0, backgroundColor: "#fff" }}
+      >
         <View
           style={{
             backgroundColor: "#12478D",
@@ -394,14 +614,21 @@ function HomeScreen(props) {
             paddingVertical: 5,
           }}
         >
-          <Image source={require("../../../assets/overlay_img.png")} style={{ width: 56, height: 51 }} />
+          <Image
+            source={require("../../../assets/overlay_img.png")}
+            style={{ width: 56, height: 51 }}
+          />
         </View>
         <View style={{ padding: 20 }}>
           <Text style={styles.mutual}>
-            what are the various <Text style={styles.view}>payment methods</Text>
+            what are the various{" "}
+            <Text style={styles.view}>payment methods</Text>
             available for an investorfor making investments?
           </Text>
-          <Text style={{ paddingTop: 10, fontSize: 15 }}>Using SIPfund.com app/portal,an investor can make purchases under the following methods</Text>
+          <Text style={{ paddingTop: 10, fontSize: 15 }}>
+            Using SIPfund.com app/portal,an investor can make purchases under
+            the following methods
+          </Text>
           <View style={{ flexDirection: "row" }}>
             <Text>{"\u2022"}</Text>
             <Text style={{ flex: 1, paddingLeft: 5 }}>NET Banking</Text>
@@ -437,7 +664,10 @@ function HomeScreen(props) {
         </View>
       </Overlay>
 
-      <Overlay isVisible={visible && overlay === "EASY_WITHDRAWAL"} overlayStyle={{ margin: 10, padding: 0, backgroundColor: "#fff" }}>
+      <Overlay
+        isVisible={visible && overlay === "EASY_WITHDRAWAL"}
+        overlayStyle={{ margin: 10, padding: 0, backgroundColor: "#fff" }}
+      >
         <View
           style={{
             backgroundColor: "#12478D",
@@ -445,13 +675,24 @@ function HomeScreen(props) {
             paddingVertical: 5,
           }}
         >
-          <Image source={require("../../../assets/overlay_img.png")} style={{ width: 56, height: 51 }} />
+          <Image
+            source={require("../../../assets/overlay_img.png")}
+            style={{ width: 56, height: 51 }}
+          />
         </View>
         <View style={{ padding: 20 }}>
           <Text style={styles.mutual}>
-            Do Mutual Funds allow <Text style={styles.view}>easy withdrawal of amount?</Text>
+            Do Mutual Funds allow{" "}
+            <Text style={styles.view}>easy withdrawal of amount?</Text>
           </Text>
-          <Text style={{ paddingTop: 10, fontSize: 15 }}>Both Equity and Debt Mutual Funds can be technically withdrawn as soon as fund is available for daily sale and repurchase. Of course liquidity is one of the biggest advantages of investing in Mutual Funds which is not available in many other asset classes. Amount redeemed or withdrawn will be credited to investor's bank account within 1-4 working days depending on the type of mutual funds.</Text>
+          <Text style={{ paddingTop: 10, fontSize: 15 }}>
+            Both Equity and Debt Mutual Funds can be technically withdrawn as
+            soon as fund is available for daily sale and repurchase. Of course
+            liquidity is one of the biggest advantages of investing in Mutual
+            Funds which is not available in many other asset classes. Amount
+            redeemed or withdrawn will be credited to investor's bank account
+            within 1-4 working days depending on the type of mutual funds.
+          </Text>
           <TouchableOpacity onPress={() => toggleOverlay("")}>
             <Text
               style={{
@@ -884,4 +1125,8 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     },
   };
 };
-export default connect(mapStateToProps, undefined, mapDispatchToProps)(HomeScreen);
+export default connect(
+  mapStateToProps,
+  undefined,
+  mapDispatchToProps
+)(HomeScreen);
