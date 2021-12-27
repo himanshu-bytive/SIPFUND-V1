@@ -13,6 +13,7 @@ import {
   ActivityIndicator,
   BackHandler,
   ScrollView,
+  Alert,
 } from "react-native";
 import { connect } from "react-redux";
 import { Styles, Config, Colors, FormValidate } from "../../common";
@@ -32,6 +33,7 @@ const investmentData = [
 ];
 
 function DashboardScreen(props) {
+  const { steps } = props;
   const [visible, setVisible] = useState(false);
 
   const toggleOverlay = () => {
@@ -85,7 +87,30 @@ function DashboardScreen(props) {
 
         {/* Transaction section */}
         <View style={styles.history_sec}>
-          <TouchableOpacity onPress={() => props.navigation.navigate("Switch")}>
+          <TouchableOpacity
+            onPress={() => {
+              if (steps > 5) {
+                props.navigation.navigate("Switch");
+              } else {
+                Alert.alert(
+                  "Not Allowed!",
+                  "You have no holdings to switch.Please complete the account opening process and upload the required documents, upon activation of your account, you can start investment. Do you want to continue?",
+                  [
+                    {
+                      text: "Cancel",
+                      onPress: () => null,
+                      style: "cancel",
+                    },
+                    {
+                      text: "YES",
+                      onPress: () =>
+                        props.navigation.navigate("RegisterDetails"),
+                    },
+                  ]
+                );
+              }
+            }}
+          >
             <View style={styles.Switch_sec}>
               <View style={styles.box}>
                 <Image
@@ -97,7 +122,30 @@ function DashboardScreen(props) {
             </View>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => props.navigation.navigate("Redeem")}>
+          <TouchableOpacity
+            onPress={() => {
+              if (steps > 5) {
+                props.navigation.navigate("Redeem");
+              } else {
+                Alert.alert(
+                  "Not Allowed!",
+                  "You have no holdings to redeem.Please complete the account opening process and upload the required documents, upon activation of your account, you can start investment. Do you want to continue?",
+                  [
+                    {
+                      text: "Cancel",
+                      onPress: () => null,
+                      style: "cancel",
+                    },
+                    {
+                      text: "YES",
+                      onPress: () =>
+                        props.navigation.navigate("RegisterDetails"),
+                    },
+                  ]
+                );
+              }
+            }}
+          >
             <View style={styles.Switch_sec}>
               <View style={styles.box}>
                 <Image
@@ -110,7 +158,28 @@ function DashboardScreen(props) {
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={() => props.navigation.navigate("TransactionHistory")}
+            onPress={() => {
+              if (steps > 5) {
+                props.navigation.navigate("TransactionHistory");
+              } else {
+                Alert.alert(
+                  "Not Allowed!",
+                  "You have no holdings.Please complete the account opening process and upload the required documents, upon activation of your account, you can start investment. Do you want to continue?",
+                  [
+                    {
+                      text: "Cancel",
+                      onPress: () => null,
+                      style: "cancel",
+                    },
+                    {
+                      text: "YES",
+                      onPress: () =>
+                        props.navigation.navigate("RegisterDetails"),
+                    },
+                  ]
+                );
+              }
+            }}
           >
             <View style={styles.Switch_sec}>
               <View style={styles.box}>
@@ -144,7 +213,30 @@ function DashboardScreen(props) {
         </View>
 
         <View style={styles.holdings_sec}>
-          <TouchableOpacity onPress={() => props.navigation.navigate("Goals")}>
+          <TouchableOpacity
+            onPress={() => {
+              if (steps > 5) {
+                props.navigation.navigate("Goals");
+              } else {
+                Alert.alert(
+                  "Not Allowed!",
+                  "You have no holdings.Please complete the account opening process and upload the required documents, upon activation of your account, you can start investment. Do you want to continue?",
+                  [
+                    {
+                      text: "Cancel",
+                      onPress: () => null,
+                      style: "cancel",
+                    },
+                    {
+                      text: "YES",
+                      onPress: () =>
+                        props.navigation.navigate("RegisterDetails"),
+                    },
+                  ]
+                );
+              }
+            }}
+          >
             <View style={styles.Switch_sec}>
               <View style={styles.box}>
                 <Image
@@ -237,6 +329,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => ({
   token: state.auth.token,
   users: state.auth.users,
+  steps: state.home.steps,
 });
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {

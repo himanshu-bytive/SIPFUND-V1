@@ -157,10 +157,16 @@ function SideMenu(props) {
 
   return (
     <View style={styles.container}>
-      <View style={{ backgroundColor: Colors.RED, flexDirection: "row" }}>
+      <View
+        style={{
+          backgroundColor: Colors.RED,
+          flexDirection: "row",
+          paddingVertical: 10,
+        }}
+      >
         <Image
           source={img ? { uri: img } : require("../../assets/profile_img.png")}
-          style={{ margin: 7, width: 40, height: 40, borderRadius: 100 }}
+          style={{ margin: 7, width: 50, height: 50, borderRadius: 100 }}
         />
         <View>
           <Text style={styles.profileText}>{profile?.INVESTOR_NAME}</Text>
@@ -496,10 +502,12 @@ function SideMenu(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: StatusBar.currentHeight,
+
+    // marginTop: StatusBar.currentHeight,
   },
   profile_sec: {
     flexDirection: "row",
+
     backgroundColor: Colors.GRAY_LIGHT_3,
     paddingHorizontal: 20,
     paddingVertical: 7,
@@ -512,12 +520,12 @@ const styles = StyleSheet.create({
   },
   account_active: {
     color: "#32CD32",
-    fontSize: 13,
+    fontSize: 15,
     marginVertical: 3,
   },
   account_inactive: {
     color: "#FF6347",
-    fontSize: 13,
+    fontSize: 15,
     marginVertical: 3,
   },
   know_text: {
@@ -526,7 +534,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: Colors.RED,
   },
-  profileText: { color: Colors.WHITE, fontSize: 13, marginVertical: 3 },
+  profileText: { color: Colors.WHITE, fontSize: 20, marginVertical: 3 },
   know: { color: Colors.BLACK },
   border: {
     marginTop: 10,
