@@ -63,7 +63,7 @@ function DashboardScreen(props) {
         }
         rightComponent={
           <TouchableOpacity
-            onPress={() => props.navigation.navigate("Toprated")}
+            onPress={() => props.navigation.navigate("TopRatedList")}
             style={{ marginTop: 20 }}
           >
             <AntDesign name={"shoppingcart"} size={30} color={Colors.RED} />
