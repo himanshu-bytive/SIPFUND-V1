@@ -33,6 +33,12 @@ function GoalsSummaryScreen(props) {
     setData(summary?.holdings?.summary ? summary?.holdings?.summary : {});
   }, [summary]);
 
+  useEffect(() => {
+    if (summary) {
+      console.log("SUMMARY=", summary);
+    }
+  }, [summary]);
+
   const plansAndGoalsData = () => {
     if (
       summary?.holdings?.plansAndGoalsData &&
@@ -103,7 +109,9 @@ function GoalsSummaryScreen(props) {
 
           <View style={styles.value_sec}>
             <View style={styles.Profit}>
-              <Text style={styles.investment}>{data?.investment}</Text>
+              <Text
+                style={styles.investment}
+              >{`₹ ${data?.totalinvestment}`}</Text>
               <Text style={styles.investment2}>Investment</Text>
             </View>
             <View style={styles.Profit}>

@@ -157,6 +157,10 @@ function OwnerChoice(props) {
     setVisible(!visible);
   };
   const addToCartLumpSum = () => {
+    if (+states.amount < 1000) {
+      alert("Amount is less than minimum amount");
+      return;
+    }
     let params = {
       cartDetails: {
         trxn_nature: "N",
@@ -177,6 +181,10 @@ function OwnerChoice(props) {
     setVisible(false);
   };
   const addToCartSip = () => {
+    if (+states.amount < 1000) {
+      alert("Amount is less than minimum amount");
+      return;
+    }
     let fromDate = sipFromDate();
     let endDate = sipEndDate();
     let params = {
@@ -233,12 +241,14 @@ function OwnerChoice(props) {
       let date = parseInt(value) + 1;
       if (date > 30) {
         date = 30;
+        alert("It cannot go above");
       }
       setStates({ ...states, date });
     } else {
       let date = parseInt(value) - 1;
       if (date < 1) {
         date = 1;
+        alert("It cannot go below");
       }
       setStates({ ...states, date });
     }
@@ -467,6 +477,7 @@ function OwnerChoice(props) {
                     <View style={styles.bordersec}>
                       <TextInput
                         value={states.amount}
+                        keyboardType="numeric"
                         onChangeText={(amount) =>
                           setStates({ ...states, amount })
                         }
@@ -524,6 +535,7 @@ function OwnerChoice(props) {
                     <View style={styles.bordersec}>
                       <TextInput
                         value={states.amount}
+                        keyboardType="numeric"
                         onChangeText={(amount) =>
                           setStates({ ...states, amount })
                         }

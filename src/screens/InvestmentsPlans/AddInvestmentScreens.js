@@ -52,7 +52,7 @@ function AddInvestmentScreens(props) {
         amount * Math.pow(1 + expectedReturnPercentage / 100, noOfYears);
     }
 
-    const formattedMaturityAmount = currencyFormat(maturityAmount.toFixed(4));
+    const formattedMaturityAmount = currencyFormat(maturityAmount.toFixed(2));
 
     return formattedMaturityAmount;
   };
@@ -73,7 +73,7 @@ function AddInvestmentScreens(props) {
         lastThree +
         afterPoint;
     } else {
-      res = `${(x / 100000).toFixed(4)}L`;
+      res = `${(x / 100000).toFixed(2)}L`;
     }
     return res;
   }
@@ -205,6 +205,7 @@ function AddInvestmentScreens(props) {
           <TextInput
             ref={investInput}
             style={styles.cost}
+            maxLength={8}
             keyboardType="numeric"
             placeholder={"RS "}
             onChangeText={(value) => {
@@ -367,6 +368,7 @@ const styles = StyleSheet.create({
     color: Colors.DEEP_GRAY,
   },
   yearly_section: {
+    marginHorizontal: "auto",
     backgroundColor: Colors.PINK,
     marginVertical: 20,
     paddingHorizontal: 30,
@@ -378,6 +380,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: Colors.RED,
     fontWeight: "bold",
+    paddingHorizontal: 3,
   },
   cost_botton: {
     fontSize: 15,

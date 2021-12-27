@@ -16,8 +16,9 @@ import {
 import { connect } from "react-redux";
 import { Colors, FormValidate } from "../../common";
 import * as Location from "expo-location";
-import * as Notifications from 'expo-notifications';
+import * as Notifications from "expo-notifications";
 import { MaterialIcons } from "react-native-vector-icons";
+import { useInternetStatus } from "../../components/CheckConnection";
 const width = Dimensions.get("window").width;
 
 function VerifyScreen(props) {
@@ -45,7 +46,7 @@ function VerifyScreen(props) {
   }, [signUpSteps]);
 
   useEffect(() => {
-    checkAllPermissions()
+    checkAllPermissions();
     GetCurrentLocation();
   }, []);
 
@@ -56,7 +57,7 @@ function VerifyScreen(props) {
     let statusNotifications = status.status;
     console.log("Notifications Permissions: ", statusNotifications);
 
-    status = await Location.getForegroundPermissionsAsync()
+    status = await Location.getForegroundPermissionsAsync();
     let statusLocation = status.status;
     console.log("Location Permissions: ", statusLocation);
 
@@ -69,10 +70,9 @@ function VerifyScreen(props) {
     // hasServicesEnabledAsync
     if (statusLocation !== "granted") {
       console.log("Requesting Location Permissions");
-      status = await Location.requestForegroundPermissionsAsync()
+      status = await Location.requestForegroundPermissionsAsync();
       statusLocation = status.status;
     }
-
 
     if (statusNotifications !== "granted" || statusLocation !== "granted") {
       console.log("Permissions not granted");
@@ -81,8 +81,7 @@ function VerifyScreen(props) {
 
     let token = (await Notifications.getExpoPushTokenAsync()).data;
     // alert(token)
-    setToken(token)
-
+    setToken(token);
   }
 
   const GetCurrentLocation = async () => {
@@ -160,6 +159,15 @@ function VerifyScreen(props) {
       BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
 
+  const [InternetChecker, isInternetReachable] = useInternetStatus();
+  InternetChecker();
+  if (isInternetReachable === true) {
+    console.log("Internet is Reachable");
+  } else if (isInternetReachable === false) {
+    alert("Please check the internet connection");
+    console.log("No Internet Connection");
+  }
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -233,7 +241,7 @@ function VerifyScreen(props) {
           )}
         </View>
         <View style={styles.otp}>
-          <Text>We will send you OTP on your mobile number</Text>
+          <Text>OTP will be sent to this Mobile Number</Text>
         </View>
       </View>
       <View>
@@ -344,14 +352,17 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
   const { dispatch } = dispatchProps;
   const { AuthActions } = require("../../store/AuthRedux");
-  const { PushNotificationActions } = require("../../store/PushNotificationRedux");
+  const {
+    PushNotificationActions,
+  } = require("../../store/PushNotificationRedux");
 
   return {
     ...stateProps,
     ...ownProps,
-    verify: (params) => {AuthActions.verify(dispatch, params)},
+    verify: (params) => {
+      AuthActions.verify(dispatch, params);
+    },
     setToken: (token) => dispatch(PushNotificationActions.setToken(token)),
-
   };
 };
 export default connect(
