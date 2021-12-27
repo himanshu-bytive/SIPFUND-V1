@@ -10,6 +10,7 @@ import {
   KeyboardAvoidingView,
   TextInput,
   ActivityIndicator,
+  ToastAndroid,
 } from "react-native";
 import { connect } from "react-redux";
 import { Styles, Config, Colors, FormValidate } from "../../common";
@@ -73,6 +74,7 @@ function TopRatedListScreen(props) {
         break;
       }
     }
+    ToastAndroid.show("Item deleted succesfully!", ToastAndroid.LONG);
     props.navigation.replace("TopRatedList");
   };
 
