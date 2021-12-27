@@ -117,7 +117,16 @@ function TransactionHistoryScreen(props) {
         <View style={styles.switch_sec}>
           <Text style={styles.transaction}>Transaction History</Text>
         </View>
-        {transactionHistory !== null &&
+        {transactionHistory !== null && transactionHistory.length !== 0 ? (
+          <View
+            style={{
+              alignItems: "center",
+              marginTop: "50%",
+            }}
+          >
+            <Text>You don't have any transactions!</Text>
+          </View>
+        ) : (
           transactionHistory.map((item) => {
             return (
               <View style={styles.transaction_history}>
@@ -153,7 +162,8 @@ function TransactionHistoryScreen(props) {
                 </View>
               </View>
             );
-          })}
+          })
+        )}
       </ScrollView>
     </View>
   );
