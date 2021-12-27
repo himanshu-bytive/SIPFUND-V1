@@ -1,9 +1,26 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
-import { StyleSheet, Button, View, ImageBackground, TouchableOpacity, Text, Dimensions, KeyboardAvoidingView, ScrollView, ActivityIndicator } from "react-native";
+import {
+  StyleSheet,
+  Button,
+  View,
+  ImageBackground,
+  TouchableOpacity,
+  Text,
+  Dimensions,
+  KeyboardAvoidingView,
+  ScrollView,
+  ActivityIndicator,
+} from "react-native";
 import { connect } from "react-redux";
 import { Styles, Config, Colors, FormValidate } from "../../common";
 import { MyImage } from "../../components";
-import { Ionicons, AntDesign, EvilIcons, Entypo, FontAwesome5 } from "react-native-vector-icons";
+import {
+  Ionicons,
+  AntDesign,
+  EvilIcons,
+  Entypo,
+  FontAwesome5,
+} from "react-native-vector-icons";
 import { Image, Header, CheckBox } from "react-native-elements";
 
 function InvestmentSubmitScreens(props) {
@@ -14,8 +31,15 @@ function InvestmentSubmitScreens(props) {
 
   useEffect(() => {
     let total = 0;
-    for (let item in myInvestlist.filter((value) => !isNaN(value.schemes.sip))) {
-      total = total + Number(myInvestlist.filter((value) => !isNaN(value.schemes.sip))[item].schemes.sip);
+    for (let item in myInvestlist.filter(
+      (value) => !isNaN(value.schemes.sip)
+    )) {
+      total =
+        total +
+        Number(
+          myInvestlist.filter((value) => !isNaN(value.schemes.sip))[item]
+            .schemes.sip
+        );
     }
     setSum(parseInt(total, 10));
   }, [myInvestlist]);
@@ -24,13 +48,21 @@ function InvestmentSubmitScreens(props) {
     <View style={styles.container}>
       <Header
         leftComponent={
-          <TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}>
+          <TouchableOpacity
+            onPress={() => props.navigation.goBack()}
+            style={{ marginTop: 20 }}
+          >
             <AntDesign name={"arrowleft"} size={40} color={Colors.RED} />
           </TouchableOpacity>
         }
         containerStyle={styles.header}
         backgroundColor={Colors.LIGHT_WHITE}
-        centerComponent={<Image source={require("../../../assets/icon.png")} style={styles.logimg} />}
+        centerComponent={
+          <Image
+            source={require("../../../assets/icon.png")}
+            style={styles.logimg}
+          />
+        }
         rightComponent={
           <View style={{ marginTop: 20, marginRight: 10 }}>
             <AntDesign name={"shoppingcart"} size={40} color={Colors.RED} />
@@ -41,7 +73,12 @@ function InvestmentSubmitScreens(props) {
       <ScrollView>
         <View style={styles.education}>
           <View style={styles.child_sec}>
-            <MyImage width="112" height="118" svg={true} url={investment.planImagePath} />
+            <MyImage
+              width="112"
+              height="118"
+              svg={true}
+              url={investment.planImagePath}
+            />
           </View>
           <View style={styles.education_sec}>
             <Text style={styles.child}>Summary</Text>
@@ -50,7 +87,8 @@ function InvestmentSubmitScreens(props) {
         </View>
 
         <Text style={styles.mygoal}>
-          My Investment : <Text style={styles.my_goal}>{investment.investmentPlan}</Text>
+          My Investment :{" "}
+          <Text style={styles.my_goal}>{investment.investmentPlan}</Text>
         </Text>
 
         <View style={styles.fund_sec}>
@@ -63,15 +101,29 @@ function InvestmentSubmitScreens(props) {
           .filter((value) => !isNaN(value.schemes.sip))
           .map((item, key) => (
             <View key={key} style={styles.sbi_sec}>
-              <Image source={{ uri: item.schemes.imagePath }} style={styles.Hybrid} />
+              <Image
+                source={{ uri: item.schemes.imagePath }}
+                style={styles.Hybrid}
+              />
               <Text style={styles.sbi_text}>{item.schemes.name}</Text>
-              <View style={{ flex: 1 }}>
+              <View style={{ flex: 1, minWidth: "30%" }}>
                 <Text style={styles.price}>₹ {item.schemes.sip}</Text>
               </View>
             </View>
           ))}
       </ScrollView>
-      <TouchableOpacity onPress={() => props.navigation.navigate("Upi", { cart: myInvestlist.filter((value) => !isNaN(value.schemes.sip)), sum: sum, fromCart: false, fromPlanGoals: false, isLumpsum: props.navigation.state.params.isLumpsum })} style={styles.botton_box}>
+      <TouchableOpacity
+        onPress={() =>
+          props.navigation.navigate("Upi", {
+            cart: myInvestlist.filter((value) => !isNaN(value.schemes.sip)),
+            sum: sum,
+            fromCart: false,
+            fromPlanGoals: false,
+            isLumpsum: props.navigation.state.params.isLumpsum,
+          })
+        }
+        style={styles.botton_box}
+      >
         <Text style={styles.get_otp}>MAKE PAYMENT</Text>
       </TouchableOpacity>
     </View>
@@ -143,6 +195,7 @@ const styles = StyleSheet.create({
     borderColor: Colors.DEEP_GRAY,
     paddingBottom: 10,
     marginVertical: 5,
+    alignItems: "center",
   },
   Hybrid: {
     width: 32,
@@ -151,7 +204,6 @@ const styles = StyleSheet.create({
   sbi_text: {
     marginLeft: 10,
     fontSize: 15,
-    width: "70%",
   },
   price: {
     paddingTop: 10,
@@ -245,4 +297,8 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     },
   };
 };
-export default connect(mapStateToProps, undefined, mapDispatchToProps)(InvestmentSubmitScreens);
+export default connect(
+  mapStateToProps,
+  undefined,
+  mapDispatchToProps
+)(InvestmentSubmitScreens);
