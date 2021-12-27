@@ -9,6 +9,7 @@ import {
   ScrollView,
   BackHandler,
   Alert,
+  Linking,
 } from "react-native";
 import { connect } from "react-redux";
 import { Styles, Config, Colors, FormValidate } from "../../common";
@@ -465,7 +466,7 @@ function HomeScreen(props) {
           </View>
 
           <TouchableOpacity
-            onPress={() => props.navigation.navigate("Upi")}
+            onPress={() => Linking.openURL("https://www.sipfund.com/faq.html")}
             style={styles.botton_box}
           >
             <Text style={styles.get_otp}>MORE FAQ’s</Text>
