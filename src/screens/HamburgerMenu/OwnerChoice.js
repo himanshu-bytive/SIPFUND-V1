@@ -6,6 +6,7 @@ import {
   ActivityIndicator,
   Text,
   TextInput,
+  BackHandler,
 } from "react-native";
 import { connect } from "react-redux";
 import { Styles, Config, Colors } from "../../common";
@@ -243,12 +244,24 @@ function OwnerChoice(props) {
     }
   };
 
+  const backAction = () => {
+    props.navigation.navigate("dashboard");
+    return true;
+  };
+
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
+  }, []);
+
   return (
     <View style={styles.container}>
       <Header
         leftComponent={
           <TouchableOpacity
-            onPress={() => props.navigation.goBack()}
+            onPress={() => props.navigation.navigate("dashboard")}
             style={{ marginTop: 20 }}
           >
             <AntDesign name={"arrowleft"} size={40} color={Colors.RED} />
