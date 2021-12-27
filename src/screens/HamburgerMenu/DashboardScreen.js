@@ -11,6 +11,7 @@ import {
   KeyboardAvoidingView,
   TextInput,
   ActivityIndicator,
+  BackHandler,
   ScrollView,
 } from "react-native";
 import { connect } from "react-redux";
@@ -36,6 +37,18 @@ function DashboardScreen(props) {
   const toggleOverlay = () => {
     setVisible(!visible);
   };
+
+  const backAction = () => {
+    props.navigation.navigate("Home");
+    return true;
+  };
+
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
+  }, []);
 
   return (
     <View style={styles.container}>
