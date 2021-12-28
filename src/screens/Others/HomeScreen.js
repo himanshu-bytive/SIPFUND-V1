@@ -65,7 +65,7 @@ function HomeScreen(props) {
   useEffect(() => {
     if (investment && pageActiveInvest.current) {
       pageActiveInvest.current = false;
-      props.navigation.navigate("InvestmentDetail");
+      props.navigation.navigate("InvestmentDetail", { toggleLoading });
     }
   }, [investment]);
 
@@ -265,6 +265,7 @@ function HomeScreen(props) {
           data={investments}
           counts={6}
           onPress={(item) => {
+            toggleLoading(true);
             investmentPlans(item, token);
             pageActiveInvest.current = true;
           }}

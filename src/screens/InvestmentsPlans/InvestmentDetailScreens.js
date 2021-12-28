@@ -28,6 +28,10 @@ function InvestmentDetailScreens(props) {
   const pageActive = useRef(false);
   const { investment, isFetching } = props;
 
+  useEffect(() => {
+    props.navigation.state.params.toggleLoading(false);
+  }, []);
+
   return (
     <View style={styles.container}>
       <Header
