@@ -9,13 +9,13 @@ import {
   ScrollView,
   BackHandler,
   Alert,
-  Linking,
 } from "react-native";
 import { connect } from "react-redux";
 import { Styles, Config, Colors, FormValidate } from "../../common";
 import { InvestmentLists, MyImage } from "../../components";
 import { Entypo, AntDesign } from "react-native-vector-icons";
 import { Header, Overlay, CheckBox, Input } from "react-native-elements";
+
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 
@@ -199,7 +199,7 @@ function HomeScreen(props) {
               </View>
               {users?.IIN && steps > 3 ? (
                 <Text
-                  onPress={() => props.navigation.navigate("Owner")}
+                  onPress={() => props.navigation.navigate("Goals")}
                   style={styles.startInvestmentText}
                 >
                   + Start Investing
@@ -466,7 +466,7 @@ function HomeScreen(props) {
           </View>
 
           <TouchableOpacity
-            onPress={() => Linking.openURL("https://www.sipfund.com/faq.html")}
+            onPress={() => props.navigation.navigate("Upi")}
             style={styles.botton_box}
           >
             <Text style={styles.get_otp}>MORE FAQ’s</Text>

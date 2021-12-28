@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
   sbi_text: {
     marginHorizontal: 10,
     fontSize: 15,
-    maxWidth: "90%",
+    maxWidth: "88%",
   },
   price: {
     position: "absolute",

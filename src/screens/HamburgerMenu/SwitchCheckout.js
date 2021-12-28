@@ -63,6 +63,10 @@ function SwitchCheckout(props) {
 
   const checkout = () => {
     if (switchActive === "SWITCH" && switchCheckoutDetails !== null) {
+      if (switchCheckoutDetails.length < 1) {
+        alert("It's Empty");
+        return;
+      }
       let child = switchCheckoutDetails.map((item) => {
         return {
           amc: item.amcCode,
@@ -96,6 +100,10 @@ function SwitchCheckout(props) {
       console.log("Switch CHeckout Params =", params);
       switchCheckout(params, token);
     } else if (switchExternalCheckoutDetails !== null) {
+      if (switchExternalCheckoutDetails.length < 1) {
+        alert("It's Empty");
+        return;
+      }
       let child = switchExternalCheckoutDetails.map((item) => {
         return {
           amc: item.amcCode,

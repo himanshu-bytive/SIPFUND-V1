@@ -57,6 +57,10 @@ function RedeemCheckout(props) {
 
   const checkout = () => {
     if (redeemActive === "REDEEM" && redeemCheckoutDetails !== null) {
+      if (redeemCheckoutDetails.length < 1) {
+        alert("It's Empty");
+        return;
+      }
       let child = redeemCheckoutDetails.map((item) => {
         return {
           amc: item.amcCode,
@@ -89,6 +93,10 @@ function RedeemCheckout(props) {
       console.log("Redeem CHeckout Params =", params);
       redeemCheckout(params, token);
     } else if (redeemExternalCheckoutDetails !== null) {
+      if (redeemExternalCheckoutDetails.length < 1) {
+        alert("It's Empty");
+        return;
+      }
       let child = redeemExternalCheckoutDetails.map((item) => {
         return {
           amc: item.amcCode,

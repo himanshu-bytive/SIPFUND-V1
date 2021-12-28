@@ -226,6 +226,7 @@ function SwitchItem(props) {
           ) : (
             <TextInput
               style={styles.inputsec}
+              keyboardType="numeric"
               placeholder="Enter Amount"
               onChangeText={setAmountValue}
               editable={
