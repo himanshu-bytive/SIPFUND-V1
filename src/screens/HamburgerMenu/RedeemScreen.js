@@ -111,6 +111,8 @@ function RedeemScreen(props) {
     if (filteredArray.length >= 1) {
       setRedeemCheckoutDetails(filteredArray);
       props.navigation.navigate("RedeemCheckout");
+    } else {
+      alert("Please add a scheme");
     }
   };
   const RedeemExternalCheckout = () => {
@@ -119,6 +121,8 @@ function RedeemScreen(props) {
     if (filteredArray.length >= 1) {
       setRedeemExternalCheckoutDetails(filteredArray);
       props.navigation.navigate("RedeemCheckout");
+    } else {
+      alert("Please add a scheme");
     }
   };
 

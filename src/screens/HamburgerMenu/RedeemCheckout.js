@@ -12,6 +12,8 @@ import {
   TextInput,
   ActivityIndicator,
   ScrollView,
+  ToastAndroid,
+  Alert,
 } from "react-native";
 import { connect } from "react-redux";
 import { Styles, Config, Colors, FormValidate } from "../../common";
@@ -35,24 +37,40 @@ function RedeemCheckout(props) {
 
   useEffect(() => {
     if (redeemTransactionSucces === true) {
+      ToastAndroid.show("Transaction Happen Succesfully", ToastAndroid.LONG);
       setRedeemTransactionSucces(false);
-
       props.navigation.navigate("dashboard");
     }
   }, [redeemTransactionSucces]);
 
   const remove = (key, type) => {
-    if (type === "REDEEM") {
-      let filteredArray = redeemCheckoutDetails.filter(
-        (item) => item.type === "REDEEM" && item.key !== key
-      );
-      setRedeemCheckoutDetails(filteredArray);
-    } else {
-      let filteredArray = redeemExternalCheckoutDetails.filter(
-        (item) => item.type === "EXTERNAL" && item.key !== key
-      );
-      setRedeemExternalCheckoutDetails(filteredArray);
-    }
+    Alert.alert(
+      "Exit from Sipfund!",
+      "Do you want to close this application?",
+      [
+        {
+          text: "Cancel",
+          onPress: () => null,
+          style: "cancel",
+        },
+        {
+          text: "YES",
+          onPress: () => {
+            if (type === "REDEEM") {
+              let filteredArray = redeemCheckoutDetails.filter(
+                (item) => item.type === "REDEEM" && item.key !== key
+              );
+              setRedeemCheckoutDetails(filteredArray);
+            } else {
+              let filteredArray = redeemExternalCheckoutDetails.filter(
+                (item) => item.type === "EXTERNAL" && item.key !== key
+              );
+              setRedeemExternalCheckoutDetails(filteredArray);
+            }
+          },
+        },
+      ]
+    );
   };
 
   const checkout = () => {

@@ -57,6 +57,7 @@ import {
   HoldingsScreen,
   ExternalHoldingScreen,
   AddExternalHoldingScreen,
+  ZoomDocuments,
 } from "../screens";
 import { SideMenu } from "../components";
 import RedeemScreen from "../screens/HamburgerMenu/RedeemScreen";
@@ -402,6 +403,12 @@ export const RegisterStack = createStackNavigator(
     },
     UploadDocument: {
       screen: UploadDocumentScreen,
+      navigationOptions: {
+        headerShown: false,
+      },
+    },
+    ZoomDocuments: {
+      screen: ZoomDocuments,
       navigationOptions: {
         headerShown: false,
       },

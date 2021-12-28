@@ -54,6 +54,11 @@ function SwitchItem(props) {
 
   const toggleRadio = (identifier) => {
     // setToggle(key);
+
+    if (selectedScheme === "") {
+      alert("Please select the scheme");
+      return;
+    }
     if (identifier === "AMOUNT") {
       setAmount(true);
       setAllUnits(false);
@@ -88,6 +93,14 @@ function SwitchItem(props) {
     productCode,
     sourceReinvest
   ) => {
+    if (selectedScheme === "") {
+      alert("Please select the scheme");
+      return;
+    }
+    if (amount && amountValue.length === 0) {
+      alert("Please enter the amount");
+      return;
+    }
     if (
       selectedScheme !== "" &&
       (amount && amountValue.length === 0 ? false : true)

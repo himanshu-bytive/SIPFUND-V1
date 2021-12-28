@@ -49,6 +49,10 @@ function RedeemItem(props) {
     productCode,
     sourceReinvest
   ) => {
+    if (amount && amountValue.length === 0) {
+      alert("Please enter the amount");
+      return;
+    }
     if (amount && amountValue.length === 0 ? false : true) {
       console.log("AMOUNT=", typeof amountValue);
       console.log("value=", typeof value);

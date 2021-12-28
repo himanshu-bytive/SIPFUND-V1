@@ -10,6 +10,7 @@ import {
   KeyboardAvoidingView,
   TextInput,
   ActivityIndicator,
+  ToastAndroid,
 } from "react-native";
 import { connect } from "react-redux";
 import RNPickerSelect from "react-native-picker-select";
@@ -133,7 +134,16 @@ function TopRatedHomeScreen(props) {
     addItomToSip,
     showInside,
     fundDetails,
+    addItemSucces,
+    setAddItemSucces,
   } = props;
+
+  useEffect(() => {
+    if (addItemSucces) {
+      ToastAndroid.show("Cart Succesfully Created", ToastAndroid.LONG);
+      setAddItemSucces();
+    }
+  }, [addItemSucces]);
 
   useEffect(() => {
     console.log("routeName=", props.navigation.state.routeName);
@@ -877,6 +887,7 @@ const mapStateToProps = (state) => ({
   isFetching: state.toprated.isFetching,
   category: state.toprated.category,
   details: state.toprated.details,
+  addItemSucces: state.cartActions.addItemSucces,
 });
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
@@ -898,6 +909,9 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     },
     fundDetails: (data) => {
       FundDetailActions.fundDetails(dispatch, data);
+    },
+    setAddItemSucces: () => {
+      CartActions.setAddItemSucces(dispatch);
     },
   };
 };

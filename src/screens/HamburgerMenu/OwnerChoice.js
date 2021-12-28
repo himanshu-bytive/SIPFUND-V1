@@ -7,6 +7,7 @@ import {
   Text,
   TextInput,
   BackHandler,
+  ToastAndroid,
 } from "react-native";
 import { connect } from "react-redux";
 import { Styles, Config, Colors } from "../../common";
@@ -29,11 +30,21 @@ function OwnerChoice(props) {
     schemeGo,
     choices,
     addItomToSip,
+    addItemSucces,
+    setAddItemSucces,
   } = props;
   const [catList, setCatList] = useState([]);
   const [subcatList, setSubCatList] = useState([]);
   const [schemeList, setSchemeList] = useState([]);
   const [dataAvailable, setDataAvailable] = useState(false);
+
+  useEffect(() => {
+    if (addItemSucces) {
+      ToastAndroid.show("Cart Succesfully Created", ToastAndroid.LONG);
+      setAddItemSucces();
+    }
+  }, [addItemSucces]);
+
   useEffect(() => {
     if (token) {
       mainCategory(token);
@@ -748,6 +759,7 @@ const mapStateToProps = (state) => ({
   subCat: state.ownerChoice.subCat,
   schemeCat: state.ownerChoice.schemeCat,
   choices: state.ownerChoice.choices,
+  addItemSucces: state.cartActions.addItemSucces,
 });
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
@@ -771,6 +783,9 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     },
     addItomToSip: (params, token) => {
       CartActions.addItomToSip(dispatch, params, token);
+    },
+    setAddItemSucces: () => {
+      CartActions.setAddItemSucces(dispatch);
     },
   };
 };
