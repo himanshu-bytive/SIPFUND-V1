@@ -7,8 +7,7 @@ import {
   Text,
   Dimensions,
   ScrollView,
-  BackHandler,
-  Alert,
+  ActivityIndicator,
 } from "react-native";
 import { connect } from "react-redux";
 import { Styles, Config, Colors, FormValidate } from "../../common";
@@ -43,6 +42,9 @@ function HomeScreen(props) {
     investmentPlans,
     investment,
   } = props;
+
+  const [loading, toggleLoading] = useState(false);
+
   useEffect(() => {
     if (token) {
       getsteps({}, token);
@@ -56,14 +58,14 @@ function HomeScreen(props) {
   useEffect(() => {
     if (goalDetail && pageActiveGoles.current) {
       pageActiveGoles.current = false;
-      props.navigation.navigate("PlanHome");
+      props.navigation.navigate("PlanHome", { toggleLoading });
     }
   }, [goalDetail]);
 
   useEffect(() => {
     if (investment && pageActiveInvest.current) {
       pageActiveInvest.current = false;
-      props.navigation.navigate("InvestmentDetail");
+      props.navigation.navigate("InvestmentDetail", { toggleLoading });
     }
   }, [investment]);
 
@@ -139,6 +141,11 @@ function HomeScreen(props) {
           />
         }
       />
+      {loading && (
+        <View style={Styles.loading}>
+          <ActivityIndicator color={Colors.BLACK} size="large" />
+        </View>
+      )}
       <ScrollView style={styles.containerScroll}>
         <View
           style={
@@ -227,6 +234,7 @@ function HomeScreen(props) {
             <TouchableOpacity
               key={key}
               onPress={() => {
+                toggleLoading(true);
                 singleDetails(item, token);
                 pageActiveGoles.current = true;
               }}
@@ -257,6 +265,7 @@ function HomeScreen(props) {
           data={investments}
           counts={6}
           onPress={(item) => {
+            toggleLoading(true);
             investmentPlans(item, token);
             pageActiveInvest.current = true;
           }}

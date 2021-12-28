@@ -34,6 +34,7 @@ function PlanHomeScreen(props) {
     myGoles,
     fundDetails,
     setPlanYourGoalDetails,
+    //toggleLoading,
   } = props;
 
   const [additionalInfo, setAdditionalInfo] = useState({});
@@ -52,6 +53,10 @@ function PlanHomeScreen(props) {
   const toggleTab = (value) => {
     setSelectTab(value);
   };
+
+  useEffect(() => {
+    props.navigation.state.params.toggleLoading(false);
+  }, []);
 
   useEffect(() => {
     if (goalDetail.additionalInfo) {
@@ -136,11 +141,6 @@ function PlanHomeScreen(props) {
           </View>
         }
       />
-      {isFetching && (
-        <View style={Styles.loading}>
-          <ActivityIndicator color={Colors.BLACK} size="large" />
-        </View>
-      )}
       <ScrollView style={Styles.containerScroll}>
         {/* SIP_sec */}
 
@@ -674,6 +674,9 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     setPlanYourGoalDetails: (props) => {
       GoalsActions.setPlanYourGoalDetails(dispatch, props);
     },
+    //toggleLoading: (value) => {
+    //GoalsActions.toggleLoading(dispatch, value);
+    //},
   };
 };
 export default connect(
