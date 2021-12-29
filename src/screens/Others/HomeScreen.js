@@ -313,61 +313,57 @@ function HomeScreen(props) {
         <View style={styles.quick_sec}>
           <Text style={styles.quick_text}>Quick Access</Text>
           <ScrollView horizontal={true}>
-            <View style={styles.education_top}>
-              <TouchableOpacity
-                onPress={() => props.navigation.navigate("ReferEarn")}
-                style={[styles.education, styles.quick_access]}
-              >
-                <View style={styles.child_sec}>
-                  <Image
-                    source={require("../../../assets/term8.png")}
-                    style={styles.quick_img}
-                  />
-                </View>
-                <View style={styles.education_sec}>
-                  <Text style={styles.earn}>Refer & Earn</Text>
-                  <Text style={styles.child_text}>
-                    Now earn upto Rs. 5,000/-
-                  </Text>
-                </View>
-              </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => props.navigation.navigate("ReferEarn")}
+              style={[styles.education, styles.quick_access]}
+            >
+              <View style={styles.child_sec}>
+                <Image
+                  source={require("../../../assets/term8.png")}
+                  style={styles.quick_img}
+                />
+              </View>
+              <View style={styles.education_sec}>
+                <Text style={styles.earn}>Refer & Earn</Text>
+                <Text style={styles.child_text}>Now earn upto Rs. 5,000/-</Text>
+              </View>
+            </TouchableOpacity>
 
-              <TouchableOpacity
-                onPress={() => props.navigation.navigate("Relationship")}
-                style={[styles.education, styles.quick_access]}
-              >
-                <View style={styles.child_sec}>
-                  <Image
-                    source={require("../../../assets/quick_img3.png")}
-                    style={styles.quick_img3}
-                  />
-                </View>
-                <View style={styles.education_sec}>
-                  <Text style={styles.earn}>Talk To Experts</Text>
-                  <Text style={styles.child_text}>
-                    Get best advice while investing money
-                  </Text>
-                </View>
-              </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => props.navigation.navigate("Relationship")}
+              style={[styles.education, styles.quick_access]}
+            >
+              <View style={styles.child_sec}>
+                <Image
+                  source={require("../../../assets/quick_img3.png")}
+                  style={styles.quick_img3}
+                />
+              </View>
+              <View style={styles.education_sec}>
+                <Text style={styles.earn}>Talk To Experts</Text>
+                <Text style={styles.child_text}>
+                  Get best advice while investing money
+                </Text>
+              </View>
+            </TouchableOpacity>
 
-              <TouchableOpacity
-                onPress={() => props.navigation.navigate("Owner")}
-                style={[styles.education, styles.quick_access]}
-              >
-                <View style={styles.child_sec}>
-                  <AntDesign name={"search1"} size={80} color={Colors.RED} />
+            <TouchableOpacity
+              onPress={() => props.navigation.navigate("Owner")}
+              style={[styles.education, styles.quick_access]}
+            >
+              <View style={styles.child_sec}>
+                <AntDesign name={"search1"} size={80} color={Colors.RED} />
 
-                  {/* <Image
+                {/* <Image
                     source={require("../../../assets/quick_img3.png")}
                     style={styles.quick_img3}
                   /> */}
-                </View>
-                <View style={styles.education_sec}>
-                  <Text style={styles.earn}>Own Choice</Text>
-                  <Text style={styles.child_text}>Make your plan</Text>
-                </View>
-              </TouchableOpacity>
-            </View>
+              </View>
+              <View style={styles.education_sec}>
+                <Text style={styles.earn}>Own Choice</Text>
+                <Text style={styles.child_text}>Make your plan</Text>
+              </View>
+            </TouchableOpacity>
           </ScrollView>
         </View>
 
@@ -804,7 +800,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     marginVertical: 20,
     marginHorizontal: 5,
-    padding: 20,
+    padding: 10,
     backgroundColor: Colors.WHITE,
     shadowColor: "#000",
     shadowOffset: {
@@ -824,7 +820,8 @@ const styles = StyleSheet.create({
     borderRadius: 0,
     borderColor: Colors.BLACK,
     borderWidth: 1,
-    width: 340,
+    //maxWidth: 300,
+    //maxWidth: "70%",
   },
 
   child_sec: { width: "40%" },
