@@ -14,42 +14,46 @@ store = compose(applyMiddleware(...middleware))(createStore)(reducers);
 let persistor = persistStore(store);
 
 export default function App() {
-    const [assetsLoaded, setAssetsLoaded] = useState(false);
-    const [updateMsg, setUpdateMsg] = useState("");
+  const [assetsLoaded, setAssetsLoaded] = useState(false);
+  const [updateMsg, setUpdateMsg] = useState("");
 
-    useEffect(() => {
-        onLoad();
-    }, []);
+  useEffect(() => {
+    onLoad();
+  }, []);
 
-    const onLoad = async () => {
-        if (__DEV__) {
-            setUpdateMsg("Loading Assets");
-            setAssetsLoaded(true);
+  const onLoad = async () => {
+    if (__DEV__) {
+      setUpdateMsg("Loading Assets");
+      setAssetsLoaded(true);
+    } else {
+      try {
+        setUpdateMsg("Cecking Updates");
+        const update = await Updates.checkForUpdateAsync();
+        if (update.isAvailable) {
+          setUpdateMsg("Downloading Updates");
+          await Updates.fetchUpdateAsync();
+          await Updates.reloadAsync();
         } else {
-            try {
-                setUpdateMsg("Cecking Updates");
-                const update = await Updates.checkForUpdateAsync();
-                if (update.isAvailable) {
-                    setUpdateMsg("Downloading Updates");
-                    await Updates.fetchUpdateAsync();
-                    await Updates.reloadAsync();
-                } else {
-                    setAssetsLoaded(true);
-                }
-            } catch (e) {
-                console.log(e);
-            }
+          setAssetsLoaded(true);
         }
-    };
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  };
 
-    return (
-        <Provider store={store}>
-            <PersistGate persistor={persistor}>
-                <SafeAreaView>
-                    <StatusBar animated={true} backgroundColor="transparent" barStyle="dark-content" hidden={Platform.OS === 'ios' ? false : true} />
-                </SafeAreaView>
-                <AppContainer />
-            </PersistGate>
-        </Provider>
-    );
+  return (
+    <Provider store={store}>
+      <PersistGate persistor={persistor}>
+        <SafeAreaView>
+          <StatusBar
+            animated={true}
+            backgroundColor="transparent"
+            barStyle="dark-content"
+          />
+        </SafeAreaView>
+        <AppContainer />
+      </PersistGate>
+    </Provider>
+  );
 }

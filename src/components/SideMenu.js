@@ -502,8 +502,7 @@ function SideMenu(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-
-    // marginTop: StatusBar.currentHeight,
+    marginTop: StatusBar.currentHeight,
   },
   profile_sec: {
     flexDirection: "row",
