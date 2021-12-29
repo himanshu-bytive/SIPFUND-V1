@@ -462,13 +462,15 @@ function HomeScreen(props) {
               style={styles.FAQimg}
             />
           </View>
-          <View style={styles.singletext}>
-            <Entypo name="dot-single" size={40} color="#FFCE00" />
-            <Text style={styles.Mutualfund}>What is a Mutual Fund?</Text>
-          </View>
-          <View style={styles.singletext}>
-            <Entypo name="dot-single" size={40} color="#FFCE00" />
-            <Text style={styles.Mutualfund}>What is Open Ended Fund?</Text>
+          <View style={{ alignItems: "flex-start" }}>
+            <View style={styles.singletext}>
+              <Entypo name="dot-single" size={40} color="#FFCE00" />
+              <Text style={styles.Mutualfund}>What is a Mutual Fund?</Text>
+            </View>
+            <View style={styles.singletext}>
+              <Entypo name="dot-single" size={40} color="#FFCE00" />
+              <Text style={styles.Mutualfund}>What is Open Ended Fund?</Text>
+            </View>
           </View>
 
           <TouchableOpacity
