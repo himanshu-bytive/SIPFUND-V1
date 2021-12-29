@@ -156,7 +156,8 @@ function HomeScreen(props) {
         >
           <View
             style={{
-              alignItems: users?.IIN && steps > 3 ? "flex-start" : "center",
+              alignItems: "center",
+              //alignItems: users?.IIN && steps > 3 ? "flex-start" : "center",
               flexDirection: users?.IIN && steps > 3 ? "row" : "column",
             }}
           >
@@ -175,7 +176,7 @@ function HomeScreen(props) {
               <View
                 style={{
                   alignItems: users?.IIN && steps > 3 ? "flex-start" : "center",
-                  marginTop: 50,
+                  marginTop: "10%",
                 }}
               >
                 <Text
@@ -704,7 +705,7 @@ function HomeScreen(props) {
           }}
         >
           <Image
-            source={require("../../../assets/overlay_img.png")}
+            so4rce={require("../../../assets/overlay_img.png")}
             style={{ width: 56, height: 51 }}
           />
         </View>
@@ -757,7 +758,7 @@ const styles = StyleSheet.create({
   startInvestmentText: {
     color: Colors.LIGHT_RED,
     fontWeight: "bold",
-    fontSize: 16,
+    fontSize: 14,
   },
   logimg: {
     height: 65,
@@ -769,16 +770,16 @@ const styles = StyleSheet.create({
     width: 210,
   },
   Helloimgsmall: {
-    width: 190,
-    height: 190,
+    maxWidth: "40%",
+    height: 120,
     resizeMode: "contain",
   },
   HelloIinvestor: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "bold",
   },
   HelloIinvestor1: {
-    fontSize: 16,
+    fontSize: 14,
     color: Colors.GRAY_DEEP,
     opacity: 0.5,
     fontWeight: "bold",
