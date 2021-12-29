@@ -98,8 +98,16 @@ let documents = [
 ];
 
 function UploadDocumentScreen(props) {
-  const { token, user, steps, docs, getDocuments, uploadSuccess, isFetching } =
-    props;
+  const {
+    token,
+    user,
+    steps,
+    docs,
+    getDocuments,
+    uploadSuccess,
+    isFetching,
+    setUri,
+  } = props;
   const [document, setDocument] = useState(
     user?.userDetails?.ekycIsDone ? documentsKyc : documents
   );
@@ -122,6 +130,11 @@ function UploadDocumentScreen(props) {
       getDocuments(token);
     }
   }, [token, uploadSuccess]);
+
+  const zoomDocuments = (uri) => {
+    setUri(uri);
+    props.navigation.navigate("ZoomDocuments");
+  };
 
   return (
     <View style={styles.container}>
@@ -201,10 +214,16 @@ function UploadDocumentScreen(props) {
                         ? documentsMap[item.docType]
                         : item.docType}
                     </Text>
-                    <Image
-                      source={{ uri: `${docs?.baseUrl}${item.fileName}` }}
-                      style={{ width: Styles.width - 50, height: 300 }}
-                    />
+                    <TouchableOpacity
+                      onPress={() =>
+                        zoomDocuments(`${docs?.baseUrl}${item.fileName}`)
+                      }
+                    >
+                      <Image
+                        source={{ uri: `${docs?.baseUrl}${item.fileName}` }}
+                        style={{ width: Styles.width - 50, height: 300 }}
+                      />
+                    </TouchableOpacity>
                   </View>
                 ))
               : null}
@@ -292,6 +311,9 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     },
     logOut: () => {
       AuthActions.logOut(dispatch);
+    },
+    setUri: (params) => {
+      RegistrationActions.setUri(dispatch, params);
     },
   };
 };

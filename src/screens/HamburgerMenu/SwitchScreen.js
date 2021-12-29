@@ -144,10 +144,14 @@ function SwitchScreen(props) {
 
   const SwitchCheckout = () => {
     console.log("SwitchCheckOut");
+
     let filteredArray = addedScheme.filter((item) => item.type === "SWITCH");
+
     if (filteredArray.length >= 1) {
       setSwitchCheckoutDetails(filteredArray);
       props.navigation.navigate("SwitchCheckout");
+    } else {
+      alert("Please add a scheme");
     }
   };
   const SwitchExternalCheckout = () => {
@@ -156,6 +160,8 @@ function SwitchScreen(props) {
     if (filteredArray.length >= 1) {
       setSwitchExternalCheckoutDetails(filteredArray);
       props.navigation.navigate("SwitchCheckout");
+    } else {
+      alert("Please add a scheme");
     }
   };
 

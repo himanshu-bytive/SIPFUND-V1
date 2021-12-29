@@ -12,6 +12,8 @@ import {
   TextInput,
   ActivityIndicator,
   ScrollView,
+  ToastAndroid,
+  Alert,
 } from "react-native";
 import { connect } from "react-redux";
 import { Styles, Config, Colors, FormValidate } from "../../common";
@@ -36,23 +38,36 @@ function SwitchCheckout(props) {
 
   useEffect(() => {
     if (switchTransactionSucces === true) {
+      ToastAndroid.show("Transaction Happen Succesfully", ToastAndroid.LONG);
       setSwitchTransactionSucces(false);
       props.navigation.navigate("dashboard");
     }
   }, [switchTransactionSucces]);
 
   const remove = (key, type) => {
-    if (type === "SWITCH") {
-      let filteredArray = switchCheckoutDetails.filter(
-        (item) => item.type === "SWITCH" && item.key !== key
-      );
-      setSwitchCheckoutDetails(filteredArray);
-    } else {
-      let filteredArray = switchExternalCheckoutDetails.filter(
-        (item) => item.type === "EXTERNAL" && item.key !== key
-      );
-      setSwitchExternalCheckoutDetails(filteredArray);
-    }
+    Alert.alert("Are you sure?", "Do you want remove this scheme", [
+      {
+        text: "Cancel",
+        onPress: () => null,
+        style: "cancel",
+      },
+      {
+        text: "YES",
+        onPress: () => {
+          if (type === "SWITCH") {
+            let filteredArray = switchCheckoutDetails.filter(
+              (item) => item.type === "SWITCH" && item.key !== key
+            );
+            setSwitchCheckoutDetails(filteredArray);
+          } else {
+            let filteredArray = switchExternalCheckoutDetails.filter(
+              (item) => item.type === "EXTERNAL" && item.key !== key
+            );
+            setSwitchExternalCheckoutDetails(filteredArray);
+          }
+        },
+      },
+    ]);
   };
 
   useEffect(() => {
