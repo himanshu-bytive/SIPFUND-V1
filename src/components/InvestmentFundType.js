@@ -209,6 +209,7 @@ const styles = StyleSheet.create({
   },
   axis: {
     fontSize: 15,
+    width: "80%",
   },
   moderately: {
     fontSize: 12,
