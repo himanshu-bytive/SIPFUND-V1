@@ -133,7 +133,9 @@ function TopRatedListScreen(props) {
         {/* Monthly Investment_sec */}
 
         <View style={styles.fund_sec}>
-          <Text style={styles.investment}>Monthly Investment</Text>
+          <Text style={styles.investment}>
+            {selectTab === "SIP" ? "Monthly Investment" : "One Time Investment"}
+          </Text>
           <Text style={styles.price}>
             ₹ {selectTab === "SIP" ? sipTotal : lumpsumTotal}
           </Text>
