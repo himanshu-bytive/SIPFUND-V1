@@ -872,14 +872,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   sip_text: {
-    fontSize: 20,
+    fontSize: 18,
     color: Colors.RED,
     fontWeight: "bold",
     paddingVertical: 12,
     paddingHorizontal: 20,
   },
   sip_text2: {
-    fontSize: 20,
+    fontSize: 18,
     color: Colors.WHITE,
     fontWeight: "bold",
     paddingVertical: 12,
