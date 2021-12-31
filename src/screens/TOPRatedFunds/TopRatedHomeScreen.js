@@ -522,7 +522,7 @@ function TopRatedHomeScreen(props) {
 
         {details === null
           ? roted()
-          : details.map((item) => (
+          : details?.map((item) => (
               <View key={item[0]["_id"]} style={styles.axis_asset}>
                 <View style={styles.company}>
                   <TouchableOpacity onPress={() => openFundDetails(item)}>
