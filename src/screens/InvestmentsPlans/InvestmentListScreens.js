@@ -318,6 +318,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: Colors.RED,
     paddingTop: 5,
+    textAlign: "center",
   },
 
   // hybride
