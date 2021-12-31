@@ -41,11 +41,6 @@ const randerData = (
       : [data?.schemes];
     return (
       <View>
-        <View style={styles.hybrid_sec}>
-          <View style={{ backgroundColor: "#EFEFEF" }}>
-            <Text style={styles.hybrid}>{data?.fund_type}</Text>
-          </View>
-        </View>
         <View>
           {schemes.map((item, key) => (
             <View key={key} style={styles.axis_asset}>
@@ -152,26 +147,67 @@ const randerData = (
 export default function InvestmentFundType(props) {
   const { data, onPress, myInvestments, handleDelete, selectedOption } = props;
   const [newData, setNewData] = useState(data ? data : []);
+  const [keys, setKeys] = useState([]);
   useEffect(() => {
     if (data) {
       setNewData(data);
+      let keyList = Object.keys(groupByKey(data, "fund_type"));
+      setKeys(keyList);
     }
   }, [data]);
 
   const onChange = async (key, value, name) => {
     let data = JSON.parse(JSON.stringify(newData));
-    // console.log("CHANGE DATA=", data);
 
     data[key].schemes[name] =
       isNaN(value) || value === "" ? "0" : parseInt(value, 10).toString();
     myInvestments(data);
     setNewData(data);
   };
-  return newData.map((item, key) => (
-    <View key={key}>
-      {randerData(item, key, onPress, onChange, handleDelete, selectedOption)}
-    </View>
-  ));
+
+  function groupByKey(array, key) {
+    return array.reduce((hash, obj) => {
+      if (obj[key] === undefined) return hash;
+      return Object.assign(hash, {
+        [obj[key]]: (hash[obj[key]] || []).concat(obj),
+      });
+    }, {});
+  }
+
+  const FundList = ({ filterKey }) => (
+    <>
+      {console.log(filterKey)}
+      {newData
+        .filter((item) => item.fund_type === filterKey)
+        .map((item, key) => (
+          <View key={key}>
+            {randerData(
+              item,
+              key,
+              onPress,
+              onChange,
+              handleDelete,
+              selectedOption
+            )}
+          </View>
+        ))}
+    </>
+  );
+
+  return (
+    <>
+      {keys.map((item) => (
+        <>
+          <View style={styles.hybrid_sec}>
+            <View style={{ backgroundColor: "#EFEFEF" }}>
+              <Text style={styles.hybrid}>{item}</Text>
+            </View>
+          </View>
+          <FundList filterKey={item} />
+        </>
+      ))}
+    </>
+  );
 }
 
 const styles = StyleSheet.create({
