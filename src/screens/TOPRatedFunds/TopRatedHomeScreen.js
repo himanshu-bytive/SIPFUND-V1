@@ -405,7 +405,7 @@ function TopRatedHomeScreen(props) {
       const crorePrefix =
         crores >= 100000 ? changeNumberFormat(crores, decimals, true) : crores;
       isPlural = crores > 1 && !recursiveCall;
-      displayStr = `${+crorePrefix.toFixed(2)} Crore${isPlural ? "s" : ""}`;
+      displayStr = `${+crorePrefix.toFixed(2)} Cr`;
     } else {
       displayStr = roundOf(+number);
     }
