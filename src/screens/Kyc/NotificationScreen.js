@@ -58,7 +58,7 @@ function NotificationScreen(props) {
             <Text style={styles.nametext}>VISHNU DARIRA</Text>
             <Text style={styles.nametext}>
               09-Jul-2021{"\n"}Dear Customer,{"\n"}Your transactions for{"\n"}1.
-              SBI Magnum Low Duration Fund Regular Growth Amount in Rs-1002.51,
+              SBI Magnum Low Duration Fund Regular Growth Amount in ₹ 1002.51,
               Units-0.361, Nav Date-2021-07-06,{"\n"}has been uploaded.{"\n"}
               Please open your app for more info.{"\n"}SIPfund.com Type-RED{" "}
             </Text>

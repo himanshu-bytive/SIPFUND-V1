@@ -326,7 +326,7 @@ function HomeScreen(props) {
               </View>
               <View style={styles.education_sec}>
                 <Text style={styles.earn}>Refer & Earn</Text>
-                <Text style={styles.child_text}>Now earn upto Rs. 5,000/-</Text>
+                <Text style={styles.child_text}>Now earn upto ₹ 5,000/-</Text>
               </View>
             </TouchableOpacity>
 
