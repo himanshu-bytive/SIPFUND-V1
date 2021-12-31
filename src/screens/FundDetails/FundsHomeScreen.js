@@ -195,16 +195,18 @@ function FundsHomeScreen(props) {
       />
       <ScrollView style={styles.containerScroll}>
         <View style={styles.management_company}>
-          <Image
-            source={{ uri: fundDetail?.imagePath }}
-            style={styles.axis_img}
-          />
-          <TouchableOpacity>
-            <View style={styles.axis}>
-              <Text style={styles.axis_asset}>{fundDetail?.name}</Text>
+          <View style={styles.axis}>
+            <Image
+              source={{ uri: fundDetail?.imagePath }}
+              style={styles.axis_img}
+            />
+            <View style={{ marginHorizontal: 10, flex: 1 }}>
+              <Text numberOfLines={2} style={styles.axis_asset}>
+                {fundDetail?.name}
+              </Text>
               <Text style={styles.midcap}>{fundDetail?.productCode}</Text>
             </View>
-          </TouchableOpacity>
+          </View>
         </View>
 
         <View style={{ padding: 20 }}>
@@ -276,7 +278,9 @@ function FundsHomeScreen(props) {
           {/* Min Investment_sec */}
           <View style={styles.investment_sec}>
             <View style={styles.investment}>
-              <Text style={styles.price}>₹{parseInt(assets).toFixed(0)}</Text>
+              <Text style={styles.price}>
+                ₹{(parseInt(assets) / 10000000).toFixed(2)} Cr
+              </Text>
               <Text style={styles.min}>Total Assets</Text>
             </View>
             <View style={styles.investment}>
@@ -314,7 +318,7 @@ const styles = StyleSheet.create({
   axis_img: {
     height: 53,
     width: 53,
-    marginLeft: 20,
+    resizeMode: "contain",
   },
   management_company: {
     flexDirection: "row",
@@ -331,11 +335,14 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
   axis: {
-    marginLeft: 20,
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginHorizontal: 10,
   },
 
   axis_asset: {
-    fontSize: 18,
+    fontSize: 16,
   },
   midcap: {
     fontSize: 13,
