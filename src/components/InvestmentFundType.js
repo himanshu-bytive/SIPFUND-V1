@@ -131,6 +131,8 @@ const randerData = (
                     <Text style={styles.new}>₹</Text>
                     <TextInput
                       style={styles.new}
+                      keyboardType={"numeric"}
+                      maxLength={6}
                       placeholder={"sip"}
                       onChangeText={(value) => onChange(k, value, "sip")}
                       value={item?.sip ? item?.sip : "0"}

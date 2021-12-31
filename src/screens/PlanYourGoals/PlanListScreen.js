@@ -120,16 +120,24 @@ function PlanListScreen(props) {
         {/* My Selected Funds_sec */}
 
         <View style={styles.fund_sec}>
-          <Text style={styles.month}>SIP Per Month</Text>
+          <Text style={styles.month}>
+            {props.navigation.state.params.isLumpsum === true
+              ? "LumpSum Amount"
+              : "SIP Per Month"}
+          </Text>
         </View>
 
         {/* Monthly Investment_sec */}
 
         <View style={styles.fund_sec}>
-          <Text style={styles.investment}>Monthly Investment</Text>
+          <Text style={styles.investment}>
+            {props.navigation.state.params.isLumpsum === true
+              ? ""
+              : "Monthly Investment"}
+          </Text>
           {/* {planYourGoalsDetails && ( */}
           <Text style={styles.price}>{`₹${planYourGoalsDetails.toFixed(
-            2
+            0
           )}`}</Text>
           {/* )} */}
         </View>
@@ -137,6 +145,9 @@ function PlanListScreen(props) {
         <GoalFundType
           data={mygolelist}
           myGoles={myGoles}
+          selectedOption={
+            props.navigation.state.params.isLumpsum === true ? "LUMPSUM" : "SIP"
+          }
           onPress={(item) => {
             fundDetails(item);
             props.navigation.navigate("FundsDetails");
@@ -173,7 +184,7 @@ function PlanListScreen(props) {
           }
 
           /* Don't allow if sum of all investments exceed the amount */
-          if (sum > Number(planYourGoalsDetails)) {
+          if (sum > Number(planYourGoalsDetails).toFixed(0)) {
             Alert.alert(
               "Amount exceeds total",
               "Total invested amount exceeds the amount specified. Proceed?",
@@ -199,7 +210,7 @@ function PlanListScreen(props) {
               ],
               { cancelable: false }
             );
-          } else if (sum < Number(planYourGoalsDetails)) {
+          } else if (sum < Number(planYourGoalsDetails).toFixed(0)) {
             alert("Invested amount less than the total!");
           } else {
             //let params = getParams(

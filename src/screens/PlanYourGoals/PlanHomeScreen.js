@@ -300,7 +300,7 @@ function PlanHomeScreen(props) {
                 }}
               ></View>
               <Text style={styles.datered}>
-                ₹{Number(requiredInvestment).toFixed(2)}
+                ₹{Number(requiredInvestment).toFixed(0)}
               </Text>
             </View>
             <Text style={styles.requird}>
@@ -315,7 +315,7 @@ function PlanHomeScreen(props) {
               }}
             ></View>
             <Text style={styles.rupeestext}>
-              ₹{Number(sipAmount).toFixed(2)}
+              ₹{Number(sipAmount).toFixed(0)}
             </Text>
             <Text style={styles.requird}>Monthly SIP required</Text>
             <View style={styles.want}>
@@ -347,7 +347,7 @@ function PlanHomeScreen(props) {
                 }}
               ></View>
               <Text style={styles.datered}>
-                ₹{Number(requiredInvestment).toFixed(2)}
+                ₹{Number(requiredInvestment).toFixed(0)}
               </Text>
             </View>
 
@@ -363,7 +363,7 @@ function PlanHomeScreen(props) {
               }}
             ></View>
             <Text style={styles.rupeestext}>
-              ₹{Number(lumpsumAmount).toFixed(2)}
+              ₹{Number(lumpsumAmount).toFixed(0)}
             </Text>
             <Text style={styles.requird}>Lumpsum Amount</Text>
           </View>

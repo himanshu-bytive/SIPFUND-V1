@@ -11,7 +11,14 @@ import { AntDesign } from "react-native-vector-icons";
 import { Image, CheckBox } from "react-native-elements";
 import { Styles, Config, Colors, FormValidate } from "../common";
 
-const randerData = (data, k, onPress, onChange, handleDelete) => {
+const randerData = (
+  data,
+  k,
+  onPress,
+  onChange,
+  handleDelete,
+  selectedOption
+) => {
   const plusMinus = (type, value) => {
     if (type === "plus") {
       let newValue = parseInt(value) + 1;
@@ -85,36 +92,47 @@ const randerData = (data, k, onPress, onChange, handleDelete) => {
                   <Text style={styles.no}>Min Investment</Text>
                   <Text>₹{item.investment ? item.investment : "1000"}</Text>
                 </View>
-                <View style={styles.select}>
-                  <Text style={styles.no}>SIP Date</Text>
-                  <View style={{ flexDirection: "row" }}>
-                    <Text style={styles.new}>
-                      {item.date ? item.date : "5"}
-                    </Text>
-                    <View style={{ flexDirection: "column" }}>
-                      <TouchableOpacity
-                        onPress={() =>
-                          plusMinus("plus", item.date ? item.date : "5")
-                        }
-                      >
-                        <AntDesign name="caretup" size={15} color="#C0392B" />
-                      </TouchableOpacity>
-                      <TouchableOpacity
-                        onPress={() =>
-                          plusMinus("minus", item.date ? item.date : "5")
-                        }
-                      >
-                        <AntDesign name="caretdown" size={15} color="#C0392B" />
-                      </TouchableOpacity>
+                {selectedOption && selectedOption === "SIP" && (
+                  <View style={styles.select}>
+                    <Text style={styles.no}>SIP Date</Text>
+                    <View style={{ flexDirection: "row" }}>
+                      <Text style={styles.new}>
+                        {item.date ? item.date : "5"}
+                      </Text>
+                      <View style={{ flexDirection: "column" }}>
+                        <TouchableOpacity
+                          onPress={() =>
+                            plusMinus("plus", item.date ? item.date : "5")
+                          }
+                        >
+                          <AntDesign name="caretup" size={15} color="#C0392B" />
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                          onPress={() =>
+                            plusMinus("minus", item.date ? item.date : "5")
+                          }
+                        >
+                          <AntDesign
+                            name="caretdown"
+                            size={15}
+                            color="#C0392B"
+                          />
+                        </TouchableOpacity>
+                      </View>
                     </View>
                   </View>
-                </View>
+                )}
+
                 <View style={styles.select}>
-                  <Text style={styles.no}>SIP</Text>
+                  <Text style={styles.no}>
+                    {selectedOption === "SIP" ? "SIP Amount" : "Amount"}
+                  </Text>
                   <View style={{ flexDirection: "row", alignItems: "center" }}>
                     <Text style={styles.new}>₹</Text>
                     <TextInput
                       style={styles.new}
+                      keyboardType={"numeric"}
+                      maxLength={6}
                       placeholder={"sip"}
                       onChangeText={(value) => onChange(k, value, "sip")}
                       value={item?.sip ? item?.sip : "0"}
@@ -132,7 +150,7 @@ const randerData = (data, k, onPress, onChange, handleDelete) => {
 };
 
 export default function GoalFundType(props) {
-  const { data, onPress, myGoles, handleDelete } = props;
+  const { data, onPress, myGoles, handleDelete, selectedOption } = props;
   const [newData, setNewData] = useState(data ? data : []);
   useEffect(() => {
     if (data) {
@@ -149,7 +167,7 @@ export default function GoalFundType(props) {
   };
   return newData.map((item, key) => (
     <View key={key}>
-      {randerData(item, key, onPress, onChange, handleDelete)}
+      {randerData(item, key, onPress, onChange, handleDelete, selectedOption)}
     </View>
   ));
 }

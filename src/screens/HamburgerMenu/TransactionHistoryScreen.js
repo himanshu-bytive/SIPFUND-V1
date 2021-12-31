@@ -127,6 +127,7 @@ function TransactionHistoryScreen(props) {
             <Text>You don't have any transactions!</Text>
           </View>
         ) : (
+          transactionHistory &&
           transactionHistory.map((item) => {
             return (
               <View style={styles.transaction_history}>
@@ -136,6 +137,7 @@ function TransactionHistoryScreen(props) {
                 </View>
                 <View style={styles.fund_sec}>
                   <Text style={styles.Fund}>Folio No</Text>
+                  <Text style={styles.axis}>{item.FOLIO_NO}</Text>
                 </View>
                 <View style={styles.fund_sec}>
                   <Text style={styles.Fund}>Scheme Name</Text>
@@ -155,6 +157,7 @@ function TransactionHistoryScreen(props) {
                 </View>
                 <View style={styles.fund_sec}>
                   <Text style={styles.Fund}>Unit</Text>
+                  <Text style={styles.axis}>{item.UNITS}</Text>
                 </View>
                 <View style={styles.fund_sec}>
                   <Text style={styles.Fund}>Date</Text>
