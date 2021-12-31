@@ -116,6 +116,13 @@ function PlanHomeScreen(props) {
     });
   };
 
+  const getYear = () => {
+    let date = new Date();
+    let year = date.getFullYear();
+
+    return year + Number(time);
+  };
+
   return (
     <View style={styles.container}>
       <Header
@@ -290,7 +297,7 @@ function PlanHomeScreen(props) {
                   size={30}
                   color={Colors.RED}
                 />
-                <Text style={styles.datered}>2028</Text>
+                <Text style={styles.datered}>{getYear()}</Text>
               </View>
               <View
                 style={{
