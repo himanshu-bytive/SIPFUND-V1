@@ -29,7 +29,7 @@ function InvestmentDetailScreens(props) {
   const { investment, isFetching } = props;
 
   useEffect(() => {
-    props.navigation.state.params.toggleLoading(false);
+    props.navigation.state.params?.toggleLoading(false);
   }, []);
 
   return (
