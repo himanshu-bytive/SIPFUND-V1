@@ -503,7 +503,12 @@ const TabNavigator = createBottomTabNavigator(
           const imgSource = focused
             ? require("../../assets/exploreAct.png")
             : require("../../assets/explore.png");
-          return <Image style={{ width: 32, height: 32 }} source={imgSource} />;
+          return (
+            <Image
+              style={{ width: 28, height: 28, marginTop: 5 }}
+              source={imgSource}
+            />
+          );
         },
       },
     },
@@ -514,7 +519,12 @@ const TabNavigator = createBottomTabNavigator(
           const imgSource = focused
             ? require("../../assets/planAct.png")
             : require("../../assets/plan.png");
-          return <Image style={{ width: 32, height: 32 }} source={imgSource} />;
+          return (
+            <Image
+              style={{ width: 28, height: 28, marginTop: 5 }}
+              source={imgSource}
+            />
+          );
         },
       },
     },
@@ -525,7 +535,12 @@ const TabNavigator = createBottomTabNavigator(
           const imgSource = focused
             ? require("../../assets/dashboardAct.png")
             : require("../../assets/dashboard.png");
-          return <Image style={{ width: 32, height: 32 }} source={imgSource} />;
+          return (
+            <Image
+              style={{ width: 28, height: 28, marginTop: 5 }}
+              source={imgSource}
+            />
+          );
         },
       },
     },
@@ -536,7 +551,12 @@ const TabNavigator = createBottomTabNavigator(
           const imgSource = focused
             ? require("../../assets/userAct.png")
             : require("../../assets/user.png");
-          return <Image style={{ width: 32, height: 32 }} source={imgSource} />;
+          return (
+            <Image
+              style={{ width: 28, height: 28, marginTop: 5 }}
+              source={imgSource}
+            />
+          );
         },
       },
     },
@@ -544,11 +564,11 @@ const TabNavigator = createBottomTabNavigator(
   {
     tabBarOptions: {
       tabStyle: {
-        marginTop: 10,
-        marginBottom: -20,
+        //marginTop: 10,
+        //marginBottom: -20,
       },
       labelStyle: {
-        marginTop: 10,
+        marginTop: 5,
       },
       activeTintColor: "#ff0000",
       inactiveTintColor: "#000",

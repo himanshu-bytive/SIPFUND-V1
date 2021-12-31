@@ -55,7 +55,7 @@ function PlanHomeScreen(props) {
   };
 
   useEffect(() => {
-    props.navigation.state.params.toggleLoading(false);
+    props.navigation.state.params?.toggleLoading(false);
   }, []);
 
   useEffect(() => {

@@ -35,7 +35,7 @@ const MySelectPicker = (props) => {
           Icon={() => {
             return (
               <AntDesign
-                style={{ position: "absolute", right: -10, top: 5 }}
+                style={{ right: 10 }}
                 name="down"
                 color={"#444"}
                 size={18}

@@ -810,8 +810,9 @@ const styles = StyleSheet.create({
     paddingTop: 3,
   },
   axisimg: {
-    height: 39,
-    width: 39,
+    height: 50,
+    width: 50,
+    resizeMode: "contain",
   },
   botton_box: {
     width: 80,

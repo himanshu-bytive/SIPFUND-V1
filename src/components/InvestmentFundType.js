@@ -211,14 +211,16 @@ const styles = StyleSheet.create({
   },
   axis: {
     fontSize: 15,
+    width: "80%",
   },
   moderately: {
     fontSize: 12,
     color: Colors.DEEP_GRAY,
   },
   axisimg: {
-    height: 39,
-    width: 39,
+    height: 50,
+    width: 50,
+    resizeMode: "contain",
   },
   checkbox: {
     position: "absolute",

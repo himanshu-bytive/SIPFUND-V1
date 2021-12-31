@@ -80,8 +80,8 @@ function InvestmentDetailScreens(props) {
           </View>
           <View style={styles.child_sec}>
             <MyImage
-              width="145"
-              height="145"
+              width="120"
+              height="120"
               svg={true}
               url={investment.planImagePath}
             />
