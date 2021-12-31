@@ -67,7 +67,7 @@ export default function TopRatedFundType(props) {
           </View>
         )}
         <View style={styles.select}>
-          <Text style={styles.no}>SIP</Text>
+          <Text style={styles.no}>{fromSIP ? "SIP" : "Amount"}</Text>
           <Text style={styles.new}>₹{sip}</Text>
         </View>
       </View>
