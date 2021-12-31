@@ -127,7 +127,9 @@ function TopRatedListScreen(props) {
       <ScrollView style={styles.containerScroll}>
         <View style={styles.fund_sec}>
           <Text style={styles.selected}>My Selected Funds</Text>
-          <Text style={styles.month}>SIP Per Month</Text>
+          <Text style={styles.month}>
+            {selectTab === "SIP" ? "SIP Per Month" : "Lumpsum"}
+          </Text>
         </View>
 
         {/* Monthly Investment_sec */}
