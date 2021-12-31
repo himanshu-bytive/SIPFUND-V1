@@ -101,12 +101,22 @@ function InvestmentSubmitScreens(props) {
           .filter((value) => !isNaN(value.schemes.sip))
           .map((item, key) => (
             <View key={key} style={styles.sbi_sec}>
-              <Image
-                source={{ uri: item.schemes.imagePath }}
-                style={styles.Hybrid}
-              />
-              <Text style={styles.sbi_text}>{item.schemes.name}</Text>
-              <View style={{ flex: 1, minWidth: "30%" }}>
+              <View
+                style={{
+                  flex: 1,
+                  marginHorizontal: 10,
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <Image
+                  source={{ uri: item.schemes.imagePath }}
+                  style={styles.Hybrid}
+                />
+                <Text numberOfLines={2} style={styles.sbi_text}>
+                  {item.schemes.name}
+                </Text>
                 <Text style={styles.price}>₹ {item.schemes.sip}</Text>
               </View>
             </View>
@@ -198,17 +208,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   Hybrid: {
-    width: 32,
-    height: 36,
+    width: 50,
+    height: 50,
+    resizeMode: "contain",
   },
   sbi_text: {
+    flex: 1,
     marginLeft: 10,
     fontSize: 15,
   },
   price: {
-    paddingTop: 10,
     fontSize: 15,
-    paddingRight: 10,
     textAlign: "right",
     fontWeight: "bold",
   },
