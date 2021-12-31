@@ -149,6 +149,7 @@ function TopRatedListScreen(props) {
                 title={item.product_name}
                 sip={item.sip_amount}
                 image={item.image_path}
+                fromSIP={true}
                 onPress={() => {
                   fundDetails(item);
                   props.navigation.navigate("FundsDetails");

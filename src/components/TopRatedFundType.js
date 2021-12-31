@@ -6,7 +6,7 @@ import { Image, CheckBox } from "react-native-elements";
 import { Styles, Config, Colors, FormValidate } from "../common";
 
 export default function TopRatedFundType(props) {
-  const { onPress, type, title, sip, image, deleteItem } = props;
+  const { onPress, type, title, sip, image, deleteItem, fromSIP } = props;
 
   return (
     <View style={styles.axis_asset}>
@@ -56,14 +56,16 @@ export default function TopRatedFundType(props) {
           </View>
         </View>
 
-        <View style={styles.select}>
-          <Text style={styles.no}>SIP Date</Text>
+        {fromSIP && (
+          <View style={styles.select}>
+            <Text style={styles.no}>SIP Date</Text>
 
-          <View style={{ flexDirection: "row" }}>
-            <Text style={styles.new}>5</Text>
-            <AntDesign name="caretdown" size={20} color="#C0392B" />
+            <View style={{ flexDirection: "row" }}>
+              <Text style={styles.new}>5</Text>
+              <AntDesign name="caretdown" size={20} color="#C0392B" />
+            </View>
           </View>
-        </View>
+        )}
         <View style={styles.select}>
           <Text style={styles.no}>SIP</Text>
           <Text style={styles.new}>₹{sip}</Text>
