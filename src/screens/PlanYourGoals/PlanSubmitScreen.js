@@ -1,9 +1,26 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
-import { StyleSheet, Button, View, ImageBackground, TouchableOpacity, Text, Dimensions, KeyboardAvoidingView, TextInput, ActivityIndicator } from "react-native";
+import {
+  StyleSheet,
+  Button,
+  View,
+  ImageBackground,
+  TouchableOpacity,
+  Text,
+  Dimensions,
+  KeyboardAvoidingView,
+  TextInput,
+  ActivityIndicator,
+} from "react-native";
 import { connect } from "react-redux";
 import { Styles, Config, Colors, FormValidate } from "../../common";
 import { MyImage } from "../../components";
-import { Ionicons, AntDesign, EvilIcons, Entypo, FontAwesome5 } from "react-native-vector-icons";
+import {
+  Ionicons,
+  AntDesign,
+  EvilIcons,
+  Entypo,
+  FontAwesome5,
+} from "react-native-vector-icons";
 import { Image, Header, CheckBox } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
 
@@ -15,16 +32,29 @@ function PlanSubmitScreen(props) {
     <View style={styles.container}>
       <Header
         leftComponent={
-          <TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}>
+          <TouchableOpacity
+            onPress={() => props.navigation.goBack()}
+            style={{ marginTop: 20 }}
+          >
             <AntDesign name={"arrowleft"} size={40} color={Colors.RED} />
           </TouchableOpacity>
         }
         containerStyle={styles.header}
         backgroundColor={Colors.LIGHT_WHITE}
-        centerComponent={<Image source={require("../../../assets/icon.png")} style={styles.logimg} />}
+        centerComponent={
+          <Image
+            source={require("../../../assets/icon.png")}
+            style={styles.logimg}
+          />
+        }
         rightComponent={
           <View style={{ marginTop: 20, marginRight: 10 }}>
-            <AntDesign name={"shoppingcart"} size={40} color={Colors.RED} />
+            <AntDesign
+              onPress={() => props.navigation.navigate("TopRatedList")}
+              name={"shoppingcart"}
+              size={40}
+              color={Colors.RED}
+            />
           </View>
         }
       />
@@ -36,7 +66,12 @@ function PlanSubmitScreen(props) {
       <ScrollView>
         <View style={styles.education}>
           <View style={styles.child_sec}>
-            <MyImage width="117" height="117" svg={true} url={goalDetail?.goalImagePath} />
+            <MyImage
+              width="117"
+              height="117"
+              svg={true}
+              url={goalDetail?.goalImagePath}
+            />
           </View>
           <View style={styles.education_sec}>
             <Text style={styles.child}>Summary</Text>
@@ -51,7 +86,9 @@ function PlanSubmitScreen(props) {
 
         <View style={styles.fund_sec}>
           <Text style={styles.fund_secleft}>Fund List</Text>
-          <Text style={styles.fund_secright}>₹ {props.navigation.state.params.sum}</Text>
+          <Text style={styles.fund_secright}>
+            ₹ {props.navigation.state.params.sum}
+          </Text>
         </View>
 
         {mygolelist
@@ -60,7 +97,10 @@ function PlanSubmitScreen(props) {
             if (item.schemeInfo != "NA") {
               return (
                 <View key={key} style={styles.sbi_sec}>
-                  <Image source={{ uri: item.schemeInfo.imagePath }} style={styles.Hybrid} />
+                  <Image
+                    source={{ uri: item.schemeInfo.imagePath }}
+                    style={styles.Hybrid}
+                  />
                   <Text style={styles.sbi_text}>{item.schemeInfo.name}</Text>
                   <View style={{ flex: 1 }}>
                     <Text style={styles.price}>₹ {item.schemeInfo.sip}</Text>
@@ -75,7 +115,13 @@ function PlanSubmitScreen(props) {
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
-          props.navigation.navigate("Upi", { cart: mygolelist.filter((item) => !isNaN(item.schemeInfo.sip)), sum: props.navigation.state.params.sum, fromPlanGoals: true, fromCart: false, isLumpsum: props.navigation.state.params.isLumpsum });
+          props.navigation.navigate("Upi", {
+            cart: mygolelist.filter((item) => !isNaN(item.schemeInfo.sip)),
+            sum: props.navigation.state.params.sum,
+            fromPlanGoals: true,
+            fromCart: false,
+            isLumpsum: props.navigation.state.params.isLumpsum,
+          });
         }}
         style={styles.botton_box}
       >
@@ -246,4 +292,8 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     },
   };
 };
-export default connect(mapStateToProps, undefined, mapDispatchToProps)(PlanSubmitScreen);
+export default connect(
+  mapStateToProps,
+  undefined,
+  mapDispatchToProps
+)(PlanSubmitScreen);

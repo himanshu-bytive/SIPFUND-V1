@@ -97,11 +97,6 @@ function TopRatedListScreen(props) {
             style={styles.logimg}
           />
         }
-        rightComponent={
-          <View style={{ marginTop: 20, marginRight: 10 }}>
-            <AntDesign name={"shoppingcart"} size={40} color={Colors.RED} />
-          </View>
-        }
       />
 
       {/* SIP_sec */}

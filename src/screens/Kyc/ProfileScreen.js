@@ -80,7 +80,12 @@ function ProfileScreen(props) {
         }
         rightComponent={
           <View style={{ marginTop: 20, marginRight: 10 }}>
-            <AntDesign name={"shoppingcart"} size={40} color={Colors.RED} />
+            <AntDesign
+              onPress={() => props.navigation.navigate("TopRatedList")}
+              name={"shoppingcart"}
+              size={40}
+              color={Colors.RED}
+            />
           </View>
         }
       />

@@ -1,8 +1,25 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
-import { StyleSheet, Button, View, ImageBackground, TouchableOpacity, Text, Dimensions, KeyboardAvoidingView, TextInput, ActivityIndicator } from "react-native";
+import {
+  StyleSheet,
+  Button,
+  View,
+  ImageBackground,
+  TouchableOpacity,
+  Text,
+  Dimensions,
+  KeyboardAvoidingView,
+  TextInput,
+  ActivityIndicator,
+} from "react-native";
 import { connect } from "react-redux";
 import { Styles, Config, Colors, FormValidate } from "../../common";
-import { Ionicons, AntDesign, EvilIcons, Entypo, FontAwesome5 } from "react-native-vector-icons";
+import {
+  Ionicons,
+  AntDesign,
+  EvilIcons,
+  Entypo,
+  FontAwesome5,
+} from "react-native-vector-icons";
 import { Image, Header, CheckBox } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
 import { color } from "react-native-elements/dist/helpers";
@@ -29,16 +46,29 @@ function TopRatedSubmitScreen(props) {
     <View style={styles.container}>
       <Header
         leftComponent={
-          <TouchableOpacity onPress={() => props.navigation.goBack()} style={{ marginTop: 20 }}>
+          <TouchableOpacity
+            onPress={() => props.navigation.goBack()}
+            style={{ marginTop: 20 }}
+          >
             <AntDesign name={"arrowleft"} size={40} color={Colors.RED} />
           </TouchableOpacity>
         }
         containerStyle={styles.header}
         backgroundColor={Colors.LIGHT_WHITE}
-        centerComponent={<Image source={require("../../../assets/icon.png")} style={styles.logimg} />}
+        centerComponent={
+          <Image
+            source={require("../../../assets/icon.png")}
+            style={styles.logimg}
+          />
+        }
         rightComponent={
           <View style={{ marginTop: 20, marginRight: 10 }}>
-            <AntDesign name={"shoppingcart"} size={40} color={Colors.RED} />
+            <AntDesign
+              onPress={() => props.navigation.navigate("TopRatedList")}
+              name={"shoppingcart"}
+              size={40}
+              color={Colors.RED}
+            />
           </View>
         }
       />
@@ -46,7 +76,10 @@ function TopRatedSubmitScreen(props) {
       <ScrollView>
         <View style={styles.education}>
           <View style={styles.child_sec}>
-            <Image source={require("../../../assets/term7.png")} style={styles.goals_2} />
+            <Image
+              source={require("../../../assets/term7.png")}
+              style={styles.goals_2}
+            />
           </View>
           <View style={styles.education_sec}>
             <Text style={styles.child}>Summary</Text>
@@ -69,7 +102,18 @@ function TopRatedSubmitScreen(props) {
         ))}
       </ScrollView>
 
-      <TouchableOpacity onPress={() => props.navigation.navigate("Upi", { cart, sum, fromCart: true, fromPlanGoals: false, isLumpsum: props.navigation.state.params.isLumpsum })} style={styles.botton_box}>
+      <TouchableOpacity
+        onPress={() =>
+          props.navigation.navigate("Upi", {
+            cart,
+            sum,
+            fromCart: true,
+            fromPlanGoals: false,
+            isLumpsum: props.navigation.state.params.isLumpsum,
+          })
+        }
+        style={styles.botton_box}
+      >
         <Text style={styles.get_otp}>MAKE PAYMENT</Text>
       </TouchableOpacity>
     </View>
@@ -241,4 +285,8 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     },
   };
 };
-export default connect(mapStateToProps, undefined, mapDispatchToProps)(TopRatedSubmitScreen);
+export default connect(
+  mapStateToProps,
+  undefined,
+  mapDispatchToProps
+)(TopRatedSubmitScreen);
