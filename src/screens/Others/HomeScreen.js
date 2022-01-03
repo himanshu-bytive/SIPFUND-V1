@@ -203,7 +203,7 @@ function HomeScreen(props) {
                 >
                   {users?.IIN && steps > 3
                     ? "Your Account is Active"
-                    : "You're almost ready to submit"}
+                    : "You're almost ready to Invest"}
                 </Text>
               </View>
               {users?.IIN && steps > 3 ? (
