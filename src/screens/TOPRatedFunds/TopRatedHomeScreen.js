@@ -163,10 +163,19 @@ function TopRatedHomeScreen(props) {
 
   const roted = () => {
     let date = new Date();
+    let month = date.getMonth();
+    let year;
+    if (month === 0) {
+      month = monthsArr[11];
+      year = date.getFullYear() - 1;
+    } else {
+      month = monthsArr[month - 1];
+      year = date.getFullYear();
+    }
     let params = {
       Category: "Equity",
-      Month: getMonth(),
-      Year: date.getFullYear(),
+      Month: month,
+      Year: year,
       Fund_Type: "Consumption",
     };
     console.log("params", params);
@@ -185,21 +194,32 @@ function TopRatedHomeScreen(props) {
       setFilter(tempFilterList);
     }
   };
-  const getMonth = () => {
-    const date = new Date();
-    const month = date.getMonth();
-    return monthsArr[month - 1];
-  };
+  // const getMonth = () => {
+  //   const date = new Date();
+  //   const month = date.getMonth();
+  //   if (month === 0) {
+  //   }
+  //   return monthsArr[month - 1];
+  // };
 
   const [selectCat, setSelectCat] = useState("Equity");
   const [selectSubCat, setSelectSubCat] = useState("Consumption");
   const feachDetails = async (item) => {
     setSelectSubCat(item);
     let date = new Date();
+    let month = date.getMonth();
+    let year;
+    if (month === 0) {
+      month = monthsArr[11];
+      year = date.getFullYear() - 1;
+    } else {
+      month = monthsArr[month - 1];
+      year = date.getFullYear();
+    }
     let params = {
       Category: selectCat,
-      Month: getMonth(),
-      Year: date.getFullYear(),
+      Month: month,
+      Year: year,
       Fund_Type: item,
     };
     console.log("params Top Rated=", params);
