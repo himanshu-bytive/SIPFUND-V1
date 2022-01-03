@@ -106,7 +106,7 @@ function VerifyScreen(props) {
   };
 
   const [state, setState] = useState({
-    phone: "",
+    phone: (phones && phones[0]) ? String(phones[0]) : '',
   });
 
   const [errors, setError] = useState({
