@@ -299,13 +299,29 @@ function OwnerChoice(props) {
       const crorePrefix =
         crores >= 100000 ? changeNumberFormat(crores, decimals, true) : crores;
       isPlural = crores > 1 && !recursiveCall;
-      displayStr = `${+crorePrefix.toFixed(2)} Crore${isPlural ? "s" : ""}`;
+      displayStr = `${+crorePrefix.toFixed(2)} Cr${isPlural ? "s" : ""}`;
     } else {
       displayStr = roundOf(+number);
     }
 
     return displayStr;
   }
+
+  function numberWithCommas(x) {
+    // console.log("X=", x);
+    x = x.toString();
+    var lastThree = x.substring(x.length - 3);
+    var otherNumbers = x.substring(0, x.length - 3);
+    if (otherNumbers != "") lastThree = "," + lastThree;
+    var res =
+      "₹" + otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree;
+    return res;
+  }
+
+  const removeSpecialChars = (val) => {
+    let string = val.replace(/[&\/\\#,+()$~%.'":*?<>{}₹]/g, "");
+    setStates({ ...states, amount: string });
+  };
 
   return (
     <View style={styles.container}>
@@ -520,12 +536,12 @@ function OwnerChoice(props) {
                     <Text style={styles.amount_tex}>Amount</Text>
                     <View style={styles.bordersec}>
                       <TextInput
-                        value={states.amount}
+                        value={numberWithCommas(states.amount)}
                         keyboardType="numeric"
-                        onChangeText={(amount) =>
-                          setStates({ ...states, amount })
-                        }
-                        placeholder="5000"
+                        onChangeText={(amount) => {
+                          removeSpecialChars(amount);
+                        }}
+                        placeholder={`₹5000`}
                         style={styles.amount_tex2}
                       />
                     </View>
@@ -578,12 +594,12 @@ function OwnerChoice(props) {
                     <Text style={styles.amount_tex}>Amount</Text>
                     <View style={styles.bordersec}>
                       <TextInput
-                        value={states.amount}
+                        value={numberWithCommas(states.amount)}
                         keyboardType="numeric"
-                        onChangeText={(amount) =>
-                          setStates({ ...states, amount })
-                        }
-                        placeholder="5000"
+                        onChangeText={(amount) => {
+                          removeSpecialChars(amount);
+                        }}
+                        placeholder={`₹5000`}
                         style={styles.amount_tex2}
                       />
                     </View>

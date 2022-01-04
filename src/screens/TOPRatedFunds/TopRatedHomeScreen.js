@@ -394,13 +394,14 @@ function TopRatedHomeScreen(props) {
     var lastThree = x.substring(x.length - 3);
     var otherNumbers = x.substring(0, x.length - 3);
     if (otherNumbers != "") lastThree = "," + lastThree;
-    var res = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree;
+    var res =
+      "₹" + otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree;
     return res;
   }
 
-  const removeComma = (val) => {
-    let amount = val.replace(/,/g, "");
-    setStates({ ...states, amount });
+  const removeSpecialChars = (val) => {
+    let string = val.replace(/[&\/\\#,+()$~%.'":*?<>{}₹]/g, "");
+    setStates({ ...states, amount: string });
   };
 
   function changeNumberFormat(number, decimals, recursiveCall) {
@@ -425,7 +426,7 @@ function TopRatedHomeScreen(props) {
       const crorePrefix =
         crores >= 100000 ? changeNumberFormat(crores, decimals, true) : crores;
       isPlural = crores > 1 && !recursiveCall;
-      displayStr = `${+crorePrefix.toFixed(2)} Cr`;
+      displayStr = `${+crorePrefix.toFixed(2)} Cr${isPlural ? "s" : ""}`;
     } else {
       displayStr = roundOf(+number);
     }
@@ -688,8 +689,8 @@ function TopRatedHomeScreen(props) {
                   <View style={styles.bordersec}>
                     <TextInput
                       value={numberWithCommas(states.amount)}
-                      onChangeText={(amount) => removeComma(amount)}
-                      placeholder="5000"
+                      onChangeText={(amount) => removeSpecialChars(amount)}
+                      placeholder="₹5000"
                       style={styles.amount_tex2}
                     />
                   </View>
@@ -739,8 +740,8 @@ function TopRatedHomeScreen(props) {
                   <View style={styles.bordersec}>
                     <TextInput
                       value={numberWithCommas(states.amount)}
-                      onChangeText={(amount) => removeComma(amount)}
-                      placeholder="5000"
+                      onChangeText={(amount) => removeSpecialChars(amount)}
+                      placeholder="₹5000"
                       style={styles.amount_tex2}
                     />
                   </View>
