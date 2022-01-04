@@ -53,7 +53,16 @@ const list = [
 ];
 
 function ReferEarnScreen(props) {
-  const { isFetching, token, getRefer, user, refers, refersConfig } = props;
+  const {
+    isFetching,
+    token,
+    getRefer,
+    user,
+    refers,
+    refersConfig,
+    referralLink,
+    getReferralLink,
+  } = props;
 
   const [showTC, setShowTC] = useState(false);
 
@@ -63,11 +72,25 @@ function ReferEarnScreen(props) {
     }
   }, [token]);
 
+  useEffect(() => {
+    if (user?.referralCode) {
+      let params = {
+        dynamicLinkInfo: {
+          domainUriPrefix: "eks24.app.goo.gl",
+          link: `http://sipfund.com/?rcid=${user?.referralCode}`,
+          androidInfo: {
+            androidPackageName: "com.octrax.sipfund",
+          },
+        },
+      };
+      getReferralLink(params);
+    }
+  }, [user?.referralCode]);
+
   const onShare = async () => {
     try {
       const result = await Share.share({
-        message:
-          "React Native | A framework for building native apps using React",
+        message: referralLink,
       });
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
@@ -464,6 +487,7 @@ const mapStateToProps = (state) => ({
   isFetching: state.sideMenu.isFetching,
   refers: state.sideMenu.refers,
   refersConfig: state.sideMenu.refersConfig,
+  referralLink: state.sideMenu.referralLink,
 });
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
@@ -474,6 +498,9 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     ...ownProps,
     getRefer: (token) => {
       SideMenuActions.getRefer(dispatch, token);
+    },
+    getReferralLink: (params) => {
+      SideMenuActions.getReferralLink(dispatch, params);
     },
   };
 };
