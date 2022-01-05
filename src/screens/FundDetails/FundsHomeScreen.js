@@ -284,7 +284,7 @@ function FundsHomeScreen(props) {
           <View style={styles.investment_sec}>
             <View style={styles.investment}>
               <Text style={styles.price}>
-                ₹{(parseInt(assets) / 10000000).toFixed(2)} Cr
+                ₹{(parseInt(assets) / 10000000).toFixed(0)} Cr
               </Text>
               <Text style={styles.min}>Total Assets</Text>
             </View>
