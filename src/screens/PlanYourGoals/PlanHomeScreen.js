@@ -349,7 +349,7 @@ function PlanHomeScreen(props) {
                   size={30}
                   color={Colors.RED}
                 />
-                <Text style={styles.datered}>2028</Text>
+                <Text style={styles.datered}>{getYear()}</Text>
               </View>
               <View
                 style={{
