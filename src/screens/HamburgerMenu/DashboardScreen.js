@@ -19,6 +19,7 @@ import { connect } from "react-redux";
 import { Styles, Config, Colors, FormValidate } from "../../common";
 import { Entypo, AntDesign } from "react-native-vector-icons";
 import { Header, Overlay } from "react-native-elements";
+import Cart from "../../components/Cart";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
@@ -64,12 +65,11 @@ function DashboardScreen(props) {
           </TouchableOpacity>
         }
         rightComponent={
-          <TouchableOpacity
-            onPress={() => props.navigation.navigate("TopRatedList")}
-            style={{ marginTop: 20 }}
-          >
-            <AntDesign name={"shoppingcart"} size={30} color={Colors.RED} />
-          </TouchableOpacity>
+          <Cart
+            nav={() => {
+              props.navigation.navigate("TopRatedList");
+            }}
+          />
         }
         backgroundColor={Colors.LIGHT_WHITE}
         containerStyle={styles.header}

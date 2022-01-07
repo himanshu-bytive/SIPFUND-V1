@@ -21,6 +21,7 @@ import {
 } from "react-native-vector-icons";
 import { Image, Header, CheckBox } from "react-native-elements";
 import { MyImage, InvestmentFundType } from "../../components";
+import Cart from "../../components/Cart";
 
 function InvestmentListScreens(props) {
   const pageActive = useRef(false);
@@ -120,14 +121,11 @@ function InvestmentListScreens(props) {
           />
         }
         rightComponent={
-          <View style={{ marginTop: 20, marginRight: 10 }}>
-            <AntDesign
-              onPress={() => props.navigation.navigate("TopRatedList")}
-              name={"shoppingcart"}
-              size={40}
-              color={Colors.RED}
-            />
-          </View>
+          <Cart
+            nav={() => {
+              props.navigation.navigate("TopRatedList");
+            }}
+          />
         }
       />
       <ScrollView>

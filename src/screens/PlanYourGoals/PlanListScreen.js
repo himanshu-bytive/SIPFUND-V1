@@ -20,6 +20,7 @@ import {
 import { Image, Header, CheckBox, colors } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
 import { MyImage, GoalFundType } from "../../components";
+import Cart from "../../components/Cart";
 
 function PlanListScreen(props) {
   const pageActive = useRef(false);
@@ -90,14 +91,11 @@ function PlanListScreen(props) {
           />
         }
         rightComponent={
-          <View style={{ marginTop: 20, marginRight: 10 }}>
-            <AntDesign
-              onPress={() => props.navigation.navigate("TopRatedList")}
-              name={"shoppingcart"}
-              size={40}
-              color={Colors.RED}
-            />
-          </View>
+          <Cart
+            nav={() => {
+              props.navigation.navigate("TopRatedList");
+            }}
+          />
         }
       />
       {isFetching && (

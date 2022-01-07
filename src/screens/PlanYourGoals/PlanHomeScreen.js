@@ -22,6 +22,7 @@ import {
   FontAwesome5,
 } from "react-native-vector-icons";
 import { Image, Header } from "react-native-elements";
+import Cart from "../../components/Cart";
 
 function PlanHomeScreen(props) {
   const pageActive = useRef(false);
@@ -143,14 +144,11 @@ function PlanHomeScreen(props) {
           />
         }
         rightComponent={
-          <View style={{ marginTop: 20, marginRight: 10 }}>
-            <AntDesign
-              onPress={() => props.navigation.navigate("TopRatedList")}
-              name={"shoppingcart"}
-              size={40}
-              color={Colors.RED}
-            />
-          </View>
+          <Cart
+            nav={() => {
+              props.navigation.navigate("TopRatedList");
+            }}
+          />
         }
       />
       <ScrollView style={Styles.containerScroll}>

@@ -3,6 +3,7 @@ import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { Header } from "react-native-elements";
 import { AntDesign, Entypo } from "react-native-vector-icons";
 import { connect } from "react-redux";
+import Cart from "../../components/Cart";
 
 import { Colors } from "../../common";
 
@@ -26,14 +27,11 @@ const RmNotFoundScreen = (props) => {
           />
         }
         rightComponent={
-          <View style={{ marginTop: 20, marginRight: 10 }}>
-            <AntDesign
-              onPress={() => props.navigation.navigate("TopRatedList")}
-              name={"shoppingcart"}
-              size={40}
-              color={Colors.RED}
-            />
-          </View>
+          <Cart
+            nav={() => {
+              props.navigation.navigate("TopRatedList");
+            }}
+          />
         }
       />
       <View style={styles.container}>

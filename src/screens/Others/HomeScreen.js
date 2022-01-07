@@ -15,6 +15,7 @@ import { Styles, Config, Colors, FormValidate } from "../../common";
 import { InvestmentLists, MyImage } from "../../components";
 import { Entypo, AntDesign } from "react-native-vector-icons";
 import { Header, Overlay, CheckBox, Input } from "react-native-elements";
+import Cart from "../../components/Cart";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
@@ -126,12 +127,11 @@ function HomeScreen(props) {
           </TouchableOpacity>
         }
         rightComponent={
-          <TouchableOpacity
-            onPress={() => props.navigation.navigate("TopRatedList")}
-            style={{ marginTop: 20 }}
-          >
-            <AntDesign name={"shoppingcart"} size={30} color={Colors.RED} />
-          </TouchableOpacity>
+          <Cart
+            nav={() => {
+              props.navigation.navigate("TopRatedList");
+            }}
+          />
         }
         backgroundColor={Colors.LIGHT_WHITE}
         containerStyle={Styles.header}
@@ -1113,7 +1113,7 @@ const mapStateToProps = (state) => ({
   error: state.home.error,
   steps: state.home.steps,
   home: state.home.home,
-  cart: state.home.cart,
+  cart: state.cartActions.cart,
   goals: state.goals.goals,
   goalDetail: state.goals.goalDetail,
   investments: state.investmentplan.investments,

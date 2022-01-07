@@ -23,6 +23,7 @@ import {
 } from "react-native-vector-icons";
 import { Image, Header, CheckBox } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
+import Cart from "../../components/Cart";
 
 function PlanSubmitScreen(props) {
   const pageActive = useRef(false);
@@ -48,14 +49,11 @@ function PlanSubmitScreen(props) {
           />
         }
         rightComponent={
-          <View style={{ marginTop: 20, marginRight: 10 }}>
-            <AntDesign
-              onPress={() => props.navigation.navigate("TopRatedList")}
-              name={"shoppingcart"}
-              size={40}
-              color={Colors.RED}
-            />
-          </View>
+          <Cart
+            nav={() => {
+              props.navigation.navigate("TopRatedList");
+            }}
+          />
         }
       />
       {isFetching && (
