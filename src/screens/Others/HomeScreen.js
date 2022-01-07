@@ -150,7 +150,7 @@ function HomeScreen(props) {
       <ScrollView style={styles.containerScroll}>
         <View
           style={
-            users?.IIN && steps > 3
+            users?.IIN && steps > 5
               ? styles.home_top_completed
               : styles.home_top
           }
@@ -159,13 +159,13 @@ function HomeScreen(props) {
             style={{
               alignItems: "center",
               //alignItems: users?.IIN && steps > 3 ? "flex-start" : "center",
-              flexDirection: users?.IIN && steps > 3 ? "row" : "column",
+              flexDirection: users?.IIN && steps > 5 ? "row" : "column",
             }}
           >
             <Image
               source={require("../../../assets/Hello.png")}
               style={
-                users?.IIN && steps > 3 ? styles.Helloimgsmall : styles.Helloimg
+                users?.IIN && steps > 5 ? styles.Helloimgsmall : styles.Helloimg
               }
             />
             <View
@@ -176,7 +176,7 @@ function HomeScreen(props) {
             >
               <View
                 style={{
-                  alignItems: users?.IIN && steps > 3 ? "flex-start" : "center",
+                  alignItems: users?.IIN && steps > 5 ? "flex-start" : "center",
                   marginTop: "10%",
                 }}
               >
@@ -188,7 +188,7 @@ function HomeScreen(props) {
                     },
                   ]}
                 >
-                  {users?.IIN && steps > 3
+                  {users?.IIN && steps > 5
                     ? "Congratulations"
                     : users.name
                     ? `Hello, ${users.name}`
@@ -203,12 +203,12 @@ function HomeScreen(props) {
                     },
                   ]}
                 >
-                  {users?.IIN && steps > 3
+                  {users?.IIN && steps > 5
                     ? "Your Account is Active"
                     : "You're almost ready to Invest"}
                 </Text>
               </View>
-              {users?.IIN && steps > 3 ? (
+              {users?.IIN && steps > 5 ? (
                 <Text
                   onPress={() => props.navigation.navigate("Goals")}
                   style={styles.startInvestmentText}
