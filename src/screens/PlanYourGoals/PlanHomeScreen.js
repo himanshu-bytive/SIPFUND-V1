@@ -1,16 +1,11 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
 import {
   StyleSheet,
-  Button,
   View,
-  ImageBackground,
   TouchableOpacity,
   ScrollView,
   Text,
-  Dimensions,
-  KeyboardAvoidingView,
-  TextInput,
-  ActivityIndicator,
+  BackHandler,
 } from "react-native";
 import { connect } from "react-redux";
 import { Styles, Config, Colors, FormValidate, Utility } from "../../common";
@@ -54,6 +49,21 @@ function PlanHomeScreen(props) {
   const toggleTab = (value) => {
     setSelectTab(value);
   };
+
+  useEffect(() => {
+    const backAction = () => {
+      props.navigation.state.params?.toggleLoading(false);
+      props.navigation.navigate("Home");
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, []);
 
   useEffect(() => {
     props.navigation.state.params?.toggleLoading(false);
