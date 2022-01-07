@@ -66,6 +66,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     backgroundColor: Colors.RED,
+    marginTop: 20,
   },
 
   arrow: {
