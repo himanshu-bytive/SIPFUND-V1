@@ -35,6 +35,8 @@ const randerData = (
     }
   };
 
+  const [value, setValue] = useState();
+
   if (data?.schemes != "NA") {
     let schemes = Array.isArray(data?.schemes)
       ? data?.schemes
@@ -129,8 +131,17 @@ const randerData = (
                       keyboardType={"numeric"}
                       maxLength={6}
                       placeholder={"sip"}
-                      onChangeText={(value) => onChange(k, value, "sip")}
-                      value={item?.sip ? item?.sip : "0"}
+                      onChangeText={(v) => {
+                        // onChange(k, value, "sip")
+                        // Keyboard.
+                        setValue(v);
+                      }}
+                      onBlur={() => onChange(item?.productCode, value, "sip")}
+                      onSubmitEditing={() =>
+                        onChange(item?.productCode, value, "sip")
+                      }
+                      // value={item?.sip ? item?.sip : "0"}
+                      value={value ? value : item?.sip ? item?.sip : "0"}
                     />
                   </View>
                 </View>
@@ -152,12 +163,19 @@ export default function InvestmentFundType(props) {
     if (data) {
       setNewData(data);
       let keyList = Object.keys(groupByKey(data, "fund_type"));
-      setKeys(keyList);
+      if (data.length !== keys.length) setKeys(keyList);
     }
   }, [data]);
 
-  const onChange = async (key, value, name) => {
+  const onChange = async (productCode, value, name) => {
     let data = JSON.parse(JSON.stringify(newData));
+    let key;
+
+    for (key in data) {
+      if (data[key].schemes.productCode === productCode) {
+        break;
+      }
+    }
 
     data[key].schemes[name] =
       isNaN(value) || value === "" ? "0" : parseInt(value, 10).toString();
@@ -176,7 +194,6 @@ export default function InvestmentFundType(props) {
 
   const FundList = ({ filterKey }) => (
     <>
-      {console.log(filterKey)}
       {newData
         .filter((item) => item.fund_type === filterKey)
         .map((item, key) => (
