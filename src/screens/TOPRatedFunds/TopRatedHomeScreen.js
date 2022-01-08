@@ -23,6 +23,7 @@ import {
 } from "react-native-vector-icons";
 import { Image, Header, CheckBox, Overlay } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
+import Cart from "../../components/Cart";
 
 // const filterList = [
 //   { name: "1M", label: "1M Returns", value: "1m", status: false },
@@ -456,12 +457,11 @@ function TopRatedHomeScreen(props) {
             />
           }
           rightComponent={
-            <TouchableOpacity
-              onPress={() => props.navigation.navigate("TopRatedList")}
-              style={{ marginTop: 20, marginRight: 10 }}
-            >
-              <AntDesign name={"shoppingcart"} size={40} color={Colors.RED} />
-            </TouchableOpacity>
+            <Cart
+              nav={() => {
+                props.navigation.navigate("TopRatedList");
+              }}
+            />
           }
         />
       )}

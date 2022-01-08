@@ -17,12 +17,13 @@ const Cart = (props) => {
   return (
     <TouchableOpacity onPress={() => nav()} style={{ marginTop: 20 }}>
       <View style={styles.container}>
-        <AntDesign name={"shoppingcart"} size={30} color={Colors.RED} />
+        <AntDesign name={"shoppingcart"} size={35} color={Colors.RED} />
         <View>
           <View style={styles.cartNum}>
             <Text
               style={{
                 color: Colors.WHITE,
+                fontSize: 10,
               }}
             >
               {cartItemCount}
@@ -47,9 +48,9 @@ const styles = StyleSheet.create({
     padding: 2.5,
     marginLeft: -10,
     marginTop: -5,
-    height: 20,
-    width: 20,
-    borderRadius: 10,
+    height: 25,
+    width: 25,
+    borderRadius: 12.5,
   },
 });
 
