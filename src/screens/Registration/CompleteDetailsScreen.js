@@ -15,6 +15,7 @@ import { MySelectPicker, MyDatePicker, MyTextInput } from "../../components";
 import { AntDesign } from "react-native-vector-icons";
 import { Image, Header, CheckBox } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
+import Cart from "../../components/Cart";
 
 const titleList = [
   { value: "Mr", label: "Mr." },
