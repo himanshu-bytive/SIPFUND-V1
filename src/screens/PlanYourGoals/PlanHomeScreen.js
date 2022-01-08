@@ -139,7 +139,10 @@ function PlanHomeScreen(props) {
       <Header
         leftComponent={
           <TouchableOpacity
-            onPress={() => props.navigation.navigate("Home")}
+            onPress={() => {
+              props.navigation.state.params?.toggleLoading(false);
+              props.navigation.navigate("Home");
+            }}
             style={{ marginTop: 20 }}
           >
             <AntDesign name={"arrowleft"} size={40} color={Colors.RED} />
