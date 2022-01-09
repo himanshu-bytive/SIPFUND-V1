@@ -34,7 +34,11 @@ function TopRatedListScreen(props) {
   } = props;
 
   const [cart, setCart] = useState([]);
-  const [selectTab, setSelectTab] = useState("SIP");
+  const [selectTab, setSelectTab] = useState(
+    props.navigation.state.params?.currentTab
+      ? props.navigation.state.params?.currentTab
+      : "SIP"
+  );
   const toggleTab = (value) => {
     setSelectTab(value);
   };
@@ -75,7 +79,7 @@ function TopRatedListScreen(props) {
       }
     }
     ToastAndroid.show("Item deleted succesfully!", ToastAndroid.LONG);
-    props.navigation.replace("TopRatedList");
+    props.navigation.replace("TopRatedList", { currentTab: selectTab });
   };
 
   return (
