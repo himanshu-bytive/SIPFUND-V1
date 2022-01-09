@@ -190,13 +190,14 @@ const styles = StyleSheet.create({
     marginVertical: 6,
   },
   Hybrid: {
-    width: 35,
-    height: 35,
+    width: 50,
+    height: 50,
+    resizeMode: "contain",
   },
   sbi_text: {
     marginHorizontal: 10,
     fontSize: 15,
-    maxWidth: "88%",
+    maxWidth: "85%",
   },
   price: {
     position: "absolute",
