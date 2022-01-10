@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   Text,
   TextInput,
+  Keyboard,
 } from "react-native";
 
 import { AntDesign } from "react-native-vector-icons";
@@ -36,6 +37,17 @@ const randerData = (
   };
 
   const [value, setValue] = useState();
+  const [productCode, setProductCode] = useState();
+
+  useEffect(() => {
+    const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
+      onChange(productCode, value, "sip");
+    });
+
+    return () => {
+      hideSubscription.remove();
+    };
+  }, []);
 
   if (data?.schemes != "NA") {
     let schemes = Array.isArray(data?.schemes)
@@ -132,15 +144,17 @@ const randerData = (
                       maxLength={6}
                       placeholder={"sip"}
                       onChangeText={(v) => {
-                        // onChange(k, value, "sip")
-                        // Keyboard.
-                        setValue(v);
+                        setValue(
+                          isNaN(parseInt(v, 10))
+                            ? "0"
+                            : parseInt(v, 10).toString()
+                        );
+                        setProductCode(item?.productCode);
                       }}
                       onBlur={() => onChange(item?.productCode, value, "sip")}
                       onSubmitEditing={() =>
                         onChange(item?.productCode, value, "sip")
                       }
-                      // value={item?.sip ? item?.sip : "0"}
                       value={value ? value : item?.sip ? item?.sip : "0"}
                     />
                   </View>
