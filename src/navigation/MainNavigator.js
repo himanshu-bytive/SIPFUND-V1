@@ -513,7 +513,7 @@ const TabNavigator = createBottomTabNavigator(
       },
     },
     Plan: {
-      screen: PlanYourGoalsStack,
+      screen: InvestmentPlansStack,
       navigationOptions: {
         tabBarIcon: ({ focused, tintColor }) => {
           const imgSource = focused
