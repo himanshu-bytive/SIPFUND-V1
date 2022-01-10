@@ -15,6 +15,7 @@ import { MySelectPicker } from "../../components";
 import { AntDesign } from "react-native-vector-icons";
 import { Image, Header, Overlay } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
+import Cart from "../../components/Cart";
 
 function OwnerChoice(props) {
   const pageActive = useRef(false);
@@ -343,12 +344,11 @@ function OwnerChoice(props) {
           />
         }
         rightComponent={
-          <TouchableOpacity
-            onPress={() => props.navigation.navigate("TopRatedList")}
-            style={{ marginTop: 20, marginRight: 10 }}
-          >
-            <AntDesign name={"shoppingcart"} size={40} color={Colors.RED} />
-          </TouchableOpacity>
+          <Cart
+            nav={() => {
+              props.navigation.navigate("TopRatedList");
+            }}
+          />
         }
       />
       {isFetching && (
