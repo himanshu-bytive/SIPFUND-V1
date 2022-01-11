@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
 import { StyleSheet, View, Image, TouchableOpacity, Text } from "react-native";
 import { Colors } from "../common";
-import SvgUri from "expo-svg-uri";
 export default function InvestmentLists(props) {
   const { data, counts, onPress } = props;
   if (counts) {
@@ -14,9 +13,8 @@ export default function InvestmentLists(props) {
                 onPress={() => onPress(item)}
                 style={{ width: "100%" }}
               >
-                <SvgUri
-                  width="100%"
-                  height="113"
+                <Image
+                  style={{ width: "100%", aspectRatio: 1 }}
                   source={{
                     uri: item.planImagePath,
                   }}
@@ -38,9 +36,8 @@ export default function InvestmentLists(props) {
               onPress={() => onPress(item)}
               style={{ width: "100%" }}
             >
-              <SvgUri
-                width="100%"
-                height="113"
+              <Image
+                style={{ width: "100%", aspectRatio: 1 }}
                 source={{
                   uri: item.planImagePath,
                 }}
