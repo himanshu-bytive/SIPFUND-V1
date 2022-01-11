@@ -512,7 +512,7 @@ const TabNavigator = createBottomTabNavigator(
         },
       },
     },
-    Plan: {
+    Plans: {
       screen: InvestmentPlansStack,
       navigationOptions: {
         tabBarIcon: ({ focused, tintColor }) => {
@@ -589,6 +589,13 @@ export const RootNavigator = createDrawerNavigator(
     Investment: {
       name: "Investment",
       screen: InvestmentPlansStack,
+      navigationOptions: {
+        headerShown: false,
+      },
+    },
+    Plan: {
+      name: "Plan",
+      screen: PlanYourGoalsStack,
       navigationOptions: {
         headerShown: false,
       },
