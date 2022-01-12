@@ -75,6 +75,7 @@ function TopRatedListScreen(props) {
         let params = [data[item]._id];
         deleteItemFromCart(params, token);
         delete data[item];
+        getCartDetails(token);
         break;
       }
     }

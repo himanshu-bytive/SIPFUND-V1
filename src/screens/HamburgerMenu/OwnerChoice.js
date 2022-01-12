@@ -33,6 +33,8 @@ function OwnerChoice(props) {
     addItomToSip,
     addItemSucces,
     setAddItemSucces,
+    cart,
+    getCartDetails,
   } = props;
   const [catList, setCatList] = useState([]);
   const [subcatList, setSubCatList] = useState([]);
@@ -187,10 +189,9 @@ function OwnerChoice(props) {
         image_path: states.imagePath,
       },
     };
-    console.log("params", params);
-    console.log("token=", token);
     addItomToSip(params, token);
     setVisible(false);
+    getCartDetails(token);
   };
   const addToCartSip = () => {
     if (+states.amount < 1000) {
@@ -217,10 +218,9 @@ function OwnerChoice(props) {
         image_path: states.imagePath,
       },
     };
-    console.log("params", params);
-    console.log("token=", token);
     addItomToSip(params, token);
     setVisible(false);
+    getCartDetails(token);
   };
   const sipFromDate = () => {
     const date = new Date();
@@ -344,11 +344,13 @@ function OwnerChoice(props) {
           />
         }
         rightComponent={
-          <Cart
-            nav={() => {
-              props.navigation.navigate("TopRatedList");
-            }}
-          />
+          cart && (
+            <Cart
+              nav={() => {
+                props.navigation.navigate("TopRatedList");
+              }}
+            />
+          )
         }
       />
       {isFetching && (
@@ -810,6 +812,7 @@ const mapStateToProps = (state) => ({
   schemeCat: state.ownerChoice.schemeCat,
   choices: state.ownerChoice.choices,
   addItemSucces: state.cartActions.addItemSucces,
+  cart: state.cartActions.cart,
 });
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
@@ -836,6 +839,9 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     },
     setAddItemSucces: () => {
       CartActions.setAddItemSucces(dispatch);
+    },
+    getCartDetails: (token) => {
+      CartActions.cartDetails(dispatch, token);
     },
   };
 };

@@ -137,6 +137,7 @@ function TopRatedHomeScreen(props) {
     fundDetails,
     addItemSucces,
     setAddItemSucces,
+    getCartDetails,
   } = props;
 
   useEffect(() => {
@@ -351,6 +352,7 @@ function TopRatedHomeScreen(props) {
     };
     toggleOverlay();
     addItomToSip(params, token);
+    getCartDetails(token);
   };
   const addToCartSip = () => {
     if (+states.amount < 1000) {
@@ -377,6 +379,7 @@ function TopRatedHomeScreen(props) {
     };
     toggleOverlay();
     addItomToSip(params, token);
+    getCartDetails(token);
   };
 
   const openFundDetails = (item) => {
@@ -967,6 +970,9 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     },
     setAddItemSucces: () => {
       CartActions.setAddItemSucces(dispatch);
+    },
+    getCartDetails: (token) => {
+      CartActions.cartDetails(dispatch, token);
     },
   };
 };
