@@ -148,10 +148,6 @@ function TopRatedHomeScreen(props) {
   }, [addItemSucces]);
 
   useEffect(() => {
-    console.log("routeName=", props.navigation.state.routeName);
-  }, []);
-
-  useEffect(() => {
     if (token) {
       getAllcategorys(token);
       updateFilterSelection(filterList[4].value);
