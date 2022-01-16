@@ -208,6 +208,7 @@ function UploadDocumentScreen(props) {
                     key={key}
                     style={{
                       marginHorizontal: 10,
+                      marginBottom: 20,
                       alignItems: "center",
                       width: Styles.width - 50,
                     }}
