@@ -1,14 +1,10 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
 import {
   StyleSheet,
-  Button,
+  BackHandler,
   View,
-  ImageBackground,
   TouchableOpacity,
   Text,
-  Dimensions,
-  KeyboardAvoidingView,
-  TextInput,
   ActivityIndicator,
 } from "react-native";
 import moment from "moment";
@@ -54,12 +50,26 @@ function GoalsSummaryScreen(props) {
     props.navigation.navigate("InvestmentList");
   };
 
+  useEffect(() => {
+    const backAction = () => {
+      props.navigation.navigate("dashboard");
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, []);
+
   return (
     <View style={styles.container}>
       <Header
         leftComponent={
           <TouchableOpacity
-            onPress={() => props.navigation.navigate("Home")}
+            onPress={() => props.navigation.navigate("dashboard")}
             style={{ marginTop: 20 }}
           >
             <AntDesign name={"arrowleft"} size={30} color={Colors.RED} />
