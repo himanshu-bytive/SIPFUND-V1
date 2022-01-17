@@ -106,7 +106,7 @@ function VerifyScreen(props) {
   };
 
   const [state, setState] = useState({
-    phone: (phones && phones[0]) ? String(phones[0]) : '',
+    phone: phones && phones[0] ? String(phones[0]) : "",
   });
 
   const [errors, setError] = useState({
@@ -332,6 +332,7 @@ const styles = StyleSheet.create({
   nseimg: {
     marginTop: 30,
     width: width - 10,
+    resizeMode: "contain",
   },
   otp: {
     marginTop: 10,
