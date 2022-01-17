@@ -257,7 +257,6 @@ function VerifyScreen(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.GREY_1,
     alignItems: "center",
     justifyContent: "center",
   },
