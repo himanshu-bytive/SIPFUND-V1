@@ -29,12 +29,6 @@ function GoalsSummaryScreen(props) {
     setData(summary?.holdings?.summary ? summary?.holdings?.summary : {});
   }, [summary]);
 
-  useEffect(() => {
-    if (summary) {
-      console.log("SUMMARY=", summary);
-    }
-  }, [summary]);
-
   const plansAndGoalsData = () => {
     if (
       summary?.holdings?.plansAndGoalsData &&
@@ -84,7 +78,9 @@ function GoalsSummaryScreen(props) {
         }
         rightComponent={
           <View style={Styles.headerkn}>
-            <Text style={Styles.textkn}>KN</Text>
+            <Text style={Styles.textkn}>{`${users?.name[0]}${
+              users?.name.split(" ").pop()[0]
+            }`}</Text>
           </View>
         }
       />

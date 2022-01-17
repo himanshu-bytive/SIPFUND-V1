@@ -32,6 +32,7 @@ function InvestmentListScreen(props) {
     InvestmentSummaryDetails,
     investmentPlans,
     investment,
+    users,
   } = props;
   const [data, setData] = useState([]);
 
@@ -85,7 +86,9 @@ function InvestmentListScreen(props) {
           }
           rightComponent={
             <View style={Styles.headerkn}>
-              <Text style={Styles.textkn}>KN</Text>
+              <Text style={Styles.textkn}>{`${users?.name[0]}${
+                users?.name.split(" ").pop()[0]
+              }`}</Text>
             </View>
           }
         />
@@ -209,7 +212,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
   token: state.auth.token,
-  users: state.auth.users,
+  users: state.auth.user,
   summary: state.goals.summary,
   investments: state.investmentplan.investments,
   investment: state.investmentplan.investment,

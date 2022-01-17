@@ -24,7 +24,7 @@ import {
 import { Image, Header, CheckBox } from "react-native-elements";
 
 function GoalsListScreen(props) {
-  const { summary, goalSummaryDetails } = props;
+  const { users, summary, goalSummaryDetails } = props;
   const [data, setData] = useState(
     summary?.holdings?.plansAndGoalsData
       ? summary?.holdings?.plansAndGoalsData
@@ -35,10 +35,6 @@ function GoalsListScreen(props) {
     goalSummaryDetails(item);
     props.navigation.navigate("GoalDetail");
   };
-
-  useEffect(() => {
-    console.log(data);
-  }, []);
 
   return (
     <View style={styles.container}>
@@ -61,7 +57,9 @@ function GoalsListScreen(props) {
           }
           rightComponent={
             <View style={Styles.headerkn}>
-              <Text style={Styles.textkn}>KN</Text>
+              <Text style={Styles.textkn}>{`${users?.name[0]}${
+                users?.name.split(" ").pop()[0]
+              }`}</Text>
             </View>
           }
         />
@@ -231,7 +229,7 @@ const styles = StyleSheet.create({
 });
 const mapStateToProps = (state) => ({
   token: state.auth.token,
-  users: state.auth.users,
+  users: state.auth.user,
   summary: state.goals.summary,
 });
 
