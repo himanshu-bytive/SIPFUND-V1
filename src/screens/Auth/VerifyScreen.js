@@ -185,10 +185,7 @@ function VerifyScreen(props) {
             style={styles.logoimg}
           />
         </View>
-        <Text style={styles.code}>Continue with</Text>
-        {phones.lenght > 0 && (
-          <Text style={styles.continue}>Continue with</Text>
-        )}
+        {phones.length > 0 && <Text style={styles.code}>Continue with</Text>}
         {phones.map((item, key) => (
           <TouchableOpacity
             key={key}
@@ -200,8 +197,7 @@ function VerifyScreen(props) {
           </TouchableOpacity>
         ))}
         <View style={styles.or}>
-          {phones.lenght > 0 && <Text style={styles.code}>Or</Text>}
-          <Text style={[styles.code, { marginBottom: 0 }]}>OR</Text>
+          {phones.length > 0 && <Text style={styles.code}>OR</Text>}
           <Text style={[styles.code, { marginTop: 0 }]}>
             Enter Your Mobile number
           </Text>
@@ -270,8 +266,8 @@ const styles = StyleSheet.create({
   },
   mainbox: {
     borderRadius: 25,
-    // backgroundColor: Colors.WHITE,
     width: width - 50,
+    alignItems: "center",
   },
   logoimg: {
     marginTop: 30,
@@ -280,7 +276,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginTop: 20,
     marginBottom: 10,
-    paddingLeft: 70,
+    //paddingLeft: 70,
   },
   inputsec: {
     borderBottomWidth: 1,
@@ -291,7 +287,7 @@ const styles = StyleSheet.create({
   },
   phone_number: {
     flexDirection: "row",
-    paddingLeft: 70,
+    //paddingLeft: 70,
   },
   number: {
     fontSize: 18,
@@ -303,12 +299,13 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     fontSize: 19,
     color: "#7E7E7E",
-    paddingLeft: 70,
+    textAlign: "center",
+    //paddingLeft: 70,
   },
   text_box: {
     flexDirection: "row",
     marginTop: 10,
-    paddingLeft: 70,
+    //paddingLeft: 70,
   },
   button: {
     alignItems: "center",
