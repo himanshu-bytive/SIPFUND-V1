@@ -71,10 +71,7 @@ function LoginScreen(props) {
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={styles.container}
-    >
+    <>
       <Header
         leftComponent={
           <TouchableOpacity
@@ -144,7 +141,7 @@ function LoginScreen(props) {
           </View>
         </View>
       </ScrollView>
-    </KeyboardAvoidingView>
+    </>
   );
 }
 
