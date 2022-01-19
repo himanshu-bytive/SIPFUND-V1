@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
   },
   custom: {
     fontSize: 18,
-    fontWeight: "bold",
+    //fontWeight: "bold",
     color: "#000",
     paddingHorizontal: 10,
   },
