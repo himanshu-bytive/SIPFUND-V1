@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
   sbi_text: {
     marginLeft: 10,
     fontSize: 15,
-    width: "70%",
+    width: "65%",
   },
   price: {
     paddingTop: 10,
