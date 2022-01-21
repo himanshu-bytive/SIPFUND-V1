@@ -192,6 +192,7 @@ const styles = StyleSheet.create({
     width: "75%",
   },
   axis: {
+    width: Dimensions.get("window").width * 0.55,
     fontSize: 15,
   },
   midcap: {
