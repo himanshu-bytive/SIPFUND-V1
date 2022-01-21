@@ -347,7 +347,6 @@ function CompleteDetailsScreen(props) {
 
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", (e) => {
-      console.log(e.endCoordinates);
       setKeyboardHeight(parseFloat(e.endCoordinates.height));
     });
     const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
@@ -363,7 +362,12 @@ function CompleteDetailsScreen(props) {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={styles.container}
+      style={[
+        styles.container,
+        {
+          height: Dimensions.get("window").height - keyboardHeight,
+        },
+      ]}
     >
       <Header
         leftComponent={
@@ -395,11 +399,7 @@ function CompleteDetailsScreen(props) {
           <ActivityIndicator color={Colors.BLACK} size="large" />
         </View>
       )}
-      <ScrollView
-        contentContainerStyle={{
-          marginBottom: keyboardHeight,
-        }}
-      >
+      <ScrollView>
         {/* container_sec */}
         <View style={styles.container_sec}>
           <Text style={styles.occupation}>
@@ -668,16 +668,7 @@ function CompleteDetailsScreen(props) {
         )}
       </ScrollView>
       {/* click_box */}
-      <View
-        style={[
-          styles.footer,
-          {
-            position: "absolute",
-            top: Dimensions.get("window").height - keyboardHeight - 65,
-            alignSelf: "center",
-          },
-        ]}
-      >
+      <View style={styles.footer}>
         <View style={styles.click_box}>
           <TouchableOpacity
             onPress={() => props.navigation.navigate("Home")}

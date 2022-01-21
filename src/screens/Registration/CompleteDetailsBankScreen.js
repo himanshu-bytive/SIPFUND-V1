@@ -320,7 +320,6 @@ function CompleteDetailsBankScreen(props) {
 
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", (e) => {
-      console.log(e.endCoordinates);
       setKeyboardHeight(parseFloat(e.endCoordinates.height));
     });
     const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
@@ -334,10 +333,7 @@ function CompleteDetailsBankScreen(props) {
   }, []);
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={styles.container}
-    >
+    <>
       <Header
         leftComponent={
           <TouchableOpacity
@@ -368,165 +364,166 @@ function CompleteDetailsBankScreen(props) {
           <ActivityIndicator color={Colors.BLACK} size="large" />
         </View>
       )}
-      <ScrollView
-        contentContainerStyle={{
-          marginBottom: keyboardHeight,
+      <KeyboardAvoidingView
+        style={{
+          flex: 1,
+          height: Dimensions.get("window").height - keyboardHeight,
         }}
       >
-        <View style={styles.heading_sec}>
-          <Text style={styles.heading}>
-            Your bank account details are required as they need to be linked to
-            your mutual fund account so that you can do the transactions. Your
-            bank account details are safe and stored in encrypted format in NSE.
-          </Text>
-        </View>
+        <ScrollView
+          contentContainerStyle={{
+            marginBottom: keyboardHeight,
+          }}
+        >
+          <View style={styles.heading_sec}>
+            <Text style={styles.heading}>
+              Your bank account details are required as they need to be linked
+              to your mutual fund account so that you can do the transactions.
+              Your bank account details are safe and stored in encrypted format
+              in NSE.
+            </Text>
+          </View>
 
-        {/* state_sec */}
-        <View style={styles.container_sec}>
-          <Text style={styles.occupation}>
-            Account Type <Text style={styles.error}>*</Text>
-          </Text>
-          <MySelectPicker
-            values={accountTypeList}
-            defultValue={state.accountType}
-            error={errors.accountType}
-            onChange={(accountType) => {
-              setErrors({ ...errors, accountType: null });
-              setState({ ...state, accountType });
+          {/* state_sec */}
+          <View style={styles.container_sec}>
+            <Text style={styles.occupation}>
+              Account Type <Text style={styles.error}>*</Text>
+            </Text>
+            <MySelectPicker
+              values={accountTypeList}
+              defultValue={state.accountType}
+              error={errors.accountType}
+              onChange={(accountType) => {
+                setErrors({ ...errors, accountType: null });
+                setState({ ...state, accountType });
+              }}
+            />
+
+            <Text style={styles.occupation}>
+              Account No. <Text style={styles.error}>*</Text>
+            </Text>
+            <MyTextInput
+              keyboardType="numeric"
+              maxLength={21}
+              value={state.accountNumber}
+              error={errors.accountNumber}
+              onChangeText={(accountNumber) => {
+                setErrors({ ...errors, accountNumber: null });
+                setState({ ...state, accountNumber });
+              }}
+            />
+
+            <Text style={styles.occupation}>
+              IFSC Code <Text style={styles.error}>*</Text>
+            </Text>
+            <MyTextInput
+              value={state.ifsc}
+              error={errors.ifsc}
+              autoCapitalize={"characters"}
+              maxLength={20}
+              onChangeText={(ifsc) => {
+                setErrors({ ...errors, ifsc: null });
+                setState({ ...state, ifsc });
+              }}
+            />
+
+            <View style={{ alignItems: "center" }}>
+              {isFetching ? (
+                <View style={styles.botton_box}>
+                  <ActivityIndicator size={30} color={Colors.WHITE} />
+                </View>
+              ) : (
+                <TouchableOpacity
+                  onPress={() => {
+                    getBankDetails(state.ifsc, token);
+                    setErrors({ ...errors, showBank: null });
+                  }}
+                  style={[styles.botton_box, { marginTop: 10 }]}
+                >
+                  <Text style={styles.get_otp}>Fetch Bank Details</Text>
+                </TouchableOpacity>
+              )}
+            </View>
+          </View>
+
+          {/* botton_box_sec */}
+          <View
+            style={{
+              borderWidth: 6,
+              borderColor: "#EAE9EE",
+              marginVertical: 10,
             }}
-          />
+          ></View>
+          {errors.showBank && !state.showBank && (
+            <Text style={[styles.error, { textAlign: "center" }]}>
+              {errors.showBank}
+            </Text>
+          )}
 
-          <Text style={styles.occupation}>
-            Account No. <Text style={styles.error}>*</Text>
-          </Text>
-          <MyTextInput
-            keyboardType="numeric"
-            maxLength={21}
-            value={state.accountNumber}
-            error={errors.accountNumber}
-            onChangeText={(accountNumber) => {
-              setErrors({ ...errors, accountNumber: null });
-              setState({ ...state, accountNumber });
-            }}
-          />
+          {/* container_2_sec */}
+          {state.showBank && state.ifsc != "" && state.ifsc.length > 5 && (
+            <View style={styles.container_sec}>
+              <Text style={styles.occupation}>
+                Bank Name <Text style={styles.error}>*</Text>
+              </Text>
+              <MySelectPicker
+                values={bankList}
+                defultValue={state.bank}
+                error={errors.bank}
+                onChange={(bank) => {
+                  setErrors({ ...errors, bank: null });
+                  setState({ ...state, bank });
+                }}
+              />
 
-          <Text style={styles.occupation}>
-            IFSC Code <Text style={styles.error}>*</Text>
-          </Text>
-          <MyTextInput
-            value={state.ifsc}
-            error={errors.ifsc}
-            autoCapitalize={"characters"}
-            maxLength={20}
-            onChangeText={(ifsc) => {
-              setErrors({ ...errors, ifsc: null });
-              setState({ ...state, ifsc });
-            }}
-          />
+              <Text style={styles.occupation}>
+                Branch Name <Text style={styles.error}>*</Text>
+              </Text>
+              <MyTextInput
+                value={state.branchName}
+                error={errors.branchName}
+                onChangeText={(branchName) => {
+                  setErrors({ ...errors, branchName: null });
+                  setState({ ...state, branchName });
+                }}
+              />
 
-          <View style={{ alignItems: "center" }}>
+              <Text style={styles.occupation}>
+                Branch Address <Text style={styles.error}>*</Text>
+              </Text>
+              <MyTextInput
+                value={state.branchAddress}
+                error={errors.branchAddress}
+                onChangeText={(branchAddress) => {
+                  setErrors({ ...errors, branchAddress: null });
+                  setState({ ...state, branchAddress });
+                }}
+              />
+            </View>
+          )}
+
+          {/* click_box */}
+        </ScrollView>
+        <View style={styles.footer}>
+          <View style={styles.click_box}>
+            <TouchableOpacity
+              onPress={() => props.navigation.goBack()}
+              style={styles.botton_box}
+            >
+              <Text style={styles.get_otp}>Previous</Text>
+            </TouchableOpacity>
             {isFetching ? (
               <View style={styles.botton_box}>
                 <ActivityIndicator size={30} color={Colors.WHITE} />
               </View>
             ) : (
-              <TouchableOpacity
-                onPress={() => {
-                  getBankDetails(state.ifsc, token);
-                  setErrors({ ...errors, showBank: null });
-                }}
-                style={[styles.botton_box, { marginTop: 10 }]}
-              >
-                <Text style={styles.get_otp}>Fetch Bank Details</Text>
+              <TouchableOpacity onPress={onAction} style={styles.botton_box}>
+                <Text style={styles.get_otp}>Next</Text>
               </TouchableOpacity>
             )}
           </View>
         </View>
-
-        {/* botton_box_sec */}
-        <View
-          style={{ borderWidth: 6, borderColor: "#EAE9EE", marginVertical: 10 }}
-        ></View>
-        {errors.showBank && !state.showBank && (
-          <Text style={[styles.error, { textAlign: "center" }]}>
-            {errors.showBank}
-          </Text>
-        )}
-
-        {/* container_2_sec */}
-        {state.showBank && state.ifsc != "" && state.ifsc.length > 5 && (
-          <View style={styles.container_sec}>
-            <Text style={styles.occupation}>
-              Bank Name <Text style={styles.error}>*</Text>
-            </Text>
-            <MySelectPicker
-              values={bankList}
-              defultValue={state.bank}
-              error={errors.bank}
-              onChange={(bank) => {
-                setErrors({ ...errors, bank: null });
-                setState({ ...state, bank });
-              }}
-            />
-
-            <Text style={styles.occupation}>
-              Branch Name <Text style={styles.error}>*</Text>
-            </Text>
-            <MyTextInput
-              value={state.branchName}
-              error={errors.branchName}
-              onChangeText={(branchName) => {
-                setErrors({ ...errors, branchName: null });
-                setState({ ...state, branchName });
-              }}
-            />
-
-            <Text style={styles.occupation}>
-              Branch Address <Text style={styles.error}>*</Text>
-            </Text>
-            <MyTextInput
-              value={state.branchAddress}
-              error={errors.branchAddress}
-              onChangeText={(branchAddress) => {
-                setErrors({ ...errors, branchAddress: null });
-                setState({ ...state, branchAddress });
-              }}
-            />
-          </View>
-        )}
-
-        {/* click_box */}
-      </ScrollView>
-
-      <View
-        style={[
-          styles.footer,
-          {
-            position: "absolute",
-            top: Dimensions.get("window").height - keyboardHeight - 65,
-            alignSelf: "center",
-          },
-        ]}
-      >
-        <View style={styles.click_box}>
-          <TouchableOpacity
-            onPress={() => props.navigation.goBack()}
-            style={styles.botton_box}
-          >
-            <Text style={styles.get_otp}>Previous</Text>
-          </TouchableOpacity>
-          {isFetching ? (
-            <View style={styles.botton_box}>
-              <ActivityIndicator size={30} color={Colors.WHITE} />
-            </View>
-          ) : (
-            <TouchableOpacity onPress={onAction} style={styles.botton_box}>
-              <Text style={styles.get_otp}>Next</Text>
-            </TouchableOpacity>
-          )}
-        </View>
-      </View>
-
+      </KeyboardAvoidingView>
       <Overlay
         isVisible={visible}
         overlayStyle={{ margin: 10, backgroundColor: "#fff" }}
@@ -553,7 +550,7 @@ function CompleteDetailsBankScreen(props) {
           </TouchableOpacity>
         </View>
       </Overlay>
-    </KeyboardAvoidingView>
+    </>
   );
 }
 

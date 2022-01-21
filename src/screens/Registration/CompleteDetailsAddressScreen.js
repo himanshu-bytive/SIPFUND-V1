@@ -147,7 +147,6 @@ function CompleteDetailsAddressScreen(props) {
 
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", (e) => {
-      console.log(e.endCoordinates);
       setKeyboardHeight(parseFloat(e.endCoordinates.height));
     });
     const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
@@ -163,7 +162,12 @@ function CompleteDetailsAddressScreen(props) {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={styles.container}
+      style={[
+        styles.container,
+        {
+          height: Dimensions.get("window").height - keyboardHeight,
+        },
+      ]}
     >
       <Header
         leftComponent={
@@ -195,11 +199,7 @@ function CompleteDetailsAddressScreen(props) {
           <ActivityIndicator color={Colors.BLACK} size="large" />
         </View>
       )}
-      <ScrollView
-        contentContainerStyle={{
-          marginBottom: keyboardHeight,
-        }}
-      >
+      <ScrollView>
         {/* container_sec */}
         <View style={styles.container_sec}>
           <Text style={styles.occupation}>
