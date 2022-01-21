@@ -61,6 +61,7 @@ const styles = StyleSheet.create({
     //fontWeight: "bold",
     color: "#000",
     paddingHorizontal: 10,
+    maxWidth: "85%",
   },
   error: {
     color: "#ff0000",
