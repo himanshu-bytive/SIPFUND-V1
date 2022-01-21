@@ -6,6 +6,7 @@ import {
   Text,
   TextInput,
   Keyboard,
+  Dimensions,
 } from "react-native";
 
 import { AntDesign } from "react-native-vector-icons";
@@ -278,7 +279,7 @@ const styles = StyleSheet.create({
   },
   axis: {
     fontSize: 15,
-    width: "80%",
+    width: Dimensions.get("window").width * 0.75,
   },
   moderately: {
     fontSize: 12,
