@@ -8,6 +8,7 @@ import {
   TextInput,
   BackHandler,
   ToastAndroid,
+  Dimensions,
 } from "react-native";
 import { connect } from "react-redux";
 import { Styles, Config, Colors } from "../../common";
@@ -407,36 +408,32 @@ function OwnerChoice(props) {
         {dataAvailable ? (
           <View style={styles.axis_asset}>
             <View style={styles.company}>
-              <View>
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <Image
                   source={{
                     uri: `https://sipfund.sfo2.digitaloceanspaces.com/product-AMC-images/${choices[0]?.nseProductDetail.productAMCImage}`,
                   }}
                   style={styles.axisimg}
                 />
-              </View>
-              <View style={styles.axiswid}>
-                <Text style={styles.axis}>
+                <Text numberOfLines={1} style={styles.axis}>
                   {choices[0]?.nseProductDetail?.productName}
                 </Text>
                 <Text style={styles.axis2}>{choices[0]?.text2}</Text>
               </View>
-              <View>
-                <TouchableOpacity
-                  onPress={() =>
-                    invest(
-                      `https://sipfund.sfo2.digitaloceanspaces.com/product-AMC-images/${choices[0]?.nseProductDetail.productAMCImage}`,
-                      choices[0]?.nseProductDetail?.amcCode,
-                      choices[0]?.nseProductDetail?.amcName,
-                      choices[0]?.nseProductDetail?.productCode,
-                      choices[0]?.nseProductDetail.productName
-                    )
-                  }
-                  style={styles.botton_box}
-                >
-                  <Text style={styles.get_otp}>INVEST</Text>
-                </TouchableOpacity>
-              </View>
+              <TouchableOpacity
+                onPress={() =>
+                  invest(
+                    `https://sipfund.sfo2.digitaloceanspaces.com/product-AMC-images/${choices[0]?.nseProductDetail.productAMCImage}`,
+                    choices[0]?.nseProductDetail?.amcCode,
+                    choices[0]?.nseProductDetail?.amcName,
+                    choices[0]?.nseProductDetail?.productCode,
+                    choices[0]?.nseProductDetail.productName
+                  )
+                }
+                style={styles.botton_box}
+              >
+                <Text style={styles.get_otp}>INVEST</Text>
+              </TouchableOpacity>
             </View>
             <View style={styles.value_sec}>
               <View style={styles.mininvestment}>
@@ -656,14 +653,14 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   botton_box: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 15,
+    paddingVertical: 5,
     backgroundColor: Colors.RED,
-    marginLeft: 5,
   },
   get_otp: {
     color: Colors.WHITE,
-    fontSize: 18,
-    fontWeight: "bold",
+    fontSize: 13,
+    //fontWeight: "bold",
     textAlign: "center",
   },
   category_sec: {
@@ -678,17 +675,22 @@ const styles = StyleSheet.create({
 
   axis_asset: {
     marginTop: 60,
-    marginHorizontal: 20,
     paddingTop: 10,
     borderTopWidth: 1,
+    borderBottomWidth: 1,
     borderColor: "gray",
+    alignItems: "center",
+    justifyContent: "center",
   },
   company: {
     flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-evenly",
   },
   axis: {
-    marginLeft: 10,
+    marginHorizontal: 10,
     fontSize: 15,
+    width: Dimensions.get("window").width * 0.5,
   },
   axiswid: { width: "68%" },
   axis2: {
@@ -701,18 +703,6 @@ const styles = StyleSheet.create({
     height: 50,
     width: 50,
     resizeMode: "contain",
-  },
-  botton_box: {
-    width: 80,
-    backgroundColor: Colors.RED,
-    height: 20,
-  },
-  get_otp: {
-    color: Colors.WHITE,
-    fontSize: 10,
-    fontWeight: "bold",
-    textAlign: "center",
-    paddingTop: 4,
   },
   value_sec: {
     flexDirection: "row",
