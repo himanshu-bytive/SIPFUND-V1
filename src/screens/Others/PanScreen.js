@@ -98,8 +98,10 @@ function PanScreen(props) {
               autoCapitalize={"characters"}
               placeholder={"Pan"}
               onChangeText={(pannumber) => {
-                setError({ ...errors, pannumber: null });
-                setState({ ...state, pannumber });
+                if (pannumber.length <= 10) {
+                  setError({ ...errors, pannumber: null });
+                  setState({ ...state, pannumber });
+                }
               }}
               value={state.pannumber}
             />
