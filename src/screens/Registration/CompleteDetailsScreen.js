@@ -7,6 +7,8 @@ import {
   ActivityIndicator,
   Platform,
   Text,
+  Keyboard,
+  Dimensions,
 } from "react-native";
 import { connect } from "react-redux";
 import moment from "moment";
@@ -341,6 +343,23 @@ function CompleteDetailsScreen(props) {
   //   setState({ ...state, nominate1guard_pan: pan });
   // };
 
+  const [keyboardHeight, setKeyboardHeight] = useState(0);
+
+  useEffect(() => {
+    const showSubscription = Keyboard.addListener("keyboardDidShow", (e) => {
+      console.log(e.endCoordinates);
+      setKeyboardHeight(parseFloat(e.endCoordinates.height));
+    });
+    const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
+      setKeyboardHeight(0);
+    });
+
+    return () => {
+      showSubscription.remove();
+      hideSubscription.remove();
+    };
+  }, []);
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -376,7 +395,11 @@ function CompleteDetailsScreen(props) {
           <ActivityIndicator color={Colors.BLACK} size="large" />
         </View>
       )}
-      <ScrollView>
+      <ScrollView
+        contentContainerStyle={{
+          marginBottom: keyboardHeight,
+        }}
+      >
         {/* container_sec */}
         <View style={styles.container_sec}>
           <Text style={styles.occupation}>
@@ -645,7 +668,16 @@ function CompleteDetailsScreen(props) {
         )}
       </ScrollView>
       {/* click_box */}
-      <View style={styles.footer}>
+      <View
+        style={[
+          styles.footer,
+          {
+            position: "absolute",
+            top: Dimensions.get("window").height - keyboardHeight - 65,
+            alignSelf: "center",
+          },
+        ]}
+      >
         <View style={styles.click_box}>
           <TouchableOpacity
             onPress={() => props.navigation.navigate("Home")}
@@ -724,7 +756,8 @@ const styles = StyleSheet.create({
   },
   footer: {
     alignItems: "center",
-    marginBottom: 20,
+    paddingVertical: 10,
+    backgroundColor: "#EAE9EE",
   },
   click_box: {
     flexDirection: "row",
@@ -734,10 +767,6 @@ const styles = StyleSheet.create({
     width: "50%",
     backgroundColor: Colors.RED,
     paddingVertical: 10,
-    marginTop: 20,
-
-    borderColor: Colors.DEEP_GRAY,
-
     marginHorizontal: 5,
   },
   get_otp: {

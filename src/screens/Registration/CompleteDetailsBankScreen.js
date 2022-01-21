@@ -8,6 +8,8 @@ import {
   Platform,
   Text,
   ActivityIndicator,
+  Keyboard,
+  Dimensions,
 } from "react-native";
 import moment from "moment";
 import { connect } from "react-redux";
@@ -314,6 +316,23 @@ function CompleteDetailsBankScreen(props) {
     }
   };
 
+  const [keyboardHeight, setKeyboardHeight] = useState(0);
+
+  useEffect(() => {
+    const showSubscription = Keyboard.addListener("keyboardDidShow", (e) => {
+      console.log(e.endCoordinates);
+      setKeyboardHeight(parseFloat(e.endCoordinates.height));
+    });
+    const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
+      setKeyboardHeight(0);
+    });
+
+    return () => {
+      showSubscription.remove();
+      hideSubscription.remove();
+    };
+  }, []);
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -349,7 +368,11 @@ function CompleteDetailsBankScreen(props) {
           <ActivityIndicator color={Colors.BLACK} size="large" />
         </View>
       )}
-      <ScrollView>
+      <ScrollView
+        contentContainerStyle={{
+          marginBottom: keyboardHeight,
+        }}
+      >
         <View style={styles.heading_sec}>
           <Text style={styles.heading}>
             Your bank account details are required as they need to be linked to
@@ -412,7 +435,7 @@ function CompleteDetailsBankScreen(props) {
                   getBankDetails(state.ifsc, token);
                   setErrors({ ...errors, showBank: null });
                 }}
-                style={styles.botton_box}
+                style={[styles.botton_box, { marginTop: 10 }]}
               >
                 <Text style={styles.get_otp}>Fetch Bank Details</Text>
               </TouchableOpacity>
@@ -475,7 +498,16 @@ function CompleteDetailsBankScreen(props) {
         {/* click_box */}
       </ScrollView>
 
-      <View style={styles.footer}>
+      <View
+        style={[
+          styles.footer,
+          {
+            position: "absolute",
+            top: Dimensions.get("window").height - keyboardHeight - 65,
+            alignSelf: "center",
+          },
+        ]}
+      >
         <View style={styles.click_box}>
           <TouchableOpacity
             onPress={() => props.navigation.goBack()}
@@ -528,14 +560,12 @@ function CompleteDetailsBankScreen(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#EAE9EE",
   },
   header: {
     borderBottomColor: Colors.BLACK,
     borderBottomWidth: 1,
   },
   container_sec: {
-    backgroundColor: "#fff",
     padding: 10,
   },
   error: {
@@ -548,7 +578,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   heading_sec: {
-    backgroundColor: "#EAE9EE",
     padding: 12,
   },
   heading: {
@@ -583,7 +612,8 @@ const styles = StyleSheet.create({
   },
   footer: {
     alignItems: "center",
-    marginBottom: 20,
+    paddingVertical: 10,
+    backgroundColor: "#EAE9EE",
   },
   click_box: {
     flexDirection: "row",
@@ -593,7 +623,6 @@ const styles = StyleSheet.create({
     width: "50%",
     backgroundColor: Colors.RED,
     paddingVertical: 10,
-    marginTop: 10,
     marginHorizontal: 5,
   },
   get_otp: {
