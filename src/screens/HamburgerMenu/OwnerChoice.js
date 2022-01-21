@@ -510,6 +510,7 @@ function OwnerChoice(props) {
               >
                 <TouchableOpacity onPress={() => toggleTab("LUMPSUM")}>
                   <Text
+                    numberOfLines={1}
                     style={
                       selectTab == "LUMPSUM"
                         ? styles.sip_text2
