@@ -31,7 +31,7 @@ function InvestmentDetailScreens(props) {
 
   useEffect(() => {
     props.navigation.state.params?.toggleLoading(false);
-  }, []);
+  }, [props]);
 
   return (
     <View style={styles.container}>
