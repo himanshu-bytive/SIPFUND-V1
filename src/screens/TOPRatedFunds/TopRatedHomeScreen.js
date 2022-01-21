@@ -545,37 +545,32 @@ function TopRatedHomeScreen(props) {
           : details?.map((item) => (
               <View key={item[0]["_id"]} style={styles.axis_asset}>
                 <View style={styles.company}>
-                  <TouchableOpacity onPress={() => openFundDetails(item)}>
+                  <TouchableOpacity
+                    style={{ flexDirection: "row", alignItems: "center" }}
+                    onPress={() => openFundDetails(item)}
+                  >
                     <Image
                       source={{ uri: item[0].imagePath }}
                       style={styles.axisimg}
                     />
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() => openFundDetails(item)}
-                    style={styles.axiswid}
-                  >
-                    <Text style={styles.axis}>
+                    <Text numberOfLines={1} style={styles.axis}>
                       {item[0].api["FSCBI-FundName"]}
                     </Text>
-                    <Text style={styles.axis2}>{item.text2}</Text>
                   </TouchableOpacity>
-                  <View>
-                    <TouchableOpacity
-                      onPress={() =>
-                        invest(
-                          item[0].imagePath,
-                          item[0].amcCode,
-                          item[0].amcName,
-                          item[0].productCode,
-                          item[0].productName
-                        )
-                      }
-                      style={styles.botton_box}
-                    >
-                      <Text style={styles.get_otp}>INVEST</Text>
-                    </TouchableOpacity>
-                  </View>
+                  <TouchableOpacity
+                    onPress={() =>
+                      invest(
+                        item[0].imagePath,
+                        item[0].amcCode,
+                        item[0].amcName,
+                        item[0].productCode,
+                        item[0].productName
+                      )
+                    }
+                    style={styles.botton_box}
+                  >
+                    <Text style={styles.get_otp}>INVEST</Text>
+                  </TouchableOpacity>
                 </View>
                 <TouchableOpacity
                   onPress={() => openFundDetails(item)}
@@ -813,14 +808,20 @@ const styles = StyleSheet.create({
 
   axis_asset: {
     marginTop: 20,
-    marginHorizontal: 20,
+    justifyContent: "center",
   },
   company: {
     flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-evenly",
+    paddingHorizontal: 10,
+    width: Dimensions.get("window").width,
   },
   axis: {
-    marginLeft: 10,
     fontSize: 15,
+    color: "black",
+    marginHorizontal: 10,
+    width: Dimensions.get("window").width * 0.5,
   },
   axiswid: { width: "68%" },
   axis2: {
@@ -835,9 +836,9 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
   },
   botton_box: {
-    width: 80,
     backgroundColor: Colors.RED,
-    height: 20,
+    paddingHorizontal: 15,
+    paddingVertical: 5,
   },
   get_otp: {
     color: Colors.WHITE,
