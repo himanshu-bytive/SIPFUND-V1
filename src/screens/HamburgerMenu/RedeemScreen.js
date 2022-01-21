@@ -358,7 +358,7 @@ const styles = StyleSheet.create({
   botton_box2: {
     backgroundColor: Colors.RED,
     paddingVertical: 10,
-    marginBottom: 20,
+    marginVertical: 20,
     marginHorizontal: 15,
   },
   proceed: {
