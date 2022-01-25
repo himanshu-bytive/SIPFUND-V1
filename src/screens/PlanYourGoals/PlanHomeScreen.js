@@ -85,7 +85,13 @@ function PlanHomeScreen(props) {
   }, [goalDetail]);
 
   useEffect(() => {
-    const requiredCorp = amount * Math.pow(1 + inflation / 100, time);
+    let requiredCorp;
+    if (goalDetail?.goal === "Retirement") {
+      const futureCost = amount * Math.pow(1 + inflation / 100, time);
+      requiredCorp = futureCost * (100 / returnRate) * 12;
+    } else {
+      requiredCorp = amount * Math.pow(1 + inflation / 100, time);
+    }
     if (requiredCorp <= 0 || !isFinite(requiredCorp)) {
       setInflationAdjusted(0);
     } else {
