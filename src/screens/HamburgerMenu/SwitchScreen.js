@@ -268,7 +268,7 @@ function SwitchScreen(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#D3D6DB",
+    //backgroundColor: "#D3D6DB",
   },
 
   logimg: {
