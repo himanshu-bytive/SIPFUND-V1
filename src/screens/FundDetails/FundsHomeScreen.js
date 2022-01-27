@@ -7,6 +7,7 @@ import {
   View,
   TouchableOpacity,
   Text,
+  BackHandler,
 } from "react-native";
 import moment from "moment";
 import { connect } from "react-redux";
@@ -147,6 +148,20 @@ function FundsHomeScreen(props) {
     calculateMap();
   }, [selectTab]);
 
+  useEffect(() => {
+    const backAction = () => {
+      props.navigation.navigate(props.navigation.state.params?.fromScreen);
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, []);
+
   const calculateMap = () => {
     let labs = {};
     for (let item of labels) {
@@ -174,7 +189,11 @@ function FundsHomeScreen(props) {
       <Header
         leftComponent={
           <TouchableOpacity
-            onPress={() => props.navigation.navigate("Home")}
+            onPress={() =>
+              props.navigation.navigate(
+                props.navigation.state.params?.fromScreen
+              )
+            }
             style={{ marginTop: 20 }}
           >
             <AntDesign name={"arrowleft"} size={30} color={Colors.RED} />

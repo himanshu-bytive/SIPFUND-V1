@@ -385,7 +385,7 @@ function TopRatedHomeScreen(props) {
       imagePath: item[0].imagePath,
       ISIN: item[0]._id,
     });
-    props.navigation.navigate("FundsDetails");
+    props.navigation.navigate("FundsDetails", {fromScreen: "TopRatedHome"});
   };
 
   function numberWithCommas(x) {

@@ -153,7 +153,7 @@ function PlanListScreen(props) {
           }
           onPress={(item) => {
             fundDetails(item);
-            props.navigation.navigate("FundsDetails");
+            props.navigation.navigate("FundsDetails", {fromScreen: 'PlanList'});
           }}
           handleDelete={handleDelete}
         />
