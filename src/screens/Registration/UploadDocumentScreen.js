@@ -132,6 +132,10 @@ function UploadDocumentScreen(props) {
     }
   }, [token, uploadSuccess]);
 
+  useEffect(() => {
+    if (docs) props.navigation.navigate("UploadDocument");
+  }, [docs]);
+
   const zoomDocuments = (uri) => {
     setUri(uri);
     props.navigation.navigate("ZoomDocuments");
