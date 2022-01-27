@@ -180,7 +180,7 @@ function PlanListScreen(props) {
                 parseInt(goals[item].schemeInfo.sip) <
                 parseInt(goals[item].schemeInfo.default_min_amount)
               ) {
-                alert("Amount is less than minimum ammount");
+                alert("Amount is less than minimum amount");
                 return;
               }
             }
