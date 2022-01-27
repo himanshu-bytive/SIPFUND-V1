@@ -23,12 +23,14 @@ const randerData = (
     if (type === "plus") {
       let newValue = parseInt(value) + 1;
       if (newValue > 30) {
+        alert("Value can't be more than 30!")
         newValue = 30;
       }
       onChange(k, newValue, "date");
     } else {
       let newValue = parseInt(value) - 1;
       if (newValue < 1) {
+        alert("Value can't be less than 1!")
         newValue = 1;
       }
       onChange(k, newValue, "date");
