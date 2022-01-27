@@ -170,7 +170,7 @@ function SideMenu(props) {
         />
         <View>
           <Text numberOfLines={1} style={styles.profileText}>
-            {profile?.INVESTOR_NAME}jhsbdfjbsjfnjnekngkehsdbfjsbjdvdjvjdfjg
+            {profile?.INVESTOR_NAME}
           </Text>
           {profile && profile.ACTIVATION_STATUS === "YES" ? (
             <Text style={styles.account_active}>Account Active</Text>
