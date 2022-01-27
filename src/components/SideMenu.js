@@ -169,7 +169,9 @@ function SideMenu(props) {
           style={{ margin: 7, width: 50, height: 50, borderRadius: 100 }}
         />
         <View>
-          <Text style={styles.profileText}>{profile?.INVESTOR_NAME}</Text>
+          <Text numberOfLines={1} style={styles.profileText}>
+            {profile?.INVESTOR_NAME}jhsbdfjbsjfnjnekngkehsdbfjsbjdvdjvjdfjg
+          </Text>
           {profile && profile.ACTIVATION_STATUS === "YES" ? (
             <Text style={styles.account_active}>Account Active</Text>
           ) : (
@@ -533,7 +535,9 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: Colors.RED,
   },
-  profileText: { color: Colors.WHITE, fontSize: 20, marginVertical: 3 },
+  profileText: {
+    color: Colors.WHITE, fontSize: 20, marginVertical: 3, width: '60%'
+  },
   know: { color: Colors.BLACK },
   border: {
     marginTop: 10,
