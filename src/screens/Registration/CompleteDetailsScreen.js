@@ -262,6 +262,12 @@ function CompleteDetailsScreen(props) {
       }
     }
     if (nominate && nominateMinor) {
+      const difference = new Date(Date.now() - state.nominate1dob);
+      const age = difference.getUTCFullYear() - 1970;
+      if (age >= 18) {
+        setErrors({ ...errors, nominate1dob: "Nominee is not a minor" });
+        return;
+      }
       if (!nominate1dob) {
         setErrors({ ...errors, nominate1dob: "Please Select a Date" });
         return;
