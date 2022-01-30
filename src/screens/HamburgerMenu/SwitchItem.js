@@ -91,7 +91,10 @@ function SwitchItem(props) {
     productAmcName,
     amcCode,
     productCode,
-    sourceReinvest
+    sourceReinvest,
+    groupId,
+    groupName,
+    groupType
   ) => {
     if (selectedScheme === "") {
       alert("Please select the scheme");
@@ -135,6 +138,9 @@ function SwitchItem(props) {
         valueName: valueName,
         value: value,
         type: identifier,
+        groupId,
+        groupName,
+        groupType
       };
       // setKeys((prevState) => [...prevState, key]);
       setAddedScheme(key, newElement);
@@ -259,7 +265,7 @@ function SwitchItem(props) {
 
           {keys !== [] && keys.indexOf(`${index}${item.scheme}`) === -1 ? (
             <TouchableOpacity
-              onPress={() =>
+              onPress={() => {
                 add(
                   `${index}${item.scheme}`,
                   item.scheme,
@@ -270,9 +276,12 @@ function SwitchItem(props) {
                   item.nseSchemeDetails.productAmcName,
                   item.amc_code,
                   item.nseSchemeDetails.productCode,
-                  item.nseSchemeDetails.reinvestTag
+                  item.nseSchemeDetails.reinvestTag,
+                  item.groupId,
+                  item.groupName,
+                  item.groupType
                 )
-              }
+              }}
               style={styles.botton_box}
             >
               <Text style={styles.get_otp}>ADD</Text>
