@@ -47,7 +47,10 @@ function RedeemItem(props) {
     productAmcName,
     amcCode,
     productCode,
-    sourceReinvest
+    sourceReinvest,
+    groupId,
+    groupName,
+    groupType
   ) => {
     if (amount && amountValue.length === 0) {
       alert("Please enter the amount");
@@ -84,6 +87,9 @@ function RedeemItem(props) {
         valueName: valueName,
         value: value,
         type: identifier,
+        groupId,
+        groupName,
+        groupType
       };
 
       setAddedScheme(key, newElement);
@@ -195,7 +201,7 @@ function RedeemItem(props) {
 
           {keys !== [] && keys.indexOf(`${index}${item.scheme}`) === -1 ? (
             <TouchableOpacity
-              onPress={() =>
+              onPress={() => {
                 add(
                   `${index}${item.scheme}`,
                   item.scheme,
@@ -206,9 +212,12 @@ function RedeemItem(props) {
                   item.nseSchemeDetails.productAmcName,
                   item.amc_code,
                   item.nseSchemeDetails.productCode,
-                  item.nseSchemeDetails.reinvestTag
+                  item.nseSchemeDetails.reinvestTag,
+                  item.groupId,
+                  item.groupName,
+                  item.groupType
                 )
-              }
+              }}
               style={styles.botton_box}
             >
               <Text style={styles.get_otp}>ADD</Text>
