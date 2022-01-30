@@ -113,12 +113,16 @@ function PlanSubmitScreen(props) {
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
+          //console.log(goalDetail)
           props.navigation.navigate("Upi", {
             cart: mygolelist.filter((item) => !isNaN(item.schemeInfo.sip)),
             sum: props.navigation.state.params.sum,
             fromPlanGoals: true,
             fromCart: false,
             isLumpsum: props.navigation.state.params.isLumpsum,
+            groupId: '',
+            groupType: 'Goals',
+            groupName: goalDetail?.goal
           });
         }}
         style={styles.botton_box}

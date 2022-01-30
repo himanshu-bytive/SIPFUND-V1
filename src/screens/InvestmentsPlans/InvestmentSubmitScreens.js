@@ -124,15 +124,18 @@ function InvestmentSubmitScreens(props) {
           ))}
       </ScrollView>
       <TouchableOpacity
-        onPress={() =>
+        onPress={() => {
           props.navigation.navigate("Upi", {
             cart: myInvestlist.filter((value) => !isNaN(value.schemes.sip)),
             sum: sum,
             fromCart: false,
             fromPlanGoals: false,
             isLumpsum: props.navigation.state.params.isLumpsum,
+            groupId: '',
+            groupType: 'Investment Plans',
+            groupName: investment.investmentPlan
           })
-        }
+        }}
         style={styles.botton_box}
       >
         <Text style={styles.get_otp}>MAKE PAYMENT</Text>
