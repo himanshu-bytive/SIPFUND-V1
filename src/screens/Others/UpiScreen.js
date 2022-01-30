@@ -41,11 +41,15 @@ function UpiScreen(props) {
       year = year + 1;
     }
 
-    if (date.getDate() > default_date) {
-      month = month + 1;
+    month = month + 1;
+
+    let day = default_date
+    if (month === 1 && default_date > 28) {
+      month = 2
+      day = 2
     }
 
-    return ("00" + default_date).match(/\d{2}$/) + "-" + monthsArr[month] + "-" + year;
+    return ("00" + day).match(/\d{2}$/) + "-" + monthsArr[month] + "-" + (parseInt(year, 10) + 30);
   };
   const sipEndDate = (default_date) => {
     const date = new Date();
@@ -58,16 +62,30 @@ function UpiScreen(props) {
       year = year + 1;
     }
 
-    if (date.getDate() > default_date) {
-      month = month + 1;
+    month = month + 1;
+
+    let day = default_date
+    if (month === 1 && default_date > 28) {
+      month = 2
+      day = 2
     }
 
-    return ("00" + default_date).match(/\d{2}$/) + "-" + monthsArr[month] + "-" + (parseInt(year, 10) + 30);
+    return ("00" + day).match(/\d{2}$/) + "-" + monthsArr[month] + "-" + (parseInt(year, 10) + 30);
   };
+
+  const getPeriodDay = (day, month) => {
+    month = month + 1
+    if (month === 1 && day > 28) {
+      month = 2
+      day = 2
+    }
+    return day
+  }
 
   const getTransactions = (data) => {
     let formatted = [];
     let format = {};
+    const d = new Date()
     for (let item in data) {
       if (props.navigation.state.params.fromCart) {
         format = {
@@ -77,10 +95,10 @@ function UpiScreen(props) {
           product_code: data[item].product_code,
           reinvest: "Z",
           sip_amount: data[item].sip_amount,
-          sip_end_date: data[item].sip_end_date,
+          sip_end_date: d.getDate(),
           sip_freq: "OM",
-          sip_from_date: data[item].sip_from_date,
-          sip_period_day: data[item].sip_period_day,
+          sip_from_date: di.getDate(),
+          sip_period_day: getPeriodDay(d.getDate(), d.getMonth()),
         };
       } else if (props.navigation.state.params.fromPlanGoals) {
         format = {
@@ -90,10 +108,10 @@ function UpiScreen(props) {
           product_code: data[item].schemeInfo.productCode,
           reinvest: "Z",
           sip_amount: data[item].schemeInfo.sip,
-          sip_end_date: sipEndDate(data[item].schemeInfo.default_date),
+          sip_end_date: sipEndDate(d.getDate()),
           sip_freq: "OM",
-          sip_from_date: sipFromDate(data[item].schemeInfo.default_date),
-          sip_period_day: data[item].schemeInfo.default_date,
+          sip_from_date: sipFromDate(d.getDate()),
+          sip_period_day: getPeriodDay(d.getDate(), d.getMonth()),
         };
       } else {
         format = {
@@ -103,13 +121,12 @@ function UpiScreen(props) {
           product_code: data[item].schemes.productCode,
           reinvest: "Z",
           sip_amount: data[item].schemes.sip,
-          sip_end_date: sipEndDate(data[item].schemes.default_date),
+          sip_end_date: sipEndDate(d.getDate()),
           sip_freq: "OM",
-          sip_from_date: sipFromDate(data[item].schemes.default_date),
-          sip_period_day: data[item].schemes.default_date,
+          sip_from_date: sipFromDate(d.getDate()),
+          sip_period_day: getPeriodDay(d.getDate(), d.getMonth()),
         };
       }
-      console.log(format);
       formatted.push(format);
     }
     return formatted;
@@ -200,6 +217,9 @@ function UpiScreen(props) {
         umrn: mandate ? umrn.UMRN_NO : " ",
         until_cancelled: "Y",
         utr: "",
+        groupId: props.navigation.state.params?.groupId,
+        groupType: props.navigation.state.params?.groupType,
+        groupName: props.navigation.state.params?.groupName
       },
       childtrans: getTransactions(props.navigation.state?.params?.cart),
     };
@@ -232,7 +252,7 @@ function UpiScreen(props) {
               <TouchableOpacity
                 onPress={() => {
                   let params = getParams(true, false);
-                  checkout(params, token);
+                  checkout(params, token)
                 }}
                 style={[styles.botton_box, styles.botton_box_none]}
               >
