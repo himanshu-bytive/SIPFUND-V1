@@ -18,6 +18,7 @@ import { Entypo, AntDesign } from "react-native-vector-icons";
 import { Image, Header, CheckBox } from "react-native-elements";
 
 function PlanYourGoalScreen(props) {
+  const {users} = props;
   return (
     <View style={styles.container}>
       <Header
@@ -49,7 +50,7 @@ function PlanYourGoalScreen(props) {
               marginRight: 10,
             }}
           >
-            <Text style={{ color: Colors.RED }}>KN</Text>
+            <Text style={{ color: Colors.RED }}>{`${users?.name[0]}${users?.name.split(" ").pop()[0]}`}</Text>
           </View>
         }
       />
@@ -671,7 +672,7 @@ const styles = StyleSheet.create({
 });
 const mapStateToProps = (state) => ({
   token: state.auth.token,
-  users: state.auth.users,
+  users: state.auth.user,
 });
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {

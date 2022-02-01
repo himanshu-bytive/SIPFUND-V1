@@ -238,7 +238,7 @@ function UpiScreen(props) {
         centerComponent={<Image source={require("../../../assets/icon.png")} style={styles.logimg} />}
         rightComponent={
           <View style={{ marginTop: 25, borderWidth: 1, backgroundColor: Colors.WHITE, borderColor: Colors.RED, padding: 5, borderRadius: 7 }}>
-            <Text>KN</Text>
+            <Text style={styles.textkn}>{`${user?.name[0]}${user?.name.split(" ").pop()[0]}`}</Text>
           </View>
         }
       />
@@ -306,6 +306,11 @@ const styles = StyleSheet.create({
     height: 43,
     width: 122,
   },
+    textkn: {
+        fontSize: 22,
+        color: Colors.RED,
+        fontWeight: "bold",
+    },
   payusing: {
     fontSize: 30,
     fontWeight: "bold",

@@ -20,7 +20,7 @@ import { Ionicons, AntDesign, Entypo, FontAwesome5 } from 'react-native-vector-i
 import { Image, Header, CheckBox } from 'react-native-elements';
 
 function NoGoalsScreen(props) {
-    const { isFetching, token, goals, singleDetails, goalDetail } = props
+    const { isFetching, token, goals, singleDetails, goalDetail, users } = props
     const pageActiveGoles = useRef(false);
 
     useEffect(() => {
@@ -39,7 +39,7 @@ function NoGoalsScreen(props) {
                         source={require('../../../assets/icon.png')}
                         style={styles.logimg}
                     />}
-                    rightComponent={<View style={Styles.headerkn}><Text style={Styles.textkn}>KN</Text></View>}
+                    rightComponent={<View style={Styles.headerkn}><Text style={Styles.textkn}>{`${users?.name[0]}${users?.name.split(" ").pop()[0]}`}</Text></View>}
                 />
                 <Image
                     source={require('../../../assets/Goalsimg.png')}
@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
 });
 const mapStateToProps = (state) => ({
     token: state.auth.token,
-    users: state.auth.users,
+    users: state.auth.user,
     goals: state.goals.goals,
     goalDetail: state.goals.goalDetail,
 })

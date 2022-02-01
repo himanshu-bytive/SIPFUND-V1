@@ -18,6 +18,7 @@ import { Ionicons, AntDesign, Entypo } from 'react-native-vector-icons';
 import { Image, Header, CheckBox } from 'react-native-elements';
 
 function FaqScreen(props) {
+  const {users} = props
     return (
         <View style={styles.container}>
 
@@ -28,7 +29,7 @@ function FaqScreen(props) {
                     source={require('../../../assets/icon.png')}
                     style={styles.logimg}
                 />}
-                rightComponent={<View style={Styles.headerkn}><Text style={Styles.textkn}>KN</Text></View>}
+                rightComponent={<View style={Styles.headerkn}><Text style={Styles.textkn}>{`${users?.name[0]}${users?.name.split(" ").pop()[0]}`}</Text></View>}
             />
             <View style={styles.mainbox}>
 
@@ -119,7 +120,7 @@ const styles = StyleSheet.create({
 });
 const mapStateToProps = (state) => ({
     token: state.auth.token,
-    users: state.auth.users,
+    users: state.auth.user,
 })
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {

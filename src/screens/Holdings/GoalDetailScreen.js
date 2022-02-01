@@ -21,7 +21,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import { HoldingFundType } from "../../components";
 
 function GoalDetailScreen(props) {
-    const { summaryDetails } = props
+  const {summaryDetails, users} = props
 
     return (
         <View style={styles.container}>
@@ -33,7 +33,7 @@ function GoalDetailScreen(props) {
                         source={require('../../../assets/icon.png')}
                         style={styles.logimg}
                     />}
-                    rightComponent={<View style={Styles.headerkn}><Text style={Styles.textkn}>KN</Text></View>}
+                    rightComponent={<View style={Styles.headerkn}><Text style={Styles.textkn}>{`${users?.name[0]}${users?.name.split(" ").pop()[0]}`}</Text></View>}
                 />
                 <Image
                     source={require('../../../assets/childimg.png')}
@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
 });
 const mapStateToProps = (state) => ({
     token: state.auth.token,
-    users: state.auth.users,
+    users: state.auth.user,
     summaryDetails: state.goals.summaryDetails,
 })
 

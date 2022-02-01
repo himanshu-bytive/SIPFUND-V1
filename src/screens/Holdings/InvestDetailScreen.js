@@ -21,7 +21,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import { HoldingFundType } from "../../components";
 
 function InvestDetailScreen(props) {
-    const { summaryInvestmentDetails } = props
+    const { summaryInvestmentDetails, user } = props
 
     return (
         <View style={styles.container}>
@@ -33,7 +33,7 @@ function InvestDetailScreen(props) {
                         source={require('../../../assets/icon.png')}
                         style={styles.logimg}
                     />}
-                    rightComponent={<View style={Styles.headerkn}><Text style={Styles.textkn}>KN</Text></View>}
+                    rightComponent={<View style={Styles.headerkn}><Text style={Styles.textkn}>{`${user?.name[0]}${user?.name.split(" ").pop()[0]}`}</Text></View>}
                 />
                 <Image
                     source={{ uri: summaryInvestmentDetails?.details?.holdings[0].imagePath }}
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
 });
 const mapStateToProps = (state) => ({
     token: state.auth.token,
-    users: state.auth.users,
+    user: state.auth.user,
     summaryInvestmentDetails: state.goals.summaryInvestmentDetails,
 })
 

@@ -21,6 +21,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import { HoldingFundType } from "../../components";
 
 function GoalsLongTermScreen(props) {
+  const {user} = props;
     return (
         <View style={styles.container}>
             <View style={Styles.Header_top}>
@@ -31,7 +32,7 @@ function GoalsLongTermScreen(props) {
                         source={require('../../../assets/icon.png')}
                         style={styles.logimg}
                     />}
-                    rightComponent={<View style={Styles.headerkn}><Text style={Styles.textkn}>KN</Text></View>}
+                    rightComponent={<View style={Styles.headerkn}><Text style={Styles.textkn}>{`${user?.name[0]}${user?.name.split(" ").pop()[0]}`}</Text></View>}
                 />
                 <Image
                     source={require('../../../assets/term1.png')}
@@ -111,7 +112,7 @@ const styles = StyleSheet.create({
 });
 const mapStateToProps = (state) => ({
     token: state.auth.token,
-    users: state.auth.users,
+    user: state.auth.user,
 })
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {

@@ -14,7 +14,7 @@ import { InvestmentLists } from '../../components'
 
 function InvestmentsScreens(props) {
     const pageActive = useRef(false);
-    const { token, investments, investmentPlans, investment } = props
+    const { token, investments, investmentPlans, investment, users } = props
     useEffect(() => {
         if (investment && pageActive.current) {
             pageActive.current = false;
@@ -32,7 +32,7 @@ function InvestmentsScreens(props) {
                     source={require('../../../assets/icon.png')}
                     style={styles.logimg}
                 />}
-                rightComponent={<View style={Styles.headerkn}><Text style={Styles.textkn}>KN</Text></View>}
+                rightComponent={<View style={Styles.headerkn}><Text style={Styles.textkn}>{`${users?.name[0]}${users?.name.split(" ").pop()[0]}`}</Text></View>}
             />
             <ScrollView style={{ width: '100%' }}>
                 <Text style={styles.Plan}>Investment Plans</Text>
@@ -374,7 +374,7 @@ const styles = StyleSheet.create({
 });
 const mapStateToProps = (state) => ({
     token: state.auth.token,
-    users: state.auth.users,
+    users: state.auth.user,
     investments: state.investmentplan.investments,
     investment: state.investmentplan.investment,
 })
