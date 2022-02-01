@@ -155,6 +155,7 @@ function SwitchItem(props) {
       </View>
       <View style={styles.growth_sec}>
         <Text style={styles.axis_treasury}>{item.scheme}</Text>
+        <Text>{item?.groupName} {item?.groupType ? `(${item?.groupType})` : ''}</Text>
         <View style={styles.value_sec}>
           <View style={styles.folio_sec}>
             <Text style={styles.folio}>Folio</Text>
