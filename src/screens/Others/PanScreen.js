@@ -29,7 +29,7 @@ function PanScreen(props) {
 
   useEffect(() => {
     if (pan) {
-      props.navigation.navigate("Home");
+      props.navigation.navigate("Home", { refresh: true });
     }
   }, [pan]);
 

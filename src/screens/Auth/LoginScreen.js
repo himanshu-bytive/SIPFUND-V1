@@ -36,11 +36,12 @@ function LoginScreen(props) {
       getUserDetails({}, token);
     }
     if (user) {
-      if (user.pan) {
-        props.navigation.navigate("Home");
-      } else {
-        props.navigation.navigate("Pan");
-      }
+      //if (user.pan) {
+      //props.navigation.navigate("Home");
+      //} else {
+      //props.navigation.navigate("Pan");
+      //}
+      props.navigation.navigate("Home");
     }
   }, [token, user, userDetails]);
 

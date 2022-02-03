@@ -174,40 +174,45 @@ function HomeScreen(props) {
                 justifyContent: "center",
               }}
             >
-              <View
-                style={{
-                  alignItems: users?.IIN && steps > 5 ? "flex-start" : "center",
-                  marginTop: "10%",
-                }}
-              >
-                <Text
-                  style={[
-                    styles.HelloIinvestor,
-                    {
-                      opacity: users?.IIN && steps > 3 ? 0.5 : 1,
-                    },
-                  ]}
+              {users?.pan || props.navigation.state.params?.refresh ? (
+                <View
+                  style={{
+                    alignItems:
+                      users?.IIN && steps > 5 ? "flex-start" : "center",
+                    marginTop: "10%",
+                  }}
                 >
-                  {users?.IIN && steps > 5
-                    ? "Congratulations"
-                    : users.name
-                    ? `Hello, ${users.name}`
-                    : `Hello Investor`}
-                </Text>
-                <Text
-                  style={[
-                    styles.HelloIinvestor1,
-                    {
-                      marginTop: users?.IIN && steps > 3 ? 5 : 30,
-                      marginBottom: users?.IIN && steps > 3 ? 15 : 0,
-                    },
-                  ]}
-                >
-                  {users?.IIN && steps > 5
-                    ? "Your Account is Active"
-                    : "You're almost ready to Invest"}
-                </Text>
-              </View>
+                  <Text
+                    style={[
+                      styles.HelloIinvestor,
+                      {
+                        opacity: users?.IIN && steps > 3 ? 0.5 : 1,
+                      },
+                    ]}
+                  >
+                    {users?.IIN && steps > 5
+                      ? "Congratulations"
+                      : users.name
+                      ? `Hello, ${users.name}`
+                      : `Hello Investor`}
+                  </Text>
+                  <Text
+                    style={[
+                      styles.HelloIinvestor1,
+                      {
+                        marginTop: users?.IIN && steps > 3 ? 5 : 30,
+                        marginBottom: users?.IIN && steps > 3 ? 15 : 0,
+                      },
+                    ]}
+                  >
+                    {users?.IIN && steps > 5
+                      ? "Your Account is Active"
+                      : "You're almost ready to Invest"}
+                  </Text>
+                </View>
+              ) : (
+                <></>
+              )}
               {users?.IIN && steps > 5 ? (
                 <Text
                   onPress={() => props.navigation.navigate("Goals")}
@@ -217,14 +222,22 @@ function HomeScreen(props) {
                 </Text>
               ) : (
                 <TouchableOpacity
-                  onPress={() =>
-                    props.navigation.navigate(
-                      steps === 3 ? "RegisterDetails" : "UploadDocument"
-                    )
-                  }
+                  onPress={() => {
+                    if (users?.pan || props.navigation.state.params?.refresh) {
+                      props.navigation.navigate(
+                        steps === 3 ? "RegisterDetails" : "UploadDocument"
+                      );
+                    } else {
+                      props.navigation.navigate("Pan");
+                    }
+                  }}
                   style={styles.botton_box}
                 >
-                  <Text style={styles.get_otp}>COMPLETE ACCOUNT SETUP</Text>
+                  <Text style={styles.get_otp}>
+                    {users?.pan || props.navigation.state.params?.refresh
+                      ? "COMPLETE ACCOUNT SETUP"
+                      : "Create Account"}
+                  </Text>
                 </TouchableOpacity>
               )}
             </View>
