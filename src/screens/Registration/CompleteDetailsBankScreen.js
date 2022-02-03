@@ -135,18 +135,16 @@ function CompleteDetailsBankScreen(props) {
       setErrors({ ...errors, accountNumber: "Please Add a Value" });
       return;
     }
-    if (+accountNumber.length < 10) {
-      console.log("ACCOUNT NUMBER=", accountNumber.length);
-      setErrors({ ...errors, accountNumber: "Please Add a Validate Value" });
+    if (accountNumber.length < 9 || accountNumber.length > 21) {
+      setErrors({ ...errors, accountNumber: "Please Add a Valid Value" });
       return;
     }
     if (!ifsc) {
       setErrors({ ...errors, ifsc: "Please Add a Value" });
       return;
     }
-    if (ifsc.length < 10) {
-      console.log("ifsc NUMBER=", ifsc.length);
-      setErrors({ ...errors, ifsc: "Please Add a Validate Value" });
+    if (ifsc.length < 9 || ifsc.length > 20) {
+      setErrors({ ...errors, ifsc: "Please Add a Valid Value" });
       return;
     }
     if (!showBank) {
