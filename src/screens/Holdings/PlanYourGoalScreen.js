@@ -18,7 +18,7 @@ import { Entypo, AntDesign } from "react-native-vector-icons";
 import { Image, Header, CheckBox } from "react-native-elements";
 
 function PlanYourGoalScreen(props) {
-  const {users} = props;
+  const { users } = props;
   return (
     <View style={styles.container}>
       <Header
@@ -50,7 +50,11 @@ function PlanYourGoalScreen(props) {
               marginRight: 10,
             }}
           >
-            <Text style={{ color: Colors.RED }}>{`${users?.name[0]}${users?.name.split(" ").pop()[0]}`}</Text>
+            <Text style={{ color: Colors.RED }}>
+              {users?.name
+                ? `${users?.name[0]}${users?.name.split(" ").pop()[0]}`
+                : ""}
+            </Text>
           </View>
         }
       />

@@ -57,9 +57,11 @@ function GoalsListScreen(props) {
           }
           rightComponent={
             <View style={Styles.headerkn}>
-              <Text style={Styles.textkn}>{`${users?.name[0]}${
-                users?.name.split(" ").pop()[0]
-              }`}</Text>
+              <Text style={Styles.textkn}>
+                {users?.name
+                  ? `${users?.name[0]}${users?.name.split(" ").pop()[0]}`
+                  : ""}
+              </Text>
             </View>
           }
         />

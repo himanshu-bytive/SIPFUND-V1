@@ -1,5 +1,13 @@
 import React, { useEffect } from "react";
-import { StyleSheet, Button, View, ImageBackground, TouchableOpacity, Text, ScrollView } from "react-native";
+import {
+  StyleSheet,
+  Button,
+  View,
+  ImageBackground,
+  TouchableOpacity,
+  Text,
+  ScrollView,
+} from "react-native";
 import { connect } from "react-redux";
 import { Styles, Config, Colors, FormValidate } from "../../common";
 import { Ionicons, Entypo } from "react-native-vector-icons";
@@ -18,16 +26,41 @@ function UpiScreen(props) {
     if (umrn) console.log(umrn);
   }, [umrn]);
 
-  const monthsArr = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"];
+  const monthsArr = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sept",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
   const fromDate = () => {
     const date = new Date();
 
-    return date.getDate() + "-" + monthsArr[date.getMonth()] + "-" + date.getFullYear();
+    return (
+      date.getDate() +
+      "-" +
+      monthsArr[date.getMonth()] +
+      "-" +
+      date.getFullYear()
+    );
   };
   const endDate = () => {
     const date = new Date();
 
-    return date.getDate() + "-" + monthsArr[date.getMonth()] + "-" + (parseInt(date.getFullYear(), 10) + 30);
+    return (
+      date.getDate() +
+      "-" +
+      monthsArr[date.getMonth()] +
+      "-" +
+      (parseInt(date.getFullYear(), 10) + 30)
+    );
   };
 
   const sipFromDate = (default_date) => {
@@ -43,13 +76,19 @@ function UpiScreen(props) {
 
     month = month + 1;
 
-    let day = default_date
+    let day = default_date;
     if (month === 1 && default_date > 28) {
-      month = 2
-      day = 2
+      month = 2;
+      day = 2;
     }
 
-    return ("00" + day).match(/\d{2}$/) + "-" + monthsArr[month] + "-" + (parseInt(year, 10) + 30);
+    return (
+      ("00" + day).match(/\d{2}$/) +
+      "-" +
+      monthsArr[month] +
+      "-" +
+      (parseInt(year, 10) + 30)
+    );
   };
   const sipEndDate = (default_date) => {
     const date = new Date();
@@ -64,28 +103,34 @@ function UpiScreen(props) {
 
     month = month + 1;
 
-    let day = default_date
+    let day = default_date;
     if (month === 1 && default_date > 28) {
-      month = 2
-      day = 2
+      month = 2;
+      day = 2;
     }
 
-    return ("00" + day).match(/\d{2}$/) + "-" + monthsArr[month] + "-" + (parseInt(year, 10) + 30);
+    return (
+      ("00" + day).match(/\d{2}$/) +
+      "-" +
+      monthsArr[month] +
+      "-" +
+      (parseInt(year, 10) + 30)
+    );
   };
 
   const getPeriodDay = (day, month) => {
-    month = month + 1
+    month = month + 1;
     if (month === 1 && day > 28) {
-      month = 2
-      day = 2
+      month = 2;
+      day = 2;
     }
-    return day
-  }
+    return day;
+  };
 
   const getTransactions = (data) => {
     let formatted = [];
     let format = {};
-    const d = new Date()
+    const d = new Date();
     for (let item in data) {
       if (props.navigation.state.params.fromCart) {
         format = {
@@ -219,7 +264,7 @@ function UpiScreen(props) {
         utr: "",
         groupId: props.navigation.state.params?.groupId,
         groupType: props.navigation.state.params?.groupType,
-        groupName: props.navigation.state.params?.groupName
+        groupName: props.navigation.state.params?.groupName,
       },
       childtrans: getTransactions(props.navigation.state?.params?.cart),
     };
@@ -229,16 +274,37 @@ function UpiScreen(props) {
     <View style={styles.container}>
       <Header
         leftComponent={
-          <TouchableOpacity onPress={() => props.navigation.toggleDrawer()} style={{ marginTop: 25 }}>
+          <TouchableOpacity
+            onPress={() => props.navigation.toggleDrawer()}
+            style={{ marginTop: 25 }}
+          >
             <Entypo name={"menu"} size={30} color={Colors.RED} />
           </TouchableOpacity>
         }
         containerStyle={styles.header}
         backgroundColor={Colors.LIGHT_WHITE}
-        centerComponent={<Image source={require("../../../assets/icon.png")} style={styles.logimg} />}
+        centerComponent={
+          <Image
+            source={require("../../../assets/icon.png")}
+            style={styles.logimg}
+          />
+        }
         rightComponent={
-          <View style={{ marginTop: 25, borderWidth: 1, backgroundColor: Colors.WHITE, borderColor: Colors.RED, padding: 5, borderRadius: 7 }}>
-            <Text style={styles.textkn}>{`${user?.name[0]}${user?.name.split(" ").pop()[0]}`}</Text>
+          <View
+            style={{
+              marginTop: 25,
+              borderWidth: 1,
+              backgroundColor: Colors.WHITE,
+              borderColor: Colors.RED,
+              padding: 5,
+              borderRadius: 7,
+            }}
+          >
+            <Text style={styles.textkn}>
+              {user?.name
+                ? `${user?.name[0]}${user?.name.split(" ").pop()[0]}`
+                : ""}
+            </Text>
           </View>
         }
       />
@@ -252,11 +318,14 @@ function UpiScreen(props) {
               <TouchableOpacity
                 onPress={() => {
                   let params = getParams(true, false);
-                  checkout(params, token)
+                  checkout(params, token);
                 }}
                 style={[styles.botton_box, styles.botton_box_none]}
               >
-                <Image source={require("../../../assets/Upi_img.png")} style={styles.upiImage} />
+                <Image
+                  source={require("../../../assets/Upi_img.png")}
+                  style={styles.upiImage}
+                />
               </TouchableOpacity>
             </View>
             <View style={styles.button}>
@@ -306,11 +375,11 @@ const styles = StyleSheet.create({
     height: 43,
     width: 122,
   },
-    textkn: {
-        fontSize: 22,
-        color: Colors.RED,
-        fontWeight: "bold",
-    },
+  textkn: {
+    fontSize: 22,
+    color: Colors.RED,
+    fontWeight: "bold",
+  },
   payusing: {
     fontSize: 30,
     fontWeight: "bold",
@@ -376,4 +445,8 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     },
   };
 };
-export default connect(mapStateToProps, undefined, mapDispatchToProps)(UpiScreen);
+export default connect(
+  mapStateToProps,
+  undefined,
+  mapDispatchToProps
+)(UpiScreen);
