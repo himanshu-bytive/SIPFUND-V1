@@ -163,6 +163,11 @@ const MyImagePicker = (props) => {
         fileType: selected.fileType,
         info: selected.label,
       });
+    } else {
+      setItem({
+        ...item,
+        name: val,
+      });
     }
   };
 
@@ -286,11 +291,31 @@ const MyImagePicker = (props) => {
           <View style={{ flexDirection: "row" }}>
             <TouchableOpacity
               style={{ marginRight: 10 }}
-              onPress={() => setCamera(true)}
+              onPress={() => {
+                if (item?.name !== null) {
+                  setCamera(true);
+                } else {
+                  ToastAndroid.show(
+                    "You need to select a document first!",
+                    ToastAndroid.LONG
+                  );
+                }
+              }}
             >
               <Entypo name={"camera"} size={22} color="#000000" />
             </TouchableOpacity>
-            <TouchableOpacity onPress={pickImage}>
+            <TouchableOpacity
+              onPress={() => {
+                if (item?.name !== null) {
+                  pickImage();
+                } else {
+                  ToastAndroid.show(
+                    "You need to select a document first!",
+                    ToastAndroid.LONG
+                  );
+                }
+              }}
+            >
               <Entypo name={item?.type} size={22} color="#000000" />
             </TouchableOpacity>
           </View>
