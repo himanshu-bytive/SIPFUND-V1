@@ -162,7 +162,9 @@ function InvestmentListScreens(props) {
             handleDelete={handleDelete}
             onPress={(item) => {
               fundDetails(item);
-              props.navigation.navigate("FundsDetails");
+              props.navigation.navigate("FundsDetails", {
+                fromScreen: "InvestmentList",
+              });
             }}
           />
         )}
