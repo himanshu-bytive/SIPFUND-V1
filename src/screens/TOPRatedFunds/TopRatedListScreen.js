@@ -177,6 +177,12 @@ function TopRatedListScreen(props) {
               />
             ))}
       </ScrollView>
+        { (selectTab === 'SIP' && cart.filter((item) => item.trxn_nature === "S").length === 0) || (selectTab === 'LUMPSUM' && cart.filter((item) => item.trxn_nature === "N").length === 0) ?
+          <View style={{flexGrow: 1, alignSelf: 'center'}}>
+            <Text style={{fontSize: 20}}>{'No items in the cart'}</Text>
+          </View> : <></>
+        }
+
       <TouchableOpacity
         onPress={() => props.navigation.navigate("TopRatedSearch")}
       >
