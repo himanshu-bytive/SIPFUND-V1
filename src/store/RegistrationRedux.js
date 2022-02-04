@@ -204,14 +204,15 @@ export const RegistrationActions = {
       token
     );
     if (data.error) {
-      Alert.alert("SIP Fund", JSON.stringify(data.message), [
-        {
-          text: "OK",
-          onPress: () => {
-            dispatch({ type: types.FETCH_FILE_UPLOAD_SUCCESS });
-          },
-        },
-      ]);
+      //Alert.alert("SIP Fund", JSON.stringify(data.message), [
+        //{
+          //text: "OK",
+          //onPress: () => {
+            //dispatch({ type: types.FETCH_FILE_UPLOAD_SUCCESS });
+          //},
+        //},
+      //]);
+      dispatch({ type: types.FETCH_FILE_UPLOAD_SUCCESS });
     } else {
       Alert.alert(data.responseString);
       dispatch({
