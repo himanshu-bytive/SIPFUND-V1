@@ -385,7 +385,7 @@ function TopRatedHomeScreen(props) {
       imagePath: item[0].imagePath,
       ISIN: item[0]._id,
     });
-    props.navigation.navigate("FundsDetails", {fromScreen: "TopRatedHome"});
+    props.navigation.navigate("FundsDetails", { fromScreen: "TopRatedHome" });
   };
 
   function numberWithCommas(x) {
@@ -682,6 +682,7 @@ function TopRatedHomeScreen(props) {
                   <Text style={styles.amount_tex}>Amount</Text>
                   <View style={styles.bordersec}>
                     <TextInput
+                      keyboardType={"numeric"}
                       value={numberWithCommas(states.amount)}
                       onChangeText={(amount) => removeSpecialChars(amount)}
                       placeholder="₹5000"
@@ -733,6 +734,7 @@ function TopRatedHomeScreen(props) {
                   <Text style={styles.amount_tex}>Amount</Text>
                   <View style={styles.bordersec}>
                     <TextInput
+                      keyboardType={"numeric"}
                       value={numberWithCommas(states.amount)}
                       onChangeText={(amount) => removeSpecialChars(amount)}
                       placeholder="₹5000"
