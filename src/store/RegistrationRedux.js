@@ -214,7 +214,9 @@ export const RegistrationActions = {
       //]);
       dispatch({ type: types.FETCH_FILE_UPLOAD_SUCCESS });
     } else {
-      Alert.alert(data.responseString);
+      if (!data.responseString.includes('doc type not found')) {
+        Alert.alert(data.responseString);
+      }
       dispatch({
         type: types.FETCH_FILE_UPLOAD_FAILURE,
         error: data.responseString,

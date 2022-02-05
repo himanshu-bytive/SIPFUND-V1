@@ -193,7 +193,7 @@ function HomeScreen(props) {
                     {users?.IIN && steps > 5
                       ? "Congratulations"
                       : users.name
-                      ? `Hello, ${users.name}`
+                      ? `Hello, ${users?.name}`
                       : `Hello Investor`}
                   </Text>
                   <Text
