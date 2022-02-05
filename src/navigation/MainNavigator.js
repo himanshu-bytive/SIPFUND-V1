@@ -544,7 +544,7 @@ const TabNavigator = createBottomTabNavigator(
         },
       },
     },
-    You: {
+    YOU: {
       screen: ProfileScreen,
       navigationOptions: {
         tabBarIcon: ({ focused, tintColor }) => {
@@ -603,6 +603,13 @@ export const RootNavigator = createDrawerNavigator(
     Dashboard: {
       name: "TopRatedHome",
       screen: TopRatedFundsStack,
+      navigationOptions: {
+        headerShown: false,
+      },
+    },
+    You: {
+      name: "Upi",
+      screen: OthersStack,
       navigationOptions: {
         headerShown: false,
       },
