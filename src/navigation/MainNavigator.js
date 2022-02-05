@@ -529,7 +529,7 @@ const TabNavigator = createBottomTabNavigator(
       },
     },
     Dashboard: {
-      screen: TopRatedFundsStack,
+      screen: Hamburgmenu,
       navigationOptions: {
         tabBarIcon: ({ focused, tintColor }) => {
           const imgSource = focused
