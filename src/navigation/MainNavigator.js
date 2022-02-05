@@ -545,7 +545,7 @@ const TabNavigator = createBottomTabNavigator(
       },
     },
     You: {
-      screen: OthersStack,
+      screen: ProfileScreen,
       navigationOptions: {
         tabBarIcon: ({ focused, tintColor }) => {
           const imgSource = focused
