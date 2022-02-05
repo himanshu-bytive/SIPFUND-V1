@@ -3,7 +3,8 @@ import { DataTable } from "react-native-paper";
 import { StyleSheet, View, Text } from "react-native";
 import { connect } from "react-redux";
 import { Colors } from "../../common";
-import { VictoryPieCode } from "../../components";
+//import { VictoryPieCode } from "../../components";
+import { VictoryContainer, VictoryPie } from "victory-native";
 
 function PortfolioSummary(props) {
   const { detailsInfo } = props;
@@ -127,9 +128,13 @@ function PortfolioSummary(props) {
 
         <View style={styles.allocation}>
           <Text style={styles.asset}>Asset Allocation</Text>
-          <VictoryPieCode
-            colors={["#3B75AF", "#EF8636", "#519E3E", "#C53A32", "#8D69B8"]}
+          <VictoryPie
             data={holdingType}
+            colorScale={["#3B75AF", "#EF8636", "#519E3E", "#C53A32", "#8D69B8"]}
+            labels={() => ""}
+            innerRadius={100}
+            width={200}
+            height={200}
           />
         </View>
       </View>
@@ -274,14 +279,15 @@ const styles = StyleSheet.create({
     marginBottom: 23,
   },
   allocation: {
-    width: "60%",
+    width: "50%",
     alignItems: "center",
+    justifyContent: "center",
   },
   asset: {
     color: Colors.RED,
     fontSize: 12,
     fontWeight: "bold",
-    marginTop: 10,
+    marginVertical: 10,
   },
   graph_img: {
     height: 113,
