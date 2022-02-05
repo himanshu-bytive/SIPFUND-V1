@@ -153,7 +153,9 @@ function PlanListScreen(props) {
           }
           onPress={(item) => {
             fundDetails(item);
-            props.navigation.navigate("FundsDetails", {fromScreen: 'PlanList'});
+            props.navigation.navigate("FundsDetails", {
+              fromScreen: "PlanList",
+            });
           }}
           handleDelete={handleDelete}
         />
@@ -282,6 +284,7 @@ const styles = StyleSheet.create({
   },
   fund_sec: {
     flexDirection: "row",
+    justifyContent: "space-between",
     marginHorizontal: 25,
     marginTop: 20,
   },
@@ -312,8 +315,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     color: Colors.RED,
-    position: "absolute",
     right: 0,
+    marginBottom: 10,
   },
   hybrid_sec: {
     marginHorizontal: 15,
