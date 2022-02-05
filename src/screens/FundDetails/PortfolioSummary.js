@@ -132,9 +132,9 @@ function PortfolioSummary(props) {
             data={holdingType}
             colorScale={["#3B75AF", "#EF8636", "#519E3E", "#C53A32", "#8D69B8"]}
             labels={() => ""}
-            innerRadius={100}
-            width={200}
-            height={200}
+            innerRadius={50}
+            width={100}
+            height={100}
           />
         </View>
       </View>
