@@ -239,7 +239,7 @@ function TopRatedHomeScreen(props) {
   };
 
   const [states, setStates] = useState({
-    amount: "5000",
+    amount: "",
     date: 5,
     productName: "",
     productCode: "",
@@ -685,7 +685,7 @@ function TopRatedHomeScreen(props) {
                       keyboardType={"numeric"}
                       value={numberWithCommas(states.amount)}
                       onChangeText={(amount) => removeSpecialChars(amount)}
-                      placeholder="₹5000"
+                      placeholder="₹0"
                       style={styles.amount_tex2}
                     />
                   </View>
@@ -737,7 +737,7 @@ function TopRatedHomeScreen(props) {
                       keyboardType={"numeric"}
                       value={numberWithCommas(states.amount)}
                       onChangeText={(amount) => removeSpecialChars(amount)}
-                      placeholder="₹5000"
+                      placeholder="₹0"
                       style={styles.amount_tex2}
                     />
                   </View>
