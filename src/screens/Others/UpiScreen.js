@@ -140,9 +140,9 @@ function UpiScreen(props) {
           product_code: data[item].product_code,
           reinvest: "Z",
           sip_amount: data[item].sip_amount,
-          sip_end_date: d.getDate(),
+          sip_end_date: sipEndDate(d.getDate),
           sip_freq: "OM",
-          sip_from_date: di.getDate(),
+          sip_from_date: sipFromDate(d.getDate()),
           sip_period_day: getPeriodDay(d.getDate(), d.getMonth()),
         };
       } else if (props.navigation.state.params.fromPlanGoals) {
