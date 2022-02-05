@@ -528,7 +528,7 @@ const TabNavigator = createBottomTabNavigator(
         },
       },
     },
-    Dashboard: {
+    DashBoard: {
       screen: Hamburgmenu,
       navigationOptions: {
         tabBarIcon: ({ focused, tintColor }) => {
@@ -596,6 +596,13 @@ export const RootNavigator = createDrawerNavigator(
     Plan: {
       name: "Plan",
       screen: PlanYourGoalsStack,
+      navigationOptions: {
+        headerShown: false,
+      },
+    },
+    Dashboard: {
+      name: "TopRatedHome",
+      screen: TopRatedFundsStack,
       navigationOptions: {
         headerShown: false,
       },
