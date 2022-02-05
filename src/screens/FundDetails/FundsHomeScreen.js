@@ -78,8 +78,8 @@ function FundsHomeScreen(props) {
     } else {
       let year = rupees.find((x) => x.text == value);
       (date = new Date()), (y = date.getFullYear());
-      firstDay = new Date(y, 1, -29);
-      lastDay = new Date(y + (year?.value ? year.value : 1), 1, -29);
+      firstDay = new Date(y - year?.value + 1, 1, -29);
+      lastDay = new Date(y + 1, 1, -29);
     }
     setLabels(Utility.getDatesBetweenDates(firstDay, lastDay));
     fundChartList(
