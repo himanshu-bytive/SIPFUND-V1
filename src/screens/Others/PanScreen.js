@@ -93,6 +93,7 @@ function PanScreen(props) {
           <View style={styles.text_box}>
             <FontAwesome5 name="credit-card" size={20} color="#838280" />
             <TextInput
+              autoFocus
               ref={pannumberInput}
               style={styles.inputsec}
               autoCapitalize={"characters"}
