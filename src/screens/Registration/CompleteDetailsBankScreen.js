@@ -433,8 +433,18 @@ function CompleteDetailsBankScreen(props) {
               ) : (
                 <TouchableOpacity
                   onPress={() => {
-                    getBankDetails(state.ifsc, token);
-                    setErrors({ ...errors, showBank: null });
+                    if (
+                      state.accountNumber.length < 9 ||
+                      state.accountNumber.length > 21
+                    ) {
+                      setErrors({
+                        ...errors,
+                        accountNumber: "Please Add a Valid Value",
+                      });
+                    } else {
+                      getBankDetails(state.ifsc, token);
+                      setErrors({ ...errors, showBank: null });
+                    }
                   }}
                   style={[styles.botton_box, { marginTop: 10 }]}
                 >
