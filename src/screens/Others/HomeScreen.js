@@ -71,12 +71,6 @@ function HomeScreen(props) {
     }
   }, [investment]);
 
-  useEffect(() => {
-    if (users) {
-      console.log("USERS=", users);
-    }
-  }, [users]);
-
   const [visible, setVisible] = useState(false);
   const [overlay, setOverlay] = useState("");
   const toggleOverlay = (value) => {
@@ -215,7 +209,7 @@ function HomeScreen(props) {
               )}
               {users?.IIN && steps > 5 ? (
                 <Text
-                  onPress={() => props.navigation.navigate("Goals")}
+                  onPress={() => props.navigation.navigate("Owner")}
                   style={styles.startInvestmentText}
                 >
                   + Start Investing
