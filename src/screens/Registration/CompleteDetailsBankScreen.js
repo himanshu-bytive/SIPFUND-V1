@@ -103,7 +103,7 @@ function CompleteDetailsBankScreen(props) {
         : [];
       setBankList(bankList);
     }
-    if ((bankDetails && bankDetails.nseBankName) || bankDetails.bankName) {
+    if ((bankDetails && bankDetails.nseBankName) || bankDetails?.bankName) {
       let selectedBank = bankList.find(
         (x) => x.label == bankDetails.nseBankName
       );
