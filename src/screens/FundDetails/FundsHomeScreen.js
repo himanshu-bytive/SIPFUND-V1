@@ -68,20 +68,23 @@ function FundsHomeScreen(props) {
     setSelectTab(value);
     let date = new Date(),
       y = date.getFullYear(),
-      m = date.getMonth();
-    let firstDay = new Date(y, m, 1);
-    let lastDay = new Date(y, m + 1, 0);
+      m = date.getMonth(),
+      d = date.getDate()
+    //let firstDay = new Date(y, m, 1);
+    //let lastDay = new Date(y, m, 0);
+    let firstDay
+    let lastDay
     if (value === "1M") {
       (date = new Date()), (y = date.getFullYear()), (m = date.getMonth());
-      firstDay = new Date(y, m, 1);
-      lastDay = new Date(y, m + 1, 0);
+      firstDay = new Date(y, m - 1, d);
+      lastDay = new Date(y, m, d);
     } else {
       let year = rupees.find((x) => x.text == value);
-      (date = new Date()), (y = date.getFullYear());
-      firstDay = new Date(y - year?.value + 1, 1, -29);
-      lastDay = new Date(y + 1, 1, -29);
+      //(date = new Date()), (y = date.getFullYear());
+      firstDay = new Date(y - year?.value, m, d);
+      lastDay = new Date(y, m, d);
     }
-    setLabels(Utility.getDatesBetweenDates(firstDay, lastDay));
+    //setLabels(Utility.getDatesBetweenDates(firstDay, lastDay));
     fundChartList(
       {
         ISIN: "INF200K01T28",
@@ -104,10 +107,11 @@ function FundsHomeScreen(props) {
       // console.log(fund)
       let date = new Date(),
         y = date.getFullYear(),
-        m = date.getMonth();
-      let firstDay = new Date(y, m, 1);
-      let lastDay = new Date(y, m + 1, 0);
-      setLabels(Utility.getDatesBetweenDates(firstDay, lastDay));
+        m = date.getMonth(),
+        d = date.getDate();
+      let firstDay = new Date(y, m - 1, d);
+      let lastDay = new Date(y, m, d);
+      //setLabels(Utility.getDatesBetweenDates(firstDay, lastDay));
       fundChartList(
         {
           ISIN: "INF200K01T28",
@@ -163,25 +167,45 @@ function FundsHomeScreen(props) {
   }, []);
 
   const calculateMap = () => {
-    let labs = {};
-    for (let item of labels) {
-      labs[item] = 0;
-    }
-    let data = {};
+    //let labs = {};
+    //for (let item of labels) {
+      //labs[item] = 0;
+    //}
+    //let data = {};
+    //if (detailsMap) {
+      //for (let lab in labs) {
+        //for (let item of detailsMap) {
+          //if (new Date(lab).getTime() > new Date(item.d).getTime()) {
+            //data[lab] = item.v;
+          //}
+        //}
+      //}
+    //}
+    //let datasets = [];
+    //for (let key of labels) {
+      //datasets.push(data[key] ? Number(data[key]) : 0);
+    //}
     if (detailsMap) {
-      for (let lab in labs) {
-        for (let item of detailsMap) {
-          if (new Date(lab).getTime() > new Date(item.d).getTime()) {
-            data[lab] = item.v;
-          }
-        }
+      let label = []
+      let data = []
+      let day
+
+      for (let index = 0; index < detailsMap.length; index = index + parseInt(detailsMap.length / 4)) {
+        day = detailsMap[index].d
+        label = [...label, `${day.split('-')[1]}/${day.split('-')[0].slice(2)}`]
+        data = [...data, parseFloat(detailsMap[index].v)]
       }
+      //if (data[data.length - 1] !== parseFloat(detailsMap[detailsMap.length - 1].v)) {
+        //data.pop()
+        //data = [...data, parseFloat(detailsMap[detailsMap.length - 1].v)]
+      //}
+      if (label[label.length - 1] !== `${detailsMap[detailsMap.length - 1].d.split('-')[1]}/${detailsMap[detailsMap.length - 1].d.split('-')[0].slice(2)}`) {
+        label.push(`${detailsMap[detailsMap.length - 1].d.split('-')[1]}/${detailsMap[detailsMap.length - 1].d.split('-')[0].slice(2)}`)
+        data.push(parseFloat(detailsMap[detailsMap.length - 1].v))
+      }
+      setLabels(label)
+      setDatasets(data)
     }
-    let datasets = [];
-    for (let key of labels) {
-      datasets.push(data[key] ? Number(data[key]) : 0);
-    }
-    setDatasets(datasets);
   };
 
   return (
@@ -248,7 +272,7 @@ function FundsHomeScreen(props) {
             height={220}
             yAxisLabel=""
             yAxisSuffix=""
-            yAxisInterval={1} // optional, defaults to 1
+            yAxisInterval={1}
             chartConfig={{
               backgroundColor: "transparent",
               backgroundGradientFrom: "#F9F9F9",
