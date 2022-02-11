@@ -8,6 +8,7 @@ import {
   BackHandler,
   Text,
 } from "react-native";
+import Carousel from "react-native-snap-carousel";
 import { connect } from "react-redux";
 import { Styles, Config, Colors, FormValidate } from "../../common";
 import { MyImagePicker } from "../../components";
@@ -21,6 +22,7 @@ import {
 } from "react-native-vector-icons";
 import { Image, Header } from "react-native-elements";
 import Cart from "../../components/Cart";
+import Icon from "react-native-vector-icons/MaterialIcons";
 
 const documentsMap = {
   PC: "Pan Card",
@@ -112,6 +114,7 @@ function UploadDocumentScreen(props) {
   const [document, setDocument] = useState(
     user?.userDetails?.ekycIsDone ? documentsKyc : documents
   );
+  const carosuelref = useRef();
 
   useEffect(() => {
     const backAction = () => {
@@ -141,12 +144,72 @@ function UploadDocumentScreen(props) {
     props.navigation.navigate("ZoomDocuments");
   };
 
+  const renderitem = ({ item, index }) => {
+    return (
+      <View
+        key={index}
+        style={{
+          marginHorizontal: 10,
+          marginBottom: 20,
+          alignItems: "center",
+          width: Styles.width - 50,
+        }}
+      >
+        <Text style={{ marginBottom: 5 }}>
+          {documentsMap[item.docType]
+            ? documentsMap[item.docType]
+            : item.docType}
+        </Text>
+
+        <TouchableOpacity
+          onPress={() => zoomDocuments(`${docs?.baseUrl}${item.fileName}`)}
+        >
+          <Image
+            source={{ uri: `${docs?.baseUrl}${item.fileName}` }}
+            style={{ width: Styles.width - 50, height: 300 }}
+          />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => carosuelref.current.snapToPrev()}
+          style={{
+            backgroundColor: "rgba(0,0,0,0.3)",
+            position: "absolute",
+            top: "45%",
+            left: 12,
+            padding: 8,
+            borderRadius: 20,
+          }}
+        >
+          <View>
+            <Icon name="arrow-back-ios" size={20} />
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => carosuelref.current.snapToNext()}
+          style={{
+            position: "absolute",
+            top: "45%",
+            right: 12,
+            backgroundColor: "rgba(0,0,0,0.3)",
+            padding: 8,
+            borderRadius: 20,
+          }}
+        >
+          <View>
+            <Icon name="arrow-forward-ios" size={20} />
+          </View>
+        </TouchableOpacity>
+      </View>
+    );
+  };
+
   return (
     <View style={styles.container}>
       <Header
         leftComponent={
           <TouchableOpacity
-            onPress={() => props.navigation.navigate("Home", {refresh: true})}
+            onPress={() => props.navigation.navigate("Home", { refresh: true })}
             style={{ marginTop: 20 }}
           >
             <AntDesign name={"arrowleft"} size={40} color={Colors.RED} />
@@ -205,37 +268,17 @@ function UploadDocumentScreen(props) {
         <View
           style={{ flexDirection: "row", marginHorizontal: 10, marginTop: 20 }}
         >
-          <ScrollView horizontal={true}>
-            {docs?.responseString.documents
-              ? docs.responseString.documents.map((item, key) => (
-                  <View
-                    key={key}
-                    style={{
-                      marginHorizontal: 10,
-                      marginBottom: 20,
-                      alignItems: "center",
-                      width: Styles.width - 50,
-                    }}
-                  >
-                    <Text style={{ marginBottom: 5 }}>
-                      {documentsMap[item.docType]
-                        ? documentsMap[item.docType]
-                        : item.docType}
-                    </Text>
-                    <TouchableOpacity
-                      onPress={() =>
-                        zoomDocuments(`${docs?.baseUrl}${item.fileName}`)
-                      }
-                    >
-                      <Image
-                        source={{ uri: `${docs?.baseUrl}${item.fileName}` }}
-                        style={{ width: Styles.width - 50, height: 300 }}
-                      />
-                    </TouchableOpacity>
-                  </View>
-                ))
-              : null}
-          </ScrollView>
+          {/* <ScrollView horizontal={true} ref={scrollViewRef} > */}
+          {docs?.responseString.documents ? (
+            <Carousel
+              ref={carosuelref}
+              data={docs.responseString.documents}
+              renderItem={renderitem}
+              sliderWidth={Styles.width}
+              itemWidth={Styles.width}
+            />
+          ) : null}
+          {/* </ScrollView> */}
         </View>
       </ScrollView>
     </View>
