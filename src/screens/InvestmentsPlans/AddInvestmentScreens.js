@@ -107,7 +107,7 @@ function AddInvestmentScreens(props) {
         alert("please enter numbers only");
       }
     }
-    setInvest(newText);
+    setInvest(newText.replace(/^0+/, ""));
   };
 
   return (
