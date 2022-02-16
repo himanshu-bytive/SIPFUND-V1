@@ -486,7 +486,7 @@ function TopRatedHomeScreen(props) {
         <View style={{ borderWidth: 0.5, borderColor: Colors.GREY_1 }}></View>
         <ScrollView horizontal={true} style={styles.Investnow_sec}>
           {category && category[0] && selectCat
-            ? category[0][selectCat].map((item, key) => (
+            ? category[0][selectCat]?.map((item, key) => (
                 <TouchableOpacity key={key} onPress={() => feachDetails(item)}>
                   <Text
                     style={item == selectSubCat ? styles.Equity : styles.Debt}
