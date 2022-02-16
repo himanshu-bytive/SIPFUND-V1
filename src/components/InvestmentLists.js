@@ -1,8 +1,12 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
 import { StyleSheet, View, Image, TouchableOpacity, Text } from "react-native";
 import { Colors } from "../common";
+import MyImage from "./MyImage";
 export default function InvestmentLists(props) {
   const { data, counts, onPress } = props;
+  useEffect(() => {
+    console.log(data)
+  })
   if (counts) {
     return (
       <View style={styles.investment_sec}>
@@ -13,13 +17,11 @@ export default function InvestmentLists(props) {
                 onPress={() => onPress(item)}
                 style={{ width: "100%" }}
               >
-                <Image
-                  style={{ width: "100%", aspectRatio: 1 }}
-                  source={{
-                    uri: item.planImagePath,
-                  }}
+                <MyImage
+                  width="100%"
+                  svg={true}
+                  url={item?.planImagePath}
                 />
-
                 <Text style={styles.long}>{item.plan}</Text>
               </TouchableOpacity>
             )}
@@ -36,11 +38,10 @@ export default function InvestmentLists(props) {
               onPress={() => onPress(item)}
               style={{ width: "100%" }}
             >
-              <Image
-                style={{ width: "100%", aspectRatio: 1 }}
-                source={{
-                  uri: item.planImagePath,
-                }}
+              <MyImage
+                width="100%"
+                svg={true}
+                url={item?.planImagePath}
               />
               <Text style={styles.long}>{item.plan}</Text>
             </TouchableOpacity>

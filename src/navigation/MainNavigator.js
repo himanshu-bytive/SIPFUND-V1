@@ -421,14 +421,14 @@ export const RegisterStack = createStackNavigator(
 
 export const OthersStack = createStackNavigator(
   {
-    Upi: {
-      screen: UpiScreen,
+    Profile: {
+      screen: ProfileScreen,
       navigationOptions: {
         headerShown: false,
       },
     },
-    Profile: {
-      screen: ProfileScreen,
+    Upi: {
+      screen: UpiScreen,
       navigationOptions: {
         headerShown: false,
       },
@@ -489,7 +489,7 @@ export const OthersStack = createStackNavigator(
     },
   },
   {
-    initialRouteName: "Upi",
+    initialRouteName: "Profile",
   }
 );
 
@@ -545,7 +545,7 @@ const TabNavigator = createBottomTabNavigator(
       },
     },
     YOU: {
-      screen: ProfileScreen,
+      screen: OthersStack,
       navigationOptions: {
         tabBarIcon: ({ focused, tintColor }) => {
           const imgSource = focused
