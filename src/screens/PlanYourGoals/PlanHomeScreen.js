@@ -29,13 +29,14 @@ function PlanHomeScreen(props) {
     golesConfig,
     myGoles,
     fundDetails,
+    singleDetails,
     setPlanYourGoalDetails,
     //toggleLoading,
   } = props;
 
   const [additionalInfo, setAdditionalInfo] = useState({});
   const [amount, setAmount] = useState(1000);
-  const [time, setTime] = useState(10);
+  const [time, setTime] = useState(0);
   const [investment, setInvestment] = useState(100000);
   const [inflation, setInflation] = useState(2.49);
   const [returnRate, setReturnRate] = useState(5);
@@ -79,7 +80,7 @@ function PlanHomeScreen(props) {
       } else {
         setAmount(goalDetail.additionalInfo.current_cost_amt_req_min);
       }
-      setTime(goalDetail.additionalInfo.time_years);
+      if(time === 0) setTime(goalDetail.additionalInfo.time_years);
       setInvestment(goalDetail.additionalInfo.current_investment);
     }
   }, [goalDetail]);
@@ -139,6 +140,13 @@ function PlanHomeScreen(props) {
 
     return year + Number(time);
   };
+
+  useEffect(() => {
+    if (token) {
+      singleDetails({goal: goalDetail?.goal, years: Number(time)}, token)
+      console.log('time is ', time)
+    }
+  }, [time])
 
   return (
     <View style={styles.container}>

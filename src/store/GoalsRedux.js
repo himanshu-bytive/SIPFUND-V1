@@ -56,11 +56,12 @@ export const GoalsActions = {
     dispatch({ type: types.FETCH_SINGLE_DETAILS_PENDING });
     let data = await SiteAPI.apiPostCall(
       `/plan_your_goals/planInfo`,
-      { goal: params.goal, years: 5 },
+      { goal: params.goal, years: params?.years ? params?.years : 5 },
       token
     );
     if (data.error) {
-      Alert.alert(data.message);
+      if(data.message !== '')
+        Alert.alert(data.message);
       dispatch({
         type: types.FETCH_SINGLE_DETAILS_FAILURE,
         error: data.message,

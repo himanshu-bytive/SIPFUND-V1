@@ -4,9 +4,6 @@ import { Colors } from "../common";
 import MyImage from "./MyImage";
 export default function InvestmentLists(props) {
   const { data, counts, onPress } = props;
-  useEffect(() => {
-    console.log(data)
-  })
   if (counts) {
     return (
       <View style={styles.investment_sec}>
