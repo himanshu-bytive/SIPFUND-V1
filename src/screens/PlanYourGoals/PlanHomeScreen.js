@@ -144,7 +144,6 @@ function PlanHomeScreen(props) {
   useEffect(() => {
     if (token) {
       singleDetails({goal: goalDetail?.goal, years: Number(time)}, token)
-      console.log('time is ', time)
     }
   }, [time])
 

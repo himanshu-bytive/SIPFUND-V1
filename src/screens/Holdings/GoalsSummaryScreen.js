@@ -22,8 +22,10 @@ function GoalsSummaryScreen(props) {
   );
 
   useEffect(() => {
-    goalSummary({ phoneNumber: users.mobileNo }, token);
-  }, []);
+    if (token) {
+      goalSummary({phoneNumber: users?.mobileNo}, token);
+    }
+  }, [token]);
 
   useEffect(() => {
     setData(summary?.holdings?.summary ? summary?.holdings?.summary : {});
@@ -341,7 +343,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
-  const { dispatch } = dispatchProps;
+  const { dispatch } = dispatchProps;9272511351
   const { GoalsActions } = require("../../store/GoalsRedux");
   return {
     ...stateProps,
