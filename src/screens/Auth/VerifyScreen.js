@@ -19,6 +19,7 @@ import * as Location from "expo-location";
 import * as Notifications from "expo-notifications";
 import { MaterialIcons } from "react-native-vector-icons";
 import { useInternetStatus } from "../../components/CheckConnection";
+import DeviceInfo from "react-native-device-info";
 const width = Dimensions.get("window").width;
 
 function VerifyScreen(props) {
@@ -26,6 +27,27 @@ function VerifyScreen(props) {
   const phoneInput = useRef(null);
   const [displayCurrentAddress, setDisplayCurrentAddress] = useState([]);
   const { verify, isFetching, signUpSteps, phones, setToken } = props;
+
+  useEffect(() => {
+    DeviceInfo.getPhoneNumber().then((phone) => {
+      console.log(phone);
+      if (!isNaN(phone)) {
+        Alert.alert(
+          "Phone Number",
+          `Do you want to use ${phone} to register?`,
+          [
+            {
+              text: "Cancel",
+              onPress: () => console.log("Cancel Pressed"),
+              style: "cancel",
+            },
+            { text: "OK", onPress: () => onAction(phone.slice(2)) },
+          ]
+        );
+      }
+    });
+  }, []);
+
   useEffect(() => {
     if (signUpSteps == 0 && pageActive.current) {
       pageActive.current = false;

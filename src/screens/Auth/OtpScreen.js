@@ -135,6 +135,11 @@ function OtpScreen(props) {
                 >
                   <Text style={styles.get_otp}>RESEND OTP</Text>
                 </TouchableOpacity>
+                <TouchableOpacity onPress={() => props.navigation.goBack()}>
+                  <Text style={[styles.get_otp, { marginTop: 10 }]}>
+                    Back to Login
+                  </Text>
+                </TouchableOpacity>
               </View>
             )}
           </View>
