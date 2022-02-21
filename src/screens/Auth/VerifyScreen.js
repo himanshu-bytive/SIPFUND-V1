@@ -41,7 +41,7 @@ function VerifyScreen(props) {
               onPress: () => console.log("Cancel Pressed"),
               style: "cancel",
             },
-            { text: "OK", onPress: () => onAction(phone.slice(2)) },
+            { text: "OK", onPress: () => onAction(phone.slice(-10)) },
           ]
         );
       }
