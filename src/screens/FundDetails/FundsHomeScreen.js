@@ -64,16 +64,15 @@ function FundsHomeScreen(props) {
   const [labels, setLabels] = useState(["", "", "", ""]);
   const [datasets, setDatasets] = useState([0, 0, 0, 0]);
 
-  const toggleTab = (value) => {
-    setSelectTab(value);
+  const refreshFunds = (value) => {
     let date = new Date(),
       y = date.getFullYear(),
       m = date.getMonth(),
-      d = date.getDate()
+      d = date.getDate();
     //let firstDay = new Date(y, m, 1);
     //let lastDay = new Date(y, m, 0);
-    let firstDay
-    let lastDay
+    let firstDay;
+    let lastDay;
     if (value === "1M") {
       (date = new Date()), (y = date.getFullYear()), (m = date.getMonth());
       firstDay = new Date(y, m - 1, d);
@@ -87,7 +86,7 @@ function FundsHomeScreen(props) {
     //setLabels(Utility.getDatesBetweenDates(firstDay, lastDay));
     fundChartList(
       {
-        ISIN: "INF200K01T28",
+        ISIN: fundDetail?.isin,
         from: moment(firstDay).format("YYYY-MM-DD"),
         to: moment(lastDay).format("YYYY-MM-DD"),
       },
@@ -95,16 +94,13 @@ function FundsHomeScreen(props) {
     );
   };
 
-  // useEffect(() => {
-  //     fetchFunds({ name: fundDetail?.name }, token)
-  // }, [users]);
+  const toggleTab = (value) => {
+    refreshFunds(value);
+    setSelectTab(value);
+  };
 
   useEffect(() => {
     if (users) {
-      // let fund = funds.find(x => x.productName == fundDetail?.name);
-      // console.log(fundDetail)
-      // console.log(funds)
-      // console.log(fund)
       let date = new Date(),
         y = date.getFullYear(),
         m = date.getMonth(),
@@ -114,15 +110,21 @@ function FundsHomeScreen(props) {
       //setLabels(Utility.getDatesBetweenDates(firstDay, lastDay));
       fundChartList(
         {
-          ISIN: "INF200K01T28",
+          ISIN: fundDetail?.isin,
           from: moment(firstDay).format("YYYY-MM-DD"),
           to: moment(lastDay).format("YYYY-MM-DD"),
         },
         token
       );
-      fundDetailsList({ ISIN: "INF200K01T28" }, token);
     }
   }, [users]);
+
+  useEffect(() => {
+    if (token) {
+      fundDetailsList({ ISIN: fundDetail?.isin }, token);
+      refreshFunds(selectTab);
+    }
+  }, [token, fundDetail]);
 
   useEffect(() => {
     let detailedPortFolio = detailsInfo ? detailsInfo[0].api : {};
@@ -169,42 +171,62 @@ function FundsHomeScreen(props) {
   const calculateMap = () => {
     //let labs = {};
     //for (let item of labels) {
-      //labs[item] = 0;
+    //labs[item] = 0;
     //}
     //let data = {};
     //if (detailsMap) {
-      //for (let lab in labs) {
-        //for (let item of detailsMap) {
-          //if (new Date(lab).getTime() > new Date(item.d).getTime()) {
-            //data[lab] = item.v;
-          //}
-        //}
-      //}
+    //for (let lab in labs) {
+    //for (let item of detailsMap) {
+    //if (new Date(lab).getTime() > new Date(item.d).getTime()) {
+    //data[lab] = item.v;
+    //}
+    //}
+    //}
     //}
     //let datasets = [];
     //for (let key of labels) {
-      //datasets.push(data[key] ? Number(data[key]) : 0);
+    //datasets.push(data[key] ? Number(data[key]) : 0);
     //}
     if (detailsMap) {
-      let label = []
-      let data = []
-      let day
+      let label = [];
+      let data = [];
+      let day;
 
-      for (let index = 0; index < detailsMap.length; index = index + parseInt(detailsMap.length / 4)) {
-        day = detailsMap[index].d
-        label = [...label, `${day.split('-')[1]}/${day.split('-')[0].slice(2)}`]
-        data = [...data, parseFloat(detailsMap[index].v)]
+      for (
+        let index = 0;
+        index < detailsMap.length;
+        index = index + parseInt(detailsMap.length / 4)
+      ) {
+        day = detailsMap[index].d;
+        label = [
+          ...label,
+          `${day.split("-")[1]}/${day.split("-")[0].slice(2)}`,
+        ];
+        data = [...data, parseFloat(detailsMap[index].v)];
       }
       //if (data[data.length - 1] !== parseFloat(detailsMap[detailsMap.length - 1].v)) {
-        //data.pop()
-        //data = [...data, parseFloat(detailsMap[detailsMap.length - 1].v)]
+      //data.pop()
+      //data = [...data, parseFloat(detailsMap[detailsMap.length - 1].v)]
       //}
-      if (label[label.length - 1] !== `${detailsMap[detailsMap.length - 1].d.split('-')[1]}/${detailsMap[detailsMap.length - 1].d.split('-')[0].slice(2)}`) {
-        label.push(`${detailsMap[detailsMap.length - 1].d.split('-')[1]}/${detailsMap[detailsMap.length - 1].d.split('-')[0].slice(2)}`)
-        data.push(parseFloat(detailsMap[detailsMap.length - 1].v))
+      if (
+        label[label.length - 1] !==
+        `${detailsMap[detailsMap.length - 1].d.split("-")[1]}/${detailsMap[
+          detailsMap.length - 1
+        ].d
+          .split("-")[0]
+          .slice(2)}`
+      ) {
+        label.push(
+          `${detailsMap[detailsMap.length - 1].d.split("-")[1]}/${detailsMap[
+            detailsMap.length - 1
+          ].d
+            .split("-")[0]
+            .slice(2)}`
+        );
+        data.push(parseFloat(detailsMap[detailsMap.length - 1].v));
       }
-      setLabels(label)
-      setDatasets(data)
+      setLabels(label);
+      setDatasets(data);
     }
   };
 
