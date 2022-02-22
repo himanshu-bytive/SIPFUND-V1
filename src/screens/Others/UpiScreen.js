@@ -77,18 +77,15 @@ function UpiScreen(props) {
     month = month + 1;
 
     let day = default_date;
-    if (month === 1 && default_date > 28) {
-      month = 2;
-      day = 2;
+    if (month === 2) {
+      day = parseInt(day, 10) + 2;
+      if (default_date >= 28) {
+        month = 2;
+        day = 2;
+      }
     }
 
-    return (
-      ("00" + day).match(/\d{2}$/) +
-      "-" +
-      monthsArr[month] +
-      "-" +
-      (parseInt(year, 10) + 30)
-    );
+    return ("00" + day).match(/\d{2}$/) + "-" + monthsArr[month] + "-" + year;
   };
   const sipEndDate = (default_date) => {
     const date = new Date();
@@ -104,9 +101,12 @@ function UpiScreen(props) {
     month = month + 1;
 
     let day = default_date;
-    if (month === 1 && default_date > 28) {
-      month = 2;
-      day = 2;
+    if (month === 2) {
+      day = parseInt(day, 10) + 2;
+      if (default_date >= 28) {
+        month = 2;
+        day = 2;
+      }
     }
 
     return (
@@ -120,9 +120,12 @@ function UpiScreen(props) {
 
   const getPeriodDay = (day, month) => {
     month = month + 1;
-    if (month === 1 && day > 28) {
-      month = 2;
-      day = 2;
+    if (month === 2) {
+      day = parseInt(day, 10) + 2;
+      if (day >= 28) {
+        month = 2;
+        day = 2;
+      }
     }
     return day;
   };
@@ -318,6 +321,7 @@ function UpiScreen(props) {
               <TouchableOpacity
                 onPress={() => {
                   let params = getParams(true, false);
+                  console.log(JSON.stringify(params, null, 2));
                   checkout(params, token);
                 }}
                 style={[styles.botton_box, styles.botton_box_none]}
