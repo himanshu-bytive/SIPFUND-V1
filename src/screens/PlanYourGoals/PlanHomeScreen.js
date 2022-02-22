@@ -6,6 +6,7 @@ import {
   ScrollView,
   Text,
   BackHandler,
+  TextInput,
 } from "react-native";
 import { connect } from "react-redux";
 import { Styles, Config, Colors, FormValidate, Utility } from "../../common";
@@ -32,6 +33,7 @@ function PlanHomeScreen(props) {
     singleDetails,
     setPlanYourGoalDetails,
     //toggleLoading,
+    setChildName,
   } = props;
 
   const [additionalInfo, setAdditionalInfo] = useState({});
@@ -45,6 +47,8 @@ function PlanHomeScreen(props) {
   const [sipAmount, setSipAmount] = useState(0);
   const [requiredInvestment, setRequiredInvestment] = useState(0);
   const [lumpsumAmount, setLumpsumAmount] = useState(0);
+
+  const [name, setName] = useState("");
 
   const [selectTab, setSelectTab] = useState("SIP");
   const toggleTab = (value) => {
@@ -80,7 +84,7 @@ function PlanHomeScreen(props) {
       } else {
         setAmount(goalDetail.additionalInfo.current_cost_amt_req_min);
       }
-      if(time === 0) setTime(goalDetail.additionalInfo.time_years);
+      if (time === 0) setTime(goalDetail.additionalInfo.time_years);
       setInvestment(goalDetail.additionalInfo.current_investment);
     }
   }, [goalDetail]);
@@ -115,6 +119,11 @@ function PlanHomeScreen(props) {
   }, [amount, time, investment, inflation, returnRate]);
 
   const startGoal = (value) => {
+    if (name === "" && goalDetail?.goal === "Child's Education") {
+      alert("Child's name is required!");
+      return;
+    }
+    setChildName(name);
     if (selectTab === "SIP") {
       if (sipAmount < 1) {
         alert(`Can't proceed further with ₹${sipAmount}!`);
@@ -143,9 +152,9 @@ function PlanHomeScreen(props) {
 
   useEffect(() => {
     if (token) {
-      singleDetails({goal: goalDetail?.goal, years: Number(time)}, token)
+      singleDetails({ goal: goalDetail?.goal, years: Number(time) }, token);
     }
-  }, [time])
+  }, [time]);
 
   return (
     <View style={styles.container}>
@@ -195,6 +204,31 @@ function PlanHomeScreen(props) {
           </View>
         </View>
 
+        {goalDetail?.goal === "Child's Education" && (
+          <View
+            style={[
+              styles.vijay_sec,
+              styles.vijay,
+              { justifyContent: "space-between", alignItems: "center" },
+            ]}
+          >
+            <Text style={styles.child2}>Name of child</Text>
+            <TextInput
+              style={{
+                textAlign: "left",
+                borderWidth: 0.5,
+                borderRadius: 5,
+                padding: 5,
+                flex: 1,
+                marginLeft: 10,
+              }}
+              value={name}
+              placeholder="Name of the child"
+              onChangeText={(val) => setName(val)}
+              maxLength={30}
+            />
+          </View>
+        )}
         <View style={[styles.vijay_sec, styles.vijay]}>
           <Text style={styles.child2}>{additionalInfo?.currentcostlabel}</Text>
           <Text style={styles.childtext}>₹{amount}</Text>
@@ -709,6 +743,9 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     },
     setPlanYourGoalDetails: (props) => {
       GoalsActions.setPlanYourGoalDetails(dispatch, props);
+    },
+    setChildName: (name) => {
+      GoalsActions.setChildName(dispatch, name);
     },
     //toggleLoading: (value) => {
     //GoalsActions.toggleLoading(dispatch, value);

@@ -32,6 +32,7 @@ const types = {
   FETCH_SUMMARY_DETAILS_INVESTMENT: "FETCH_SUMMARY_DETAILS_INVESTMENT",
 
   SET_PLAN_YOUR_GOALS_DETAILS: "SET_PLAN_YOUR_GOAL_DETAILS",
+  SET_CHILD_NAME: "SET_CHILD_NAME",
 };
 
 export const GoalsActions = {
@@ -60,8 +61,7 @@ export const GoalsActions = {
       token
     );
     if (data.error) {
-      if(data.message !== '')
-        Alert.alert(data.message);
+      if (data.message !== "") Alert.alert(data.message);
       dispatch({
         type: types.FETCH_SINGLE_DETAILS_FAILURE,
         error: data.message,
@@ -157,6 +157,12 @@ export const GoalsActions = {
       planYourGoalsDetails: props,
     });
   },
+  setChildName: (dispatch, name) => {
+    dispatch({
+      type: types.SET_CHILD_NAME,
+      childName: name,
+    });
+  },
 };
 
 const initialState = {
@@ -170,6 +176,7 @@ const initialState = {
   summaryDetails: {},
   summaryInvestmentDetails: {},
   planYourGoalsDetails: null,
+  childName: null,
 };
 
 export const reducer = (state = initialState, action) => {
@@ -184,6 +191,7 @@ export const reducer = (state = initialState, action) => {
     summaryDetails,
     summaryInvestmentDetails,
     planYourGoalsDetails,
+    childName,
   } = action;
   switch (type) {
     case types.FETCH_SUMMARY_PENDING:
@@ -293,6 +301,13 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         planYourGoalsDetails,
+      };
+    }
+
+    case types.SET_CHILD_NAME: {
+      return {
+        ...state,
+        childName,
       };
     }
 

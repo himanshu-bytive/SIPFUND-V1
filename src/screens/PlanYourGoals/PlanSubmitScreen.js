@@ -27,7 +27,15 @@ import Cart from "../../components/Cart";
 
 function PlanSubmitScreen(props) {
   const pageActive = useRef(false);
-  const { token, goalDetail, isFetching, configs, mygolelist } = props;
+  const {
+    token,
+    goalDetail,
+    isFetching,
+    configs,
+    mygolelist,
+    users,
+    childName,
+  } = props;
 
   return (
     <View style={styles.container}>
@@ -74,7 +82,9 @@ function PlanSubmitScreen(props) {
           <View style={styles.education_sec}>
             <Text style={styles.child}>Summary</Text>
             <Text style={styles.child_text}>{goalDetail?.goalDescription}</Text>
-            <Text style={styles.child_master}>Master Vijay Deshmukh</Text>
+            {goalDetail?.goal === "Child's Education" && (
+              <Text style={styles.child_master}>{childName}</Text>
+            )}
           </View>
         </View>
 
@@ -120,9 +130,9 @@ function PlanSubmitScreen(props) {
             fromPlanGoals: true,
             fromCart: false,
             isLumpsum: props.navigation.state.params.isLumpsum,
-            groupId: '',
-            groupType: 'Goals',
-            groupName: goalDetail?.goal
+            groupId: "",
+            groupType: "Goals",
+            groupName: goalDetail?.goal,
           });
         }}
         style={styles.botton_box}
@@ -276,11 +286,12 @@ const styles = StyleSheet.create({
 });
 const mapStateToProps = (state) => ({
   token: state.auth.token,
-  users: state.auth.users,
+  users: state.auth.user,
   isFetching: state.goals.isFetching,
   goalDetail: state.goals.goalDetail,
   configs: state.goals.configs,
   mygolelist: state.goals.mygolelist,
+  childName: state.goals.childName,
 });
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
