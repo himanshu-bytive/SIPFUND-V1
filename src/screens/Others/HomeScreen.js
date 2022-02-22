@@ -173,7 +173,7 @@ function HomeScreen(props) {
                   style={{
                     alignItems:
                       users?.IIN && steps > 5 ? "flex-start" : "center",
-                    marginTop: "10%",
+                    marginTop: 12,
                   }}
                 >
                   <Text
@@ -194,7 +194,7 @@ function HomeScreen(props) {
                     style={[
                       styles.HelloIinvestor1,
                       {
-                        marginTop: users?.IIN && steps > 3 ? 5 : 30,
+                        marginTop: users?.IIN && steps > 3 ? 5 : 15,
                         marginBottom: users?.IIN && steps > 3 ? 15 : 0,
                       },
                     ]}
@@ -774,13 +774,14 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   Helloimg: {
-    height: 300,
-    width: 210,
+    marginTop: 10,
+    height: 150,
+    resizeMode: "contain",
   },
   Helloimgsmall: {
     maxWidth: "40%",
     height: 120,
-    resizeMode: "contain",
+    // resizeMode: "contain",
   },
   HelloIinvestor: {
     fontSize: 14,
@@ -1032,7 +1033,8 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.RED,
     width: width - 50,
     paddingVertical: 20,
-    marginVertical: 50,
+    marginTop: 20,
+    marginBottom: 12,
     borderRadius: 10,
     // borderWidth: 2,
     // borderColor: Colors.DEEP_GRAY,
@@ -1040,7 +1042,7 @@ const styles = StyleSheet.create({
   },
   get_otp: {
     color: Colors.WHITE,
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: "bold",
   },
   // gallary
