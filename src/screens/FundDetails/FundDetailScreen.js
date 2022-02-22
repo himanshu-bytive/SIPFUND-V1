@@ -23,7 +23,7 @@ import FundManagers from "./FundManagers";
 function FundDetailScreen(props) {
   const [fundType, setFundType] = useState([
     { text: "Returns Calculator", show: true },
-    { text: "Returns", show: false },
+    // { text: "Returns", show: false },
     { text: "Top Holdings", show: false },
     { text: "Minimum Investments", show: false },
     { text: "Performance History", show: false },
@@ -67,7 +67,7 @@ function FundDetailScreen(props) {
           {item.show && (
             <View>
               {item.text === "Returns Calculator" && <ReturnsCalculator />}
-              {item.text === "Returns" && <Returns />}
+              {/* {item.text === "Returns" && <Returns />} */}
               {item.text === "Top Holdings" && <Top10Holdings />}
               {item.text === "Minimum Investments" && <MinimumInvestments />}
               {item.text === "Performance History" && <PerformanceHistory />}
