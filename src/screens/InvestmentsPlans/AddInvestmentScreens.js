@@ -241,7 +241,9 @@ function AddInvestmentScreens(props) {
             <Text style={styles.cost_botton}>In 10 Years</Text>
           </View>
         </View>
-        <Text style={styles.return}>Note : Assuming returns at 12%</Text>
+        <Text style={styles.return}>
+          Note : Assuming returns at {investment?.expectedReturn}%
+        </Text>
         {/* Axis Asset Management Company Ltd */}
       </ScrollView>
 
