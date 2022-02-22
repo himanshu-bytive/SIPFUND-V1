@@ -218,6 +218,7 @@ function AddInvestmentScreens(props) {
               checkFormula(value);
             }}
             value={invest}
+            maxLength={9}
           />
         </View>
         {/* <Text style={styles.number}>Sixteen thousand</Text> */}

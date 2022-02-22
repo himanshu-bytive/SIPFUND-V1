@@ -142,7 +142,7 @@ const randerData = (
                     <TextInput
                       style={styles.new}
                       keyboardType={"numeric"}
-                      maxLength={6}
+                      maxLength={8}
                       placeholder={"sip"}
                       onChangeText={(v) => {
                         setValue(
