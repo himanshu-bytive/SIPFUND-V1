@@ -174,7 +174,9 @@ function TopRatedListScreen(props) {
                 image={item.image_path}
                 onPress={() => {
                   fundDetails(item);
-                  props.navigation.navigate("FundsDetails");
+                  props.navigation.navigate("FundsDetails", {
+                    fromScreen: "TopRatedList",
+                  });
                 }}
               />
             ))}
