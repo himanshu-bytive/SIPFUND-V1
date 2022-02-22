@@ -159,43 +159,44 @@ function AddInvestmentScreens(props) {
         </View>
         {/* button */}
 
-        <View style={styles.click_sec}>
-          <View
-            style={
-              selectTab == "SIP" ? styles.buttom_botton2 : styles.buttom_botton
-            }
-          >
-            <TouchableOpacity onPress={() => toggleTab("SIP")}>
-              <Text
-                style={selectTab == "SIP" ? styles.sip_text2 : styles.sip_text}
-              >
-                SIP
-              </Text>
-            </TouchableOpacity>
+        {investment?.investmentPlan !== "Funds for SIP" && (
+          <View style={styles.click_sec}>
+            <View
+              style={
+                selectTab == "SIP"
+                  ? styles.buttom_botton2
+                  : styles.buttom_botton
+              }
+            >
+              <TouchableOpacity onPress={() => toggleTab("SIP")}>
+                <Text
+                  style={
+                    selectTab == "SIP" ? styles.sip_text2 : styles.sip_text
+                  }
+                >
+                  SIP
+                </Text>
+              </TouchableOpacity>
+            </View>
+            <View
+              style={
+                selectTab == "One Time"
+                  ? styles.buttom_botton2
+                  : styles.buttom_botton
+              }
+            >
+              <TouchableOpacity onPress={() => toggleTab("One Time")}>
+                <Text
+                  style={
+                    selectTab == "One Time" ? styles.sip_text2 : styles.sip_text
+                  }
+                >
+                  Lump Sum
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
-          <View
-            style={
-              selectTab == "One Time"
-                ? styles.buttom_botton2
-                : styles.buttom_botton
-            }
-          >
-            <TouchableOpacity onPress={() => toggleTab("One Time")}>
-              <Text
-                style={
-                  selectTab == "One Time" ? styles.sip_text2 : styles.sip_text
-                }
-              >
-                Lump Sum
-              </Text>
-            </TouchableOpacity>
-          </View>
-          {/* <View style={(selectTab == 'STP') ? styles.buttom_botton2 : styles.buttom_botton}>
-                        <TouchableOpacity onPress={() => toggleTab('STP')}>
-                            <Text style={(selectTab == 'STP') ? styles.sip_text2 : styles.sip_text}>STP</Text>
-                        </TouchableOpacity>
-                    </View> */}
-        </View>
+        )}
         {/* button  end new*/}
 
         <Text style={styles.childtext}>Investment</Text>
