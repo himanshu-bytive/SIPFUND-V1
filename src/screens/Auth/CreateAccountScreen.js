@@ -39,6 +39,34 @@ function CreateAccountScreen(props) {
   const [displayCurrentAddress, setDisplayCurrentAddress] = useState([]);
   const [referral, setReferral] = useState(false);
 
+  const passwordValidationMessages = {
+    length: "Must be between 8 to 16 characters",
+    caps: "Must have at least one capital letter",
+    small: "Must have at least one small letter",
+    number: "Must contain a number",
+    specialChar: "Must contain at least one special character",
+  };
+
+  const validatePass = (pass) => {
+    let validationMessages = [];
+    if (pass.length < 8 || pass.length > 16) {
+      validationMessages.push(passwordValidationMessages.length);
+    }
+    if (pass.match(/[A-Z]/g) === null) {
+      validationMessages.push(passwordValidationMessages.caps);
+    }
+    if (pass.match(/[a-z]/g) === null) {
+      validationMessages.push(passwordValidationMessages.small);
+    }
+    if (pass.match(/[0-9]/g) === null) {
+      validationMessages.push(passwordValidationMessages.number);
+    }
+    if (pass.match(/\W+/) === null) {
+      validationMessages.push(passwordValidationMessages.specialChar);
+    }
+    return validationMessages;
+  };
+
   useEffect(() => {
     GetCurrentLocation();
   }, []);
@@ -200,6 +228,11 @@ function CreateAccountScreen(props) {
           {errors.password && (
             <Text style={styles.error}>{errors.password}</Text>
           )}
+          <View style={styles.passwordValidationContainer}>
+            {validatePass(state.password).map((item) => (
+              <Text style={styles.passwordValidationText}>{item}</Text>
+            ))}
+          </View>
           <TouchableOpacity
             onPress={() => setReferral(!referral)}
             style={{ alignSelf: "flex-end", marginVertical: 10 }}
@@ -260,7 +293,13 @@ function CreateAccountScreen(props) {
               </View>
             ) : (
               <TouchableOpacity
-                onPress={() => onAction()}
+                onPress={() => {
+                  if (validatePass(state.password).length > 0) {
+                    alert("Enter a valid Password!");
+                    return;
+                  }
+                  onAction();
+                }}
                 style={styles.botton_box}
               >
                 <Text style={styles.get_otp}>CONFIRM</Text>
@@ -362,6 +401,13 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: "bold",
     marginRight: 5,
+  },
+  passwordValidationContainer: {
+    flex: 1,
+    marginVertical: 10,
+  },
+  passwordValidationText: {
+    color: "red",
   },
 });
 
