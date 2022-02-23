@@ -265,12 +265,16 @@ function FundsHomeScreen(props) {
         <View style={styles.management_company}>
           <View style={styles.axis}>
             <Image
-              source={{ uri: fundDetail?.imagePath }}
+              source={{
+                uri: fundDetail?.imagePath
+                  ? fundDetail?.imagePath
+                  : fundDetail?.image_path,
+              }}
               style={styles.axis_img}
             />
             <View style={{ marginHorizontal: 10, flex: 1 }}>
               <Text numberOfLines={2} style={styles.axis_asset}>
-                {fundDetail?.name}
+                {fundDetail?.name ? fundDetail?.name : fundDetail?.product_name}
               </Text>
               <Text style={styles.midcap}>{fundDetail?.productCode}</Text>
             </View>
