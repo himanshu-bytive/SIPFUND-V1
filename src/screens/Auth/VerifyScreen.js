@@ -34,7 +34,7 @@ function VerifyScreen(props) {
     const getPhoneNumber = () => {
       DeviceInfo.getPhoneNumber().then((phone) => {
         console.log(phone);
-        if (!isNaN(phone)) {
+        if (!isNaN(phone) && phones.length === 0) {
           Alert.alert(
             "Phone Number",
             `Do you want to use ${phone} to register?`,
