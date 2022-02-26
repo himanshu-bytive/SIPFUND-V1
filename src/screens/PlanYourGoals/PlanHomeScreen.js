@@ -55,6 +55,8 @@ function PlanHomeScreen(props) {
     setSelectTab(value);
   };
 
+    const [updated, setUpdated] = useState(false)
+
   useEffect(() => {
     const backAction = () => {
       props.navigation.state.params?.toggleLoading(false);
@@ -75,7 +77,7 @@ function PlanHomeScreen(props) {
   }, []);
 
   useEffect(() => {
-    if (goalDetail.additionalInfo) {
+    if (goalDetail.additionalInfo && !updated) {
       setAdditionalInfo(goalDetail.additionalInfo);
       if (goalDetail.additionalInfo.current_living_cost) {
         setAmount(goalDetail.additionalInfo.current_living_cost);
@@ -86,6 +88,7 @@ function PlanHomeScreen(props) {
       }
       if (time === 0) setTime(goalDetail.additionalInfo.time_years);
       setInvestment(goalDetail.additionalInfo.current_investment);
+        setUpdated(true)
     }
   }, [goalDetail]);
 
@@ -595,7 +598,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "bold",
     color: Colors.DEEP_GRAY,
-    maxWidth: "80%",
+    maxWidth: "75%",
   },
   childtext: {
     position: "absolute",
