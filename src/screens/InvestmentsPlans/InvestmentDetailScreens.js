@@ -120,9 +120,23 @@ function InvestmentDetailScreens(props) {
               )
             );
           })*/}
-      {Object.keys(investment.schemes).map(item => (
-          <Text>{item}</Text>
-      ))}
+      {Object.keys(investment.schemes).map(category => {
+          return(
+              <>
+              {investment.schemes[category].map(item => (
+                <View key={item?.productCode} style={styles.sbi_sec}>
+                  <Image
+                    source={{ uri: item?.imagePath }}
+                    style={styles.Hybrid}
+                  />
+                  <Text style={styles.sbi_text}>{item?.name}</Text>
+                </View>
+
+              ))}
+              </>
+          )
+      }
+      )}
       </ScrollView>
       <TouchableOpacity
         onPress={() => props.navigation.navigate("AddInvestment")}
