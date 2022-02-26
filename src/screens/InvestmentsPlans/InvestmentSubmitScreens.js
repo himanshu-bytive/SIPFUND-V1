@@ -30,19 +30,26 @@ function InvestmentSubmitScreens(props) {
 
   const [sum, setSum] = useState(0);
 
-  useEffect(() => {
-    let total = 0;
-    for (let item in myInvestlist.filter(
-      (value) => !isNaN(value.schemes.sip)
-    )) {
-      total =
-        total +
-        Number(
-          myInvestlist.filter((value) => !isNaN(value.schemes.sip))[item]
-            .schemes.sip
-        );
+  const getSip = (value) => {
+    if (!isNaN(value)) {
+      return Number(value);
     }
-    setSum(parseInt(total, 10));
+    return 0;
+  };
+
+  useEffect(() => {
+          let total = 0;
+          for (let category in Object.keys(myInvestlist)) {
+              for(let item in myInvestlist[Object.keys(myInvestlist)[category]]) {
+                  let amount = getSip(myInvestlist[Object.keys(myInvestlist)[category]][item].sip);
+                  if(amount < item.default_min_amount) {
+                    alert("Amount is less than minimum amount");
+                    return;
+                  }
+                  total = total + amount
+              }
+          }
+    setSum(total);
   }, [myInvestlist]);
 
   return (
@@ -98,8 +105,11 @@ function InvestmentSubmitScreens(props) {
         </View>
 
         {/* Axis Asset Management Company Ltd */}
-        {myInvestlist
-          .filter((value) => !isNaN(value.schemes.sip))
+        {Object.keys(myInvestlist).map(category => {
+            return (
+            <>
+            {myInvestlist[category]
+          .filter((value) => !isNaN(value.sip))
           .map((item, key) => (
             <View key={key} style={styles.sbi_sec}>
               <View
@@ -112,21 +122,32 @@ function InvestmentSubmitScreens(props) {
                 }}
               >
                 <Image
-                  source={{ uri: item.schemes.imagePath }}
+                  source={{ uri: item.imagePath }}
                   style={styles.Hybrid}
                 />
                 <Text numberOfLines={2} style={styles.sbi_text}>
-                  {item.schemes.name}
+                  {item.name}
                 </Text>
-                <Text style={styles.price}>₹ {item.schemes.sip}</Text>
+                <Text style={styles.price}>₹ {item.sip}</Text>
               </View>
             </View>
           ))}
+        </>
+            );
+        })}
       </ScrollView>
       <TouchableOpacity
         onPress={() => {
+              let data = []
+              for(let category in Object.keys(myInvestlist)) {
+                  for(let item in myInvestlist[Object.keys(myInvestlist)[category]]) {
+                      if(!isNaN(myInvestlist[Object.keys(myInvestlist)[category]][item].sip)) {
+                        data.push(myInvestlist[Object.keys(myInvestlist)[category]][item])
+                      }
+                  }
+              }
           props.navigation.navigate("Upi", {
-            cart: myInvestlist.filter((value) => !isNaN(value.schemes.sip)),
+            cart: data,
             sum: sum,
             fromCart: false,
             fromPlanGoals: false,

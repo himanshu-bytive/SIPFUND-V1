@@ -9,6 +9,7 @@ import {
   Alert,
   ScrollView,
   ActivityIndicator,
+  TextInput,
 } from "react-native";
 import { connect } from "react-redux";
 import { Styles, Config, Colors, FormValidate } from "../../common";
@@ -36,21 +37,11 @@ function InvestmentListScreens(props) {
     myInvestments,
     fundDetails,
   } = props;
-  const [sumInvestment, setSumInvestment] = useState([]);
+    const [categories, setCategories] = useState([])
 
-  const updateInvestments = (data) => {
-    setSumInvestment(data);
-    myInvestments(data);
-  };
-
-  useEffect(() => {
-    // if (myInvestlist) {
-    //   console.log("MY INVEST LIST=", myInvestlist);
-    // }
-    // if (configs) {
-    //   console.log("CONFIGS=", configs);
-    // }
-  }, [myInvestlist, configs]);
+    useEffect(() => {
+            setCategories(Object.keys(myInvestlist))
+    }, [props.navigation.state.params?.refresh, myInvestlist])
 
   const getSip = (value) => {
     if (!isNaN(value)) {
@@ -61,14 +52,25 @@ function InvestmentListScreens(props) {
 
   const handleDelete = (productCode) => {
     let investments = myInvestlist;
-    for (let index in investments) {
-      if (investments[index]?.schemes.productCode === productCode) {
-        delete investments[index];
-        break;
-      }
-    }
+      let keys = Object.keys(investments)
+    for (let category in keys) {
+        for(let item in investments[keys[category]]) {
+            if(investments[keys[category]][item].isin === productCode) {
+                if(investments[keys[category]].length === 1) {
+                    delete investments[keys[category]]
     myInvestments(investments);
     props.navigation.replace("InvestmentList");
+                    return
+                } else {
+                    //delete investments[keys[category]][item]
+                    investments[keys[category]].splice(item, 1)
+    myInvestments(investments);
+    props.navigation.replace("InvestmentList");
+                    return
+                }
+            }
+        }
+    }
   };
 
   const getHoldings = (data) => {
@@ -77,11 +79,11 @@ function InvestmentListScreens(props) {
     for (let item in data) {
       format = {
         category: data[item].fund_type,
-        amount: data[item].schemes.sip,
-        schemeName: data[item].schemes.name,
-        imagePath: data[item].schemes.imagePath,
-        amc_code: data[item].schemes.amc_code,
-        productCode: data[item].schemes.productCode,
+        amount: data[item].sip,
+        schemeName: data[item].name,
+        imagePath: data[item].imagePath,
+        amc_code: data[item].amc_code,
+        productCode: data[item].productCode,
       };
       formatted.push(format);
     }
@@ -151,7 +153,7 @@ function InvestmentListScreens(props) {
           </View>
         </View>
         {/* {console.log("CONFIGS=", configs)} */}
-        {configs && configs.selectedOption && (
+        {/*configs && configs.selectedOption && (
           <InvestmentFundType
             setSum={(value) => {
               setSumInvestment(Number(value));
@@ -166,8 +168,118 @@ function InvestmentListScreens(props) {
                 fromScreen: "InvestmentList",
               });
             }}
+            handleClicked={() => {
+              setClicked(true);
+            }}
           />
-        )}
+        )*/}
+      {categories.map(category => {
+          return (
+              <>
+          <Text style={[styles.hybrid, {marginLeft: 20}]}>{category}</Text>
+          {myInvestlist[category].map((item, index) => (
+            <View key={item?.productCode} style={styles.axis_asset}>
+              <View style={[styles.company, {justifyContent: item?.type === 'new' ? 'space-between' : 'flex-start'}]}>
+                  <Image
+                    source={{ uri: item?.imagePath }}
+                    style={styles.axisimg}
+                  />
+                  <View style={styles.management}>
+                    <Text numberOfLines={1} style={styles.axis}>{item?.name}</Text>
+                    <Text style={styles.moderately}>{item?.productCode}</Text>
+                  </View>
+                <AntDesign
+                  style={{
+                    display: item?.type === "new" ? "flex" : "none",
+                  }}
+                  name="delete"
+                  size={24}
+                  color="#C0392B"
+                  onPress={() => handleDelete(item?.isin)}
+                />
+              </View>
+
+              <View style={styles.border_sec}>
+                <View style={styles.border}>
+                  <View
+                    style={{ borderWidth: 1, borderColor: Colors.DEEP_GRAY }}
+                  ></View>
+                </View>
+                <View style={styles.icons}>
+                  <TouchableOpacity
+                    style={styles.circle}
+                    onPress={() => {
+                        fundDetails(item)
+                        props.navigation.navigate('FundsDetails', {fromScreen: 'InvestmentList'})}
+                    }
+                  >
+                    <AntDesign name="right" size={30} color="#C0392B" />
+                  </TouchableOpacity>
+                </View>
+              </View>
+
+              <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                <View style={styles.select}>
+                  <Text style={styles.no}>Min Investment</Text>
+                  <Text>₹{item?.investment ? item?.investment : "1000"}</Text>
+                </View>
+                {configs?.selectedOption && configs?.selectedOption === "SIP" && (
+                  <View style={styles.select}>
+                    <Text style={styles.no}>SIP Date</Text>
+                    <View style={{ flexDirection: "row" }}>
+                      <Text style={styles.new}>
+                        {item?.date ? item?.date : "5"}
+                      </Text>
+                      <View style={{ flexDirection: "column" }}>
+                        <TouchableOpacity
+                          onPress={() =>
+                            plusMinus("plus", item?.date ? item?.date : "5")
+                          }
+                        >
+                          <AntDesign name="caretup" size={15} color="#C0392B" />
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                          onPress={() =>
+                            plusMinus("minus", item?.date ? item?.date : "5")
+                          }
+                        >
+                          <AntDesign
+                            name="caretdown"
+                            size={15}
+                            color="#C0392B"
+                          />
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                  </View>
+                )}
+
+                <View style={styles.select}>
+                  <Text style={styles.no}>
+                    {configs.selectedOption === "SIP" ? "SIP Amount" : "Amount"}
+                  </Text>
+                  <View style={{ flexDirection: "row", alignItems: "center" }}>
+                    <Text style={styles.new}>₹</Text>
+                    <TextInput
+                      style={[styles.new, {minWidth: 30}]}
+                      keyboardType={"numeric"}
+                      maxLength={8}
+                      placeholder={"0"}
+                      onChangeText={(v) => {
+                          let data = myInvestlist;
+                          data[category][index].sip = v
+                          myInvestments(data)
+                      }}
+                    />
+                  </View>
+                </View>
+              </View>
+              </View>
+          ))}
+              </>
+
+          );
+          })}
       </ScrollView>
       <TouchableOpacity
         onPress={() => props.navigation.navigate("InvestmentSearch")}
@@ -178,37 +290,17 @@ function InvestmentListScreens(props) {
         onPress={() => {
           /* Calculate sum of all the investments */
           let sum = 0;
-          for (let item in sumInvestment) {
-            sum = sum + getSip(sumInvestment[item].schemes.sip);
-          }
-
-          /* Filtering the investments*/
-          // let investments=myInvestlist;
-          // for(let item in investments){
-
-          console.log("MY INVESTMENT LIST=", myInvestlist);
-          let investments = myInvestlist.filter((item) => {
-            console.log("ITEM=", parseInt(item.schemes.sip));
-
-            return parseInt(item.schemes.sip) > 0 ? true : false;
-          });
-          // }?
-
-          /* Don't allow if sum of all investments exceed the amount */
-          if (investments) {
-            console.log("INVESTMENTS=", investments);
-            for (let item in investments) {
-              console.log("ITEM INVESTMENT=", item);
-              if (
-                parseInt(investments[item].schemes.sip) <
-                parseInt(investments[item].schemes.default_min_amount)
-              ) {
-                console.log("ALERT");
-                alert("Amount is less than minimum ammount");
-                return;
+          for (let category in categories) {
+              for(let item in myInvestlist[categories[category]]) {
+                  let amount = getSip(myInvestlist[categories[category]][item].sip);
+                  if(amount < item.default_min_amount) {
+                    alert("Amount is less than minimum amount");
+                    return;
+                  }
+                  sum = sum + amount
               }
-            }
           }
+
           if (sum > Number(configs.invest)) {
             Alert.alert(
               "Amount exceeds total",
@@ -221,11 +313,17 @@ function InvestmentListScreens(props) {
                 {
                   text: "Yes, please",
                   onPress: () => {
-                    let params = getParams(
-                      myInvestlist.filter((value) => !isNaN(value.schemes.sip)),
-                      sum
-                    );
+              let data = []
+              for(let category in categories) {
+                  for(let item in myInvestlist[categories[category]]) {
+                      if(!isNaN(myInvestlist[categories[category]][item].sip)) {
+                        data.push(myInvestlist[categories[category]][item])
+                      }
+                  }
+              }
+            let params = getParams(data, sum)
                     newInvestment(params, token);
+                      console.log(params, token)
                     props.navigation.navigate("InvestmentSubmit", {
                       isLumpsum: props.navigation.state.params.isLumpsum,
                     });
@@ -237,10 +335,15 @@ function InvestmentListScreens(props) {
           } else if (sum < Number(configs.invest)) {
             alert("Invested amount less than the total!");
           } else {
-            let params = getParams(
-              myInvestlist.filter((value) => !isNaN(value.schemes.sip)),
-              sum
-            );
+              let data = []
+              for(let category in categories) {
+                  for(let item in myInvestlist[categories[category]]) {
+                      if(!isNaN(myInvestlist[categories[category]][item].sip)) {
+                        data.push(myInvestlist[categories[category]][item])
+                      }
+                  }
+              }
+            let params = getParams(data, sum)
             newInvestment(params, token);
             props.navigation.navigate("InvestmentSubmit", {
               isLumpsum: props.navigation.state.params.isLumpsum,
@@ -353,11 +456,13 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   company: {
+      flex: 1,
     flexDirection: "row",
+      alignItems: 'center',
   },
   management: {
     marginLeft: 10,
-    width: "65%",
+    width: '70%',
   },
   axis: {
     fontSize: 15,
@@ -369,6 +474,7 @@ const styles = StyleSheet.create({
   axisimg: {
     height: 39,
     width: 39,
+    resizeMode: 'contain'
   },
   checkbox: {
     position: "absolute",
@@ -392,7 +498,6 @@ const styles = StyleSheet.create({
   },
   select: {
     alignItems: "center",
-    width: "31%",
   },
   no: {
     fontSize: 15,
@@ -410,6 +515,14 @@ const styles = StyleSheet.create({
   hybridimg: {
     width: 39,
     height: 43,
+  },
+  circle: {
+    height: 35,
+    width: 35,
+    borderRadius: 100,
+    borderWidth: 2,
+    borderColor: Colors.DEEP_GRAY,
+    paddingLeft: 2,
   },
 });
 const mapStateToProps = (state) => ({

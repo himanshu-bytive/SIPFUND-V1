@@ -171,7 +171,14 @@ const randerData = (
 };
 
 export default function InvestmentFundType(props) {
-  const { data, onPress, myInvestments, handleDelete, selectedOption } = props;
+  const {
+    data,
+    onPress,
+    myInvestments,
+    handleDelete,
+    selectedOption,
+    handleClicked,
+  } = props;
   const [newData, setNewData] = useState(data ? data : []);
   const [keys, setKeys] = useState([]);
   useEffect(() => {
@@ -196,6 +203,7 @@ export default function InvestmentFundType(props) {
       isNaN(value) || value === "" ? "0" : parseInt(value, 10).toString();
     myInvestments(data);
     setNewData(data);
+    handleClicked();
   };
 
   function groupByKey(array, key) {

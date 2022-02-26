@@ -7,6 +7,8 @@ import {
   TouchableOpacity,
   Text,
   ScrollView,
+  ActivityIndicator,
+  Dimensions,
 } from "react-native";
 import { connect } from "react-redux";
 import { Styles, Config, Colors, FormValidate } from "../../common";
@@ -14,7 +16,8 @@ import { Ionicons, Entypo } from "react-native-vector-icons";
 import { Image, Header, CheckBox } from "react-native-elements";
 
 function UpiScreen(props) {
-  const { token, profile, user, checkout, umrn, getUMRN } = props;
+  const { token, profile, user, checkout, umrn, getUMRN, isFetching, error } =
+    props;
 
   useEffect(() => {
     if (user) {
@@ -131,6 +134,7 @@ function UpiScreen(props) {
   };
 
   const getTransactions = (data) => {
+      console.log('\n###########\n', data, '\n###########\n')
     let formatted = [];
     let format = {};
     const d = new Date();
@@ -163,12 +167,12 @@ function UpiScreen(props) {
         };
       } else {
         format = {
-          amc: data[item].schemes.amc_code,
-          amount: data[item].schemes.sip,
+          amc: data[item].amc_code,
+          amount: data[item].sip,
           folio: "",
-          product_code: data[item].schemes.productCode,
+          product_code: data[item].productCode,
           reinvest: "Z",
-          sip_amount: data[item].schemes.sip,
+          sip_amount: data[item].sip,
           sip_end_date: sipEndDate(d.getDate()),
           sip_freq: "OM",
           sip_from_date: sipFromDate(d.getDate()),
@@ -274,90 +278,99 @@ function UpiScreen(props) {
   };
 
   return (
-    <View style={styles.container}>
-      <Header
-        leftComponent={
-          <TouchableOpacity
-            onPress={() => props.navigation.toggleDrawer()}
-            style={{ marginTop: 25 }}
-          >
-            <Entypo name={"menu"} size={30} color={Colors.RED} />
-          </TouchableOpacity>
-        }
-        containerStyle={styles.header}
-        backgroundColor={Colors.LIGHT_WHITE}
-        centerComponent={
-          <Image
-            source={require("../../../assets/icon.png")}
-            style={styles.logimg}
-          />
-        }
-        rightComponent={
-          <View
-            style={{
-              marginTop: 25,
-              borderWidth: 1,
-              backgroundColor: Colors.WHITE,
-              borderColor: Colors.RED,
-              padding: 5,
-              borderRadius: 7,
-            }}
-          >
-            <Text style={styles.textkn}>
-              {user?.name
-                ? `${user?.name[0]}${user?.name.split(" ").pop()[0]}`
-                : ""}
-            </Text>
-          </View>
-        }
-      />
-      <ScrollView style={Styles.containerScroll}>
-        <View style={styles.container}>
-          <View>
-            <Text style={styles.payusing}>Pay Using</Text>
-          </View>
-          <View style={styles.mainbox}>
-            <View style={styles.button}>
-              <TouchableOpacity
-                onPress={() => {
-                  let params = getParams(true, false);
-                  console.log(JSON.stringify(params, null, 2));
-                  checkout(params, token);
-                }}
-                style={[styles.botton_box, styles.botton_box_none]}
-              >
-                <Image
-                  source={require("../../../assets/Upi_img.png")}
-                  style={styles.upiImage}
-                />
-              </TouchableOpacity>
+    <>
+      {isFetching && <ActivityIndicator size={30} color={Colors.WHITE} />}
+      <View
+        style={styles.container}
+        pointerEvents={isFetching ? "none" : "auto"}
+      >
+        <Header
+          leftComponent={
+            <TouchableOpacity
+              onPress={() => props.navigation.toggleDrawer()}
+              style={{ marginTop: 25 }}
+            >
+              <Entypo name={"menu"} size={30} color={Colors.RED} />
+            </TouchableOpacity>
+          }
+          containerStyle={styles.header}
+          backgroundColor={Colors.LIGHT_WHITE}
+          centerComponent={
+            <Image
+              source={require("../../../assets/icon.png")}
+              style={styles.logimg}
+            />
+          }
+          rightComponent={
+            <View
+              style={{
+                marginTop: 25,
+                borderWidth: 1,
+                backgroundColor: Colors.WHITE,
+                borderColor: Colors.RED,
+                padding: 5,
+                borderRadius: 7,
+              }}
+            >
+              <Text style={styles.textkn}>
+                {user?.name
+                  ? `${user?.name[0]}${user?.name.split(" ").pop()[0]}`
+                  : ""}
+              </Text>
             </View>
-            <View style={styles.button}>
-              <TouchableOpacity
-                onPress={() => {
-                  let params = getParams(false, false);
-                  checkout(params, token);
-                }}
-                style={styles.botton_box}
-              >
-                <Text style={styles.get_otp}>Internet Banking</Text>
-              </TouchableOpacity>
+          }
+        />
+        <ScrollView style={Styles.containerScroll}>
+          <View style={styles.container}>
+            <View>
+              <Text style={styles.payusing}>Pay Using</Text>
             </View>
-            <View style={styles.button}>
-              <TouchableOpacity
-                onPress={() => {
-                  let params = getParams(false, true);
-                  checkout(params, token, true);
-                }}
-                style={styles.botton_box}
-              >
-                <Text style={styles.get_otp}>e-Mandate</Text>
-              </TouchableOpacity>
+            <View style={styles.mainbox}>
+              <View style={styles.button}>
+                <TouchableOpacity
+                  onPress={() => {
+                    let params = getParams(true, false);
+                    console.log(JSON.stringify(params, null, 2));
+                    checkout(params, token);
+                  }}
+                  disabled={isFetching}
+                  style={[styles.botton_box, styles.botton_box_none]}
+                >
+                  <Image
+                    source={require("../../../assets/Upi_img.png")}
+                    style={styles.upiImage}
+                  />
+                </TouchableOpacity>
+              </View>
+              <View style={styles.button}>
+                <TouchableOpacity
+                  onPress={() => {
+                    let params = getParams(false, false);
+                    checkout(params, token);
+                  }}
+                  disabled={isFetching}
+                  style={styles.botton_box}
+                >
+                  <Text style={styles.get_otp}>Internet Banking</Text>
+                </TouchableOpacity>
+              </View>
+              <View style={styles.button}>
+                <TouchableOpacity
+                  onPress={() => {
+                    let params = getParams(false, true);
+                    checkout(params, token, true);
+                  }}
+                  disabled={isFetching}
+                  style={styles.botton_box}
+                >
+                  <Text style={styles.get_otp}>e-Mandate</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
-        </View>
-      </ScrollView>
-    </View>
+        </ScrollView>
+      </View>
+    </>
   );
 }
 
@@ -426,6 +439,8 @@ const mapStateToProps = (state) => ({
   profile: state.auth.profile,
   user: state.auth.user,
   umrn: state.checkout.umrn,
+  isFetching: state.checkout.isFetching,
+  error: state.checkout.error,
 });
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {

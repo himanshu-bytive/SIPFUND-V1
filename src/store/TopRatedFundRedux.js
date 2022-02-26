@@ -26,7 +26,6 @@ export const TopRatedActions = {
     }
   },
   getDetails: async (dispatch, params, tokan) => {
-    console.log("PARAMS=", params);
     dispatch({ type: types.FETCH_DETAILS_PENDING });
     let data = await SiteAPI.apiPostCall(
       "/algo-ranking/listDetails",
@@ -37,7 +36,6 @@ export const TopRatedActions = {
       Alert.alert(data.message);
       dispatch({ type: types.FETCH_DETAILS_FAILURE, error: data.message });
     } else {
-      console.log("RESPONSE=", data);
       dispatch({ type: types.FETCH_DETAILS_SUCCESS, details: data.output });
     }
   },

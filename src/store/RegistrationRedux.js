@@ -198,11 +198,13 @@ export const RegistrationActions = {
   },
   fileUpload: async (dispatch, params, token) => {
     dispatch({ type: types.FETCH_FILE_UPLOAD_PENDING });
+      console.log(params)
     let data = await SiteAPI.uploadImgApi(
       `/documents/uploads?docType=${params.fileType}`,
       params.file,
       token
     );
+      console.log(data)
     if (data.error) {
       //Alert.alert("SIP Fund", JSON.stringify(data.message), [
         //{

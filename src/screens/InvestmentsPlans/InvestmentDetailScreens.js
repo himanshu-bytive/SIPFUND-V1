@@ -106,7 +106,7 @@ function InvestmentDetailScreens(props) {
         </View>
 
         <Text style={styles.recomned}>Funds recommended for you</Text>
-        {investment.schemes &&
+        {/*investment.schemes &&
           investment.schemes.map((item, key) => {
             return (
               item != "NA" && (
@@ -119,7 +119,10 @@ function InvestmentDetailScreens(props) {
                 </View>
               )
             );
-          })}
+          })*/}
+      {Object.keys(investment.schemes).map(item => (
+          <Text>{item}</Text>
+      ))}
       </ScrollView>
       <TouchableOpacity
         onPress={() => props.navigation.navigate("AddInvestment")}

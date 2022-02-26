@@ -55,19 +55,29 @@ function InvestmentSearchScreens(props) {
   };
 
   const addRemove = (value) => {
-    let list = myInvestlist ? JSON.parse(JSON.stringify(myInvestlist)) : [];
-    list.push({
-      fund_type: value.productName,
-      schemes: {
+    let list = myInvestlist ? myInvestlist : {};
+
+      let data = {
         type: "new",
         amc_code: "101",
         imagePath: `https://sipfund.sfo2.digitaloceanspaces.com/product-AMC-images/${value.productAMCImage}`,
         name: value.productDisplayName,
-        productCode: value.productISIN,
-      },
-    });
+        isin: value.productISIN,
+      }
+
+      let dataKey = value.productName
+
+      if(list[dataKey]) {
+          list = {
+              ...list,
+              [dataKey]: [...list[dataKey], data]
+          }
+      } else {
+          list[dataKey] = [data]
+      }
+
     myInvestments(list);
-    props.navigation.navigate("InvestmentList");
+    props.navigation.navigate("InvestmentList", {refresh: true});
   };
 
   return (

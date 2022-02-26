@@ -8,13 +8,23 @@ const types = {
 
 export const CheckoutActions = {
   checkoutButton: async (dispatch, params, token, mandate) => {
-    dispatch({ type: types.FETCH_CHECKOUT_BUTTON_PENDING });
-    let citys = await SiteAPI.apiPostCall(`/apiData/PURCHASETRXN`, params, token);
+    dispatch({ type: types.FETCH_CHECKOUT_BUTTON_PENDING, fetching: true });
+    let citys = await SiteAPI.apiPostCall(
+      `/apiData/PURCHASETRXN`,
+      params,
+      token
+    );
     if (citys.Data) {
       if (mandate) {
-        alert("Transaction completed successfully. Please check your E-Mail/SMS to authorize transaction.");
+        alert(
+          "Transaction completed successfully. Please check your E-Mail/SMS to authorize transaction."
+        );
       } else {
-        dispatch({ type: types.FETCH_CHECKOUT_BUTTON_SUCCESS, citys: citys.Data.city_master });
+        dispatch({
+          type: types.FETCH_CHECKOUT_BUTTON_SUCCESS,
+          citys: citys.Data.city_master,
+          fetching: false,
+        });
         Linking.openURL(citys?.Data[0].Paymentlink.split(">")[1].split("<")[0]);
       }
     } else {
@@ -24,9 +34,16 @@ export const CheckoutActions = {
 
   getUMRN: async (dispatch, iin, token) => {
     dispatch({ type: types.FETCH_CHECKOUT_BUTTON_PENDING });
-    let data = await SiteAPI.apiGetCall(`/retrieveData/mandateList?iin=${iin}`, {}, token);
+    let data = await SiteAPI.apiGetCall(
+      `/retrieveData/mandateList?iin=${iin}`,
+      {},
+      token
+    );
     if (data.responseString && data.responseString[0]) {
-      dispatch({ type: types.FETCH_CHECKOUT_BUTTON_SUCCESS, umrn: data.responseString[0].achReports });
+      dispatch({
+        type: types.FETCH_CHECKOUT_BUTTON_SUCCESS,
+        umrn: data.responseString[0].achReports,
+      });
     }
   },
 };
@@ -47,10 +64,24 @@ const initialState = {
   updateSuccess: false,
   uploadSuccess: false,
   umrn: {},
+  fetching: false,
 };
 
 export const reducer = (state = initialState, action) => {
-  const { type, error, occupations, incomes, states, citys, umrn, accountTypes, banks, bankDetails, pincodeInfo, documents } = action;
+  const {
+    type,
+    error,
+    occupations,
+    incomes,
+    states,
+    citys,
+    umrn,
+    accountTypes,
+    banks,
+    bankDetails,
+    pincodeInfo,
+    documents,
+  } = action;
   switch (type) {
     case types.FETCH_CHECKOUT_BUTTON_PENDING: {
       return {
