@@ -269,7 +269,7 @@ export const InvestmentPlansStack = createStackNavigator(
     },
   },
   {
-    initialRouteName: "InvestmentList",
+    initialRouteName: "InvestmentListAll",
   }
 );
 
