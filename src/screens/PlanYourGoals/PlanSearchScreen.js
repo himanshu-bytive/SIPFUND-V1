@@ -36,6 +36,7 @@ function PlanSearchScreen(props) {
     funds,
     mygolelist,
     myGoles,
+      fundDetails
   } = props;
 
   useEffect(() => {
@@ -54,18 +55,23 @@ function PlanSearchScreen(props) {
     }, 1000);
   };
 
-  const addRemove = (value) => {
-    let list = mygolelist ? JSON.parse(JSON.stringify(mygolelist)) : [];
-    list.push({
+    const getFormattedItem = (value) => {
+        return {
       schemeInfo: {
         type: "new",
         amc_code: "101",
         imagePath: `https://sipfund.sfo2.digitaloceanspaces.com/product-AMC-images/${value.productAMCImage}`,
         name: value.productDisplayName,
         productCode: value.productISIN,
+        isin: value.productISIN,
       },
       schems: value.productName,
-    });
+    }
+    }
+
+  const addRemove = (value) => {
+    let list = mygolelist ? JSON.parse(JSON.stringify(mygolelist)) : [];
+    list.push(getFormattedItem(value));
     myGoles(list);
     props.navigation.navigate("PlanList");
   };
@@ -154,9 +160,14 @@ function PlanSearchScreen(props) {
                 </View>
               </View>
               <View style={styles.icon}>
-                <View>
+            <TouchableOpacity onPress={() => {
+                fundDetails(getFormattedItem(item).schemeInfo)
+            props.navigation.navigate("FundsDetails", {
+              fromScreen: "PlanSearch",
+            });
+            }}>
                   <AntDesign name="right" size={30} color="#838280" />
-                </View>
+                </TouchableOpacity>
               </View>
             </TouchableOpacity>
           </View>
@@ -287,6 +298,7 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
   const { dispatch } = dispatchProps;
   const { AddMoreFundsActions } = require("../../store/AddMoreFundsRedux");
   const { GoalsActions } = require("../../store/GoalsRedux");
+  const { FundDetailActions } = require("../../store/FundDetailRedux");
   return {
     ...stateProps,
     ...ownProps,
@@ -298,6 +310,9 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     },
     myGoles: (data) => {
       GoalsActions.myGoles(dispatch, data);
+    },
+    fundDetails: (data) => {
+      FundDetailActions.fundDetails(dispatch, data);
     },
   };
 };

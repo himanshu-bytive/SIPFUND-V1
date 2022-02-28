@@ -33,6 +33,7 @@ function InvestmentSearchScreens(props) {
     funds,
     myInvestlist,
     myInvestments,
+      fundDetails
   } = props;
   const searchInput = useRef(null);
   let timer = useRef(null);
@@ -54,16 +55,21 @@ function InvestmentSearchScreens(props) {
     }, 1000);
   };
 
-  const addRemove = (value) => {
-    let list = myInvestlist ? myInvestlist : {};
-
-      let data = {
+    const getFormattedItem = (value) => {
+        return {
         type: "new",
         amc_code: "101",
         imagePath: `https://sipfund.sfo2.digitaloceanspaces.com/product-AMC-images/${value.productAMCImage}`,
         name: value.productDisplayName,
         isin: value.productISIN,
+        productCode: value.productISIN,
       }
+    }
+
+  const addRemove = (value) => {
+    let list = myInvestlist ? myInvestlist : {};
+
+      let data = getFormattedItem(value)
 
       let dataKey = value.productName
 
@@ -154,20 +160,20 @@ function InvestmentSearchScreens(props) {
               />
               <View style={styles.management}>
                 <Text style={styles.axis}>{item.productDisplayName}</Text>
-                <View style={styles.midcap}>
-                  <Text style={styles.moderately}>
-                    {String(item.productName).substr(0, 20)}
+                <View>
+                  <Text numberOfLines={1} style={styles.moderately}>
+                    {item.productName}
                   </Text>
-                  <View
-                    style={{ borderWidth: 1, borderColor: Colors.DARK_GREY }}
-                  ></View>
                   <Text style={styles.moderately}>{item.productISIN}</Text>
                 </View>
               </View>
               <View style={styles.icon}>
-                <TouchableOpacity
-                  onPress={() => props.navigation.navigate("PlanList")}
-                >
+            <TouchableOpacity onPress={() => {
+                fundDetails(getFormattedItem(item))
+            props.navigation.navigate("FundsDetails", {
+              fromScreen: "InvestmentSearch",
+            });
+            }}>
                   <AntDesign name="right" size={30} color="#838280" />
                 </TouchableOpacity>
               </View>
@@ -208,9 +214,6 @@ const styles = StyleSheet.create({
   },
   axis: {
     fontSize: 15,
-  },
-  midcap: {
-    flexDirection: "row",
   },
   moderately: {
     fontSize: 12,
@@ -297,6 +300,7 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
   const { dispatch } = dispatchProps;
   const { AddMoreFundsActions } = require("../../store/AddMoreFundsRedux");
   const { InvestmentPlanActions } = require("../../store/InvestmentPlanRedux");
+  const { FundDetailActions } = require("../../store/FundDetailRedux");
   return {
     ...stateProps,
     ...ownProps,
@@ -308,6 +312,9 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     },
     myInvestments: (data) => {
       InvestmentPlanActions.myInvestments(dispatch, data);
+    },
+    fundDetails: (data) => {
+      FundDetailActions.fundDetails(dispatch, data);
     },
   };
 };
