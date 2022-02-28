@@ -90,7 +90,7 @@ function GoalsListScreen(props) {
                   <MyImage
                     width="145"
                     height="145"
-                    svg={true}
+                    svg={false}
                     url={item.details.goal.holdings[0].imagePath}
                   />
                   <View style={styles.img_sec}>
