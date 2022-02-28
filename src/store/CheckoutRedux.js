@@ -23,11 +23,12 @@ export const CheckoutActions = {
         dispatch({
           type: types.FETCH_CHECKOUT_BUTTON_SUCCESS,
           citys: citys.Data.city_master,
-          fetching: false,
         });
         Linking.openURL(citys?.Data[0].Paymentlink.split(">")[1].split("<")[0]);
       }
+      dispatch({ type: types.FETCH_CHECKOUT_BUTTON_SUCCESS, fetching: false})
     } else {
+      dispatch({ type: types.FETCH_CHECKOUT_BUTTON_FAILURE, fetching: false})
       alert(citys.message);
     }
   },
@@ -87,6 +88,7 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         isFetching: true,
+        fetching: true,
         error: null,
         addSuccess: false,
         updateSuccess: false,
@@ -98,6 +100,7 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         isFetching: false,
+        fetching: false,
         addSuccess: false,
         updateSuccess: false,
         uploadSuccess: false,
@@ -109,6 +112,7 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         isFetching: false,
+        fetching: false,
         error: null,
         citys,
         umrn,

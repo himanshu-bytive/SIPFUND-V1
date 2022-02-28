@@ -272,10 +272,21 @@ function UpiScreen(props) {
 
   return (
     <>
-      {isFetching && <ActivityIndicator size={30} color={Colors.WHITE} />}
+      { isFetching &&
+      <View style={{
+          backgroundColor: '#000a',
+              width: Dimensions.get('window').width,
+              height: Dimensions.get('window').height,
+              position: 'absolute',
+              zIndex: 100,
+              alignItems: 'center',
+              justifyContent: 'center'
+      }}>
+      <ActivityIndicator size={30}/>
+      </View>
+      }
       <View
         style={styles.container}
-        //pointerEvents={isFetching ? "none" : "auto"}
       >
         <Header
           leftComponent={
@@ -323,10 +334,8 @@ function UpiScreen(props) {
                 <TouchableOpacity
                   onPress={() => {
                     let params = getParams(true, false);
-                    console.log(JSON.stringify(params, null, 2));
                     checkout(params, token);
                   }}
-                  //disabled={isFetching}
                   style={[styles.botton_box, styles.botton_box_none]}
                 >
                   <Image
@@ -341,7 +350,6 @@ function UpiScreen(props) {
                     let params = getParams(false, false);
                     checkout(params, token);
                   }}
-                  //disabled={isFetching}
                   style={styles.botton_box}
                 >
                   <Text style={styles.get_otp}>Internet Banking</Text>
@@ -353,7 +361,6 @@ function UpiScreen(props) {
                     let params = getParams(false, true);
                     checkout(params, token, true);
                   }}
-                  //disabled={isFetching}
                   style={styles.botton_box}
                 >
                   <Text style={styles.get_otp}>e-Mandate</Text>
@@ -432,7 +439,7 @@ const mapStateToProps = (state) => ({
   profile: state.auth.profile,
   user: state.auth.user,
   umrn: state.checkout.umrn,
-  isFetching: state.checkout.isFetching,
+  isFetching: state.checkout.fetching,
   error: state.checkout.error,
 });
 
