@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   Button,
@@ -18,6 +18,15 @@ import { Image, Header, CheckBox } from "react-native-elements";
 function UpiScreen(props) {
   const { token, profile, user, checkout, umrn, getUMRN, isFetching, error } =
     props;
+
+    const [clicked, setClicked] = useState(false)
+
+    useEffect(() => {
+        if(isFetching === false && clicked) {
+            props.navigation.navigate('Profile')
+            props.navigation.navigate('Home')
+        }
+    }, [isFetching])
 
   const monthsArr = [
     "Jan",
@@ -334,6 +343,7 @@ function UpiScreen(props) {
                 <TouchableOpacity
                   onPress={() => {
                     let params = getParams(true, false);
+                      setClicked(true)
                     checkout(params, token);
                   }}
                   style={[styles.botton_box, styles.botton_box_none]}
@@ -348,6 +358,7 @@ function UpiScreen(props) {
                 <TouchableOpacity
                   onPress={() => {
                     let params = getParams(false, false);
+                      setClicked(true)
                     checkout(params, token);
                   }}
                   style={styles.botton_box}
@@ -359,6 +370,7 @@ function UpiScreen(props) {
                 <TouchableOpacity
                   onPress={() => {
                     let params = getParams(false, true);
+                      setClicked(true)
                     checkout(params, token, true);
                   }}
                   style={styles.botton_box}
