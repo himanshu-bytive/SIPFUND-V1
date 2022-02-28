@@ -37,7 +37,7 @@ function UpiScreen(props) {
     const date = new Date();
 
     return (
-      date.getDate() +
+      ("00" + date.getDate()).match(/\d{2}$/) +
       "-" +
       monthsArr[date.getMonth()] +
       "-" +
@@ -48,7 +48,7 @@ function UpiScreen(props) {
     const date = new Date();
 
     return (
-      date.getDate() +
+      ("00" + date.getDate()).match(/\d{2}$/) +
       "-" +
       monthsArr[date.getMonth()] +
       "-" +
@@ -137,11 +137,11 @@ function UpiScreen(props) {
           product_code: data[item].product_code,
           reinvest: "Z",
           sip_amount: data[item].sip_amount,
-          sip_end_date: sipEndDate(data[item].default_date),
+          sip_end_date: sipEndDate(data[item]?.sipDates ? data[item]?.sipDates[0] : data[item]?.default_date),
           sip_freq: "OM",
-          sip_from_date: sipFromDate(data[item].default_date),
+          sip_from_date: sipFromDate(data[item]?.sipDates ? data[item]?.sipDates[0] : data[item]?.default_date),
           //sip_period_day: getPeriodDay(d.getDate(), d.getMonth()),
-        sip_period_day: data[item].default_date
+        sip_period_day: data[item]?.sipDates ? data[item]?.sipDates[0] : data[item]?.default_date
         };
       } else if (props.navigation.state.params.fromPlanGoals) {
         format = {
@@ -151,11 +151,11 @@ function UpiScreen(props) {
           product_code: data[item].schemeInfo.productCode,
           reinvest: "Z",
           sip_amount: data[item].schemeInfo.sip,
-          sip_end_date: sipEndDate(data[item].schemeInfo.default_date),
+          sip_end_date: sipEndDate(data[item].schemeInfo.sipDates[0]),
           sip_freq: "OM",
-          sip_from_date: sipFromDate(data[item].schemeInfo.default_date),
+          sip_from_date: sipFromDate(data[item].schemeInfo.sipDates[0]),
           //sip_period_day: getPeriodDay(d.getDate(), d.getMonth()),
-            sip_period_day: data[item].schemeInfo.default_date
+            sip_period_day: data[item].schemeInfo.sipDates[0]
         };
       } else {
         format = {
@@ -165,11 +165,11 @@ function UpiScreen(props) {
           product_code: data[item].productCode,
           reinvest: "Z",
           sip_amount: data[item].sip,
-          sip_end_date: sipEndDate(data[item].default_date),
+          sip_end_date: sipEndDate(data[item].sipDates[0]),
           sip_freq: "OM",
-          sip_from_date: sipFromDate(data[item].default_date),
+          sip_from_date: sipFromDate(data[item].sipDates[0]),
           //sip_period_day: getPeriodDay(d.getDate(), d.getMonth()),
-        sip_period_day: data[item].default_date
+        sip_period_day: data[item].sipDates[0]
         };
       }
       formatted.push(format);
