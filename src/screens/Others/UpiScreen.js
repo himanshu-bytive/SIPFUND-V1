@@ -19,16 +19,6 @@ function UpiScreen(props) {
   const { token, profile, user, checkout, umrn, getUMRN, isFetching, error } =
     props;
 
-  useEffect(() => {
-    if (user) {
-      getUMRN(user.IIN, token);
-    }
-  }, [user]);
-
-  useEffect(() => {
-    if (umrn) console.log(umrn);
-  }, [umrn]);
-
   const monthsArr = [
     "Jan",
     "Feb",
@@ -77,18 +67,18 @@ function UpiScreen(props) {
       year = year + 1;
     }
 
-    month = month + 1;
+    month = month + 2;
 
-    let day = default_date;
-    if (month === 2) {
-      day = parseInt(day, 10) + 2;
-      if (default_date >= 28) {
-        month = 2;
-        day = 2;
-      }
-    }
+    //let day = default_date;
+    //if (month === 2) {
+      //day = parseInt(day, 10) + 2;
+      //if (default_date >= 28) {
+        //month = 2;
+        //day = 2;
+      //}
+    //}
 
-    return ("00" + day).match(/\d{2}$/) + "-" + monthsArr[month] + "-" + year;
+    return ("00" + default_date).match(/\d{2}$/) + "-" + monthsArr[month] + "-" + year;
   };
   const sipEndDate = (default_date) => {
     const date = new Date();
@@ -101,19 +91,19 @@ function UpiScreen(props) {
       year = year + 1;
     }
 
-    month = month + 1;
+    month = month + 2;
 
-    let day = default_date;
-    if (month === 2) {
-      day = parseInt(day, 10) + 2;
-      if (default_date >= 28) {
-        month = 2;
-        day = 2;
-      }
-    }
+    //let day = default_date;
+    //if (month === 2) {
+      //day = parseInt(day, 10) + 2;
+      //if (default_date >= 28) {
+        //month = 2;
+        //day = 2;
+      //}
+    //}
 
     return (
-      ("00" + day).match(/\d{2}$/) +
+      ("00" + default_date).match(/\d{2}$/) +
       "-" +
       monthsArr[month] +
       "-" +
@@ -122,7 +112,7 @@ function UpiScreen(props) {
   };
 
   const getPeriodDay = (day, month) => {
-    month = month + 1;
+    month = month + 2;
     if (month === 2) {
       day = parseInt(day, 10) + 2;
       if (day >= 28) {
@@ -147,10 +137,11 @@ function UpiScreen(props) {
           product_code: data[item].product_code,
           reinvest: "Z",
           sip_amount: data[item].sip_amount,
-          sip_end_date: sipEndDate(d.getDate),
+          sip_end_date: sipEndDate(data[item].default_date),
           sip_freq: "OM",
-          sip_from_date: sipFromDate(d.getDate()),
-          sip_period_day: getPeriodDay(d.getDate(), d.getMonth()),
+          sip_from_date: sipFromDate(data[item].default_date),
+          //sip_period_day: getPeriodDay(d.getDate(), d.getMonth()),
+        sip_period_day: data[item].default_date
         };
       } else if (props.navigation.state.params.fromPlanGoals) {
         format = {
@@ -160,10 +151,11 @@ function UpiScreen(props) {
           product_code: data[item].schemeInfo.productCode,
           reinvest: "Z",
           sip_amount: data[item].schemeInfo.sip,
-          sip_end_date: sipEndDate(d.getDate()),
+          sip_end_date: sipEndDate(data[item].schemeInfo.default_date),
           sip_freq: "OM",
-          sip_from_date: sipFromDate(d.getDate()),
-          sip_period_day: getPeriodDay(d.getDate(), d.getMonth()),
+          sip_from_date: sipFromDate(data[item].schemeInfo.default_date),
+          //sip_period_day: getPeriodDay(d.getDate(), d.getMonth()),
+            sip_period_day: data[item].schemeInfo.default_date
         };
       } else {
         format = {
@@ -173,10 +165,11 @@ function UpiScreen(props) {
           product_code: data[item].productCode,
           reinvest: "Z",
           sip_amount: data[item].sip,
-          sip_end_date: sipEndDate(d.getDate()),
+          sip_end_date: sipEndDate(data[item].default_date),
           sip_freq: "OM",
-          sip_from_date: sipFromDate(d.getDate()),
-          sip_period_day: getPeriodDay(d.getDate(), d.getMonth()),
+          sip_from_date: sipFromDate(data[item].default_date),
+          //sip_period_day: getPeriodDay(d.getDate(), d.getMonth()),
+        sip_period_day: data[item].default_date
         };
       }
       formatted.push(format);
@@ -282,7 +275,7 @@ function UpiScreen(props) {
       {isFetching && <ActivityIndicator size={30} color={Colors.WHITE} />}
       <View
         style={styles.container}
-        pointerEvents={isFetching ? "none" : "auto"}
+        //pointerEvents={isFetching ? "none" : "auto"}
       >
         <Header
           leftComponent={
@@ -333,7 +326,7 @@ function UpiScreen(props) {
                     console.log(JSON.stringify(params, null, 2));
                     checkout(params, token);
                   }}
-                  disabled={isFetching}
+                  //disabled={isFetching}
                   style={[styles.botton_box, styles.botton_box_none]}
                 >
                   <Image
@@ -348,7 +341,7 @@ function UpiScreen(props) {
                     let params = getParams(false, false);
                     checkout(params, token);
                   }}
-                  disabled={isFetching}
+                  //disabled={isFetching}
                   style={styles.botton_box}
                 >
                   <Text style={styles.get_otp}>Internet Banking</Text>
@@ -360,7 +353,7 @@ function UpiScreen(props) {
                     let params = getParams(false, true);
                     checkout(params, token, true);
                   }}
-                  disabled={isFetching}
+                  //disabled={isFetching}
                   style={styles.botton_box}
                 >
                   <Text style={styles.get_otp}>e-Mandate</Text>

@@ -84,6 +84,7 @@ function InvestmentListScreens(props) {
         imagePath: data[item].imagePath,
         amc_code: data[item].amc_code,
         productCode: data[item].productCode,
+          sipDates: data[item].sipDates
       };
       formatted.push(format);
     }
