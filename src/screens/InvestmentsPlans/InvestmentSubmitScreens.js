@@ -83,10 +83,11 @@ function InvestmentSubmitScreens(props) {
       <ScrollView>
         <View style={styles.education}>
           <View style={styles.child_sec}>
-            <Image
-              style={{ width: 110, aspectRatio: 1, resizeMode: "contain" }}
-              source={{ uri: investment.planImagePath }}
-            />
+                <MyImage
+                  width="100"
+                  svg={true}
+                  url={investment.planImagePath}
+                />
           </View>
           <View style={styles.education_sec}>
             <Text style={styles.child}>Summary</Text>
