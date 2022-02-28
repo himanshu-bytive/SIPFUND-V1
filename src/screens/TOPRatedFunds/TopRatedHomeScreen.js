@@ -153,12 +153,6 @@ function TopRatedHomeScreen(props) {
       updateFilterSelection(filterList[4].value);
     }
   }, [token]);
-  useEffect(() => {
-    if (details) {
-      //   console.log("details", details);
-    }
-  }, [details]);
-
   const roted = () => {
     let date = new Date();
     let month = date.getMonth();
@@ -176,7 +170,6 @@ function TopRatedHomeScreen(props) {
       Year: year,
       Fund_Type: "Consumption",
     };
-    console.log("params", params);
     getDetails(params, token);
   };
 
@@ -220,7 +213,6 @@ function TopRatedHomeScreen(props) {
       Year: year,
       Fund_Type: item,
     };
-    console.log("params Top Rated=", params);
     getDetails(params, token);
   };
 
@@ -389,7 +381,6 @@ function TopRatedHomeScreen(props) {
   };
 
   function numberWithCommas(x) {
-    // console.log("X=", x);
     x = x.toString();
     var lastThree = x.substring(x.length - 3);
     var otherNumbers = x.substring(0, x.length - 3);
@@ -434,6 +425,17 @@ function TopRatedHomeScreen(props) {
     return displayStr;
   }
 
+    useEffect(() => {
+        if(category) {
+            for (let index in category) {
+                if(Object.keys(category[index])[0] === selectCat)
+                    setFundTypes(category[index][selectCat])
+            }
+        }
+    }, [category, selectCat])
+
+    const [fundTypes, setFundTypes] = useState([])
+
   return (
     <View style={styles.container}>
       {/* Header_sec */}
@@ -472,21 +474,19 @@ function TopRatedHomeScreen(props) {
 
       {/* Invest Now sec */}
       <ScrollView>
-        <View style={{ borderWidth: 0.5, borderColor: Colors.GREY_1 }}></View>
-        <ScrollView horizontal={true} style={styles.Investnow_sec}>
-          {category &&
-            Object.keys(category[0]).map((item, key) => (
-              <TouchableOpacity key={key} onPress={() => setSelectCat(item)}>
-                <Text style={item == selectCat ? styles.Equity : styles.Debt}>
-                  {item}
-                </Text>
+        <View style={{ flexDirection: 'row', marginVertical: 10 }}>
+      {
+          category && category.map(item => (
+              <TouchableOpacity style={{marginHorizontal: 10}} onPress={() => setSelectCat(Object.keys(item)[0])}>
+              <Text style={{color: selectCat === Object.keys(item)[0] ? 'red' : 'black', fontWeight: 'bold'}}>{Object.keys(item)[0]}</Text>
               </TouchableOpacity>
-            ))}
-        </ScrollView>
+          ))
+      }
+      </View>
         <View style={{ borderWidth: 0.5, borderColor: Colors.GREY_1 }}></View>
         <ScrollView horizontal={true} style={styles.Investnow_sec}>
-          {category && category[0] && selectCat
-            ? category[0][selectCat]?.map((item, key) => (
+          {category && category[0] && selectCat && fundTypes
+            ? fundTypes.map((item, key) => (
                 <TouchableOpacity key={key} onPress={() => feachDetails(item)}>
                   <Text
                     style={item == selectSubCat ? styles.Equity : styles.Debt}
