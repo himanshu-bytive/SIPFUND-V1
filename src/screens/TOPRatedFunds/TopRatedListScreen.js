@@ -143,7 +143,7 @@ function TopRatedListScreen(props) {
           </Text>
         </View>
 
-        {selectTab === "SIP" &&
+        {selectTab === "SIP" && cart &&
           cart
             .filter((item) => item.trxn_nature === "S")
             .map((item, key) => (
@@ -162,7 +162,7 @@ function TopRatedListScreen(props) {
                 }}
               />
             ))}
-        {selectTab === "LUMPSUM" &&
+        {selectTab === "LUMPSUM" && cart &&
           cart
             .filter((item) => item.trxn_nature === "N")
             .map((item, key) => (
@@ -181,7 +181,7 @@ function TopRatedListScreen(props) {
               />
             ))}
       </ScrollView>
-      {(selectTab === "SIP" &&
+      {!cart || (selectTab === "SIP" &&
         cart.filter((item) => item.trxn_nature === "S").length === 0) ||
       (selectTab === "LUMPSUM" &&
         cart.filter((item) => item.trxn_nature === "N").length === 0) ? (
