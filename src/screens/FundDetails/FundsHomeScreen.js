@@ -56,7 +56,7 @@ function FundsHomeScreen(props) {
     detailsMap,
     detailsInfo,
   } = props;
-  const [selectTab, setSelectTab] = useState("1M");
+  const [selectTab, setSelectTab] = useState("3Y");
   const [assets, setAssets] = useState(0);
   const [invest, setInvest] = useState(0);
   const [category, setCategory] = useState(0);
