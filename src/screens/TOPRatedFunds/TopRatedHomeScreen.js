@@ -375,7 +375,7 @@ function TopRatedHomeScreen(props) {
       name: item.api["FSCBI-FundName"],
       productCode: item.amcCode,
       imagePath: item.imagePath,
-      ISIN: item._id,
+      isin: item._id,
     });
     props.navigation.navigate("FundsDetails", { fromScreen: "TopRatedHome" });
   };
@@ -553,9 +553,14 @@ function TopRatedHomeScreen(props) {
                       source={{ uri: item.imagePath }}
                       style={styles.axisimg}
                     />
+                    <View style={{flexDirection: 'column', marginHorizontal: 10}}>
                     <Text numberOfLines={1} style={styles.axis}>
                       {item.api["FSCBI-FundName"]}
                     </Text>
+                    <Text numberOfLines={1} style={styles.fundRisk}>
+                      {item.api["FSCBI-IndianRiskLevel"]}
+                    </Text>
+                    </View>
                   </TouchableOpacity>
                   <TouchableOpacity
                     onPress={() =>
@@ -822,7 +827,6 @@ const styles = StyleSheet.create({
   axis: {
     fontSize: 15,
     color: "black",
-    marginHorizontal: 10,
     width: Dimensions.get("window").width * 0.5,
   },
   axiswid: { width: "68%" },
@@ -938,6 +942,9 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   amount_tex: { fontSize: 18 },
+    fundRisk: {
+        fontSize: 12,
+    }
 });
 const mapStateToProps = (state) => ({
   token: state.auth.token,
