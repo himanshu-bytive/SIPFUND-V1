@@ -150,7 +150,7 @@ function TopRatedHomeScreen(props) {
   useEffect(() => {
     if (token) {
       getAllcategorys(token);
-      updateFilterSelection(filterList[4].value);
+      updateFilterSelection(filterList[3].value);
     }
   }, [token]);
   const roted = () => {
@@ -174,7 +174,7 @@ function TopRatedHomeScreen(props) {
   };
 
   const [filter, setFilter] = useState(filterList);
-  const [filterValue, setFilterValue] = useState("DP-Return5Yr");
+  const [filterValue, setFilterValue] = useState("DP-Retur3Yr");
   const updateFilterSelection = (value) => {
     setFilterValue(value);
     let selected = filter.find((x) => x.value == value);
@@ -372,10 +372,10 @@ function TopRatedHomeScreen(props) {
 
   const openFundDetails = (item) => {
     fundDetails({
-      name: item[0].api["FSCBI-FundName"],
-      productCode: item[0].amcCode,
-      imagePath: item[0].imagePath,
-      ISIN: item[0]._id,
+      name: item.api["FSCBI-FundName"],
+      productCode: item.amcCode,
+      imagePath: item.imagePath,
+      ISIN: item._id,
     });
     props.navigation.navigate("FundsDetails", { fromScreen: "TopRatedHome" });
   };
@@ -543,28 +543,28 @@ function TopRatedHomeScreen(props) {
         {details === null
           ? roted()
           : details?.map((item) => (
-              <View key={item[0]["_id"]} style={styles.axis_asset}>
+              <View key={item["_id"]} style={styles.axis_asset}>
                 <View style={styles.company}>
                   <TouchableOpacity
                     style={{ flexDirection: "row", alignItems: "center" }}
                     onPress={() => openFundDetails(item)}
                   >
                     <Image
-                      source={{ uri: item[0].imagePath }}
+                      source={{ uri: item.imagePath }}
                       style={styles.axisimg}
                     />
                     <Text numberOfLines={1} style={styles.axis}>
-                      {item[0].api["FSCBI-FundName"]}
+                      {item.api["FSCBI-FundName"]}
                     </Text>
                   </TouchableOpacity>
                   <TouchableOpacity
                     onPress={() =>
                       invest(
-                        item[0].imagePath,
-                        item[0].amcCode,
-                        item[0].amcName,
-                        item[0].productCode,
-                        item[0].productName
+                        item.imagePath,
+                        item.amcCode,
+                        item.amcName,
+                        item.productCode,
+                        item.productName
                       )
                     }
                     style={styles.botton_box}
@@ -579,23 +579,23 @@ function TopRatedHomeScreen(props) {
                   <View style={styles.mininvestment}>
                     <Text style={styles.min}>Min. Investment</Text>
                     <Text style={styles.min}>
-                      {+item[0].api["PI-MinimumInitial"] > 1000
+                      {+item.api["PI-MinimumInitial"] > 1000
                         ? "₹" + 1000
-                        : "₹" + item[0].api["PI-MinimumInitial"]}
+                        : "₹" + item.api["PI-MinimumInitial"]}
                     </Text>
                   </View>
                   <View style={styles.mininvestment}>
                     <Text style={styles.min}>AUM</Text>
                     <Text style={styles.min}>
                       {`₹ ${changeNumberFormat(
-                        item[0].api["PSRP-TotalMarketValueNet"]
+                        item.api["PSRP-TotalMarketValueNet"]
                       )}`}
                     </Text>
                   </View>
                   <View style={styles.mininvestment}>
                     <Text style={styles.min}>Returns</Text>
                     <Text style={styles.min}>{`${parseFloat(
-                      item[0].api[filterValue]
+                      item.api[filterValue]
                     ).toFixed(2)}%`}</Text>
                   </View>
                 </TouchableOpacity>
