@@ -9,8 +9,10 @@ const Cart = (props) => {
   const [cartItemCount, setCartItemCount] = useState(0);
 
   useEffect(() => {
-    if (cart) {
+    if (cart?.cartDetails) {
       setCartItemCount(cart?.cartDetails.length);
+    } else {
+        setCartItemCount(0)
     }
   }, [cart]);
 
