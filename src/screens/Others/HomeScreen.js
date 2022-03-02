@@ -497,21 +497,28 @@ function HomeScreen(props) {
 
         <View style={styles.gallary}>
           {/* <View style={styles.qip_sec}> */}
+        <TouchableOpacity onPress={() => Linking.openURL("https://sipfund.com/blog/What-Is-a-Qualified-Institutional-Placement.html")}>
           <Image
             source={require("../../../assets/qip_img.png")}
             style={styles.qipimg}
           />
-          {/* </View> */}
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => Linking.openURL("https://sipfund.com/blog/What-is-Benchmark-in-mutual-funds.html")}>
           <Image
             source={require("../../../assets/fundimg.png")}
             style={styles.qipimg}
           />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => Linking.openURL("https://sipfund.com/blog/What-is-Credit-Rating.html")}>
           <Image
             source={require("../../../assets/ratingimg.png")}
             style={styles.qipimg}
           />
+        </TouchableOpacity>
         </View>
+        <TouchableOpacity onPress={() => Linking.openURL("https://sipfund.com/blog.html")}>
         <Text style={styles.view}>View All</Text>
+        </TouchableOpacity>
         <View style={styles.border}></View>
       </ScrollView>
 
