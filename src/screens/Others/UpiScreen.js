@@ -133,7 +133,6 @@ function UpiScreen(props) {
   };
 
   const getTransactions = (data) => {
-      console.log('\n###########\n', data, '\n###########\n')
     let formatted = [];
     let format = {};
     const d = new Date();
@@ -283,7 +282,7 @@ function UpiScreen(props) {
     <>
       { isFetching &&
       <View style={{
-          backgroundColor: '#000a',
+          backgroundColor: '#fffe',
               width: Dimensions.get('window').width,
               height: Dimensions.get('window').height,
               position: 'absolute',
@@ -291,7 +290,7 @@ function UpiScreen(props) {
               alignItems: 'center',
               justifyContent: 'center'
       }}>
-      <ActivityIndicator size={30}/>
+      <ActivityIndicator size={60} color='black'/>
       </View>
       }
       <View
