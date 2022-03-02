@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
-import { StyleSheet, View, Text, Image, ActivityIndicator } from "react-native";
+import { StyleSheet, View, Text, Image, ActivityIndicator, Platform } from "react-native";
+import { check, PERMISSIONS, request, RESULTS } from "react-native-permissions";
 import { connect } from "react-redux";
 import { Colors } from "../../common";
 
@@ -8,8 +9,31 @@ function SplashScreen(props) {
   useEffect(() => {
     logout();
     resetData();
-    props.navigation.navigate("verify");
     // props.navigation.navigate("Home");
+
+    if (Platform.OS === "android") {
+      check(
+        Platform.Version >= 30
+          ? PERMISSIONS.ANDROID.READ_PHONE_NUMBERS
+          : PERMISSIONS.READ_PHONE_STATE
+      ).then((result) => {
+        if (result === RESULTS.DENIED) {
+          request(
+            Platform.Version >= 30
+              ? PERMISSIONS.ANDROID.READ_PHONE_NUMBERS
+              : PERMISSIONS.READ_PHONE_STATE
+          ).then(() => {
+            //getPhoneNumber();
+    props.navigation.navigate("verify");
+          });
+        } else {
+          //getPhoneNumber();
+    props.navigation.navigate("verify");
+        }
+      });
+    } else {
+    props.navigation.navigate("verify");
+    }
   }, []);
 
 

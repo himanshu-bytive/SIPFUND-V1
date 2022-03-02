@@ -21,7 +21,6 @@ import * as Notifications from "expo-notifications";
 import { MaterialIcons } from "react-native-vector-icons";
 import { useInternetStatus } from "../../components/CheckConnection";
 import DeviceInfo from "react-native-device-info";
-import { check, PERMISSIONS, request, RESULTS } from "react-native-permissions";
 const width = Dimensions.get("window").width;
 
 function VerifyScreen(props) {
@@ -51,25 +50,7 @@ function VerifyScreen(props) {
       });
     };
 
-    if (Platform.OS === "android") {
-      check(
-        Platform.Version >= 30
-          ? PERMISSIONS.ANDROID.READ_PHONE_NUMBERS
-          : PERMISSIONS.READ_PHONE_STATE
-      ).then((result) => {
-        if (result === RESULTS.DENIED) {
-          request(
-            Platform.Version >= 30
-              ? PERMISSIONS.ANDROID.READ_PHONE_NUMBERS
-              : PERMISSIONS.READ_PHONE_STATE
-          ).then(() => {
-            getPhoneNumber();
-          });
-        } else {
-          getPhoneNumber();
-        }
-      });
-    }
+      getPhoneNumber()
   }, []);
 
   useEffect(() => {
