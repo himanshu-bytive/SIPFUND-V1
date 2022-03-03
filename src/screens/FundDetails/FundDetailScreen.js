@@ -80,15 +80,17 @@ function FundDetailScreen(props) {
           )}
         </View>
       ))}
-      <View style={styles.submit}>
+      {props?.fromScreen === 'Owner' && <View style={styles.submit}>
         <TouchableOpacity
-          onPress={() =>
+          onPress={() => {
             ToastAndroid.show("Fund Selected!", ToastAndroid.SHORT)
-          }
+            props.goBack()
+          }}
         >
           <Text style={styles.submit_text}>SELECT FUND</Text>
         </TouchableOpacity>
       </View>
+      }
     </View>
   );
 }

@@ -212,7 +212,7 @@ function FundsHomeScreen(props) {
         label[label.length - 1] !==
         `${detailsMap[detailsMap.length - 1].d.split("-")[1]}/${detailsMap[
           detailsMap.length - 1
-        ].d
+        ]?.d
           .split("-")[0]
           .slice(2)}`
       ) {
@@ -365,7 +365,7 @@ function FundsHomeScreen(props) {
             </View>
           </View>
         </View>
-        <FundDetailScreen />
+        <FundDetailScreen fromScreen={props.navigation.state.params?.fromScreen} goBack={() => props.navigation.navigate(props.navigation.state.params?.fromScreen)} />
       </ScrollView>
     </View>
   );
