@@ -110,7 +110,7 @@ function InvestmentSubmitScreens(props) {
             return (
             <>
             {myInvestlist[category]
-          .filter((value) => !isNaN(value.sip))
+          .filter((value) => !isNaN(value.sip) && value?.sip != 0)
           .map((item, key) => (
             <View key={key} style={styles.sbi_sec}>
               <View
@@ -142,7 +142,7 @@ function InvestmentSubmitScreens(props) {
               let data = []
               for(let category in Object.keys(myInvestlist)) {
                   for(let item in myInvestlist[Object.keys(myInvestlist)[category]]) {
-                      if(!isNaN(myInvestlist[Object.keys(myInvestlist)[category]][item].sip)) {
+                      if(!isNaN(myInvestlist[Object.keys(myInvestlist)[category]][item].sip) && myInvestlist[Object.keys(myInvestlist)[category]][item].sip != 0) {
                         data.push(myInvestlist[Object.keys(myInvestlist)[category]][item])
                       }
                   }
