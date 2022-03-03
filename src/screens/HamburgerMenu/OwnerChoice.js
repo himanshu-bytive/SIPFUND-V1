@@ -36,6 +36,7 @@ function OwnerChoice(props) {
     setAddItemSucces,
     cart,
     getCartDetails,
+      fundDetails
   } = props;
   const [catList, setCatList] = useState([]);
   const [subcatList, setSubCatList] = useState([]);
@@ -416,7 +417,17 @@ function OwnerChoice(props) {
         {dataAvailable ? (
           <View style={styles.axis_asset}>
             <View style={styles.company}>
-              <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <TouchableOpacity
+                onPress={() => {
+                    fundDetails({
+                        name: choices[0].nseProductDetail.productName,
+                        productCode: choices[0].nseProductDetail.productCode,
+                        imagePath: `https://sipfund.sfo2.digitaloceanspaces.com/product-AMC-images/${choices[0]?.nseProductDetail.productAMCImage}`,
+                        isin: choices[0]._id,
+                    });
+                    props.navigation.navigate("FundsDetails", { fromScreen: "Owner" });
+                }}
+                style={{ flexDirection: "row", alignItems: "center" }}>
                 <Image
                   source={{
                     uri: `https://sipfund.sfo2.digitaloceanspaces.com/product-AMC-images/${choices[0]?.nseProductDetail.productAMCImage}`,
@@ -427,7 +438,7 @@ function OwnerChoice(props) {
                   {choices[0]?.nseProductDetail?.productName}
                 </Text>
                 <Text style={styles.axis2}>{choices[0]?.text2}</Text>
-              </View>
+              </TouchableOpacity>
               <TouchableOpacity
                 onPress={() =>
                   invest(
@@ -818,6 +829,7 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
   const { dispatch } = dispatchProps;
   const { OwnerChoiceActions } = require("../../store/OwnerChoiceRedux");
   const { CartActions } = require("../../store/CartActionsRedux");
+  const { FundDetailActions } = require("../../store/FundDetailRedux");
   return {
     ...stateProps,
     ...ownProps,
@@ -841,6 +853,9 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     },
     getCartDetails: (token) => {
       CartActions.cartDetails(dispatch, token);
+    },
+    fundDetails: (data) => {
+      FundDetailActions.fundDetails(dispatch, data);
     },
   };
 };
