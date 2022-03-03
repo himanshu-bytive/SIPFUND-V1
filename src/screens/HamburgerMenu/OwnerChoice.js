@@ -373,7 +373,11 @@ function OwnerChoice(props) {
             />
           </View>
 
-          <View>
+          <View
+            pointerEvents={state.catagory ? 'auto' : 'none'}
+            style={{
+              opacity: state.catagory ? 1 : 0.5
+          }}>
             <MySelectPicker
               values={subcatList}
               defultValue={state.subcatagory}
@@ -385,7 +389,11 @@ function OwnerChoice(props) {
             />
           </View>
 
-          <View>
+          <View
+            pointerEvents={state.subcatagory ? 'auto' : 'none'}
+            style={{
+              opacity: state.catagory ? 1 : 0.5
+          }}>
             <MySelectPicker
               values={schemeList}
               defultValue={state.scheme}
