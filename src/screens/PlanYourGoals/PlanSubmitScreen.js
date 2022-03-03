@@ -100,7 +100,7 @@ function PlanSubmitScreen(props) {
         </View>
 
         {mygolelist
-          .filter((item) => !isNaN(item.schemeInfo.sip))
+          .filter((item) => !isNaN(item.schemeInfo.sip) && item.schemeInfo?.sip != 0)
           .map((item, key) => {
             if (item.schemeInfo != "NA") {
               return (
@@ -125,7 +125,7 @@ function PlanSubmitScreen(props) {
         onPress={() => {
           //console.log(goalDetail)
           props.navigation.navigate("Upi", {
-            cart: mygolelist.filter((item) => !isNaN(item.schemeInfo.sip)),
+            cart: mygolelist.filter((item) => !isNaN(item.schemeInfo.sip) && item.schemeInfo?.sip != 0),
             sum: props.navigation.state.params.sum,
             fromPlanGoals: true,
             fromCart: false,
