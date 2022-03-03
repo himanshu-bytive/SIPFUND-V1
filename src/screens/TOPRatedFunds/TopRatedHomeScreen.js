@@ -428,8 +428,12 @@ function TopRatedHomeScreen(props) {
     useEffect(() => {
         if(category) {
             for (let index in category) {
-                if(Object.keys(category[index])[0] === selectCat)
+                if(Object.keys(category[index])[0] === selectCat) {
                     setFundTypes(category[index][selectCat])
+                    setSelectSubCat(category[index][selectCat][0])
+                    feachDetails(category[index][selectCat][0])
+                    return
+                }
             }
         }
     }, [category, selectCat])
