@@ -26,8 +26,8 @@ import { Image, Header, CheckBox } from "react-native-elements";
 function GoalsListScreen(props) {
   const { users, summary, goalSummaryDetails } = props;
   const [data, setData] = useState(
-    summary?.holdings?.plansAndGoalsData
-      ? summary?.holdings?.plansAndGoalsData
+    summary?.goals[0]?.holdings[0]?.trxnDetails
+      ? summary?.goals[0]?.holdings[0]?.trxnDetails
       : []
   );
 
@@ -77,30 +77,28 @@ function GoalsListScreen(props) {
             <View style={styles.education}>
               <View style={styles.child_sec}>
                 <Image
-                  source={require("../../../assets/childimg.png")}
+                  source={{
+                    uri: `https://sipfund.sfo2.digitaloceanspaces.com/product-AMC-images/${item?.imagePath}`,
+                  }}
                   style={styles.goals_2}
                 />
               </View>
               <View tyle={styles.education_sec}>
-                <Text style={styles.child}>{item.details.goal.name}</Text>
-                <Text style={styles.sip}>
-                  {item.details.goal.holdings[0].category}
-                </Text>
+                <Text style={styles.child}>{item?.productName}</Text>
+                <Text style={styles.sip}>{item?.type}</Text>
                 <View style={styles.img_sec}>
                   <MyImage
                     width="145"
                     height="145"
                     svg={false}
-                    url={item.details.goal.holdings[0].imagePath}
+                    url={item?.imagePath}
                   />
                   <View style={styles.img_sec}>
                     <Image
                       source={require("../../../assets/Goalsimg.png")}
                       style={styles.clock_icon}
                     />
-                    <Text style={styles.price}>
-                      ₹ {item.details.goal.totalAmount}/-
-                    </Text>
+                    <Text style={styles.price}>₹ {item?.amount}/-</Text>
                   </View>
                 </View>
                 <Text style={styles.child_text}>Target Set</Text>
@@ -109,9 +107,7 @@ function GoalsListScreen(props) {
                     source={require("../../../assets/clock_icon.png")}
                     style={styles.clock_icon}
                   />
-                  <Text style={styles.price}>
-                    {item.details.goal.numberOfYears} Years
-                  </Text>
+                  <Text style={styles.price}>{item?.navDate} Years</Text>
                 </View>
                 <Text style={styles.child_text}>Time to achieve</Text>
               </View>
@@ -150,7 +146,8 @@ const styles = StyleSheet.create({
   },
   education: {
     flexDirection: "row",
-    marginHorizontal: 20,
+    alignItems: "center",
+    marginHorizontal: 10,
     borderWidth: 2,
     borderColor: Colors.GRAY_LIGHT,
     borderRadius: 15,
@@ -161,14 +158,14 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 5,
+      height: 2,
     },
     shadowOpacity: 0.23,
     shadowRadius: 2.62,
     elevation: 4,
   },
   child_sec: {
-    width: "50%",
+    marginHorizontal: 10,
   },
   sip: {
     fontSize: 10,
@@ -178,6 +175,7 @@ const styles = StyleSheet.create({
   },
   child: {
     fontSize: 15,
+    maxWidth: "90%",
     fontWeight: "bold",
   },
   child_text: {
@@ -210,8 +208,8 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   goals_2: {
-    height: 145,
-    width: 145,
+    width: 80,
+    aspectRatio: 1,
   },
   botton_box: {
     backgroundColor: Colors.RED,

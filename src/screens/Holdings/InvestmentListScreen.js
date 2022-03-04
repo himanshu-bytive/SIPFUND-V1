@@ -36,20 +36,18 @@ function InvestmentListScreen(props) {
   } = props;
   const [data, setData] = useState([]);
 
-  useEffect(() => {
-    if (summary?.holdings?.investplan) {
-      let data = summary?.holdings?.investplan
-        ? summary?.holdings?.investplan
-        : [];
-      let newData = {};
-      for (let item of data) {
-        if (item.details.planName in newData === false) {
-          newData[item.details.planName] = item;
-        }
-      }
-      setData(newData);
-    }
-  }, [summary]);
+  //useEffect(() => {
+  //if (summary?.plans) {
+  //let data = summary?.plans ? summary?.plans : [];
+  //let newData = {};
+  //for (let item of data) {
+  //if (item.details.planName in newData === false) {
+  //newData[item.details.planName] = item;
+  //}
+  //}
+  //setData(newData);
+  //}
+  //}, [summary]);
 
   const investDetails = (item) => {
     InvestmentSummaryDetails(item);
@@ -99,7 +97,7 @@ function InvestmentListScreen(props) {
           style={styles.Goles_4logo}
         />
         <Text style={styles.text_goals}>
-          {data.length > 0
+          {summary?.plans[0]?.holdings[0]?.trxnDetails.length > 0
             ? "INVESTMENT PLAN SET AS OF NOW"
             : "No investment Plan set as of now !"}
         </Text>
@@ -108,7 +106,7 @@ function InvestmentListScreen(props) {
       {/* container_box_sec */}
       <ScrollView style={styles.containerScroll}>
         <Text style={styles.Investments}>My Investments</Text>
-        <View style={styles.mainbox}>
+        {/*<View style={styles.mainbox}>
           {Object.keys(data).map((item, key) => (
             <TouchableOpacity
               key={key}
@@ -125,10 +123,9 @@ function InvestmentListScreen(props) {
           ))}
         </View>
 
-        {/* Invest Now sec */}
-        <Text style={styles.Investments}>Invest Now</Text>
+        <Text style={styles.Investments}>Invest Now</Text>*/}
         <View style={styles.mainbox}>
-          {investments.map((item, key) => (
+          {summary?.plans[0]?.holdings[0]?.trxnDetails.map((item, key) => (
             <TouchableOpacity
               key={key}
               onPress={(item) => {
@@ -137,13 +134,16 @@ function InvestmentListScreen(props) {
               }}
             >
               <View style={styles.container_box}>
-                <MyImage
-                  width="80"
-                  height="80"
-                  svg={true}
-                  url={item.planImagePath}
+                <Image
+                  style={{
+                    height: 50,
+                    width: 50,
+                  }}
+                  source={{
+                    uri: `https://sipfund.sfo2.digitaloceanspaces.com/product-AMC-images/${item?.imagePath}`,
+                  }}
                 />
-                <Text style={styles.Longterm}>{item.plan}</Text>
+                <Text style={styles.Longterm}>{item?.productName}</Text>
               </View>
             </TouchableOpacity>
           ))}
@@ -187,7 +187,8 @@ const styles = StyleSheet.create({
     width: Dimensions.get("window").width - 20,
     flexDirection: "row",
     alignItems: "center",
-    marginTop: 10,
+    marginVertical: 10,
+    padding: 10,
     borderColor: "#F7EDED",
     borderWidth: 1,
     borderRadius: 10,
@@ -195,7 +196,7 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 5,
+      height: 2,
     },
     shadowOpacity: 0.23,
     shadowRadius: 2.62,
@@ -206,8 +207,9 @@ const styles = StyleSheet.create({
     width: 80,
   },
   Longterm: {
-    marginLeft: 50,
-    fontSize: 22,
+    marginLeft: 10,
+    fontSize: 18,
+    maxWidth: "80%",
     color: Colors.BLACK,
   },
 });

@@ -130,16 +130,16 @@ export const GoalsActions = {
   },
   goalSummary: async (dispatch, params, token) => {
     dispatch({ type: types.FETCH_SUMMARY_PENDING });
-    let data = await SiteAPI.apiPostCall(
-      `/goalsAndinvestmentHoldings`,
-      params,
+    let data = await SiteAPI.apiGetCall(
+      `/investments/planGoalInvestmentsDashboard`,
+      {},
       token
     );
     if (data.error) {
       Alert.alert(data.message);
       dispatch({ type: types.FETCH_SUMMARY_FAILURE, error: data.message });
     } else {
-      dispatch({ type: types.FETCH_SUMMARY_SUCCESS, summary: data });
+      dispatch({ type: types.FETCH_SUMMARY_SUCCESS, summary: data?.data });
     }
   },
   goalSummaryDetails: async (dispatch, summaryDetails) => {

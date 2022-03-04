@@ -27,7 +27,7 @@ import { ScrollView } from "react-native-gesture-handler";
 function TopRatedFundsScreen(props) {
   const { isFetching, token, goalSummary, users, summary } = props;
   const [data, setData] = useState(
-    summary?.holdings?.topRatedFunds ? summary?.holdings?.topRatedFunds : []
+    summary?.toprated[0]?.trxnDetails ? summary?.toprated[0]?.trxnDetails : []
   );
   const [visible, setVisible] = useState(null);
 
@@ -83,10 +83,12 @@ function TopRatedFundsScreen(props) {
               <View style={styles.container_box}>
                 <View style={styles.smallbox}>
                   <Image
-                    source={require("../../../assets/MidCap_img_new.png")}
+                    source={{
+                      uri: `https://sipfund.sfo2.digitaloceanspaces.com/product-AMC-images/${item?.imagePath}`,
+                    }}
                     style={styles.mid_capimg}
                   />
-                  <Text style={styles.Longterm}>{item.schemeName}</Text>
+                  <Text style={styles.Longterm}>{item?.productName}</Text>
                 </View>
                 <AntDesign
                   name={visible === key ? "up" : "down"}
@@ -166,26 +168,29 @@ const styles = StyleSheet.create({
     width: Dimensions.get("window").width - 20,
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 10,
+    marginVertical: 10,
+    padding: 5,
     backgroundColor: Colors.WHITE,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 5,
+      height: 3,
     },
     shadowOpacity: 0.23,
     shadowRadius: 2.62,
     elevation: 4,
-    borderRadius: 20,
+    borderRadius: 5,
     borderWidth: 1,
     borderColor: Colors.GREY_1,
   },
   mid_capimg: {
-    height: 67,
-    width: 73,
+    height: 50,
+    width: 50,
+    resizeMode: "contain",
   },
   Longterm: {
     marginLeft: 10,
+    maxWidth: "80%",
     fontSize: 15,
     color: Colors.BLACK,
   },

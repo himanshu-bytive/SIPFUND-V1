@@ -23,19 +23,12 @@ function GoalsSummaryScreen(props) {
 
   useEffect(() => {
     if (token) {
-      goalSummary({phoneNumber: users?.mobileNo}, token);
+      goalSummary({ phoneNumber: users?.mobileNo }, token);
     }
   }, [token]);
 
-  useEffect(() => {
-    setData(summary?.holdings?.summary ? summary?.holdings?.summary : {});
-  }, [summary]);
-
   const plansAndGoalsData = () => {
-    if (
-      summary?.holdings?.plansAndGoalsData &&
-      summary?.holdings?.plansAndGoalsData.length > 0
-    ) {
+    if (summary?.goals && summary?.goals.length > 0) {
       props.navigation.navigate("GoalsList");
     } else {
       props.navigation.navigate("NoGoals");
@@ -113,7 +106,9 @@ function GoalsSummaryScreen(props) {
             <Text style={styles.value}>
               Value as of {moment(new Date()).format("DD-MM-YYYY")}
             </Text>
-            <Text style={styles.rupees}>₹ {data?.currentvalue}</Text>
+            <Text style={styles.rupees}>
+              ₹ {summary?.summary?.currentValue}
+            </Text>
             <Text style={styles.value}>Current Value</Text>
           </View>
 
@@ -121,11 +116,13 @@ function GoalsSummaryScreen(props) {
             <View style={styles.Profit}>
               <Text
                 style={styles.investment}
-              >{`₹ ${data?.totalinvestment}`}</Text>
+              >{`₹ ${summary?.summary?.totalinvestment}`}</Text>
               <Text style={styles.investment2}>Investment</Text>
             </View>
             <View style={styles.Profit}>
-              <Text style={styles.investment}>₹ {data?.["profit-loss"]}</Text>
+              <Text style={styles.investment}>
+                ₹ {summary?.summary?.profitloss}
+              </Text>
               <Text style={styles.investment2}>Profit/Loss</Text>
             </View>
           </View>
@@ -142,7 +139,7 @@ function GoalsSummaryScreen(props) {
                 <Text style={styles.Goals}>Goals</Text>
               </View>
             </View>
-            <Text style={styles.number}>{data?.goals}</Text>
+            <Text style={styles.number}>{summary?.summary?.goals}</Text>
           </View>
         </TouchableOpacity>
 
@@ -159,7 +156,7 @@ function GoalsSummaryScreen(props) {
                 <Text style={styles.Goals}>Investment Plan</Text>
               </View>
             </View>
-            <Text style={styles.number}>{data?.investment}</Text>
+            <Text style={styles.number}>{summary?.summary?.plans}</Text>
           </View>
         </TouchableOpacity>
 
@@ -177,7 +174,7 @@ function GoalsSummaryScreen(props) {
                 <Text style={styles.Goals}>Top Rated Funds</Text>
               </View>
             </View>
-            <Text style={styles.number}>{data?.topratedfund}</Text>
+            <Text style={styles.number}>{summary?.summary?.toprated}</Text>
           </View>
         </TouchableOpacity>
 
@@ -193,7 +190,7 @@ function GoalsSummaryScreen(props) {
                 <Text style={styles.Goals}>Own Choice</Text>
               </View>
             </View>
-            <Text style={styles.number}>{data?.ownchoice}</Text>
+            <Text style={styles.number}>{summary?.summary?.ownchoice}</Text>
           </View>
         </TouchableOpacity>
       </ScrollView>
@@ -343,7 +340,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
-  const { dispatch } = dispatchProps;9272511351
+  const { dispatch } = dispatchProps;
   const { GoalsActions } = require("../../store/GoalsRedux");
   return {
     ...stateProps,
