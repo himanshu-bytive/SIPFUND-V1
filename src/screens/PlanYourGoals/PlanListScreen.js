@@ -32,6 +32,7 @@ function PlanListScreen(props) {
     myGoles,
     fundDetails,
     planYourGoalsDetails,
+    newInvestment,
   } = props;
 
   const handleDelete = (productCode) => {
@@ -57,15 +58,19 @@ function PlanListScreen(props) {
     return [];
   };
 
-  const getParams = () => {
+  const getParams = (goals, sum) => {
+    let dat = [];
+    for (let i in goals) {
+      dat.push(goals[i].schemeInfo);
+    }
     return {
       userPhoneNumber: "",
       goal: {
         name: goalDetail?.goal,
         numberOfYears: goalDetail?.additionalInfo.time_years,
-        totalAmount: "",
-        yearOfComplition: "",
-        holdings: getHoldings(),
+        totalAmount: sum,
+        yearOfComplition: goalDetail?.time_years,
+        holdings: dat,
         createdAt: "",
       },
     };
@@ -166,7 +171,6 @@ function PlanListScreen(props) {
       <TouchableOpacity
         onPress={() => {
           let sum = 0;
-          console.log("GOAL LIST=", mygolelist);
           for (let item in mygolelist) {
             sum = sum + getSip(mygolelist[item].schemeInfo.sip);
           }
@@ -174,7 +178,6 @@ function PlanListScreen(props) {
           let goals = mygolelist.filter((item) => {
             return parseInt(item.schemeInfo.sip) > 0 ? true : false;
           });
-          console.log("GOALS=", goals);
 
           if (goals) {
             for (let item in goals) {
@@ -201,11 +204,12 @@ function PlanListScreen(props) {
                 {
                   text: "Yes, please",
                   onPress: () => {
-                    //let params = getParams(
-                    //myInvestlist.filter((value) => !isNaN(value.schemes.sip)),
-                    //sum
-                    //);
-                    //newInvestment(params, token);
+                    let params = getParams(
+                      //myInvestlist.filter((value) => !isNaN(value.schemes.sip)),
+                      goals,
+                      sum
+                    );
+                    newInvestment(params, token);
                     props.navigation.navigate("PlanSubmit", {
                       sum: sum,
                       isLumpsum: props.navigation.state.params.isLumpsum,
@@ -218,11 +222,12 @@ function PlanListScreen(props) {
           } else if (sum < Number(planYourGoalsDetails).toFixed(0)) {
             alert("Invested amount less than the total!");
           } else {
-            //let params = getParams(
-            //myInvestlist.filter((value) => !isNaN(value.schemes.sip)),
-            //sum
-            //);
-            //newInvestment(params, token);
+            let params = getParams(
+              //myInvestlist.filter((value) => !isNaN(value.schemes.sip)),
+              goals,
+              sum
+            );
+            newInvestment(params, token);
             props.navigation.navigate("PlanSubmit", {
               sum: sum,
               isLumpsum: props.navigation.state.params.isLumpsum,
@@ -483,6 +488,9 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     },
     fundDetails: (data) => {
       FundDetailActions.fundDetails(dispatch, data);
+    },
+    newInvestment: (params, token) => {
+      GoalsActions.goalUser(dispatch, params, token);
     },
   };
 };

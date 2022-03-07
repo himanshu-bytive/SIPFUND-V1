@@ -80,18 +80,18 @@ export const GoalsActions = {
   myGoles: async (dispatch, mygolelist) => {
     dispatch({ type: types.FETCH_MY_GOLES, mygolelist });
   },
-  goalUser: async (dispatch, code, token) => {
-    if (code) {
+  goalUser: async (dispatch, params, token) => {
+    if (params) {
       dispatch({ type: types.FETCH_GOALUSER_PENDING });
       let pincodes = await SiteAPI.apiPostCall(
         `/plan_your_goals/userCreate`,
-        {},
+        params,
         token
       );
-      if (pincodes.data) {
+      if (pincodes) {
         dispatch({
           type: types.FETCH_GOALUSER_SUCCESS,
-          pincodeInfo: pincodes.data,
+          pincodeInfo: pincodes.respone,
         });
       }
     }
@@ -177,6 +177,7 @@ const initialState = {
   summaryInvestmentDetails: {},
   planYourGoalsDetails: null,
   childName: null,
+  pincodeInfo: null,
 };
 
 export const reducer = (state = initialState, action) => {
@@ -192,6 +193,7 @@ export const reducer = (state = initialState, action) => {
     summaryInvestmentDetails,
     planYourGoalsDetails,
     childName,
+    pincodeInfo,
   } = action;
   switch (type) {
     case types.FETCH_SUMMARY_PENDING:
@@ -256,6 +258,7 @@ export const reducer = (state = initialState, action) => {
         ...state,
         isFetching: false,
         error: null,
+        pincodeInfo,
       };
     }
     case types.FETCH_SAVED_USER_SUCCESS: {

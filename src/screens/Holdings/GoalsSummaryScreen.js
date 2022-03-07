@@ -28,7 +28,7 @@ function GoalsSummaryScreen(props) {
   }, [token]);
 
   const plansAndGoalsData = () => {
-    if (summary?.goals && summary?.goals.length > 0) {
+    if (summary?.goals && summary?.goals.length < 0) {
       props.navigation.navigate("GoalsList");
     } else {
       props.navigation.navigate("NoGoals");

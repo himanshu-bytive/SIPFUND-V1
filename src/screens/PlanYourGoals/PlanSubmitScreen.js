@@ -35,6 +35,7 @@ function PlanSubmitScreen(props) {
     mygolelist,
     users,
     childName,
+    pincodeInfo,
   } = props;
 
   return (
@@ -64,11 +65,6 @@ function PlanSubmitScreen(props) {
           />
         }
       />
-      {isFetching && (
-        <View style={Styles.loading}>
-          <ActivityIndicator color={Colors.BLACK} size="large" />
-        </View>
-      )}
       <ScrollView>
         <View style={styles.education}>
           <View style={styles.child_sec}>
@@ -100,7 +96,9 @@ function PlanSubmitScreen(props) {
         </View>
 
         {mygolelist
-          .filter((item) => !isNaN(item.schemeInfo.sip) && item.schemeInfo?.sip != 0)
+          .filter(
+            (item) => !isNaN(item.schemeInfo.sip) && item.schemeInfo?.sip != 0
+          )
           .map((item, key) => {
             if (item.schemeInfo != "NA") {
               return (
@@ -123,14 +121,15 @@ function PlanSubmitScreen(props) {
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
-          //console.log(goalDetail)
           props.navigation.navigate("Upi", {
-            cart: mygolelist.filter((item) => !isNaN(item.schemeInfo.sip) && item.schemeInfo?.sip != 0),
+            cart: mygolelist.filter(
+              (item) => !isNaN(item.schemeInfo.sip) && item.schemeInfo?.sip != 0
+            ),
             sum: props.navigation.state.params.sum,
             fromPlanGoals: true,
             fromCart: false,
             isLumpsum: props.navigation.state.params.isLumpsum,
-            groupId: "",
+            groupId: pincodeInfo?._id,
             groupType: "Goals",
             groupName: goalDetail?.goal,
           });
@@ -292,6 +291,7 @@ const mapStateToProps = (state) => ({
   configs: state.goals.configs,
   mygolelist: state.goals.mygolelist,
   childName: state.goals.childName,
+  pincodeInfo: state.goals.pincodeInfo,
 });
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
