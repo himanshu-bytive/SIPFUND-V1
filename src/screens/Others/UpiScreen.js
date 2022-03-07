@@ -19,14 +19,14 @@ function UpiScreen(props) {
   const { token, profile, user, checkout, umrn, getUMRN, isFetching, error } =
     props;
 
-    const [clicked, setClicked] = useState(false)
+  const [clicked, setClicked] = useState(false);
 
-    useEffect(() => {
-        if(isFetching === false && clicked) {
-            props.navigation.navigate('Profile')
-            props.navigation.navigate('Home')
-        }
-    }, [isFetching])
+  useEffect(() => {
+    if (isFetching === false && clicked) {
+      props.navigation.navigate("Profile");
+      props.navigation.navigate("Home");
+    }
+  }, [isFetching]);
 
   const monthsArr = [
     "Jan",
@@ -80,14 +80,20 @@ function UpiScreen(props) {
 
     //let day = default_date;
     //if (month === 2) {
-      //day = parseInt(day, 10) + 2;
-      //if (default_date >= 28) {
-        //month = 2;
-        //day = 2;
-      //}
+    //day = parseInt(day, 10) + 2;
+    //if (default_date >= 28) {
+    //month = 2;
+    //day = 2;
+    //}
     //}
 
-    return ("00" + default_date).match(/\d{2}$/) + "-" + monthsArr[month] + "-" + year;
+    return (
+      ("00" + default_date).match(/\d{2}$/) +
+      "-" +
+      monthsArr[month] +
+      "-" +
+      year
+    );
   };
   const sipEndDate = (default_date) => {
     const date = new Date();
@@ -104,11 +110,11 @@ function UpiScreen(props) {
 
     //let day = default_date;
     //if (month === 2) {
-      //day = parseInt(day, 10) + 2;
-      //if (default_date >= 28) {
-        //month = 2;
-        //day = 2;
-      //}
+    //day = parseInt(day, 10) + 2;
+    //if (default_date >= 28) {
+    //month = 2;
+    //day = 2;
+    //}
     //}
 
     return (
@@ -145,11 +151,21 @@ function UpiScreen(props) {
           product_code: data[item].product_code,
           reinvest: "Z",
           sip_amount: data[item].sip_amount,
-          sip_end_date: sipEndDate(data[item]?.sipDates ? data[item]?.sipDates[0] : data[item]?.default_date),
+          sip_end_date: sipEndDate(
+            data[item]?.sipDates
+              ? data[item]?.sipDates[0]
+              : data[item]?.default_date
+          ),
           sip_freq: "OM",
-          sip_from_date: sipFromDate(data[item]?.sipDates ? data[item]?.sipDates[0] : data[item]?.default_date),
+          sip_from_date: sipFromDate(
+            data[item]?.sipDates
+              ? data[item]?.sipDates[0]
+              : data[item]?.default_date
+          ),
           //sip_period_day: getPeriodDay(d.getDate(), d.getMonth()),
-        sip_period_day: data[item]?.sipDates ? data[item]?.sipDates[0] : data[item]?.default_date
+          sip_period_day: data[item]?.sipDates
+            ? data[item]?.sipDates[0]
+            : data[item]?.default_date,
         };
       } else if (props.navigation.state.params.fromPlanGoals) {
         format = {
@@ -163,7 +179,7 @@ function UpiScreen(props) {
           sip_freq: "OM",
           sip_from_date: sipFromDate(data[item].schemeInfo.sipDates[0]),
           //sip_period_day: getPeriodDay(d.getDate(), d.getMonth()),
-            sip_period_day: data[item].schemeInfo.sipDates[0]
+          sip_period_day: data[item].schemeInfo.sipDates[0],
         };
       } else {
         format = {
@@ -177,7 +193,7 @@ function UpiScreen(props) {
           sip_freq: "OM",
           sip_from_date: sipFromDate(data[item].sipDates[0]),
           //sip_period_day: getPeriodDay(d.getDate(), d.getMonth()),
-        sip_period_day: data[item].sipDates[0]
+          sip_period_day: data[item].sipDates[0],
         };
       }
       formatted.push(format);
@@ -206,7 +222,7 @@ function UpiScreen(props) {
         bank: profile?.BANK_NAME,
         billdesk_bank: profile?.BANK_NAME,
         cheque_deposit_mode: " ",
-        Client_callback_url: "www.sipfun.com",
+        Client_callback_url: "www.sipfund.com",
         dd_charge: " ",
         debit_amount_type: "M",
         demat_user: "N",
@@ -280,22 +296,22 @@ function UpiScreen(props) {
 
   return (
     <>
-      { isFetching &&
-      <View style={{
-          backgroundColor: '#fffe',
-              width: Dimensions.get('window').width,
-              height: Dimensions.get('window').height,
-              position: 'absolute',
-              zIndex: 100,
-              alignItems: 'center',
-              justifyContent: 'center'
-      }}>
-      <ActivityIndicator size={60} color='black'/>
-      </View>
-      }
-      <View
-        style={styles.container}
-      >
+      {isFetching && (
+        <View
+          style={{
+            backgroundColor: "#fffe",
+            width: Dimensions.get("window").width,
+            height: Dimensions.get("window").height,
+            position: "absolute",
+            zIndex: 100,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <ActivityIndicator size={60} color="black" />
+        </View>
+      )}
+      <View style={styles.container}>
         <Header
           leftComponent={
             <TouchableOpacity
@@ -342,7 +358,7 @@ function UpiScreen(props) {
                 <TouchableOpacity
                   onPress={() => {
                     let params = getParams(true, false);
-                      setClicked(true)
+                    setClicked(true);
                     checkout(params, token);
                   }}
                   style={[styles.botton_box, styles.botton_box_none]}
@@ -357,7 +373,7 @@ function UpiScreen(props) {
                 <TouchableOpacity
                   onPress={() => {
                     let params = getParams(false, false);
-                      setClicked(true)
+                    setClicked(true);
                     checkout(params, token);
                   }}
                   style={styles.botton_box}
@@ -369,7 +385,7 @@ function UpiScreen(props) {
                 <TouchableOpacity
                   onPress={() => {
                     let params = getParams(false, true);
-                      setClicked(true)
+                    setClicked(true);
                     checkout(params, token, true);
                   }}
                   style={styles.botton_box}

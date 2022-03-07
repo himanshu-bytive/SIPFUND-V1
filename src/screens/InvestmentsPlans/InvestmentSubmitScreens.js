@@ -26,7 +26,7 @@ import Cart from "../../components/Cart";
 
 function InvestmentSubmitScreens(props) {
   const pageActive = useRef(false);
-  const { investment, configs, isFetching, myInvestlist } = props;
+  const { investment, configs, isFetching, myInvestlist, pincodeInfo } = props;
 
   const [sum, setSum] = useState(0);
 
@@ -38,17 +38,19 @@ function InvestmentSubmitScreens(props) {
   };
 
   useEffect(() => {
-          let total = 0;
-          for (let category in Object.keys(myInvestlist)) {
-              for(let item in myInvestlist[Object.keys(myInvestlist)[category]]) {
-                  let amount = getSip(myInvestlist[Object.keys(myInvestlist)[category]][item].sip);
-                  if(amount < item.default_min_amount) {
-                    alert("Amount is less than minimum amount");
-                    return;
-                  }
-                  total = total + amount
-              }
-          }
+    let total = 0;
+    for (let category in Object.keys(myInvestlist)) {
+      for (let item in myInvestlist[Object.keys(myInvestlist)[category]]) {
+        let amount = getSip(
+          myInvestlist[Object.keys(myInvestlist)[category]][item].sip
+        );
+        if (amount < item.default_min_amount) {
+          alert("Amount is less than minimum amount");
+          return;
+        }
+        total = total + amount;
+      }
+    }
     setSum(total);
   }, [myInvestlist]);
 
@@ -83,11 +85,7 @@ function InvestmentSubmitScreens(props) {
       <ScrollView>
         <View style={styles.education}>
           <View style={styles.child_sec}>
-                <MyImage
-                  width="100"
-                  svg={true}
-                  url={investment.planImagePath}
-                />
+            <MyImage width="100" svg={true} url={investment.planImagePath} />
           </View>
           <View style={styles.education_sec}>
             <Text style={styles.child}>Summary</Text>
@@ -106,57 +104,66 @@ function InvestmentSubmitScreens(props) {
         </View>
 
         {/* Axis Asset Management Company Ltd */}
-        {Object.keys(myInvestlist).map(category => {
-            return (
+        {Object.keys(myInvestlist).map((category) => {
+          return (
             <>
-            {myInvestlist[category]
-          .filter((value) => !isNaN(value.sip) && value?.sip != 0)
-          .map((item, key) => (
-            <View key={key} style={styles.sbi_sec}>
-              <View
-                style={{
-                  flex: 1,
-                  marginHorizontal: 10,
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <Image
-                  source={{ uri: item.imagePath }}
-                  style={styles.Hybrid}
-                />
-                <Text numberOfLines={2} style={styles.sbi_text}>
-                  {item.name}
-                </Text>
-                <Text style={styles.price}>₹ {item.sip}</Text>
-              </View>
-            </View>
-          ))}
-        </>
-            );
+              {myInvestlist[category]
+                .filter((value) => !isNaN(value.sip) && value?.sip != 0)
+                .map((item, key) => (
+                  <View key={key} style={styles.sbi_sec}>
+                    <View
+                      style={{
+                        flex: 1,
+                        marginHorizontal: 10,
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Image
+                        source={{ uri: item.imagePath }}
+                        style={styles.Hybrid}
+                      />
+                      <Text numberOfLines={2} style={styles.sbi_text}>
+                        {item.name}
+                      </Text>
+                      <Text style={styles.price}>₹ {item.sip}</Text>
+                    </View>
+                  </View>
+                ))}
+            </>
+          );
         })}
       </ScrollView>
       <TouchableOpacity
         onPress={() => {
-              let data = []
-              for(let category in Object.keys(myInvestlist)) {
-                  for(let item in myInvestlist[Object.keys(myInvestlist)[category]]) {
-                      if(!isNaN(myInvestlist[Object.keys(myInvestlist)[category]][item].sip) && myInvestlist[Object.keys(myInvestlist)[category]][item].sip != 0) {
-                        data.push(myInvestlist[Object.keys(myInvestlist)[category]][item])
-                      }
-                  }
+          let data = [];
+          for (let category in Object.keys(myInvestlist)) {
+            for (let item in myInvestlist[
+              Object.keys(myInvestlist)[category]
+            ]) {
+              if (
+                !isNaN(
+                  myInvestlist[Object.keys(myInvestlist)[category]][item].sip
+                ) &&
+                myInvestlist[Object.keys(myInvestlist)[category]][item].sip != 0
+              ) {
+                data.push(
+                  myInvestlist[Object.keys(myInvestlist)[category]][item]
+                );
               }
+            }
+          }
           props.navigation.navigate("Upi", {
             cart: data,
             sum: sum,
             fromCart: false,
             fromPlanGoals: false,
             isLumpsum: props.navigation.state.params.isLumpsum,
-            groupId: '',
-            groupType: 'Investment Plans',
-            groupName: investment.investmentPlan
-          })
+            groupId: pincodeInfo?._id,
+            groupType: "Investment Plans",
+            groupName: investment.investmentPlan,
+          });
         }}
         style={styles.botton_box}
       >
@@ -320,6 +327,7 @@ const mapStateToProps = (state) => ({
   myInvestlist: state.investmentplan.myInvestlist,
   investment: state.investmentplan.investment,
   configs: state.investmentplan.configs,
+  pincodeInfo: state.investmentplan.pincodeInfo,
 });
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
