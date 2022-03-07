@@ -87,13 +87,10 @@ function UpiScreen(props) {
     //}
     //}
 
-    return (
-      ("00" + default_date).match(/\d{2}$/) +
-      "-" +
-      monthsArr[month] +
-      "-" +
-      year
-    );
+    let day = default_date;
+    if (!default_date || default_date == 0) day = 1;
+
+    return ("00" + day).match(/\d{2}$/) + "-" + monthsArr[month] + "-" + year;
   };
   const sipEndDate = (default_date) => {
     const date = new Date();
@@ -117,8 +114,11 @@ function UpiScreen(props) {
     //}
     //}
 
+    let day = default_date;
+    if (!default_date || default_date == 0) day = 1;
+
     return (
-      ("00" + default_date).match(/\d{2}$/) +
+      ("00" + day).match(/\d{2}$/) +
       "-" +
       monthsArr[month] +
       "-" +
@@ -163,9 +163,8 @@ function UpiScreen(props) {
               : data[item]?.default_date
           ),
           //sip_period_day: getPeriodDay(d.getDate(), d.getMonth()),
-          sip_period_day: data[item]?.sipDates
-            ? data[item]?.sipDates[0]
-            : data[item]?.default_date,
+          sip_period_day:
+            data[item].sipDates[0] == 0 ? 1 : data[item].sipDates[0],
         };
       } else if (props.navigation.state.params.fromPlanGoals) {
         format = {
@@ -179,7 +178,10 @@ function UpiScreen(props) {
           sip_freq: "OM",
           sip_from_date: sipFromDate(data[item].schemeInfo.sipDates[0]),
           //sip_period_day: getPeriodDay(d.getDate(), d.getMonth()),
-          sip_period_day: data[item].schemeInfo.sipDates[0],
+          sip_period_day:
+            data[item].schemeInfo.sipDates[0] == 0
+              ? 1
+              : data[item].schemeInfo.sipDates[0],
         };
       } else {
         format = {
@@ -193,7 +195,8 @@ function UpiScreen(props) {
           sip_freq: "OM",
           sip_from_date: sipFromDate(data[item].sipDates[0]),
           //sip_period_day: getPeriodDay(d.getDate(), d.getMonth()),
-          sip_period_day: data[item].sipDates[0],
+          sip_period_day:
+            data[item].sipDates[0] == 0 ? 1 : data[item].sipDates[0],
         };
       }
       formatted.push(format);
