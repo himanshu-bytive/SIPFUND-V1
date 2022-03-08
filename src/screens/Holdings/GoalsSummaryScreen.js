@@ -179,7 +179,9 @@ function GoalsSummaryScreen(props) {
         </TouchableOpacity>
 
         {/* Own Choice...sec */}
-        <TouchableOpacity onPress={() => props.navigation.navigate("Owner")}>
+        <TouchableOpacity
+          onPress={() => props.navigation.navigate("OwnChoiceHoldings")}
+        >
           <View style={styles.education_2}>
             <View style={styles.education_sec}>
               <Image

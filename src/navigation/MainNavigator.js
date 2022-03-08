@@ -64,6 +64,7 @@ import RedeemScreen from "../screens/HamburgerMenu/RedeemScreen";
 import SchemeList from "../screens/HamburgerMenu/SchemeList";
 import SwitchCheckout from "../screens/HamburgerMenu/SwitchCheckout";
 import RedeemCheckout from "../screens/HamburgerMenu/RedeemCheckout";
+import OwnChoiceHoldings from "../screens/Holdings/OwnChoiceHoldings";
 
 export const LoginFlowStack = createStackNavigator(
   {
@@ -357,6 +358,12 @@ export const HoldingsSummaryStack = createStackNavigator(
     },
     Owner: {
       screen: OwnerChoice,
+      navigationOptions: {
+        headerShown: false,
+      },
+    },
+    OwnChoiceHoldings: {
+      screen: OwnChoiceHoldings,
       navigationOptions: {
         headerShown: false,
       },

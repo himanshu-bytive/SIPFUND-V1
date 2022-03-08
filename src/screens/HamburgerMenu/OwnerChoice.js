@@ -36,7 +36,8 @@ function OwnerChoice(props) {
     setAddItemSucces,
     cart,
     getCartDetails,
-      fundDetails
+    fundDetails,
+    showInside,
   } = props;
   const [catList, setCatList] = useState([]);
   const [subcatList, setSubCatList] = useState([]);
@@ -328,33 +329,35 @@ function OwnerChoice(props) {
 
   return (
     <View style={styles.container}>
-      <Header
-        leftComponent={
-          <TouchableOpacity
-            onPress={() => props.navigation.navigate("dashboard")}
-            style={{ marginTop: 20 }}
-          >
-            <AntDesign name={"arrowleft"} size={40} color={Colors.RED} />
-          </TouchableOpacity>
-        }
-        containerStyle={Styles.header}
-        backgroundColor={Colors.LIGHT_WHITE}
-        centerComponent={
-          <Image
-            source={require("../../../assets/icon.png")}
-            style={styles.logimg}
-          />
-        }
-        rightComponent={
-          cart && (
-            <Cart
-              nav={() => {
-                props.navigation.navigate("TopRatedList");
-              }}
+      {!showInside && (
+        <Header
+          leftComponent={
+            <TouchableOpacity
+              onPress={() => props.navigation.navigate("dashboard")}
+              style={{ marginTop: 20 }}
+            >
+              <AntDesign name={"arrowleft"} size={40} color={Colors.RED} />
+            </TouchableOpacity>
+          }
+          containerStyle={Styles.header}
+          backgroundColor={Colors.LIGHT_WHITE}
+          centerComponent={
+            <Image
+              source={require("../../../assets/icon.png")}
+              style={styles.logimg}
             />
-          )
-        }
-      />
+          }
+          rightComponent={
+            cart && (
+              <Cart
+                nav={() => {
+                  props.navigation.navigate("TopRatedList");
+                }}
+              />
+            )
+          }
+        />
+      )}
       {isFetching && (
         <View style={Styles.loading}>
           <ActivityIndicator color={Colors.BLACK} size="large" />
@@ -375,10 +378,11 @@ function OwnerChoice(props) {
           </View>
 
           <View
-            pointerEvents={state.catagory ? 'auto' : 'none'}
+            pointerEvents={state.catagory ? "auto" : "none"}
             style={{
-              opacity: state.catagory ? 1 : 0.5
-          }}>
+              opacity: state.catagory ? 1 : 0.5,
+            }}
+          >
             <MySelectPicker
               values={subcatList}
               defultValue={state.subcatagory}
@@ -391,10 +395,11 @@ function OwnerChoice(props) {
           </View>
 
           <View
-            pointerEvents={state.subcatagory ? 'auto' : 'none'}
+            pointerEvents={state.subcatagory ? "auto" : "none"}
             style={{
-              opacity: state.catagory ? 1 : 0.5
-          }}>
+              opacity: state.catagory ? 1 : 0.5,
+            }}
+          >
             <MySelectPicker
               values={schemeList}
               defultValue={state.scheme}
@@ -419,15 +424,18 @@ function OwnerChoice(props) {
             <View style={styles.company}>
               <TouchableOpacity
                 onPress={() => {
-                    fundDetails({
-                        name: choices[0].nseProductDetail.productName,
-                        productCode: choices[0].nseProductDetail.productCode,
-                        imagePath: `https://sipfund.sfo2.digitaloceanspaces.com/product-AMC-images/${choices[0]?.nseProductDetail.productAMCImage}`,
-                        isin: choices[0]._id,
-                    });
-                    props.navigation.navigate("FundsDetails", { fromScreen: "Owner" });
+                  fundDetails({
+                    name: choices[0].nseProductDetail.productName,
+                    productCode: choices[0].nseProductDetail.productCode,
+                    imagePath: `https://sipfund.sfo2.digitaloceanspaces.com/product-AMC-images/${choices[0]?.nseProductDetail.productAMCImage}`,
+                    isin: choices[0]._id,
+                  });
+                  props.navigation.navigate("FundsDetails", {
+                    fromScreen: "Owner",
+                  });
                 }}
-                style={{ flexDirection: "row", alignItems: "center" }}>
+                style={{ flexDirection: "row", alignItems: "center" }}
+              >
                 <Image
                   source={{
                     uri: `https://sipfund.sfo2.digitaloceanspaces.com/product-AMC-images/${choices[0]?.nseProductDetail.productAMCImage}`,
