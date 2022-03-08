@@ -34,7 +34,6 @@ function InvestmentListScreen(props) {
     investment,
     users,
   } = props;
-  const [data, setData] = useState([]);
 
   //useEffect(() => {
   //if (summary?.plans) {
@@ -97,8 +96,8 @@ function InvestmentListScreen(props) {
           style={styles.Goles_4logo}
         />
         <Text style={styles.text_goals}>
-          {summary?.plans[0]?.holdings[0]?.trxnDetails.length > 0
-            ? "INVESTMENT PLAN SET AS OF NOW"
+          {summary?.plans.length > 0
+            ? "Investment Plans set for now"
             : "No investment Plan set as of now !"}
         </Text>
       </View>
@@ -106,44 +105,40 @@ function InvestmentListScreen(props) {
       {/* container_box_sec */}
       <ScrollView style={styles.containerScroll}>
         <Text style={styles.Investments}>My Investments</Text>
-        {/*<View style={styles.mainbox}>
-          {Object.keys(data).map((item, key) => (
-            <TouchableOpacity
-              key={key}
-              onPress={() => investDetails(data[item])}
-            >
+        <View style={styles.mainbox}>
+          {summary?.plans.map((item, key) => (
+            <TouchableOpacity key={key} onPress={() => investDetails(item)}>
               <View style={styles.container_box}>
-                <Image
-                  source={{ uri: data[item].details?.holdings[0]?.imagePath }}
-                  style={styles.longtermimg}
+                <MyImage
+                  width="70"
+                  height="70"
+                  svg={true}
+                  url={item.imagePath}
                 />
-                <Text style={styles.Longterm}>{item}</Text>
+                <Text style={styles.Longterm}>{item?.planName}</Text>
               </View>
             </TouchableOpacity>
           ))}
         </View>
 
-        <Text style={styles.Investments}>Invest Now</Text>*/}
+        <Text style={styles.Investments}>Invest Now</Text>
         <View style={styles.mainbox}>
-          {summary?.plans[0]?.holdings[0]?.trxnDetails.map((item, key) => (
+          {investments?.map((item) => (
             <TouchableOpacity
-              key={key}
-              onPress={(item) => {
+              key={item?._id}
+              onPress={() => {
                 investmentPlans(item, token);
                 pageActiveInvest.current = true;
               }}
             >
               <View style={styles.container_box}>
-                <Image
-                  style={{
-                    height: 50,
-                    width: 50,
-                  }}
-                  source={{
-                    uri: `https://sipfund.sfo2.digitaloceanspaces.com/product-AMC-images/${item?.imagePath}`,
-                  }}
+                <MyImage
+                  width="70"
+                  height="70"
+                  svg={true}
+                  url={item?.planImagePath}
                 />
-                <Text style={styles.Longterm}>{item?.productName}</Text>
+                <Text style={styles.Longterm}>{item?.plan}</Text>
               </View>
             </TouchableOpacity>
           ))}
@@ -207,9 +202,9 @@ const styles = StyleSheet.create({
     width: 80,
   },
   Longterm: {
-    marginLeft: 10,
     fontSize: 18,
-    maxWidth: "80%",
+    marginLeft: 20,
+    width: "80%",
     color: Colors.BLACK,
   },
 });
