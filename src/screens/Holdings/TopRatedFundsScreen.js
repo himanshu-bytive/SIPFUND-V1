@@ -23,12 +23,12 @@ import {
 } from "react-native-vector-icons";
 import { Image, Header, CheckBox } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
+import { HoldingFundType } from "../../components";
+import moment from "moment";
 
 function TopRatedFundsScreen(props) {
   const { isFetching, token, goalSummary, users, summary } = props;
-  const [data, setData] = useState(
-    summary?.toprated[0]?.trxnDetails ? summary?.toprated[0]?.trxnDetails : []
-  );
+  const [data, setData] = useState(summary?.toprated ? summary?.toprated : []);
   const [visible, setVisible] = useState(null);
 
   return (
@@ -75,11 +75,7 @@ function TopRatedFundsScreen(props) {
 
         <View style={styles.mainbox}>
           {data.map((item, key) => (
-            <TouchableOpacity
-              style={{ width: "95%" }}
-              key={key}
-              onPress={() => setVisible(visible === key ? null : key)}
-            >
+            <View style={{ width: "95%" }} key={key}>
               <View style={styles.container_box}>
                 <View style={styles.smallbox}>
                   <Image
@@ -94,35 +90,62 @@ function TopRatedFundsScreen(props) {
                   name={visible === key ? "up" : "down"}
                   size={20}
                   color="#C0392B"
+                  onPress={() => setVisible(visible === key ? null : key)}
                 />
               </View>
               {/* onPress={() => props.navigation.navigate('TopRatedFundDetails')} */}
               {visible === key && (
-                <TouchableOpacity style={styles.valua_sec}>
-                  <View style={styles.price}>
-                    <Text style={styles.rate_2}>₹ {item.amount}</Text>
-                    <Text style={styles.Current_Value}>Current Value</Text>
+                <>
+                  <View style={styles.valua_sec}>
+                    <View style={styles.price}>
+                      <Text style={styles.rate_2}>
+                        ₹ {item.currentValue.toFixed(2)}
+                      </Text>
+                      <Text style={styles.Current_Value}>Current Value</Text>
+                    </View>
+
+                    <View style={styles.Investment}>
+                      <View style={styles.Investment_value}>
+                        <Text style={styles.rate_2}>₹ {item.amount}</Text>
+                        <Text style={styles.Current_Value}>Investment</Text>
+                      </View>
+
+                      <View style={styles.Investment_value}>
+                        <Text style={styles.rate_2}>₹ {item.profitloss}</Text>
+                        <Text style={styles.Current_Value}>Profit/Loss</Text>
+                      </View>
+
+                      <View style={styles.Investment_value}>
+                        <Text style={styles.rate_2}>{item.cagr}%</Text>
+                        <Text style={styles.Current_Value}>CAGR</Text>
+                      </View>
+                    </View>
                   </View>
 
-                  <View style={styles.Investment}>
-                    <View style={styles.Investment_value}>
-                      <Text style={styles.rate_2}>₹ {item.investment}</Text>
-                      <Text style={styles.Current_Value}>Investment</Text>
-                    </View>
-
-                    <View style={styles.Investment_value}>
-                      <Text style={styles.rate_2}>₹ {item.profitloss}</Text>
-                      <Text style={styles.Current_Value}>Profit/Loss</Text>
-                    </View>
-
-                    <View style={styles.Investment_value}>
-                      <Text style={styles.rate_2}>{item.cagr}%</Text>
-                      <Text style={styles.Current_Value}>CAGR</Text>
-                    </View>
+                  <View style={styles.transactionContainer}>
+                    <Text style={styles.transHeader}>Transactions</Text>
+                    {item?.trxnDetails.map((trxn, key) => (
+                      <View
+                        style={[
+                          styles.fund,
+                          {
+                            marginHorizontal: 10,
+                            padding: 5,
+                          },
+                        ]}
+                        key={key}
+                      >
+                        <Text>
+                          {moment(new Date(trxn?.navDate)).format("DD-MM-YYYY")}{" "}
+                          ({trxn?.type})
+                        </Text>
+                        <Text>₹{trxn?.amount}</Text>
+                      </View>
+                    ))}
                   </View>
-                </TouchableOpacity>
+                </>
               )}
-            </TouchableOpacity>
+            </View>
           ))}
         </View>
 
@@ -295,6 +318,30 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 5,
     marginBottom: 20,
+  },
+  fund: {
+    marginHorizontal: 10,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingVertical: 10,
+    marginTop: 10,
+    backgroundColor: Colors.WHITE,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2.5,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+    elevation: 4,
+  },
+  transHeader: {
+    fontSize: 20,
+    textAlign: "center",
+    marginBottom: 10,
+  },
+  transactionContainer: {
+    margin: 10,
   },
 });
 
