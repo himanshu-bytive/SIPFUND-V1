@@ -22,7 +22,7 @@ import {
 } from "react-native-vector-icons";
 import { Image, Header, CheckBox } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
-import { HoldingFundType } from "../../components";
+import { HoldingFundType, MyImage } from "../../components";
 
 function GoalDetailScreen(props) {
   const { summaryDetails, users } = props;
@@ -57,22 +57,20 @@ function GoalDetailScreen(props) {
             </View>
           }
         />
-        <Image
-          source={require("../../../assets/childimg.png")}
-          style={styles.Goalsimg}
+        <MyImage
+          width="120"
+          height="120"
+          svg={true}
+          url={summaryDetails?.imagePath}
         />
-        <Text style={styles.text_goals}>
-          {summaryDetails?.details?.goal?.name}
-        </Text>
+        <Text style={styles.text_goals}>{summaryDetails?.goalName}</Text>
         <View style={styles.education_plan}>
           <View style={styles.plan_1}>
             <Image
-              source={require("../../../assets/plan_img.png")}
+              source={require("../../../assets/goals1_img2.png")}
               style={styles.plan_img}
             />
-            <Text style={styles.rate}>
-              ₹ {summaryDetails?.details?.goal?.totalAmount}/-
-            </Text>
+            <Text style={styles.rate}>₹ {summaryDetails?.targetValue}/-</Text>
             <Text style={styles.Target_Set}>Target Set</Text>
           </View>
           <View style={styles.plan_2}>
@@ -80,9 +78,7 @@ function GoalDetailScreen(props) {
               source={require("../../../assets/Iconmaterial_img.png")}
               style={styles.plan2_img}
             />
-            <Text style={styles.year}>
-              {summaryDetails?.details?.goal?.numberOfYears} Years
-            </Text>
+            <Text style={styles.year}>{summaryDetails?.noOfYears} Years</Text>
             <Text style={styles.Target_Set}>Time Left to Achieve</Text>
           </View>
         </View>
@@ -90,11 +86,7 @@ function GoalDetailScreen(props) {
       <ScrollView style={styles.containerScroll}>
         <HoldingFundType
           data={summaryDetails}
-          holdings={
-            summaryDetails?.details?.goal?.holdings
-              ? summaryDetails?.details?.goal?.holdings
-              : []
-          }
+          holdings={summaryDetails?.holdings ? summaryDetails?.holdings : []}
         />
       </ScrollView>
       <TouchableOpacity
@@ -115,11 +107,9 @@ const styles = StyleSheet.create({
   containerScroll: {
     width: "100%",
   },
-
   logimg: {
     height: 65,
     width: 203,
-    marginTop: 10,
   },
   Goalsimg: {
     height: 87,
@@ -127,7 +117,6 @@ const styles = StyleSheet.create({
   },
   text_goals: {
     fontSize: 20,
-    marginVertical: 15,
   },
   education_plan: {
     flexDirection: "row",

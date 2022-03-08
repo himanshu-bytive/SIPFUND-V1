@@ -25,11 +25,7 @@ import { Image, Header, CheckBox } from "react-native-elements";
 
 function GoalsListScreen(props) {
   const { users, summary, goalSummaryDetails } = props;
-  const [data, setData] = useState(
-    summary?.goals[0]?.holdings[0]?.trxnDetails
-      ? summary?.goals[0]?.holdings[0]?.trxnDetails
-      : []
-  );
+  const [data, setData] = useState(summary?.goals ? summary?.goals : []);
 
   const GoalDetailPage = (item) => {
     goalSummaryDetails(item);
@@ -76,29 +72,23 @@ function GoalsListScreen(props) {
           <TouchableOpacity key={key} onPress={() => GoalDetailPage(item)}>
             <View style={styles.education}>
               <View style={styles.child_sec}>
-                <Image
-                  source={{
-                    uri: `https://sipfund.sfo2.digitaloceanspaces.com/product-AMC-images/${item?.imagePath}`,
-                  }}
-                  style={styles.goals_2}
+                <MyImage
+                  width="145"
+                  height="145"
+                  svg={true}
+                  url={item?.imagePath}
                 />
               </View>
               <View tyle={styles.education_sec}>
-                <Text style={styles.child}>{item?.productName}</Text>
+                <Text style={styles.child}>{item?.goalName}</Text>
                 <Text style={styles.sip}>{item?.type}</Text>
                 <View style={styles.img_sec}>
-                  <MyImage
-                    width="145"
-                    height="145"
-                    svg={false}
-                    url={item?.imagePath}
-                  />
                   <View style={styles.img_sec}>
                     <Image
                       source={require("../../../assets/Goalsimg.png")}
                       style={styles.clock_icon}
                     />
-                    <Text style={styles.price}>₹ {item?.amount}/-</Text>
+                    <Text style={styles.price}>₹ {item?.targetValue}/-</Text>
                   </View>
                 </View>
                 <Text style={styles.child_text}>Target Set</Text>
@@ -107,7 +97,7 @@ function GoalsListScreen(props) {
                     source={require("../../../assets/clock_icon.png")}
                     style={styles.clock_icon}
                   />
-                  <Text style={styles.price}>{item?.navDate} Years</Text>
+                  <Text style={styles.price}>{item?.noOfYears} Years</Text>
                 </View>
                 <Text style={styles.child_text}>Time to achieve</Text>
               </View>
