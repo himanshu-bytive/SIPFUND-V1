@@ -53,6 +53,10 @@ function GoalsSummaryScreen(props) {
     return () => backHandler.remove();
   }, []);
 
+  useEffect(() => {
+    if (token) console.log(token);
+  }, [token]);
+
   return (
     <View style={styles.container}>
       <Header
@@ -107,21 +111,29 @@ function GoalsSummaryScreen(props) {
               Value as of {moment(new Date()).format("DD-MM-YYYY")}
             </Text>
             <Text style={styles.rupees}>
-              ₹ {summary?.summary?.currentValue}
+              ₹{" "}
+              {summary?.summary?.currentValue
+                ? summary?.summary?.currentValue
+                : 0}
             </Text>
             <Text style={styles.value}>Current Value</Text>
           </View>
 
           <View style={styles.value_sec}>
             <View style={styles.Profit}>
-              <Text
-                style={styles.investment}
-              >{`₹ ${summary?.summary?.totalinvestment}`}</Text>
+              <Text style={styles.investment}>{`₹ ${
+                summary?.summary?.totalinvestment
+                  ? summary?.summary?.totalinvestment
+                  : 0
+              }`}</Text>
               <Text style={styles.investment2}>Investment</Text>
             </View>
             <View style={styles.Profit}>
               <Text style={styles.investment}>
-                ₹ {summary?.summary?.profitloss}
+                ₹{" "}
+                {summary?.summary?.profitloss
+                  ? summary?.summary?.profitloss
+                  : 0}
               </Text>
               <Text style={styles.investment2}>Profit/Loss</Text>
             </View>

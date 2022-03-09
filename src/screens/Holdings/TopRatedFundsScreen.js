@@ -71,7 +71,9 @@ function TopRatedFundsScreen(props) {
 
       {/* container_box_sec */}
       <ScrollView style={styles.containerScroll}>
-        <Text style={styles.Investments}>My Investments</Text>
+        {data.length > 0 && (
+          <Text style={styles.Investments}>My Investments</Text>
+        )}
 
         <View style={styles.mainbox}>
           {data.map((item, key) => (

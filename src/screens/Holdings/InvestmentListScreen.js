@@ -96,7 +96,7 @@ function InvestmentListScreen(props) {
           style={styles.Goles_4logo}
         />
         <Text style={styles.text_goals}>
-          {summary?.plans.length > 0
+          {summary?.plans?.length && summary?.plans?.length > 0
             ? "Investment Plans set for now"
             : "No investment Plan set as of now !"}
         </Text>
@@ -104,21 +104,24 @@ function InvestmentListScreen(props) {
 
       {/* container_box_sec */}
       <ScrollView style={styles.containerScroll}>
-        <Text style={styles.Investments}>My Investments</Text>
+        {summary?.plans && (
+          <Text style={styles.Investments}>My Investments</Text>
+        )}
         <View style={styles.mainbox}>
-          {summary?.plans.map((item, key) => (
-            <TouchableOpacity key={key} onPress={() => investDetails(item)}>
-              <View style={styles.container_box}>
-                <MyImage
-                  width="70"
-                  height="70"
-                  svg={true}
-                  url={item.imagePath}
-                />
-                <Text style={styles.Longterm}>{item?.planName}</Text>
-              </View>
-            </TouchableOpacity>
-          ))}
+          {summary?.plans &&
+            summary?.plans.map((item, key) => (
+              <TouchableOpacity key={key} onPress={() => investDetails(item)}>
+                <View style={styles.container_box}>
+                  <MyImage
+                    width="70"
+                    height="70"
+                    svg={true}
+                    url={item.imagePath}
+                  />
+                  <Text style={styles.Longterm}>{item?.planName}</Text>
+                </View>
+              </TouchableOpacity>
+            ))}
         </View>
 
         <Text style={styles.Investments}>Invest Now</Text>

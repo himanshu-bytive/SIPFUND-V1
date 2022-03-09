@@ -137,7 +137,11 @@ export const GoalsActions = {
     );
     if (data.error) {
       Alert.alert(data.message);
-      dispatch({ type: types.FETCH_SUMMARY_FAILURE, error: data.message });
+      dispatch({
+        type: types.FETCH_SUMMARY_FAILURE,
+        error: data.message,
+        summary: [],
+      });
     } else {
       dispatch({ type: types.FETCH_SUMMARY_SUCCESS, summary: data?.data });
     }
@@ -217,6 +221,7 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         isFetching: false,
+        summary: [],
         error,
       };
     }
