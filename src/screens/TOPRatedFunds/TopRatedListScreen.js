@@ -151,10 +151,8 @@ function TopRatedListScreen(props) {
               <TopRatedFundType
                 key={key}
                 deleteItem={deleteItem}
-                title={item.product_name}
-                sip={item.sip_amount}
-                image={item.image_path}
                 fromSIP={true}
+                item={item}
                 onPress={() => {
                   fundDetails(item);
                   props.navigation.navigate("FundsDetails", {
@@ -171,9 +169,7 @@ function TopRatedListScreen(props) {
               <TopRatedFundType
                 key={key}
                 deleteItem={deleteItem}
-                title={item.product_name}
-                sip={item.sip_amount}
-                image={item.image_path}
+                item={item}
                 onPress={() => {
                   fundDetails(item);
                   props.navigation.navigate("FundsDetails", {

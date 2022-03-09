@@ -6,19 +6,19 @@ import { Image, CheckBox } from "react-native-elements";
 import { Styles, Config, Colors, FormValidate } from "../common";
 
 export default function TopRatedFundType(props) {
-  const { onPress, type, title, sip, image, deleteItem, fromSIP } = props;
+  const { onPress, item, deleteItem, fromSIP } = props;
 
   return (
     <View style={styles.axis_asset}>
       <View style={styles.company}>
-        <Image source={{ uri: image }} style={styles.axisimg} />
+        <Image source={{ uri: item?.image_path }} style={styles.axisimg} />
         <View style={styles.management}>
-          <Text style={styles.axis}>{title}</Text>
+          <Text style={styles.axis}>{item?.product_name}</Text>
           <Text style={styles.moderately}>Moderately High Risk</Text>
         </View>
 
         <AntDesign
-          onPress={() => deleteItem(title)}
+          onPress={() => deleteItem(item?.product_name)}
           name={"delete"}
           size={25}
           color={Colors.RED}
@@ -61,14 +61,16 @@ export default function TopRatedFundType(props) {
             <Text style={styles.no}>SIP Date</Text>
 
             <View style={{ flexDirection: "row" }}>
-              <Text style={styles.new}>5</Text>
+              <Text style={styles.new}>
+                {item?.sip_period_day ? item?.sip_period_day : 5}
+              </Text>
               <AntDesign name="caretdown" size={20} color="#C0392B" />
             </View>
           </View>
         )}
         <View style={styles.select}>
           <Text style={styles.no}>{fromSIP ? "SIP" : "Amount"}</Text>
-          <Text style={styles.new}>₹{sip}</Text>
+          <Text style={styles.new}>₹{item?.amount}</Text>
         </View>
       </View>
     </View>

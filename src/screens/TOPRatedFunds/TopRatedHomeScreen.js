@@ -343,7 +343,7 @@ function TopRatedHomeScreen(props) {
     getCartDetails(token);
   };
   const addToCartSip = () => {
-    if (+states.amount < 1000) {
+    if (states.amount < 1000) {
       alert("Amount is less than minimum amount");
       return;
     }
@@ -425,20 +425,20 @@ function TopRatedHomeScreen(props) {
     return displayStr;
   }
 
-    useEffect(() => {
-        if(category) {
-            for (let index in category) {
-                if(Object.keys(category[index])[0] === selectCat) {
-                    setFundTypes(category[index][selectCat])
-                    setSelectSubCat(category[index][selectCat][0])
-                    feachDetails(category[index][selectCat][0])
-                    return
-                }
-            }
+  useEffect(() => {
+    if (category) {
+      for (let index in category) {
+        if (Object.keys(category[index])[0] === selectCat) {
+          setFundTypes(category[index][selectCat]);
+          setSelectSubCat(category[index][selectCat][0]);
+          feachDetails(category[index][selectCat][0]);
+          return;
         }
-    }, [category, selectCat])
+      }
+    }
+  }, [category, selectCat]);
 
-    const [fundTypes, setFundTypes] = useState([])
+  const [fundTypes, setFundTypes] = useState([]);
 
   return (
     <View style={styles.container}>
@@ -478,15 +478,24 @@ function TopRatedHomeScreen(props) {
 
       {/* Invest Now sec */}
       <ScrollView>
-        <View style={{ flexDirection: 'row', marginVertical: 10 }}>
-      {
-          category && category.map(item => (
-              <TouchableOpacity style={{marginHorizontal: 10}} onPress={() => setSelectCat(Object.keys(item)[0])}>
-              <Text style={{color: selectCat === Object.keys(item)[0] ? 'red' : 'black', fontWeight: 'bold'}}>{Object.keys(item)[0]}</Text>
+        <View style={{ flexDirection: "row", marginVertical: 10 }}>
+          {category &&
+            category.map((item) => (
+              <TouchableOpacity
+                style={{ marginHorizontal: 10 }}
+                onPress={() => setSelectCat(Object.keys(item)[0])}
+              >
+                <Text
+                  style={{
+                    color: selectCat === Object.keys(item)[0] ? "red" : "black",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {Object.keys(item)[0]}
+                </Text>
               </TouchableOpacity>
-          ))
-      }
-      </View>
+            ))}
+        </View>
         <View style={{ borderWidth: 0.5, borderColor: Colors.GREY_1 }}></View>
         <ScrollView horizontal={true} style={styles.Investnow_sec}>
           {category && category[0] && selectCat && fundTypes
@@ -557,13 +566,15 @@ function TopRatedHomeScreen(props) {
                       source={{ uri: item.imagePath }}
                       style={styles.axisimg}
                     />
-                    <View style={{flexDirection: 'column', marginHorizontal: 10}}>
-                    <Text numberOfLines={1} style={styles.axis}>
-                      {item.api["FSCBI-FundName"]}
-                    </Text>
-                    <Text numberOfLines={1} style={styles.fundRisk}>
-                      {item.api["FSCBI-IndianRiskLevel"]}
-                    </Text>
+                    <View
+                      style={{ flexDirection: "column", marginHorizontal: 10 }}
+                    >
+                      <Text numberOfLines={1} style={styles.axis}>
+                        {item.api["FSCBI-FundName"]}
+                      </Text>
+                      <Text numberOfLines={1} style={styles.fundRisk}>
+                        {item.api["FSCBI-IndianRiskLevel"]}
+                      </Text>
                     </View>
                   </TouchableOpacity>
                   <TouchableOpacity
@@ -946,9 +957,9 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   amount_tex: { fontSize: 18 },
-    fundRisk: {
-        fontSize: 12,
-    }
+  fundRisk: {
+    fontSize: 12,
+  },
 });
 const mapStateToProps = (state) => ({
   token: state.auth.token,
