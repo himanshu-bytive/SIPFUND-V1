@@ -143,7 +143,8 @@ function TopRatedListScreen(props) {
           </Text>
         </View>
 
-        {selectTab === "SIP" && cart &&
+        {selectTab === "SIP" &&
+          cart &&
           cart
             .filter((item) => item.trxn_nature === "S")
             .map((item, key) => (
@@ -162,7 +163,8 @@ function TopRatedListScreen(props) {
                 }}
               />
             ))}
-        {selectTab === "LUMPSUM" && cart &&
+        {selectTab === "LUMPSUM" &&
+          cart &&
           cart
             .filter((item) => item.trxn_nature === "N")
             .map((item, key) => (
@@ -181,7 +183,8 @@ function TopRatedListScreen(props) {
               />
             ))}
       </ScrollView>
-      {!cart || (selectTab === "SIP" &&
+      {!cart ||
+      (selectTab === "SIP" &&
         cart.filter((item) => item.trxn_nature === "S").length === 0) ||
       (selectTab === "LUMPSUM" &&
         cart.filter((item) => item.trxn_nature === "N").length === 0) ? (
@@ -193,7 +196,7 @@ function TopRatedListScreen(props) {
       )}
 
       <TouchableOpacity
-        onPress={() => props.navigation.navigate("TopRatedSearch")}
+        onPress={() => props.navigation.navigate("TopRatedHome")}
       >
         <Text style={styles.more_funds}>I would like to add more funds</Text>
       </TouchableOpacity>
