@@ -116,9 +116,9 @@ function PlanSubmitScreen(props) {
             }
           })}
       </ScrollView>
-      <TouchableOpacity onPress={() => props.navigation.navigate("PlanList")}>
+      {/*<TouchableOpacity onPress={() => props.navigation.navigate("PlanList")}>
         <Text style={styles.add}>Add another child’s education plan</Text>
-      </TouchableOpacity>
+      </TouchableOpacity>*/}
       <TouchableOpacity
         onPress={() => {
           props.navigation.navigate("Upi", {
