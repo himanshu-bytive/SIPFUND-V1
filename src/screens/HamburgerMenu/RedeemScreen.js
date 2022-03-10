@@ -20,6 +20,7 @@ import { Entypo, AntDesign } from "react-native-vector-icons";
 import { Header, Overlay, CheckBox, colors } from "react-native-elements";
 import RNPickerSelect from "react-native-picker-select";
 import RedeemItem from "./RedeemItem";
+import Cart from "../../components/Cart";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
@@ -138,12 +139,11 @@ function RedeemScreen(props) {
           </TouchableOpacity>
         }
         rightComponent={
-          <TouchableOpacity
-            onPress={() => props.navigation.navigate("Toprated")}
-            style={{ marginTop: 20 }}
-          >
-            <AntDesign name={"shoppingcart"} size={30} color={Colors.RED} />
-          </TouchableOpacity>
+          <Cart
+            nav={() => {
+              props.navigation.navigate("TopRatedList");
+            }}
+          />
         }
         backgroundColor={Colors.LIGHT_WHITE}
         containerStyle={styles.header}
