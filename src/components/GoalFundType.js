@@ -240,6 +240,8 @@ const styles = StyleSheet.create({
   },
   selectfolio_sec: {
     flexDirection: "row",
+    justifyContent: "space-between",
+    marginLeft: 10,
   },
   select: {
     alignItems: "center",
