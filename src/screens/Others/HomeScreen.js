@@ -16,6 +16,7 @@ import { InvestmentLists, MyImage } from "../../components";
 import { Entypo, AntDesign } from "react-native-vector-icons";
 import { Header, Overlay, CheckBox, Input } from "react-native-elements";
 import Cart from "../../components/Cart";
+import WebView from "react-native-webview";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
@@ -46,6 +47,17 @@ function HomeScreen(props) {
   } = props;
 
   const [loading, toggleLoading] = useState(false);
+  const [webUrl, setWebUrl] = useState("");
+  const [webViewActive, setWebViewActive] = useState(false);
+
+  useEffect(() => {
+    setWebViewActive(false);
+  }, []);
+
+  const loadUrl = (url) => {
+    setWebViewActive(true);
+    setWebUrl(url);
+  };
 
   useEffect(() => {
     if (token) {
@@ -484,7 +496,7 @@ function HomeScreen(props) {
           </View>
 
           <TouchableOpacity
-            onPress={() => Linking.openURL("https://www.sipfund.com/faq.html")}
+            onPress={() => loadUrl("https://www.sipfund.com/faq.html")}
             style={styles.botton_box}
           >
             <Text style={styles.get_otp}>MORE FAQ’s</Text>
@@ -497,27 +509,45 @@ function HomeScreen(props) {
 
         <View style={styles.gallary}>
           {/* <View style={styles.qip_sec}> */}
-        <TouchableOpacity onPress={() => Linking.openURL("https://sipfund.com/blog/What-Is-a-Qualified-Institutional-Placement.html")}>
-          <Image
-            source={require("../../../assets/qip_img.png")}
-            style={styles.qipimg}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => Linking.openURL("https://sipfund.com/blog/What-is-Benchmark-in-mutual-funds.html")}>
-          <Image
-            source={require("../../../assets/fundimg.png")}
-            style={styles.qipimg}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => Linking.openURL("https://sipfund.com/blog/What-is-Credit-Rating.html")}>
-          <Image
-            source={require("../../../assets/ratingimg.png")}
-            style={styles.qipimg}
-          />
-        </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() =>
+              loadUrl(
+                "https://sipfund.com/blog/What-Is-a-Qualified-Institutional-Placement.html"
+              )
+            }
+          >
+            <Image
+              source={require("../../../assets/qip_img.png")}
+              style={styles.qipimg}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() =>
+              loadUrl(
+                "https://sipfund.com/blog/What-is-Benchmark-in-mutual-funds.html"
+              )
+            }
+          >
+            <Image
+              source={require("../../../assets/fundimg.png")}
+              style={styles.qipimg}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() =>
+              loadUrl("https://sipfund.com/blog/What-is-Credit-Rating.html")
+            }
+          >
+            <Image
+              source={require("../../../assets/ratingimg.png")}
+              style={styles.qipimg}
+            />
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity onPress={() => Linking.openURL("https://sipfund.com/blog.html")}>
-        <Text style={styles.view}>View All</Text>
+        <TouchableOpacity
+          onPress={() => loadUrl("https://sipfund.com/blog.html")}
+        >
+          <Text style={styles.view}>View All</Text>
         </TouchableOpacity>
         <View style={styles.border}></View>
       </ScrollView>
@@ -751,6 +781,44 @@ function HomeScreen(props) {
           </TouchableOpacity>
         </View>
       </Overlay>
+      {webViewActive && (
+        <View
+          style={{
+            position: "absolute",
+            backgroundColor: "white",
+            zIndex: 100,
+            width,
+            height,
+          }}
+        >
+          <Header
+            leftComponent={
+              <TouchableOpacity
+                onPress={() => setWebViewActive(false)}
+                style={{ marginTop: 20 }}
+              >
+                <AntDesign name={"arrowleft"} size={30} color={Colors.RED} />
+              </TouchableOpacity>
+            }
+            rightComponent={
+              <Cart
+                nav={() => {
+                  props.navigation.navigate("TopRatedList");
+                }}
+              />
+            }
+            backgroundColor={Colors.LIGHT_WHITE}
+            containerStyle={Styles.header}
+            centerComponent={
+              <Image
+                source={require("../../../assets/icon.png")}
+                style={styles.logimg}
+              />
+            }
+          />
+          <WebView source={{ uri: webUrl }} />
+        </View>
+      )}
     </View>
   );
 }
