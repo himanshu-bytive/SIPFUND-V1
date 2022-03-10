@@ -26,14 +26,14 @@ const randerData = (
         alert("Value can't be more than 30!");
         newValue = 30;
       }
-      onChange(k, newValue, "date");
+      onChange(k, newValue, "default_date");
     } else {
       let newValue = parseInt(value) - 1;
       if (newValue < 1) {
         alert("Value can't be less than 1!");
         newValue = 1;
       }
-      onChange(k, newValue, "date");
+      onChange(k, newValue, "default_date");
     }
   };
 
@@ -99,19 +99,27 @@ const randerData = (
                     <Text style={styles.no}>SIP Date</Text>
                     <View style={{ flexDirection: "row" }}>
                       <Text style={styles.new}>
-                        {item.date ? item.date : "5"}
+                        {item.default_date
+                          ? parseInt(item.default_date, 10)
+                          : "5"}
                       </Text>
                       <View style={{ flexDirection: "column" }}>
                         <TouchableOpacity
                           onPress={() =>
-                            plusMinus("plus", item.date ? item.date : "5")
+                            plusMinus(
+                              "plus",
+                              item.default_date ? item.default_date : "5"
+                            )
                           }
                         >
                           <AntDesign name="caretup" size={15} color="#C0392B" />
                         </TouchableOpacity>
                         <TouchableOpacity
                           onPress={() =>
-                            plusMinus("minus", item.date ? item.date : "5")
+                            plusMinus(
+                              "minus",
+                              item.default_date ? item.default_date : "5"
+                            )
                           }
                         >
                           <AntDesign

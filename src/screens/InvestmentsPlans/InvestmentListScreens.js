@@ -255,7 +255,9 @@ function InvestmentListScreens(props) {
                           <Text style={styles.no}>SIP Date</Text>
                           <View style={{ flexDirection: "row" }}>
                             <Text style={styles.new}>
-                              {dates[index] ? dates[index] : 5}
+                              {dates[index]
+                                ? dates[index]
+                                : parseInt(item?.default_date, 10)}
                             </Text>
                             <View style={{ flexDirection: "column" }}>
                               <TouchableOpacity
@@ -263,7 +265,7 @@ function InvestmentListScreens(props) {
                                   let data = myInvestlist;
                                   let date = data[category][index]?.date
                                     ? data[category][index]?.date
-                                    : 5;
+                                    : parseInt(item?.default_date, 10);
                                   if (date == 30) {
                                     alert("Date cannot be more than 30");
                                     return;
@@ -284,7 +286,7 @@ function InvestmentListScreens(props) {
                                   let data = myInvestlist;
                                   let date = data[category][index]?.date
                                     ? data[category][index]?.date
-                                    : 5;
+                                    : parseInt(item?.default_date, 10);
                                   if (date == 1) {
                                     alert("Date cannot be less than 1");
                                     return;
