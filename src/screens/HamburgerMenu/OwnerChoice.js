@@ -327,6 +327,10 @@ function OwnerChoice(props) {
     setStates({ ...states, amount: string });
   };
 
+  useEffect(() => {
+    if (choices) console.log(choices[0].nseProductDetail);
+  }, [choices]);
+
   return (
     <View style={styles.container}>
       {!showInside && (
@@ -485,7 +489,7 @@ function OwnerChoice(props) {
                 <Text style={styles.min}>
                   {parseInt(
                     choices[0]?.nseProductDetail.productCurrentNavValue
-                  ).toFixed(2) + "%"}
+                  ).toFixed(2) + "% / year"}
                 </Text>
               </View>
             </View>
