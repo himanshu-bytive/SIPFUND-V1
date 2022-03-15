@@ -31,6 +31,10 @@ function TopRatedFundsScreen(props) {
   const [data, setData] = useState(summary?.toprated ? summary?.toprated : []);
   const [visible, setVisible] = useState(null);
 
+  useEffect(() => {
+    if (data) console.log(data);
+  }, [data]);
+
   return (
     <View style={styles.container}>
       {/* Header_sec */}
@@ -137,11 +141,19 @@ function TopRatedFundsScreen(props) {
                         ]}
                         key={key}
                       >
-                        <Text>
-                          {moment(new Date(trxn?.navDate)).format("DD-MM-YYYY")}{" "}
-                          ({trxn?.type})
-                        </Text>
-                        <Text>₹{trxn?.amount}</Text>
+                        <View>
+                          <Text>
+                            {moment(new Date(trxn?.navDate)).format(
+                              "DD-MM-YYYY"
+                            )}{" "}
+                            ({trxn?.type})
+                          </Text>
+                          <Text>₹{trxn?.amount}</Text>
+                        </View>
+                        <View>
+                          <Text>Nav: {trxn?.currentNavValue}</Text>
+                          <Text>Units: {trxn?.units}</Text>
+                        </View>
                       </View>
                     ))}
                   </View>
@@ -343,7 +355,9 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   transactionContainer: {
-    margin: 10,
+    marginHorizontal: 10,
+    marginTop: 10,
+    marginBottom: 5,
   },
 });
 
