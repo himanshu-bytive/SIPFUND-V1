@@ -55,7 +55,7 @@ function PlanHomeScreen(props) {
     setSelectTab(value);
   };
 
-    const [updated, setUpdated] = useState(false)
+  const [updated, setUpdated] = useState(false);
 
   useEffect(() => {
     const backAction = () => {
@@ -88,7 +88,7 @@ function PlanHomeScreen(props) {
       }
       if (time === 0) setTime(goalDetail.additionalInfo.time_years);
       setInvestment(goalDetail.additionalInfo.current_investment);
-        setUpdated(true)
+      setUpdated(true);
     }
   }, [goalDetail]);
 
@@ -122,10 +122,10 @@ function PlanHomeScreen(props) {
   }, [amount, time, investment, inflation, returnRate]);
 
   const startGoal = (value) => {
-    if (name === "" && goalDetail?.goal === "Child's Education") {
-      alert("Child's name is required!");
-      return;
-    }
+    //if (name === "" && goalDetail?.goal === "Child's Education") {
+    //alert("Child's name is required!");
+    //return;
+    //}
     setChildName(name);
     if (selectTab === "SIP") {
       if (sipAmount < 1) {
