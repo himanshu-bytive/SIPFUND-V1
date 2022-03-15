@@ -362,6 +362,10 @@ function InvestmentListScreens(props) {
                 alert("Amount is less than minimum amount");
                 return;
               }
+              if (amount % 500 !== 0) {
+                alert("Amount must be a multiple of 500");
+                return;
+              }
               sum = sum + amount;
             }
           }

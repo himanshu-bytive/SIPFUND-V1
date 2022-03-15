@@ -188,6 +188,10 @@ function PlanListScreen(props) {
                 alert("Amount is less than minimum amount");
                 return;
               }
+              if (parseInt(goals[item].schemeInfo.sip) % 500 !== 0) {
+                alert("Amount must be a multiple of 500");
+                return;
+              }
             }
           }
 
