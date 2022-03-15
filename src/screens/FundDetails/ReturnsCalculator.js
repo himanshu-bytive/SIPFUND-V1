@@ -163,7 +163,7 @@ function ReturnsCalculator(props) {
           ></View>
         </TouchableOpacity>
       </View>
-      <Text style={styles.rs}> ₹ {isNaN(values) ? '?' : values}</Text>
+      <Text style={styles.rs}> ₹ {isNaN(values) ? "?" : values}</Text>
       <Text style={styles.with}>With {annum}% returns per annum</Text>
     </View>
   );
@@ -206,6 +206,7 @@ const styles = StyleSheet.create({
   },
   back_year2: {
     fontSize: 18,
+    color: Colors.BLACK,
   },
   back_year_text: {
     borderWidth: 1,
