@@ -163,7 +163,7 @@ function OwnChoiceHoldings(props) {
         </View>
 
         <Text style={styles.Investments}>Invest Now</Text>
-        <OwnerChoice showInside={true} />
+        <OwnerChoice showInside={true} props={props} />
       </ScrollView>
     </View>
   );

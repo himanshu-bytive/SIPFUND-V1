@@ -140,7 +140,16 @@ const randerData = (
                   <View style={{ flexDirection: "row", alignItems: "center" }}>
                     <Text style={styles.new}>₹</Text>
                     <TextInput
-                      style={styles.new}
+                      style={[
+                        styles.new,
+                        {
+                          borderWidth: 0.5,
+                          paddingHorizontal: 5,
+                          marginLeft: 5,
+                          borderRadius: 5,
+                          minWidth: 50,
+                        },
+                      ]}
                       keyboardType={"numeric"}
                       maxLength={6}
                       placeholder={"sip"}

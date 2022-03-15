@@ -318,7 +318,16 @@ function InvestmentListScreens(props) {
                       >
                         <Text style={styles.new}>₹</Text>
                         <TextInput
-                          style={[styles.new, { minWidth: 30 }]}
+                          style={[
+                            styles.new,
+                            {
+                              borderWidth: 0.5,
+                              paddingHorizontal: 5,
+                              marginLeft: 5,
+                              borderRadius: 5,
+                              minWidth: 50,
+                            },
+                          ]}
                           keyboardType={"numeric"}
                           maxLength={8}
                           placeholder={"0"}
