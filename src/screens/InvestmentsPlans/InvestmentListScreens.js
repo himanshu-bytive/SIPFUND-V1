@@ -255,8 +255,8 @@ function InvestmentListScreens(props) {
                           <Text style={styles.no}>SIP Date</Text>
                           <View style={{ flexDirection: "row" }}>
                             <Text style={styles.new}>
-                              {dates[index]
-                                ? dates[index]
+                              {dates[`${category}${index}`]
+                                ? dates[`${category}${index}`]
                                 : parseInt(item?.default_date, 10)}
                             </Text>
                             <View style={{ flexDirection: "column" }}>
@@ -271,7 +271,11 @@ function InvestmentListScreens(props) {
                                     return;
                                   }
                                   data[category][index].date = date + 1;
-                                  setDates({ ...dates, [index]: date + 1 });
+                                  setDates({
+                                    ...dates,
+                                    [`${category}${index}`]: date + 1,
+                                  });
+                                  console.log(dates);
                                   myInvestments(data);
                                 }}
                               >
