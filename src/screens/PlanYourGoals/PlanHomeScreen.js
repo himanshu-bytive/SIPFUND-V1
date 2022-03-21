@@ -77,8 +77,8 @@ function PlanHomeScreen(props) {
   }, []);
 
   useEffect(() => {
+    if (goalDetail.additionalInfo) setAdditionalInfo(goalDetail.additionalInfo);
     if (goalDetail.additionalInfo && !updated) {
-      setAdditionalInfo(goalDetail.additionalInfo);
       if (goalDetail.additionalInfo.current_living_cost) {
         setAmount(goalDetail.additionalInfo.current_living_cost);
       } else if (goalDetail.additionalInfo.current_edu_cost) {
