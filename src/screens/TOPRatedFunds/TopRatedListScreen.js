@@ -11,6 +11,7 @@ import {
   TextInput,
   ActivityIndicator,
   ToastAndroid,
+  Alert,
 } from "react-native";
 import { connect } from "react-redux";
 import { Styles, Config, Colors, FormValidate } from "../../common";
@@ -33,6 +34,7 @@ function TopRatedListScreen(props) {
     fundDetails,
   } = props;
 
+  const [cartEmpty, setCartEmpty] = useState();
   const [cart, setCart] = useState([]);
   const [selectTab, setSelectTab] = useState(
     props.navigation.state.params?.currentTab
@@ -82,6 +84,17 @@ function TopRatedListScreen(props) {
     ToastAndroid.show("Item deleted succesfully!", ToastAndroid.LONG);
     props.navigation.replace("TopRatedList", { currentTab: selectTab });
   };
+
+  const getFundType = () => {
+    return selectTab === "SIP" ? "S" : "N";
+  };
+
+  useEffect(() => {
+    let type = getFundType();
+    if (!cart || cart.filter((item) => item.trxn_nature === type).length === 0)
+      setCartEmpty(true);
+    else setCartEmpty(false);
+  }, [selectTab, cart]);
 
   return (
     <View style={styles.container}>
@@ -198,9 +211,12 @@ function TopRatedListScreen(props) {
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
-          let type = selectTab === "SIP" ? "S" : "N";
-          if (cart.filter((item) => item.trxn_nature === type).length === 0) {
-            alert("Cart is empty!");
+          let type = getFundType();
+          if (
+            !cart ||
+            cart.filter((item) => item.trxn_nature === type).length === 0
+          ) {
+            Alert.alert("Cart Empty", "There are no funds to check-out!");
           } else {
             props.navigation.navigate("TopRatedSubmit", {
               cart: cart.filter((item) => item.trxn_nature === type),
@@ -208,7 +224,12 @@ function TopRatedListScreen(props) {
             });
           }
         }}
-        style={styles.botton_box}
+        style={[
+          styles.botton_box,
+          {
+            backgroundColor: cartEmpty ? "darkgray" : Colors.RED,
+          },
+        ]}
       >
         <Text style={styles.get_otp}>NEXT</Text>
       </TouchableOpacity>
