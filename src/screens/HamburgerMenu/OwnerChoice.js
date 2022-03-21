@@ -163,11 +163,6 @@ function OwnerChoice(props) {
       amcName,
       imagePath,
     });
-    console.log("imagePath", imagePath);
-    console.log("amcCode", amcCode);
-    console.log("amcName", amcName);
-    console.log("productCode", productCode);
-    console.log("productName", productName);
     setVisible(!visible);
   };
   const toggleOverlay = () => {
@@ -312,7 +307,6 @@ function OwnerChoice(props) {
   }
 
   function numberWithCommas(x) {
-    // console.log("X=", x);
     x = x.toString();
     var lastThree = x.substring(x.length - 3);
     var otherNumbers = x.substring(0, x.length - 3);
@@ -326,10 +320,6 @@ function OwnerChoice(props) {
     let string = val.replace(/[&\/\\#,+()$~%.'":*?<>{}₹]/g, "");
     setStates({ ...states, amount: string });
   };
-
-  useEffect(() => {
-    if (choices) console.log(choices[0].nseProductDetail);
-  }, [choices]);
 
   return (
     <View style={styles.container}>
@@ -429,10 +419,10 @@ function OwnerChoice(props) {
               <TouchableOpacity
                 onPress={() => {
                   fundDetails({
-                    name: choices[0].nseProductDetail.productName,
-                    productCode: choices[0].nseProductDetail.productCode,
+                    name: choices[0]?.nseProductDetail.productName,
+                    productCode: choices[0]?.nseProductDetail.productCode,
                     imagePath: `https://sipfund.sfo2.digitaloceanspaces.com/product-AMC-images/${choices[0]?.nseProductDetail.productAMCImage}`,
-                    isin: choices[0]._id,
+                    isin: choices[0]?._id,
                   });
                   props.navigation.navigate("FundsDetails", {
                     fromScreen: "Owner",
