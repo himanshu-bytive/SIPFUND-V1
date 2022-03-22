@@ -152,11 +152,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   header: {
-    borderBottomColor: Colors.BLACK,
+    borderBottomColor: Colors.GRAY_LIGHT,
+    backgroundColor: "#fff",
     borderBottomWidth: 1,
   },
   containerScroll: {
     width: "100%",
+    backgroundColor: "#fff",
   },
   mainBox: {
     alignItems: "center",

@@ -14,11 +14,7 @@ export default function InvestmentLists(props) {
                 onPress={() => onPress(item)}
                 style={{ width: "100%" }}
               >
-                <MyImage
-                  width="100%"
-                  svg={true}
-                  url={item?.planImagePath}
-                />
+                <MyImage width="100%" svg={true} url={item?.planImagePath} />
                 <Text style={styles.long}>{item.plan}</Text>
               </TouchableOpacity>
             )}
@@ -35,11 +31,7 @@ export default function InvestmentLists(props) {
               onPress={() => onPress(item)}
               style={{ width: "100%" }}
             >
-              <MyImage
-                width="100%"
-                svg={true}
-                url={item?.planImagePath}
-              />
+              <MyImage width="100%" svg={true} url={item?.planImagePath} />
               <Text style={styles.long}>{item.plan}</Text>
             </TouchableOpacity>
           </View>
@@ -56,8 +48,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   investment: {
-    borderTopRightRadius: 20,
-    borderTopLeftRadius: 20,
+    borderRadius: 10,
     backgroundColor: Colors.WHITE,
     width: "29.333%",
     alignItems: "center",
@@ -65,7 +56,7 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 4,
+      height: 2,
     },
     shadowOpacity: 0.23,
     shadowRadius: 2.62,

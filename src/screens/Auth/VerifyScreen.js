@@ -50,7 +50,7 @@ function VerifyScreen(props) {
       });
     };
 
-      getPhoneNumber()
+    getPhoneNumber();
   }, []);
 
   useEffect(() => {
@@ -212,17 +212,19 @@ function VerifyScreen(props) {
             style={styles.logoimg}
           />
         </View>
-        {phones.length > 0 && <Text style={styles.code}>Continue with</Text>}
-        {phones.map((item, key) => (
-          <TouchableOpacity
-            key={key}
-            onPress={() => onAction(item)}
-            style={styles.phone_number}
-          >
-            <MaterialIcons name="call" size={20} color="#838280" />
-            <Text style={styles.number}>{item}</Text>
-          </TouchableOpacity>
-        ))}
+        <View style={{ width: width - 50, marginLeft: 100 }}>
+          {phones.length > 0 && <Text style={styles.code}>Continue with</Text>}
+          {phones.map((item, key) => (
+            <TouchableOpacity
+              key={key}
+              onPress={() => onAction(item)}
+              style={styles.phone_number}
+            >
+              <MaterialIcons name="call" size={20} color="#838280" />
+              <Text style={styles.number}>{item}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
         <View style={styles.or}>
           {phones.length > 0 && <Text style={styles.code}>OR</Text>}
           <Text style={[styles.code, { marginTop: 0 }]}>
@@ -264,7 +266,9 @@ function VerifyScreen(props) {
           )}
         </View>
         <View style={styles.otp}>
-          <Text>OTP will be sent to this Mobile Number</Text>
+          <Text style={{ color: "grey" }}>
+            OTP will be sent to this Mobile Number
+          </Text>
         </View>
       </View>
       <View>
@@ -326,13 +330,14 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     fontSize: 19,
     color: "#7E7E7E",
-    textAlign: "center",
+    //textAlign: "center",
     //paddingLeft: 70,
   },
   text_box: {
     flexDirection: "row",
     marginTop: 10,
-    //paddingLeft: 70,
+    alignSelf: "flex-start",
+    paddingLeft: 50,
   },
   button: {
     alignItems: "center",

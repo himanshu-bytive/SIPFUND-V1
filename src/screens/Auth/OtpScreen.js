@@ -106,14 +106,13 @@ function OtpScreen(props) {
           Achieve Your <Text style={styles.sloganRed}>Dreams</Text>
         </Text>
         <View style={styles.mainbox}>
-          <View>
-            <Image
-              source={require("../../../assets/logo.png")}
-              style={styles.logimg}
-            />
-          </View>
-          <Text style={styles.number}>Enter OTP to verify</Text>
-          <Text style={styles.number}>your mobile number</Text>
+          <Image
+            source={require("../../../assets/logo.png")}
+            style={styles.logimg}
+          />
+          <Text style={styles.number}>
+            {"Enter OTP to verify\nyour mobile number"}
+          </Text>
           <View style={styles.otpsec}>
             {!isFetching && (
               <OtpInputs
@@ -183,16 +182,17 @@ const styles = StyleSheet.create({
     width: width - 50,
     borderColor: Colors.GREY_1,
     backgroundColor: Colors.WHITE,
-    paddingBottom: 50,
     paddingTop: 30,
+    marginBottom: 20,
   },
   logimg: {
     marginTop: 10,
-    marginBottom: 15,
+    marginBottom: 10,
+    height: 100,
+    aspectRatio: 1,
   },
   otpsec: {
     alignItems: "center",
-    marginTop: 0,
   },
   inputsec: {
     borderBottomWidth: 4,
@@ -205,10 +205,10 @@ const styles = StyleSheet.create({
     color: Colors.RED,
   },
   nseimg: {
-    marginVertical: 50,
+    //marginVertical: 50,
   },
   number: {
-    fontSize: 20,
+    fontSize: 18,
     textAlign: "center",
     paddingTop: 4,
     paddingBottom: 4,
