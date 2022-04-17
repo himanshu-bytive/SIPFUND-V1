@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
-import { Image } from "react-native";
+import { Image, View } from "react-native";
 import { createStackNavigator } from "react-navigation-stack";
 import { createDrawerNavigator } from "react-navigation-drawer";
 import { createBottomTabNavigator } from "react-navigation-tabs";
@@ -511,10 +511,22 @@ const TabNavigator = createBottomTabNavigator(
             ? require("../../assets/exploreAct.png")
             : require("../../assets/explore.png");
           return (
-            <Image
-              style={{ width: 28, height: 28, marginTop: 5 }}
-              source={imgSource}
-            />
+            <View
+              style={{
+                padding: 5,
+              }}
+            >
+              <Image
+                style={{
+                  width: 28,
+                  height: 28,
+                  aspectRatio: 1,
+                  resizeMode: "contain",
+                  marginTop: 5,
+                }}
+                source={imgSource}
+              />
+            </View>
           );
         },
       },
@@ -527,10 +539,22 @@ const TabNavigator = createBottomTabNavigator(
             ? require("../../assets/planAct.png")
             : require("../../assets/plan.png");
           return (
-            <Image
-              style={{ width: 28, height: 28, marginTop: 5 }}
-              source={imgSource}
-            />
+            <View
+              style={{
+                padding: 5,
+              }}
+            >
+              <Image
+                style={{
+                  width: 28,
+                  height: 28,
+                  aspectRatio: 1,
+                  resizeMode: "contain",
+                  marginTop: 5,
+                }}
+                source={imgSource}
+              />
+            </View>
           );
         },
       },
@@ -543,10 +567,22 @@ const TabNavigator = createBottomTabNavigator(
             ? require("../../assets/dashboardAct.png")
             : require("../../assets/dashboard.png");
           return (
-            <Image
-              style={{ width: 28, height: 28, marginTop: 5 }}
-              source={imgSource}
-            />
+            <View
+              style={{
+                padding: 5,
+              }}
+            >
+              <Image
+                style={{
+                  width: 28,
+                  height: 28,
+                  aspectRatio: 1,
+                  resizeMode: "contain",
+                  marginTop: 5,
+                }}
+                source={imgSource}
+              />
+            </View>
           );
         },
       },
@@ -559,10 +595,22 @@ const TabNavigator = createBottomTabNavigator(
             ? require("../../assets/userAct.png")
             : require("../../assets/user.png");
           return (
-            <Image
-              style={{ width: 28, height: 28, marginTop: 5 }}
-              source={imgSource}
-            />
+            <View
+              style={{
+                padding: 5,
+              }}
+            >
+              <Image
+                style={{
+                  width: 28,
+                  height: 28,
+                  aspectRatio: 1,
+                  resizeMode: "contain",
+                  marginTop: 5,
+                }}
+                source={imgSource}
+              />
+            </View>
           );
         },
       },

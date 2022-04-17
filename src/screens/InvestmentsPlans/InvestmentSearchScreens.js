@@ -33,7 +33,7 @@ function InvestmentSearchScreens(props) {
     funds,
     myInvestlist,
     myInvestments,
-      fundDetails
+    fundDetails,
   } = props;
   const searchInput = useRef(null);
   let timer = useRef(null);
@@ -55,35 +55,37 @@ function InvestmentSearchScreens(props) {
     }, 1000);
   };
 
-    const getFormattedItem = (value) => {
-        return {
-        type: "new",
-        amc_code: "101",
-        imagePath: `https://sipfund.sfo2.digitaloceanspaces.com/product-AMC-images/${value.productAMCImage}`,
-        name: value.productDisplayName,
-        isin: value.productISIN,
-        productCode: value.productISIN,
-      }
-    }
+  const getFormattedItem = (value) => {
+    return {
+      type: "new",
+      amc_code: "101",
+      imagePath: `https://sipfund.sfo2.digitaloceanspaces.com/product-AMC-images/${value.productAMCImage}`,
+      name: value.productDisplayName,
+      isin: value.productISIN,
+      productCode: value.productISIN,
+      default_date: value.sipDates.split(",")[0],
+      sipDates: value?.sipDates ? value?.sipDates.split(",") : [1],
+    };
+  };
 
   const addRemove = (value) => {
     let list = myInvestlist ? myInvestlist : {};
 
-      let data = getFormattedItem(value)
+    let data = getFormattedItem(value);
 
-      let dataKey = value.productName
+    let dataKey = value.productName;
 
-      if(list[dataKey]) {
-          list = {
-              ...list,
-              [dataKey]: [...list[dataKey], data]
-          }
-      } else {
-          list[dataKey] = [data]
-      }
+    if (list[dataKey]) {
+      list = {
+        ...list,
+        [dataKey]: [...list[dataKey], data],
+      };
+    } else {
+      list[dataKey] = [data];
+    }
 
     myInvestments(list);
-    props.navigation.navigate("InvestmentList", {refresh: true});
+    props.navigation.navigate("InvestmentList", { refresh: true });
   };
 
   return (
@@ -168,12 +170,14 @@ function InvestmentSearchScreens(props) {
                 </View>
               </View>
               <View style={styles.icon}>
-            <TouchableOpacity onPress={() => {
-                fundDetails(getFormattedItem(item))
-            props.navigation.navigate("FundsDetails", {
-              fromScreen: "InvestmentSearch",
-            });
-            }}>
+                <TouchableOpacity
+                  onPress={() => {
+                    fundDetails(getFormattedItem(item));
+                    props.navigation.navigate("FundsDetails", {
+                      fromScreen: "InvestmentSearch",
+                    });
+                  }}
+                >
                   <AntDesign name="right" size={30} color="#838280" />
                 </TouchableOpacity>
               </View>

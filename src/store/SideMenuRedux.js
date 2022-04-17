@@ -77,6 +77,7 @@ export const SideMenuActions = {
       tokan
     );
     let dataConfig = await SiteAPI.apiGetCall("/referral-config", {}, tokan);
+    console.log(data, dataConfig, "abcd");
     if (data.error || dataConfig.error) {
       Alert.alert(data.message);
       dispatch({ type: types.FETCH_REFER_FAILURE, error: data.message });

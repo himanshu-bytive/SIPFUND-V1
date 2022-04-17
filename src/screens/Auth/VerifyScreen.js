@@ -359,7 +359,7 @@ const styles = StyleSheet.create({
   },
   nseimg: {
     marginTop: 30,
-    width: width - 10,
+    width: Dimensions.get("window").width * 0.8,
     resizeMode: "contain",
   },
   otp: {

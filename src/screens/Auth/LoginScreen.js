@@ -136,7 +136,6 @@ function LoginScreen(props) {
                 style={styles.botton_box}
               >
                 <Text style={styles.get_otp}>PROCEED</Text>
-                <AntDesign name={"right"} size={26} color={Colors.WHITE} />
               </TouchableOpacity>
             )}
           </View>

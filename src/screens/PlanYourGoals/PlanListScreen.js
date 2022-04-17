@@ -33,7 +33,15 @@ function PlanListScreen(props) {
     fundDetails,
     planYourGoalsDetails,
     newInvestment,
+    navigation,
+    isLumpsum,
+    totalAmount,
+    childName,
+    setChildName,
+    disableFunds,
   } = props;
+
+  const [showModified, setShowModified] = useState(false);
 
   const handleDelete = (productCode) => {
     let goals = mygolelist;
@@ -44,7 +52,7 @@ function PlanListScreen(props) {
       }
     }
     myGoles(goals);
-    props.navigation.replace("PlanList");
+    navigation.replace("PlanHome");
   };
 
   const getSip = (value) => {
@@ -52,10 +60,6 @@ function PlanListScreen(props) {
       return Number(value);
     }
     return 0;
-  };
-
-  const getHoldings = () => {
-    return [];
   };
 
   const getParams = (goals, sum) => {
@@ -76,12 +80,36 @@ function PlanListScreen(props) {
     };
   };
 
+  useEffect(() => {
+    setShowModified(false);
+    if (
+      goalDetail.allocationFlag === false &&
+      goalDetail.investmentAmountDifference
+    ) {
+      console.log(goalDetail);
+      Alert.alert(
+        "Alert Title",
+        `Your total investment amount will be increased by ₹${goalDetail.investmentAmountDifference.toFixed(
+          2
+        )} in order to satisfy the scheme(s) minimum investment amount. Would you like to continue with this increased amount?`,
+        [
+          {
+            text: "Cancel",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel",
+          },
+          { text: "OK", onPress: () => setShowModified(true) },
+        ]
+      );
+    }
+  }, [goalDetail]);
+
   return (
     <View style={styles.container}>
-      <Header
+      {/*}<Header
         leftComponent={
           <TouchableOpacity
-            onPress={() => props.navigation.goBack()}
+            onPress={() => navigation.goBack()}
             style={{ marginTop: 20 }}
           >
             <AntDesign name={"arrowleft"} size={40} color={Colors.RED} />
@@ -98,19 +126,18 @@ function PlanListScreen(props) {
         rightComponent={
           <Cart
             nav={() => {
-              props.navigation.navigate("TopRatedList");
+              navigation.navigate("TopRatedList");
             }}
           />
         }
-      />
-      {isFetching && (
+      />*/}
+      {/*isFetching && (
         <View style={Styles.loading}>
           <ActivityIndicator color={Colors.BLACK} size="large" />
         </View>
-      )}
-      <ScrollView style={styles.containerScroll}>
-        {/* SIP_sec */}
-        <View style={styles.education}>
+      )*/}
+      {/* SIP_sec */}
+      {/*<View style={styles.education}>
           <View style={styles.child_sec}>
             <MyImage
               width="117"
@@ -123,60 +150,77 @@ function PlanListScreen(props) {
             <Text style={styles.child}>{goalDetail?.goal}</Text>
             <Text style={styles.child_text}>{goalDetail?.goalDescription}</Text>
           </View>
-        </View>
+        </View>*/}
 
-        {/* My Selected Funds_sec */}
+      <View style={styles.fund_sec}>
+        <Text style={styles.month}>
+          {isLumpsum === true ? "Lumpsum" : "SIP Per Month"}
+        </Text>
+      </View>
 
-        <View style={styles.fund_sec}>
-          <Text style={styles.month}>
-            {props.navigation.state.params.isLumpsum === true
-              ? "LumpSum Amount"
-              : "SIP Per Month"}
-          </Text>
-        </View>
+      <View style={styles.fund_sec}>
+        <Text style={styles.investment}>
+          Recommended
+          <Text style={{ color: Colors.RED }}>{`\n${goalDetail?.goal}`}</Text>
+        </Text>
+        <Text style={styles.price}>{`₹${
+          totalAmount ? Number(totalAmount).toFixed(0) : 0
+        }`}</Text>
+      </View>
 
-        {/* Monthly Investment_sec */}
-
-        <View style={styles.fund_sec}>
-          <Text style={styles.investment}>
-            {props.navigation.state.params.isLumpsum === true
-              ? ""
-              : "Monthly Investment"}
-          </Text>
-          {/* {planYourGoalsDetails && ( */}
-          <Text style={styles.price}>{`₹${planYourGoalsDetails.toFixed(
-            0
-          )}`}</Text>
-          {/* )} */}
-        </View>
-
-        <GoalFundType
-          data={mygolelist}
-          myGoles={myGoles}
-          selectedOption={
-            props.navigation.state.params.isLumpsum === true ? "LUMPSUM" : "SIP"
-          }
-          onPress={(item) => {
-            fundDetails(item);
-            props.navigation.navigate("FundsDetails", {
-              fromScreen: "PlanList",
-            });
-          }}
-          handleDelete={handleDelete}
-        />
-      </ScrollView>
-      <TouchableOpacity onPress={() => props.navigation.navigate("PlanSearch")}>
+      <GoalFundType
+        data={mygolelist}
+        myGoles={myGoles}
+        selectedOption={isLumpsum === true ? "LUMPSUM" : "SIP"}
+        onPress={(item) => {
+          fundDetails(item);
+          disableFunds();
+          navigation.navigate("FundsDetails", {
+            fromScreen: "PlanHome",
+          });
+        }}
+        handleDelete={handleDelete}
+        showModified={showModified}
+      />
+      <TouchableOpacity
+        onPress={() => {
+          //disableFunds();
+          navigation.navigate("PlanSearch", { isLumpsum: isLumpsum });
+        }}
+      >
         <Text style={styles.add}>I would like to add more funds</Text>
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
+          setChildName(childName);
+
           let sum = 0;
           for (let item in mygolelist) {
-            sum = sum + getSip(mygolelist[item].schemeInfo.sip);
+            let amount = mygolelist[item].schemeInfo?.sip
+              ? mygolelist[item].schemeInfo?.sip
+              : showModified
+              ? mygolelist[item].schemeInfo?.allocationAmountModifiled
+                ? mygolelist[
+                    item
+                  ].schemeInfo?.allocationAmountModifiled.toFixed(0)
+                : 0
+              : mygolelist[item].schemeInfo?.allocationAmount
+              ? mygolelist[item].schemeInfo?.allocationAmount.toFixed(0)
+              : 0;
+            sum = sum + getSip(amount);
           }
 
           let goals = mygolelist.filter((item) => {
-            return parseInt(item.schemeInfo.sip) > 0 ? true : false;
+            let amount = item.schemeInfo?.sip
+              ? item.schemeInfo?.sip
+              : showModified
+              ? item?.schemeInfo?.allocationAmountModifiled
+                ? item?.schemeInfo?.allocationAmountModifiled.toFixed(0)
+                : 0
+              : item?.schemeInfo?.allocationAmount
+              ? item?.schemeInfo?.allocationAmount.toFixed(0)
+              : 0;
+            return parseInt(amount) > 0 ? true : false;
           });
 
           if (goals) {
@@ -188,18 +232,20 @@ function PlanListScreen(props) {
                 alert("Amount is less than minimum amount");
                 return;
               }
-              if (parseInt(goals[item].schemeInfo.sip) % 500 !== 0) {
-                alert("Amount must be a multiple of 500");
-                return;
-              }
+              //if (parseInt(goals[item].schemeInfo.sip) % 500 !== 0) {
+              //alert("Amount must be a multiple of 500");
+              //return;
+              //}
             }
           }
 
           /* Don't allow if sum of all investments exceed the amount */
-          if (sum > Number(planYourGoalsDetails).toFixed(0)) {
+          if (sum > totalAmount) {
             Alert.alert(
               "Amount exceeds total",
-              "Total invested amount exceeds the amount specified. Proceed?",
+              `Total invested amount exceeds the amount by ₹${(
+                sum - totalAmount
+              ).toFixed(2)}. Proceed?`,
               [
                 {
                   text: "Don't",
@@ -214,17 +260,23 @@ function PlanListScreen(props) {
                       sum
                     );
                     newInvestment(params, token);
-                    props.navigation.navigate("PlanSubmit", {
+                    disableFunds();
+                    navigation.navigate("PlanSubmit", {
                       sum: sum,
-                      isLumpsum: props.navigation.state.params.isLumpsum,
+                      isLumpsum,
+                      showModified,
                     });
                   },
                 },
               ],
               { cancelable: false }
             );
-          } else if (sum < Number(planYourGoalsDetails).toFixed(0)) {
-            alert("Invested amount less than the total!");
+          } else if (sum < totalAmount) {
+            alert(
+              `Invested amount less than the total by ₹${(
+                totalAmount - sum
+              ).toFixed(2)}`
+            );
           } else {
             let params = getParams(
               //myInvestlist.filter((value) => !isNaN(value.schemes.sip)),
@@ -232,9 +284,11 @@ function PlanListScreen(props) {
               sum
             );
             newInvestment(params, token);
-            props.navigation.navigate("PlanSubmit", {
+            disableFunds();
+            navigation.navigate("PlanSubmit", {
               sum: sum,
-              isLumpsum: props.navigation.state.params.isLumpsum,
+              isLumpsum,
+              showModified,
             });
           }
         }}
@@ -249,7 +303,7 @@ function PlanListScreen(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.WHITE,
+    //backgroundColor: "#fff",
   },
   logimg: {
     height: 65,
@@ -316,9 +370,11 @@ const styles = StyleSheet.create({
     right: 0,
   },
   investment: {
-    fontSize: 15,
+    fontSize: 18,
     fontWeight: "bold",
     color: Colors.DEEP_GRAY,
+    marginTop: -18,
+    //textAlign: "center",
   },
   price: {
     fontSize: 20,
@@ -495,6 +551,9 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     },
     newInvestment: (params, token) => {
       GoalsActions.goalUser(dispatch, params, token);
+    },
+    setChildName: (name) => {
+      GoalsActions.setChildName(dispatch, name);
     },
   };
 };

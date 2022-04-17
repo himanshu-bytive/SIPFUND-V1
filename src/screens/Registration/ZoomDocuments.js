@@ -43,6 +43,7 @@ const zoomDocuments = (props) => {
               style={{
                 width: "85%",
                 height: "95%",
+                resizeMode: "contain",
               }}
             />
           </View>

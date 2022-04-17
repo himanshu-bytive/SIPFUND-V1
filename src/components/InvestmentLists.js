@@ -14,7 +14,19 @@ export default function InvestmentLists(props) {
                 onPress={() => onPress(item)}
                 style={{ width: "100%" }}
               >
-                <MyImage width="100%" svg={true} url={item?.planImagePath} />
+                {item.plan === "Sector Funds" ? (
+                  <Image
+                    source={require("../../assets/sector.png")}
+                    style={{
+                      resizeMode: "contain",
+                      alignSelf: "center",
+                      aspectRatio: 1,
+                    }}
+                    width={"100%"}
+                  />
+                ) : (
+                  <MyImage width="100%" svg={true} url={item?.planImagePath} />
+                )}
                 <Text style={styles.long}>{item.plan}</Text>
               </TouchableOpacity>
             )}
@@ -31,7 +43,25 @@ export default function InvestmentLists(props) {
               onPress={() => onPress(item)}
               style={{ width: "100%" }}
             >
-              <MyImage width="100%" svg={true} url={item?.planImagePath} />
+              {item.plan === "Sector Funds" ? (
+                <Image
+                  source={require("../../assets/sector.png")}
+                  style={{
+                    resizeMode: "contain",
+                    alignSelf: "center",
+                    //aspectRatio: 1,
+                    width: 50,
+                    height: 50,
+                  }}
+                />
+              ) : (
+                <MyImage
+                  width={50}
+                  height={50}
+                  svg={true}
+                  url={item?.planImagePath}
+                />
+              )}
               <Text style={styles.long}>{item.plan}</Text>
             </TouchableOpacity>
           </View>
@@ -48,19 +78,19 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   investment: {
-    borderRadius: 10,
+    //borderRadius: 10,
     backgroundColor: Colors.WHITE,
-    width: "29.333%",
+    width: "23%",
     alignItems: "center",
-    margin: "2%",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.23,
-    shadowRadius: 2.62,
-    elevation: 4,
+    margin: "1%",
+    //shadowColor: "#000",
+    //shadowOffset: {
+    //width: 0,
+    //height: 2,
+    //},
+    //shadowOpacity: 0.23,
+    //shadowRadius: 2.62,
+    //elevation: 4,
   },
   term: {
     width: "100%",
@@ -70,8 +100,8 @@ const styles = StyleSheet.create({
   long: {
     textAlign: "center",
     paddingVertical: 10,
-    //paddingHorizontal: 15,
-    fontSize: 14,
-    fontWeight: "bold",
+    paddingHorizontal: 5,
+    fontSize: 13,
+    //fontWeight: "bold",
   },
 });

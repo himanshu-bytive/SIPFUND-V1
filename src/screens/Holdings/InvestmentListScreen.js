@@ -139,6 +139,7 @@ function InvestmentListScreen(props) {
                   width="70"
                   height="70"
                   svg={true}
+                  sector={item?.plan === "Sector Funds" ? true : false}
                   url={item?.planImagePath}
                 />
                 <Text style={styles.Longterm}>{item?.plan}</Text>

@@ -54,13 +54,13 @@ function SideMenu(props) {
   const [enableMandate, setEnableMandate] = useState(false);
   const [enableKyc, setEnableKyc] = useState(false);
 
-  useEffect(() => {
-    if (userDetails?.signUpSteps >= 6) {
-      setEnableMandate(true);
-    } else if (userDetails?.signUpSteps >= 4) {
-      setEnableKyc(true);
-    }
-  }, [userDetails]);
+  //useEffect(() => {
+  //if (userDetails?.signUpSteps >= 6) {
+  //setEnableMandate(true);
+  //} else if (userDetails?.signUpSteps >= 4) {
+  //setEnableKyc(true);
+  //}
+  //}, [userDetails]);
 
   useEffect(() => {
     if (profile) {
@@ -120,6 +120,7 @@ function SideMenu(props) {
   };
 
   const handlEemandateValue = () => {
+    setVisibleEmandateValue(null);
     var date = new Date();
     date = date.toDateString().split(" ");
     if (emandateValue) {
@@ -203,19 +204,14 @@ function SideMenu(props) {
         <View style={styles.emaMainbox}>
           <Text style={styles.emaAmc}>Choose AMC Option:</Text>
           {emandateLists.map((item, key) => (
-            <TouchableOpacity key={key}>
-              <CheckBox
-                onPress={() => handlEemandate(item)}
-                containerStyle={{
-                  margin: 0,
-                  backgroundColor: Colors.TRANSPARENT,
-                  borderColor: Colors.TRANSPARENT,
-                }}
-                checkedColor={Colors.LIGHT_RED1}
-                title={item.description}
-                checkedIcon="dot-circle-o"
-                uncheckedIcon="circle-o"
-              />
+            <TouchableOpacity
+              style={{
+                marginVertical: 8,
+              }}
+              key={key}
+              onPress={() => handlEemandate(item)}
+            >
+              <Text>{item?.description}</Text>
             </TouchableOpacity>
           ))}
           <TouchableOpacity onPress={() => setVisibleEmandate(false)}>
@@ -237,7 +233,7 @@ function SideMenu(props) {
             placeholder="Amount"
           />
           <View style={{ flexDirection: "row", alignSelf: "flex-end" }}>
-            <TouchableOpacity onPress={() => visibleEmandateValue(null)}>
+            <TouchableOpacity onPress={() => setVisibleEmandateValue(null)}>
               <Text style={styles.refreshcode}>CANCEL</Text>
             </TouchableOpacity>
             <TouchableOpacity>
@@ -391,7 +387,19 @@ function SideMenu(props) {
 
         <TouchableOpacity
           onPress={() => {
-            if (userDetails?.IIN && enableKyc) {
+            if (userDetails?.IIN && profile?.KYC_STATUS === "Y") {
+              if (profile?.ACTIVATION_STATUS === "YES") {
+                ToastAndroid.show(
+                  "Your KYC is already registered and your account is active. You can start your investment journey now",
+                  ToastAndroid.LONG
+                );
+              } else {
+                ToastAndroid.show(
+                  "Your KYC is already registered. Please upload the documents in the documents section to proceed with your account activation",
+                  ToastAndroid.LONG
+                );
+              }
+            } else if (userDetails?.IIN) {
               getList(token);
               pageActiveKyc.current = true;
             } else {
@@ -414,7 +422,7 @@ function SideMenu(props) {
 
         <TouchableOpacity
           onPress={() => {
-            if (userDetails && enableMandate) {
+            if (userDetails && userDetails?.signUpSteps >= 6) {
               emandateOptions(token);
               pageActiveEmandate.current = true;
             } else {
@@ -471,7 +479,7 @@ function SideMenu(props) {
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() => Linking.openURL(`tel:7064442444`)}
+          onPress={() => Linking.openURL(`tel:+917064442444`)}
           style={[styles.profile_sec, styles.profile]}
         >
           <View>
@@ -495,6 +503,17 @@ function SideMenu(props) {
           </View>
           <View>
             <Text style={[styles.know_text, styles.know]}>About Us</Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => props.navigation.navigate("splash")}
+          style={[styles.profile_sec, styles.profile]}
+        >
+          <View>
+            <Feather name={"log-out"} size={30} color={Colors.GRAY_LIGHT_4} />
+          </View>
+          <View>
+            <Text style={[styles.know_text, styles.know]}>Logout</Text>
           </View>
         </TouchableOpacity>
       </ScrollView>
@@ -536,7 +555,10 @@ const styles = StyleSheet.create({
     color: Colors.RED,
   },
   profileText: {
-    color: Colors.WHITE, fontSize: 20, marginVertical: 3, width: '60%'
+    color: Colors.WHITE,
+    fontSize: 20,
+    marginVertical: 3,
+    width: "60%",
   },
   know: { color: Colors.BLACK },
   border: {

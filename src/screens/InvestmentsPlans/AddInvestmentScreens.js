@@ -110,6 +110,106 @@ function AddInvestmentScreens(props) {
     setInvest(newText.replace(/^0+/, ""));
   };
 
+  function number2text(value) {
+    var fraction = Math.round(frac(value) * 100);
+    var f_text = "";
+
+    if (fraction > 0) {
+      f_text = "and " + convert_number(fraction) + " Paise";
+    }
+
+    return convert_number(value) + " Rupee " + f_text + "Only";
+  }
+
+  function frac(f) {
+    return f % 1;
+  }
+
+  function convert_number(number) {
+    if (number < 0 || number > 999999999) {
+      return "NUMBER OUT OF RANGE!";
+    }
+    var Gn = Math.floor(number / 10000000); /* Crore */
+    number -= Gn * 10000000;
+    var kn = Math.floor(number / 100000); /* lakhs */
+    number -= kn * 100000;
+    var Hn = Math.floor(number / 1000); /* thousand */
+    number -= Hn * 1000;
+    var Dn = Math.floor(number / 100); /* Tens (deca) */
+    number = number % 100; /* Ones */
+    var tn = Math.floor(number / 10);
+    var one = Math.floor(number % 10);
+    var res = "";
+
+    if (Gn > 0) {
+      res += convert_number(Gn) + " Crore";
+    }
+    if (kn > 0) {
+      res += (res == "" ? "" : " ") + convert_number(kn) + " Lakh";
+    }
+    if (Hn > 0) {
+      res += (res == "" ? "" : " ") + convert_number(Hn) + " Thousand";
+    }
+
+    if (Dn) {
+      res += (res == "" ? "" : " ") + convert_number(Dn) + " Hundred";
+    }
+
+    var ones = Array(
+      "",
+      "One",
+      "Two",
+      "Three",
+      "Four",
+      "Five",
+      "Six",
+      "Seven",
+      "Eight",
+      "Nine",
+      "Ten",
+      "Eleven",
+      "Twelve",
+      "Thirteen",
+      "Fourteen",
+      "Fifteen",
+      "Sixteen",
+      "Seventeen",
+      "Eighteen",
+      "Nineteen"
+    );
+    var tens = Array(
+      "",
+      "",
+      "Twenty",
+      "Thirty",
+      "Forty",
+      "Fifty",
+      "Sixty",
+      "Seventy",
+      "Eighty",
+      "Ninety"
+    );
+
+    if (tn > 0 || one > 0) {
+      if (!(res == "")) {
+        res += " and ";
+      }
+      if (tn < 2) {
+        res += ones[tn * 10 + one];
+      } else {
+        res += tens[tn];
+        if (one > 0) {
+          res += " " + ones[one];
+        }
+      }
+    }
+
+    if (res == "") {
+      res = "zero";
+    }
+    return res;
+  }
+
   return (
     <View style={styles.container}>
       <Header
@@ -150,8 +250,8 @@ function AddInvestmentScreens(props) {
           </View>
           <View style={styles.child_sec}>
             <MyImage
-              width="145"
-              height="145"
+              width="120"
+              height="120"
               svg={true}
               url={investment.planImagePath}
             />
@@ -221,6 +321,9 @@ function AddInvestmentScreens(props) {
             maxLength={9}
           />
         </View>
+        <Text style={{ marginHorizontal: 30, marginTop: 20 }}>
+          {number2text(Number(invest))}
+        </Text>
         {/* <Text style={styles.number}>Sixteen thousand</Text> */}
         <View style={styles.yearly_section}>
           <View>
@@ -270,7 +373,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
   },
   education_sec: {
-    width: "70%",
+    width: "60%",
     paddingTop: 10,
   },
   goals_2: {
@@ -283,11 +386,11 @@ const styles = StyleSheet.create({
     color: Colors.RED,
   },
   child_text: {
-    fontSize: 18,
+    fontSize: 16,
     color: Colors.DEEP_GRAY,
     paddingVertical: 10,
     fontWeight: "bold",
-    marginTop: 30,
+    marginTop: 20,
   },
   botton_box: {
     backgroundColor: Colors.RED,

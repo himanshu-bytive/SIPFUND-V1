@@ -92,7 +92,30 @@ function GoalsSummaryScreen(props) {
         </View>
       )}
 
-      <ScrollView>
+      <View
+        style={{
+          position: "absolute",
+          zIndex: -1,
+          width: "100%",
+          backgroundColor: "#f7dfd6",
+          alignItems: "center",
+          paddingBottom: 120,
+          top: 108,
+          borderBottomLeftRadius: 50,
+          borderBottomRightRadius: 50,
+        }}
+      >
+        <Image
+          source={require("../../../assets/goals1_img1.png")}
+          style={styles.goals1_img1}
+        />
+        <Text style={styles.text_goals}>Holdings</Text>
+      </View>
+      <ScrollView
+        style={{
+          marginTop: 110,
+        }}
+      >
         <View style={Styles.header_top}>
           <View style={styles.goals1_img1} />
           <Text style={styles.text_goals}></Text>
@@ -256,6 +279,7 @@ const styles = StyleSheet.create({
   },
 
   education: {
+    backgroundColor: "#fff",
     flexDirection: "row",
     borderWidth: 2,
     borderStyle: "solid",
@@ -265,6 +289,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   education_2: {
+    backgroundColor: "#fff",
     flexDirection: "row",
     borderWidth: 1,
     borderStyle: "solid",

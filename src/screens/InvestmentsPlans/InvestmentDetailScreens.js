@@ -120,10 +120,10 @@ function InvestmentDetailScreens(props) {
               )
             );
           })*/}
-      {Object.keys(investment.schemes).map(category => {
-          return(
-              <>
-              {investment.schemes[category].map(item => (
+        {Object.keys(investment.schemes).map((category) => {
+          return (
+            <>
+              {investment.schemes[category].map((item) => (
                 <View key={item?.productCode} style={styles.sbi_sec}>
                   <Image
                     source={{ uri: item?.imagePath }}
@@ -131,12 +131,10 @@ function InvestmentDetailScreens(props) {
                   />
                   <Text style={styles.sbi_text}>{item?.name}</Text>
                 </View>
-
               ))}
-              </>
-          )
-      }
-      )}
+            </>
+          );
+        })}
       </ScrollView>
       <TouchableOpacity
         onPress={() => props.navigation.navigate("AddInvestment")}
@@ -204,11 +202,12 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     borderColor: Colors.DEEP_GRAY,
     paddingBottom: 10,
-    marginVertical: 6,
+    //marginVertical: 6,
+    alignItems: "center",
   },
   Hybrid: {
-    width: 50,
-    height: 50,
+    width: 30,
+    aspectRatio: 1,
     resizeMode: "contain",
   },
   sbi_text: {

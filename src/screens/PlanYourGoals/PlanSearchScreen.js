@@ -36,7 +36,7 @@ function PlanSearchScreen(props) {
     funds,
     mygolelist,
     myGoles,
-      fundDetails
+    fundDetails,
   } = props;
 
   useEffect(() => {
@@ -55,8 +55,8 @@ function PlanSearchScreen(props) {
     }, 1000);
   };
 
-    const getFormattedItem = (value) => {
-        return {
+  const getFormattedItem = (value) => {
+    return {
       schemeInfo: {
         type: "new",
         amc_code: "101",
@@ -64,16 +64,21 @@ function PlanSearchScreen(props) {
         name: value.productDisplayName,
         productCode: value.productISIN,
         isin: value.productISIN,
+        default_min_amount: props.navigation.state.params?.isLumpsum
+          ? value.minimumLumpsumAmount
+          : value.minimumSIPAmount,
+        default_date: value?.sipDates.split(",")[0],
+        sipDates: value?.sipDates ? value?.sipDates.split(",") : [1],
       },
       schems: value.productName,
-    }
-    }
+    };
+  };
 
   const addRemove = (value) => {
     let list = mygolelist ? JSON.parse(JSON.stringify(mygolelist)) : [];
     list.push(getFormattedItem(value));
     myGoles(list);
-    props.navigation.navigate("PlanList");
+    props.navigation.navigate("PlanHome");
   };
 
   return (
@@ -160,12 +165,14 @@ function PlanSearchScreen(props) {
                 </View>
               </View>
               <View style={styles.icon}>
-            <TouchableOpacity onPress={() => {
-                fundDetails(getFormattedItem(item).schemeInfo)
-            props.navigation.navigate("FundsDetails", {
-              fromScreen: "PlanSearch",
-            });
-            }}>
+                <TouchableOpacity
+                  onPress={() => {
+                    fundDetails(getFormattedItem(item).schemeInfo);
+                    props.navigation.navigate("FundsDetails", {
+                      fromScreen: "PlanSearch",
+                    });
+                  }}
+                >
                   <AntDesign name="right" size={30} color="#838280" />
                 </TouchableOpacity>
               </View>
@@ -180,6 +187,7 @@ function PlanSearchScreen(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#fff",
   },
   axis_asset: {
     marginHorizontal: 20,

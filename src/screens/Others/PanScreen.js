@@ -120,7 +120,7 @@ function PanScreen(props) {
                 onPress={() => onAction()}
                 style={styles.botton_box}
               >
-                <Text style={styles.get_otp}>CREATE ACCOUNT</Text>
+                <Text style={styles.get_otp}>CREATE</Text>
               </TouchableOpacity>
             )}
           </View>

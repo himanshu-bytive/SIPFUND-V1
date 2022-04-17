@@ -26,6 +26,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import { HoldingFundType } from "../../components";
 import moment from "moment";
 import { OwnerChoice } from "..";
+import Cart from "../../components/Cart";
 
 function OwnChoiceHoldings(props) {
   const { isFetching, token, goalSummary, users, summary } = props;
@@ -56,13 +57,11 @@ function OwnChoiceHoldings(props) {
             />
           }
           rightComponent={
-            <View style={Styles.headerkn}>
-              <Text style={Styles.textkn}>
-                {users?.name
-                  ? `${users?.name[0]}${users?.name.split(" ").pop()[0]}`
-                  : ""}
-              </Text>
-            </View>
+            <Cart
+              nav={() => {
+                props.navigation.navigate("TopRatedList");
+              }}
+            />
           }
         />
         <Image

@@ -205,7 +205,7 @@ function HomeScreen(props) {
                           ? "Congratulations"
                           : users?.name
                           ? `Hello, ${users?.name}`
-                          : `Hello Investor`}
+                          : `Hello, Investor`}
                       </Text>
                       <Text
                         style={[
@@ -274,8 +274,8 @@ function HomeScreen(props) {
               <View style={styles.education}>
                 <View style={styles.child_sec}>
                   <MyImage
-                    width="145"
-                    height="145"
+                    width="100%"
+                    height="130"
                     svg={true}
                     url={item.goalImagePath}
                   />
@@ -295,14 +295,13 @@ function HomeScreen(props) {
         <Text style={styles.Plan}>Investment Plans</Text>
         <InvestmentLists
           data={investments}
-          counts={6}
           onPress={(item) => {
             toggleLoading(true);
             investmentPlans(item, token);
             pageActiveInvest.current = true;
           }}
         />
-        <View style={{ alignItems: "center" }}>
+        {/*<View style={{ alignItems: "center" }}>
           <TouchableOpacity
             onPress={() => props.navigation.navigate("InvestmentListAll")}
           >
@@ -311,7 +310,7 @@ function HomeScreen(props) {
               <AntDesign name="down" size={20} color="#C0392B" />
             </View>
           </TouchableOpacity>
-        </View>
+        </View>*/}
 
         <View style={styles.border}></View>
 
@@ -911,7 +910,8 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     marginVertical: 20,
     marginHorizontal: 5,
-    padding: 10,
+    //padding: 10,
+    paddingHorizontal: 10,
     backgroundColor: Colors.WHITE,
     shadowColor: "#000",
     shadowOffset: {
@@ -935,13 +935,13 @@ const styles = StyleSheet.create({
     //maxWidth: "70%",
   },
 
-  child_sec: { width: "30%" },
+  child_sec: { width: "30%", marginHorizontal: 10 },
   goals_2: {
     height: 145,
     width: 145,
   },
   education_sec: {
-    width: "70%",
+    width: "65%",
     marginTop: 10,
   },
   child: {

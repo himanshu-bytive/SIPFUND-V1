@@ -25,6 +25,7 @@ import { Image, Header, CheckBox } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
 import { HoldingFundType } from "../../components";
 import moment from "moment";
+import Cart from "../../components/Cart";
 
 function TopRatedFundsScreen(props) {
   const { isFetching, token, goalSummary, users, summary } = props;
@@ -57,13 +58,11 @@ function TopRatedFundsScreen(props) {
             />
           }
           rightComponent={
-            <View style={Styles.headerkn}>
-              <Text style={Styles.textkn}>
-                {users?.name
-                  ? `${users?.name[0]}${users?.name.split(" ").pop()[0]}`
-                  : ""}
-              </Text>
-            </View>
+            <Cart
+              nav={() => {
+                props.navigation.navigate("TopRatedList");
+              }}
+            />
           }
         />
         <Image
@@ -164,7 +163,7 @@ function TopRatedFundsScreen(props) {
         </View>
 
         <Text style={styles.Investments}>Invest Now</Text>
-        <TopRatedHomeScreen showInside={true} />
+        <TopRatedHomeScreen showInside={true} nav={props.navigation.navigate} />
       </ScrollView>
     </View>
   );

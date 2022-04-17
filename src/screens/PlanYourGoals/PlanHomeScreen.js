@@ -19,6 +19,7 @@ import {
 } from "react-native-vector-icons";
 import { Image, Header } from "react-native-elements";
 import Cart from "../../components/Cart";
+import PlanListScreen from "./PlanListScreen";
 
 function PlanHomeScreen(props) {
   const pageActive = useRef(false);
@@ -36,6 +37,8 @@ function PlanHomeScreen(props) {
     setChildName,
   } = props;
 
+  const [showFunds, setShowFunds] = useState(false);
+  const [enableButton, setEnableButton] = useState(false);
   const [additionalInfo, setAdditionalInfo] = useState({});
   const [amount, setAmount] = useState(1000);
   const [time, setTime] = useState(0);
@@ -92,7 +95,7 @@ function PlanHomeScreen(props) {
     }
   }, [goalDetail]);
 
-  useEffect(() => {
+  const calculateAmount = () => {
     let requiredCorp;
     if (goalDetail?.goal === "Retirement") {
       const futureCost = amount * Math.pow(1 + inflation / 100, time);
@@ -114,10 +117,44 @@ function PlanHomeScreen(props) {
       setSipAmount(0);
       setRequiredInvestment(0);
       setLumpsumAmount(0);
+      setShowFunds(false);
     } else {
       setSipAmount(sipAmount1.toFixed(2));
       setRequiredInvestment(sipAmount1 * time * 12);
       setLumpsumAmount(constant2 / Math.pow(1 + returnRate / 100, time));
+      switchTabs();
+      setShowFunds(true);
+    }
+    setEnableButton(false);
+  };
+
+  async function switchTabs() {
+    await setSelectTab("LUMPSUM");
+    await setSelectTab("SIP");
+  }
+
+  useEffect(() => {
+    let requiredCorp;
+    if (goalDetail?.goal === "Retirement") {
+      const futureCost = amount * Math.pow(1 + inflation / 100, time);
+      requiredCorp = futureCost * (100 / returnRate) * 12;
+    } else {
+      requiredCorp = amount * Math.pow(1 + inflation / 100, time);
+    }
+    if (requiredCorp <= 0 || !isFinite(requiredCorp)) {
+      setInflationAdjusted(0);
+    } else {
+      setInflationAdjusted(requiredCorp.toFixed(2));
+    }
+    const constant2 =
+      requiredCorp - investment * Math.pow(1 + returnRate / 100, time);
+    const rate1 = returnRate / 1200;
+    const sipAmount1 =
+      constant2 * ((1 - (1 + rate1)) / (1 - Math.pow(1 + rate1, time * 12)));
+    if (sipAmount1 <= 0 || !isFinite(sipAmount1)) {
+      setEnableButton(false);
+    } else {
+      setEnableButton(true);
     }
   }, [amount, time, investment, inflation, returnRate]);
 
@@ -153,11 +190,23 @@ function PlanHomeScreen(props) {
     return year + Number(time);
   };
 
-  useEffect(() => {
+  const refreshFunds = () => {
     if (token) {
-      singleDetails({ goal: goalDetail?.goal, years: Number(time) }, token);
+      singleDetails(
+        {
+          goal: goalDetail?.goal,
+          years: Number(time),
+          investmentAmount: selectTab === "SIP" ? sipAmount : lumpsumAmount,
+          trxn_type: selectTab === "SIP" ? "S" : "L",
+        },
+        token
+      );
     }
-  }, [time]);
+  };
+
+  useEffect(() => {
+    refreshFunds();
+  }, [selectTab]);
 
   return (
     <View style={styles.container}>
@@ -165,6 +214,10 @@ function PlanHomeScreen(props) {
         leftComponent={
           <TouchableOpacity
             onPress={() => {
+              setSipAmount(0);
+              setLumpsumAmount(0);
+              setRequiredInvestment(0);
+              setShowFunds(false);
               props.navigation.state.params?.toggleLoading(false);
               props.navigation.navigate("Home");
             }}
@@ -202,8 +255,26 @@ function PlanHomeScreen(props) {
             />
           </View>
           <View style={styles.education_sec}>
-            <Text style={styles.child}>{goalDetail?.goal}</Text>
-            <Text style={styles.child_text}>{goalDetail?.goalDescription}</Text>
+            <Text
+              style={{
+                fontSize: 22,
+                fontWeight: "bold",
+                color: "#808080",
+                marginLeft: 10,
+              }}
+            >
+              Calculator
+            </Text>
+            <Text
+              style={{
+                fontSize: 18,
+                fontWeight: "bold",
+                color: Colors.RED,
+                marginLeft: 10,
+              }}
+            >
+              {goalDetail?.goal}
+            </Text>
           </View>
         </View>
 
@@ -314,47 +385,69 @@ function PlanHomeScreen(props) {
           Note : Assuming current inflation rate at {inflation}% and expected
           return rate on saving as {returnRate}%.
         </Text>
+        <TouchableOpacity
+          onPress={calculateAmount}
+          disabled={!enableButton}
+          style={[
+            styles.botton_box,
+            {
+              flex: 0,
+              width: "50%",
+              alignSelf: "center",
+              paddingVertical: 10,
+              backgroundColor: enableButton ? Colors.RED : Colors.DARK_GREY,
+            },
+          ]}
+        >
+          <Text style={styles.get_otp}>Calculate</Text>
+        </TouchableOpacity>
 
-        <View style={styles.click_sec}>
-          <TouchableOpacity
-            onPress={() => toggleTab("SIP")}
-            style={
-              selectTab == "SIP" ? styles.buttom_botton2 : styles.buttom_botton
-            }
-          >
-            <Text
-              style={selectTab == "SIP" ? styles.sip_text2 : styles.sip_text}
-            >
-              SIP
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => toggleTab("LUMPSUM")}
-            style={
-              selectTab == "LUMPSUM"
-                ? styles.buttom_botton2
-                : styles.buttom_botton
-            }
-          >
-            <Text
-              style={
-                selectTab == "LUMPSUM" ? styles.sip_text2 : styles.sip_text
-              }
-            >
-              Lumpsum
-            </Text>
-          </TouchableOpacity>
-        </View>
-
-        {/* image_sec end */}
-        <View style={{ marginHorizontal: 20 }}>
-          <View
-            style={{ borderWidth: 2, borderColor: Colors.GRAY_LIGHT }}
-          ></View>
-        </View>
+        {showFunds && (
+          <>
+            <View style={styles.click_sec}>
+              <TouchableOpacity
+                onPress={() => toggleTab("SIP")}
+                style={
+                  selectTab == "SIP"
+                    ? styles.buttom_botton2
+                    : styles.buttom_botton
+                }
+              >
+                <Text
+                  style={
+                    selectTab == "SIP" ? styles.sip_text2 : styles.sip_text
+                  }
+                >
+                  {`SIP\n₹${Number(sipAmount).toFixed(0)}`}
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => toggleTab("LUMPSUM")}
+                style={
+                  selectTab == "LUMPSUM"
+                    ? styles.buttom_botton2
+                    : styles.buttom_botton
+                }
+              >
+                <Text
+                  style={
+                    selectTab == "LUMPSUM" ? styles.sip_text2 : styles.sip_text
+                  }
+                >
+                  {`Lumpsum\n₹${Number(lumpsumAmount).toFixed(0)}`}
+                </Text>
+              </TouchableOpacity>
+            </View>
+            <View style={{ marginHorizontal: 20 }}>
+              <View
+                style={{ borderWidth: 2, borderColor: Colors.GRAY_LIGHT }}
+              ></View>
+            </View>
+          </>
+        )}
 
         {/* SIP */}
-        {selectTab == "SIP" && (
+        {showFunds && selectTab == "SIP" && (
           <View>
             <View style={styles.calender}>
               <View style={styles.date}>
@@ -387,10 +480,6 @@ function PlanHomeScreen(props) {
                 borderColor: Colors.GRAY_LIGHT,
               }}
             ></View>
-            <Text style={styles.rupeestext}>
-              ₹{Number(sipAmount).toFixed(0)}
-            </Text>
-            <Text style={styles.requird}>Monthly SIP required</Text>
             <View style={styles.want}>
               <Text style={styles.want_text}>
                 I want to know total monthly amount to be invested to achieve my
@@ -401,7 +490,7 @@ function PlanHomeScreen(props) {
         )}
 
         {/* LUMPSUM */}
-        {selectTab == "LUMPSUM" && (
+        {showFunds && selectTab == "LUMPSUM" && (
           <View>
             <View style={styles.calender}>
               <View style={styles.date}>
@@ -435,16 +524,21 @@ function PlanHomeScreen(props) {
                 borderColor: Colors.GRAY_LIGHT,
               }}
             ></View>
-            <Text style={styles.rupeestext}>
-              ₹{Number(lumpsumAmount).toFixed(0)}
-            </Text>
-            <Text style={styles.requird}>Lumpsum Amount</Text>
           </View>
         )}
+        {showFunds && (
+          <PlanListScreen
+            navigation={props.navigation}
+            isLumpsum={selectTab === "LUMPSUM" ? true : false}
+            totalAmount={selectTab === "LUMPSUM" ? lumpsumAmount : sipAmount}
+            childName={name}
+            disableFunds={() => setShowFunds(false)}
+          />
+        )}
       </ScrollView>
-      <TouchableOpacity onPress={startGoal} style={styles.botton_box}>
+      {/*<TouchableOpacity onPress={startGoal} style={styles.botton_box}>
         <Text style={styles.get_otp}>START GOAL</Text>
-      </TouchableOpacity>
+      </TouchableOpacity>*/}
     </View>
   );
 }
@@ -452,6 +546,7 @@ function PlanHomeScreen(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#fff",
   },
   sip_sec: {
     flexDirection: "row",
@@ -574,8 +669,9 @@ const styles = StyleSheet.create({
     color: Colors.DEEP_GRAY,
   },
   child_text: {
-    fontSize: 20,
-    color: Colors.RED,
+    fontSize: 14,
+    width: "80%",
+    color: Colors.DEEP_GRAY,
     paddingTop: 15,
     paddingLeft: 20,
     fontWeight: "bold",
@@ -642,12 +738,14 @@ const styles = StyleSheet.create({
     color: Colors.RED,
     fontWeight: "bold",
     paddingVertical: 7,
+    textAlign: "center",
   },
   sip_text2: {
     fontSize: 20,
     color: Colors.WHITE,
     fontWeight: "bold",
     paddingVertical: 7,
+    textAlign: "center",
   },
 
   // calender

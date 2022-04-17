@@ -57,29 +57,42 @@ function GoalDetailScreen(props) {
             </View>
           }
         />
-        <MyImage
-          width="120"
-          height="120"
-          svg={true}
-          url={summaryDetails?.imagePath}
-        />
-        <Text style={styles.text_goals}>{summaryDetails?.goalName}</Text>
-        <View style={styles.education_plan}>
-          <View style={styles.plan_1}>
-            <Image
-              source={require("../../../assets/goals1_img2.png")}
-              style={styles.plan_img}
-            />
-            <Text style={styles.rate}>₹ {summaryDetails?.targetValue}/-</Text>
-            <Text style={styles.Target_Set}>Target Set</Text>
-          </View>
-          <View style={styles.plan_2}>
-            <Image
-              source={require("../../../assets/Iconmaterial_img.png")}
-              style={styles.plan2_img}
-            />
-            <Text style={styles.year}>{summaryDetails?.noOfYears} Years</Text>
-            <Text style={styles.Target_Set}>Time Left to Achieve</Text>
+        <View
+          style={{
+            backgroundColor: "#f7dfd6",
+            position: "absolute",
+            alignItems: "center",
+            zIndex: -1,
+            top: 60,
+            paddingBottom: 50,
+            borderBottomLeftRadius: 50,
+            borderBottomRightRadius: 50,
+          }}
+        >
+          <MyImage
+            width="120"
+            height="120"
+            svg={true}
+            url={summaryDetails?.imagePath}
+          />
+          <Text style={styles.text_goals}>{summaryDetails?.goalName}</Text>
+          <View style={styles.education_plan}>
+            <View style={styles.plan_1}>
+              <Image
+                source={require("../../../assets/goals1_img2.png")}
+                style={styles.plan_img}
+              />
+              <Text style={styles.rate}>₹ {summaryDetails?.targetValue}/-</Text>
+              <Text style={styles.Target_Set}>Target Set</Text>
+            </View>
+            <View style={styles.plan_2}>
+              <Image
+                source={require("../../../assets/Iconmaterial_img.png")}
+                style={styles.plan2_img}
+              />
+              <Text style={styles.year}>{summaryDetails?.noOfYears} Years</Text>
+              <Text style={styles.Target_Set}>Time Left to Achieve</Text>
+            </View>
           </View>
         </View>
       </View>
@@ -106,6 +119,8 @@ const styles = StyleSheet.create({
   },
   containerScroll: {
     width: "100%",
+    marginTop: 200,
+    zIndex: 100,
   },
   logimg: {
     height: 65,
@@ -116,6 +131,7 @@ const styles = StyleSheet.create({
     width: 94,
   },
   text_goals: {
+    marginTop: -20,
     fontSize: 20,
   },
   education_plan: {
@@ -142,7 +158,7 @@ const styles = StyleSheet.create({
   plan_2: {
     alignItems: "center",
     width: "50%",
-    paddingLeft: 40,
+    //paddingLeft: 40,
   },
   plan2_img: {
     height: 60,

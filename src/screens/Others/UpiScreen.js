@@ -12,21 +12,46 @@ import {
 } from "react-native";
 import { connect } from "react-redux";
 import { Styles, Config, Colors, FormValidate } from "../../common";
-import { Ionicons, Entypo } from "react-native-vector-icons";
+import { AntDesign, Entypo } from "react-native-vector-icons";
 import { Image, Header, CheckBox } from "react-native-elements";
+import WebView from "react-native-webview";
 
 function UpiScreen(props) {
-  const { token, profile, user, checkout, umrn, getUMRN, isFetching, error } =
-    props;
+  const {
+    token,
+    profile,
+    user,
+    checkout,
+    umrn,
+    getUMRN,
+    isFetching,
+    error,
+    webUrl,
+  } = props;
 
   const [clicked, setClicked] = useState(false);
+  //const [webUrl, setWebUrl] = useState("");
+  const [webViewActive, setWebViewActive] = useState(false);
+
+  //const loadUrl = (url) => {
+  //setWebViewActive(true);
+  //setWebUrl(url);
+  //};
 
   useEffect(() => {
-    if (isFetching === false && clicked) {
+    if (webUrl) {
+      setWebViewActive(true);
+    }
+  }, [webUrl]);
+
+  useEffect(() => {
+    if (isFetching === false && clicked && error) {
+      setWebViewActive(false);
+      setWebUrl("");
       props.navigation.navigate("Profile");
       props.navigation.navigate("Home");
     }
-  }, [isFetching]);
+  }, [isFetching, error]);
 
   const monthsArr = [
     "Jan",
@@ -163,8 +188,11 @@ function UpiScreen(props) {
               : data[item]?.default_date
           ),
           //sip_period_day: getPeriodDay(d.getDate(), d.getMonth()),
-          sip_period_day:
-            data[item].sipDates[0] == 0 ? 1 : data[item].sipDates[0],
+          sip_period_day: data[item]?.sipDates
+            ? data[item]?.sipDates[0] == 0
+              ? 1
+              : data[item].sipDates[0]
+            : data[item]?.default_date,
         };
       } else if (props.navigation.state.params.fromPlanGoals) {
         format = {
@@ -173,7 +201,15 @@ function UpiScreen(props) {
           folio: "",
           product_code: data[item].schemeInfo.productCode,
           reinvest: "Z",
-          sip_amount: data[item].schemeInfo.sip,
+          sip_amount: data[item].schemeInfo.sip
+            ? data[item].schemeInfo?.sip
+            : props.navigation.state.params?.showModified
+            ? data[item].schemeInfo?.allocationAmountModifiled
+              ? data[item].schemeInfo?.allocationAmountModifiled.toFixed(0)
+              : 0
+            : data[item].schemeInfo?.allocationAmount
+            ? data[item].schemeInfo?.allocationAmount.toFixed(0)
+            : 0,
           sip_end_date: sipEndDate(data[item].schemeInfo.sipDates[0]),
           sip_freq: "OM",
           sip_from_date: sipFromDate(data[item].schemeInfo.sipDates[0]),
@@ -282,8 +318,8 @@ function UpiScreen(props) {
         sip_micr_no: " ",
         sub_broker_arn_code: " ",
         sub_broker_code: " ",
-        sub_trxn_type: props.navigation.state.params.isLumpsum ? "N" : "S",
-        trans_count: props.navigation.state.params.cart.length,
+        sub_trxn_type: props.navigation.state.params?.isLumpsum ? "N" : "S",
+        trans_count: props.navigation.state.params?.cart.length,
         trxn_acceptance: upi || mandate ? "OL" : "ALL",
         trxn_execution: " ",
         umrn: mandate ? umrn.UMRN_NO : " ",
@@ -399,6 +435,60 @@ function UpiScreen(props) {
             </View>
           </View>
         </ScrollView>
+        {webViewActive && (
+          <View
+            style={{
+              position: "absolute",
+              backgroundColor: "white",
+              zIndex: 100,
+              width: Dimensions.get("window").width,
+              height: Dimensions.get("window").height,
+            }}
+          >
+            <Header
+              leftComponent={
+                <TouchableOpacity
+                  onPress={() => {
+                    setWebViewActive(false);
+                    setWebUrl("");
+                    props.navigation.navigate("Profile");
+                    props.navigation.navigate("Home");
+                  }}
+                  style={{ marginTop: 20 }}
+                >
+                  <AntDesign name={"arrowleft"} size={30} color={Colors.RED} />
+                </TouchableOpacity>
+              }
+              rightComponent={
+                <View
+                  style={{
+                    marginTop: 25,
+                    borderWidth: 1,
+                    backgroundColor: Colors.WHITE,
+                    borderColor: Colors.RED,
+                    padding: 5,
+                    borderRadius: 7,
+                  }}
+                >
+                  <Text style={styles.textkn}>
+                    {user?.name
+                      ? `${user?.name[0]}${user?.name.split(" ").pop()[0]}`
+                      : ""}
+                  </Text>
+                </View>
+              }
+              backgroundColor={Colors.LIGHT_WHITE}
+              containerStyle={Styles.header}
+              centerComponent={
+                <Image
+                  source={require("../../../assets/icon.png")}
+                  style={styles.logimg}
+                />
+              }
+            />
+            <WebView source={{ uri: webUrl }} />
+          </View>
+        )}
       </View>
     </>
   );
@@ -471,6 +561,7 @@ const mapStateToProps = (state) => ({
   umrn: state.checkout.umrn,
   isFetching: state.checkout.fetching,
   error: state.checkout.error,
+  webUrl: state.checkout.webUrl,
 });
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {

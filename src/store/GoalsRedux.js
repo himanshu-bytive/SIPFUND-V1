@@ -55,9 +55,15 @@ export const GoalsActions = {
   },
   singleDetails: async (dispatch, params, token) => {
     dispatch({ type: types.FETCH_SINGLE_DETAILS_PENDING });
+    const req = {
+      goal: params.goal,
+      years: params?.years ? params?.years : 5,
+      investmentAmount: params?.investmentAmount,
+      trxn_type: params?.trxn_type,
+    };
     let data = await SiteAPI.apiPostCall(
       `/plan_your_goals/planInfo`,
-      { goal: params.goal, years: params?.years ? params?.years : 5 },
+      req,
       token
     );
     if (data.error) {

@@ -19,16 +19,28 @@ export const CheckoutActions = {
         alert(
           "Transaction completed successfully. Please check your E-Mail/SMS to authorize transaction."
         );
+        dispatch({
+          type: types.FETCH_CHECKOUT_BUTTON_SUCCESS,
+          fetching: false,
+        });
       } else {
         dispatch({
           type: types.FETCH_CHECKOUT_BUTTON_SUCCESS,
           citys: citys.Data.city_master,
         });
-        Linking.openURL(citys?.Data[0].Paymentlink.split(">")[1].split("<")[0]);
+        //Linking.openURL(citys?.Data[0].Paymentlink.split(">")[1].split("<")[0]);
+        dispatch({
+          type: types.FETCH_CHECKOUT_BUTTON_SUCCESS,
+          fetching: false,
+          webUrl: citys?.Data[0].Paymentlink.split(">")[1].split("<")[0],
+        });
       }
-      dispatch({ type: types.FETCH_CHECKOUT_BUTTON_SUCCESS, fetching: false})
     } else {
-      dispatch({ type: types.FETCH_CHECKOUT_BUTTON_FAILURE, fetching: false})
+      dispatch({
+        type: types.FETCH_CHECKOUT_BUTTON_FAILURE,
+        fetching: false,
+        webUrl: "",
+      });
       alert(citys.message);
     }
   },
@@ -66,6 +78,7 @@ const initialState = {
   uploadSuccess: false,
   umrn: {},
   fetching: false,
+  webUrl: "",
 };
 
 export const reducer = (state = initialState, action) => {
@@ -82,6 +95,7 @@ export const reducer = (state = initialState, action) => {
     bankDetails,
     pincodeInfo,
     documents,
+    webUrl,
   } = action;
   switch (type) {
     case types.FETCH_CHECKOUT_BUTTON_PENDING: {
@@ -116,6 +130,7 @@ export const reducer = (state = initialState, action) => {
         error: null,
         citys,
         umrn,
+        webUrl,
       };
     }
 

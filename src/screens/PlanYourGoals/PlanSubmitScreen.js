@@ -77,7 +77,7 @@ function PlanSubmitScreen(props) {
           </View>
           <View style={styles.education_sec}>
             <Text style={styles.child}>Summary</Text>
-            <Text style={styles.child_text}>{goalDetail?.goalDescription}</Text>
+            <Text style={styles.child_text}>{goalDetail?.goal}</Text>
             {goalDetail?.goal === "Child's Education" && (
               <Text style={styles.child_master}>{childName}</Text>
             )}
@@ -91,13 +91,22 @@ function PlanSubmitScreen(props) {
         <View style={styles.fund_sec}>
           <Text style={styles.fund_secleft}>Fund List</Text>
           <Text style={styles.fund_secright}>
-            ₹ {props.navigation.state.params.sum}
+            ₹ {props.navigation.state.params.sum.toFixed(0)}
           </Text>
         </View>
 
         {mygolelist
           .filter(
-            (item) => !isNaN(item.schemeInfo.sip) && item.schemeInfo?.sip != 0
+            (item) =>
+              (!isNaN(item.schemeInfo.sip) &&
+                Number(item.schemeInfo?.sip) != 0) ||
+              (!isNaN(item.schemeInfo.allocationAmount) &&
+                item.schemeInfo.allocationAmount != 0 &&
+                isNaN(item.schemeInfo?.sip) &&
+                !props.navigation.state.params?.showModified) ||
+              (props.navigation.state.params?.showModified &&
+                !isNaN(item?.schemeInfo?.allocationAmountModifiled) &&
+                item?.schemeInfo?.allocationAmountModifiled != 0)
           )
           .map((item, key) => {
             if (item.schemeInfo != "NA") {
@@ -109,7 +118,20 @@ function PlanSubmitScreen(props) {
                   />
                   <Text style={styles.sbi_text}>{item.schemeInfo.name}</Text>
                   <View style={{ flex: 1 }}>
-                    <Text style={styles.price}>₹ {item.schemeInfo.sip}</Text>
+                    <Text style={styles.price}>
+                      ₹{" "}
+                      {item.schemeInfo?.sip
+                        ? item.schemeInfo?.sip
+                        : props.navigation.state.params?.showModified
+                        ? item?.schemeInfo?.allocationAmountModifiled
+                          ? item?.schemeInfo?.allocationAmountModifiled.toFixed(
+                              0
+                            )
+                          : 0
+                        : item?.schemeInfo?.allocationAmount
+                        ? item?.schemeInfo?.allocationAmount.toFixed(0)
+                        : 0}
+                    </Text>
                   </View>
                 </View>
               );
@@ -123,7 +145,9 @@ function PlanSubmitScreen(props) {
         onPress={() => {
           props.navigation.navigate("Upi", {
             cart: mygolelist.filter(
-              (item) => !isNaN(item.schemeInfo.sip) && item.schemeInfo?.sip != 0
+              (item) =>
+                (!isNaN(item.schemeInfo.sip) && item.schemeInfo?.sip != 0) ||
+                !isNaN(item.schemeInfo.allocationAmount)
             ),
             sum: props.navigation.state.params.sum,
             fromPlanGoals: true,
@@ -132,6 +156,7 @@ function PlanSubmitScreen(props) {
             groupId: pincodeInfo?._id,
             groupType: "Goals",
             groupName: goalDetail?.goal,
+            showModified: props.navigation.state.params?.showModified,
           });
         }}
         style={styles.botton_box}
@@ -171,6 +196,7 @@ const styles = StyleSheet.create({
     width: 126,
   },
   child: {
+    fontWeight: "bold",
     fontSize: 18,
     paddingLeft: 20,
     color: Colors.DEEP_GRAY,
@@ -221,7 +247,7 @@ const styles = StyleSheet.create({
   sbi_text: {
     marginLeft: 10,
     fontSize: 15,
-    width: "65%",
+    width: "60%",
   },
   price: {
     paddingTop: 10,

@@ -91,7 +91,17 @@ function NoGoalsScreen(props) {
               </View>
               <View tyle={styles.education_sec}>
                 <Text style={styles.child}>{item.goal}</Text>
-                <Text style={styles.sip}>{item.description}</Text>
+                <Text
+                  style={{
+                    maxWidth: "70%",
+                    fontSize: 10,
+                    fontWeight: "bold",
+                    color: "#7E7E7E",
+                    marginVertical: 5,
+                  }}
+                >
+                  {item.description}
+                </Text>
               </View>
             </View>
           </TouchableOpacity>

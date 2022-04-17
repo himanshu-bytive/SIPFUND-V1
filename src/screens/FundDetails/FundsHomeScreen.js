@@ -350,22 +350,31 @@ function FundsHomeScreen(props) {
           {/* Min Investment_sec */}
           <View style={styles.investment_sec}>
             <View style={styles.investment}>
-              <Text style={styles.price}>
+              <Text numberOfLines={1} style={styles.price}>
                 ₹{(parseInt(assets) / 10000000).toFixed(0)} Cr
               </Text>
               <Text style={styles.min}>Total Assets</Text>
             </View>
             <View style={styles.investment}>
-              <Text style={styles.price}>₹{parseInt(invest).toFixed(0)}</Text>
+              <Text numberOfLines={1} style={styles.price}>
+                ₹{parseInt(invest).toFixed(0)}
+              </Text>
               <Text style={styles.min}>Min. Invest</Text>
             </View>
             <View style={styles.investment}>
-              <Text style={styles.price}>{category}</Text>
+              <Text numberOfLines={2} style={styles.price}>
+                {category}
+              </Text>
               <Text style={styles.min}>Category</Text>
             </View>
           </View>
         </View>
-        <FundDetailScreen fromScreen={props.navigation.state.params?.fromScreen} goBack={() => props.navigation.navigate(props.navigation.state.params?.fromScreen)} />
+        <FundDetailScreen
+          fromScreen={props.navigation.state.params?.fromScreen}
+          goBack={() =>
+            props.navigation.navigate(props.navigation.state.params?.fromScreen)
+          }
+        />
       </ScrollView>
     </View>
   );
@@ -374,6 +383,7 @@ function FundsHomeScreen(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#fff",
   },
   containerScroll: {
     width: "100%",
@@ -474,11 +484,13 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   investment: {
+    maxWidth: "33%",
     alignItems: "center",
   },
   price: {
     color: Colors.RED,
-    fontSize: 18,
+    fontSize: 16,
+    textAlign: "center",
     fontWeight: "bold",
   },
   min: {

@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import * as ImagePicker from "react-native-image-picker";
-import { Camera } from "expo-camera";
+import { Camera, requestCameraPermissionsAsync } from "expo-camera";
 import SignatureScreen from "react-native-signature-canvas";
 import * as Permissions from "expo-permissions";
 import {
@@ -96,10 +96,9 @@ const MyImagePicker = (props) => {
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestCameraPermissionsAsync();
+      console.log("status", status);
       if (status !== "granted") {
-        Alert.alert(
-          "Sorry, we need camera roll permissions to make this work!"
-        );
+        Alert.alert("Sorry, we need camera permissions to make this work!");
       }
     })();
   }, []);
@@ -107,9 +106,11 @@ const MyImagePicker = (props) => {
   // Check Camera Permissions
   useEffect(() => {
     (async () => {
-      const { status } = await Permissions.askAsync(Permissions.CAMERA);
+      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
       if (status !== "granted") {
-        Alert.alert("Sorry, we need camera permissions to make this work!");
+        Alert.alert(
+          "Sorry, we need camera roll permissions to make this work!"
+        );
       }
     })();
   }, []);
@@ -121,14 +122,14 @@ const MyImagePicker = (props) => {
   }, [items]);
 
   const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
+    let result = await ImagePicker.launchImageLibrary({
+      mediaTypes: "photo",
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     });
 
-    if (!result.cancelled) {
+    if (!result.didCancel) {
       let params = {
         file: result,
         fileType: item?.fileType,

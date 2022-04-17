@@ -3,7 +3,21 @@ import { Image } from "react-native";
 import { SvgUri } from "react-native-svg";
 
 const MyImage = (props) => {
-  const { svg, url, width, height, style, aspectRatio } = props;
+  const { svg, url, width, height, style, aspectRatio, sector } = props;
+  if (sector) {
+    return (
+      <Image
+        source={require("../../assets/sector.png")}
+        style={{
+          resizeMode: "contain",
+          alignSelf: "center",
+          aspectRatio: 1,
+          height: 70,
+          width: 70,
+        }}
+      />
+    );
+  }
   if (svg) {
     return (
       <>

@@ -55,16 +55,22 @@ function MinimumInvestments(props) {
 
   return (
     <View style={styles.minimum}>
-      <View>
-        <Text style={styles.mini_tex}>₹ {parseInt(assets).toFixed(0)}</Text>
+      <View style={styles.detailsSection}>
+        <Text numberOfLines={2} style={styles.mini_tex}>
+          ₹{parseInt(assets).toFixed(0)}
+        </Text>
         <Text style={styles.minimum_tex}>Total Assets</Text>
       </View>
       <View>
-        <Text style={styles.mini_tex}>₹ {parseInt(invest).toFixed(0)}</Text>
+        <Text numberOfLines={1} style={styles.mini_tex}>
+          ₹{parseInt(invest).toFixed(0)}
+        </Text>
         <Text style={styles.minimum_tex}>Min. Invest</Text>
       </View>
       <View>
-        <Text style={styles.mini_tex}>{category}</Text>
+        <Text numberOfLines={2} style={styles.mini_tex}>
+          {category}
+        </Text>
         <Text style={styles.minimum_tex}>Category</Text>
       </View>
     </View>
@@ -131,12 +137,17 @@ const styles = StyleSheet.create({
     marginBottom: 40,
   },
   mini_tex: {
-    fontSize: 15,
+    fontSize: 14,
+    textAlign: "center",
     fontWeight: "bold",
   },
   minimum_tex: {
     fontSize: 12,
+    textAlign: "center",
     paddingVertical: 5,
+  },
+  detailsSection: {
+    maxWidth: "30%",
   },
 });
 

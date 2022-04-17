@@ -1,13 +1,11 @@
 PODS:
   - boost-for-react-native (1.63.0)
   - DoubleConversion (1.1.6)
-  - EXApplication (4.0.1):
+  - EXApplication (4.0.2):
     - ExpoModulesCore
   - EXCamera (12.1.2):
     - ExpoModulesCore
   - EXConstants (13.0.2):
-    - ExpoModulesCore
-  - EXErrorRecovery (3.0.5):
     - ExpoModulesCore
   - EXFileSystem (13.1.4):
     - ExpoModulesCore
@@ -15,11 +13,14 @@ PODS:
     - ExpoModulesCore
   - EXImagePicker (12.0.2):
     - ExpoModulesCore
+  - EXJSONUtils (0.2.1)
   - EXKeepAwake (10.0.2):
     - ExpoModulesCore
   - EXLocation (14.0.2):
     - ExpoModulesCore
     - UMTaskManagerInterface
+  - EXManifests (0.2.4):
+    - EXJSONUtils
   - EXNotifications (0.14.1):
     - ExpoModulesCore
   - EXPermissions (13.1.1):
@@ -32,6 +33,14 @@ PODS:
   - EXSplashScreen (0.14.2):
     - ExpoModulesCore
     - React-Core
+  - EXStructuredHeaders (2.1.1)
+  - EXUpdates (0.11.6):
+    - EXManifests
+    - ExpoModulesCore
+    - EXStructuredHeaders
+    - EXUpdatesInterface
+    - React-Core
+  - EXUpdatesInterface (0.5.1)
   - FBLazyVector (0.64.3)
   - FBReactNativeSpec (0.64.3):
     - RCT-Folly (= 2020.01.13.00)
@@ -41,17 +50,17 @@ PODS:
     - React-jsi (= 0.64.3)
     - ReactCommon/turbomodule/core (= 0.64.3)
   - glog (0.3.5)
-  - Permission-Camera (3.2.0):
+  - Permission-Camera (3.3.0):
     - RNPermissions
-  - Permission-LocationAccuracy (3.2.0):
+  - Permission-LocationAccuracy (3.3.0):
     - RNPermissions
-  - Permission-LocationAlways (3.2.0):
+  - Permission-LocationAlways (3.3.0):
     - RNPermissions
-  - Permission-LocationWhenInUse (3.2.0):
+  - Permission-LocationWhenInUse (3.3.0):
     - RNPermissions
-  - Permission-MediaLibrary (3.2.0):
+  - Permission-MediaLibrary (3.3.0):
     - RNPermissions
-  - Permission-Notifications (3.2.0):
+  - Permission-Notifications (3.3.0):
     - RNPermissions
   - RCT-Folly (2020.01.13.00):
     - boost-for-react-native
@@ -250,7 +259,7 @@ PODS:
     - React-Core
   - react-native-netinfo (7.1.3):
     - React-Core
-  - react-native-safe-area-context (3.3.2):
+  - react-native-safe-area-context (3.4.1):
     - React-Core
   - react-native-webview (11.15.0):
     - React-Core
@@ -320,7 +329,7 @@ PODS:
     - React-perflogger (= 0.64.3)
   - RNCAsyncStorage (1.15.17):
     - React-Core
-  - RNCPicker (2.2.1):
+  - RNCPicker (2.3.0):
     - React-Core
   - RNDateTimePicker (4.0.0):
     - React-Core
@@ -328,7 +337,7 @@ PODS:
     - React-Core
   - RNGestureHandler (2.2.0):
     - React-Core
-  - RNPermissions (3.2.0):
+  - RNPermissions (3.3.0):
     - React-Core
   - RNReanimated (1.13.0):
     - React
@@ -348,17 +357,21 @@ DEPENDENCIES:
   - EXApplication (from `../node_modules/expo-application/ios`)
   - EXCamera (from `../node_modules/expo-camera/ios`)
   - EXConstants (from `../node_modules/expo-constants/ios`)
-  - EXErrorRecovery (from `../node_modules/expo-error-recovery/ios`)
   - EXFileSystem (from `../node_modules/expo-file-system/ios`)
   - EXFont (from `../node_modules/expo-font/ios`)
   - EXImagePicker (from `../node_modules/expo-image-picker/ios`)
+  - EXJSONUtils (from `../node_modules/expo-json-utils/ios`)
   - EXKeepAwake (from `../node_modules/expo-keep-awake/ios`)
   - EXLocation (from `../node_modules/expo-location/ios`)
+  - EXManifests (from `../node_modules/expo-manifests/ios`)
   - EXNotifications (from `../node_modules/expo-notifications/ios`)
   - EXPermissions (from `../node_modules/expo-permissions/ios`)
   - Expo (from `../node_modules/expo/ios`)
   - ExpoModulesCore (from `../node_modules/expo-modules-core/ios`)
   - EXSplashScreen (from `../node_modules/expo-splash-screen/ios`)
+  - EXStructuredHeaders (from `../node_modules/expo-structured-headers/ios`)
+  - EXUpdates (from `../node_modules/expo-updates/ios`)
+  - EXUpdatesInterface (from `../node_modules/expo-updates-interface/ios`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../node_modules/react-native/React/FBReactNativeSpec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
@@ -423,18 +436,20 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-camera/ios"
   EXConstants:
     :path: "../node_modules/expo-constants/ios"
-  EXErrorRecovery:
-    :path: "../node_modules/expo-error-recovery/ios"
   EXFileSystem:
     :path: "../node_modules/expo-file-system/ios"
   EXFont:
     :path: "../node_modules/expo-font/ios"
   EXImagePicker:
     :path: "../node_modules/expo-image-picker/ios"
+  EXJSONUtils:
+    :path: "../node_modules/expo-json-utils/ios"
   EXKeepAwake:
     :path: "../node_modules/expo-keep-awake/ios"
   EXLocation:
     :path: "../node_modules/expo-location/ios"
+  EXManifests:
+    :path: "../node_modules/expo-manifests/ios"
   EXNotifications:
     :path: "../node_modules/expo-notifications/ios"
   EXPermissions:
@@ -445,6 +460,12 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-modules-core/ios"
   EXSplashScreen:
     :path: "../node_modules/expo-splash-screen/ios"
+  EXStructuredHeaders:
+    :path: "../node_modules/expo-structured-headers/ios"
+  EXUpdates:
+    :path: "../node_modules/expo-updates/ios"
+  EXUpdatesInterface:
+    :path: "../node_modules/expo-updates-interface/ios"
   FBLazyVector:
     :path: "../node_modules/react-native/Libraries/FBLazyVector"
   FBReactNativeSpec:
@@ -545,29 +566,33 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   DoubleConversion: cf9b38bf0b2d048436d9a82ad2abe1404f11e7de
-  EXApplication: bdc8dc27713235565da1029a34385229f31b8e08
+  EXApplication: 54fe5bd6268d697771645e8f1aef8b806a65247a
   EXCamera: 4a0d00d6d1e4703c31a75514d8bc804a2eab27bd
   EXConstants: 88bf79622fbd9b476c96d8ec57fe97ca44fe8e3c
-  EXErrorRecovery: b0d7582714a2cc896e94a2308a356f94dbf14ef7
   EXFileSystem: 08a3033ac372b6346becf07839e1ccef26fb1058
   EXFont: 2597c10ac85a69d348d44d7873eccf5a7576ef5e
   EXImagePicker: bf4d62532cc2bf217edbe4abbb0014e73e079eac
+  EXJSONUtils: 5ee0d5cf76da70ad86f0be1a41cc70f47d69e06f
   EXKeepAwake: bf48d7f740a5cd2befed6cf9a49911d385c6c47d
   EXLocation: 013b5d07cca26c2d15d998766322e70b7a228b57
+  EXManifests: d3464cd2278f4a19cd80c1aa673231570b534c11
   EXNotifications: a7d582fa800d77f4a75bd22d52e84e2fbcee26df
   EXPermissions: 2f8db9cfb1919d6c6776f462bb2c5a903e423b2a
   Expo: 534e51e607aba8229293297da5585f4b26f50fa1
   ExpoModulesCore: 32c0ccb47f477d330ee93db72505380adf0de09a
   EXSplashScreen: 21669e598804ee810547dbb6692c8deb5dd8dbf3
+  EXStructuredHeaders: 4993087b2010dbcc510f5d92555b36f523425e8d
+  EXUpdates: bd5fa64f02685ed3e96be86b5ca350cdc2cd8d02
+  EXUpdatesInterface: a9814f422d3cd6e7cfd260d13c27786148ece20e
   FBLazyVector: c71c5917ec0ad2de41d5d06a5855f6d5eda06971
-  FBReactNativeSpec: 0622a543bc6fccbddc513ce5a7ac7a69c63115ef
+  FBReactNativeSpec: b3fb9dc645882d41e5ac560f383c6fc0953b0cdb
   glog: 73c2498ac6884b13ede40eda8228cb1eee9d9d62
-  Permission-Camera: 53efcbb755b0e8bdf253dbb27cc7559ccfce8480
-  Permission-LocationAccuracy: c13bf629b614be250031458cf81d6a2e9dcdf64f
-  Permission-LocationAlways: 012fd2c1f610068c5f9a7b48bc908ea41edd0c43
-  Permission-LocationWhenInUse: 13de9a01e006cb53a6ac3c9f8d1ab6cc98318d9c
-  Permission-MediaLibrary: d35adbe2a069f2e16121fd79cf15959e86a3f74a
-  Permission-Notifications: bb420c3d28328df24de1b476b41ed8249ccf2537
+  Permission-Camera: 597646618d1edcc055a3f660844c2ee6de8e0596
+  Permission-LocationAccuracy: 2dd707dcda613cd1f997ba3430d8451bbf628b59
+  Permission-LocationAlways: dc302c06bead91cc4e0076c21393d0b8573caa6a
+  Permission-LocationWhenInUse: 9be81f411058a40ef6616825062fc74cec660cc9
+  Permission-MediaLibrary: 4acaae8adc5986d9d110f75315108a1acd74e5dd
+  Permission-Notifications: ae00347c7a9efdfaa1a0138e59e37c8f0f3ede0b
   RCT-Folly: ec7a233ccc97cc556cf7237f0db1ff65b986f27c
   RCTRequired: d34bf57e17cb6e3b2681f4809b13843c021feb6c
   RCTTypeSafety: 8dab4933124ed39bb0c1d88d74d61b1eb950f28f
@@ -581,7 +606,7 @@ SPEC CHECKSUMS:
   React-jsinspector: 34e23860273a23695342f58eed3ffd3ba10c31e0
   react-native-image-picker: 4e6008ad8c2321622affa2c85432a5ebd02d480c
   react-native-netinfo: 42c0965fca99069b92e3f7360ab2d425985e5104
-  react-native-safe-area-context: 584dc04881deb49474363f3be89e4ca0e854c057
+  react-native-safe-area-context: 9e40fb181dac02619414ba1294d6c2a807056ab9
   react-native-webview: e89bf2dba26a04cda967814df3ed1be99f291233
   React-perflogger: cc76a4254d19640f1d8ad1c66fdee800414b805c
   React-RCTActionSheet: 7448f049318d8d7e8a9a1ebb742ada721757eea8
@@ -596,11 +621,11 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: 493d9abb8b23c3f84e19ae221eeba92cadcb70dc
   ReactCommon: 8fea6422328e2fc093e25c9fac67adbcf0f04fb4
   RNCAsyncStorage: 6bd5a7ba3dde1c3facba418aa273f449bdc5437a
-  RNCPicker: cb57c823d5ce8d2d0b5dfb45ad97b737260dc59e
+  RNCPicker: c796ddf16cd93e980a5a5642eebcee9eb9da1e76
   RNDateTimePicker: 2224ee77a86b7123377597a015502435e2e49957
   RNDeviceInfo: 4944cf8787b9c5bffaf301fda68cc1a2ec003341
   RNGestureHandler: bf572f552ea324acd5b5464b8d30755b2d8c1de6
-  RNPermissions: f7ebe52db07c00901127966ca080b4ec6a6ceb0a
+  RNPermissions: bcd846e8f5a7f39e921cc7ca7172e2de0e698b6f
   RNReanimated: 89f5e0a04d1dd52fbf27e7e7030d8f80a646a3fc
   RNScreens: d6da2b9e29cf523832c2542f47bf1287318b1868
   RNSVG: 551acb6562324b1d52a4e0758f7ca0ec234e278f

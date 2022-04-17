@@ -134,6 +134,7 @@ function TopRatedHomeScreen(props) {
     details,
     addItomToSip,
     showInside,
+    nav,
     fundDetails,
     addItemSucces,
     setAddItemSucces,
@@ -377,7 +378,11 @@ function TopRatedHomeScreen(props) {
       imagePath: item.imagePath,
       isin: item._id,
     });
-    props.navigation.navigate("FundsDetails", { fromScreen: "TopRatedHome" });
+    if (showInside) {
+      nav("FundsDetails", { fromScreen: "TopRatedFunds" });
+    } else {
+      props.navigation.navigate("FundsDetails", { fromScreen: "TopRatedHome" });
+    }
   };
 
   function numberWithCommas(x) {
@@ -866,7 +871,7 @@ const styles = StyleSheet.create({
     fontSize: 10,
     fontWeight: "bold",
     textAlign: "center",
-    paddingTop: 4,
+    //paddingTop: 4,
   },
   value_sec: {
     flexDirection: "row",

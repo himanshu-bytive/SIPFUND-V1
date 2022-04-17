@@ -10,18 +10,11 @@ import {
   KeyboardAvoidingView,
   TextInput,
   ActivityIndicator,
+  Linking,
 } from "react-native";
 import { connect } from "react-redux";
 import { Styles, Config, Colors, FormValidate } from "../../common";
-import {
-  Ionicons,
-  AntDesign,
-  MaterialIcons,
-  Feather,
-  Entypo,
-  FontAwesome,
-  FontAwesome5,
-} from "react-native-vector-icons";
+import { AntDesign } from "react-native-vector-icons";
 import { Image, Header, ListItem, Overlay } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
 import Cart from "../../components/Cart";
@@ -38,6 +31,13 @@ const reports = [
     title: "Load Free units Report",
     link: "Download",
     api: "live-portfolio-report-details",
+  },
+  {
+    number: "3.",
+    title: "Capital gain transaction-wise report",
+    link: "Download",
+    api: "capital-gain-trxn-wise-report",
+    params: true,
   },
 ];
 
@@ -69,13 +69,8 @@ const tax = [
 ];
 
 function ReportsScreen(props) {
-  const { token, isFetching, urls, downloadReport } = props;
-
-  useEffect(() => {
-    if (urls) {
-      console.log("url ", urls);
-    }
-  }, [urls]);
+  const { token, isFetching, urls, downloadReport, downloadReportWithParams } =
+    props;
 
   return (
     <View style={styles.container}>
@@ -147,7 +142,15 @@ function ReportsScreen(props) {
             </View>
             <View style={styles.bottom}>
               <TouchableOpacity
-                onPress={() => downloadReport(item.api, token)}
+                onPress={() => {
+                  if (item?.params) {
+                    console.log("#########");
+                    const dat = { "financial-year": "2018-2019" };
+                    downloadReportWithParams(item.api, dat, token);
+                  } else {
+                    downloadReport(item.api, token);
+                  }
+                }}
                 style={styles.botton_box}
               >
                 <Text style={styles.get_otp}>{item.link}</Text>
@@ -225,6 +228,9 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     ...ownProps,
     downloadReport: (params, token) => {
       ReportsActions.downloadReport(dispatch, params, token);
+    },
+    downloadReportWithParams: (link, params, token) => {
+      ReportsActions.downloadReportWithParams(dispatch, link, params, token);
     },
   };
 };

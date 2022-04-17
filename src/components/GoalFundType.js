@@ -17,7 +17,8 @@ const randerData = (
   onPress,
   onChange,
   handleDelete,
-  selectedOption
+  selectedOption,
+  showModified
 ) => {
   const plusMinus = (type, value) => {
     if (type === "plus") {
@@ -44,7 +45,7 @@ const randerData = (
     return (
       <View>
         <View style={styles.hybrid_sec}>
-          <View style={{ backgroundColor: "#EFEFEF" }}>
+          <View style={{ backgroundColor: "#eee" }}>
             <Text style={styles.hybrid}>{data.schems}</Text>
           </View>
         </View>
@@ -92,7 +93,12 @@ const randerData = (
               <View style={styles.selectfolio_sec}>
                 <View style={styles.select}>
                   <Text style={styles.no}>Min Investment</Text>
-                  <Text>₹{item.investment ? item.investment : "1000"}</Text>
+                  <Text>
+                    ₹
+                    {item?.default_min_amount
+                      ? item?.default_min_amount
+                      : "1000"}
+                  </Text>
                 </View>
                 {selectedOption && selectedOption === "SIP" && (
                   <View style={styles.select}>
@@ -148,13 +154,25 @@ const randerData = (
                           marginLeft: 5,
                           borderRadius: 5,
                           minWidth: 50,
+                          fontSize: 14,
                         },
                       ]}
                       keyboardType={"numeric"}
                       maxLength={6}
-                      placeholder={"sip"}
                       onChangeText={(value) => onChange(k, value, "sip")}
-                      value={item?.sip ? item?.sip : "0"}
+                      value={
+                        item?.sip
+                          ? item?.sip
+                          : `${
+                              showModified
+                                ? item?.allocationAmountModifiled
+                                  ? item?.allocationAmountModifiled.toFixed(0)
+                                  : 0
+                                : item?.allocationAmount
+                                ? item?.allocationAmount.toFixed(0)
+                                : 0
+                            }`
+                      }
                       maxLength={8}
                     />
                   </View>
@@ -170,7 +188,8 @@ const randerData = (
 };
 
 export default function GoalFundType(props) {
-  const { data, onPress, myGoles, handleDelete, selectedOption } = props;
+  const { data, onPress, myGoles, handleDelete, selectedOption, showModified } =
+    props;
   const [newData, setNewData] = useState(data ? data : []);
   useEffect(() => {
     if (data) {
@@ -187,7 +206,15 @@ export default function GoalFundType(props) {
   };
   return newData.map((item, key) => (
     <View key={key}>
-      {randerData(item, key, onPress, onChange, handleDelete, selectedOption)}
+      {randerData(
+        item,
+        key,
+        onPress,
+        onChange,
+        handleDelete,
+        selectedOption,
+        showModified
+      )}
     </View>
   ));
 }
@@ -195,6 +222,7 @@ export default function GoalFundType(props) {
 const styles = StyleSheet.create({
   hybrid_sec: {
     marginVertical: 10,
+    backgroundColor: "#fff",
   },
   hybrid: {
     fontSize: 18,
@@ -202,11 +230,12 @@ const styles = StyleSheet.create({
     color: Colors.RED,
     marginVertical: 10,
     marginLeft: 10,
+    //backgroundColor: "#fff",
   },
   axis_asset: {
     marginHorizontal: 10,
     marginTop: 10,
-    backgroundColor: Colors.WHITE,
+    backgroundColor: "#fff",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,

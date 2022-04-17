@@ -104,7 +104,19 @@ function ProfileScreen(props) {
             }
           />
           <Text style={styles.profile_text}>{profile?.INVESTOR_NAME}</Text>
-          <Text style={styles.profile_text2}>{profile?.ACTIVATION_STATUS}</Text>
+          <Text
+            style={[
+              styles.profile_text2,
+              {
+                color:
+                  profile?.ACTIVATION_STATUS === "YES" ? "#6FF43A" : Colors.RED,
+              },
+            ]}
+          >
+            {profile?.ACTIVATION_STATUS === "YES"
+              ? "ACCOUNT ACTIVE"
+              : "ACCOUNT INACTIVE"}
+          </Text>
         </View>
         <View style={styles.icon_sec}>
           <View
@@ -279,8 +291,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   profile_text2: {
-    color: "#6FF43A",
-    fontSize: 20,
+    fontSize: 18,
     paddingVertical: 10,
     fontWeight: "bold",
   },
@@ -325,7 +336,7 @@ const styles = StyleSheet.create({
     fontSize: 8,
   },
   bottom_text: {
-    width: "30%",
+    width: "20%",
     textAlign: "center",
     fontSize: 8,
   },
@@ -334,7 +345,7 @@ const styles = StyleSheet.create({
   },
   bottomicon_sec: {
     marginTop: 50,
-    marginHorizontal: 150,
+    marginHorizontal: 125,
   },
   mutual_sec: {
     backgroundColor: Colors.LIGHT_WHITE,

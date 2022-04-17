@@ -32,7 +32,14 @@ const investmentData = [
 ];
 
 function TransactionHistoryScreen(props) {
-  const { token, user, fetchTransaction, transactionHistory, profile } = props;
+  const {
+    token,
+    user,
+    fetchTransaction,
+    transactionHistory,
+    profile,
+    isFetching,
+  } = props;
   const [visible, setVisible] = useState(false);
 
   const toggleOverlay = () => {
@@ -117,14 +124,18 @@ function TransactionHistoryScreen(props) {
         <View style={styles.switch_sec}>
           <Text style={styles.transaction}>Transaction History</Text>
         </View>
-        {transactionHistory !== null && transactionHistory.length !== 0 ? (
+        {!transactionHistory || transactionHistory.length === 0 ? (
           <View
             style={{
               alignItems: "center",
               marginTop: "50%",
             }}
           >
-            <Text>You don't have any transactions!</Text>
+            <Text>
+              {isFetching
+                ? "Fetching Transactions..."
+                : "You don't have any transactions!"}
+            </Text>
           </View>
         ) : (
           transactionHistory &&
@@ -219,6 +230,7 @@ const mapStateToProps = (state) => ({
   users: state.auth.users,
   user: state.auth.user,
   transactionHistory: state.transactionHis.transactionHistory,
+  isFetching: state.transactionHis.isFetching,
   profile: state.auth.profile,
 });
 

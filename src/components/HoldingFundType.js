@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
   small_box: {
     backgroundColor: "#EFEFEF",
     width: "100%",
-    marginTop: 30,
+    marginTop: 10,
   },
   Hybrid: {
     fontSize: 20,
