@@ -1,5 +1,5 @@
 import SiteAPI from "../services/SiteApis";
-import { Alert, Linking } from "react-native";
+import { Alert, Linking, ToastAndroid } from "react-native";
 import * as FileSystem from "expo-file-system";
 import * as Sharing from "expo-sharing";
 import { Buffer } from "buffer";
@@ -7,6 +7,7 @@ import { Buffer } from "buffer";
 //import * as MediaLibrary from "expo-media-library";
 import apiBaseUrl from "../common/Config";
 import axios from "axios";
+import RNFetchBlob from "react-native-fetch-blob";
 const types = {
   FETCH_REPORT_SUMMARY_PENDING: "FETCH_REPORT_SUMMARY_PENDING",
   FETCH_REPORT_SUMMARY_SUCCESS: "FETCH_REPORT_SUMMARY_SUCCESS",
@@ -31,7 +32,29 @@ export const ReportsActions = {
     } else {
       dispatch({ type: types.FETCH_REPORT_SUMMARY_SUCCESS, urls: data });
       if (data.path) {
-        Linking.openURL(data.path);
+        //Linking.openURL(data.path);
+        //let dirs = RNFetchBlob.fs.dirs;
+        RNFetchBlob.config({
+          addAndroidDownloads: {
+            useDownloadManager: true, // <-- this is the only thing required
+            // Optional, override notification setting (default to true)
+            notification: true,
+            // Optional, but recommended since android DownloadManager will fail when
+            // the url does not contains a file extension, by default the mime type will be text/plain
+            mime: "application/pdf",
+            description: "File downloaded by download manager.",
+          },
+          // response data will be saved to this path if it has access right.
+          //path: dirs.DocumentDir + `/${params}.pdf`,
+        })
+          .fetch("GET", data.path, {
+            //some headers ..
+          })
+          .then(() => {
+            // the path should be dirs.DocumentDir + 'path-to-file.anything'
+            //Linking.openURL(res.path());
+            ToastAndroid.show("File downloaded", ToastAndroid.LONG);
+          });
       }
     }
   },
