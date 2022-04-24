@@ -61,16 +61,16 @@ function PlanSearchScreen(props) {
         type: "new",
         amc_code: "101",
         imagePath: `https://sipfund.sfo2.digitaloceanspaces.com/product-AMC-images/${value.productAMCImage}`,
-        name: value.productDisplayName,
+        name: value.productName,
         productCode: value.productISIN,
         isin: value.productISIN,
         default_min_amount: props.navigation.state.params?.isLumpsum
           ? value.minimumLumpsumAmount
           : value.minimumSIPAmount,
         default_date: value?.sipDates.split(",")[0],
-        sipDates: value?.sipDates ? value?.sipDates.split(",") : [1],
+        sipDates: value?.sipDates,
       },
-      schems: value.productName,
+      schems: value.Category,
     };
   };
 
@@ -154,12 +154,10 @@ function PlanSearchScreen(props) {
                 style={styles.axisimg}
               />
               <View style={styles.management}>
-                <Text style={styles.axis}>{item.productDisplayName}</Text>
+                <Text style={styles.axis}>{item.productName}</Text>
                 <View style={styles.midcap}>
                   <View>
-                    <Text style={styles.moderately}>
-                      {String(item.productName).substr(0, 20)}
-                    </Text>
+                    <Text style={styles.moderately}>{item.Category}</Text>
                     <Text style={styles.moderately}>{item.productISIN}</Text>
                   </View>
                 </View>

@@ -185,8 +185,9 @@ const styles = StyleSheet.create({
     marginVertical: 5,
   },
   Hybrid: {
-    width: 32,
-    height: 36,
+    width: 35,
+    height: 35,
+    resizeMode: "contain",
   },
   sbi_text: {
     marginLeft: 10,

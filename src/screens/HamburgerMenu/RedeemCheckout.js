@@ -90,6 +90,9 @@ function RedeemCheckout(props) {
           // target_reinvest: item.targetReinvest,
           amt_unit: item.value,
           all_units: item.valueName === "Unit" ? "Y" : "N",
+          groupId: item?.groupId,
+          groupName: item?.groupName,
+          groupType: item?.groupType,
         };
       });
       let params = {
@@ -108,7 +111,6 @@ function RedeemCheckout(props) {
         },
         childtrans: [...child],
       };
-      console.log("Redeem CHeckout Params =", params);
       redeemCheckout(params, token);
     } else if (redeemExternalCheckoutDetails !== null) {
       if (redeemExternalCheckoutDetails.length < 1) {
@@ -126,6 +128,9 @@ function RedeemCheckout(props) {
           // target_reinvest: item.targetReinvest,
           amt_unit: item.value,
           all_units: item.valueName === "Unit" ? "Y" : "N",
+          groupId: item?.groupId,
+          groupName: item?.groupName,
+          groupType: item?.groupType,
         };
       });
       let params = {
@@ -144,7 +149,6 @@ function RedeemCheckout(props) {
         },
         childtrans: [...child],
       };
-      console.log("Redeem External CHeckout Params =", params);
       redeemCheckout(params, token);
     }
   };

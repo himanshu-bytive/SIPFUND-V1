@@ -119,9 +119,11 @@ function PlanHomeScreen(props) {
       setLumpsumAmount(0);
       setShowFunds(false);
     } else {
-      setSipAmount(sipAmount1.toFixed(2));
-      setRequiredInvestment(sipAmount1 * time * 12);
-      setLumpsumAmount(constant2 / Math.pow(1 + returnRate / 100, time));
+      setSipAmount(parseInt(sipAmount1));
+      setRequiredInvestment(parseInt(sipAmount1 * time * 12));
+      setLumpsumAmount(
+        parseInt(constant2 / Math.pow(1 + returnRate / 100, time))
+      );
       switchTabs();
       setShowFunds(true);
     }
@@ -381,10 +383,10 @@ function PlanHomeScreen(props) {
           )}
         </View>
 
-        <Text style={styles.note}>
+        {/*<Text style={styles.note}>
           Note : Assuming current inflation rate at {inflation}% and expected
           return rate on saving as {returnRate}%.
-        </Text>
+        </Text>*/}
         <TouchableOpacity
           onPress={calculateAmount}
           disabled={!enableButton}
@@ -465,9 +467,7 @@ function PlanHomeScreen(props) {
                   borderColor: Colors.GRAY_LIGHT,
                 }}
               ></View>
-              <Text style={styles.datered}>
-                ₹{Number(requiredInvestment).toFixed(0)}
-              </Text>
+              <Text style={styles.datered}>₹{Number(requiredInvestment)}</Text>
             </View>
             <Text style={styles.requird}>
               Required amount to achieve your GOAL
@@ -533,6 +533,11 @@ function PlanHomeScreen(props) {
             totalAmount={selectTab === "LUMPSUM" ? lumpsumAmount : sipAmount}
             childName={name}
             disableFunds={() => setShowFunds(false)}
+            inflation={inflation}
+            returnRate={returnRate}
+            currentInvestment={investment}
+            costOfLiving={amount}
+            time={time}
           />
         )}
       </ScrollView>

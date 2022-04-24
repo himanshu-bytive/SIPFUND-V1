@@ -5,14 +5,15 @@ import { AntDesign } from "react-native-vector-icons";
 import { Colors } from "../common";
 
 const Cart = (props) => {
-  const { cart, nav } = props;
+  const { cart, nav, token, getCartDetails } = props;
   const [cartItemCount, setCartItemCount] = useState(0);
 
   useEffect(() => {
     if (cart?.cartDetails) {
+      //console.log(cart?.cartDetails);
       setCartItemCount(cart?.cartDetails.length);
     } else {
-        setCartItemCount(0)
+      setCartItemCount(0);
     }
   }, [cart]);
 
@@ -58,12 +59,18 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
   cart: state.cartActions.cart,
+  token: state.auth.token,
 });
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
+  const { dispatch } = dispatchProps;
+  const { CartActions } = require("../store/CartActionsRedux");
   return {
     ...stateProps,
     ...ownProps,
+    getCartDetails: (token) => {
+      CartActions.cartDetails(dispatch, token);
+    },
   };
 };
 

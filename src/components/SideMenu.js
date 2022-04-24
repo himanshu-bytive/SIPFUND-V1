@@ -202,7 +202,7 @@ function SideMenu(props) {
         overlayStyle={{ margin: 10, borderRadius: 10, backgroundColor: "#fff" }}
       >
         <View style={styles.emaMainbox}>
-          <Text style={styles.emaAmc}>Choose AMC Option:</Text>
+          <Text style={styles.emaAmc}>Choose E-Mandate Option:</Text>
           {emandateLists.map((item, key) => (
             <TouchableOpacity
               style={{
@@ -574,7 +574,7 @@ const styles = StyleSheet.create({
   },
   emaAmc: {
     fontSize: 18,
-    marginLeft: 15,
+    //marginLeft: 15,
     marginVertical: 10,
     fontWeight: "bold",
   },

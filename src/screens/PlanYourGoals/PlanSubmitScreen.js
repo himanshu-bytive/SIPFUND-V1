@@ -36,7 +36,18 @@ function PlanSubmitScreen(props) {
     users,
     childName,
     pincodeInfo,
+    newInvestment,
+    getCartDetails,
   } = props;
+
+  const [paymentInitiated, setPaymentInitiated] = useState(false);
+
+  useEffect(() => {
+    if (paymentInitiated && !isFetching && pincodeInfo) {
+      setPaymentInitiated(false);
+      props.navigation.navigate("TopRatedList");
+    }
+  }, [paymentInitiated, isFetching]);
 
   return (
     <View style={styles.container}>
@@ -98,15 +109,8 @@ function PlanSubmitScreen(props) {
         {mygolelist
           .filter(
             (item) =>
-              (!isNaN(item.schemeInfo.sip) &&
-                Number(item.schemeInfo?.sip) != 0) ||
-              (!isNaN(item.schemeInfo.allocationAmount) &&
-                item.schemeInfo.allocationAmount != 0 &&
-                isNaN(item.schemeInfo?.sip) &&
-                !props.navigation.state.params?.showModified) ||
-              (props.navigation.state.params?.showModified &&
-                !isNaN(item?.schemeInfo?.allocationAmountModifiled) &&
-                item?.schemeInfo?.allocationAmountModifiled != 0)
+              !isNaN(item.schemeInfo.amount) &&
+              Number(item.schemeInfo?.amount) != 0
           )
           .map((item, key) => {
             if (item.schemeInfo != "NA") {
@@ -116,21 +120,12 @@ function PlanSubmitScreen(props) {
                     source={{ uri: item.schemeInfo.imagePath }}
                     style={styles.Hybrid}
                   />
-                  <Text style={styles.sbi_text}>{item.schemeInfo.name}</Text>
+                  <Text style={styles.sbi_text}>
+                    {item.schemeInfo.schemeName}
+                  </Text>
                   <View style={{ flex: 1 }}>
                     <Text style={styles.price}>
-                      ₹{" "}
-                      {item.schemeInfo?.sip
-                        ? item.schemeInfo?.sip
-                        : props.navigation.state.params?.showModified
-                        ? item?.schemeInfo?.allocationAmountModifiled
-                          ? item?.schemeInfo?.allocationAmountModifiled.toFixed(
-                              0
-                            )
-                          : 0
-                        : item?.schemeInfo?.allocationAmount
-                        ? item?.schemeInfo?.allocationAmount.toFixed(0)
-                        : 0}
+                      ₹ {item.schemeInfo?.amount}
                     </Text>
                   </View>
                 </View>
@@ -143,21 +138,25 @@ function PlanSubmitScreen(props) {
       </TouchableOpacity>*/}
       <TouchableOpacity
         onPress={() => {
-          props.navigation.navigate("Upi", {
-            cart: mygolelist.filter(
-              (item) =>
-                (!isNaN(item.schemeInfo.sip) && item.schemeInfo?.sip != 0) ||
-                !isNaN(item.schemeInfo.allocationAmount)
-            ),
-            sum: props.navigation.state.params.sum,
-            fromPlanGoals: true,
-            fromCart: false,
-            isLumpsum: props.navigation.state.params.isLumpsum,
-            groupId: pincodeInfo?._id,
-            groupType: "Goals",
-            groupName: goalDetail?.goal,
-            showModified: props.navigation.state.params?.showModified,
-          });
+          //props.navigation.navigate("Upi", {
+          //cart: mygolelist.filter(
+          //(item) =>
+          //(!isNaN(item.schemeInfo.sip) && item.schemeInfo?.sip != 0) ||
+          //!isNaN(item.schemeInfo.allocationAmount)
+          //),
+          //sum: props.navigation.state.params.sum,
+          //fromPlanGoals: true,
+          //fromCart: false,
+          //isLumpsum: props.navigation.state.params.isLumpsum,
+          //groupId: pincodeInfo?._id,
+          //groupType: "Goals",
+          //groupName: goalDetail?.goal,
+          //showModified: props.navigation.state.params?.showModified,
+          //});
+          //newInvestment(props.navigation.state.params?.params, token);
+          newInvestment(props.navigation.state.params?.params, token);
+          setPaymentInitiated(true);
+          getCartDetails(token);
         }}
         style={styles.botton_box}
       >
@@ -241,8 +240,9 @@ const styles = StyleSheet.create({
     marginVertical: 5,
   },
   Hybrid: {
-    width: 32,
-    height: 36,
+    width: 35,
+    height: 35,
+    resizeMode: "contain",
   },
   sbi_text: {
     marginLeft: 10,
@@ -323,11 +323,18 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
   const { dispatch } = dispatchProps;
   const { GoalsActions } = require("../../store/GoalsRedux");
+  const { CartActions } = require("../../store/CartActionsRedux");
   return {
     ...stateProps,
     ...ownProps,
     singleDetails: (params, token) => {
       GoalsActions.singleDetails(dispatch, params, token);
+    },
+    newInvestment: (params, token) => {
+      GoalsActions.goalUser(dispatch, params, token);
+    },
+    getCartDetails: (token) => {
+      CartActions.cartDetails(dispatch, token);
     },
   };
 };

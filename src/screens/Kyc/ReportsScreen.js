@@ -26,18 +26,17 @@ const reports = [
     link: "Download",
     api: "live-portfolio-report-summary",
   },
+  //{
+  //number: "2.",
+  //title: "Load Free units Report",
+  //link: "Download",
+  //api: "live-portfolio-report-details",
+  //},
   {
     number: "2.",
-    title: "Load Free units Report",
-    link: "Download",
-    api: "live-portfolio-report-details",
-  },
-  {
-    number: "3.",
     title: "Capital gain transaction-wise report",
     link: "Download",
     api: "capital-gain-trxn-wise-report",
-    params: true,
   },
 ];
 
@@ -129,12 +128,12 @@ function ReportsScreen(props) {
         ))}
         {/* loop end */}
 
-        <View style={styles.contain}>
+        {/*<View style={styles.contain}>
           <Text style={styles.nametext}>Tax Package Reports</Text>
-        </View>
+        </View>*/}
 
         {/* bottom loop start */}
-        {tax.map((item) => (
+        {/*tax.map((item) => (
           <View style={styles.report_sec}>
             <View style={styles.tax_left}>
               <Text style={styles.tax_left_text}>{item.number}</Text>
@@ -143,13 +142,7 @@ function ReportsScreen(props) {
             <View style={styles.bottom}>
               <TouchableOpacity
                 onPress={() => {
-                  if (item?.params) {
-                    console.log("#########");
-                    const dat = { "financial-year": "2018-2019" };
-                    downloadReportWithParams(item.api, dat, token);
-                  } else {
-                    downloadReport(item.api, token);
-                  }
+                  downloadReport(item.api, token);
                 }}
                 style={styles.botton_box}
               >
@@ -157,7 +150,7 @@ function ReportsScreen(props) {
               </TouchableOpacity>
             </View>
           </View>
-        ))}
+        ))*/}
         {/* bottom loop end */}
       </ScrollView>
     </View>

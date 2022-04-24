@@ -78,6 +78,7 @@ export const InvestmentPlanActions = {
       token
     );
     if (pincodes.response) {
+      alert("Added to cart!");
       dispatch({
         type: types.FETCH_NEW_INVESTMENT_SUCCESS,
         pincodeInfo: pincodes.response,

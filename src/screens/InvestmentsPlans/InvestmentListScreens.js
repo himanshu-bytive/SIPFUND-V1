@@ -74,19 +74,108 @@ function InvestmentListScreens(props) {
     }
   };
 
+  const monthsArr = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sept",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
+  const sipFromDate = (sipDay) => {
+    const date = new Date();
+
+    let day = date.getDate();
+    let month = date.getMonth();
+    let year = date.getFullYear();
+
+    if (day > sipDay) {
+      if (month === 11) {
+        month = 0;
+        year = year + 1;
+      } else {
+        month += 1;
+      }
+    }
+
+    return (
+      ("00" + sipDay).match(/\d{2}$/) + "-" + monthsArr[month] + "-" + year
+    );
+  };
+  const sipEndDate = (sipDay) => {
+    const date = new Date();
+
+    let day = date.getDate();
+    let month = date.getMonth();
+    let year = date.getFullYear();
+
+    if (day > sipDay) {
+      if (month === 11) {
+        month = 0;
+        year = year + 1;
+      } else {
+        month += 1;
+      }
+    }
+
+    return (
+      ("00" + sipDay).match(/\d{2}$/) +
+      "-" +
+      monthsArr[month] +
+      "-" +
+      `${parseInt(year) + 30}`
+    );
+  };
+
+  const getFundCategory = (isin) => {
+    for (let category in categories) {
+      for (let i in myInvestlist[categories[category]]) {
+        if (myInvestlist[categories[category]][i].isin === isin)
+          return categories[category];
+      }
+    }
+    return "";
+  };
+
   const getHoldings = (data) => {
     let formatted = [];
     let format = {};
     for (let item in data) {
+      let day = dates[`${data[item].fund_type}${item}`]
+        ? dates[`${data[item].fund_type}${item}`]
+        : parseInt(data[item]?.sipDates.split(",")[0]);
       format = {
-        category: data[item].fund_type,
+        category: getFundCategory(data[item]?.isin),
         amount: data[item].sip,
         schemeName: data[item].name,
         imagePath: data[item].imagePath,
         amc_code: data[item].amc_code,
+        amc_name: data[item].amc_name,
         productCode: data[item].productCode,
         sipDates: data[item].sipDates,
+        trxn_nature: props.navigation.state.params?.isLumpsum ? "L" : "S",
+        folio: "",
+        sip_amount: data[item].sip,
+        sip_period_day: day,
+        sip_from_date: sipFromDate(day),
+        sip_end_date: sipEndDate(day),
       };
+      //if (!props.navigation.state.params?.isLumpsum) {
+      //format = {
+      //...format,
+      //sip_amount: data[item].sip,
+      //sip_period_day: day,
+      //sip_from_date: sipFromDate(day),
+      //sip_end_date: sipEndDate(day),
+      //};
+      //}
       formatted.push(format);
     }
     return formatted;
@@ -95,7 +184,7 @@ function InvestmentListScreens(props) {
   const getParams = (data, sum) => {
     return {
       userPhoneNumber: phone,
-      planName: "Aggressive Funds",
+      planName: investment?.investmentPlan,
       sip_date: "",
       userID: "",
       holdings: getHoldings(data),
@@ -103,6 +192,33 @@ function InvestmentListScreens(props) {
       investmentPlanAmount: sum,
       paidAmount: sum,
     };
+  };
+
+  const plusMinus = (type, value, dates) => {
+    let newValue = 0;
+    if (type === "plus") {
+      for (let i in dates.split(",")) {
+        if (parseInt(dates.split(",")[i]) === parseInt(value)) {
+          if (parseInt(i) === dates.split(",").length - 1) {
+            newValue = parseInt(dates.split(",")[0]);
+          } else {
+            newValue = parseInt(dates.split(",")[parseInt(i) + 1]);
+          }
+        }
+      }
+    } else {
+      for (let i in dates.split(",")) {
+        if (parseInt(dates.split(",")[i]) === parseInt(value)) {
+          if (parseInt(i) === 0) {
+            newValue = parseInt(dates.split(",")[dates.split(",").length - 1]);
+          } else {
+            newValue = parseInt(dates.split(",")[parseInt(i) - 1]);
+          }
+        }
+      }
+    }
+    if (newValue == 0) newValue = parseInt(dates.split(",")[0]);
+    return newValue;
   };
 
   return (
@@ -203,9 +319,9 @@ function InvestmentListScreens(props) {
                         <Text numberOfLines={1} style={styles.axis}>
                           {item?.name}
                         </Text>
-                        <Text style={styles.moderately}>
+                        {/*<Text style={styles.moderately}>
                           {item?.productCode}
-                        </Text>
+                        </Text>*/}
                       </View>
                       <AntDesign
                         style={{
@@ -251,7 +367,10 @@ function InvestmentListScreens(props) {
                       <View style={styles.select}>
                         <Text style={styles.no}>Min Investment</Text>
                         <Text>
-                          ₹{item?.investment ? item?.investment : "1000"}
+                          ₹
+                          {props.navigation.state.params?.isLumpsum
+                            ? item?.lumpsum_min_amount
+                            : item?.sip_min_amount}
                         </Text>
                       </View>
                       {configs?.selectedOption &&
@@ -262,7 +381,7 @@ function InvestmentListScreens(props) {
                               <Text style={styles.new}>
                                 {dates[`${category}${index}`]
                                   ? dates[`${category}${index}`]
-                                  : parseInt(item?.default_date, 10)}
+                                  : parseInt(item?.sipDates.split(",")[0])}
                               </Text>
                               <View style={{ flexDirection: "column" }}>
                                 <TouchableOpacity
@@ -270,17 +389,17 @@ function InvestmentListScreens(props) {
                                     let data = myInvestlist;
                                     let date = data[category][index]?.date
                                       ? data[category][index]?.date
-                                      : parseInt(item?.default_date, 10);
-                                    if (date == 30) {
-                                      alert("Date cannot be more than 30");
-                                      return;
-                                    }
-                                    data[category][index].date = date + 1;
+                                      : parseInt(item?.sipDates.split(",")[0]);
+                                    let modifiedDate = plusMinus(
+                                      "plus",
+                                      date,
+                                      data[category][index].sipDates
+                                    );
+                                    data[category][index].date = modifiedDate;
                                     setDates({
                                       ...dates,
-                                      [`${category}${index}`]: date + 1,
+                                      [`${category}${index}`]: modifiedDate,
                                     });
-                                    console.log(dates);
                                     myInvestments(data);
                                   }}
                                 >
@@ -295,13 +414,17 @@ function InvestmentListScreens(props) {
                                     let data = myInvestlist;
                                     let date = data[category][index]?.date
                                       ? data[category][index]?.date
-                                      : parseInt(item?.default_date, 10);
-                                    if (date == 1) {
-                                      alert("Date cannot be less than 1");
-                                      return;
-                                    }
-                                    data[category][index].date = date - 1;
-                                    setDates({ ...dates, [index]: date - 1 });
+                                      : parseInt(item?.sipDates.split(",")[0]);
+                                    let modifiedDate = plusMinus(
+                                      "minus",
+                                      date,
+                                      data[category][index].sipDates
+                                    );
+                                    data[category][index].date = modifiedDate;
+                                    setDates({
+                                      ...dates,
+                                      [`${category}${index}`]: modifiedDate,
+                                    });
                                     myInvestments(data);
                                   }}
                                 >
@@ -367,7 +490,10 @@ function InvestmentListScreens(props) {
           for (let category in categories) {
             for (let item in myInvestlist[categories[category]]) {
               let amount = getSip(myInvestlist[categories[category]][item].sip);
-              if (amount < item.default_min_amount) {
+              let minAmount = props.navigation.state.params?.isLumpsum
+                ? myInvestlist[categories[category]][item]?.lumpsum_min_amount
+                : myInvestlist[categories[category]][item]?.sip_min_amount;
+              if (amount < minAmount && amount !== 0) {
                 alert("Amount is less than minimum amount");
                 return;
               }
@@ -402,10 +528,10 @@ function InvestmentListScreens(props) {
                       }
                     }
                     let params = getParams(data, sum);
-                    newInvestment(params, token);
-                    console.log(params, token);
+                    //newInvestment(params, token);
                     props.navigation.navigate("InvestmentSubmit", {
                       isLumpsum: props.navigation.state.params.isLumpsum,
+                      params,
                     });
                   },
                 },
@@ -424,9 +550,10 @@ function InvestmentListScreens(props) {
               }
             }
             let params = getParams(data, sum);
-            newInvestment(params, token);
+            //newInvestment(params, token);
             props.navigation.navigate("InvestmentSubmit", {
               isLumpsum: props.navigation.state.params.isLumpsum,
+              params,
             });
           }
         }}

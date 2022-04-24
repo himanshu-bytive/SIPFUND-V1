@@ -82,6 +82,12 @@ export const CartActions = {
       });
     }
   },
+  updateCart: async (dispatch, cart) => {
+    dispatch({
+      type: types.FETCH_CART_DETAILS_SUCCESS,
+      cart,
+    });
+  },
 
   setAddItemSucces: (dispatch) => {
     dispatch({ type: types.SET_ADD_ITEM_SUCCESS });

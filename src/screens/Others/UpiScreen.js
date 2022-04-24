@@ -47,7 +47,7 @@ function UpiScreen(props) {
   useEffect(() => {
     if (isFetching === false && clicked && error) {
       setWebViewActive(false);
-      setWebUrl("");
+      //setWebUrl("");
       props.navigation.navigate("Profile");
       props.navigation.navigate("Home");
     }
@@ -168,73 +168,82 @@ function UpiScreen(props) {
     let format = {};
     const d = new Date();
     for (let item in data) {
-      if (props.navigation.state.params.fromCart) {
-        format = {
-          amc: data[item].amc,
-          amount: data[item].sip_amount,
-          folio: "",
-          product_code: data[item].product_code,
-          reinvest: "Z",
-          sip_amount: data[item].sip_amount,
-          sip_end_date: sipEndDate(
-            data[item]?.sipDates
-              ? data[item]?.sipDates[0]
-              : data[item]?.default_date
-          ),
-          sip_freq: "OM",
-          sip_from_date: sipFromDate(
-            data[item]?.sipDates
-              ? data[item]?.sipDates[0]
-              : data[item]?.default_date
-          ),
-          //sip_period_day: getPeriodDay(d.getDate(), d.getMonth()),
-          sip_period_day: data[item]?.sipDates
-            ? data[item]?.sipDates[0] == 0
-              ? 1
-              : data[item].sipDates[0]
-            : data[item]?.default_date,
-        };
-      } else if (props.navigation.state.params.fromPlanGoals) {
-        format = {
-          amc: data[item].schemeInfo.amc_code,
-          amount: data[item].schemeInfo.sip,
-          folio: "",
-          product_code: data[item].schemeInfo.productCode,
-          reinvest: "Z",
-          sip_amount: data[item].schemeInfo.sip
-            ? data[item].schemeInfo?.sip
-            : props.navigation.state.params?.showModified
-            ? data[item].schemeInfo?.allocationAmountModifiled
-              ? data[item].schemeInfo?.allocationAmountModifiled.toFixed(0)
-              : 0
-            : data[item].schemeInfo?.allocationAmount
-            ? data[item].schemeInfo?.allocationAmount.toFixed(0)
-            : 0,
-          sip_end_date: sipEndDate(data[item].schemeInfo.sipDates[0]),
-          sip_freq: "OM",
-          sip_from_date: sipFromDate(data[item].schemeInfo.sipDates[0]),
-          //sip_period_day: getPeriodDay(d.getDate(), d.getMonth()),
-          sip_period_day:
-            data[item].schemeInfo.sipDates[0] == 0
-              ? 1
-              : data[item].schemeInfo.sipDates[0],
-        };
-      } else {
-        format = {
-          amc: data[item].amc_code,
-          amount: data[item].sip,
-          folio: "",
-          product_code: data[item].productCode,
-          reinvest: "Z",
-          sip_amount: data[item].sip,
-          sip_end_date: sipEndDate(data[item].sipDates[0]),
-          sip_freq: "OM",
-          sip_from_date: sipFromDate(data[item].sipDates[0]),
-          //sip_period_day: getPeriodDay(d.getDate(), d.getMonth()),
-          sip_period_day:
-            data[item].sipDates[0] == 0 ? 1 : data[item].sipDates[0],
-        };
-      }
+      let i = data[item];
+      delete i.image_path;
+      format = {
+        ...i,
+        folio: "",
+        sip_amount: data[item].amount,
+      };
+      //if (props.navigation.state.params.fromCart) {
+      //format = {
+      //amc: data[item].amc,
+      //amount: data[item].sip_amount,
+      //folio: "",
+      //product_code: data[item].product_code,
+      //reinvest: "Z",
+      //sip_amount: data[item].amount,
+      //sip_freq: "OM",
+      //sip_from_date: data[item]?.sip_from_date
+      //? data[item]?.sip_from_date
+      //: sipFromDate(
+      //data[item]?.sipDates
+      //? data[item]?.sipDates[0]
+      //: data[item]?.default_date
+      //),
+      //sip_end_date: data[item]?.sip_end_date
+      //? data[item]?.sip_end_date
+      //: sipEndDate(
+      //data[item]?.sipDates
+      //? data[item]?.sipDates[0]
+      //: data[item]?.default_date
+      //),
+      ////sip_period_day: getPeriodDay(d.getDate(), d.getMonth()),
+      //sip_period_day: data[item]?.sip_period_day
+      //? data[item]?.sip_period_day
+      //: data[item].sipDates[0],
+      //};
+      //} else if (props.navigation.state.params.fromPlanGoals) {
+      //format = {
+      //amc: data[item].schemeInfo.amc_code,
+      //amount: data[item].schemeInfo.sip,
+      //folio: "",
+      //product_code: data[item].schemeInfo.productCode,
+      //reinvest: "Z",
+      //sip_amount: data[item].schemeInfo.sip
+      //? data[item].schemeInfo?.sip
+      //: props.navigation.state.params?.showModified
+      //? data[item].schemeInfo?.allocationAmountModifiled
+      //? data[item].schemeInfo?.allocationAmountModifiled.toFixed(0)
+      //: 0
+      //: data[item].schemeInfo?.allocationAmount
+      //? data[item].schemeInfo?.allocationAmount.toFixed(0)
+      //: 0,
+      //sip_end_date: sipEndDate(data[item].schemeInfo.sipDates[0]),
+      //sip_freq: "OM",
+      //sip_from_date: sipFromDate(data[item].schemeInfo.sipDates[0]),
+      ////sip_period_day: getPeriodDay(d.getDate(), d.getMonth()),
+      //sip_period_day:
+      //data[item].schemeInfo.sipDates[0] == 0
+      //? 1
+      //: data[item].schemeInfo.sipDates[0],
+      //};
+      //} else {
+      //format = {
+      //amc: data[item].amc_code,
+      //amount: data[item].sip,
+      //folio: "",
+      //product_code: data[item].productCode,
+      //reinvest: "Z",
+      //sip_amount: data[item].sip,
+      //sip_end_date: sipEndDate(data[item].sipDates[0]),
+      //sip_freq: "OM",
+      //sip_from_date: sipFromDate(data[item].sipDates[0]),
+      ////sip_period_day: getPeriodDay(d.getDate(), d.getMonth()),
+      //sip_period_day:
+      //data[item].sipDates[0] == 0 ? 1 : data[item].sipDates[0],
+      //};
+      //}
       formatted.push(format);
     }
     return formatted;
@@ -330,6 +339,7 @@ function UpiScreen(props) {
         groupName: props.navigation.state.params?.groupName,
       },
       childtrans: getTransactions(props.navigation.state?.params?.cart),
+      //childtrans: props.navigation.state?.params?.cart,
     };
   };
 
@@ -398,6 +408,7 @@ function UpiScreen(props) {
                   onPress={() => {
                     let params = getParams(true, false);
                     setClicked(true);
+                    //console.log(JSON.stringify(params, null, 2));
                     checkout(params, token);
                   }}
                   style={[styles.botton_box, styles.botton_box_none]}
@@ -450,7 +461,7 @@ function UpiScreen(props) {
                 <TouchableOpacity
                   onPress={() => {
                     setWebViewActive(false);
-                    setWebUrl("");
+                    //setWebUrl("");
                     props.navigation.navigate("Profile");
                     props.navigation.navigate("Home");
                   }}

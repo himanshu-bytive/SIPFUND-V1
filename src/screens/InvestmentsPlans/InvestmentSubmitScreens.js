@@ -26,7 +26,25 @@ import Cart from "../../components/Cart";
 
 function InvestmentSubmitScreens(props) {
   const pageActive = useRef(false);
-  const { investment, configs, isFetching, myInvestlist, pincodeInfo } = props;
+  const {
+    investment,
+    configs,
+    isFetching,
+    myInvestlist,
+    pincodeInfo,
+    newInvestment,
+    getCartDetails,
+    token,
+  } = props;
+
+  const [paymentInitiated, setPaymentInitiated] = useState(false);
+
+  useEffect(() => {
+    if (paymentInitiated && !isFetching && pincodeInfo) {
+      setPaymentInitiated(false);
+      props.navigation.navigate("TopRatedList");
+    }
+  }, [paymentInitiated, isFetching]);
 
   const [sum, setSum] = useState(0);
 
@@ -137,37 +155,40 @@ function InvestmentSubmitScreens(props) {
       </ScrollView>
       <TouchableOpacity
         onPress={() => {
-          let data = [];
-          for (let category in Object.keys(myInvestlist)) {
-            for (let item in myInvestlist[
-              Object.keys(myInvestlist)[category]
-            ]) {
-              if (
-                !isNaN(
-                  myInvestlist[Object.keys(myInvestlist)[category]][item].sip
-                ) &&
-                myInvestlist[Object.keys(myInvestlist)[category]][item].sip != 0
-              ) {
-                data.push(
-                  myInvestlist[Object.keys(myInvestlist)[category]][item]
-                );
-              }
-            }
-          }
-          props.navigation.navigate("Upi", {
-            cart: data,
-            sum: sum,
-            fromCart: false,
-            fromPlanGoals: false,
-            isLumpsum: props.navigation.state.params.isLumpsum,
-            groupId: pincodeInfo?._id,
-            groupType: "Investment Plans",
-            groupName: investment.investmentPlan,
-          });
+          //let data = [];
+          //for (let category in Object.keys(myInvestlist)) {
+          //for (let item in myInvestlist[
+          //Object.keys(myInvestlist)[category]
+          //]) {
+          //if (
+          //!isNaN(
+          //myInvestlist[Object.keys(myInvestlist)[category]][item].sip
+          //) &&
+          //myInvestlist[Object.keys(myInvestlist)[category]][item].sip != 0
+          //) {
+          //data.push(
+          //myInvestlist[Object.keys(myInvestlist)[category]][item]
+          //);
+          //}
+          //}
+          //}
+          //props.navigation.navigate("Upi", {
+          //cart: data,
+          //sum: sum,
+          //fromCart: false,
+          //fromPlanGoals: false,
+          //isLumpsum: props.navigation.state.params.isLumpsum,
+          //groupId: pincodeInfo?._id,
+          //groupType: "Investment Plans",
+          //groupName: investment.investmentPlan,
+          //});
+          newInvestment(props.navigation.state.params?.params, token);
+          setPaymentInitiated(true);
+          getCartDetails(token);
         }}
         style={styles.botton_box}
       >
-        <Text style={styles.get_otp}>MAKE PAYMENT</Text>
+        <Text style={styles.get_otp}>Invest</Text>
       </TouchableOpacity>
     </View>
   );
@@ -333,11 +354,18 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
   const { dispatch } = dispatchProps;
   const { InvestmentPlanActions } = require("../../store/InvestmentPlanRedux");
+  const { CartActions } = require("../../store/CartActionsRedux");
   return {
     ...stateProps,
     ...ownProps,
     investmentConfig: (data) => {
       InvestmentPlanActions.investmentConfig(dispatch, data);
+    },
+    newInvestment: (params, token) => {
+      InvestmentPlanActions.newInvestment(dispatch, params, token);
+    },
+    getCartDetails: (token) => {
+      CartActions.cartDetails(dispatch, token);
     },
   };
 };

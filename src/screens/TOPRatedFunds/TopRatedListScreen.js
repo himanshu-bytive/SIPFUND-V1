@@ -46,6 +46,7 @@ function TopRatedListScreen(props) {
   };
   const [sipTotal, setSipTotal] = useState(0);
   const [lumpsumTotal, setLumpsumTotal] = useState(0);
+  const [paymentCart, setPaymentCart] = useState();
 
   useEffect(() => {
     getCartDetails(token);
@@ -95,6 +96,24 @@ function TopRatedListScreen(props) {
       setCartEmpty(true);
     else setCartEmpty(false);
   }, [selectTab, cart]);
+
+  const [folio, setFolio] = useState();
+
+  useEffect(() => {
+    if (folio?.folio && cart) {
+      let tmp = cart;
+      for (let i in tmp) {
+        if (folio?.id === tmp[i]?._id) {
+          let fund = tmp[i];
+          fund.folio = folio?.folio;
+          tmp.splice(i, 1);
+          tmp = [...tmp, fund];
+          //setPaymentCart(tmp);
+          return;
+        }
+      }
+    }
+  }, [folio]);
 
   return (
     <View style={styles.container}>
@@ -162,7 +181,7 @@ function TopRatedListScreen(props) {
             .filter((item) => item.trxn_nature === "S")
             .map((item, key) => (
               <TopRatedFundType
-                key={key}
+                key={item?._id}
                 deleteItem={deleteItem}
                 fromSIP={true}
                 item={item}
@@ -172,6 +191,8 @@ function TopRatedListScreen(props) {
                     fromScreen: "TopRatedList",
                   });
                 }}
+                folio={folio}
+                setFolio={(val) => setFolio(val)}
               />
             ))}
         {selectTab === "LUMPSUM" &&
@@ -180,7 +201,7 @@ function TopRatedListScreen(props) {
             .filter((item) => item.trxn_nature === "N")
             .map((item, key) => (
               <TopRatedFundType
-                key={key}
+                key={item?._id}
                 deleteItem={deleteItem}
                 item={item}
                 onPress={() => {
@@ -189,6 +210,8 @@ function TopRatedListScreen(props) {
                     fromScreen: "TopRatedList",
                   });
                 }}
+                folio={folio}
+                setFolio={(val) => setFolio(val)}
               />
             ))}
       </ScrollView>
@@ -212,14 +235,21 @@ function TopRatedListScreen(props) {
       <TouchableOpacity
         onPress={() => {
           let type = getFundType();
+          let tmpCart;
+          if (paymentCart?.cartDetails) {
+            console.log("sdhbfs");
+            tmpCart = paymentCart?.cartDetails;
+          } else {
+            tmpCart = cart;
+          }
           if (
-            !cart ||
-            cart.filter((item) => item.trxn_nature === type).length === 0
+            !tmpCart ||
+            tmpCart.filter((item) => item.trxn_nature === type).length === 0
           ) {
             Alert.alert("Cart Empty", "There are no funds to check-out!");
           } else {
             props.navigation.navigate("TopRatedSubmit", {
-              cart: cart.filter((item) => item.trxn_nature === type),
+              cart: tmpCart.filter((item) => item.trxn_nature === type),
               isLumpsum: type === "N" ? true : false,
             });
           }

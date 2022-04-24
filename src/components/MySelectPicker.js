@@ -6,7 +6,16 @@ import { Styles, Config, Colors, FormValidate } from "../common";
 
 const MySelectPicker = (props) => {
   const focusInput = useRef(null);
-  const { values, defultValue, error, placeholder, onChange } = props;
+  const {
+    values,
+    defultValue,
+    error,
+    placeholder,
+    onChange,
+    style,
+    containerStyle,
+    icon,
+  } = props;
 
   useEffect(() => {
     if (error) {
@@ -24,15 +33,16 @@ const MySelectPicker = (props) => {
             value: null,
           }}
           style={{
-            inputIOS: styles.custom,
-            inputAndroid: styles.custom,
-            placeholder: styles.custom,
+            inputIOS: containerStyle ? containerStyle : styles.custom,
+            inputAndroid: containerStyle ? containerStyle : styles.custom,
+            placeholder: style ? style : styles.custom,
           }}
           useNativeAndroidPickerStyle={false}
           onValueChange={(value) => onChange(value)}
           value={defultValue}
           items={values}
           Icon={() => {
+            if (icon) return icon;
             return (
               <AntDesign
                 style={{ right: 10 }}

@@ -44,6 +44,10 @@ function SwitchCheckout(props) {
     }
   }, [switchTransactionSucces]);
 
+  useEffect(() => {
+    if (switchCheckoutDetails) console.log(setSwitchCheckoutDetails);
+  }, [switchCheckoutDetails]);
+
   const remove = (key, type) => {
     Alert.alert("Are you sure?", "Do you want remove this scheme", [
       {
@@ -93,6 +97,9 @@ function SwitchCheckout(props) {
           target_reinvest: item.targetReinvest,
           amt_unit: item.value,
           all_units: item.valueName === "Unit" ? "Y" : "N",
+          groupId: item?.groupId,
+          groupName: item?.groupName,
+          groupType: item?.groupType,
         };
       });
       let params = {
@@ -112,7 +119,6 @@ function SwitchCheckout(props) {
         },
         childtrans: [...child],
       };
-      console.log("Switch CHeckout Params =", params);
       switchCheckout(params, token);
     } else if (switchExternalCheckoutDetails !== null) {
       if (switchExternalCheckoutDetails.length < 1) {
@@ -130,6 +136,9 @@ function SwitchCheckout(props) {
           target_reinvest: item.targetReinvest,
           amt_unit: item.value,
           all_units: item.valueName === "Unit" ? "Y" : "N",
+          groupId: item?.groupId,
+          groupName: item?.groupName,
+          groupType: item?.groupType,
         };
       });
       let params = {
@@ -149,7 +158,6 @@ function SwitchCheckout(props) {
         },
         childtrans: [...child],
       };
-      console.log("Switch External CHeckout Params =", params);
       switchCheckout(params, token);
     }
   };

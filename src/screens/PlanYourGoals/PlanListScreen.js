@@ -39,7 +39,23 @@ function PlanListScreen(props) {
     childName,
     setChildName,
     disableFunds,
+    time,
+    users,
   } = props;
+  const monthsArr = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sept",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
 
   const [showModified, setShowModified] = useState(false);
 
@@ -62,13 +78,90 @@ function PlanListScreen(props) {
     return 0;
   };
 
+  const sipFromDate = (sipDay) => {
+    const date = new Date();
+
+    let day = date.getDate();
+    let month = date.getMonth();
+    let year = date.getFullYear();
+
+    if (day > sipDay) {
+      if (month === 11) {
+        month = 0;
+        year = year + 1;
+      } else {
+        month += 1;
+      }
+    }
+
+    return (
+      ("00" + sipDay).match(/\d{2}$/) + "-" + monthsArr[month] + "-" + year
+    );
+  };
+  const sipEndDate = (sipDay) => {
+    const date = new Date();
+
+    let day = date.getDate();
+    let month = date.getMonth();
+    let year = date.getFullYear();
+
+    if (day > sipDay) {
+      if (month === 11) {
+        month = 0;
+        year = year + 1;
+      } else {
+        month += 1;
+      }
+    }
+
+    return (
+      ("00" + sipDay).match(/\d{2}$/) +
+      "-" +
+      monthsArr[month] +
+      "-" +
+      `${parseInt(year) + parseInt(time)}`
+    );
+  };
+
   const getParams = (goals, sum) => {
     let dat = [];
     for (let i in goals) {
-      dat.push(goals[i].schemeInfo);
+      let a = goals[i].schemeInfo;
+      a.schemeName = a.name;
+      a.trxn_nature = isLumpsum ? "L" : "S";
+      a.expectedInflationRate = props.inflation;
+      a.exprectedRateOfReturn = props.returnRate;
+      a.currentInvestment = props.currentInvestment;
+      a.costOfLiving = props.costOfLiving;
+      a.category = goals[i].schems;
+
+      if (!isLumpsum) {
+        a.sip_freq = "OM";
+        let sipDay = a?.sip_period_day
+          ? a?.sip_period_day
+          : parseInt(a?.sipDates.split(",")[0]);
+        a.sip_period_day = sipDay;
+        a.sip_from_date = sipFromDate(sipDay);
+        a.sip_end_date = sipEndDate(sipDay);
+      }
+
+      let amount = goals[i].schemeInfo?.sip
+        ? goals[i].schemeInfo?.sip
+        : showModified
+        ? goals[i].schemeInfo?.allocationAmountModifiled
+          ? goals[i].schemeInfo?.allocationAmountModifiled.toFixed(0)
+          : 0
+        : goals[i].schemeInfo?.allocationAmount
+        ? goals[i].schemeInfo?.allocationAmount.toFixed(0)
+        : 0;
+      a.amount = amount;
+      delete a.name;
+      if (!isNaN(amount) && parseInt(amount) != 0) {
+        dat.push(a);
+      }
     }
     return {
-      userPhoneNumber: "",
+      userPhoneNumber: users?.mobileNo,
       goal: {
         name: goalDetail?.goal,
         numberOfYears: goalDetail?.additionalInfo.time_years,
@@ -86,7 +179,6 @@ function PlanListScreen(props) {
       goalDetail.allocationFlag === false &&
       goalDetail.investmentAmountDifference
     ) {
-      console.log(goalDetail);
       Alert.alert(
         "Alert Title",
         `Your total investment amount will be increased by ₹${goalDetail.investmentAmountDifference.toFixed(
@@ -259,12 +351,13 @@ function PlanListScreen(props) {
                       goals,
                       sum
                     );
-                    newInvestment(params, token);
+                    //newInvestment(params, token);
                     disableFunds();
                     navigation.navigate("PlanSubmit", {
                       sum: sum,
                       isLumpsum,
                       showModified,
+                      params,
                     });
                   },
                 },
@@ -283,12 +376,13 @@ function PlanListScreen(props) {
               goals,
               sum
             );
-            newInvestment(params, token);
+            //newInvestment(params, token);
             disableFunds();
             navigation.navigate("PlanSubmit", {
               sum: sum,
               isLumpsum,
               showModified,
+              params,
             });
           }
         }}
@@ -526,7 +620,7 @@ const styles = StyleSheet.create({
 });
 const mapStateToProps = (state) => ({
   token: state.auth.token,
-  users: state.auth.users,
+  users: state.auth.user,
   isFetching: state.goals.isFetching,
   goalDetail: state.goals.goalDetail,
   mygolelist: state.goals.mygolelist,

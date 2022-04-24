@@ -95,10 +95,13 @@ export const GoalsActions = {
         token
       );
       if (pincodes) {
+        alert("Investments added to Cart!");
         dispatch({
           type: types.FETCH_GOALUSER_SUCCESS,
           pincodeInfo: pincodes.respone,
         });
+      } else {
+        console.log(pincodes);
       }
     }
   },

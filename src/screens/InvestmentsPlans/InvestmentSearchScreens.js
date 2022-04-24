@@ -60,11 +60,13 @@ function InvestmentSearchScreens(props) {
       type: "new",
       amc_code: "101",
       imagePath: `https://sipfund.sfo2.digitaloceanspaces.com/product-AMC-images/${value.productAMCImage}`,
-      name: value.productDisplayName,
+      name: value.productName,
       isin: value.productISIN,
       productCode: value.productISIN,
       default_date: value.sipDates.split(",")[0],
-      sipDates: value?.sipDates ? value?.sipDates.split(",") : [1],
+      sipDates: value?.sipDates,
+      sip_min_amount: value?.minimumSIPAmount,
+      lumpsum_min_amount: value?.minimumLumpsumAmount,
     };
   };
 
@@ -73,7 +75,7 @@ function InvestmentSearchScreens(props) {
 
     let data = getFormattedItem(value);
 
-    let dataKey = value.productName;
+    let dataKey = value.Category;
 
     if (list[dataKey]) {
       list = {
@@ -161,10 +163,10 @@ function InvestmentSearchScreens(props) {
                 style={styles.axisimg}
               />
               <View style={styles.management}>
-                <Text style={styles.axis}>{item.productDisplayName}</Text>
+                <Text style={styles.axis}>{item.productName}</Text>
                 <View>
                   <Text numberOfLines={1} style={styles.moderately}>
-                    {item.productName}
+                    {item.Category}
                   </Text>
                   <Text style={styles.moderately}>{item.productISIN}</Text>
                 </View>

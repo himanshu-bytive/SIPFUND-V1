@@ -276,7 +276,7 @@ function FundsHomeScreen(props) {
               <Text numberOfLines={2} style={styles.axis_asset}>
                 {fundDetail?.name ? fundDetail?.name : fundDetail?.product_name}
               </Text>
-              <Text style={styles.midcap}>{fundDetail?.productCode}</Text>
+              {/*<Text style={styles.midcap}>{fundDetail?.productCode}</Text>*/}
             </View>
           </View>
         </View>

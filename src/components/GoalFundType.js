@@ -20,22 +20,31 @@ const randerData = (
   selectedOption,
   showModified
 ) => {
-  const plusMinus = (type, value) => {
+  const plusMinus = (type, value, dates) => {
+    let newValue = 0;
     if (type === "plus") {
-      let newValue = parseInt(value) + 1;
-      if (newValue > 30) {
-        alert("Value can't be more than 30!");
-        newValue = 30;
+      for (let i in dates.split(",")) {
+        if (parseInt(dates.split(",")[i]) === parseInt(value)) {
+          if (parseInt(i) === dates.split(",").length - 1) {
+            newValue = parseInt(dates.split(",")[0]);
+          } else {
+            newValue = parseInt(dates.split(",")[parseInt(i) + 1]);
+          }
+        }
       }
-      onChange(k, newValue, "default_date");
     } else {
-      let newValue = parseInt(value) - 1;
-      if (newValue < 1) {
-        alert("Value can't be less than 1!");
-        newValue = 1;
+      for (let i in dates.split(",")) {
+        if (parseInt(dates.split(",")[i]) === parseInt(value)) {
+          if (parseInt(i) === 0) {
+            newValue = parseInt(dates.split(",")[dates.split(",").length - 1]);
+          } else {
+            newValue = parseInt(dates.split(",")[parseInt(i) - 1]);
+          }
+        }
       }
-      onChange(k, newValue, "default_date");
     }
+    if (newValue == 0) newValue = parseInt(dates.split(",")[0]);
+    onChange(k, newValue, "sip_period_day");
   };
 
   if (data?.schemeInfo && data.schemeInfo != "NA") {
@@ -60,7 +69,7 @@ const randerData = (
                   />
                   <View style={styles.management}>
                     <Text style={styles.axis}>{item.name}</Text>
-                    <Text style={styles.moderately}>{item.productCode}</Text>
+                    {/*<Text style={styles.moderately}>{item.productCode}</Text>*/}
                   </View>
                 </View>
                 <AntDesign
@@ -105,16 +114,19 @@ const randerData = (
                     <Text style={styles.no}>SIP Date</Text>
                     <View style={{ flexDirection: "row" }}>
                       <Text style={styles.new}>
-                        {item.default_date
-                          ? parseInt(item.default_date, 10)
-                          : "5"}
+                        {item.sip_period_day
+                          ? item.sip_period_day
+                          : parseInt(item.sipDates.split(",")[0])}
                       </Text>
                       <View style={{ flexDirection: "column" }}>
                         <TouchableOpacity
                           onPress={() =>
                             plusMinus(
                               "plus",
-                              item.default_date ? item.default_date : "5"
+                              item.sip_period_day
+                                ? item.sip_period_day
+                                : item.sipDates.split(",")[0],
+                              item.sipDates
                             )
                           }
                         >
@@ -124,7 +136,10 @@ const randerData = (
                           onPress={() =>
                             plusMinus(
                               "minus",
-                              item.default_date ? item.default_date : "5"
+                              item.sip_period_day
+                                ? item.sip_period_day
+                                : item.sipDates.split(",")[0],
+                              item.sipDates
                             )
                           }
                         >
@@ -264,8 +279,9 @@ const styles = StyleSheet.create({
     color: Colors.DEEP_GRAY,
   },
   axisimg: {
-    height: 39,
-    width: 39,
+    height: 40,
+    width: 40,
+    resizeMode: "contain",
   },
   checkbox: {
     position: "absolute",

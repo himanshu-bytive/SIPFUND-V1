@@ -42,6 +42,15 @@ function TransactionHistoryScreen(props) {
   } = props;
   const [visible, setVisible] = useState(false);
 
+  const [transactions, setTransactions] = useState([]);
+
+  useEffect(() => {
+    if (transactionHistory) {
+      console.log(JSON.stringify(transactionHistory, null, 2));
+      setTransactions(transactionHistory);
+    }
+  }, [transactionHistory]);
+
   const toggleOverlay = () => {
     setVisible(!visible);
   };
@@ -75,6 +84,7 @@ function TransactionHistoryScreen(props) {
 
   useEffect(() => {
     if (user !== null && profile !== null) {
+      setTransactions([]);
       // console.log("user=", user);
       console.log("profile=", profile);
 
@@ -94,92 +104,105 @@ function TransactionHistoryScreen(props) {
   }, [user, profile]);
 
   return (
-    <View style={styles.container}>
-      <Header
-        leftComponent={
-          <TouchableOpacity
-            onPress={() => props.navigation.goBack()}
-            style={{ marginTop: 20 }}
-          >
-            <AntDesign name={"arrowleft"} size={30} color={Colors.RED} />
-          </TouchableOpacity>
-        }
-        rightComponent={
-          <Cart
-            nav={() => {
-              props.navigation.navigate("TopRatedList");
-            }}
-          />
-        }
-        backgroundColor={Colors.LIGHT_WHITE}
-        containerStyle={styles.header}
-        centerComponent={
-          <Image
-            source={require("../../../assets/icon.png")}
-            style={styles.logimg}
-          />
-        }
-      />
-      <ScrollView style={styles.containerScroll}>
-        <View style={styles.switch_sec}>
-          <Text style={styles.transaction}>Transaction History</Text>
-        </View>
-        {!transactionHistory || transactionHistory.length === 0 ? (
+    <>
+      <View style={styles.container}>
+        <Header
+          leftComponent={
+            <TouchableOpacity
+              onPress={() => props.navigation.goBack()}
+              style={{ marginTop: 20 }}
+            >
+              <AntDesign name={"arrowleft"} size={30} color={Colors.RED} />
+            </TouchableOpacity>
+          }
+          rightComponent={
+            <Cart
+              nav={() => {
+                props.navigation.navigate("TopRatedList");
+              }}
+            />
+          }
+          backgroundColor={Colors.LIGHT_WHITE}
+          containerStyle={styles.header}
+          centerComponent={
+            <Image
+              source={require("../../../assets/icon.png")}
+              style={styles.logimg}
+            />
+          }
+        />
+        {isFetching && (
           <View
             style={{
+              backgroundColor: "#0000",
+              left: Dimensions.get("window").width / 2 - 25,
+              top: Dimensions.get("window").height / 2 + 61,
+              position: "absolute",
+              zIndex: 100,
               alignItems: "center",
-              marginTop: "50%",
+              justifyContent: "center",
             }}
           >
-            <Text>
-              {isFetching
-                ? "Fetching Transactions..."
-                : "You don't have any transactions!"}
-            </Text>
+            <ActivityIndicator size={50} color="black" />
           </View>
-        ) : (
-          transactionHistory &&
-          transactionHistory.map((item) => {
-            return (
-              <View style={styles.transaction_history}>
-                <View style={styles.fund_sec}>
-                  <Text style={styles.Fund}>Fund</Text>
-                  <Text style={styles.axis}>{item.LONG_NAME}</Text>
-                </View>
-                <View style={styles.fund_sec}>
-                  <Text style={styles.Fund}>Folio No</Text>
-                  <Text style={styles.axis}>{item.FOLIO_NO}</Text>
-                </View>
-                <View style={styles.fund_sec}>
-                  <Text style={styles.Fund}>Scheme Name</Text>
-                  <Text style={styles.axis}>{item.PRODUCT_CODE}</Text>
-                </View>
-                <View style={styles.fund_sec}>
-                  <Text style={styles.Fund}>Trxn Type</Text>
-                  <Text style={styles.axis}>{item.TRXN_TYPE}</Text>
-                </View>
-                <View style={styles.fund_sec}>
-                  <Text style={styles.Fund}>Trxn Status</Text>
-                  <Text style={styles.axis}>{item.TRXN_STATUS}</Text>
-                </View>
-                <View style={styles.fund_sec}>
-                  <Text style={styles.Fund}>Amount</Text>
-                  <Text style={styles.axis}>{item.AMOUNT}</Text>
-                </View>
-                <View style={styles.fund_sec}>
-                  <Text style={styles.Fund}>Unit</Text>
-                  <Text style={styles.axis}>{item.UNITS}</Text>
-                </View>
-                <View style={styles.fund_sec}>
-                  <Text style={styles.Fund}>Date</Text>
-                  <Text style={styles.axis}>{item.DATE_OF_TRXN_REQUEST}</Text>
-                </View>
-              </View>
-            );
-          })
         )}
-      </ScrollView>
-    </View>
+        <ScrollView style={styles.containerScroll}>
+          <View style={styles.switch_sec}>
+            <Text style={styles.transaction}>Transaction History</Text>
+          </View>
+          {!transactionHistory || transactionHistory.length === 0 ? (
+            <View
+              style={{
+                alignItems: "center",
+                marginTop: "50%",
+              }}
+            >
+              <Text>{!isFetching && "You don't have any transactions!"}</Text>
+            </View>
+          ) : (
+            transactions &&
+            transactions.map((item) => {
+              return (
+                <View style={styles.transaction_history}>
+                  <View style={styles.fund_sec}>
+                    <Text style={styles.Fund}>Fund</Text>
+                    <Text style={styles.axis}>{item.LONG_NAME}</Text>
+                  </View>
+                  <View style={styles.fund_sec}>
+                    <Text style={styles.Fund}>Folio No</Text>
+                    <Text style={styles.axis}>{item.FOLIO_NO.toString()}</Text>
+                  </View>
+                  <View style={styles.fund_sec}>
+                    <Text style={styles.Fund}>Scheme Name</Text>
+                    <Text style={styles.axis}>{item.PRODUCT_CODE}</Text>
+                  </View>
+                  <View style={styles.fund_sec}>
+                    <Text style={styles.Fund}>Trxn Type</Text>
+                    <Text style={styles.axis}>{item.TRXN_TYPE}</Text>
+                  </View>
+                  <View style={styles.fund_sec}>
+                    <Text style={styles.Fund}>Trxn Status</Text>
+                    <Text style={styles.axis}>{item.TRXN_STATUS}</Text>
+                  </View>
+                  <View style={styles.fund_sec}>
+                    <Text style={styles.Fund}>Amount</Text>
+                    <Text style={styles.axis}>{item.AMOUNT}</Text>
+                  </View>
+                  <View style={styles.fund_sec}>
+                    <Text style={styles.Fund}>Unit</Text>
+                    <Text style={styles.axis}>{item.UNITS.toString()}</Text>
+                  </View>
+                  <View style={styles.fund_sec}>
+                    <Text style={styles.Fund}>Date</Text>
+                    <Text style={styles.axis}>{item.DATE_OF_TRXN_REQUEST}</Text>
+                  </View>
+                </View>
+              );
+            })
+          )}
+        </ScrollView>
+      </View>
+    </>
   );
 }
 

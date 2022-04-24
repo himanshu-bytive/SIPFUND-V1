@@ -239,9 +239,17 @@ function TopRatedHomeScreen(props) {
     amcCode: "",
     amcName: "",
     imagePath: "",
+    minAmount: 0,
   });
 
-  const invest = (imagePath, amcCode, amcName, productCode, productName) => {
+  const invest = (
+    imagePath,
+    amcCode,
+    amcName,
+    productCode,
+    productName,
+    minAmount
+  ) => {
     setStates({
       ...states,
       productCode,
@@ -249,6 +257,8 @@ function TopRatedHomeScreen(props) {
       amcCode,
       amcName,
       imagePath,
+      minAmount,
+      groupType: "toprated",
     });
     setVisible(!visible);
   };
@@ -321,7 +331,7 @@ function TopRatedHomeScreen(props) {
   };
 
   const addToCartLumpSum = () => {
-    if (+states.amount < 1000) {
+    if (states.amount < states?.minAmount) {
       alert("Amount is less than minimum amount");
       return;
     }
@@ -337,6 +347,7 @@ function TopRatedHomeScreen(props) {
         amount: states.amount,
         sip_amount: states.amount,
         image_path: states.imagePath,
+        groupType: "toprated",
       },
     };
     toggleOverlay();
@@ -344,7 +355,7 @@ function TopRatedHomeScreen(props) {
     getCartDetails(token);
   };
   const addToCartSip = () => {
-    if (states.amount < 1000) {
+    if (states.amount < states?.minAmount) {
       alert("Amount is less than minimum amount");
       return;
     }
@@ -364,6 +375,7 @@ function TopRatedHomeScreen(props) {
         amc_name: states.amcName,
         amc: states.amcCode,
         image_path: states.imagePath,
+        groupType: "toprated",
       },
     };
     toggleOverlay();
@@ -589,7 +601,10 @@ function TopRatedHomeScreen(props) {
                         item.amcCode,
                         item.amcName,
                         item.productCode,
-                        item.productName
+                        item.productName,
+                        parseInt(item.api["PI-MinimumInitial"]) < 1000
+                          ? 1000
+                          : parseInt(item.api["PI-MinimumInitial"])
                       )
                     }
                     style={styles.botton_box}
@@ -604,9 +619,9 @@ function TopRatedHomeScreen(props) {
                   <View style={styles.mininvestment}>
                     <Text style={styles.min}>Min. Investment</Text>
                     <Text style={styles.min}>
-                      {+item.api["PI-MinimumInitial"] > 1000
-                        ? "₹" + 1000
-                        : "₹" + item.api["PI-MinimumInitial"]}
+                      {parseInt(item.api["PI-MinimumInitial"]) < 1000
+                        ? `₹1000`
+                        : `₹${item.api["PI-MinimumInitial"]}`}
                     </Text>
                   </View>
                   <View style={styles.mininvestment}>
