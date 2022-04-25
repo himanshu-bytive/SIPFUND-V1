@@ -239,7 +239,8 @@ function TopRatedHomeScreen(props) {
     amcCode: "",
     amcName: "",
     imagePath: "",
-    minAmount: 0,
+    minimumSIPAmount: 0,
+    minimumLumpsumAmount: 0,
   });
 
   const invest = (
@@ -248,7 +249,8 @@ function TopRatedHomeScreen(props) {
     amcName,
     productCode,
     productName,
-    minAmount
+    minimumSIPAmount,
+    minimumLumpsumAmount
   ) => {
     setStates({
       ...states,
@@ -257,7 +259,8 @@ function TopRatedHomeScreen(props) {
       amcCode,
       amcName,
       imagePath,
-      minAmount,
+      minimumSIPAmount,
+      minimumLumpsumAmount,
       groupType: "toprated",
     });
     setVisible(!visible);
@@ -331,7 +334,7 @@ function TopRatedHomeScreen(props) {
   };
 
   const addToCartLumpSum = () => {
-    if (states.amount < states?.minAmount) {
+    if (states.amount < states?.minimumLumpsumAmount) {
       alert("Amount is less than minimum amount");
       return;
     }
@@ -355,7 +358,7 @@ function TopRatedHomeScreen(props) {
     getCartDetails(token);
   };
   const addToCartSip = () => {
-    if (states.amount < states?.minAmount) {
+    if (states.amount < states?.minimumSIPAmount) {
       alert("Amount is less than minimum amount");
       return;
     }
@@ -595,18 +598,21 @@ function TopRatedHomeScreen(props) {
                     </View>
                   </TouchableOpacity>
                   <TouchableOpacity
-                    onPress={() =>
+                    onPress={() => {
                       invest(
                         item.imagePath,
                         item.amcCode,
                         item.amcName,
                         item.productCode,
                         item.productName,
-                        parseInt(item.api["PI-MinimumInitial"]) < 1000
+                        parseInt(item?.minimumSIPAmount) < 1000
                           ? 1000
-                          : parseInt(item.api["PI-MinimumInitial"])
-                      )
-                    }
+                          : parseInt(item?.minimumSIPAmount),
+                        parseInt(item?.minimumLumpsumAmount) < 1000
+                          ? 1000
+                          : parseInt(item?.minimumLumpsumAmount)
+                      );
+                    }}
                     style={styles.botton_box}
                   >
                     <Text style={styles.get_otp}>INVEST</Text>
