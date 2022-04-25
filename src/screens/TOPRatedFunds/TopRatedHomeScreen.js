@@ -625,9 +625,9 @@ function TopRatedHomeScreen(props) {
                   <View style={styles.mininvestment}>
                     <Text style={styles.min}>Min. Investment</Text>
                     <Text style={styles.min}>
-                      {parseInt(item.api["PI-MinimumInitial"]) < 1000
+                      {parseInt(item.minimumSIPAmount) < 1000
                         ? `₹1000`
-                        : `₹${item.api["PI-MinimumInitial"]}`}
+                        : `₹${item.minimumSIPAmount}`}
                     </Text>
                   </View>
                   <View style={styles.mininvestment}>
