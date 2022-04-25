@@ -128,7 +128,7 @@ function PlanListScreen(props) {
     for (let i in goals) {
       let a = goals[i].schemeInfo;
       a.schemeName = a.name;
-      a.trxn_nature = isLumpsum ? "L" : "S";
+      a.trxn_nature = isLumpsum ? "N" : "S";
       a.expectedInflationRate = props.inflation;
       a.exprectedRateOfReturn = props.returnRate;
       a.currentInvestment = props.currentInvestment;

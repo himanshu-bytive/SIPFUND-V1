@@ -160,7 +160,7 @@ function InvestmentListScreens(props) {
         amc_name: data[item].amc_name,
         productCode: data[item].productCode,
         sipDates: data[item].sipDates,
-        trxn_nature: props.navigation.state.params?.isLumpsum ? "L" : "S",
+        trxn_nature: props.navigation.state.params?.isLumpsum ? "N" : "S",
         folio: "",
         sip_amount: data[item].sip,
         sip_period_day: day,
