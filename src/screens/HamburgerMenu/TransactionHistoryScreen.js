@@ -46,7 +46,7 @@ function TransactionHistoryScreen(props) {
 
   useEffect(() => {
     if (transactionHistory) {
-      console.log(JSON.stringify(transactionHistory, null, 2));
+      //console.log(JSON.stringify(transactionHistory, null, 2));
       setTransactions(transactionHistory);
     }
   }, [transactionHistory]);
@@ -86,7 +86,6 @@ function TransactionHistoryScreen(props) {
     if (user !== null && profile !== null) {
       setTransactions([]);
       // console.log("user=", user);
-      console.log("profile=", profile);
 
       let params = {
         service_request: {
@@ -96,7 +95,6 @@ function TransactionHistoryScreen(props) {
           unique_no: "",
         },
       };
-      console.log("params His=", params);
       // console.log("token=", token);
       // console.log("params=", params);
       fetchTransaction(params, token);
@@ -170,7 +168,9 @@ function TransactionHistoryScreen(props) {
                   </View>
                   <View style={styles.fund_sec}>
                     <Text style={styles.Fund}>Folio No</Text>
-                    <Text style={styles.axis}>{item.FOLIO_NO.toString()}</Text>
+                    <Text style={styles.axis}>
+                      {typeof item?.FOLIO_NO === "object" ? "" : item?.FOLIO_NO}
+                    </Text>
                   </View>
                   <View style={styles.fund_sec}>
                     <Text style={styles.Fund}>Scheme Name</Text>
@@ -190,7 +190,9 @@ function TransactionHistoryScreen(props) {
                   </View>
                   <View style={styles.fund_sec}>
                     <Text style={styles.Fund}>Unit</Text>
-                    <Text style={styles.axis}>{item.UNITS.toString()}</Text>
+                    <Text style={styles.axis}>
+                      {typeof item?.UNITS === "object" ? "" : item?.UNITS}
+                    </Text>
                   </View>
                   <View style={styles.fund_sec}>
                     <Text style={styles.Fund}>Date</Text>
