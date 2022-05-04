@@ -85,6 +85,12 @@ function PlanListScreen(props) {
     let month = date.getMonth();
     let year = date.getFullYear();
 
+    if (month === 11) {
+      month = 0;
+    } else {
+      month += 1;
+    }
+
     if (day > sipDay) {
       if (month === 11) {
         month = 0;
@@ -104,6 +110,12 @@ function PlanListScreen(props) {
     let day = date.getDate();
     let month = date.getMonth();
     let year = date.getFullYear();
+
+    if (month === 11) {
+      month = 0;
+    } else {
+      month += 1;
+    }
 
     if (day > sipDay) {
       if (month === 11) {

@@ -266,54 +266,62 @@ function TopRatedHomeScreen(props) {
     setVisible(!visible);
   };
 
-  const sipFromDate = (default_date) => {
+  const sipFromDate = (sipDay) => {
     const date = new Date();
 
+    let day = date.getDate();
     let month = date.getMonth();
     let year = date.getFullYear();
 
     if (month === 11) {
       month = 0;
-      year = year + 1;
+    } else {
+      month += 1;
     }
 
-    if (date.getDate() > default_date) {
-      month = month + 1;
+    if (day > sipDay) {
+      if (month === 11) {
+        month = 0;
+        year = year + 1;
+      } else {
+        month += 1;
+      }
     }
 
     return (
-      ("00" + default_date).match(/\d{2}$/) +
-      "-" +
-      monthsArr[month] +
-      "-" +
-      year
+      ("00" + sipDay).match(/\d{2}$/) + "-" + monthsArr[month] + "-" + year
     );
   };
-
-  const sipEndDate = (default_date) => {
+  const sipEndDate = (sipDay) => {
     const date = new Date();
 
+    let day = date.getDate();
     let month = date.getMonth();
     let year = date.getFullYear();
 
     if (month === 11) {
       month = 0;
-      year = year + 1;
+    } else {
+      month += 1;
     }
 
-    if (date.getDate() > default_date) {
-      month = month + 1;
+    if (day > sipDay) {
+      if (month === 11) {
+        month = 0;
+        year = year + 1;
+      } else {
+        month += 1;
+      }
     }
 
     return (
-      ("00" + default_date).match(/\d{2}$/) +
+      ("00" + sipDay).match(/\d{2}$/) +
       "-" +
       monthsArr[month] +
       "-" +
-      (parseInt(year, 10) + 30)
+      `${parseInt(year) + 30}`
     );
   };
-  // overlay end
 
   const plusMinus = (type, value) => {
     if (type === "plus") {

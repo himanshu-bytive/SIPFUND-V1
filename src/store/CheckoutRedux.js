@@ -45,6 +45,10 @@ export const CheckoutActions = {
     }
   },
 
+  resetWebUrl: async (dispatch) => {
+    dispatch({ type: FETCH_CHECKOUT_BUTTON_FAILURE, webUrl: "" });
+  },
+
   getUMRN: async (dispatch, iin, token) => {
     dispatch({ type: types.FETCH_CHECKOUT_BUTTON_PENDING });
     let data = await SiteAPI.apiGetCall(

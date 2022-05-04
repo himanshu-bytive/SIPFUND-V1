@@ -120,7 +120,13 @@ function TopRatedListScreen(props) {
       <Header
         leftComponent={
           <TouchableOpacity
-            onPress={() => props.navigation.goBack()}
+            onPress={() =>
+              props.navigation.state.params?.fromScreen
+                ? props.navigation.navigate(
+                    props.navigation.state.params?.fromScreen
+                  )
+                : props.navigation.goBack()
+            }
             style={{ marginTop: 20 }}
           >
             <AntDesign name={"arrowleft"} size={40} color={Colors.RED} />

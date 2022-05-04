@@ -27,6 +27,7 @@ function UpiScreen(props) {
     isFetching,
     error,
     webUrl,
+    resetWebUrl,
   } = props;
 
   const [clicked, setClicked] = useState(false);
@@ -48,6 +49,7 @@ function UpiScreen(props) {
     if (isFetching === false && clicked && error) {
       setWebViewActive(false);
       //setWebUrl("");
+      resetWebUrl();
       props.navigation.navigate("Profile");
       props.navigation.navigate("Home");
     }
@@ -462,6 +464,7 @@ function UpiScreen(props) {
                   onPress={() => {
                     setWebViewActive(false);
                     //setWebUrl("");
+                    resetWebUrl();
                     props.navigation.navigate("Profile");
                     props.navigation.navigate("Home");
                   }}
@@ -593,6 +596,9 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     },
     getUMRN: (iin, token) => {
       CheckoutActions.getUMRN(dispatch, iin, token);
+    },
+    resetWebUrl: () => {
+      CheckoutActions.resetWebUrl(dispatch);
     },
   };
 };

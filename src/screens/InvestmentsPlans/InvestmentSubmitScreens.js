@@ -42,7 +42,9 @@ function InvestmentSubmitScreens(props) {
   useEffect(() => {
     if (paymentInitiated && !isFetching && pincodeInfo) {
       setPaymentInitiated(false);
-      props.navigation.navigate("TopRatedList");
+      props.navigation.navigate("TopRatedList", {
+        fromScreen: "InvestmentSubmit",
+      });
     }
   }, [paymentInitiated, isFetching]);
 

@@ -96,6 +96,12 @@ function InvestmentListScreens(props) {
     let month = date.getMonth();
     let year = date.getFullYear();
 
+    if (month === 11) {
+      month = 0;
+    } else {
+      month += 1;
+    }
+
     if (day > sipDay) {
       if (month === 11) {
         month = 0;
@@ -115,6 +121,12 @@ function InvestmentListScreens(props) {
     let day = date.getDate();
     let month = date.getMonth();
     let year = date.getFullYear();
+
+    if (month === 11) {
+      month = 0;
+    } else {
+      month += 1;
+    }
 
     if (day > sipDay) {
       if (month === 11) {
@@ -243,7 +255,9 @@ function InvestmentListScreens(props) {
         rightComponent={
           <Cart
             nav={() => {
-              props.navigation.navigate("TopRatedList");
+              props.navigation.navigate("TopRatedList", {
+                fromScreen: "InvestmentList",
+              });
             }}
           />
         }

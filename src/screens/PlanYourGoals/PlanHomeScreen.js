@@ -239,7 +239,9 @@ function PlanHomeScreen(props) {
         rightComponent={
           <Cart
             nav={() => {
-              props.navigation.navigate("TopRatedList");
+              props.navigation.navigate("TopRatedList", {
+                fromScreen: "PlanHome",
+              });
             }}
           />
         }

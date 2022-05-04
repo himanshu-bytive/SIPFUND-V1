@@ -67,7 +67,9 @@ function DashboardScreen(props) {
         rightComponent={
           <Cart
             nav={() => {
-              props.navigation.navigate("TopRatedList");
+              props.navigation.navigate("TopRatedList", {
+                fromScreen: "dashboard",
+              });
             }}
           />
         }
