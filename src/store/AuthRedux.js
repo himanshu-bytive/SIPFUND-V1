@@ -190,17 +190,21 @@ export const AuthActions = {
         error: data.message,
       });
     } else {
-      Alert.alert("SIP Fund", data.message, [
-        {
-          text: "OK",
-          onPress: () => {
-            dispatch({
-              type: types.FETCH_CREAT_ACCOUNT_SUCCESS,
-              signUpSteps: data.signUpSteps,
-            });
+      Alert.alert(
+        "SIP Fund",
+        "Congrats! Your signup is successful. Proceed further to set up your Account",
+        [
+          {
+            text: "OK",
+            onPress: () => {
+              dispatch({
+                type: types.FETCH_CREAT_ACCOUNT_SUCCESS,
+                signUpSteps: data.signUpSteps,
+              });
+            },
           },
-        },
-      ]);
+        ]
+      );
     }
   },
   getProfile: async (dispatch, params, token) => {

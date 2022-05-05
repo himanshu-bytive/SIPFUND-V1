@@ -102,11 +102,12 @@ function ExistingScreen(props) {
           <TextInput
             ref={innInput}
             style={styles.inputsec}
-            placeholder={"Enter your INN number"}
+            placeholder={"Enter your Investor Identification Number"}
             onChangeText={(inn) => {
               setError({ ...errors, inn: null });
               setState({ ...state, inn });
             }}
+            keyboardType={"numeric"}
             value={state.inn}
           />
           {errors.inn && <Text style={styles.error}>{errors.inn}</Text>}
