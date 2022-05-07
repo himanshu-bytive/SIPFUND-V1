@@ -119,6 +119,7 @@ function ExistingScreen(props) {
               setError({ ...errors, pan: null });
               setState({ ...state, pan: pan?.toUpperCase() });
             }}
+            maxLength={10}
             value={state?.pan}
           />
           {errors?.pan && <Text style={styles.error}>{errors?.pan}</Text>}

@@ -345,6 +345,16 @@ function UpiScreen(props) {
     };
   };
 
+  const handleWebviewStateChange = (webViewState) => {
+    console.log(webViewState.url);
+    if (webViewState.url && webViewState.url.includes("play.google.com")) {
+      resetWebUrl();
+      setWebViewActive(false);
+      props.navigation.navigate("Profile");
+      props.navigation.navigate("Home");
+    }
+  };
+
   return (
     <>
       {isFetching && (
@@ -500,7 +510,10 @@ function UpiScreen(props) {
                 />
               }
             />
-            <WebView source={{ uri: webUrl }} />
+            <WebView
+              source={{ uri: webUrl }}
+              onNavigationStateChange={handleWebviewStateChange}
+            />
           </View>
         )}
       </View>

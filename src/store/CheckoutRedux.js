@@ -4,6 +4,8 @@ const types = {
   FETCH_CHECKOUT_BUTTON_PENDING: "FETCH_CHECKOUT_BUTTON_PENDING",
   FETCH_CHECKOUT_BUTTON_SUCCESS: "FETCH_CHECKOUT_BUTTON_SUCCESS",
   FETCH_CHECKOUT_BUTTON_FAILURE: "FETCH_CHECKOUT_BUTTON_FAILURE",
+
+  RESET_WEB_URL: "RESET_WEB_URL",
 };
 
 export const CheckoutActions = {
@@ -46,7 +48,7 @@ export const CheckoutActions = {
   },
 
   resetWebUrl: async (dispatch) => {
-    dispatch({ type: FETCH_CHECKOUT_BUTTON_FAILURE, webUrl: "" });
+    dispatch({ type: types.RESET_WEB_URL, webUrl: "" });
   },
 
   getUMRN: async (dispatch, iin, token) => {
@@ -134,6 +136,13 @@ export const reducer = (state = initialState, action) => {
         error: null,
         citys,
         umrn,
+        webUrl,
+      };
+    }
+
+    case types.RESET_WEB_URL: {
+      return {
+        ...state,
         webUrl,
       };
     }
