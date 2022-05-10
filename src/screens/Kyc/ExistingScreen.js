@@ -40,6 +40,7 @@ function ExistingScreen(props) {
     inn: null,
     pan: null,
   });
+  const [pan, setPan] = useState("");
 
   const onAction = async () => {
     if (!state.inn) {
@@ -115,12 +116,15 @@ function ExistingScreen(props) {
             ref={panInput}
             style={styles.inputsec}
             placeholder={"Enter your PAN number"}
+            autoCapitalize={"characters"}
             onChangeText={(pan) => {
               setError({ ...errors, pan: null });
-              setState({ ...state, pan: pan?.toUpperCase() });
+              setState({ ...state, pan });
+              //setPan(a);
             }}
             maxLength={10}
-            value={state?.pan}
+            textContentType={"none"}
+            value={state.pan}
           />
           {errors?.pan && <Text style={styles.error}>{errors?.pan}</Text>}
 

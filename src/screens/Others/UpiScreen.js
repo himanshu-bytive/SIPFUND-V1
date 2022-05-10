@@ -28,6 +28,8 @@ function UpiScreen(props) {
     error,
     webUrl,
     resetWebUrl,
+    deletCart,
+    getCartDetails,
   } = props;
 
   const [clicked, setClicked] = useState(false);
@@ -346,10 +348,14 @@ function UpiScreen(props) {
   };
 
   const handleWebviewStateChange = (webViewState) => {
-    console.log(webViewState.url);
     if (webViewState.url && webViewState.url.includes("play.google.com")) {
       resetWebUrl();
       setWebViewActive(false);
+      deletCart(
+        props.navigation.state?.params?.cart.map((item) => item._id),
+        token
+      );
+      getCartDetails(token);
       props.navigation.navigate("Profile");
       props.navigation.navigate("Home");
     }
@@ -595,6 +601,7 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
   const { dispatch } = dispatchProps;
   const { AuthActions } = require("../../store/AuthRedux");
   const { CheckoutActions } = require("../../store/CheckoutRedux");
+  const { CartActions } = require("../../store/CartActionsRedux");
   return {
     ...stateProps,
     ...ownProps,
@@ -612,6 +619,12 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     },
     resetWebUrl: () => {
       CheckoutActions.resetWebUrl(dispatch);
+    },
+    deletCart: (items, token) => {
+      CartActions.deletCart(dispatch, items, token);
+    },
+    getCartDetails: (token) => {
+      CartActions.cartDetails(dispatch, token);
     },
   };
 };
