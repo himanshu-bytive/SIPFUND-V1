@@ -81,7 +81,9 @@ function TopRatedSubmitScreen(props) {
           </View>
           <View style={styles.education_sec}>
             <Text style={styles.child}>Summary</Text>
-            <Text style={styles.child_text}>Top Rated Funds</Text>
+            <Text style={styles.child_text}>
+              {props.navigation.state.params?.planName}
+            </Text>
           </View>
         </View>
 

@@ -45,7 +45,13 @@ function PlanSubmitScreen(props) {
   useEffect(() => {
     if (paymentInitiated && !isFetching && pincodeInfo) {
       setPaymentInitiated(false);
-      props.navigation.navigate("TopRatedList", { fromScreen: "PlanHome" });
+      props.navigation.navigate("TopRatedList", {
+        fromScreen: "PlanHome",
+        planName: goalDetail?.goal,
+        currentTab: props.navigation.state.params?.isLumpsum
+          ? "LUMPSUM"
+          : "SIP",
+      });
     }
   }, [paymentInitiated, isFetching]);
 

@@ -44,6 +44,10 @@ function InvestmentSubmitScreens(props) {
       setPaymentInitiated(false);
       props.navigation.navigate("TopRatedList", {
         fromScreen: "InvestmentSubmit",
+        planName: investment.investmentPlan,
+        currentTab: props.navigation.state.params?.isLumpsum
+          ? "LUMPSUM"
+          : "SIP",
       });
     }
   }, [paymentInitiated, isFetching]);
