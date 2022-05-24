@@ -113,7 +113,7 @@ function GoalsSummaryScreen(props) {
       </View>
       <ScrollView
         style={{
-          marginTop: 110,
+          marginTop: 120,
         }}
       >
         <View style={Styles.header_top}>

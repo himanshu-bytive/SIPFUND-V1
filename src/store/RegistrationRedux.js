@@ -197,26 +197,27 @@ export const RegistrationActions = {
     }
   },
   fileUpload: async (dispatch, params, token) => {
+    //console.log(JSON.stringify(params, null, 2));
     dispatch({ type: types.FETCH_FILE_UPLOAD_PENDING });
-      console.log(params)
     let data = await SiteAPI.uploadImgApi(
       `/documents/uploads?docType=${params.fileType}`,
       params.file,
       token
     );
-      console.log(data)
-    if (data.error) {
+    //console.log(JSON.stringify(data, null, 2));
+    if (!data.validFlag) {
+      alert(data.responseString);
       //Alert.alert("SIP Fund", JSON.stringify(data.message), [
-        //{
-          //text: "OK",
-          //onPress: () => {
-            //dispatch({ type: types.FETCH_FILE_UPLOAD_SUCCESS });
-          //},
-        //},
+      //{
+      //text: "OK",
+      //onPress: () => {
+      //dispatch({ type: types.FETCH_FILE_UPLOAD_SUCCESS });
+      //},
+      //},
       //]);
       dispatch({ type: types.FETCH_FILE_UPLOAD_SUCCESS });
     } else {
-      if (!data.responseString.includes('doc type not found')) {
+      if (!data.responseString.includes("doc type not found")) {
         Alert.alert(data.responseString);
       }
       dispatch({

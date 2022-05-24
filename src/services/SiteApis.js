@@ -57,7 +57,13 @@ const SiteApis = {
     }
   },
   uploadImgApi(url, file, token) {
-    const fileUri = file.assets[0].uri;
+    //console.log(file);
+    let fileUri;
+    if (file.assets) {
+      fileUri = file.assets[0].uri;
+    } else {
+      fileUri = file.uri;
+    }
     let filename = fileUri.split("/").pop();
     const extArr = /\.(\w+)$/.exec(filename);
     const type = getMimeType(extArr[1]);

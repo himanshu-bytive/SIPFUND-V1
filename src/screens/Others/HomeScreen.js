@@ -533,11 +533,20 @@ function HomeScreen(props) {
                 "https://sipfund.com/blog/What-Is-a-Qualified-Institutional-Placement.html"
               )
             }
-            style={styles.qipimg}
+            style={{
+              backgroundColor: "#fff",
+              elevation: 4,
+              borderRadius: 3,
+              width: 340,
+            }}
           >
             <Image
               source={require("../../../assets/qip_img.png")}
-              style={{ width: 310, height: 200, resizeMode: "contain" }}
+              style={{
+                width: "100%",
+                aspectRatio: 3.1 / 2,
+                resizeMode: "contain",
+              }}
             />
           </TouchableOpacity>
           <TouchableOpacity
@@ -550,7 +559,11 @@ function HomeScreen(props) {
           >
             <Image
               source={require("../../../assets/fundimg.png")}
-              style={{ width: 350, height: 200, resizeMode: "contain" }}
+              style={{
+                width: 310,
+                aspectRatio: 3.1 / 2,
+                resizeMode: "contain",
+              }}
             />
           </TouchableOpacity>
           <TouchableOpacity
@@ -561,7 +574,11 @@ function HomeScreen(props) {
           >
             <Image
               source={require("../../../assets/ratingimg.png")}
-              style={{ width: 350, height: 200, resizeMode: "contain" }}
+              style={{
+                width: 310,
+                aspectRatio: 3.1 / 2,
+                resizeMode: "contain",
+              }}
             />
           </TouchableOpacity>
         </View>

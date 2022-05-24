@@ -308,7 +308,9 @@ function InvestmentListScreens(props) {
         {categories.map((category) => {
           return (
             <>
-              <Text style={[styles.hybrid, { marginLeft: 20 }]}>
+              <Text
+                style={[styles.hybrid, { paddingLeft: 20, marginLeft: -10 }]}
+              >
                 {category}
               </Text>
               {myInvestlist[category] &&
@@ -467,7 +469,6 @@ function InvestmentListScreens(props) {
                             style={[
                               styles.new,
                               {
-                                borderWidth: 0.5,
                                 paddingHorizontal: 5,
                                 marginLeft: 5,
                                 borderRadius: 5,
@@ -659,6 +660,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     color: Colors.RED,
+    backgroundColor: "#dfdfdf",
     marginVertical: 10,
     marginLeft: 10,
   },
@@ -666,6 +668,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     marginTop: 10,
     backgroundColor: Colors.WHITE,
+    borderWidth: 0.5,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,

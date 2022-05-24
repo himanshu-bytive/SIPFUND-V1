@@ -402,7 +402,7 @@ function CompleteDetailsBankScreen(props) {
             </Text>
             <MyTextInput
               keyboardType="numeric"
-              maxLength={21}
+              maxLength={16}
               value={state.accountNumber}
               error={errors.accountNumber}
               onChangeText={(accountNumber) => {

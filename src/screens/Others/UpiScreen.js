@@ -396,24 +396,6 @@ function UpiScreen(props) {
               style={styles.logimg}
             />
           }
-          rightComponent={
-            <View
-              style={{
-                marginTop: 25,
-                borderWidth: 1,
-                backgroundColor: Colors.WHITE,
-                borderColor: Colors.RED,
-                padding: 5,
-                borderRadius: 7,
-              }}
-            >
-              <Text style={styles.textkn}>
-                {user?.name
-                  ? `${user?.name[0]}${user?.name.split(" ").pop()[0]}`
-                  : ""}
-              </Text>
-            </View>
-          }
         />
         <ScrollView style={Styles.containerScroll}>
           <View style={styles.container}>
@@ -531,6 +513,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
+    backgroundColor: "#fff",
   },
   header: {
     borderBottomColor: Colors.BLACK,
@@ -553,13 +536,13 @@ const styles = StyleSheet.create({
   payusing: {
     fontSize: 30,
     fontWeight: "bold",
-    marginTop: 60,
-    marginBottom: 30,
+    marginTop: 40,
+    marginBottom: 20,
   },
   mainbox: {
-    margin: 10,
+    margin: 5,
     width: "80%",
-    backgroundColor: "#F9F9F9",
+    backgroundColor: "#f9f9f9",
     borderRadius: 20,
     alignItems: "center",
   },
@@ -568,22 +551,25 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: Colors.RED,
     borderStyle: "solid",
-    marginVertical: 30,
+    marginVertical: 20,
   },
   botton_box: {
     alignItems: "center",
-    marginVertical: 10,
+    //marginVertical: 10,
     paddingVertical: 10,
-    marginTop: 20,
+    height: 60,
+    //marginTop: 20,
   },
   botton_box_none: {
-    marginTop: 5,
-    marginBottom: 5,
+    //marginTop: 5,
+    //marginBottom: 5,
   },
   get_otp: {
     color: Colors.BLACK,
     fontSize: 20,
     fontWeight: "bold",
+    textAlignVertical: "center",
+    flex: 1,
   },
 });
 const mapStateToProps = (state) => ({

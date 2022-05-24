@@ -135,7 +135,22 @@ function ReturnsCalculator(props) {
       </View>
       <View style={styles.amount_box}>
         <Text style={styles.amount}>Amount Per Month</Text>
-        <Text style={styles.price}>₹ {amount}</Text>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            position: "absolute",
+            right: 0,
+          }}
+        >
+          <Text style={styles.childtext2}>₹</Text>
+          <TextInput
+            style={styles.amount}
+            onChangeText={(val) => setAmount(val)}
+            value={amount.toString()}
+            keyboardType={"numeric"}
+          />
+        </View>
       </View>
       <View style={styles.back_sec}>
         <TouchableOpacity onPress={() => setYear(1)} style={styles.back1}>

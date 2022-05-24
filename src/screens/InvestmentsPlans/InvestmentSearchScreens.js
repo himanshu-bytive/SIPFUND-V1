@@ -194,6 +194,7 @@ function InvestmentSearchScreens(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#fff",
   },
   axis_asset: {
     marginHorizontal: 20,

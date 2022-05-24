@@ -728,8 +728,8 @@ function TopRatedHomeScreen(props) {
               <View
                 style={{
                   flexDirection: "row",
-                  justifyContent: "space-between",
-                  paddingHorizontal: 50,
+                  justifyContent: "space-evenly",
+                  //paddingHorizontal: 50,
                 }}
               >
                 <View style={styles.amount_sec}>
@@ -970,9 +970,9 @@ const styles = StyleSheet.create({
     marginTop: 3,
   },
   new: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: "bold",
-    padding: 5,
+    padding: 3,
   },
   buttom_botton2box: {
     alignItems: "center",
@@ -985,9 +985,9 @@ const styles = StyleSheet.create({
   },
   amount_tex2: {
     color: Colors.DEEP_GRAY,
-    width: 100,
+    width: 120,
     textAlign: "center",
-    paddingVertical: 5,
+    paddingVertical: 3,
     fontSize: 18,
   },
   amount_tex: { fontSize: 18 },

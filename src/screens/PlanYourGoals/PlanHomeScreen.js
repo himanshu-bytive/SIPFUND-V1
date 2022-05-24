@@ -44,7 +44,7 @@ function PlanHomeScreen(props) {
   const [time, setTime] = useState(0);
   const [investment, setInvestment] = useState(100000);
   const [inflation, setInflation] = useState(2.49);
-  const [returnRate, setReturnRate] = useState(5);
+  const [returnRate, setReturnRate] = useState(5.0);
 
   const [inflationAdjusted, setInflationAdjusted] = useState(0);
   const [sipAmount, setSipAmount] = useState(0);
@@ -309,7 +309,22 @@ function PlanHomeScreen(props) {
         )}
         <View style={[styles.vijay_sec, styles.vijay]}>
           <Text style={styles.child2}>{additionalInfo?.currentcostlabel}</Text>
-          <Text style={styles.childtext}>₹{amount}</Text>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              position: "absolute",
+              right: 0,
+            }}
+          >
+            <Text style={styles.childtext2}>₹</Text>
+            <TextInput
+              style={styles.childtext2}
+              onChangeText={(val) => setAmount(val)}
+              value={amount}
+              keyboardType={"numeric"}
+            />
+          </View>
         </View>
         <View style={{ marginHorizontal: 20 }}>
           {additionalInfo.current_cost_amt_req_max && (
@@ -318,7 +333,7 @@ function PlanHomeScreen(props) {
               change={(amount) => setAmount(amount.toFixed(0))}
               min={Number(additionalInfo.current_investment_min)}
               max={Number(additionalInfo.current_investment_max)}
-              steps={100}
+              steps={1000}
             />
           )}
         </View>
@@ -341,7 +356,22 @@ function PlanHomeScreen(props) {
 
         <View style={[styles.vijay_sec, styles.vijay]}>
           <Text style={styles.child2}>{additionalInfo?.inflationlabel}</Text>
-          <Text style={styles.childtext}>{inflation}%</Text>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              position: "absolute",
+              right: 0,
+            }}
+          >
+            <TextInput
+              style={styles.childtext2}
+              onChangeText={(val) => setInflation(val)}
+              value={inflation.toString()}
+              keyboardType={"numeric"}
+            />
+            <Text style={styles.childtext2}>%</Text>
+          </View>
         </View>
         <View style={{ marginHorizontal: 20 }}>
           <MySlider
@@ -355,7 +385,22 @@ function PlanHomeScreen(props) {
 
         <View style={[styles.vijay_sec, styles.vijay]}>
           <Text style={styles.child2}>{additionalInfo?.returnratelabel}</Text>
-          <Text style={styles.childtext}>{returnRate}%</Text>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              position: "absolute",
+              right: 0,
+            }}
+          >
+            <TextInput
+              style={styles.childtext2}
+              onChangeText={(val) => setReturnRate(val)}
+              value={returnRate.toString()}
+              keyboardType={"numeric"}
+            />
+            <Text style={styles.childtext2}>%</Text>
+          </View>
         </View>
         <View style={{ marginHorizontal: 20 }}>
           <MySlider
@@ -371,7 +416,22 @@ function PlanHomeScreen(props) {
           <Text style={styles.child2}>
             {additionalInfo?.currentinvestlable}
           </Text>
-          <Text style={styles.childtext}>₹{investment}</Text>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              position: "absolute",
+              right: 0,
+            }}
+          >
+            <Text style={styles.childtext2}>₹</Text>
+            <TextInput
+              style={styles.childtext2}
+              onChangeText={(val) => setInvestment(val)}
+              value={investment}
+              keyboardType={"numeric"}
+            />
+          </View>
         </View>
         <View style={{ marginHorizontal: 20 }}>
           {additionalInfo.current_investment_max && (
@@ -380,7 +440,7 @@ function PlanHomeScreen(props) {
               change={(investment) => setInvestment(investment.toFixed(0))}
               min={Number(additionalInfo.current_investment_min)}
               max={Number(additionalInfo.current_investment_max)}
-              steps={100}
+              steps={1000}
             />
           )}
         </View>
@@ -706,6 +766,13 @@ const styles = StyleSheet.create({
   childtext: {
     position: "absolute",
     right: 0,
+    fontSize: 15,
+    fontWeight: "bold",
+    paddingTop: 10,
+  },
+  childtext2: {
+    //position: "absolute",
+    //right: 0,
     fontSize: 15,
     fontWeight: "bold",
     paddingTop: 10,

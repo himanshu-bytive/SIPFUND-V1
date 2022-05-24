@@ -203,6 +203,7 @@ function InvestmentSubmitScreens(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#fff",
   },
   logimg: {
     height: 65,

@@ -84,12 +84,23 @@ function InvestmentDetailScreens(props) {
             </View>
           </View>
           <View style={styles.child_sec}>
-            <MyImage
-              width="120"
-              height="120"
-              svg={true}
-              url={investment.planImagePath}
-            />
+            {investment.investmentPlan === "Sector Funds" ? (
+              <Image
+                source={require("../../../assets/sector.png")}
+                style={{
+                  height: 120,
+                  width: 120,
+                  resizeMode: "contain",
+                }}
+              />
+            ) : (
+              <MyImage
+                width="120"
+                height="120"
+                svg={true}
+                url={investment.planImagePath}
+              />
+            )}
           </View>
         </View>
 
@@ -151,6 +162,7 @@ function InvestmentDetailScreens(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#fff",
   },
   logimg: {
     height: 65,
@@ -301,7 +313,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
   },
   box_sec: {
-    backgroundColor: Colors.LIGHT_WHITE,
+    backgroundColor: "#f9f9f9",
     paddingVertical: 15,
     paddingHorizontal: 10,
     marginHorizontal: 20,

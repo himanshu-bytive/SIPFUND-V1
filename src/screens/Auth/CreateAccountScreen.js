@@ -393,8 +393,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     backgroundColor: Colors.RED,
     paddingHorizontal: 70,
-    paddingVertical: 10,
-    marginTop: 20,
+    paddingVertical: 20,
     borderRadius: 10,
   },
   get_otp: {

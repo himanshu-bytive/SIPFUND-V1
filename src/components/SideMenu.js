@@ -506,7 +506,19 @@ function SideMenu(props) {
           </View>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => props.navigation.navigate("splash")}
+          onPress={() => {
+            Alert.alert("Logout", "Do you want to log out?", [
+              {
+                text: "Cancel",
+                onPress: () => console.log("Cancel Pressed"),
+                style: "cancel",
+              },
+              {
+                text: "OK",
+                onPress: () => props.navigation.navigate("splash"),
+              },
+            ]);
+          }}
           style={[styles.profile_sec, styles.profile]}
         >
           <View>

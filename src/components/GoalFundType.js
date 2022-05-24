@@ -164,7 +164,6 @@ const randerData = (
                       style={[
                         styles.new,
                         {
-                          borderWidth: 0.5,
                           paddingHorizontal: 5,
                           marginLeft: 5,
                           borderRadius: 5,
@@ -251,6 +250,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     marginTop: 10,
     backgroundColor: "#fff",
+    borderWidth: 0.5,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,

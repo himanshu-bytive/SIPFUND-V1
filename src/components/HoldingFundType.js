@@ -9,6 +9,7 @@ import moment from "moment";
 export default function HoldingFundType(props) {
   const { data, holdings } = props;
   const [viewTransactions, setViewTransactions] = useState(false);
+
   return (
     <View>
       <View style={styles.valua_sec}>
@@ -67,7 +68,7 @@ export default function HoldingFundType(props) {
                     styles.fund,
                     {
                       marginHorizontal: 10,
-                      padding: 5,
+                      padding: 10,
                     },
                   ]}
                   key={key}
@@ -80,7 +81,7 @@ export default function HoldingFundType(props) {
                     <Text>₹{trxn?.amount}</Text>
                   </View>
                   <View>
-                    <Text>Nav: {trxn?.currentNavValue}</Text>
+                    <Text>Nav: {trxn?.purPrice}</Text>
                     <Text>Units: {trxn?.units}</Text>
                   </View>
                 </View>
@@ -176,8 +177,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     flexDirection: "row",
     justifyContent: "space-between",
-    paddingVertical: 10,
-    marginTop: 10,
+    paddingVertical: 5,
+    //marginTop: 10,
     backgroundColor: Colors.WHITE,
     shadowColor: "#000",
     shadowOffset: {
@@ -211,11 +212,11 @@ const styles = StyleSheet.create({
   transHeader: {
     fontSize: 20,
     textAlign: "center",
-    marginBottom: 10,
+    marginBottom: 5,
   },
   transactionContainer: {
     marginHorizontal: 10,
-    marginTop: 10,
+    marginTop: 5,
     marginBottom: 5,
   },
 });

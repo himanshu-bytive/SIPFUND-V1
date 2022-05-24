@@ -34,6 +34,7 @@ const documentsMap = {
   AVATAR: "Avatar",
   DL: "Driving License",
   IP: "Investor Form",
+  KF: "Investor Form",
 };
 
 let documentsKyc = [
@@ -166,7 +167,11 @@ function UploadDocumentScreen(props) {
         >
           <Image
             source={{ uri: `${docs?.baseUrl}${item.fileName}` }}
-            style={{ width: Styles.width - 50, height: 300 }}
+            style={{
+              width: Styles.width - 50,
+              height: 300,
+              resizeMode: "contain",
+            }}
           />
         </TouchableOpacity>
 

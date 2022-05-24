@@ -132,7 +132,12 @@ const MyImagePicker = (props) => {
     if (!result.didCancel) {
       let params = {
         file: result,
-        fileType: item?.fileType,
+        fileType:
+          item?.fileType || item?.name === "Aadhaar Card Front"
+            ? "AA1"
+            : item?.name === "Aadhaar Card Back"
+            ? "AA2"
+            : "",
       };
       fileUpload(params, token);
       setImg(result.uri);
@@ -142,7 +147,12 @@ const MyImagePicker = (props) => {
   const cameraImage = async (image) => {
     let params = {
       file: image,
-      fileType: item?.fileType,
+      fileType:
+        item?.fileType || item?.name === "Aadhaar Card Front"
+          ? "AA1"
+          : item?.name === "Aadhaar Card Back"
+          ? "AA2"
+          : "",
     };
     fileUpload(params, token);
     setImg(image.uri);
