@@ -571,7 +571,7 @@ function CompleteDetailsScreen(props) {
 
         {/* check_box */}
         <CheckBox
-          title="Do you want to nominate some one?"
+          title="I Want to Add Nominee"
           containerStyle={styles.checkbox_style}
           textStyle={{ color: Colors.BLACK, fontSize: 12, marginLeft: 5 }}
           checked={state.nominate}
@@ -589,7 +589,7 @@ function CompleteDetailsScreen(props) {
               Name <Text style={styles.error}>*</Text>
             </Text>
             <MyTextInput
-              placeholder={"Nominate Name"}
+              placeholder={"Nominee Name"}
               value={state.nominate1name}
               maxLength={30}
               error={errors.nominate1name}
@@ -600,10 +600,11 @@ function CompleteDetailsScreen(props) {
             />
 
             <Text style={styles.occupation}>
-              Relation <Text style={styles.error}>*</Text>
+              Relationship <Text style={styles.error}>*</Text>
             </Text>
             <MySelectPicker
               values={relationList}
+              placeholder={"Select Relationship"}
               defultValue={state.nominate1relation}
               error={errors.nominate1relation}
               onChange={(nominate1relation) => {
@@ -661,7 +662,7 @@ function CompleteDetailsScreen(props) {
         {state.nominate && (
           <View style={styles.container_sec}>
             <CheckBox
-              title="Is Nominate Minor?"
+              title="Is Nominee Minor?"
               containerStyle={styles.checkbox_style}
               textStyle={{ color: Colors.BLACK, fontSize: 12, marginLeft: 5 }}
               checked={state.nominateMinor}
