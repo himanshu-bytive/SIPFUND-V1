@@ -12,7 +12,11 @@ import {
 } from "react-native";
 import { connect } from "react-redux";
 import { Colors, Config } from "../../common";
-import { AntDesign, MaterialIcons } from "react-native-vector-icons";
+import {
+  AntDesign,
+  MaterialIcons,
+  FontAwesome5,
+} from "react-native-vector-icons";
 import { Image, Header } from "react-native-elements";
 
 function LoginScreen(props) {
@@ -29,6 +33,8 @@ function LoginScreen(props) {
     userDetails,
     appToken,
   } = props;
+
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     if (token && pageActive.current) {
@@ -104,18 +110,33 @@ function LoginScreen(props) {
           </View>
 
           <Text style={styles.number}>Enter Password</Text>
-          <TextInput
-            ref={passwordInput}
-            style={styles.inputsec}
-            placeholder={"Password"}
-            maxLength={30}
-            secureTextEntry={true}
-            onChangeText={(password) => {
-              setError({ ...errors, password: null });
-              setState({ ...state, password });
-            }}
-            value={state.password}
-          />
+          <View style={{ width: "90%" }}>
+            <TextInput
+              ref={passwordInput}
+              style={styles.inputsec}
+              placeholder={"Password"}
+              maxLength={30}
+              secureTextEntry={!visible}
+              onChangeText={(password) => {
+                setError({ ...errors, password: null });
+                setState({ ...state, password });
+              }}
+              value={state.password}
+            />
+            <FontAwesome5
+              onPress={() => {
+                setVisible(!visible);
+              }}
+              style={{
+                position: "absolute",
+                right: 10,
+                top: 20,
+              }}
+              name={visible ? "eye-slash" : "eye"}
+              size={20}
+              color="#838280"
+            />
+          </View>
           {errors.password && (
             <Text style={styles.error}>{errors.password}</Text>
           )}
@@ -191,7 +212,7 @@ const styles = StyleSheet.create({
   inputsec: {
     borderWidth: 2,
     borderColor: Colors.GRAY_LIGHT,
-    width: "90%",
+    width: "100%",
     height: 50,
     fontSize: 20,
     marginTop: 5,
