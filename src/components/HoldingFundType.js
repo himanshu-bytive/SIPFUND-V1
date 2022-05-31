@@ -10,6 +10,10 @@ export default function HoldingFundType(props) {
   const { data, holdings } = props;
   const [viewTransactions, setViewTransactions] = useState(false);
 
+  useEffect(() => {
+    if (holdings) console.log("abc", JSON.stringify(holdings, null, 2));
+  }, [holdings]);
+
   return (
     <View>
       <View style={styles.valua_sec}>
@@ -51,12 +55,54 @@ export default function HoldingFundType(props) {
                 source={{ uri: item.imagePath }}
                 style={styles.Hybrid_img}
               />
-              <Text numberOfLines={2} style={styles.SBIEquity}>
-                {item.productName}
-              </Text>
-              <Text style={styles.SBIEquity_rate}>
-                ₹{item.amount.toFixed(2)}
-              </Text>
+              <View
+                style={{
+                  flex: 1,
+                  //marginHorizontal: 20,
+                  paddingHorizontal: 20,
+                }}
+              >
+                <View
+                  style={{
+                    flex: 1,
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <Text numberOfLines={2} style={styles.SBIEquity}>
+                    {item.productName}
+                  </Text>
+                  <Text style={styles.SBIEquity_rate}>
+                    ₹{item.amount.toFixed(2)}
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    flex: 1,
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <Text
+                    numberOfLines={2}
+                    style={{
+                      fontSize: 12,
+                    }}
+                  >
+                    {"Current Value: "}
+                    {item?.currentValue.toFixed(2)}
+                  </Text>
+                  <Text
+                    numberOfLines={2}
+                    style={{
+                      fontSize: 12,
+                    }}
+                  >
+                    {"NAV Value: "}
+                    {item?.navValue.toFixed(2)}
+                  </Text>
+                </View>
+              </View>
             </View>
           </TouchableOpacity>
           {viewTransactions && (
@@ -174,9 +220,10 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   fund: {
+    flex: 1,
     marginHorizontal: 10,
     flexDirection: "row",
-    justifyContent: "space-between",
+    //justifyContent: "space-between",
     paddingVertical: 5,
     //marginTop: 10,
     backgroundColor: Colors.WHITE,
