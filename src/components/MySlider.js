@@ -9,7 +9,7 @@ export default function MySlider(props) {
       minimumValue={min}
       step={steps}
       value={value}
-      onSlidingComplete={change}
+      onValueChange={change}
       thumbStyle={{ height: 20, width: 20 }}
       maximumTrackTintColor={"#EDEDED"}
       minimumTrackTintColor={"#C0392B"}
