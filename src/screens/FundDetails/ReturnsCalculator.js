@@ -76,21 +76,21 @@ function ReturnsCalculator(props) {
   useEffect(() => {
     if (selectTab && amount && year && annum) {
       let data = Utility.calculateReturnAmount(selectTab, amount, year, annum);
-      setValues(data.toFixed(2));
+      setValues(data.toFixed(0));
     }
   }, [selectTab]);
 
   useEffect(() => {
     if (selectTab && amount && year && annum) {
       let data = Utility.calculateReturnAmount(selectTab, amount, year, annum);
-      setValues(data.toFixed(2));
+      setValues(data.toFixed(0));
     }
   }, [amount]);
 
   useEffect(() => {
     if (selectTab && amount && year && annum) {
       let data = Utility.calculateReturnAmount(selectTab, amount, year, annum);
-      setValues(data.toFixed(2));
+      setValues(data.toFixed(0));
     }
   }, [annum]);
 
