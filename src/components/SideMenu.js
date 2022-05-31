@@ -179,6 +179,19 @@ function SideMenu(props) {
             <Text style={styles.account_inactive}>Account InActive</Text>
           )}
         </View>
+        <Feather
+          style={{
+            position: "absolute",
+            right: 10,
+            top: 20,
+          }}
+          name={"chevron-left"}
+          size={35}
+          color={Colors.LIGHT_WHITE}
+          onPress={() => {
+            props.navigation.toggleDrawer();
+          }}
+        />
       </View>
       <Overlay
         isVisible={visibleKyc}
