@@ -27,6 +27,10 @@ function GoalsSummaryScreen(props) {
     }
   }, [token]);
 
+  useEffect(() => {
+    if (summary) console.log(JSON.stringify(summary, null, 2));
+  }, [summary]);
+
   const plansAndGoalsData = () => {
     if (summary?.goals && summary?.goals.length > 0) {
       props.navigation.navigate("GoalsList");
@@ -154,9 +158,10 @@ function GoalsSummaryScreen(props) {
             <View style={styles.Profit}>
               <Text style={styles.investment}>
                 ₹{" "}
-                {summary?.summary?.profitloss
-                  ? summary?.summary?.profitloss
-                  : 0}
+                {(
+                  summary?.summary?.currentValue -
+                  summary?.summary?.totalinvestment
+                ).toFixed(2)}
               </Text>
               <Text style={styles.investment2}>Profit/Loss</Text>
             </View>
