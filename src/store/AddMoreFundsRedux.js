@@ -24,6 +24,9 @@ export const AddMoreFundsActions = {
       Alert.alert(data.message);
       dispatch({ type: types.FETCH_FETCH_FUNDS_FAILURE, error: data.message });
     } else {
+      if (data.results.length == 0) {
+        alert("No funds found!");
+      }
       dispatch({ type: types.FETCH_FETCH_FUNDS_SUCCESS, funds: data.results });
     }
   },
