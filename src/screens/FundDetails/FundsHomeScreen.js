@@ -63,6 +63,7 @@ function FundsHomeScreen(props) {
   const [navPercentage, setNavPercentage] = useState(0);
   const [labels, setLabels] = useState(["", "", "", ""]);
   const [datasets, setDatasets] = useState([0, 0, 0, 0]);
+  const [inception, setInception] = useState("DP-ReturnSinceInception");
 
   const refreshFunds = (value) => {
     let date = new Date(),
@@ -152,6 +153,35 @@ function FundsHomeScreen(props) {
 
   useEffect(() => {
     calculateMap();
+    if (selectTab && detailsInfo) {
+      switch (selectTab) {
+        case "1M":
+          setInception(Number(detailsInfo[0].api["DP-Return1Mth"]).toFixed(2));
+          break;
+        case "1Y":
+          setInception(Number(detailsInfo[0].api["DP-Return1Yr"]).toFixed(2));
+          break;
+        case "2Y":
+          setInception(Number(detailsInfo[0].api["DP-Return2Yr"]).toFixed(2));
+          break;
+        case "3Y":
+          setInception(Number(detailsInfo[0].api["DP-Return3Yr"]).toFixed(2));
+          break;
+        case "4Y":
+          setInception(Number(detailsInfo[0].api["DP-Return4Yr"]).toFixed(2));
+          break;
+        case "5Y":
+          setInception(Number(detailsInfo[0].api["DP-Return5Yr"]).toFixed(2));
+          break;
+        case "6Y":
+          setInception(Number(detailsInfo[0].api["DP-Return6Yr"]).toFixed(2));
+          break;
+        default:
+          setInception(
+            Number(detailsInfo[0].api["DP-ReturnSinceInception"]).toFixed(2)
+          );
+      }
+    }
   }, [selectTab]);
 
   useEffect(() => {
@@ -285,8 +315,13 @@ function FundsHomeScreen(props) {
           <View style={styles.fund_returns}>
             <Text style={styles.fund}>Fund Returns</Text>
             <View style={styles.since_inception}>
-              <Text style={styles.number}>{navPercentage}%</Text>
-              <Text style={styles.since}>Since Inception</Text>
+              <Text style={styles.number}>{inception}%</Text>
+              <Text style={styles.since}>
+                {selectTab
+                  .replace("Y", " Years")
+                  .replace("M", " Month")
+                  .replace("ALL", "Since Inception")}
+              </Text>
             </View>
           </View>
           <LineChart
