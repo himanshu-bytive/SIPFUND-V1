@@ -27,10 +27,6 @@ function GoalsSummaryScreen(props) {
     }
   }, [token]);
 
-  useEffect(() => {
-    if (summary) console.log(JSON.stringify(summary, null, 2));
-  }, [summary]);
-
   const plansAndGoalsData = () => {
     if (summary?.goals && summary?.goals.length > 0) {
       props.navigation.navigate("GoalsList");
@@ -56,10 +52,6 @@ function GoalsSummaryScreen(props) {
 
     return () => backHandler.remove();
   }, []);
-
-  useEffect(() => {
-    if (token) console.log(token);
-  }, [token]);
 
   return (
     <View style={styles.container}>

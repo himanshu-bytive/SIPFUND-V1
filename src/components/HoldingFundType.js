@@ -10,10 +10,6 @@ export default function HoldingFundType(props) {
   const { data, holdings } = props;
   const [viewTransactions, setViewTransactions] = useState(false);
 
-  useEffect(() => {
-    if (holdings) console.log("abc", JSON.stringify(holdings, null, 2));
-  }, [holdings]);
-
   return (
     <View>
       <View style={styles.valua_sec}>
@@ -86,20 +82,13 @@ export default function HoldingFundType(props) {
                   <Text
                     numberOfLines={2}
                     style={{
-                      fontSize: 12,
+                      fontSize: 14,
                     }}
                   >
-                    {"Current Value: "}
-                    {item?.currentValue.toFixed(2)}
-                  </Text>
-                  <Text
-                    numberOfLines={2}
-                    style={{
-                      fontSize: 12,
-                    }}
-                  >
-                    {"NAV Value: "}
-                    {item?.navValue.toFixed(2)}
+                    {"Current/NAV Value: "}
+                    {`${item?.currentValue.toFixed(
+                      2
+                    )}  ${item?.navValue.toFixed(2)}`}
                   </Text>
                 </View>
               </View>
@@ -223,6 +212,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginHorizontal: 10,
     flexDirection: "row",
+    alignItems: "center",
     //justifyContent: "space-between",
     paddingVertical: 5,
     //marginTop: 10,
@@ -246,8 +236,8 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
   },
   SBIEquity: {
-    maxWidth: "50%",
-    marginLeft: 10,
+    maxWidth: "70%",
+    //marginLeft: 10,
     paddingTop: 10,
     fontSize: 14,
   },

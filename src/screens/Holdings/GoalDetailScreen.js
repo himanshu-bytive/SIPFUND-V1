@@ -40,7 +40,6 @@ function GoalDetailScreen(props) {
             </TouchableOpacity>
           }
           backgroundColor={Colors.PEACH}
-          backgroundColor={Colors.PEACH}
           centerComponent={
             <Image
               source={require("../../../assets/icon.png")}
@@ -63,15 +62,15 @@ function GoalDetailScreen(props) {
             position: "absolute",
             alignItems: "center",
             zIndex: -1,
-            top: 60,
+            top: 100,
             paddingBottom: 50,
             borderBottomLeftRadius: 50,
             borderBottomRightRadius: 50,
           }}
         >
           <MyImage
-            width="120"
-            height="120"
+            width="100"
+            height="100"
             svg={true}
             url={summaryDetails?.imagePath}
           />
@@ -131,8 +130,8 @@ const styles = StyleSheet.create({
     width: 94,
   },
   text_goals: {
-    marginTop: -20,
-    fontSize: 20,
+    //marginTop: -20,
+    fontSize: 18,
   },
   education_plan: {
     flexDirection: "row",
@@ -144,8 +143,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   plan_img: {
-    height: 64,
-    width: 69,
+    height: 40,
+    width: 40,
   },
   price: {
     alignItems: "center",
@@ -161,8 +160,8 @@ const styles = StyleSheet.create({
     //paddingLeft: 40,
   },
   plan2_img: {
-    height: 60,
-    width: 60,
+    height: 40,
+    width: 40,
   },
 
   botton_box: {
