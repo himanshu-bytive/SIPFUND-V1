@@ -243,6 +243,7 @@ const styles = StyleSheet.create({
     height: 44,
     width: 39,
     marginLeft: 10,
+    resizeMode: "contain",
   },
   SBIEquity: {
     maxWidth: "50%",

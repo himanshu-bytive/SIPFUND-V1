@@ -94,7 +94,31 @@ function ProfileScreen(props) {
       )}
       <ScrollView style={styles.containerScroll}>
         <View style={styles.banner}>
-          <ProfileImagePicker
+          <View
+            style={{
+              height: 100,
+              width: 100,
+              borderRadius: 50,
+              backgroundColor: "grey",
+              marginVertical: 15,
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 50,
+                color: "#fff",
+              }}
+            >
+              {user?.name
+                ? user?.name.split(" ").length > 1
+                  ? `${user?.name[0]}${user?.name.split(" ").pop()[0]}`
+                  : `${user?.name[0]}`
+                : ""}
+            </Text>
+          </View>
+          {/*<ProfileImagePicker
             docType="AVATAR"
             url={docs?.baseUrl}
             data={
@@ -102,7 +126,7 @@ function ProfileScreen(props) {
                 ? docs.responseString.documents
                 : []
             }
-          />
+          />*/}
           <Text style={styles.profile_text}>{profile?.INVESTOR_NAME}</Text>
           <Text
             style={[
@@ -165,7 +189,7 @@ function ProfileScreen(props) {
           </View>
           <View style={[styles.border, styles.border1]}></View>
           <View
-            style={steps && steps > 6 ? styles.icon_bg_act : styles.icon_bg}
+            style={steps && steps === 6 ? styles.icon_bg_act : styles.icon_bg}
           >
             <FontAwesome name={"rupee"} size={25} color={Colors.WHITE} />
           </View>
