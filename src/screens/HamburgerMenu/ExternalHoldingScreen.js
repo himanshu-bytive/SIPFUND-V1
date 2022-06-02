@@ -12,6 +12,7 @@ import {
   TextInput,
   ActivityIndicator,
   ScrollView,
+  Linking,
 } from "react-native";
 import { connect } from "react-redux";
 import moment from "moment";
@@ -165,7 +166,14 @@ function HoldingsScreen(props) {
         </View>
       </ScrollView>
       <View style={styles.bottonsec}>
-        <TouchableOpacity style={styles.botton_box}>
+        <TouchableOpacity
+          style={styles.botton_box}
+          onPress={() => {
+            Linking.openURL(
+              "https://www.camsonline.com/Investors/Statements/Consolidated-Account-Statement"
+            );
+          }}
+        >
           <Text style={styles.proceed}>DOWNLOAD YOUR STATEMENT</Text>
         </TouchableOpacity>
         <View style={styles.footer_box}>
