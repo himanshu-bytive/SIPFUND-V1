@@ -145,7 +145,17 @@ function ReturnsCalculator(props) {
         >
           <Text style={styles.childtext2}>₹</Text>
           <TextInput
-            style={styles.amount}
+            style={[
+              styles.childtext2,
+              {
+                borderWidth: 1,
+                marginLeft: 3,
+                height: 31,
+                padding: 5,
+                borderRadius: 5,
+                textAlign: "center",
+              },
+            ]}
             onChangeText={(val) => setAmount(val)}
             value={amount.toString()}
             keyboardType={"numeric"}
