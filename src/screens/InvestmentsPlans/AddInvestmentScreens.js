@@ -111,6 +111,7 @@ function AddInvestmentScreens(props) {
   };
 
   function number2text(value) {
+    if (value == 0) return "";
     var fraction = Math.round(frac(value) * 100);
     var f_text = "";
 
@@ -321,7 +322,7 @@ function AddInvestmentScreens(props) {
             maxLength={9}
           />
         </View>
-        <Text style={{ marginHorizontal: 30, marginTop: 20 }}>
+        <Text style={{ marginHorizontal: 30, marginTop: 10 }}>
           {number2text(Number(invest))}
         </Text>
         {/* <Text style={styles.number}>Sixteen thousand</Text> */}
@@ -452,7 +453,7 @@ const styles = StyleSheet.create({
   },
   investcost_sec: {
     marginHorizontal: 30,
-    marginTop: 10,
+    //marginTop: 10,
     backgroundColor: Colors.WHITE,
     shadowColor: "#000",
     shadowOffset: {
@@ -462,13 +463,13 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.23,
     shadowRadius: 2.62,
     elevation: 4,
-    padding: 15,
+    padding: 7.5,
     borderWidth: 1,
     borderColor: Colors.GREY_1,
     borderRadius: 5,
   },
   cost: {
-    fontSize: 21,
+    fontSize: 18,
     color: Colors.DEEP_GRAY,
     paddingLeft: 10,
   },
@@ -481,9 +482,9 @@ const styles = StyleSheet.create({
   yearly_section: {
     marginHorizontal: "auto",
     backgroundColor: Colors.PINK,
-    marginVertical: 20,
+    marginVertical: 5,
     paddingHorizontal: 30,
-    paddingVertical: 20,
+    paddingVertical: 10,
     flexDirection: "row",
     justifyContent: "space-between",
   },
