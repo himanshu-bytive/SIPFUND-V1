@@ -84,7 +84,7 @@ function InvestmentDetailScreens(props) {
             </View>
           </View>
           <View style={styles.child_sec}>
-            {investment.investmentPlan === "Sector Funds" ? (
+            {investment.investmentPlan === "Sectoral Funds" ? (
               <Image
                 source={require("../../../assets/sector.png")}
                 style={{
