@@ -91,9 +91,9 @@ export default function HoldingFundType(props) {
                       fontSize: 14,
                     }}
                   >
-                    {`${item?.currentValue.toFixed(2)}/${item?.navValue.toFixed(
+                    {`Rs ${item?.currentValue.toFixed(
                       2
-                    )}`}
+                    )}/Rs ${item?.navValue.toFixed(2)}`}
                   </Text>
                 </View>
               </View>
