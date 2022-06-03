@@ -108,14 +108,14 @@ export default function HoldingFundType(props) {
                   ]}
                   key={key}
                 >
-                  <View>
+                  <View style={{ justifyContent: "space-between", flex: 1 }}>
                     <Text>
                       {moment(new Date(trxn?.navDate)).format("DD-MM-YYYY")} (
                       {trxn?.type})
                     </Text>
                     <Text>₹{trxn?.amount}</Text>
                   </View>
-                  <View>
+                  <View style={{ justifyContent: "space-between", flex: 1 }}>
                     <Text>Nav: {trxn?.purPrice}</Text>
                     <Text>Units: {trxn?.units}</Text>
                   </View>
@@ -213,7 +213,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     flexDirection: "row",
     alignItems: "center",
-    //justifyContent: "space-between",
     paddingVertical: 5,
     //marginTop: 10,
     backgroundColor: Colors.WHITE,
