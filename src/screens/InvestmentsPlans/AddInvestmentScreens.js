@@ -31,10 +31,6 @@ function AddInvestmentScreens(props) {
     investInput.current.focus();
   }, []);
 
-  const checkFormula = (value) => {
-    // console.log(value)
-  };
-
   const calculateReturnAmount = (
     amount,
     noOfYears,
@@ -316,7 +312,6 @@ function AddInvestmentScreens(props) {
             onChangeText={(value) => {
               setInvestError(null);
               inputAmount(value);
-              checkFormula(value);
             }}
             value={invest}
             maxLength={9}
