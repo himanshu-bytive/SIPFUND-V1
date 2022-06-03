@@ -80,15 +80,20 @@ export default function HoldingFundType(props) {
                   }}
                 >
                   <Text
-                    numberOfLines={2}
                     style={{
                       fontSize: 14,
                     }}
                   >
                     {"Current/NAV Value: "}
-                    {`${item?.currentValue.toFixed(
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: 14,
+                    }}
+                  >
+                    {`${item?.currentValue.toFixed(2)}/${item?.navValue.toFixed(
                       2
-                    )}  ${item?.navValue.toFixed(2)}`}
+                    )}`}
                   </Text>
                 </View>
               </View>
