@@ -195,7 +195,7 @@ function RiskRating(props) {
           marginTop: 15,
         }}
       >
-        <Text
+        {/*<Text
           style={{
             fontSize: 18,
             fontWeight: "bold",
@@ -203,11 +203,12 @@ function RiskRating(props) {
           }}
         >
           Risk Category
-        </Text>
+        </Text>*/}
         <Text
           style={{
-            fontSize: 16,
+            fontSize: 20,
             color: "black",
+            fontWeight: "bold",
           }}
         >
           {detailsInfo[0]?.api["FSCBI-IndianRiskLevel"]}

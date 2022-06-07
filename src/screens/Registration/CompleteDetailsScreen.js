@@ -474,9 +474,9 @@ function CompleteDetailsScreen(props) {
             autoCapitalize={"characters"}
             value={state.investorPan}
             error={errors.investorPan}
-            editable={
-              state?.investorPan && state.investorPan.length > 9 ? false : true
-            }
+            //editable={
+            //state?.investorPan && state.investorPan.length > 9 ? false : true
+            //}
             selectTextOnFocus={false}
             onChangeText={(investorPan) => {
               setErrors({ ...errors, investorPan: null });
