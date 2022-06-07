@@ -21,11 +21,14 @@ function RiskRating(props) {
   useEffect(() => {
     let schemeDetail = detailsInfo ? detailsInfo[0].api : {};
 
+    console.log(JSON.stringify(detailsInfo, null, 2));
+
     //MPT Statistics start
     // mptStats3Yr
     let mptStats3Yr = [];
     mptStats3Yr.push({
       name: schemeDetail["RMC-IndexName"] || "-",
+      category: schemeDetail["DP-CategoryName"] || "-",
       RSquared: schemeDetail["RMC-₹quared3Yr"] || "-",
       beta: schemeDetail["RMC-Beta3Yr"] || "-",
       alpha: schemeDetail["RMC-Alpha3Yr"] || "-",
@@ -46,6 +49,7 @@ function RiskRating(props) {
     let mptStats5Yr = [];
     mptStats5Yr.push({
       name: schemeDetail["RMC-IndexName"] || "-",
+      category: schemeDetail["DP-CategoryName"] || "-",
       RSquared: schemeDetail["RMC-₹quared5Yr"] || "-",
       beta: schemeDetail["RMC-Beta5Yr"] || "-",
       alpha: schemeDetail["RMC-Alpha5Yr"] || "-",
@@ -66,6 +70,7 @@ function RiskRating(props) {
     let mptStats10Yr = [];
     mptStats10Yr.push({
       name: schemeDetail["RMC-IndexName"] || "-",
+      category: schemeDetail["DP-CategoryName"] || "-",
       RSquared: schemeDetail["RMC-₹quared10Yr"] || "-",
       beta: schemeDetail["RMC-Beta10Yr"] || "-",
       alpha: schemeDetail["RMC-Alpha10Yr"] || "-",
@@ -184,7 +189,33 @@ function RiskRating(props) {
 
   return (
     <View style={styles.mainbox}>
-      <Text style={styles.Upside}>MPT Statistics (Date)</Text>
+      <View
+        style={{
+          flex: 1,
+          flexDirection: "row",
+          justifyContent: "space-evenly",
+          marginTop: 15,
+        }}
+      >
+        <Text
+          style={{
+            fontSize: 18,
+            fontWeight: "bold",
+            color: "black",
+          }}
+        >
+          Risk Category
+        </Text>
+        <Text
+          style={{
+            fontSize: 16,
+            color: "black",
+          }}
+        >
+          {detailsInfo[0]?.api["FSCBI-IndianRiskLevel"]}
+        </Text>
+      </View>
+      <Text style={styles.Upside}>MPT Statistics</Text>
       <Tab
         value={index}
         onChange={(e) => setIndex(e)}
@@ -237,11 +268,12 @@ function RiskRating(props) {
               <Text numberOfLines={2} style={styles.headerCell}>
                 {""}
               </Text>
-              {mptStats3Yr.map((item) => (
-                <Text numberOfLines={2} style={styles.headerCell}>
-                  {item?.name}
-                </Text>
-              ))}
+              <Text numberOfLines={2} style={styles.headerCell}>
+                {mptStats3Yr[0]?.name}
+              </Text>
+              <Text numberOfLines={2} style={styles.headerCell}>
+                {mptStats3Yr[0]?.category}
+              </Text>
             </DataTable.Header>
             <DataTable.Row style={styles.headersec}>
               <DataTable.Cell style={styles.bodyCell}>R-Squared</DataTable.Cell>
@@ -260,7 +292,9 @@ function RiskRating(props) {
               ))}
             </DataTable.Row>
             <DataTable.Row style={styles.headersec}>
-              <DataTable.Cell style={styles.bodyCell}>Alpha</DataTable.Cell>
+              <DataTable.Cell style={styles.bodyCell}>
+                {"Alpha %"}
+              </DataTable.Cell>
               {mptStats3Yr.map((item, key) => (
                 <DataTable.Cell key={key} style={styles.bodyCell}>
                   {item?.alpha}
@@ -387,7 +421,7 @@ function RiskRating(props) {
         </TabView.Item>
       </TabView>
 
-      <Text style={styles.Upside}>Volatility Measures (Date)</Text>
+      <Text style={styles.Upside}>Volatility Measures</Text>
       <Tab
         value={index1}
         onChange={(e) => setIndex1(e)}
@@ -450,7 +484,7 @@ function RiskRating(props) {
               <DataTable.Cell
                 style={[styles.bodyCell, { justifyContent: "flex-start" }]}
               >
-                Standard
+                {"Std. Deviation"}
               </DataTable.Cell>
               {volatility3Yr.map((item, key) => (
                 <DataTable.Cell key={key} style={styles.bodyCell}>

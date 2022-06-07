@@ -110,12 +110,19 @@ function OwnChoiceHoldings(props) {
 
                     <View style={styles.Investment}>
                       <View style={styles.Investment_value}>
-                        <Text style={styles.rate_2}>₹ {item.amount}</Text>
+                        <Text style={styles.rate_2}>
+                          ₹ {item.amount.toFixed(2)}
+                        </Text>
                         <Text style={styles.Current_Value}>Investment</Text>
                       </View>
 
                       <View style={styles.Investment_value}>
-                        <Text style={styles.rate_2}>₹ {item.profitloss}</Text>
+                        <Text style={styles.rate_2}>
+                          ₹{" "}
+                          {(
+                            Number(item.currentValue) - Number(item.amount)
+                          ).toFixed(2)}
+                        </Text>
                         <Text style={styles.Current_Value}>Profit/Loss</Text>
                       </View>
 
@@ -149,7 +156,7 @@ function OwnChoiceHoldings(props) {
                           <Text>₹{trxn?.amount}</Text>
                         </View>
                         <View>
-                          <Text>Nav: {trxn?.currentNavValue}</Text>
+                          <Text>Nav: ₹{trxn?.currentNavValue}</Text>
                           <Text>Units: {trxn?.units}</Text>
                         </View>
                       </View>

@@ -63,7 +63,7 @@ function FundsHomeScreen(props) {
   const [navPercentage, setNavPercentage] = useState(0);
   const [labels, setLabels] = useState(["", "", "", ""]);
   const [datasets, setDatasets] = useState([0, 0, 0, 0]);
-  const [inception, setInception] = useState("DP-ReturnSinceInception");
+  const [inception, setInception] = useState(0);
 
   const refreshFunds = (value) => {
     let date = new Date(),
@@ -141,6 +141,9 @@ function FundsHomeScreen(props) {
     let category = detailedPortFolio["DP-CategoryName"]
       ? detailedPortFolio["DP-CategoryName"]
       : "";
+    setInception(
+      Number(detailsInfo[0].api["DP-ReturnSinceInception"]).toFixed(2)
+    );
     setNavPercentage(navPercentage);
     setAssets(assets);
     setInvest(invest);

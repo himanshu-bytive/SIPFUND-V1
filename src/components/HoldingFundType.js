@@ -26,7 +26,12 @@ export default function HoldingFundType(props) {
           </View>
 
           <View style={styles.Investment_value}>
-            <Text style={styles.rate_2}>₹ {data?.profitloss}</Text>
+            <Text style={styles.rate_2}>
+              ₹{" "}
+              {(
+                Number(data?.investmentValue) - Number(data?.currentValue)
+              ).toFixed(2)}
+            </Text>
             <Text style={styles.Current_Value}>Profit/Loss</Text>
           </View>
 
@@ -84,16 +89,16 @@ export default function HoldingFundType(props) {
                       fontSize: 14,
                     }}
                   >
-                    {"Current/NAV Value: "}
+                    {"Cur.NAV/Value"}
                   </Text>
                   <Text
                     style={{
                       fontSize: 14,
                     }}
                   >
-                    {`Rs ${item?.currentValue.toFixed(
+                    {`₹ ${item?.navValue.toFixed(
                       2
-                    )}/Rs ${item?.navValue.toFixed(2)}`}
+                    )} / ₹ ${item?.currentValue.toFixed(2)}`}
                   </Text>
                 </View>
               </View>
@@ -113,15 +118,15 @@ export default function HoldingFundType(props) {
                   ]}
                   key={key}
                 >
-                  <View style={{ justifyContent: "space-between", flex: 1 }}>
+                  <View style={{ justifyContent: "space-between" }}>
                     <Text>
                       {moment(new Date(trxn?.navDate)).format("DD-MM-YYYY")} (
                       {trxn?.type})
                     </Text>
                     <Text>₹{trxn?.amount}</Text>
                   </View>
-                  <View style={{ justifyContent: "space-between", flex: 1 }}>
-                    <Text>Nav: {trxn?.purPrice}</Text>
+                  <View style={{ justifyContent: "space-between" }}>
+                    <Text>Nav: ₹{trxn?.purPrice}</Text>
                     <Text>Units: {trxn?.units}</Text>
                   </View>
                 </View>
@@ -218,6 +223,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "space-between",
     paddingVertical: 5,
     //marginTop: 10,
     backgroundColor: Colors.WHITE,
