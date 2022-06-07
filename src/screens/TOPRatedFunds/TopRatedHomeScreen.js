@@ -600,9 +600,9 @@ function TopRatedHomeScreen(props) {
                       <Text numberOfLines={1} style={styles.axis}>
                         {item.api["FSCBI-FundName"]}
                       </Text>
-                      <Text numberOfLines={1} style={styles.fundRisk}>
+                      {/*<Text numberOfLines={1} style={styles.fundRisk}>
                         {item.api["FSCBI-IndianRiskLevel"]}
-                      </Text>
+                      </Text>*/}
                     </View>
                   </TouchableOpacity>
                   <TouchableOpacity

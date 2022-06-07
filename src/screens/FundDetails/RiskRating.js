@@ -21,8 +21,6 @@ function RiskRating(props) {
   useEffect(() => {
     let schemeDetail = detailsInfo ? detailsInfo[0].api : {};
 
-    console.log(JSON.stringify(detailsInfo, null, 2));
-
     //MPT Statistics start
     // mptStats3Yr
     let mptStats3Yr = [];
