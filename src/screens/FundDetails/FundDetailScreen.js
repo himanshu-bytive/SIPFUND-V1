@@ -29,7 +29,7 @@ function FundDetailScreen(props) {
     { text: "Performance History", show: false },
     { text: "Portfolio Summary", show: false },
     { text: "Risk & Rating", show: false },
-    { text: "Expense Ratio - Exit Load - Tax", show: false },
+    { text: "Expense Ratio", show: false },
   ]);
 
   const toggleFundType = (key) => {
@@ -73,24 +73,23 @@ function FundDetailScreen(props) {
               {item.text === "Performance History" && <PerformanceHistory />}
               {item.text === "Portfolio Summary" && <PortfolioSummary />}
               {item.text === "Risk & Rating" && <RiskRating />}
-              {item.text === "Expense Ratio - Exit Load - Tax" && (
-                <ExpenseRatio />
-              )}
+              {item.text === "Expense Ratio" && <ExpenseRatio />}
             </View>
           )}
         </View>
       ))}
-      {props?.fromScreen === 'Owner' && <View style={styles.submit}>
-        <TouchableOpacity
-          onPress={() => {
-            ToastAndroid.show("Fund Selected!", ToastAndroid.SHORT)
-            props.goBack()
-          }}
-        >
-          <Text style={styles.submit_text}>SELECT FUND</Text>
-        </TouchableOpacity>
-      </View>
-      }
+      {props?.fromScreen === "Owner" && (
+        <View style={styles.submit}>
+          <TouchableOpacity
+            onPress={() => {
+              ToastAndroid.show("Fund Selected!", ToastAndroid.SHORT);
+              props.goBack();
+            }}
+          >
+            <Text style={styles.submit_text}>SELECT FUND</Text>
+          </TouchableOpacity>
+        </View>
+      )}
     </View>
   );
 }

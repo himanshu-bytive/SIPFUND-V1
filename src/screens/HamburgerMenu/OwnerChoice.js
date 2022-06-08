@@ -52,6 +52,10 @@ function OwnerChoice(props) {
   }, [addItemSucces]);
 
   useEffect(() => {
+    if (choices) console.log(JSON.stringify(choices, null, 2));
+  }, [choices]);
+
+  useEffect(() => {
     if (token) {
       mainCategory(token);
     }
@@ -477,9 +481,7 @@ function OwnerChoice(props) {
               <View style={styles.mininvestment}>
                 <Text style={styles.min}>Returns</Text>
                 <Text style={styles.min}>
-                  {parseInt(
-                    choices[0]?.nseProductDetail.productCurrentNavValue
-                  ).toFixed(2) + "% / year"}
+                  {parseInt(choices[0]?.api["DP-Return3Yr"]).toFixed(2) + "%"}
                 </Text>
               </View>
             </View>

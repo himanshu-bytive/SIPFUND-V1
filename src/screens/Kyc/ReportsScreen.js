@@ -83,7 +83,6 @@ function ReportsScreen(props) {
             <AntDesign name={"arrowleft"} size={30} color={Colors.RED} />
           </TouchableOpacity>
         }
-        backgroundColor={Colors.PEACH}
         backgroundColor={Colors.LIGHT_WHITE}
         centerComponent={
           <Image

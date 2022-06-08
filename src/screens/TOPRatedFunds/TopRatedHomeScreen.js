@@ -481,7 +481,6 @@ function TopRatedHomeScreen(props) {
               <AntDesign name={"arrowleft"} size={30} color={Colors.RED} />
             </TouchableOpacity>
           }
-          backgroundColor={Colors.PEACH}
           backgroundColor={Colors.LIGHT_WHITE}
           centerComponent={
             <Image
@@ -600,9 +599,9 @@ function TopRatedHomeScreen(props) {
                       <Text numberOfLines={1} style={styles.axis}>
                         {item.api["FSCBI-FundName"]}
                       </Text>
-                      <Text numberOfLines={1} style={styles.fundRisk}>
+                      {/*<Text numberOfLines={1} style={styles.fundRisk}>
                         {item.api["FSCBI-IndianRiskLevel"]}
-                      </Text>
+                      </Text>*/}
                     </View>
                   </TouchableOpacity>
                   <TouchableOpacity

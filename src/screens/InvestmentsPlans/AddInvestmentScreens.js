@@ -31,10 +31,6 @@ function AddInvestmentScreens(props) {
     investInput.current.focus();
   }, []);
 
-  const checkFormula = (value) => {
-    // console.log(value)
-  };
-
   const calculateReturnAmount = (
     amount,
     noOfYears,
@@ -111,6 +107,7 @@ function AddInvestmentScreens(props) {
   };
 
   function number2text(value) {
+    if (value == 0) return "";
     var fraction = Math.round(frac(value) * 100);
     var f_text = "";
 
@@ -250,8 +247,8 @@ function AddInvestmentScreens(props) {
           </View>
           <View style={styles.child_sec}>
             <MyImage
-              width="120"
-              height="120"
+              width="100"
+              height="100"
               svg={true}
               url={investment.planImagePath}
             />
@@ -315,13 +312,12 @@ function AddInvestmentScreens(props) {
             onChangeText={(value) => {
               setInvestError(null);
               inputAmount(value);
-              checkFormula(value);
             }}
             value={invest}
             maxLength={9}
           />
         </View>
-        <Text style={{ marginHorizontal: 30, marginTop: 20 }}>
+        <Text style={{ marginHorizontal: 30, marginTop: 10 }}>
           {number2text(Number(invest))}
         </Text>
         {/* <Text style={styles.number}>Sixteen thousand</Text> */}
@@ -370,7 +366,9 @@ const styles = StyleSheet.create({
   },
   education: {
     flexDirection: "row",
-    marginVertical: 20,
+    justifyContent: "space-between",
+    //marginVertical: 10,
+    marginBottom: 5,
     marginHorizontal: 20,
   },
   education_sec: {
@@ -389,7 +387,7 @@ const styles = StyleSheet.create({
   child_text: {
     fontSize: 16,
     color: Colors.DEEP_GRAY,
-    paddingVertical: 10,
+    paddingVertical: 5,
     fontWeight: "bold",
     marginTop: 20,
   },
@@ -413,23 +411,24 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: 20,
+    //paddingVertical: 5,
+    paddingHorizontal: 20,
   },
 
   buttom_botton: {
-    width: "48%",
+    width: "45%",
     borderWidth: 1,
     borderColor: Colors.DEEP_GRAY,
     borderRadius: 8,
     alignItems: "center",
-    paddingVertical: 20,
+    paddingVertical: 10,
     backgroundColor: Colors.LIGHT_GRAY,
   },
   buttom_botton2: {
-    width: "48%",
+    width: "45%",
     borderRadius: 8,
     backgroundColor: Colors.RED,
-    paddingVertical: 20,
+    paddingVertical: 10,
     alignItems: "center",
   },
 
@@ -452,7 +451,7 @@ const styles = StyleSheet.create({
   },
   investcost_sec: {
     marginHorizontal: 30,
-    marginTop: 10,
+    //marginTop: 10,
     backgroundColor: Colors.WHITE,
     shadowColor: "#000",
     shadowOffset: {
@@ -462,28 +461,28 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.23,
     shadowRadius: 2.62,
     elevation: 4,
-    padding: 15,
+    padding: 7.5,
     borderWidth: 1,
     borderColor: Colors.GREY_1,
     borderRadius: 5,
   },
   cost: {
-    fontSize: 21,
+    fontSize: 18,
     color: Colors.DEEP_GRAY,
     paddingLeft: 10,
   },
   number: {
     paddingLeft: 50,
-    paddingVertical: 15,
+    paddingVertical: 5,
     fontSize: 15,
     color: Colors.DEEP_GRAY,
   },
   yearly_section: {
     marginHorizontal: "auto",
     backgroundColor: Colors.PINK,
-    marginVertical: 20,
+    marginVertical: 5,
     paddingHorizontal: 30,
-    paddingVertical: 20,
+    paddingVertical: 10,
     flexDirection: "row",
     justifyContent: "space-between",
   },

@@ -69,6 +69,15 @@ function InvestmentDetailScreens(props) {
         <View style={styles.education}>
           <View style={styles.education_sec}>
             <Text style={styles.child}>{investment.investmentPlan}</Text>
+            <Text
+              style={{
+                fontSize: 13,
+                color: "black",
+                paddingRight: 5,
+              }}
+            >
+              {investment.description}
+            </Text>
             <Text style={styles.child_text}>Recommendations</Text>
             <View style={styles.childbottom}>
               <Image
@@ -84,7 +93,7 @@ function InvestmentDetailScreens(props) {
             </View>
           </View>
           <View style={styles.child_sec}>
-            {investment.investmentPlan === "Sector Funds" ? (
+            {investment.investmentPlan === "Sectoral Funds" ? (
               <Image
                 source={require("../../../assets/sector.png")}
                 style={{
@@ -175,14 +184,15 @@ const styles = StyleSheet.create({
   },
   education_sec: {
     width: "60%",
-    paddingTop: 20,
+    //paddingTop: 10,
   },
   goals_2: {
     height: 145,
     width: 145,
   },
   child: {
-    fontSize: 22,
+    fontSize: 20,
+    marginBottom: 5,
     fontWeight: "bold",
     color: Colors.RED,
   },
@@ -191,7 +201,7 @@ const styles = StyleSheet.create({
     color: Colors.DEEP_GRAY,
     paddingVertical: 10,
     fontWeight: "bold",
-    marginTop: 50,
+    //marginTop: 50,
   },
   formsec: {
     flexDirection: "row",
@@ -289,7 +299,7 @@ const styles = StyleSheet.create({
   childbottom: {
     flexDirection: "row",
     paddingLeft: 20,
-    paddingVertical: 15,
+    paddingVertical: 5,
   },
 
   sf: {
@@ -314,7 +324,7 @@ const styles = StyleSheet.create({
   },
   box_sec: {
     backgroundColor: "#f9f9f9",
-    paddingVertical: 15,
+    //paddingVertical: 5,
     paddingHorizontal: 10,
     marginHorizontal: 20,
     borderRadius: 10,
@@ -324,7 +334,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: Colors.DEEP_GRAY,
     paddingLeft: 20,
-    marginVertical: 20,
+    marginVertical: 10,
   },
 });
 const mapStateToProps = (state) => ({

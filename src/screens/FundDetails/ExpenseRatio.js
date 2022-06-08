@@ -33,15 +33,16 @@ import {
 
 function ExpenseRatio(props) {
   const { detailsInfo } = props;
-  useEffect(() => {
-    if (detailsInfo) console.log(detailsInfo);
-  }, [detailsInfo]);
-
   return (
     <View style={{ marginHorizontal: 27 }}>
-      <Text style={styles.expense}>Expense Ratio</Text>
-      <Text style={styles.percent}>0.56%</Text>
-      <Text style={styles.expense}>Exit Load</Text>
+      <Text style={styles.expense}>{"Expense Ratio"}</Text>
+      <Text style={styles.percent}>
+        {detailsInfo
+          ? Number(detailsInfo[0].api["ARF-InterimNetExpenseRatio"]).toFixed(2)
+          : ""}
+        %
+      </Text>
+      {/*<Text style={styles.expense}>Exit Load</Text>
       <Text style={styles.investment}>
         For units excess of 10% of the investment, 1% will be charged redemption
         within 12 months.
@@ -50,7 +51,7 @@ function ExpenseRatio(props) {
       <Text style={styles.investment}>
         Returns are taxed 15%, if you redeem before one year. After 1 year, you
         are required to pay
-      </Text>
+      </Text>*/}
     </View>
   );
 }

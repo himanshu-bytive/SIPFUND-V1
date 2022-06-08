@@ -14,7 +14,7 @@ export default function InvestmentLists(props) {
                 onPress={() => onPress(item)}
                 style={{ width: "100%" }}
               >
-                {item.plan === "Sector Funds" ? (
+                {item.plan === "Sectoral Funds" ? (
                   <Image
                     source={require("../../assets/sector.png")}
                     style={{
@@ -43,7 +43,7 @@ export default function InvestmentLists(props) {
               onPress={() => onPress(item)}
               style={{ width: "100%" }}
             >
-              {item.plan === "Sector Funds" ? (
+              {item.plan === "Sectoral Funds" ? (
                 <Image
                   source={require("../../assets/sector.png")}
                   style={{

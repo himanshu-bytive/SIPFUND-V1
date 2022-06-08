@@ -9,6 +9,7 @@ import {
   Text,
   Keyboard,
   Dimensions,
+  TextInput,
 } from "react-native";
 import { connect } from "react-redux";
 import moment from "moment";
@@ -17,6 +18,7 @@ import { MySelectPicker, MyDatePicker, MyTextInput } from "../../components";
 import { AntDesign } from "react-native-vector-icons";
 import { Image, Header, CheckBox } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 import Cart from "../../components/Cart";
 
 const titleList = [
@@ -70,6 +72,8 @@ function CompleteDetailsScreen(props) {
     { value: "Grand Mother", label: "Grand Mother" },
     { value: "Other", label: "Other" },
   ];
+
+  const [isDatePickerVisible, setIsDatePickerVisible] = useState(false);
 
   const [state, setState] = useState({
     occupation: "",
@@ -426,13 +430,51 @@ function CompleteDetailsScreen(props) {
           <Text style={styles.occupation}>
             DOB/DOI <Text style={styles.error}>*</Text>
           </Text>
-          <MyDatePicker
-            defultValue={state.dob}
-            error={errors.dob}
-            onChange={(dob) => {
+          <View
+            style={{
+              flex: 1,
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <TouchableOpacity onPress={() => setIsDatePickerVisible(true)}>
+              <AntDesign
+                style={{ marginTop: 5 }}
+                name="calendar"
+                color={"#EE4248"}
+                size={25}
+              />
+            </TouchableOpacity>
+            <TextInput
+              keyboardType="numeric"
+              style={{
+                flex: 1,
+                marginLeft: 10,
+                marginTop: -15,
+                fontSize: 18,
+                paddingTop: 20,
+                borderBottomWidth: 1,
+              }}
+              value={moment(state.dob).format("DD-MM-YYYY")}
+              onChangeText={(dob) => {
+                setErrors({ ...errors, dob: null });
+                setState({ ...state, dob });
+              }}
+              placeholder={"DD-MM-YYYY"}
+            />
+          </View>
+          <DateTimePickerModal
+            isVisible={isDatePickerVisible}
+            mode="date"
+            date={state.dob}
+            maximumDate={new Date()}
+            onConfirm={(dob) => {
+              setIsDatePickerVisible(false);
               setErrors({ ...errors, dob: null });
               setState({ ...state, dob });
             }}
+            onCancel={() => setIsDatePickerVisible(false)}
           />
 
           {/* TITLE_sec */}
@@ -474,9 +516,9 @@ function CompleteDetailsScreen(props) {
             autoCapitalize={"characters"}
             value={state.investorPan}
             error={errors.investorPan}
-            editable={
-              state?.investorPan && state.investorPan.length > 9 ? false : true
-            }
+            //editable={
+            //state?.investorPan && state.investorPan.length > 9 ? false : true
+            //}
             selectTextOnFocus={false}
             onChangeText={(investorPan) => {
               setErrors({ ...errors, investorPan: null });

@@ -319,7 +319,20 @@ function PlanHomeScreen(props) {
           >
             <Text style={styles.childtext2}>₹</Text>
             <TextInput
-              style={styles.childtext2}
+              style={[
+                styles.childtext2,
+                {
+                  borderWidth: 1,
+                  marginLeft: 3,
+                  height: 31,
+                  padding: 5,
+                  width: 65,
+                  marginRight: 10,
+                  marginBottom: -10,
+                  borderRadius: 5,
+                  textAlign: "center",
+                },
+              ]}
               onChangeText={(val) => setAmount(val)}
               value={amount.toString()}
               keyboardType={"numeric"}
@@ -331,7 +344,8 @@ function PlanHomeScreen(props) {
             <MySlider
               value={Number(amount)}
               change={(amount) => setAmount(amount.toFixed(0))}
-              min={Number(additionalInfo.current_investment_min)}
+              //min={Number(additionalInfo.current_investment_min)}
+              min={0}
               max={Number(additionalInfo.current_investment_max)}
               steps={1000}
             />
@@ -365,7 +379,19 @@ function PlanHomeScreen(props) {
             }}
           >
             <TextInput
-              style={styles.childtext2}
+              style={[
+                styles.childtext2,
+                {
+                  borderWidth: 1,
+                  marginRight: 3,
+                  height: 30,
+                  width: 65,
+                  padding: 5,
+                  marginBottom: -10,
+                  borderRadius: 5,
+                  textAlign: "center",
+                },
+              ]}
               onChangeText={(val) => setInflation(val)}
               value={inflation.toString()}
               keyboardType={"numeric"}
@@ -394,7 +420,19 @@ function PlanHomeScreen(props) {
             }}
           >
             <TextInput
-              style={styles.childtext2}
+              style={[
+                styles.childtext2,
+                {
+                  borderWidth: 1,
+                  marginRight: 3,
+                  height: 30,
+                  width: 65,
+                  padding: 5,
+                  marginBottom: -10,
+                  borderRadius: 5,
+                  textAlign: "center",
+                },
+              ]}
               onChangeText={(val) => setReturnRate(val)}
               value={returnRate.toString()}
               keyboardType={"numeric"}
@@ -426,7 +464,20 @@ function PlanHomeScreen(props) {
           >
             <Text style={styles.childtext2}>₹</Text>
             <TextInput
-              style={styles.childtext2}
+              style={[
+                styles.childtext2,
+                {
+                  borderWidth: 1,
+                  marginLeft: 3,
+                  height: 31,
+                  width: 65,
+                  marginRight: 15,
+                  padding: 5,
+                  marginBottom: -10,
+                  borderRadius: 5,
+                  textAlign: "center",
+                },
+              ]}
               onChangeText={(val) => setInvestment(val)}
               value={investment}
               keyboardType={"numeric"}
@@ -438,7 +489,8 @@ function PlanHomeScreen(props) {
             <MySlider
               value={Number(investment)}
               change={(investment) => setInvestment(investment.toFixed(0))}
-              min={Number(additionalInfo.current_investment_min)}
+              //min={Number(additionalInfo.current_investment_min)}
+              min={0}
               max={Number(additionalInfo.current_investment_max)}
               steps={1000}
             />
