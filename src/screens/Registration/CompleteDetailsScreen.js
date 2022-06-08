@@ -470,7 +470,6 @@ function CompleteDetailsScreen(props) {
             date={state.dob}
             maximumDate={new Date()}
             onConfirm={(dob) => {
-              console.log(dob);
               setIsDatePickerVisible(false);
               setErrors({ ...errors, dob: null });
               setState({ ...state, dob });

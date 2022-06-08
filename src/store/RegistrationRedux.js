@@ -215,7 +215,7 @@ export const RegistrationActions = {
       //},
       //},
       //]);
-      dispatch({ type: types.FETCH_FILE_UPLOAD_SUCCESS });
+      dispatch({ type: types.FETCH_FILE_UPLOAD_SUCCESS, uploadSuccess: true });
     } else {
       if (!data.responseString.includes("doc type not found")) {
         Alert.alert(data.responseString);
@@ -239,7 +239,10 @@ export const RegistrationActions = {
         {
           text: "OK",
           onPress: () => {
-            dispatch({ type: types.FETCH_FILE_UPLOAD_SUCCESS });
+            dispatch({
+              type: types.FETCH_FILE_UPLOAD_SUCCESS,
+              uploadSuccess: true,
+            });
           },
         },
       ]);

@@ -131,7 +131,7 @@ function UploadDocumentScreen(props) {
   }, []);
 
   useEffect(() => {
-    if (token || uploadSuccess) {
+    if (token && uploadSuccess) {
       getDocuments(token);
     }
   }, [token, uploadSuccess]);

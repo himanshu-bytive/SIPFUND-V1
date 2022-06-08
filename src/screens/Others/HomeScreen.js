@@ -61,6 +61,7 @@ function HomeScreen(props) {
 
   useEffect(() => {
     if (token) {
+      console.log(token);
       getsteps({}, token);
       getHomeData({}, token);
       cartDetails(token);

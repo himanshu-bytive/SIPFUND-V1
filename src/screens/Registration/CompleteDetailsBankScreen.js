@@ -391,6 +391,7 @@ function CompleteDetailsBankScreen(props) {
               values={accountTypeList}
               defultValue={state.accountType}
               error={errors.accountType}
+              placeholder={"Select A/C type"}
               onChange={(accountType) => {
                 setErrors({ ...errors, accountType: null });
                 setState({ ...state, accountType });
