@@ -479,7 +479,7 @@ function PlanHomeScreen(props) {
                 },
               ]}
               onChangeText={(val) => setInvestment(val)}
-              value={investment}
+              value={investment.toString()}
               keyboardType={"numeric"}
             />
           </View>

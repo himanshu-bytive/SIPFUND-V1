@@ -128,6 +128,7 @@ function FundsHomeScreen(props) {
   }, [token, fundDetail]);
 
   useEffect(() => {
+    if(detailsInfo){
     let detailedPortFolio = detailsInfo ? detailsInfo[0].api : {};
     let navPercentage = detailedPortFolio["DP-NAVChangePercentage"]
       ? Number(detailedPortFolio["DP-NAVChangePercentage"]).toFixed(2)
@@ -148,7 +149,12 @@ function FundsHomeScreen(props) {
     setAssets(assets);
     setInvest(invest);
     setCategory(category);
+    }
   }, [detailsInfo]);
+
+  // if(detailsInfo){
+  //   console.log(detailsInfo[0]);
+  // }
 
   useEffect(() => {
     calculateMap();

@@ -122,9 +122,11 @@ function CompleteDetailsScreen(props) {
 
   useEffect(() => {
     if (fatcaDetails || nseDetails || userDetails) {
+      console.log( nseDetails);
+
       setState({
         occupation: nseDetails.occupation.OCCUPATION_CODE,
-        dob: new Date(nseDetails.dob),
+        dob: nseDetails.dob != 0 ? nseDetails.dob : null,
         title: nseDetails.title,
         investor: nseDetails?.inv_name ? nseDetails.inv_name : users.name,
         investorPan: nseDetails?.pan
@@ -272,7 +274,7 @@ function CompleteDetailsScreen(props) {
         setErrors({ ...errors, nominate1dob: "Nominee is not a minor" });
         return;
       }
-      if (!nominate1dob) {
+      if (!nominate1dob || nominate1dob == null) {
         setErrors({ ...errors, nominate1dob: "Please Select a Date" });
         return;
       }
@@ -316,7 +318,7 @@ function CompleteDetailsScreen(props) {
       OCCUPATION_CODE: selOccupation.OCCUPATION_CODE,
       OCCUPATION_DESC: selOccupation.OCCUPATION_DESC,
     };
-    (params.nseDetails.dob = dob ? dob.getTime() : ""),
+    params.nseDetails.dob = dob ? new Date(dob).getTime() : "",
       (params.nseDetails.title = selTitle.value);
     params.nseDetails.inv_name = investor;
     params.nseDetails.pan = investorPan;
@@ -335,7 +337,7 @@ function CompleteDetailsScreen(props) {
     params.nseDetails.nominee1_name = nominate1name;
     params.nseDetails.nominee1_relation = nominate1relation;
     (params.nseDetails.nominee1_dob = nominate1dob
-      ? nominate1dob.getTime()
+      ? new Date(nominate1dob).getTime()
       : ""),
       (params.nseDetails.nominee1_guard_name = nominate1guard_name);
     params.nseDetails.nominee1_guard_pan = nominate1guard_pan.toUpperCase();
@@ -343,6 +345,7 @@ function CompleteDetailsScreen(props) {
     updateRegister(params, token);
     pageActive.current = true;
   };
+
 
   // const validateNomineePan = (pan) => {
   //   console.log("STATE=", state.nominate1guard_pan);
@@ -456,8 +459,9 @@ function CompleteDetailsScreen(props) {
                 paddingTop: 20,
                 borderBottomWidth: 1,
               }}
-              value={moment(state.dob).format("DD-MM-YYYY")}
+              value={state.dob ? state.dob : ""}
               onChangeText={(dob) => {
+                console.log("DOB=", dob);
                 setErrors({ ...errors, dob: null });
                 setState({ ...state, dob });
               }}
@@ -467,7 +471,7 @@ function CompleteDetailsScreen(props) {
           <DateTimePickerModal
             isVisible={isDatePickerVisible}
             mode="date"
-            date={state.dob}
+            date={new Date()}
             maximumDate={new Date()}
             onConfirm={(dob) => {
               setIsDatePickerVisible(false);
