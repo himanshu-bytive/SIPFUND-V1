@@ -341,7 +341,7 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     ...stateProps,
     ...ownProps,
     investmentPlans: (params, token) => {
-      InvestmentPlanActions.investmentPlans(dispatch, params, token);
+      InvestmentPlanActions.investmentPlans(dispatch, params, token); 
     },
   };
 };

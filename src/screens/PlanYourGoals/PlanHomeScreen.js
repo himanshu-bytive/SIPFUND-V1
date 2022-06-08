@@ -321,7 +321,7 @@ function PlanHomeScreen(props) {
             <TextInput
               style={styles.childtext2}
               onChangeText={(val) => setAmount(val)}
-              value={amount}
+              value={amount.toString()}
               keyboardType={"numeric"}
             />
           </View>

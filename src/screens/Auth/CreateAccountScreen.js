@@ -229,8 +229,8 @@ function CreateAccountScreen(props) {
             <Text style={styles.error}>{errors.password}</Text>
           )}
           <View style={styles.passwordValidationContainer}>
-            {validatePass(state.password).map((item) => (
-              <Text style={styles.passwordValidationText}>{item}</Text>
+            {validatePass(state.password).map((item,index) => (
+              <Text key={index} style={styles.passwordValidationText}>{item}</Text>
             ))}
           </View>
           <TouchableOpacity
