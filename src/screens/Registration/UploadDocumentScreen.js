@@ -131,7 +131,7 @@ function UploadDocumentScreen(props) {
   }, []);
 
   useEffect(() => {
-    if (token && uploadSuccess) {
+    if (token) {
       getDocuments(token);
     }
   }, [token, uploadSuccess]);
@@ -178,11 +178,13 @@ function UploadDocumentScreen(props) {
         <TouchableOpacity
           onPress={() => carosuelref.current.snapToPrev()}
           style={{
-            backgroundColor: "rgba(0,0,0,0.3)",
+            backgroundColor: "white",
             position: "absolute",
-            top: "45%",
-            left: 12,
-            padding: 8,
+            top: "50%",
+            left: 20,
+            padding: 10,
+            alignItems: "center",
+            justifyContent: "center",
             borderRadius: 20,
           }}
         >
@@ -194,10 +196,12 @@ function UploadDocumentScreen(props) {
           onPress={() => carosuelref.current.snapToNext()}
           style={{
             position: "absolute",
-            top: "45%",
-            right: 12,
-            backgroundColor: "rgba(0,0,0,0.3)",
-            padding: 8,
+            top: "50%",
+            right: 20,
+            backgroundColor: "white",
+            padding: 10,
+            alignItems: "center",
+            justifyContent: "center",
             borderRadius: 20,
           }}
         >
