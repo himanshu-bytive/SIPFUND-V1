@@ -122,8 +122,6 @@ function CompleteDetailsScreen(props) {
 
   useEffect(() => {
     if (fatcaDetails || nseDetails || userDetails) {
-      console.log( userDetails);
-
       setState({
         occupation: nseDetails.occupation.OCCUPATION_CODE,
         dob: nseDetails.dob != 0 ? nseDetails.dob : null,
@@ -318,7 +316,7 @@ function CompleteDetailsScreen(props) {
       OCCUPATION_CODE: selOccupation.OCCUPATION_CODE,
       OCCUPATION_DESC: selOccupation.OCCUPATION_DESC,
     };
-    params.nseDetails.dob = dob ? new Date(dob).getTime() : "",
+    (params.nseDetails.dob = dob ? new Date(dob).getTime() : ""),
       (params.nseDetails.title = selTitle.value);
     params.nseDetails.inv_name = investor;
     params.nseDetails.pan = investorPan;
@@ -345,7 +343,6 @@ function CompleteDetailsScreen(props) {
     updateRegister(params, token);
     pageActive.current = true;
   };
-
 
   // const validateNomineePan = (pan) => {
   //   console.log("STATE=", state.nominate1guard_pan);
@@ -437,37 +434,45 @@ function CompleteDetailsScreen(props) {
             style={{
               flex: 1,
               flexDirection: "row",
-              alignItems: "center",
+              //alignItems: "center",
               justifyContent: "space-between",
             }}
           >
             <TouchableOpacity onPress={() => setIsDatePickerVisible(true)}>
               <AntDesign
-                style={{ marginTop: 5 }}
+                style={{ marginTop: 10 }}
                 name="calendar"
                 color={"#EE4248"}
                 size={25}
               />
             </TouchableOpacity>
-            <TextInput
-              keyboardType="numeric"
+            <View
               style={{
                 flex: 1,
-                marginLeft: 10,
-                marginTop: -15,
-                fontSize: 18,
-                paddingTop: 20,
-                borderBottomWidth: 1,
               }}
-              value={state.dob ? state.dob : ""}
-              onChangeText={(dob) => {
-                // console.log("DOB=", dob.length);
-                if(dob.length === 0) setErrors({ ...errors, dob: null });
-                setErrors({ ...errors, dob: null });
-                setState({ ...state, dob });
-              }}
-              placeholder={"DD-MM-YYYY"}
-            />
+            >
+              <TextInput
+                keyboardType="numeric"
+                style={{
+                  flex: 1,
+                  marginLeft: 10,
+                  marginTop: 5,
+                  fontSize: 18,
+                  borderBottomWidth: 1,
+                }}
+                value={state.dob ? state.dob : ""}
+                onChangeText={(dob) => {
+                  // console.log("DOB=", dob.length);
+                  if (dob.length === 0) setErrors({ ...errors, dob: null });
+                  setErrors({ ...errors, dob: null });
+                  setState({ ...state, dob });
+                }}
+                placeholder={"DD-MM-YYYY"}
+              />
+              <Text style={{ ...styles.error, marginLeft: 5 }}>
+                {errors?.dob}
+              </Text>
+            </View>
           </View>
           <DateTimePickerModal
             isVisible={isDatePickerVisible}
