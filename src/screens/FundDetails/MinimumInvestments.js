@@ -57,7 +57,7 @@ function MinimumInvestments(props) {
     <View style={styles.minimum}>
       <View style={styles.detailsSection}>
         <Text numberOfLines={2} style={styles.mini_tex}>
-          ₹{parseInt(assets).toFixed(0)}
+          ₹{`${(parseInt(assets) / 10000000).toFixed(2)} Cr`}
         </Text>
         <Text style={styles.minimum_tex}>Total Assets</Text>
       </View>
