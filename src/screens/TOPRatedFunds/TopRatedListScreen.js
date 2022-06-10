@@ -241,25 +241,6 @@ function TopRatedListScreen(props) {
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
-          if (users?.IIN == 0) {
-            Alert.alert(
-              "Not Allowed!",
-              "Please complete the account opening process and upload the required documents, upon activation of your account, you can start your investment. Do you want to continue?",
-              [
-                {
-                  text: "Cancel",
-                  onPress: () => console.log("Cancel Pressed"),
-                  style: "cancel",
-                },
-                {
-                  text: "OK",
-                  onPress: () => props.navigation.navigate("RegisterDetails"),
-                },
-              ]
-            );
-
-            return;
-          }
           let type = getFundType();
           let tmpCart;
           if (paymentCart?.cartDetails) {

@@ -10,7 +10,7 @@ import {
   KeyboardAvoidingView,
   TextInput,
   ActivityIndicator,
-  Modal
+  Alert,
 } from "react-native";
 import { connect } from "react-redux";
 import { Styles, Config, Colors, FormValidate } from "../../common";
@@ -29,9 +29,7 @@ import Cart from "../../components/Cart";
 function TopRatedSubmitScreen(props) {
   const [sum, setSum] = useState(0);
   const [cart, setCart] = useState([]);
-  const [visible, setVisible] = useState(false);
-
-  const {steps} = props; 
+  const { users } = props;
 
   useEffect(() => {
     let sip = 0;
@@ -104,56 +102,36 @@ function TopRatedSubmitScreen(props) {
             <Text style={styles.price}>₹ {item?.amount}</Text>
           </View>
         ))}
-         <Modal
-            animationType="slide"
-            transparent={true}
-            visible={visible}
-            onRequestClose={() => {
-              setVisible(!visible);
-            }}
-          >
-            <View style={styles.centeredView}>
-            <Text style={styles.firstText}>Please complete the account opening proccess and upload the required documents 
-            upon activation of your account ,you can start investment. Do you want to continue?
-            </Text>
-              <View style={styles.modalView}>
-                <TouchableOpacity
-                  style={styles.openButton}
-                  onPress={() => {
-                    setVisible(!visible);
-                  }}
-                >
-                  <Text style={styles.textStyle}>Cancel</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.redirectBtn}
-                  onPress={() => {
-                    setVisible(false);
-                    props.navigation.navigate("RegisterDetails")
-                  }}
-                >
-                  <Text style={styles.textStyle}>Ok</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </Modal>
       </ScrollView>
 
       <TouchableOpacity
-        onPress={() =>{
-          if(steps >= 3 && steps < 6) {
-            // alert("Your IIN is inactive. Please wait for activation!");
-            setVisible(true);
-           
-          } else{
-            props.navigation.navigate("Upi", {
-              cart,
-              sum,
-              fromCart: true,
-              fromPlanGoals: false,
-              isLumpsum: props.navigation.state.params.isLumpsum,
-            })
+        onPress={() => {
+          if (users?.IIN == 0) {
+            Alert.alert(
+              "Not Allowed!",
+              "Please complete the account opening process and upload the required documents, upon activation of your account, you can start your investment. Do you want to continue?",
+              [
+                {
+                  text: "Cancel",
+                  onPress: () => console.log("Cancel Pressed"),
+                  style: "cancel",
+                },
+                {
+                  text: "OK",
+                  onPress: () => props.navigation.navigate("RegisterDetails"),
+                },
+              ]
+            );
+
+            return;
           }
+          props.navigation.navigate("Upi", {
+            cart,
+            sum,
+            fromCart: true,
+            fromPlanGoals: false,
+            isLumpsum: props.navigation.state.params.isLumpsum,
+          });
         }}
         style={styles.botton_box}
       >
@@ -313,37 +291,10 @@ const styles = StyleSheet.create({
     fontSize: 15,
     paddingLeft: 10,
   },
-  centeredView: {
-    height: 220,
-    width: 330,
-    backgroundColor: "white",
-    borderRadius: 20,
-    marginLeft: 35,
-    marginTop: 200,
-    position: "relative",
-  },
-  firstText: {
-    fontSize: 15,
-    padding: 18,
-    alignSelf: "center",
-    marginTop: 20,
-  },
-  modalView: {
-    flexDirection: "row",
-    alignSelf: "center",
-  },
-  openButton: {
-    marginTop: 20,
-  },
-  redirectBtn: {
-    marginTop: 20,
-    marginLeft: 70,
-  }
 });
 const mapStateToProps = (state) => ({
   token: state.auth.token,
-  users: state.auth.users,
-  steps: state.home.steps,
+  users: state.auth.user,
 });
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
