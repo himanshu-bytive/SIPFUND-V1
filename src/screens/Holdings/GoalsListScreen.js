@@ -161,18 +161,19 @@ const styles = StyleSheet.create({
     fontSize: 10,
     fontWeight: "bold",
     color: "#7E7E7E",
-    marginVertical: 5,
+    //marginVertical: 5,
   },
   child: {
     fontSize: 15,
-    maxWidth: "90%",
+    //maxWidth: "90%",
+    paddingLeft: 20,
     fontWeight: "bold",
   },
   child_text: {
-    fontSize: 10,
+    fontSize: 12,
     fontWeight: "bold",
     color: Colors.LIGHT_BLACK,
-    marginVertical: 3,
+    //marginVertical: 3,
     paddingLeft: 20,
   },
   goals_3: {
@@ -182,9 +183,10 @@ const styles = StyleSheet.create({
   img_sec: {
     flexDirection: "row",
     marginVertical: 3,
+    alignItems: "center",
   },
   price: {
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: "bold",
     paddingLeft: 5,
   },
