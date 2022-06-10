@@ -32,6 +32,7 @@ function TopRatedListScreen(props) {
     getCartDetails,
     deleteItemFromCart,
     fundDetails,
+    users,
   } = props;
 
   const [cartEmpty, setCartEmpty] = useState();
@@ -240,10 +241,28 @@ function TopRatedListScreen(props) {
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
+          if (users?.IIN == 0) {
+            Alert.alert(
+              "Not Allowed!",
+              "Please complete the account opening process and upload the required documents, upon activation of your account, you can start your investment. Do you want to continue?",
+              [
+                {
+                  text: "Cancel",
+                  onPress: () => console.log("Cancel Pressed"),
+                  style: "cancel",
+                },
+                {
+                  text: "OK",
+                  onPress: () => props.navigation.navigate("RegisterDetails"),
+                },
+              ]
+            );
+
+            return;
+          }
           let type = getFundType();
           let tmpCart;
           if (paymentCart?.cartDetails) {
-            console.log("sdhbfs");
             tmpCart = paymentCart?.cartDetails;
           } else {
             tmpCart = cart;
@@ -385,7 +404,7 @@ const styles = StyleSheet.create({
 });
 const mapStateToProps = (state) => ({
   token: state.auth.token,
-  users: state.auth.users,
+  users: state.auth.user,
   cartDetails: state.cartActions.cart,
 });
 
