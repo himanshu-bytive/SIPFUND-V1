@@ -48,7 +48,7 @@ function ExistingScreen(props) {
       setError({ ...errors, inn: "Please enter INN" });
       return;
     }
-    if (!state?.pan) {
+    if (!state?.pan && !FormValidate.validatePan(state?.pan)) {
       panInput.current.focus();
       setError({ ...errors, pan: "Please enter PAN" });
       return;
@@ -76,7 +76,7 @@ function ExistingScreen(props) {
           </TouchableOpacity>
         }
         backgroundColor={Colors.PEACH}
-        backgroundColor={Colors.WHITE}
+        // backgroundColor={Colors.WHITE}
         centerComponent={
           <Image
             source={require("../../../assets/icon.png")}
