@@ -134,7 +134,9 @@ function ReturnsCalculator(props) {
         />
       </View>
       <View style={styles.amount_box}>
-        <Text style={styles.amount}>Amount Per Month</Text>
+        <Text style={styles.amount}>
+          {selectTab == "SIP" ? "Amount Per Month" : "Amount"}
+        </Text>
         <View
           style={{
             flexDirection: "row",
