@@ -122,7 +122,7 @@ function CompleteDetailsScreen(props) {
 
   useEffect(() => {
     if (fatcaDetails || nseDetails || userDetails) {
-      console.log( nseDetails);
+      console.log( userDetails);
 
       setState({
         occupation: nseDetails.occupation.OCCUPATION_CODE,
@@ -198,7 +198,7 @@ function CompleteDetailsScreen(props) {
       setErrors({ ...errors, occupation: "Please Select a Value" });
       return;
     }
-    if (!dob) {
+    if (!dob || dob == null || dob == "" || !FormValidate.isValidDate(dob)) {
       setErrors({ ...errors, dob: "Please Select a Date" });
       return;
     }
@@ -461,7 +461,8 @@ function CompleteDetailsScreen(props) {
               }}
               value={state.dob ? state.dob : ""}
               onChangeText={(dob) => {
-                console.log("DOB=", dob);
+                // console.log("DOB=", dob.length);
+                if(dob.length === 0) setErrors({ ...errors, dob: null });
                 setErrors({ ...errors, dob: null });
                 setState({ ...state, dob });
               }}
