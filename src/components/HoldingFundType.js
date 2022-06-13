@@ -29,7 +29,7 @@ export default function HoldingFundType(props) {
             <Text style={styles.rate_2}>
               ₹{" "}
               {(
-                Number(data?.investmentValue) - Number(data?.currentValue)
+                Number(data?.currentValue) - Number(data?.investmentValue)
               ).toFixed(2)}
             </Text>
             <Text style={styles.Current_Value}>Profit/Loss</Text>
