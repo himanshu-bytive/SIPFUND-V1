@@ -140,7 +140,7 @@ function SwitchItem(props) {
         type: identifier,
         groupId,
         groupName,
-        groupType
+        groupType,
       };
       // setKeys((prevState) => [...prevState, key]);
       setAddedScheme(key, newElement);
@@ -151,11 +151,15 @@ function SwitchItem(props) {
   return (
     <View style={styles.fund_sec}>
       <View style={styles.axis_sec}>
-        <Text style={styles.axis}>{item.nseSchemeDetails.productAmcName}</Text>
+        <Text style={styles.axis}>
+          {item?.nseSchemeDetails?.productAmcName}
+        </Text>
       </View>
       <View style={styles.growth_sec}>
         <Text style={styles.axis_treasury}>{item.scheme}</Text>
-        <Text>{item?.groupName} {item?.groupType ? `(${item?.groupType})` : ''}</Text>
+        <Text>
+          {item?.groupName} {item?.groupType ? `(${item?.groupType})` : ""}
+        </Text>
         <View style={styles.value_sec}>
           <View style={styles.folio_sec}>
             <Text style={styles.folio}>Folio</Text>
@@ -281,7 +285,7 @@ function SwitchItem(props) {
                   item.groupId,
                   item.groupName,
                   item.groupType
-                )
+                );
               }}
               style={styles.botton_box}
             >
