@@ -62,7 +62,8 @@ function PortfolioSummary(props) {
   return (
     <View style={{ marginHorizontal: 5 }}>
       <Text style={styles.value}>
-        Total Market Value - ₹ {totalmarktValue} cr
+        Total Market Value - ₹ {(Number(totalmarktValue) / 10000000).toFixed(2)}{" "}
+        cr
       </Text>
 
       <DataTable style={styles.dataTable}>
