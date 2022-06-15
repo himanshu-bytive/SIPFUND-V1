@@ -115,7 +115,7 @@ function CompleteDetailsAddressScreen(props) {
       return;
     }
     if (!pincode) {
-      setErrors({ ...errors, pincode: "Please Add a Date" });
+      setErrors({ ...errors, pincode: "Please Enter a Valid Pincode" });
       return;
     }
     if (!states) {
