@@ -338,8 +338,11 @@ function SideMenu(props) {
 
         <TouchableOpacity
           onPress={() => {
-            if (isInn) {
-              alert("Your account is active. You're ready to invest");
+            if (profile?.ACTIVATION_STATUS == "YES") {
+              ToastAndroid.show(
+                "Your account is active. You're ready to invest",
+                ToastAndroid.LONG
+              );
               return;
             }
             if (steps >= 4 && steps < 6) {
@@ -382,6 +385,13 @@ function SideMenu(props) {
 
         <TouchableOpacity
           onPress={() => {
+            if (profile?.ACTIVATION_STATUS == "YES") {
+              ToastAndroid.show(
+                "Your account is active. You're ready to invest",
+                ToastAndroid.LONG
+              );
+              return;
+            }
             if (steps < 4) {
               ToastAndroid.show(
                 "We didn't find any investment account for your PAN",
