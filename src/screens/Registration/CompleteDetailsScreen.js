@@ -546,6 +546,7 @@ function CompleteDetailsScreen(props) {
               setErrors({ ...errors, investorPan: null });
               setState({ ...state, investorPan });
             }}
+            maxLength={10}
           />
           <Text style={styles.error}>{errors.investorPan}</Text>
 
