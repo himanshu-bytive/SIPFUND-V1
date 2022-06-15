@@ -316,11 +316,12 @@ function RiskRating(props) {
               <Text numberOfLines={2} style={styles.headerCell}>
                 {""}
               </Text>
-              {mptStats5Yr.map((item) => (
-                <Text numberOfLines={2} style={styles.headerCell}>
-                  {item?.name}
-                </Text>
-              ))}
+              <Text numberOfLines={2} style={styles.headerCell}>
+                {mptStats5Yr[0]?.name}
+              </Text>
+              <Text numberOfLines={2} style={styles.headerCell}>
+                {mptStats5Yr[0]?.category}
+              </Text>
             </DataTable.Header>
             <DataTable.Row style={styles.headersec}>
               <DataTable.Cell style={styles.bodyCell}>R-Squared</DataTable.Cell>
@@ -362,11 +363,12 @@ function RiskRating(props) {
               <Text numberOfLines={2} style={styles.headerCell}>
                 {""}
               </Text>
-              {mptStats10Yr.map((item) => (
-                <Text numberOfLines={2} style={styles.headerCell}>
-                  {item?.name}
-                </Text>
-              ))}
+              <Text numberOfLines={2} style={styles.headerCell}>
+                {mptStats10Yr[0]?.name}
+              </Text>
+              <Text numberOfLines={2} style={styles.headerCell}>
+                {mptStats10Yr[0]?.category}
+              </Text>
             </DataTable.Header>
             <DataTable.Row style={styles.headersec}>
               <DataTable.Cell
