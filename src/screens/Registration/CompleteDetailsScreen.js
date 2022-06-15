@@ -196,7 +196,8 @@ function CompleteDetailsScreen(props) {
       setErrors({ ...errors, occupation: "Please Select a Value" });
       return;
     }
-    if (!dob || dob == null || dob == "" || !FormValidate.isValidDate(dob)) {
+    if (!dob || dob == null || dob == "") {
+      //if (!dob || dob == null || dob == "" || !FormValidate.isValidDate(dob)) {
       setErrors({ ...errors, dob: "Please Select a Date" });
       return;
     }
@@ -220,6 +221,17 @@ function CompleteDetailsScreen(props) {
       setErrors({ ...errors, nominate1guard_pan: "Please Add Validate PAN" });
       return;
     }
+    //} else {
+    //const reg = /[A-Z][A-Z][A-Z][A-Z][A-Z][0-9][0-9][0-9][0-9][A-Z]/;
+    //if (!investorPan.match(reg)) {
+    //console.log("heyyyy");
+    //setErrors({
+    //...errors,
+    //nominate1guard_pan: "Please enter a valid PAN",
+    //});
+    //return;
+    //}
+    //}
     if (!FormValidate.isEmail(email)) {
       setErrors({ ...errors, email: "Please Add a Email" });
       return;
@@ -460,7 +472,7 @@ function CompleteDetailsScreen(props) {
                   fontSize: 18,
                   borderBottomWidth: 1,
                 }}
-                value={state.dob ? state.dob : ""}
+                value={state.dob ? moment(state.dob).format("DD-MM-YYYY") : ""}
                 onChangeText={(dob) => {
                   // console.log("DOB=", dob.length);
                   if (dob.length === 0) setErrors({ ...errors, dob: null });
@@ -535,6 +547,7 @@ function CompleteDetailsScreen(props) {
               setState({ ...state, investorPan });
             }}
           />
+          <Text style={styles.error}>{errors.investorPan}</Text>
 
           {/* Email Id_sec */}
           <Text style={styles.occupation}>

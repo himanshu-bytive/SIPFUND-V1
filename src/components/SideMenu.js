@@ -45,6 +45,7 @@ function SideMenu(props) {
     kycDetails,
     profile,
     getProfile,
+    isInn,
   } = props;
   const [img, setImg] = useState(null);
   const [visibleKyc, setVisibleKyc] = useState(false);
@@ -53,6 +54,10 @@ function SideMenu(props) {
   const [emandateValue, setEmandateValue] = useState("");
   const [enableMandate, setEnableMandate] = useState(false);
   const [enableKyc, setEnableKyc] = useState(false);
+
+  useEffect(() => {
+    if (isInn) console.log(JSON.stringify(isInn, null, 2));
+  }, [isInn]);
 
   //useEffect(() => {
   //if (userDetails?.signUpSteps >= 6) {
@@ -333,6 +338,10 @@ function SideMenu(props) {
 
         <TouchableOpacity
           onPress={() => {
+            if (isInn) {
+              alert("Your account is active. You're ready to invest");
+              return;
+            }
             if (steps >= 4 && steps < 6) {
               alert("Your IIN is inactive. Please wait for activation!");
             } else {
@@ -648,6 +657,7 @@ const mapStateToProps = (state) => ({
   emandateLists: state.emandate.emandateLists,
   emandateDetails: state.emandate.emandateDetails,
   profile: state.auth.profile,
+  isInn: state.registration.isInn,
 });
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
   const { dispatch } = dispatchProps;

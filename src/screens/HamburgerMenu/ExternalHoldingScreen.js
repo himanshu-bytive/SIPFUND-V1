@@ -20,6 +20,9 @@ import { Styles, Config, Colors, FormValidate } from "../../common";
 import { Entypo, AntDesign } from "react-native-vector-icons";
 import { Header, Overlay } from "react-native-elements";
 import Cart from "../../components/Cart";
+import { getDocumentAsync } from "expo-document-picker";
+import axios from "axios";
+const FormData = require("form-data");
 
 function HoldingsScreen(props) {
   const { token, users, userDetails, fetchExtHoldings, extHolding } = props;
@@ -53,6 +56,56 @@ function HoldingsScreen(props) {
       setProfit(profit);
     }
   }, [extHolding]);
+
+  const showPicker = React.useCallback(async () => {
+    const file = await getDocumentAsync({
+      copyToCacheDirectory: false,
+      multiple: false,
+      type: "application/pdf",
+    });
+
+    if (file.type == "cancel") return;
+
+    let data = new FormData();
+    data.append("password", "sip1234");
+    data.append("documents", file);
+
+    var config = {
+      method: "post",
+      url: "https://uat.sipfund.com/api/externalTransactions/upload",
+      headers: {
+        Authorization: token,
+        //...data.getHeaders(),
+      },
+      data: data,
+    };
+
+    axios(config)
+      .then((response) => {
+        alert("Statement Uploaded");
+        console.log(JSON.stringify(response.data));
+      })
+      .catch((e) => alert(JSON.stringify(e)));
+
+    //const data = new FormData();
+    //data.append("file", {
+    //name: file.name,
+    //type: file.type,
+    //uri: Platform.OS === "ios" ? file.uri.replace("file://", "") : file.uri,
+    //});
+
+    //const res = await axios.post(
+    //"https://uat.sipfund.com/api/externalTransactions/upload",
+    //data,
+    //{
+    //headers: {
+    //"Content-Type": "multipart/form-data",
+    //Authorization: token,
+    //},
+    //}
+    //);
+    //console.log(JSON.stringify(res, null, 2));
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -183,7 +236,7 @@ function HoldingsScreen(props) {
           >
             <Text style={styles.proceed}>ADD HOLDING</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.botton_box2}>
+          <TouchableOpacity style={styles.botton_box2} onPress={showPicker}>
             <Text style={styles.proceed}>ADD HOLDING PDF</Text>
           </TouchableOpacity>
         </View>
