@@ -551,8 +551,8 @@ function OwnerChoice(props) {
                 <View
                   style={{
                     flexDirection: "row",
-                    justifyContent: "space-between",
-                    paddingHorizontal: 50,
+                    justifyContent: "space-evenly",
+                    //paddingHorizontal: 50,
                   }}
                 >
                   <View style={styles.amount_sec}>
@@ -610,7 +610,7 @@ function OwnerChoice(props) {
                   style={{
                     flexDirection: "row",
                     justifyContent: "center",
-                    paddingHorizontal: 50,
+                    //paddingHorizontal: 50,
                   }}
                 >
                   <View style={styles.amount_sec}>
