@@ -196,9 +196,9 @@ function CompleteDetailsScreen(props) {
       setErrors({ ...errors, occupation: "Please Select a Value" });
       return;
     }
-    if (!dob || dob == null || dob == "") {
-      //if (!dob || dob == null || dob == "" || !FormValidate.isValidDate(dob)) {
-      setErrors({ ...errors, dob: "Please Select a Date" });
+    //if (!dob || dob == null || dob == "") {
+    if (!dob || dob == null || dob == "" || !FormValidate.isValidDate(dob)) {
+      setErrors({ ...errors, dob: "Please Enter a valid Date" });
       return;
     }
     if (!title) {
@@ -472,7 +472,7 @@ function CompleteDetailsScreen(props) {
                   fontSize: 18,
                   borderBottomWidth: 1,
                 }}
-                value={state.dob ? moment(state.dob).format("DD-MM-YYYY") : ""}
+                value={state.dob ? state.dob.toString() : ""}
                 onChangeText={(dob) => {
                   // console.log("DOB=", dob.length);
                   if (dob.length === 0) setErrors({ ...errors, dob: null });
@@ -494,7 +494,7 @@ function CompleteDetailsScreen(props) {
             onConfirm={(dob) => {
               setIsDatePickerVisible(false);
               setErrors({ ...errors, dob: null });
-              setState({ ...state, dob });
+              setState({ ...state, dob: moment(dob).format("DD-MM-YYYY") });
             }}
             onCancel={() => setIsDatePickerVisible(false)}
           />
