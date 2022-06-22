@@ -33,6 +33,7 @@ function AddExternalHoldingScreen(props) {
   };
   const [AMCS, setAMCS] = useState([]);
   const [schemeList, setScheme] = useState([]);
+  const [schemeSet, setSchemeSet] = useState(false);
 
   const [state, setState] = useState({
     amc: "",
@@ -59,6 +60,23 @@ function AddExternalHoldingScreen(props) {
   }, []);
 
   useEffect(() => {
+    if (schemeSet && !isFetching) {
+      setSchemeSet(false);
+      alert("Holding added succesfully!");
+      setState({
+        amc: "",
+        scheme: "",
+        transation: "",
+        folio: "",
+        amount: "",
+        start: "",
+        end: "",
+      });
+      props.navigation.goBack();
+    }
+  }, [isFetching, schemeSet]);
+
+  useEffect(() => {
     const AMCS = amcLists
       ? amcLists.map((item) => ({
           value: item.AMC_CODE,
@@ -79,6 +97,8 @@ function AddExternalHoldingScreen(props) {
   }, [schemeDetails]);
 
   const onAction = async () => {
+    setSchemeSet(true);
+
     const { amc, scheme, transation, folio, amount, start, end } = state;
     if (!amc) {
       setErrors({ ...errors, amc: "Please Select a AMC" });
