@@ -23,6 +23,7 @@ import Cart from "../../components/Cart";
 import { getDocumentAsync } from "expo-document-picker";
 import axios from "axios";
 const FormData = require("form-data");
+import Dialog from "react-native-dialog";
 
 function HoldingsScreen(props) {
   const { token, users, userDetails, fetchExtHoldings, extHolding } = props;
@@ -30,6 +31,10 @@ function HoldingsScreen(props) {
   const [investment, setInvestment] = useState(999.95);
   const [currentValue, setCurrentValue] = useState(1532.69);
   const [profit, setProfit] = useState(532.74);
+
+  const [passwordDialog, setPasswordDialog] = useState(false);
+  const [fileToUpload, setFileToUpload] = useState();
+  const [password, setPassword] = useState("");
 
   useEffect(() => {
     fetchExtHoldings(
@@ -66,31 +71,73 @@ function HoldingsScreen(props) {
 
     if (file.type == "cancel") return;
 
-    let data = new FormData();
-    data.append("password", "sip1234");
-    //data.append("documents", file);
-    data.append("documents", {
-      name: file.name,
-      type: "application/pdf",
-      uri: Platform.OS === "ios" ? file.uri.replace("file://", "") : file.uri,
-    });
-
-    axios
-      .post("https://uat.sipfund.com/api/externalTransactions/upload", data, {
-        headers: {
-          Authorization: token,
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      .then((response) => {
-        alert("Statement Uploaded");
-        console.log(JSON.stringify(response.data));
-      })
-      .catch((e) => console.log(JSON.stringify(e, null, 2)));
+    setPasswordDialog(true);
+    setFileToUpload(file);
   }, []);
 
   return (
     <View style={styles.container}>
+      <Dialog.Container visible={passwordDialog}>
+        <Dialog.Title
+          style={{
+            color: "black",
+          }}
+        >
+          Enter Password
+        </Dialog.Title>
+        <Dialog.Input
+          secureTextEntry={true}
+          style={{
+            color: "black",
+          }}
+          value={password}
+          onChangeText={(val) => setPassword(val)}
+        />
+
+        <Dialog.Button
+          onPress={() => setPasswordDialog(false)}
+          label="Cancel"
+        />
+        <Dialog.Button
+          onPress={() => {
+            setPasswordDialog(false);
+
+            if (!fileToUpload) return;
+
+            let data = new FormData();
+            data.append("password", password);
+            data.append("documents", {
+              name: fileToUpload.name,
+              type: "application/pdf",
+              uri:
+                Platform.OS === "ios"
+                  ? fileToUpload.uri.replace("file://", "")
+                  : fileToUpload.uri,
+            });
+
+            axios
+              .post(
+                "https://uat.sipfund.com/api/externalTransactions/upload",
+                data,
+                {
+                  headers: {
+                    Authorization: token,
+                    "Content-Type": "multipart/form-data",
+                  },
+                }
+              )
+              .then(() => {
+                alert("Statement Uploaded");
+                setPassword("");
+              })
+              .catch((e) => {
+                console.log(JSON.stringify(e, null, 2));
+                setPassword("");
+              });
+          }}
+          label="OK"
+        />
+      </Dialog.Container>
       <Header
         leftComponent={
           <TouchableOpacity

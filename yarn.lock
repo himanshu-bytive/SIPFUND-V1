@@ -9623,6 +9623,11 @@ react-native-device-info@^8.4.9:
   resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-8.4.9.tgz#3089ea0bf9c9a28327d3ba683469a32b093172dd"
   integrity sha512-EEdeoaBhaLTOZmCy5xtfepVAfvodteiDHoIxBPUgnNe5p0JLv90BLKtVytbJhlllWScUO48+2u9S7M6WNYsXDQ==
 
+react-native-dialog@^9.2.2:
+  version "9.2.2"
+  resolved "https://registry.yarnpkg.com/react-native-dialog/-/react-native-dialog-9.2.2.tgz#f16921dd071d17daf1e5d98fb084e1837694f009"
+  integrity sha512-d2w3fyqB6G8Os0DYJKnfVl6PgqQwplW8dHSvzkQpczXzmX5V4BXOJTTXqoiKwI+nsS6QEHYb6Bk8VG7vV9WuXQ==
+
 react-native-elements@^3.4.2:
   version "3.4.2"
   resolved "https://registry.yarnpkg.com/react-native-elements/-/react-native-elements-3.4.2.tgz#66602be9c5e0e0a2a831913adec80ff6518d1ee2"
