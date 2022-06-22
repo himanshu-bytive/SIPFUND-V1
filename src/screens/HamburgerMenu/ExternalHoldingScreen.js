@@ -68,43 +68,25 @@ function HoldingsScreen(props) {
 
     let data = new FormData();
     data.append("password", "sip1234");
-    data.append("documents", file);
+    //data.append("documents", file);
+    data.append("documents", {
+      name: file.name,
+      type: "application/pdf",
+      uri: Platform.OS === "ios" ? file.uri.replace("file://", "") : file.uri,
+    });
 
-    var config = {
-      method: "post",
-      url: "https://uat.sipfund.com/api/externalTransactions/upload",
-      headers: {
-        Authorization: token,
-        //...data.getHeaders(),
-      },
-      data: data,
-    };
-
-    axios(config)
+    axios
+      .post("https://uat.sipfund.com/api/externalTransactions/upload", data, {
+        headers: {
+          Authorization: token,
+          "Content-Type": "multipart/form-data",
+        },
+      })
       .then((response) => {
         alert("Statement Uploaded");
         console.log(JSON.stringify(response.data));
       })
-      .catch((e) => alert(JSON.stringify(e)));
-
-    //const data = new FormData();
-    //data.append("file", {
-    //name: file.name,
-    //type: file.type,
-    //uri: Platform.OS === "ios" ? file.uri.replace("file://", "") : file.uri,
-    //});
-
-    //const res = await axios.post(
-    //"https://uat.sipfund.com/api/externalTransactions/upload",
-    //data,
-    //{
-    //headers: {
-    //"Content-Type": "multipart/form-data",
-    //Authorization: token,
-    //},
-    //}
-    //);
-    //console.log(JSON.stringify(res, null, 2));
+      .catch((e) => console.log(JSON.stringify(e, null, 2)));
   }, []);
 
   return (
