@@ -29,7 +29,7 @@ const MyImagePicker = (props) => {
       fileType: "AA1",
     },
     { value: "Aadhaar Card Back", label: "Aadhaar Card Back", fileType: "AA2" },
-    { value: "Passport", label: "Passport", fileType: "PIC" },
+    { value: "Passport", label: "Passport", fileType: "PA" },
     { value: "Driving Licence", label: "Driving Licence", fileType: "DL" },
   ];
   const [img, setImg] = useState(null);
@@ -42,28 +42,12 @@ const MyImagePicker = (props) => {
   const [item, setItem] = useState(selList[0]);
   const signBox = useRef(null);
 
-  const mapFileToDocType = {
-    KF: "IP",
-    PA: "PIC",
-    CH: "CH",
-    PC: "PC",
-    SIGN: "SIGN",
-    VID: "VID",
-    /* Documents for address verification */
-    AA1: "AA1",
-    DL: "DL",
-    AA2: "AA2",
-  };
-
   const addressVerificationDocs = ["AA1", "AA2", "DL"];
 
   const docVerificationCompleted = (fileType) => {
     if (fileType === "") {
       fileType = "AA1";
-    } else {
-      fileType = mapFileToDocType[fileType];
     }
-
     /* Check if any of the address verification docs are verified */
     for (var item in addressVerificationDocs) {
       for (var doc in docs.responseString.documents) {
@@ -129,30 +113,43 @@ const MyImagePicker = (props) => {
       quality: 1,
     });
 
+    let fileType;
+    if (item?.fileType) {
+      fileType = item?.fileType;
+    } else {
+      fileType =
+        item?.name === "Aadhaar Card Front"
+          ? "AA1"
+          : item?.name === "Aadhaar Card Back"
+          ? "AA2"
+          : "";
+    }
     if (!result.didCancel) {
       let params = {
         file: result,
-        fileType:
-          item?.fileType || item?.name === "Aadhaar Card Front"
-            ? "AA1"
-            : item?.name === "Aadhaar Card Back"
-            ? "AA2"
-            : "",
+        fileType,
       };
+      console.log(params);
       fileUpload(params, token);
       setImg(result.uri);
     }
   };
 
   const cameraImage = async (image) => {
-    let params = {
-      file: image,
-      fileType:
-        item?.fileType || item?.name === "Aadhaar Card Front"
+    let fileType;
+    if (item?.fileType) {
+      fileType = item?.fileType;
+    } else {
+      fileType =
+        item?.name === "Aadhaar Card Front"
           ? "AA1"
           : item?.name === "Aadhaar Card Back"
           ? "AA2"
-          : "",
+          : "";
+    }
+    let params = {
+      file: image,
+      fileType,
     };
     fileUpload(params, token);
     setImg(image.uri);
@@ -293,7 +290,6 @@ const MyImagePicker = (props) => {
             : "auto"
         }
         style={{
-          width: "10%",
           opacity:
             docVerificationCompleted(item?.fileType) !== undefined ? 0.25 : 1,
         }}

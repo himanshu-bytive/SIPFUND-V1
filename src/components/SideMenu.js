@@ -55,10 +55,6 @@ function SideMenu(props) {
   const [enableMandate, setEnableMandate] = useState(false);
   const [enableKyc, setEnableKyc] = useState(false);
 
-  useEffect(() => {
-    if (isInn) console.log(JSON.stringify(isInn, null, 2));
-  }, [isInn]);
-
   //useEffect(() => {
   //if (userDetails?.signUpSteps >= 6) {
   //setEnableMandate(true);
@@ -66,12 +62,6 @@ function SideMenu(props) {
   //setEnableKyc(true);
   //}
   //}, [userDetails]);
-
-  useEffect(() => {
-    if (profile) {
-      console.log("USER DETAILS=", profile);
-    }
-  }, [profile]);
 
   useEffect(() => {
     getProfile({ service_request: { iin: userDetails?.IIN } }, token);
@@ -340,7 +330,7 @@ function SideMenu(props) {
           onPress={() => {
             if (profile?.ACTIVATION_STATUS == "YES") {
               ToastAndroid.show(
-                "Your account is active. You're ready to invest",
+                "Your account is already active",
                 ToastAndroid.LONG
               );
               return;
@@ -387,7 +377,7 @@ function SideMenu(props) {
           onPress={() => {
             if (profile?.ACTIVATION_STATUS == "YES") {
               ToastAndroid.show(
-                "Your account is active. You're ready to invest",
+                "Your account is already active.",
                 ToastAndroid.LONG
               );
               return;

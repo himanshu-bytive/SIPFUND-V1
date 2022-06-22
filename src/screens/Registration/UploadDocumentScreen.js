@@ -33,8 +33,9 @@ const documentsMap = {
   PIC: "Passport Size Image",
   AVATAR: "Avatar",
   DL: "Driving License",
-  IP: "Investor Form",
-  KF: "Investor Form",
+  IP: "IIN Physical Form",
+  //KF: "Investor Form",
+  AC: "Investor Form",
 };
 
 let documentsKyc = [
@@ -65,7 +66,7 @@ let documents = [
   {
     name: "Aadhaar Card Front",
     multi: true,
-    fileType: "",
+    fileType: "AA1",
     info: "Upload Select Doc",
     type: "attachment",
     icon: <AntDesign name="idcard" size={20} color="#EE4248" />,
@@ -79,14 +80,14 @@ let documents = [
   },
   {
     name: "Investor Form",
-    fileType: "KF",
+    fileType: "AC",
     info: "Upload Investor Form",
     type: "attachment",
     icon: <FontAwesome name="wpforms" size={22} color="#EE4248" />,
   },
   {
     name: "Passport Size Image",
-    fileType: "PA",
+    fileType: "PIC",
     info: "Upload Passport Size Image",
     type: "attachment",
     icon: <FontAwesome name="file-image-o" size={22} color="#EE4248" />,
