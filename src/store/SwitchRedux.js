@@ -3,7 +3,6 @@ import { Alert } from "react-native";
 const types = {
   LOGOUT: "LOGOUT",
 
-
   FETCH_EXT_HOLDING_PENDING: "FETCH_EXT_HOLDING_PENDING",
   FETCH_EXT_HOLDING_FAILURE: "FETCH_EXT_HOLDING_FAILURE",
   FETCH_EXT_HOLDING_SUCCES: "FETCH_EXT_HOLDING_SUCCES",
@@ -87,17 +86,26 @@ export const SwitchActions = {
   },
   addExternalHoldingLumpsum: async (dispatch, params, token) => {
     dispatch({ type: types.FETCH_EXT_HOLD_ADD_LUM_PENDING });
-    let data = await SiteAPI.apiPostCall(((params.type = 'sip') ? "/externalTransactions" : "/externalTransactions/uploadsntrn"), params, token);
+    const date = new Date();
+    let data = await SiteAPI.apiPostCall(
+      (params.type = "sip")
+        ? "/externalTransactions"
+        : "/externalTransactions/uploadsntrn",
+      {
+        ...params,
+        tradDate: date.getTime(),
+      },
+      token
+    );
     if (data.error) {
       dispatch({
         type: types.FETCH_EXT_HOLD_ADD_LUM_FAILURE,
         error: data.message,
       });
     } else {
-      console.log(data)
       dispatch({
         type: types.FETCH_EXT_HOLD_ADD_LUM_SUCCES,
-        addList: data
+        addList: data,
       });
     }
   },
