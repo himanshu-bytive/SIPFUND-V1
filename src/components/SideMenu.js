@@ -121,19 +121,20 @@ function SideMenu(props) {
     if (emandateValue) {
       let params = {
         service_request: {
-          acc_no: nseDetails?.acc_no,
-          acc_type: nseDetails?.acc_type?.ACC_TYPE,
+          acc_no: profile?.AC_NO,
+          acc_type: profile?.AC_TYPE,
           ach_amount: emandateValue,
           ach_fromdate: `${date[2]}-${date[1]}-${date[3]}`,
           ach_todate: "31-Dec-2099",
-          Bank_holder_name: nseDetails?.inv_name,
+          Bank_holder_name: userDetails?.name,
           bank_name: profile?.BANK_NAME,
-          branch_name: nseDetails?.branch_name,
+          branch_name: profile?.BRANCH_NAME,
           channel_type: visibleEmandateValue.channel_type,
-          ifsc_code: nseDetails?.ifsc_code,
+          ifsc_code: profile?.IFSC_CODE,
           iin: userDetails.IIN,
           micr_no: "",
-          return_flag: visibleEmandateValue.return_flag,
+          return_flag: "Y",
+          //return_flag: visibleEmandateValue.return_flag,
           uc: "Y",
         },
       };

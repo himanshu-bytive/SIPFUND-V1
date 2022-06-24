@@ -44,6 +44,9 @@ function HomeScreen(props) {
     investments,
     investmentPlans,
     investment,
+    emandateLink,
+    emandateFetching,
+    clearEmandateLink,
   } = props;
 
   const [loading, toggleLoading] = useState(false);
@@ -60,8 +63,14 @@ function HomeScreen(props) {
   };
 
   useEffect(() => {
+    if (emandateLink && !emandateFetching) {
+      setWebViewActive(true);
+      loadUrl(emandateLink);
+    }
+  }, [emandateLink]);
+
+  useEffect(() => {
     if (token) {
-      console.log(token);
       getsteps({}, token);
       getHomeData({}, token);
       cartDetails(token);
@@ -833,7 +842,10 @@ function HomeScreen(props) {
           <Header
             leftComponent={
               <TouchableOpacity
-                onPress={() => setWebViewActive(false)}
+                onPress={() => {
+                  setWebViewActive(false);
+                  clearEmandateLink();
+                }}
                 style={{ marginTop: 20 }}
               >
                 <AntDesign name={"arrowleft"} size={30} color={Colors.RED} />
@@ -1248,6 +1260,8 @@ const mapStateToProps = (state) => ({
   goalDetail: state.goals.goalDetail,
   investments: state.investmentplan.investments,
   investment: state.investmentplan.investment,
+  emandateLink: state.emandate.emandateLink,
+  emandateFetching: state.emandate.isFetching,
 });
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
@@ -1257,6 +1271,7 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
   const { CartActions } = require("../../store/CartActionsRedux");
   const { GoalsActions } = require("../../store/GoalsRedux");
   const { InvestmentPlanActions } = require("../../store/InvestmentPlanRedux");
+  const { EmandateActions } = require("../../store/EmandateRedux");
   return {
     ...stateProps,
     ...ownProps,
@@ -1281,6 +1296,9 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     },
     investmentPlans: (params, token) => {
       InvestmentPlanActions.investmentPlans(dispatch, params, token);
+    },
+    clearEmandateLink: () => {
+      EmandateActions.clearEmandateLink(dispatch);
     },
   };
 };
