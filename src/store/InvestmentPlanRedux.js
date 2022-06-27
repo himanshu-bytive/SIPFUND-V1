@@ -161,6 +161,7 @@ export const reducer = (state = initialState, action) => {
         ...state,
         isFetching: false,
         error,
+        myInvestlist: [],
       };
     }
     case types.FETCH_PLAN_NAME_SUCCESS: {
