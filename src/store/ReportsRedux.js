@@ -30,7 +30,7 @@ export const ReportsActions = {
         urls: null,
       });
     } else {
-      if (!data?.status) {
+      if (!data?.status && data?.message) {
         alert(data?.message);
       }
       dispatch({ type: types.FETCH_REPORT_SUMMARY_SUCCESS, urls: data });
