@@ -218,7 +218,7 @@ function CompleteDetailsScreen(props) {
       return;
     }
     if (!FormValidate.validatePan(investorPan)) {
-      setErrors({ ...errors, nominate1guard_pan: "Please Add Validate PAN" });
+      setErrors({ ...errors, investorPan: "Please Add Valid PAN" });
       return;
     }
     //} else {
@@ -548,7 +548,6 @@ function CompleteDetailsScreen(props) {
             }}
             maxLength={10}
           />
-          <Text style={styles.error}>{errors.investorPan}</Text>
 
           {/* Email Id_sec */}
           <Text style={styles.occupation}>
