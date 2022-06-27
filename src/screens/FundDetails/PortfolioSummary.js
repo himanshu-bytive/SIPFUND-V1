@@ -12,6 +12,15 @@ function PortfolioSummary(props) {
   const [holdings, setHoldings] = useState([]);
   const [holdingType, setHoldingType] = useState([]);
 
+  const colorScale = [
+    "#3B75AF",
+    "#EF8636",
+    "#519E3E",
+    "#C53A32",
+    "#8D69B8",
+    "#ad82df",
+  ];
+
   useEffect(() => {
     let detailedPortFolio = detailsInfo ? detailsInfo[0].api : {};
     let totalmarktValue = detailedPortFolio["PSRP-TotalMarketValueNet"]
@@ -114,8 +123,24 @@ function PortfolioSummary(props) {
 
             {holdingType.map((item, key) => (
               <DataTable.Row key={key} style={styles.headerbg}>
-                <DataTable.Cell style={styles.bodyCell}>
-                  {item.x}
+                <DataTable.Cell
+                  style={[
+                    styles.bodyCell,
+                    {
+                      width: "100%",
+                      justifyContent: "space-between",
+                    },
+                  ]}
+                >
+                  <View
+                    style={{
+                      backgroundColor: colorScale[key],
+                      height: 10,
+                      width: 10,
+                      marginRight: 10,
+                    }}
+                  />
+                  <Text>{item.x}</Text>
                 </DataTable.Cell>
                 <DataTable.Cell
                   style={[styles.bodyCell, { borderRightWidth: 0 }]}
@@ -131,7 +156,7 @@ function PortfolioSummary(props) {
           <Text style={styles.asset}>Asset Allocation</Text>
           <VictoryPie
             data={holdingType}
-            colorScale={["#3B75AF", "#EF8636", "#519E3E", "#C53A32", "#8D69B8"]}
+            colorScale={colorScale}
             labels={() => ""}
             innerRadius={50}
             width={100}
