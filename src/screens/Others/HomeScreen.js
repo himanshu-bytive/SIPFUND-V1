@@ -47,6 +47,8 @@ function HomeScreen(props) {
     emandateLink,
     emandateFetching,
     clearEmandateLink,
+    investmentFetching,
+    planFetching,
   } = props;
 
   const [loading, toggleLoading] = useState(false);
@@ -159,11 +161,12 @@ function HomeScreen(props) {
           />
         }
       />
-      {loading && (
-        <View style={Styles.loading}>
-          <ActivityIndicator color={Colors.BLACK} size="large" />
-        </View>
-      )}
+      {planFetching ||
+        (investmentFetching && (
+          <View style={Styles.loading}>
+            <ActivityIndicator color={Colors.BLACK} size="large" />
+          </View>
+        ))}
       <ScrollView style={styles.containerScroll}>
         {!users?.IIN ||
           (steps < 5 && (
@@ -1263,6 +1266,8 @@ const mapStateToProps = (state) => ({
   investment: state.investmentplan.investment,
   emandateLink: state.emandate.emandateLink,
   emandateFetching: state.emandate.isFetching,
+  investmentFetching: state.investmentplan.isFetching,
+  planFetching: state.goals.isFetching,
 });
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
