@@ -143,9 +143,7 @@ function ExistingScreen(props) {
             )}
           </View>
         </View>
-        <TouchableOpacity
-          onPress={() => props.navigation.navigate("UploadDocument")}
-        >
+        <TouchableOpacity onPress={() => props.navigation.navigate("Home")}>
           <Text style={styles.submit}>skip for now</Text>
         </TouchableOpacity>
       </ScrollView>
