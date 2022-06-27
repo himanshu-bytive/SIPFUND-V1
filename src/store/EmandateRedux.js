@@ -50,7 +50,10 @@ export const EmandateActions = {
     }
   },
   clearEmandateLink: async (dispatch) => {
-    dispatch({ emandateLink: "" });
+    dispatch({
+      type: types.FETCH_EMANDATE_REGISTRATION_SUCCESS,
+      emandateLink: "",
+    });
   },
 };
 

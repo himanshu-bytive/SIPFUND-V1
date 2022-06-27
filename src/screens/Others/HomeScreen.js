@@ -60,6 +60,7 @@ function HomeScreen(props) {
   const loadUrl = (url) => {
     setWebViewActive(true);
     setWebUrl(url);
+    clearEmandateLink();
   };
 
   useEffect(() => {
