@@ -142,21 +142,22 @@ function InvestmentDetailScreens(props) {
               )
             );
           })*/}
-        {Object.keys(investment.schemes).map((category) => {
-          return (
-            <>
-              {investment.schemes[category].map((item) => (
-                <View key={item?.productCode} style={styles.sbi_sec}>
-                  <Image
-                    source={{ uri: item?.imagePath }}
-                    style={styles.Hybrid}
-                  />
-                  <Text style={styles.sbi_text}>{item?.name}</Text>
-                </View>
-              ))}
-            </>
-          );
-        })}
+        {investment &&
+          Object.keys(investment.schemes).map((category) => {
+            return (
+              <>
+                {investment.schemes[category].map((item) => (
+                  <View key={item?.productCode} style={styles.sbi_sec}>
+                    <Image
+                      source={{ uri: item?.imagePath }}
+                      style={styles.Hybrid}
+                    />
+                    <Text style={styles.sbi_text}>{item?.name}</Text>
+                  </View>
+                ))}
+              </>
+            );
+          })}
       </ScrollView>
       <TouchableOpacity
         onPress={() => props.navigation.navigate("AddInvestment")}
@@ -351,7 +352,7 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     ...stateProps,
     ...ownProps,
     investmentPlans: (params, token) => {
-      InvestmentPlanActions.investmentPlans(dispatch, params, token); 
+      InvestmentPlanActions.investmentPlans(dispatch, params, token);
     },
   };
 };
