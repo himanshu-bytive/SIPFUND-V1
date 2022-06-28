@@ -172,6 +172,11 @@ function CompleteDetailsScreen(props) {
     }
   }, [occupations, incomes]);
 
+  const getDateInHuman = (date) => {
+    const d = new Date(date);
+    return moment(date).format("YYYY-MM-DD");
+  };
+
   const onAction = async () => {
     const {
       occupation,
@@ -197,7 +202,13 @@ function CompleteDetailsScreen(props) {
       return;
     }
     //if (!dob || dob == null || dob == "") {
-    if (!dob || dob == null || dob == "" || !FormValidate.isValidDate(dob)) {
+    const d = new Date(dob);
+    if (
+      !dob ||
+      dob == null ||
+      dob == "" ||
+      !FormValidate.isValidDate(moment(dob).format("DD-MM-YYYY"))
+    ) {
       setErrors({ ...errors, dob: "Please Enter a valid Date" });
       return;
     }
@@ -472,14 +483,14 @@ function CompleteDetailsScreen(props) {
                   fontSize: 18,
                   borderBottomWidth: 1,
                 }}
-                value={state.dob ? state.dob.toString() : ""}
+                value={state.dob ? getDateInHuman(state.dob) : ""}
                 onChangeText={(dob) => {
                   // console.log("DOB=", dob.length);
                   if (dob.length === 0) setErrors({ ...errors, dob: null });
                   setErrors({ ...errors, dob: null });
                   setState({ ...state, dob });
                 }}
-                placeholder={"DD-MM-YYYY"}
+                placeholder={"YYYY-MM-DD"}
               />
               <Text style={{ ...styles.error, marginLeft: 5 }}>
                 {errors?.dob}
@@ -494,7 +505,7 @@ function CompleteDetailsScreen(props) {
             onConfirm={(dob) => {
               setIsDatePickerVisible(false);
               setErrors({ ...errors, dob: null });
-              setState({ ...state, dob: moment(dob).format("DD-MM-YYYY") });
+              setState({ ...state, dob: dob.getTime() });
             }}
             onCancel={() => setIsDatePickerVisible(false)}
           />
