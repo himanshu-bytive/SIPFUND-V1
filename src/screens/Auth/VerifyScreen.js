@@ -194,14 +194,14 @@ function VerifyScreen(props) {
       BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
 
-  const [InternetChecker, isInternetReachable] = useInternetStatus();
-  InternetChecker();
-  if (isInternetReachable === true) {
-    console.log("Internet is Reachable");
-  } else if (isInternetReachable === false) {
-    alert("Please check the internet connection");
-    console.log("No Internet Connection");
-  }
+  //const [InternetChecker, isInternetReachable] = useInternetStatus();
+  //InternetChecker();
+  //if (isInternetReachable === true) {
+  //console.log("Internet is Reachable");
+  //} else if (isInternetReachable === false) {
+  //alert("Please check the internet connection");
+  //console.log("No Internet Connection");
+  //}
 
   return (
     <KeyboardAvoidingView
