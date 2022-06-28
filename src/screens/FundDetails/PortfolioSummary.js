@@ -18,7 +18,19 @@ function PortfolioSummary(props) {
     "#519E3E",
     "#C53A32",
     "#8D69B8",
-    "#ad82df",
+    "#ffbf00",
+    "#9966cc",
+    "#cd9575",
+    "#915c83",
+    "#008000",
+    "#fbceb1",
+    "#00ffff",
+    "#7fffd4",
+    "#4b5320",
+    "#e9d66b",
+    "#b2beb5",
+    "#ff9966",
+    "#a52a2a",
   ];
 
   useEffect(() => {
