@@ -84,17 +84,17 @@ function VerifyScreen(props) {
     let statusNotifications = status.status;
     console.log("Notifications Permissions: ", statusNotifications);
 
-    status = await Location.getForegroundPermissionsAsync();
-    let statusLocation = status.status;
-    console.log("Location Permissions: ", statusLocation);
+    //status = await Location.getForegroundPermissionsAsync();
+    //let statusLocation = status.status;
+    //console.log("Location Permissions: ", statusLocation);
 
-    if (statusLocation !== "granted") {
-      ToastAndroid.show(
-        "The app needs location permissions to run",
-        ToastAndroid.LONG
-      );
-      BackHandler.exitApp();
-    }
+    //if (statusLocation !== "granted") {
+    //ToastAndroid.show(
+    //"The app needs location permissions to run",
+    //ToastAndroid.LONG
+    //);
+    //BackHandler.exitApp();
+    //}
 
     if (statusNotifications !== "granted") {
       console.log("Requesting Notification Permissions");
