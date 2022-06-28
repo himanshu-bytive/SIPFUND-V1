@@ -114,7 +114,8 @@ function CompleteDetailsAddressScreen(props) {
       setErrors({ ...errors, address: "Please Add a Address" });
       return;
     }
-    if (!pincode) {
+    if (!pincode || pincode.length < 6 || isNaN(pincode)) {
+      alert(pincode);
       setErrors({ ...errors, pincode: "Please Enter a Valid Pincode" });
       return;
     }
