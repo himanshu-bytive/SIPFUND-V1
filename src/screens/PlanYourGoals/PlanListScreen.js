@@ -278,7 +278,7 @@ function PlanListScreen(props) {
         selectedOption={isLumpsum === true ? "LUMPSUM" : "SIP"}
         onPress={(item) => {
           fundDetails(item);
-          disableFunds();
+          //disableFunds();
           navigation.navigate("FundsDetails", {
             fromScreen: "PlanHome",
           });
