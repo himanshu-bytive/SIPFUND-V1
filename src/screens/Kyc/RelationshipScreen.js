@@ -11,6 +11,7 @@ import {
   KeyboardAvoidingView,
   TextInput,
   ActivityIndicator,
+  BackHandler,
 } from "react-native";
 import { connect } from "react-redux";
 import { Styles, Config, Colors, FormValidate } from "../../common";
@@ -51,6 +52,20 @@ function RelationshipScreen(props) {
     data: null,
   });
 
+  useEffect(() => {
+    const backAction = () => {
+      props.navigation.navigate("Home");
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, []);
+
   const onAction = async () => {
     if (!state.data) {
       dataInput.current.focus();
@@ -77,7 +92,6 @@ function RelationshipScreen(props) {
             <AntDesign name={"arrowleft"} size={30} color={Colors.RED} />
           </TouchableOpacity>
         }
-        backgroundColor={Colors.PEACH}
         backgroundColor={Colors.WHITE}
         centerComponent={
           <Image
