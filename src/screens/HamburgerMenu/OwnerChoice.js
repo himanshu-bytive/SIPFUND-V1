@@ -792,6 +792,8 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     paddingHorizontal: 10,
     marginTop: 3,
+    height: 45,
+    alignItems: "center",
   },
   new: {
     fontSize: 20,
@@ -811,8 +813,10 @@ const styles = StyleSheet.create({
     color: Colors.DEEP_GRAY,
     width: 100,
     textAlign: "center",
-    paddingVertical: 5,
+    //paddingVertical: 5,
     fontSize: 18,
+    alignSelf: "center",
+    flex: 1,
   },
   amount_tex: { fontSize: 18 },
 });
