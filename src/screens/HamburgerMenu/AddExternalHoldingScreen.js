@@ -38,7 +38,7 @@ function AddExternalHoldingScreen(props) {
   const [state, setState] = useState({
     amc: "",
     scheme: "",
-    transation: "",
+    transation: new Date(),
     folio: "",
     amount: "",
     start: "",
@@ -62,7 +62,7 @@ function AddExternalHoldingScreen(props) {
   useEffect(() => {
     if (schemeSet && !isFetching) {
       setSchemeSet(false);
-      alert("Holding added succesfully!");
+      //alert("Holding added succesfully!");
       setState({
         amc: "",
         scheme: "",
