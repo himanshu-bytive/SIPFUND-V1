@@ -410,6 +410,11 @@ function SideMenu(props) {
 
         <TouchableOpacity
           onPress={() => {
+            if (userDetails?.signUpSteps < 4) {
+              Alert.alert("Your IIN is not created. Please click on register.");
+              return;
+            }
+
             if (userDetails?.IIN && profile?.KYC_STATUS === "Y") {
               if (profile?.ACTIVATION_STATUS === "YES") {
                 ToastAndroid.show(
