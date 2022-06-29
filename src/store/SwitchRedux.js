@@ -98,11 +98,13 @@ export const SwitchActions = {
       token
     );
     if (data.error) {
+      if (data?.message) alert(data?.message);
       dispatch({
         type: types.FETCH_EXT_HOLD_ADD_LUM_FAILURE,
         error: data.message,
       });
     } else {
+      alert("Holding added succesfully!");
       dispatch({
         type: types.FETCH_EXT_HOLD_ADD_LUM_SUCCES,
         addList: data,
