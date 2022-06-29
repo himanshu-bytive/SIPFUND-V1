@@ -37,6 +37,7 @@ function SwitchItem(props) {
     navToSchemeList,
     setSchemeListKey,
     Scheme,
+    values,
   } = props;
   const [amount, setAmount] = useState(true);
   const [allUnits, setAllUnits] = useState(false);
@@ -252,6 +253,9 @@ function SwitchItem(props) {
               style={styles.inputsec}
               keyboardType="numeric"
               placeholder="Enter Amount"
+              value={
+                values.filter((i) => i.folioNo === item.folio_no)[0]?.value
+              }
               onChangeText={setAmountValue}
               editable={
                 keys !== [] && keys.indexOf(`${index}${item.scheme}`) === -1

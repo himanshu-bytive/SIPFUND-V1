@@ -143,6 +143,10 @@ function SwitchScreen(props) {
     setKeys(filteredKeys);
   };
 
+  useEffect(() => {
+    if (addedScheme) console.log(JSON.stringify(addedScheme, null, 2));
+  }, [addedScheme]);
+
   const SwitchCheckout = () => {
     console.log("SwitchCheckOut");
 
@@ -231,6 +235,7 @@ function SwitchScreen(props) {
               key={`${index}${item.scheme}`}
               item={item}
               index={index}
+              values={addedScheme}
               keys={keys}
               setAddedScheme={setAddedSchemeFun}
               remove={remove}
@@ -245,6 +250,7 @@ function SwitchScreen(props) {
               key={`${index}${item.scheme}`}
               item={item}
               index={index}
+              values={addedScheme}
               keys={keys}
               setAddedScheme={setAddedSchemeFun}
               remove={remove}
