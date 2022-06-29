@@ -340,7 +340,9 @@ function RiskRating(props) {
               ))}
             </DataTable.Row>
             <DataTable.Row style={styles.headersec}>
-              <DataTable.Cell style={styles.bodyCell}>Alpha</DataTable.Cell>
+              <DataTable.Cell style={styles.bodyCell}>
+                {"Alpha %"}
+              </DataTable.Cell>
               {mptStats5Yr.map((item, key) => (
                 <DataTable.Cell key={key} style={styles.bodyCell}>
                   {item?.alpha}
@@ -398,7 +400,7 @@ function RiskRating(props) {
               <DataTable.Cell
                 style={[styles.bodyCell, { justifyContent: "flex-start" }]}
               >
-                Alpha
+                {"Alpha %"}
               </DataTable.Cell>
               {mptStats10Yr.map((item, key) => (
                 <DataTable.Cell key={key} style={styles.bodyCell}>
@@ -532,7 +534,9 @@ function RiskRating(props) {
               ))}
             </DataTable.Header>
             <DataTable.Row style={styles.headersec}>
-              <DataTable.Cell style={styles.bodyCell}>Standard</DataTable.Cell>
+              <DataTable.Cell style={styles.bodyCell}>
+                {"Std. Deviation"}
+              </DataTable.Cell>
               {volatility5Yr.map((item, key) => (
                 <DataTable.Cell key={key} style={styles.bodyCell}>
                   {item?.standard}
@@ -574,7 +578,9 @@ function RiskRating(props) {
               ))}
             </DataTable.Header>
             <DataTable.Row style={styles.headersec}>
-              <DataTable.Cell style={styles.bodyCell}>Standard</DataTable.Cell>
+              <DataTable.Cell style={styles.bodyCell}>
+                {"Std. Deviation"}
+              </DataTable.Cell>
               {volatility10Yr.map((item, key) => (
                 <DataTable.Cell key={key} style={styles.bodyCell}>
                   {item?.standard}
