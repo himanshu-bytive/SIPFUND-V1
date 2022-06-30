@@ -173,8 +173,28 @@ function CompleteDetailsScreen(props) {
   }, [occupations, incomes]);
 
   const getDateInHuman = (date) => {
-    const d = new Date(date);
-    return moment(date).format("YYYY-MM-DD");
+    if (date.toString().length < 10) return date;
+    let d;
+    if (isNaN(date)) {
+      d = new Date(
+        `${date.toString().split("-")[2]}-${date.toString().split("-")[1]}-${
+          date.toString().split("-")[0]
+        }`
+      );
+    } else {
+      d = new Date(date);
+    }
+    const dateString = moment(d).format("DD-MM-YYYY");
+    if (dateString == "Invalid date") {
+      const tmp = new Date(
+        `${date.toString().split("-")[2]}-${date.toString().split("-")[1]}-${
+          date.toString().split("-")[0]
+        }`
+      );
+      console.log(moment(tmp).format("DD-MM-YYYY"));
+      return moment(tmp).format("DD-MM-YYYY");
+    }
+    return dateString;
   };
 
   const onAction = async () => {
@@ -202,13 +222,14 @@ function CompleteDetailsScreen(props) {
       return;
     }
     //if (!dob || dob == null || dob == "") {
-    const d = new Date(dob);
-    if (
-      !dob ||
-      dob == null ||
-      dob == "" ||
-      !FormValidate.isValidDate(moment(dob).format("DD-MM-YYYY"))
-    ) {
+    let d;
+    if (isNaN(dob)) {
+      d = dob;
+    } else {
+      d = new Date(dob);
+      d = moment(d).format("DD-MM-YYYY");
+    }
+    if (!dob || dob == null || dob == "" || !FormValidate.isValidDate(d)) {
       setErrors({ ...errors, dob: "Please Enter a valid Date" });
       return;
     }
@@ -490,7 +511,8 @@ function CompleteDetailsScreen(props) {
                   setErrors({ ...errors, dob: null });
                   setState({ ...state, dob });
                 }}
-                placeholder={"YYYY-MM-DD"}
+                placeholder={"DD-MM-YYYY"}
+                maxLength={10}
               />
               <Text style={{ ...styles.error, marginLeft: 5 }}>
                 {errors?.dob}
