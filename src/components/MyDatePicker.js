@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
-import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import React, { useState } from "react";
+import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import moment from 'moment';
-import { AntDesign } from 'react-native-vector-icons';
-import { Styles, Config, Colors, FormValidate } from '../common'
+import moment from "moment";
+import { AntDesign } from "react-native-vector-icons";
+import { Styles, Config, Colors, FormValidate } from "../common";
 
 const MyDatePicker = (props) => {
-  const { defultValue, error, onChange } = props
+  const { defultValue, error, onChange, noMaxDate } = props;
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [date, setDate] = useState(defultValue ? new Date(defultValue) : new Date());
+  const [date, setDate] = useState(
+    defultValue ? new Date(defultValue) : new Date()
+  );
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -19,29 +21,34 @@ const MyDatePicker = (props) => {
   };
 
   const handleConfirm = (date) => {
-    setDate(date)
-    onChange(date)
+    setDate(date);
+    onChange(date);
     hideDatePicker();
   };
 
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={showDatePicker}>
-        <AntDesign style={{ position: 'absolute', left: 10, top: 20 }} name="calendar" color={"#EE4248"} size={18} />
-        <Text style={styles.custom}>{moment(date).format('DD-MM-YYYY')}</Text>
+        <AntDesign
+          style={{ position: "absolute", left: 10, top: 20 }}
+          name="calendar"
+          color={"#EE4248"}
+          size={18}
+        />
+        <Text style={styles.custom}>{moment(date).format("DD-MM-YYYY")}</Text>
       </TouchableOpacity>
       <DateTimePickerModal
         isVisible={isDatePickerVisible}
         mode="date"
         date={date}
-        maximumDate={new Date()}
+        maximumDate={noMaxDate ? undefined : new Date()}
         onConfirm={handleConfirm}
         onCancel={hideDatePicker}
       />
-      {error && (<Text style={styles.error}>{error}</Text>)}
+      {error && <Text style={styles.error}>{error}</Text>}
     </View>
   );
-}
+};
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -52,13 +59,13 @@ const styles = StyleSheet.create({
     borderColor: Colors.GRAY_LIGHT,
     fontSize: 22,
     marginTop: 5,
-    marginLeft:30,
+    marginLeft: 30,
     padding: 10,
-    textAlign: 'left',
+    textAlign: "left",
   },
   error: {
-    color: '#ff0000',
+    color: "#ff0000",
     padding: 5,
   },
 });
-export default MyDatePicker
+export default MyDatePicker;

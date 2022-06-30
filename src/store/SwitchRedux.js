@@ -99,6 +99,7 @@ export const SwitchActions = {
     );
     if (data.error) {
       if (data?.message) alert(data?.message);
+      else alert("Something went wrong!");
       dispatch({
         type: types.FETCH_EXT_HOLD_ADD_LUM_FAILURE,
         error: data.message,

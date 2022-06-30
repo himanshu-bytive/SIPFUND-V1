@@ -41,8 +41,8 @@ function AddExternalHoldingScreen(props) {
     transation: new Date(),
     folio: "",
     amount: "",
-    start: "",
-    end: "",
+    start: new Date(),
+    end: new Date(),
   });
 
   const [errors, setErrors] = useState({
@@ -382,6 +382,7 @@ function AddExternalHoldingScreen(props) {
                     setErrors({ ...errors, end: null });
                     setState({ ...state, end });
                   }}
+                  noMaxDate={true}
                 />
               </View>
             </View>
