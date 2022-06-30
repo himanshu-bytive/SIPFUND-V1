@@ -43,9 +43,9 @@ function ExistingScreen(props) {
   const [pan, setPan] = useState("");
 
   const onAction = async () => {
-    if (!state.inn) {
+    if (!state.inn || state.inn.length < 10) {
       innInput.current.focus();
-      setError({ ...errors, inn: "Please enter INN" });
+      setError({ ...errors, inn: "Please enter valid INN" });
       return;
     }
     if (!state?.pan && !FormValidate.validatePan(state?.pan)) {
@@ -211,6 +211,9 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 15,
     paddingTop: 10,
+  },
+  error: {
+    color: "red",
   },
 });
 const mapStateToProps = (state) => ({
