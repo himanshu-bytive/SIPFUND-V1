@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from "moment";
@@ -6,11 +6,11 @@ import { AntDesign } from "react-native-vector-icons";
 import { Styles, Config, Colors, FormValidate } from "../common";
 
 const MyDatePicker = (props) => {
-  const { defultValue, error, onChange, noMaxDate } = props;
+  const { defultValue, error, onChange, noMaxDate, noDefaultDate } = props;
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [date, setDate] = useState(
-    defultValue ? new Date(defultValue) : new Date()
-  );
+  const [date, setDate] =
+    useState();
+    //noDefaultDate ? undefined : defultValue ? new Date(defultValue) : new Date()
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -35,7 +35,9 @@ const MyDatePicker = (props) => {
           color={"#EE4248"}
           size={18}
         />
-        <Text style={styles.custom}>{moment(date).format("DD-MM-YYYY")}</Text>
+        <Text style={styles.custom}>
+          {date ? moment(date).format("DD-MM-YYYY") : "Select a date"}
+        </Text>
       </TouchableOpacity>
       <DateTimePickerModal
         isVisible={isDatePickerVisible}
@@ -57,7 +59,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     backgroundColor: Colors.TRANSPARENT,
     borderColor: Colors.GRAY_LIGHT,
-    fontSize: 22,
+    fontSize: 18,
     marginTop: 5,
     marginLeft: 30,
     padding: 10,
