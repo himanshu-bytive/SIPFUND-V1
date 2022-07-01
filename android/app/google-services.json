@@ -1,62 +1,50 @@
 {
   "project_info": {
-    "project_number": "775845687019",
-    "project_id": "sipfunduat-d9594",
-    "storage_bucket": "sipfunduat-d9594.appspot.com"
+    "project_number": "787896693688",
+    "firebase_url": "https://sipfund-45bff.firebaseio.com",
+    "project_id": "sipfund-45bff",
+    "storage_bucket": "sipfund-45bff.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:775845687019:android:7acd842b4a01ea116018ae",
+        "mobilesdk_app_id": "1:787896693688:android:9ac53d922fe3580a",
         "android_client_info": {
-          "package_name": "com.sipfund.app"
+          "package_name": "com.octrax.sipfund"
         }
       },
       "oauth_client": [
         {
-          "client_id": "775845687019-ibnb551i2uoaejvvrhjq2996e87ohv7o.apps.googleusercontent.com",
+          "client_id": "787896693688-c4ollv72llgqdude2pd40tdvg0pvo98f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.octrax.sipfund",
+            "certificate_hash": "0d57fbe5960292edc8e65a02d86854775ec8d099"
+          }
+        },
+        {
+          "client_id": "787896693688-qgpec2t0qpu1jk6sjk82fckrh2bevf9m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.octrax.sipfund",
+            "certificate_hash": "9623dadc2ae22b5214f38705ff87bb11d9a393de"
+          }
+        },
+        {
+          "client_id": "787896693688-hi3b40pm3ln62c4q2c55jp97so8g6qit.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBvwjUBbjDvQqUuklBV7ukt4hZxBSY5k6s"
+          "current_key": "AIzaSyAneuD5T-CL_iUOX4IR5iSo-Lf0KDcqkyI"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "775845687019-ibnb551i2uoaejvvrhjq2996e87ohv7o.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:775845687019:android:f52bde4d655a16826018ae",
-        "android_client_info": {
-          "package_name": "com.uat.sipfund"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "775845687019-ibnb551i2uoaejvvrhjq2996e87ohv7o.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBvwjUBbjDvQqUuklBV7ukt4hZxBSY5k6s"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "775845687019-ibnb551i2uoaejvvrhjq2996e87ohv7o.apps.googleusercontent.com",
+              "client_id": "787896693688-hi3b40pm3ln62c4q2c55jp97so8g6qit.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

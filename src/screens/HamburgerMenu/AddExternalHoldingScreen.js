@@ -38,11 +38,11 @@ function AddExternalHoldingScreen(props) {
   const [state, setState] = useState({
     amc: "",
     scheme: "",
-    transation: new Date(),
+    transation: "",
     folio: "",
     amount: "",
-    start: new Date(),
-    end: new Date(),
+    start: "",
+    end: "",
   });
 
   const [errors, setErrors] = useState({
@@ -351,6 +351,7 @@ function AddExternalHoldingScreen(props) {
                   setErrors({ ...errors, transation: null });
                   setState({ ...state, transation });
                 }}
+                noDefaultDate={true}
               />
             </View>
 
@@ -368,6 +369,7 @@ function AddExternalHoldingScreen(props) {
                     setErrors({ ...errors, start: null });
                     setState({ ...state, start });
                   }}
+                  noDefaultDate={true}
                 />
               </View>
 
@@ -383,6 +385,7 @@ function AddExternalHoldingScreen(props) {
                     setState({ ...state, end });
                   }}
                   noMaxDate={true}
+                  noDefaultDate={true}
                 />
               </View>
             </View>

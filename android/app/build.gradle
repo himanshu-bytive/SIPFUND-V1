@@ -132,11 +132,11 @@ android {
     }
 
     defaultConfig {
-        applicationId 'com.sipfund.app'
+        applicationId 'com.octrax.sipfund'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0.0"
+        versionCode 46
+        versionName "1.0.36"
     }
     splits {
         abi {
@@ -148,10 +148,10 @@ android {
     }
     signingConfigs {
         debug {
-            storeFile file('debug.keystore')
-            storePassword 'android'
-            keyAlias 'androiddebugkey'
-            keyPassword 'android'
+            storeFile file('keystore.jks')
+            storePassword 'sipfund@1212'
+            keyAlias 'android'
+            keyPassword 'sipfund@1212'
         }
     }
     buildTypes {

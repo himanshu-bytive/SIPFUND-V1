@@ -2,7 +2,7 @@
   "expo": {
     "name": "SIP FUND",
     "slug": "sipfund",
-    "version": "1.0.0",
+    "version": "1.0.34",
     "orientation": "portrait",
     "icon": "./assets/iconLogo.png",
     "splash": {
@@ -29,7 +29,7 @@
         "foregroundImage": "./assets/iconLogo.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.sipfund.app",
+      "package": "com.octrax.sipfund",
       "permissions": [
         "LOCATION",
         "CAMERA",

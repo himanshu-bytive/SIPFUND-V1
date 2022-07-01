@@ -8,9 +8,8 @@ import { Styles, Config, Colors, FormValidate } from "../common";
 const MyDatePicker = (props) => {
   const { defultValue, error, onChange, noMaxDate, noDefaultDate } = props;
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [date, setDate] =
-    useState();
-    //noDefaultDate ? undefined : defultValue ? new Date(defultValue) : new Date()
+  const [date, setDate] = useState();
+  //noDefaultDate ? undefined : defultValue ? new Date(defultValue) : new Date()
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
