@@ -46,7 +46,7 @@ export const SideMenuActions = {
   inquiry: async (dispatch, params, tokan) => {
     dispatch({ type: types.FETCH_ADD_PENDING });
     let data = await SiteAPI.apiPostCall(
-      "/request-static/inquiry",
+      "/request-static/enquiry",
       params,
       tokan
     );
