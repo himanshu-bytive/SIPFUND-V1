@@ -48,9 +48,13 @@ function ExistingScreen(props) {
       setError({ ...errors, inn: "Please enter valid INN" });
       return;
     }
-    if (!state?.pan && !FormValidate.validatePan(state?.pan)) {
+    if (
+      !state?.pan ||
+      state?.pan?.length != 10 ||
+      !FormValidate.validatePan(state?.pan)
+    ) {
       panInput.current.focus();
-      setError({ ...errors, pan: "Please enter PAN" });
+      setError({ ...errors, pan: "Please enter valid PAN" });
       return;
     }
     pageActive.current = true;
