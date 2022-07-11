@@ -140,7 +140,7 @@ function OwnerChoice(props) {
     "Jun",
     "Jul",
     "Aug",
-    "Sept",
+    "Sep",
     "Oct",
     "Nov",
     "Dec",
