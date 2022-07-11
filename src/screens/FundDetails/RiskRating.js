@@ -92,7 +92,7 @@ function RiskRating(props) {
       trailing: schemeDetail["FSCBI-FundName"] || "-",
       standard: schemeDetail["RM-StdDev3Yr"] || "-",
       sharpe: schemeDetail["RM-SharpeRatio3Yr"] || "-",
-      sortino: schemeDetail["RM-SortinoRatio3Y"] || "-",
+      sortino: schemeDetail["RM-SortinoRatio3Yr"] || "-",
     });
     volatility3Yr.push({
       trailing: schemeDetail["DP-CategoryName"] || "-",
@@ -108,7 +108,7 @@ function RiskRating(props) {
       trailing: schemeDetail["FSCBI-FundName"] || "-",
       standard: schemeDetail["RM-StdDev5Yr"] || "-",
       sharpe: schemeDetail["RM-SharpeRatio5Yr"] || "-",
-      sortino: schemeDetail["RM-SortinoRatio5Y"] || "-",
+      sortino: schemeDetail["RM-SortinoRatio5Yr"] || "-",
     });
     volatility5Yr.push({
       trailing: schemeDetail["DP-CategoryName"] || "-",
@@ -124,7 +124,7 @@ function RiskRating(props) {
       trailing: schemeDetail["FSCBI-FundName"] || "-",
       standard: schemeDetail["RM-StdDev10Yr"] || "-",
       sharpe: schemeDetail["RM-SharpeRatio10Yr"] || "-",
-      sortino: schemeDetail["RM-SortinoRatio10Y"] || "-",
+      sortino: schemeDetail["RM-SortinoRatio10Yr"] || "-",
     });
     volatility10Yr.push({
       trailing: schemeDetail["DP-CategoryName"] || "-",
