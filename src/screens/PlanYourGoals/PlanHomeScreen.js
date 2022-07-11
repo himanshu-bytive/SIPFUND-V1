@@ -334,7 +334,11 @@ function PlanHomeScreen(props) {
                 },
               ]}
               onChangeText={(val) => setAmount(val)}
-              value={amount.toString()}
+              value={
+                Number(amount) > Number(additionalInfo.current_investment_max)
+                  ? additionalInfo.current_investment_max.toString()
+                  : amount.toString()
+              }
               keyboardType={"numeric"}
             />
           </View>
@@ -342,7 +346,11 @@ function PlanHomeScreen(props) {
         <View style={{ marginHorizontal: 20 }}>
           {additionalInfo.current_cost_amt_req_max && (
             <MySlider
-              value={Number(amount)}
+              value={
+                Number(amount) > Number(additionalInfo.current_investment_max)
+                  ? Number(additionalInfo.current_investment_max)
+                  : Number(amount)
+              }
               change={(amount) => setAmount(amount.toFixed(0))}
               //min={Number(additionalInfo.current_investment_min)}
               min={0}
@@ -479,7 +487,12 @@ function PlanHomeScreen(props) {
                 },
               ]}
               onChangeText={(val) => setInvestment(val)}
-              value={investment.toString()}
+              value={
+                Number(investment) >
+                Number(additionalInfo.current_investment_max)
+                  ? additionalInfo.current_investment_max.toString()
+                  : investment.toString()
+              }
               keyboardType={"numeric"}
             />
           </View>
@@ -487,7 +500,12 @@ function PlanHomeScreen(props) {
         <View style={{ marginHorizontal: 20 }}>
           {additionalInfo.current_investment_max && (
             <MySlider
-              value={Number(investment)}
+              value={
+                Number(investment) >
+                Number(additionalInfo.current_investment_max)
+                  ? Number(additionalInfo.current_investment_max)
+                  : Number(investment)
+              }
               change={(investment) => setInvestment(investment.toFixed(0))}
               //min={Number(additionalInfo.current_investment_min)}
               min={0}
