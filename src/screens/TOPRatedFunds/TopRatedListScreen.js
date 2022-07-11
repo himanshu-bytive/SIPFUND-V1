@@ -257,8 +257,7 @@ function TopRatedListScreen(props) {
             props.navigation.navigate("TopRatedSubmit", {
               cart: tmpCart.filter((item) => item.trxn_nature === type),
               isLumpsum: type === "N" ? true : false,
-              planName:
-                props.navigation.state.params?.planName || "Top Rated Funds",
+              planName: props.navigation.state.params?.planName,
             });
           }
         }}
