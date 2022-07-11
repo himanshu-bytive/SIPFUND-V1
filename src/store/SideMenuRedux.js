@@ -50,11 +50,11 @@ export const SideMenuActions = {
       params,
       tokan
     );
-    console.log(data);
     if (data.error) {
       Alert.alert(data.message);
       dispatch({ type: types.FETCH_ADD_FAILURE, error: data.message });
     } else {
+      alert(data?.responseString);
       dispatch({ type: types.FETCH_ADD_SUCCESS, details: data.output });
     }
   },
