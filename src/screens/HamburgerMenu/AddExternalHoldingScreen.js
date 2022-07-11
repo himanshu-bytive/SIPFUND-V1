@@ -145,7 +145,7 @@ function AddExternalHoldingScreen(props) {
       prodName: product.PRODUCT_LONG_NAME,
       trxnNo: "",
       folioNo: folio,
-      tradDate: transation,
+      tradDate: transation.getTime(),
       amount: amount,
       trxnType: "NEWPUR",
       trxnMetaData: {},
@@ -153,8 +153,8 @@ function AddExternalHoldingScreen(props) {
     };
     if (selectTab == "SIP") {
       params.trxnMetaData = {
-        sipStartDate: start,
-        sipEndDate: end,
+        sipStartDate: start.getTime(),
+        sipEndDate: end.getTime(),
         sipDay: "1",
       };
       params.type = "sip";
