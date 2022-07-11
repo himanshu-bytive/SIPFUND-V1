@@ -159,12 +159,43 @@ function SideMenu(props) {
           backgroundColor: Colors.RED,
           flexDirection: "row",
           paddingVertical: 10,
+          alignItems: "center",
         }}
       >
-        <Image
-          source={img ? { uri: img } : require("../../assets/profile_img.png")}
-          style={{ margin: 7, width: 50, height: 50, borderRadius: 100 }}
-        />
+        {img ? (
+          <Image
+            source={{ uri: img }}
+            style={{ margin: 7, width: 50, height: 50, borderRadius: 100 }}
+          />
+        ) : (
+          <View
+            style={{
+              height: 50,
+              width: 50,
+              borderRadius: 25,
+              backgroundColor: "grey",
+              //marginVertical: 15,
+              marginHorizontal: 5,
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 25,
+                color: "#fff",
+              }}
+            >
+              {userDetails?.name
+                ? userDetails?.name.split(" ").length > 1
+                  ? `${userDetails?.name[0]}${
+                      userDetails?.name.split(" ").pop()[0]
+                    }`
+                  : `${userDetails?.name[0]}`
+                : ""}
+            </Text>
+          </View>
+        )}
         <View>
           <Text numberOfLines={1} style={styles.profileText}>
             {profile?.INVESTOR_NAME}
@@ -596,9 +627,9 @@ const styles = StyleSheet.create({
   },
   profileText: {
     color: Colors.WHITE,
-    fontSize: 20,
+    fontSize: 16,
     marginVertical: 3,
-    width: "60%",
+    //width: "60%",
   },
   know: { color: Colors.BLACK },
   border: {
