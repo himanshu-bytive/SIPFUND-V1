@@ -926,13 +926,14 @@ const styles = StyleSheet.create({
   rupees_text: { fontSize: 12 },
 
   // tab
-  pop_top: { marginHorizontal: 30 },
+  pop_top: { width: "85%" },
   click_sec: {
     flexDirection: "row",
     paddingVertical: 20,
+    justifyContent: "space-evenly",
   },
   buttom_botton: {
-    width: "46%",
+    width: "45%",
     borderWidth: 1,
     borderColor: Colors.RED,
     borderRadius: 5,
@@ -940,21 +941,21 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   buttom_botton2: {
-    width: "46%",
+    width: "45%",
     borderRadius: 5,
     backgroundColor: Colors.RED,
     marginHorizontal: 2,
     alignItems: "center",
   },
   sip_text: {
-    fontSize: 18,
+    fontSize: 17,
     color: Colors.RED,
     fontWeight: "bold",
     paddingVertical: 12,
     paddingHorizontal: 20,
   },
   sip_text2: {
-    fontSize: 18,
+    fontSize: 17,
     color: Colors.WHITE,
     fontWeight: "bold",
     paddingVertical: 12,
@@ -979,8 +980,8 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.RED,
     marginLeft: 2,
     alignItems: "center",
-    marginVertical: 30,
-    paddingHorizontal: 30,
+    marginVertical: 20,
+    paddingHorizontal: 20,
   },
   amount_tex2: {
     color: Colors.DEEP_GRAY,
