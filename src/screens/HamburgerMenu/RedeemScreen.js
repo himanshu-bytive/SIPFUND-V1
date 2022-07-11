@@ -192,6 +192,7 @@ function RedeemScreen(props) {
               key={`${index}${item.scheme}`}
               item={item}
               index={index}
+              values={addedScheme}
               keys={keys}
               setAddedScheme={setAddedSchemeFun}
               remove={remove}
@@ -205,6 +206,7 @@ function RedeemScreen(props) {
               key={`${index}${item.scheme}`}
               item={item}
               index={index}
+              values={addedScheme}
               keys={keys}
               setAddedScheme={setAddedSchemeFun}
               remove={remove}

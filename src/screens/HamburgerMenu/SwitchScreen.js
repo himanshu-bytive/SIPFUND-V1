@@ -143,10 +143,6 @@ function SwitchScreen(props) {
     setKeys(filteredKeys);
   };
 
-  useEffect(() => {
-    if (addedScheme) console.log(JSON.stringify(addedScheme, null, 2));
-  }, [addedScheme]);
-
   const SwitchCheckout = () => {
     console.log("SwitchCheckOut");
 

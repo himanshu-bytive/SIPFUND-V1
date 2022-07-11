@@ -50,7 +50,8 @@ function RedeemItem(props) {
     sourceReinvest,
     groupId,
     groupName,
-    groupType
+    groupType,
+    values
   ) => {
     if (amount && amountValue.length === 0) {
       alert("Please enter the amount");
@@ -188,6 +189,9 @@ function RedeemItem(props) {
               style={styles.inputsec}
               keyboardType="numeric"
               placeholder="Enter Amount"
+              value={
+                values.filter((i) => i.folioNo === item.folio_no)[0]?.value
+              }
               onChangeText={setAmountValue}
               editable={
                 keys !== [] && keys.indexOf(`${index}${item.scheme}`) === -1
