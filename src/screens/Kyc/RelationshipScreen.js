@@ -86,7 +86,7 @@ function RelationshipScreen(props) {
       <Header
         leftComponent={
           <TouchableOpacity
-            onPress={() => props.navigation.goBack()}
+            onPress={() => props.navigation.navigate("Home")}
             style={{ marginTop: 20 }}
           >
             <AntDesign name={"arrowleft"} size={30} color={Colors.RED} />
