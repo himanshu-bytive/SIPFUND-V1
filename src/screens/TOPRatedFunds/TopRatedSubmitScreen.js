@@ -106,7 +106,7 @@ function TopRatedSubmitScreen(props) {
 
       <TouchableOpacity
         onPress={() => {
-          if (users?.IIN == 0) {
+          if (users?.ACTIVATION_STATUS != "YES") {
             Alert.alert(
               "Not Allowed!",
               "Please complete the account opening process and upload the required documents, upon activation of your account, you can start your investment. Do you want to continue?",
@@ -294,7 +294,7 @@ const styles = StyleSheet.create({
 });
 const mapStateToProps = (state) => ({
   token: state.auth.token,
-  users: state.auth.user,
+  users: state.auth.profile,
 });
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
