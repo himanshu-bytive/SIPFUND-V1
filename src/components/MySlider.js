@@ -1,5 +1,6 @@
 import React from "react";
-import { Slider } from "react-native-elements";
+import Slider from "react-native-slider";
+//import { Slider } from "react-native-elements";
 
 export default function MySlider(props) {
   const { value, max, min, change, steps } = props;
