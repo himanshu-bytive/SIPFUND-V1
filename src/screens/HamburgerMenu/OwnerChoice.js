@@ -220,6 +220,7 @@ function OwnerChoice(props) {
         image_path: states.imagePath,
       },
     };
+    console.log(params);
     addItomToSip(params, token);
     setVisible(false);
     getCartDetails(token);
@@ -446,15 +447,15 @@ function OwnerChoice(props) {
                 <Text style={styles.axis2}>{choices[0]?.text2}</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() =>
+                onPress={() => {
                   invest(
                     `https://sipfund.sfo2.digitaloceanspaces.com/product-AMC-images/${choices[0]?.nseProductDetail.productAMCImage}`,
-                    choices[0]?.nseProductDetail?.amcCode,
-                    choices[0]?.nseProductDetail?.amcName,
+                    choices[0]?.nseProductDetail?.productAmcCode,
+                    choices[0]?.nseProductDetail?.productAmcName,
                     choices[0]?.nseProductDetail?.productCode,
                     choices[0]?.nseProductDetail.productName
-                  )
-                }
+                  );
+                }}
                 style={styles.botton_box}
               >
                 <Text style={styles.get_otp}>INVEST</Text>
