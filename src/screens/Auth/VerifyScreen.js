@@ -78,7 +78,7 @@ function VerifyScreen(props) {
   }, []);
 
   async function checkAllPermissions() {
-    let status;
+    let status, statusLocation;
 
     status = await Notifications.getPermissionsAsync();
     let statusNotifications = status.status;
@@ -117,6 +117,7 @@ function VerifyScreen(props) {
     let token = (await Notifications.getExpoPushTokenAsync()).data;
     // alert(token)
     setToken(token);
+    console.log("notify", token);
   }
 
   const GetCurrentLocation = async () => {

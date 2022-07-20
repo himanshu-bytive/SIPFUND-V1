@@ -1,4 +1,4 @@
-package com.sipfund.app;
+package com.octrax.sipfund;
 
 import android.app.Application;
 import android.content.Context;

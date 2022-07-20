@@ -23,14 +23,6 @@
           }
         },
         {
-          "client_id": "787896693688-qgpec2t0qpu1jk6sjk82fckrh2bevf9m.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.octrax.sipfund",
-            "certificate_hash": "9623dadc2ae22b5214f38705ff87bb11d9a393de"
-          }
-        },
-        {
           "client_id": "787896693688-hi3b40pm3ln62c4q2c55jp97so8g6qit.apps.googleusercontent.com",
           "client_type": 3
         }

@@ -156,9 +156,18 @@ function OwnerChoice(props) {
     amcCode: "",
     amcName: "",
     imagePath: "",
+    date: 1,
   });
 
-  const invest = (imagePath, amcCode, amcName, productCode, productName) => {
+  const invest = (
+    imagePath,
+    amcCode,
+    amcName,
+    productCode,
+    productName,
+    sipDates
+  ) => {
+    const date = parseInt(sipDates.split(",")[0]);
     setStates({
       ...states,
       productCode,
@@ -166,6 +175,7 @@ function OwnerChoice(props) {
       amcCode,
       amcName,
       imagePath,
+      date,
     });
     setVisible(!visible);
   };
@@ -200,8 +210,8 @@ function OwnerChoice(props) {
       alert("Amount is less than minimum amount");
       return;
     }
-    let fromDate = sipFromDate();
-    let endDate = sipEndDate();
+    let fromDate = sipFromDate(states.date);
+    let endDate = sipEndDate(states.date);
     let params = {
       cartDetails: {
         trxn_nature: "S",
@@ -225,26 +235,60 @@ function OwnerChoice(props) {
     setVisible(false);
     getCartDetails(token);
   };
-  const sipFromDate = () => {
+  const sipFromDate = (sipDay) => {
     const date = new Date();
 
+    let day = date.getDate();
+    let month = date.getMonth();
+    let year = date.getFullYear();
+
+    if (month === 11) {
+      month = 0;
+    } else {
+      month += 1;
+    }
+
+    if (day > sipDay) {
+      if (month === 11) {
+        month = 0;
+        year = year + 1;
+      } else {
+        month += 1;
+      }
+    }
+
     return (
-      date.getDate() +
-      "-" +
-      monthsArr[date.getMonth()] +
-      "-" +
-      date.getFullYear()
+      ("00" + sipDay).match(/\d{2}$/) + "-" + monthsArr[month] + "-" + year
     );
   };
-  const sipEndDate = () => {
+  const sipEndDate = (sipDay) => {
     const date = new Date();
 
+    let day = date.getDate();
+    let month = date.getMonth();
+    let year = date.getFullYear();
+
+    if (month === 11) {
+      month = 0;
+    } else {
+      month += 1;
+    }
+
+    if (day > sipDay) {
+      if (month === 11) {
+        month = 0;
+        year = year + 1;
+      } else {
+        month += 1;
+      }
+    }
+
     return (
-      date.getDate() +
+      ("00" + sipDay).match(/\d{2}$/) +
       "-" +
-      monthsArr[date.getMonth()] +
+      monthsArr[month] +
       "-" +
-      (parseInt(date.getFullYear(), 10) + 30)
+      `${parseInt(year) + 30}`
     );
   };
   const toggleTab = (value) => {
@@ -453,7 +497,8 @@ function OwnerChoice(props) {
                     choices[0]?.nseProductDetail?.productAmcCode,
                     choices[0]?.nseProductDetail?.productAmcName,
                     choices[0]?.nseProductDetail?.productCode,
-                    choices[0]?.nseProductDetail.productName
+                    choices[0]?.nseProductDetail.productName,
+                    choices[0]?.nseProductDetail.sipDates
                   );
                 }}
                 style={styles.botton_box}
