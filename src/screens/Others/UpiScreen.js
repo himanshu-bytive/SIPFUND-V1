@@ -33,6 +33,7 @@ function UpiScreen(props) {
     deletCart,
     getCartDetails,
     emandateOptions,
+    toggleEmandatePopup,
   } = props;
 
   const [clicked, setClicked] = useState(false);
@@ -464,6 +465,7 @@ function UpiScreen(props) {
                             text: "OK",
                             onPress: () => {
                               emandateOptions(token);
+                              toggleEmandatePopup(true);
                               //pageActiveEmandate.current = true;
                             },
                           },
@@ -737,6 +739,9 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     },
     emandateOptions: (token) => {
       EmandateActions.emandateOptions(dispatch, token);
+    },
+    toggleEmandatePopup: (state) => {
+      EmandateActions.toggleEmandatePopup(dispatch, state);
     },
   };
 };

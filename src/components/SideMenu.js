@@ -46,6 +46,8 @@ function SideMenu(props) {
     profile,
     getProfile,
     isInn,
+    popupVisible,
+    toggleEmandatePopup,
   } = props;
   const [img, setImg] = useState(null);
   const [visibleKyc, setVisibleKyc] = useState(false);
@@ -62,6 +64,13 @@ function SideMenu(props) {
   //setEnableKyc(true);
   //}
   //}, [userDetails]);
+
+  useEffect(() => {
+    if (popupVisible) {
+      toggleEmandatePopup(false);
+      setVisibleEmandate(true);
+    }
+  }, [popupVisible]);
 
   useEffect(() => {
     getProfile({ service_request: { iin: userDetails?.IIN } }, token);
@@ -693,6 +702,7 @@ const mapStateToProps = (state) => ({
   isFetchingEmandate: state.emandate.isFetching,
   emandateLists: state.emandate.emandateLists,
   emandateDetails: state.emandate.emandateDetails,
+  popupVisible: state.emandate.popupVisible,
   profile: state.auth.profile,
   isInn: state.registration.isInn,
 });
@@ -718,6 +728,9 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     },
     emandateRegistration: (params, token) => {
       EmandateActions.emandateRegistration(dispatch, params, token);
+    },
+    toggleEmandatePopup: (state) => {
+      EmandateActions.toggleEmandatePopup(dispatch, state);
     },
   };
 };

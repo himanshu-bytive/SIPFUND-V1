@@ -8,6 +8,8 @@ const types = {
   FETCH_EMANDATE_OPTIONS_PENDING: "FETCH_EMANDATE_OPTIONS_PENDING",
   FETCH_EMANDATE_OPTIONS_SUCCESS: "FETCH_EMANDATE_OPTIONS_SUCCESS",
   FETCH_EMANDATE_OPTIONS_FAILURE: "FETCH_EMANDATE_OPTIONS_FAILURE",
+
+  TOGGLE_EMANDATE_POPUP: "TOGGLE_EMANDATE_POPUP",
 };
 
 export const EmandateActions = {
@@ -55,6 +57,12 @@ export const EmandateActions = {
       emandateLink: "",
     });
   },
+  toggleEmandatePopup: async (dispatch, state) => {
+    dispatch({
+      type: types.TOGGLE_EMANDATE_POPUP,
+      popupVisible: state,
+    });
+  },
 };
 
 const initialState = {
@@ -63,10 +71,18 @@ const initialState = {
   emandateLists: [],
   emandateDetails: null,
   emandateLink: null,
+  popupVisible: false,
 };
 
 export const reducer = (state = initialState, action) => {
-  const { type, error, emandateLists, emandateDetails, emandateLink } = action;
+  const {
+    type,
+    error,
+    emandateLists,
+    emandateDetails,
+    emandateLink,
+    popupVisible,
+  } = action;
   switch (type) {
     case types.FETCH_EMANDATE_REGISTRATION_PENDING:
     case types.FETCH_EMANDATE_OPTIONS_PENDING: {
@@ -101,6 +117,12 @@ export const reducer = (state = initialState, action) => {
         isFetching: false,
         error: null,
         emandateLists,
+      };
+    }
+    case types.TOGGLE_EMANDATE_POPUP: {
+      return {
+        ...state,
+        popupVisible,
       };
     }
 
