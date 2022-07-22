@@ -9,12 +9,14 @@ import {
   ScrollView,
   ActivityIndicator,
   Dimensions,
+  Alert,
 } from "react-native";
 import { connect } from "react-redux";
 import { Styles, Config, Colors, FormValidate } from "../../common";
 import { AntDesign, Entypo } from "react-native-vector-icons";
-import { Image, Header, CheckBox } from "react-native-elements";
+import { Image, Header, CheckBox, Overlay } from "react-native-elements";
 import WebView from "react-native-webview";
+import SiteAPI from "../../services/SiteApis";
 
 function UpiScreen(props) {
   const {
@@ -30,11 +32,14 @@ function UpiScreen(props) {
     resetWebUrl,
     deletCart,
     getCartDetails,
+    emandateOptions,
   } = props;
 
   const [clicked, setClicked] = useState(false);
   //const [webUrl, setWebUrl] = useState("");
   const [webViewActive, setWebViewActive] = useState(false);
+  const [visibleEmandateUmrn, setVisibleEmandateUmrn] = useState(false);
+  const [emandateListsUmrn, setEmandateListsUmrn] = useState([]);
 
   //const loadUrl = (url) => {
   //setWebViewActive(true);
@@ -433,10 +438,49 @@ function UpiScreen(props) {
               </View>
               <View style={styles.button}>
                 <TouchableOpacity
-                  onPress={() => {
-                    let params = getParams(false, true);
-                    setClicked(true);
-                    checkout(params, token, true);
+                  onPress={async () => {
+                    const res = await SiteAPI.apiGetCall(
+                      `/retrieveData/mandateList?iin=${user.IIN}`,
+                      {},
+                      token
+                    );
+
+                    if (!res.validFlag) {
+                      alert("Something went wrong!");
+                      return;
+                    }
+
+                    if (!res.responseString.length) {
+                      Alert.alert(
+                        "No Mandate",
+                        "You haven't registered mandate. Do you want to register E-Mandate?",
+                        [
+                          {
+                            text: "Cancel",
+                            onPress: () => console.log("Cancel Pressed"),
+                            style: "cancel",
+                          },
+                          {
+                            text: "OK",
+                            onPress: () => {
+                              emandateOptions(token);
+                              //pageActiveEmandate.current = true;
+                            },
+                          },
+                        ]
+                      );
+                      return;
+                    }
+
+                    const data = res.responseString.map(
+                      (item) =>
+                        `${item.achReports["UMRN_NO"]} (₹${item.achReports["AMOUNT"]})`
+                    );
+                    setEmandateListsUmrn(data);
+                    setVisibleEmandateUmrn(true);
+                    //let params = getParams(false, true);
+                    //setClicked(true);
+                    //checkout(params, token, true);
                   }}
                   style={styles.botton_box}
                 >
@@ -504,6 +548,44 @@ function UpiScreen(props) {
             />
           </View>
         )}
+        <Overlay
+          isVisible={visibleEmandateUmrn}
+          overlayStyle={{
+            margin: 10,
+            borderRadius: 10,
+            backgroundColor: "#fff",
+          }}
+        >
+          <View style={styles.emaMainbox}>
+            <Text style={styles.emaAmc}>Select One UMRN:</Text>
+            {emandateListsUmrn.map((item, key) => (
+              <TouchableOpacity
+                style={{
+                  marginVertical: 8,
+                }}
+                key={key}
+                onPress={() => {
+                  setVisibleEmandateUmrn(false);
+                  let params = getParams(false, true);
+                  params = {
+                    ...params,
+                    service_request: {
+                      ...params.service_request,
+                      umrn: item.split(" ")[0],
+                    },
+                  };
+                  setClicked(true);
+                  checkout(params, token, true);
+                }}
+              >
+                <Text>{item}</Text>
+              </TouchableOpacity>
+            ))}
+            <TouchableOpacity onPress={() => setVisibleEmandateUmrn(false)}>
+              <Text style={styles.emaCancel}>Cancel</Text>
+            </TouchableOpacity>
+          </View>
+        </Overlay>
       </View>
     </>
   );
@@ -571,10 +653,50 @@ const styles = StyleSheet.create({
     textAlignVertical: "center",
     flex: 1,
   },
+  emaMainbox: {
+    margin: 10,
+    padding: 10,
+  },
+  emaAmc: {
+    fontSize: 18,
+    //marginLeft: 15,
+    marginVertical: 10,
+    fontWeight: "bold",
+  },
+  emaMutual_fund: {
+    fontSize: 15,
+    marginVertical: 10,
+  },
+  emaCancel: {
+    fontSize: 15,
+    marginTop: 15,
+    color: Colors.RED,
+  },
+  //mainbox: {
+  //padding: 10,
+  //},
+  amc: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 20,
+  },
+  inputsec: {
+    borderBottomWidth: 1,
+    borderColor: Colors.GRAY_LIGHT,
+    width: "95%",
+    marginTop: 5,
+  },
+  refreshcode: {
+    textAlign: "right",
+    color: Colors.RED,
+    fontSize: 15,
+    marginHorizontal: 10,
+    marginVertical: 20,
+  },
 });
 const mapStateToProps = (state) => ({
   token: state.auth.token,
-  users: state.auth.users,
+  users: state.auth.user,
   profile: state.auth.profile,
   user: state.auth.user,
   umrn: state.checkout.umrn,
@@ -588,6 +710,7 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
   const { AuthActions } = require("../../store/AuthRedux");
   const { CheckoutActions } = require("../../store/CheckoutRedux");
   const { CartActions } = require("../../store/CartActionsRedux");
+  const { EmandateActions } = require("../../store/EmandateRedux");
   return {
     ...stateProps,
     ...ownProps,
@@ -611,6 +734,9 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     },
     getCartDetails: (token) => {
       CartActions.cartDetails(dispatch, token);
+    },
+    emandateOptions: (token) => {
+      EmandateActions.emandateOptions(dispatch, token);
     },
   };
 };
