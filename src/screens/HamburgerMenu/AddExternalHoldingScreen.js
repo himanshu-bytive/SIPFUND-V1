@@ -150,6 +150,7 @@ function AddExternalHoldingScreen(props) {
       trxnType: "NEWPUR",
       trxnMetaData: {},
       isinNo: product.ISIN,
+      type: "",
     };
     if (selectTab == "SIP") {
       params.trxnMetaData = {
@@ -349,7 +350,7 @@ function AddExternalHoldingScreen(props) {
                 error={errors.transation}
                 onChange={(transation) => {
                   setErrors({ ...errors, transation: null });
-                  setState({ ...state, transation });
+                  setState({ ...state, transation, start: transation });
                 }}
                 noDefaultDate={true}
               />
@@ -367,7 +368,7 @@ function AddExternalHoldingScreen(props) {
                   error={errors.start}
                   onChange={(start) => {
                     setErrors({ ...errors, start: null });
-                    setState({ ...state, start });
+                    setState({ ...state, start, transation: start });
                   }}
                   noDefaultDate={true}
                 />
