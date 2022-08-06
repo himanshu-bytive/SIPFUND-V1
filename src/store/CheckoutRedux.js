@@ -10,20 +10,23 @@ const types = {
 
 export const CheckoutActions = {
   checkoutButton: async (dispatch, params, token, mandate) => {
-    dispatch({ type: types.FETCH_CHECKOUT_BUTTON_PENDING, fetching: true });
+    console.log("params",JSON.stringify(params))
+
+    dispatch({ type: types.FETCH_CHECKOUT_BUTTON_PENDING, fetching: true,emandateSuccess:false });
     let citys = await SiteAPI.apiPostCall(
       `/apiData/PURCHASETRXN`,
       params,
       token
     );
+    console.log("token",token)
+    console.log("data",citys)
     if (citys.Data) {
       if (mandate) {
-        alert(
-          "Transaction completed successfully. Please check your E-Mail/SMS to authorize transaction."
-        );
         dispatch({
           type: types.FETCH_CHECKOUT_BUTTON_SUCCESS,
+          // ...initialState,
           fetching: false,
+          emandateSuccess:true
         });
       } else {
         dispatch({
@@ -82,6 +85,7 @@ const initialState = {
   addSuccess: false,
   updateSuccess: false,
   uploadSuccess: false,
+  emandateSuccess:false,
   umrn: {},
   fetching: false,
   webUrl: "",
@@ -98,6 +102,7 @@ export const reducer = (state = initialState, action) => {
     umrn,
     accountTypes,
     banks,
+    emandateSuccess,
     bankDetails,
     pincodeInfo,
     documents,
@@ -112,6 +117,7 @@ export const reducer = (state = initialState, action) => {
         error: null,
         addSuccess: false,
         updateSuccess: false,
+        emandateSuccess:false,
         uploadSuccess: false,
       };
     }
@@ -129,15 +135,17 @@ export const reducer = (state = initialState, action) => {
     }
 
     case types.FETCH_CHECKOUT_BUTTON_SUCCESS: {
-      return {
-        ...state,
-        isFetching: false,
-        fetching: false,
-        error: null,
-        citys,
-        umrn,
-        webUrl,
-      };
+      return Object.assign({}, initialState, { emandateSuccess: true })
+      // return {
+      //   ...state,
+      //   isFetching: false,
+      //   fetching: false,
+      //   error: null,
+      //   emandateSuccess:true,
+      //   citys,
+      //   umrn,
+      //   webUrl,
+      // };
     }
 
     case types.RESET_WEB_URL: {

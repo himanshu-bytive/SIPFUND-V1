@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   StyleSheet,
   Button,
@@ -27,6 +27,7 @@ function UpiScreen(props) {
     umrn,
     getUMRN,
     isFetching,
+    emandateSuccess,
     error,
     webUrl,
     resetWebUrl,
@@ -37,16 +38,11 @@ function UpiScreen(props) {
   } = props;
 
   const [clicked, setClicked] = useState(false);
+  let isPageActive = useRef(null)
   //const [webUrl, setWebUrl] = useState("");
   const [webViewActive, setWebViewActive] = useState(false);
   const [visibleEmandateUmrn, setVisibleEmandateUmrn] = useState(false);
   const [emandateListsUmrn, setEmandateListsUmrn] = useState([]);
-
-  //const loadUrl = (url) => {
-  //setWebViewActive(true);
-  //setWebUrl(url);
-  //};
-
   useEffect(() => {
     if (webUrl) {
       setWebViewActive(true);
@@ -63,6 +59,28 @@ function UpiScreen(props) {
     }
   }, [isFetching, error]);
 
+  useEffect(()=>{
+    if(emandateSuccess && isPageActive.current){
+      isPageActive.current=false
+      Alert.alert(
+       "Success", "Transaction completed successfully. Please check your E-Mail/SMS to authorize transaction.",
+        [
+          {
+            text: "Cancel",
+            onPress: () =>props.navigation.navigate("Home"),
+            style: "cancel",
+          },
+          {
+            text: "OK",
+            onPress: () => {
+              props.navigation.navigate("Home");
+            },
+          },
+        ]
+      );
+
+    }
+  },[emandateSuccess])
   const monthsArr = [
     "Jan",
     "Feb",
@@ -341,7 +359,7 @@ function UpiScreen(props) {
         trans_count: props.navigation.state.params?.cart.length,
         trxn_acceptance: upi || mandate ? "OL" : "ALL",
         trxn_execution: " ",
-        umrn: mandate ? umrn.UMRN_NO : " ",
+        umrn: umrn ? umrn.UMRN_NO : " ",
         until_cancelled: "Y",
         utr: "",
         groupId: props.navigation.state.params?.groupId,
@@ -578,6 +596,7 @@ function UpiScreen(props) {
                   };
                   setClicked(true);
                   checkout(params, token, true);
+                  isPageActive.current=true
                 }}
               >
                 <Text>{item}</Text>
@@ -705,6 +724,7 @@ const mapStateToProps = (state) => ({
   isFetching: state.checkout.fetching,
   error: state.checkout.error,
   webUrl: state.checkout.webUrl,
+  emandateSuccess:state.checkout.emandateSuccess
 });
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
@@ -723,7 +743,8 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
       AuthActions.getProfile(dispatch, params, token);
     },
     checkout: (params, token, mandate) => {
-      CheckoutActions.checkoutButton(dispatch, params, token, mandate);
+      CheckoutActions.checkoutButton(dispatch, { service_request: params?.service_request, childtrans: params?.childtrans }, token, mandate);
+
     },
     getUMRN: (iin, token) => {
       CheckoutActions.getUMRN(dispatch, iin, token);
