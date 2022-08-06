@@ -21,7 +21,7 @@ import { Header, Overlay, CheckBox, colors } from "react-native-elements";
 import RNPickerSelect from "react-native-picker-select";
 
 function RedeemItem(props) {
-  const { item, keys, setAddedScheme, index, remove, type } = props;
+  const { item, keys, setAddedScheme, index, remove, type,values} = props;
   const [amount, setAmount] = useState(true);
   const [allUnits, setAllUnits] = useState(false);
   const [amountValue, setAmountValue] = useState("");
@@ -51,7 +51,6 @@ function RedeemItem(props) {
     groupId,
     groupName,
     groupType,
-    values
   ) => {
     if (amount && amountValue.length === 0) {
       alert("Please enter the amount");

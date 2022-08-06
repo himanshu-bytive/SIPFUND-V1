@@ -359,7 +359,7 @@ function UpiScreen(props) {
         trans_count: props.navigation.state.params?.cart.length,
         trxn_acceptance: upi || mandate ? "OL" : "ALL",
         trxn_execution: " ",
-        umrn: umrn ? umrn.UMRN_NO : " ",
+        umrn: mandate && umrn? umrn.UMRN_NO : " ",
         until_cancelled: "Y",
         utr: "",
         groupId: props.navigation.state.params?.groupId,
@@ -744,7 +744,7 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     },
     checkout: (params, token, mandate) => {
       CheckoutActions.checkoutButton(dispatch, { service_request: params?.service_request, childtrans: params?.childtrans }, token, mandate);
-
+      // CheckoutActions.checkoutButton(dispatch, params, token, mandate);
     },
     getUMRN: (iin, token) => {
       CheckoutActions.getUMRN(dispatch, iin, token);

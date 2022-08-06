@@ -135,17 +135,17 @@ export const reducer = (state = initialState, action) => {
     }
 
     case types.FETCH_CHECKOUT_BUTTON_SUCCESS: {
-      return Object.assign({}, initialState, { emandateSuccess: true })
-      // return {
-      //   ...state,
-      //   isFetching: false,
-      //   fetching: false,
-      //   error: null,
-      //   emandateSuccess:true,
-      //   citys,
-      //   umrn,
-      //   webUrl,
-      // };
+      // return Object.assign({}, initialState, { emandateSuccess: true })
+      return {
+        ...state,
+        isFetching: false,
+        fetching: false,
+        emandateSuccess:true,
+        error: null,
+        citys,
+        umrn,
+        webUrl,
+      };
     }
 
     case types.RESET_WEB_URL: {
