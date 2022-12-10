@@ -9,6 +9,7 @@ import {
   Text,
   TextInput,
   ActivityIndicator,
+  ToastAndroid,
 } from "react-native";
 import { connect } from "react-redux";
 import { Colors, Config } from "../../common";
@@ -18,6 +19,7 @@ import {
   FontAwesome5,
 } from "react-native-vector-icons";
 import { Image, Header } from "react-native-elements";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function LoginScreen(props) {
   const pageActive = useRef(false);
@@ -35,6 +37,26 @@ function LoginScreen(props) {
   } = props;
 
   const [visible, setVisible] = useState(false);
+
+  /* Retrieve password if saved */
+  useEffect(() => {
+    if (!phone) return;
+
+    const getPassword = async () => {
+      try {
+        const password = await AsyncStorage.getItem(toString(phone));
+        setState({ ...state, password });
+        ToastAndroid.show(
+          "Your password was automatically retrieved!",
+          ToastAndroid.LONG
+        );
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
+    getPassword();
+  }, [phone]);
 
   useEffect(() => {
     if (token && pageActive.current) {

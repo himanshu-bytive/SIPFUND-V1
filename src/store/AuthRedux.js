@@ -1,5 +1,6 @@
 import SiteAPI from "../services/SiteApis";
 import { Alert } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const types = {
   LOGOUT: "LOGOUT",
 
@@ -38,6 +39,14 @@ const types = {
   FETCH_PROFILE_PENDING: "FETCH_PROFILE_PENDING",
   FETCH_PROFILE_SUCCESS: "FETCH_PROFILE_SUCCESS",
   FETCH_PROFILE_FAILURE: "FETCH_PROFILE_FAILURE",
+};
+
+const storeData = async (key, value) => {
+  try {
+    await AsyncStorage.setItem(key, value);
+  } catch (e) {
+    console.log(e);
+  }
 };
 
 export const AuthActions = {
@@ -170,6 +179,9 @@ export const AuthActions = {
       Alert.alert(data.message);
       dispatch({ type: types.FETCH_LOGIN_FAILURE, error: data.message });
     } else {
+      /* Save the password to storage */
+      storeData(toString(params.username), params.password);
+
       dispatch({
         type: types.FETCH_LOGIN_SUCCESS,
         user: data,
