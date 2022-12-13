@@ -91,6 +91,7 @@ function CompleteDetailsScreen(props) {
     nominate1name: "",
     nominate1relation: "",
     nominate1dob: null,
+    nominate1pan: "",
     nominate1guard_name: "",
     nominate1guard_pan: "",
   });
@@ -107,6 +108,7 @@ function CompleteDetailsScreen(props) {
     income: null,
     pep: null,
     nominate: null,
+    nominate1pan: null,
   });
 
   useEffect(() => {
@@ -204,6 +206,7 @@ function CompleteDetailsScreen(props) {
       title,
       investor,
       investorPan,
+      phone,
       email,
       fatherName,
       motherName,
@@ -212,6 +215,7 @@ function CompleteDetailsScreen(props) {
       nominate,
       nominateMinor,
       nominate1name,
+      nominate1pan,
       nominate1relation,
       nominate1dob,
       nominate1guard_name,
@@ -264,6 +268,10 @@ function CompleteDetailsScreen(props) {
     //return;
     //}
     //}
+    if (!FormValidate.isPhone(phone)) {
+      setErrors({ ...errors, phone: "Please Add a Mobile Number" });
+      return;
+    }
     if (!FormValidate.isEmail(email)) {
       setErrors({ ...errors, email: "Please Add a Email" });
       return;
@@ -306,6 +314,13 @@ function CompleteDetailsScreen(props) {
       }
       if (!nominate1relation) {
         setErrors({ ...errors, nominate1relation: "Please Select a Value" });
+        return;
+      }
+      if (!FormValidate.validatePan(nominate1pan)) {
+        setErrors({
+          ...errors,
+          nominate1pan: "Please Add Valid Nominee PAN",
+        });
         return;
       }
     }
@@ -365,6 +380,10 @@ function CompleteDetailsScreen(props) {
     params.nseDetails.inv_name = investor;
     params.nseDetails.pan = investorPan;
     params.nseDetails.email = email;
+    params.nseDetails["Email_relation"] = email;
+    params.nseDetails["Mobile_relation"] = phone;
+    params.nseDetails["NOM1_PAN"] = nominate1pan;
+    params.nseDetails["NOMINEE_OPTED"] = nominate ? "Y" : "N";
     params.nseDetails.father_name = fatherName;
     params.nseDetails.mother_name = motherName;
     params.fatcaDetails.app_income = {
@@ -584,6 +603,22 @@ function CompleteDetailsScreen(props) {
 
           {/* Email Id_sec */}
           <Text style={styles.occupation}>
+            {"Mobile"}
+            <Text style={styles.error}>*</Text>
+          </Text>
+          <MyTextInput
+            placeholder={"Mobile Number"}
+            value={state.phone}
+            error={errors.phone}
+            maxLength={10}
+            keyboardType={"numeric"}
+            onChangeText={(phone) => {
+              setErrors({ ...errors, phone: null });
+              setState({ ...state, phone });
+            }}
+          />
+
+          <Text style={styles.occupation}>
             Email Id <Text style={styles.error}>*</Text>
           </Text>
           <MyTextInput
@@ -708,6 +743,21 @@ function CompleteDetailsScreen(props) {
               onChange={(nominate1relation) => {
                 setErrors({ ...errors, nominate1relation: null });
                 setState({ ...state, nominate1relation });
+              }}
+            />
+
+            <Text style={styles.occupation}>
+              {"Nominee PAN"}
+              <Text style={styles.error}>*</Text>
+            </Text>
+            <MyTextInput
+              placeholder={"Nominee PAN"}
+              value={state.nominate1pan}
+              maxLength={10}
+              error={errors.nominate1pan}
+              onChangeText={(nominate1pan) => {
+                setErrors({ ...errors, nominate1pan: null });
+                setState({ ...state, nominate1pan });
               }}
             />
           </View>
