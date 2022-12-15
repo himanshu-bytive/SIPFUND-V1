@@ -1,12 +1,81 @@
+import axios from "axios";
 import React, { useState, useRef, useEffect, useContext } from "react";
-import { StyleSheet, View, Text, Image, ActivityIndicator, Platform } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  Image,
+  ActivityIndicator,
+  Platform,
+  Alert,
+  Linking,
+  BackHandler,
+  ToastAndroid,
+} from "react-native";
 import { check, PERMISSIONS, request, RESULTS } from "react-native-permissions";
 import { connect } from "react-redux";
+import DeviceInfo from "react-native-device-info";
 import { Colors } from "../../common";
+import { apiBaseUrl } from "../../common/Config";
 
 function SplashScreen(props) {
   const { logout, resetData, setToken } = props;
+
+  const [updateAvailable, setUpdateAvailable] = useState(null);
+
+  const isUpdateAvailable = (latestVersion) => {
+    const appVersion = DeviceInfo.getVersion();
+
+    console.log("App Version: ", appVersion, "Latest Version: ", latestVersion);
+    return toString(latestVersion).localeCompare(appVersion, undefined, {
+      numeric: true,
+      sensitivity: "base",
+    });
+  };
+
   useEffect(() => {
+    axios
+      //.get(`${apiBaseUrl}/user/getAppVersion`)
+      .get("http://uat.sipfund.com/api/user/getAppVersion")
+      .then((res) => {
+        const { data } = res;
+        if (isUpdateAvailable(data.Version)) {
+          Alert.alert(
+            "Update Available!",
+            "A newer version of the app is available to install",
+            [
+              {
+                text: "Update",
+                onPress: () => {
+                  setUpdateAvailable(true);
+                },
+                style: "ok",
+              },
+            ],
+            {
+              cancelable: false,
+            }
+          );
+        }
+      })
+      .catch((e) => console.log(e));
+  }, []);
+
+  useEffect(() => {
+    if (updateAvailable) {
+      const bundleId = DeviceInfo.getBundleId();
+      Linking.openURL(
+        `https://play.google.com/store/apps/details?id=${bundleId}`
+      );
+    }
+  }, [updateAvailable]);
+
+  useEffect(() => {
+    if (updateAvailable !== false) {
+      ToastAndroid.show("Please update the app!", ToastAndroid.LONG);
+      return;
+    }
+
     logout();
     resetData();
     // props.navigation.navigate("Home");
@@ -24,18 +93,17 @@ function SplashScreen(props) {
               : PERMISSIONS.READ_PHONE_STATE
           ).then(() => {
             //getPhoneNumber();
-    props.navigation.navigate("verify");
+            props.navigation.navigate("verify");
           });
         } else {
           //getPhoneNumber();
-    props.navigation.navigate("verify");
+          props.navigation.navigate("verify");
         }
       });
     } else {
-    props.navigation.navigate("verify");
+      props.navigation.navigate("verify");
     }
-  }, []);
-
+  }, [updateAvailable]);
 
   return (
     <View style={styles.container}>
@@ -49,7 +117,11 @@ function SplashScreen(props) {
           source={require("../../../assets/icon.png")}
           style={styles.imgeWidht}
         />
-        <ActivityIndicator size={30} color={Colors.RED} />
+        {updateAvailable === null ? (
+          <ActivityIndicator size={30} color={Colors.RED} />
+        ) : (
+          <Text style={styles.updateText}>{"Update the App!"}</Text>
+        )}
       </View>
       <View style={styles.mainbox}>
         <Text style={styles.most_trusted}>Most trusted for</Text>
@@ -92,6 +164,13 @@ const styles = StyleSheet.create({
   },
   nseimg: {
     marginVertical: 20,
+  },
+  updateText: {
+    color: "red",
+    textAlign: "center",
+    fontSize: 20,
+    paddingTop: 10,
+    fontWeight: "bold",
   },
 });
 
