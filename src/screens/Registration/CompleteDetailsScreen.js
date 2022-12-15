@@ -72,6 +72,17 @@ function CompleteDetailsScreen(props) {
     { value: "Grand Mother", label: "Grand Mother" },
     { value: "Other", label: "Other" },
   ];
+  const mobileEmailRelation = [
+    { value: "Self", label: "Self" },
+    { value: "Spouse", label: "Spouse" },
+    { value: "Dependent Children", label: "Dependent Children" },
+    { value: "Dependent Siblings", label: "Dependent Siblings" },
+    { value: "Dependent Parents", label: "Dependent Parents" },
+    { value: "Guardian", label: "Guardian" },
+    { value: "PMS", label: "PMS" },
+    { value: "Custodian", label: "Custodian" },
+    { value: "POA", label: "POA" },
+  ];
 
   const [isDatePickerVisible, setIsDatePickerVisible] = useState(false);
 
@@ -207,6 +218,7 @@ function CompleteDetailsScreen(props) {
       investor,
       investorPan,
       phone,
+      mailRelation,
       email,
       fatherName,
       motherName,
@@ -268,8 +280,12 @@ function CompleteDetailsScreen(props) {
     //return;
     //}
     //}
-    if (!FormValidate.isPhone(phone)) {
-      setErrors({ ...errors, phone: "Please Add a Mobile Number" });
+    if (!FormValidate.isString(mailRelation)) {
+      setErrors({ ...errors, mailRelation: "Please Add a Mail Relation" });
+      return;
+    }
+    if (!FormValidate.isString(phone)) {
+      setErrors({ ...errors, phone: "Please Add a Mobile Relation" });
       return;
     }
     if (!FormValidate.isEmail(email)) {
@@ -380,7 +396,7 @@ function CompleteDetailsScreen(props) {
     params.nseDetails.inv_name = investor;
     params.nseDetails.pan = investorPan;
     params.nseDetails.email = email;
-    params.nseDetails["Email_relation"] = email;
+    params.nseDetails["Email_relation"] = mailRelation;
     params.nseDetails["Mobile_relation"] = phone;
     params.nseDetails["NOM1_PAN"] = nominate1pan;
     params.nseDetails["NOMINEE_OPTED"] = nominate ? "Y" : "N";
@@ -603,22 +619,6 @@ function CompleteDetailsScreen(props) {
 
           {/* Email Id_sec */}
           <Text style={styles.occupation}>
-            {"Mobile"}
-            <Text style={styles.error}>*</Text>
-          </Text>
-          <MyTextInput
-            placeholder={"Mobile Number"}
-            value={state.phone}
-            error={errors.phone}
-            maxLength={10}
-            keyboardType={"numeric"}
-            onChangeText={(phone) => {
-              setErrors({ ...errors, phone: null });
-              setState({ ...state, phone });
-            }}
-          />
-
-          <Text style={styles.occupation}>
             Email Id <Text style={styles.error}>*</Text>
           </Text>
           <MyTextInput
@@ -628,6 +628,36 @@ function CompleteDetailsScreen(props) {
             onChangeText={(email) => {
               setErrors({ ...errors, email: null });
               setState({ ...state, email });
+            }}
+          />
+
+          <Text style={styles.occupation}>
+            {"Mobile Relation"}
+            <Text style={styles.error}>*</Text>
+          </Text>
+          <MySelectPicker
+            values={mobileEmailRelation}
+            placeholder={"Select Mobile Relation"}
+            defultValue={state.phone}
+            error={errors.phone}
+            onChange={(phone) => {
+              setErrors({ ...errors, phone: null });
+              setState({ ...state, phone });
+            }}
+          />
+
+          <Text style={styles.occupation}>
+            {"Email Relation"}
+            <Text style={styles.error}>*</Text>
+          </Text>
+          <MySelectPicker
+            values={mobileEmailRelation}
+            placeholder={"Select email Relation"}
+            defultValue={state.mailRelation}
+            error={errors.mailRelation}
+            onChange={(mailRelation) => {
+              setErrors({ ...errors, mailRelation: null });
+              setState({ ...state, mailRelation });
             }}
           />
 
