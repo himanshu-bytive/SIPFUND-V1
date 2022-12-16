@@ -2,7 +2,7 @@
   "expo": {
     "name": "SIP FUND",
     "slug": "sipfund",
-    "version": "1.0.34",
+    "version": "1.0.38",
     "orientation": "portrait",
     "icon": "./assets/iconLogo.png",
     "splash": {
