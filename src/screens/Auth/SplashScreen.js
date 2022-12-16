@@ -21,17 +21,23 @@ import { apiBaseUrl } from "../../common/Config";
 function SplashScreen(props) {
   const { logout, resetData, setToken } = props;
 
-  const [updateAvailable, setUpdateAvailable] = useState(null);
+  const [updateAvailable, setUpdateAvailable] = useState();
 
-  const isUpdateAvailable = (latestVersion) => {
+  function isUpdateAvailable(latestVersion) {
     const appVersion = DeviceInfo.getVersion();
 
-    console.log("App Version: ", appVersion, "Latest Version: ", latestVersion);
-    return toString(latestVersion).localeCompare(appVersion, undefined, {
-      numeric: true,
-      sensitivity: "base",
-    });
-  };
+    console.log(appVersion, latestVersion);
+
+    const oldParts = appVersion.split(".");
+    const newParts = latestVersion.split(".");
+    for (let i = 0; i < newParts.length; i++) {
+      const a = ~~newParts[i]; // parse int
+      const b = ~~oldParts[i]; // parse int
+      if (a > b) return true;
+      if (a < b) return false;
+    }
+    return false;
+  }
 
   useEffect(() => {
     axios
@@ -56,9 +62,14 @@ function SplashScreen(props) {
               cancelable: false,
             }
           );
+        } else {
+          setUpdateAvailable(false);
         }
       })
-      .catch((e) => console.log(e));
+      .catch((e) => {
+        console.log(e);
+        setUpdateAvailable(false);
+      });
   }, []);
 
   useEffect(() => {
@@ -71,9 +82,12 @@ function SplashScreen(props) {
   }, [updateAvailable]);
 
   useEffect(() => {
-    if (updateAvailable !== false) {
-      ToastAndroid.show("Please update the app!", ToastAndroid.LONG);
+    if (updateAvailable === undefined) {
       return;
+    }
+
+    if (updateAvailable) {
+      ToastAndroid.show("Please update the app!", ToastAndroid.LONG);
     }
 
     logout();
@@ -117,7 +131,7 @@ function SplashScreen(props) {
           source={require("../../../assets/icon.png")}
           style={styles.imgeWidht}
         />
-        {updateAvailable === null ? (
+        {updateAvailable !== true ? (
           <ActivityIndicator size={30} color={Colors.RED} />
         ) : (
           <Text style={styles.updateText}>{"Update the App!"}</Text>
