@@ -15,9 +15,11 @@ import {
 } from "react-native";
 import { connect } from "react-redux";
 import * as Location from "expo-location";
+import SmsRetriever from "react-native-sms-retriever";
 import { Colors } from "../../common";
 import { OtpInputs } from "../../components";
 const width = Dimensions.get("window").width;
+import OTPInputView from "@twotalltotems/react-native-otp-input";
 
 function OtpScreen(props) {
   const pageActive = useRef(false);
@@ -36,6 +38,29 @@ function OtpScreen(props) {
     );
 
     return () => backHandler.remove();
+  }, []);
+
+  /* Auto read OTP */
+  useEffect(() => {
+    _startSmsListener = async () => {
+      try {
+        const registered = await SmsRetriever.startSmsRetriever();
+        if (registered) {
+          SmsRetriever.addSmsListener((event) => {
+            var rx = /[0-9][0-9][0-9][0-9]/;
+            const matches = rx.exec(event.message);
+            if (matches && matches.length) {
+              setVerificationCode(matches[0]);
+              SmsRetriever.removeSmsListener();
+            }
+          });
+        }
+      } catch (error) {
+        console.log(JSON.stringify(error));
+      }
+    };
+
+    _startSmsListener();
   }, []);
 
   useEffect(() => {
@@ -115,11 +140,25 @@ function OtpScreen(props) {
           </Text>
           <View style={styles.otpsec}>
             {!isFetching && (
-              <OtpInputs
-                getOtp={(text) => {
-                  setVerificationCode(text), setError(null), onAction(text);
-                }}
-              />
+              <View>
+                <OTPInputView
+                  style={{
+                    height: 100,
+                    width: "75%",
+                    marginBottom: 25,
+                  }}
+                  codeInputFieldStyle={{
+                    color: "black",
+                    borderWidth: 0,
+                    borderBottomColor: "darkgrey",
+                    borderBottomWidth: 1,
+                  }}
+                  pinCount={4}
+                  code={verificationCode}
+                  onCodeChanged={(code) => setVerificationCode(code)}
+                  onCodeFilled={() => onAction(verificationCode)}
+                />
+              </View>
             )}
             {isFetching && (
               <View style={styles.botton_box}>
