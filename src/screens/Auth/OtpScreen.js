@@ -166,10 +166,17 @@ function OtpScreen(props) {
                 />
               </View>
             )}
-            {isFetching && (
+            {isFetching ? (
               <View style={styles.botton_box}>
                 <ActivityIndicator size={30} color={Colors.RED} />
               </View>
+            ) : (
+              <TouchableOpacity
+                style={styles.proceedButtonContainer}
+                onPress={() => onAction(verificationCode)}
+              >
+                <Text style={styles.proceedButtonText}>PROCEED</Text>
+              </TouchableOpacity>
             )}
             {!isFetching && (
               <View style={styles.button}>
@@ -260,6 +267,17 @@ const styles = StyleSheet.create({
   },
   containerScroll: {
     width: "100%",
+  },
+  proceedButtonContainer: {
+    backgroundColor: Colors.LIGHT_RED,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    borderRadius: 5,
+    marginBottom: 10,
+  },
+  proceedButtonText: {
+    fontSize: 20,
+    color: Colors.WHITE,
   },
 });
 
