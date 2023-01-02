@@ -64,6 +64,12 @@ function OtpScreen(props) {
   }, []);
 
   useEffect(() => {
+    if (verificationCode) {
+      onAction(verificationCode);
+    }
+  }, [verificationCode]);
+
+  useEffect(() => {
     GetCurrentLocation();
   }, []);
 
