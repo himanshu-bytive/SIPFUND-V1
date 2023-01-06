@@ -230,7 +230,11 @@ function HoldingsScreen(props) {
                   <View style={styles.folio_sec}>
                     <View style={{ flexDirection: "row" }}>
                       <Text style={[styles.folio, styles.green]}>
-                        {Number(item.trxnDetails[0].purprice).toFixed(3)}
+                        {(
+                          (parseFloat(item.nav_value) -
+                            parseFloat(item.trxnDetails[0].purprice)) *
+                          parseFloat(item.trxnDetails[0].units)
+                        ).toFixed(2)}
                       </Text>
                       <AntDesign name="caretup" size={15} color="#5DA753" />
                     </View>
@@ -239,7 +243,11 @@ function HoldingsScreen(props) {
 
                   <View style={styles.folio_sec}>
                     <Text style={[styles.folio, styles.green]}>
-                      {Number(item.trxnDetails[0].units).toFixed(3)}
+                      {(
+                        (parseFloat(item.nav_value) /
+                          parseFloat(item.trxnDetails[0].purprice)) *
+                        100
+                      ).toFixed(2)}
                     </Text>
                     <Text style={styles.folio}>Unrealized Profit %</Text>
                   </View>
