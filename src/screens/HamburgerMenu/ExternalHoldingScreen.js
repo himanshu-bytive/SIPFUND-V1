@@ -53,7 +53,11 @@ function HoldingsScreen(props) {
         data.push(item);
         investment += Number(item.investedAmt);
         currentValue += Number(item.currentValue);
-        profit += Number(item.trxnDetails[0].purprice);
+        profit += Number(
+          (parseFloat(item.nav_value) -
+            parseFloat(item.trxnDetails[0].purprice)) *
+            parseFloat(item.trxnDetails[0].units)
+        );
       }
       setData(data);
       setInvestment(investment);
