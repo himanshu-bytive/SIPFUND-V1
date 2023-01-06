@@ -131,9 +131,9 @@ function GoalsSummaryScreen(props) {
             </Text>
             <Text style={styles.rupees}>
               ₹{" "}
-              {summary?.summary?.currentValue
+              {parseInt(summary?.summary?.currentValue)
                 ? summary?.summary?.currentValue
-                : 0}
+                : "0.00"}
             </Text>
             <Text style={styles.value}>Current Value</Text>
           </View>
