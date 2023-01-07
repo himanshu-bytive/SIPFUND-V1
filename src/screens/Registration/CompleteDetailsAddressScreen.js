@@ -84,10 +84,13 @@ function CompleteDetailsAddressScreen(props) {
       setStateList(stateList);
     }
     if (citys) {
-      const cityList = citys
-        ? citys.map((item) => ({ value: item.CITY, label: String(item.CITY) }))
-        : [];
-      setCityList(cityList);
+      let result = citys.reduce(function (r, a) {
+        r[a.CITY] = r[a.CITY] || [];
+        r[a.CITY].push(a);
+        return r;
+      }, Object.create(null));
+      result = Object.keys(result);
+      setCityList(result.map((item) => ({ value: item, label: item })));
     }
   }, [statess, citys]);
 
