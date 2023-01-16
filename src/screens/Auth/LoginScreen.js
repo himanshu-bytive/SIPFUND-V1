@@ -45,6 +45,9 @@ function LoginScreen(props) {
     const getPassword = async () => {
       try {
         const password = await AsyncStorage.getItem(toString(phone));
+
+        if (!password) return;
+
         setState({ ...state, password });
         ToastAndroid.show(
           "Your password was automatically retrieved!",
