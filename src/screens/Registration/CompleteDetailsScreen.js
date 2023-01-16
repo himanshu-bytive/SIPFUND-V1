@@ -662,10 +662,10 @@ function CompleteDetailsScreen(props) {
           />
 
           <Text style={styles.occupation}>
-            Father Name <Text style={styles.error}>*</Text>
+    {"Father's Name"} <Text style={styles.error}>*</Text>
           </Text>
           <MyTextInput
-            placeholder={"Father Name"}
+            placeholder={"Father's Name"}
             value={state.fatherName}
             error={errors.fatherName}
             maxLength={30}
@@ -676,10 +676,10 @@ function CompleteDetailsScreen(props) {
           />
 
           <Text style={styles.occupation}>
-            Mother Name <Text style={styles.error}>*</Text>
+    {"Mother's Name"} <Text style={styles.error}>*</Text>
           </Text>
           <MyTextInput
-            placeholder={"Mother Name"}
+            placeholder={"Mother's Name"}
             value={state.motherName}
             error={errors.motherName}
             maxLength={30}
