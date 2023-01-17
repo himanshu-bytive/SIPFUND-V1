@@ -15,15 +15,20 @@ import {
 } from "react-native";
 import { connect } from "react-redux";
 import { Styles, Config, Colors, FormValidate } from "../../common";
-import { TopRatedFundType } from "../../components";
+import {
+  MySelectPicker,
+  MyTextInput,
+  TopRatedFundType,
+} from "../../components";
 import {
   Ionicons,
   AntDesign,
   Entypo,
   FontAwesome5,
 } from "react-native-vector-icons";
-import { Image, Header, CheckBox } from "react-native-elements";
+import { Image, Header, CheckBox, Overlay } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 function TopRatedListScreen(props) {
   const {
@@ -32,7 +37,10 @@ function TopRatedListScreen(props) {
     getCartDetails,
     deleteItemFromCart,
     fundDetails,
-    users,
+    nseDetails,
+    fatcaDetails,
+    userDetails,
+    updateRegister,
   } = props;
 
   const [cartEmpty, setCartEmpty] = useState();
@@ -48,6 +56,20 @@ function TopRatedListScreen(props) {
   const [sipTotal, setSipTotal] = useState(0);
   const [lumpsumTotal, setLumpsumTotal] = useState(0);
   const [paymentCart, setPaymentCart] = useState();
+  const [showNseInputs, setShowNseInputs] = useState(false);
+  const [extraNseDetails, setExtraNseDetails] = useState();
+
+  const mobileEmailRelation = [
+    { value: "Self", label: "Self" },
+    { value: "Spouse", label: "Spouse" },
+    { value: "Dependent Children", label: "Dependent Children" },
+    { value: "Dependent Siblings", label: "Dependent Siblings" },
+    { value: "Dependent Parents", label: "Dependent Parents" },
+    { value: "Guardian", label: "Guardian" },
+    { value: "PMS", label: "PMS" },
+    { value: "Custodian", label: "Custodian" },
+    { value: "POA", label: "POA" },
+  ];
 
   useEffect(() => {
     getCartDetails(token);
@@ -115,6 +137,24 @@ function TopRatedListScreen(props) {
       }
     }
   }, [folio]);
+
+  const handleNseDetailsUnavailability = (data) => {
+    setExtraNseDetails(data);
+    setShowNseInputs(true);
+  };
+
+  const handleSubmitExtraNseDetails = () => {
+    let updatedData = {
+      nseDetails: {
+        ...nseDetails,
+        ...extraNseDetails,
+      },
+      userDetails,
+      fatcaDetails,
+    };
+    updateRegister(updatedData, token);
+    setShowNseInputs(false);
+  };
 
   return (
     <View style={styles.container}>
@@ -241,6 +281,22 @@ function TopRatedListScreen(props) {
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
+          /* Check if details are enough for nse */
+          if (
+            !nseDetails["Email_relation"] ||
+            !nseDetails["Mobile_relation"] ||
+            !nseDetails["NOM1_PAN"] ||
+            !nseDetails["NOMINEE_OPTED"]
+          ) {
+            handleNseDetailsUnavailability({
+              ["Email_relation"]: nseDetails["Email_relation"],
+              ["Mobile_relation"]: nseDetails["Mobile_relation"],
+              ["NOM1_PAN"]: nseDetails["NOM1_PAN"],
+              ["NOMINEE_OPTED"]: nseDetails["NOMINEE_OPTED"] || "N",
+            });
+            return;
+          }
+
           let type = getFundType();
           let tmpCart;
           if (paymentCart?.cartDetails) {
@@ -270,6 +326,95 @@ function TopRatedListScreen(props) {
       >
         <Text style={styles.get_otp}>NEXT</Text>
       </TouchableOpacity>
+      <Overlay visible={showNseInputs}>
+        <Icon
+          name="close"
+          style={styles.overlayCloseIcon}
+          size={25}
+          onPress={() => setShowNseInputs(false)}
+        />
+        <Text style={styles.nseInfoText}>
+          NSE mandates the availability of the following fields. You need to
+          fill in and verify these details before you can proceed with the
+          check-out
+        </Text>
+        <View style={styles.overlayContainer}>
+          <Text style={styles.occupation}>
+            {"Mobile Relation"}
+            <Text style={styles.error}>*</Text>
+          </Text>
+          <MySelectPicker
+            values={mobileEmailRelation}
+            placeholder={"Select Mobile Relation"}
+            defultValue={extraNseDetails?.Mobile_relation}
+            onChange={(phone) => {
+              setExtraNseDetails({
+                ...extraNseDetails,
+                ["Mobile_relation"]: phone,
+              });
+            }}
+          />
+
+          <Text style={styles.occupation}>
+            {"Email Relation"}
+            <Text style={styles.error}>*</Text>
+          </Text>
+          <MySelectPicker
+            values={mobileEmailRelation}
+            placeholder={"Select email Relation"}
+            defultValue={extraNseDetails?.Email_relation}
+            onChange={(mailRelation) => {
+              setExtraNseDetails({
+                ...extraNseDetails,
+                ["Email_relation"]: mailRelation,
+              });
+            }}
+          />
+
+          <CheckBox
+            title="I Want to Add Nominee"
+            containerStyle={styles.checkbox_style}
+            textStyle={{ color: Colors.BLACK, fontSize: 12, marginLeft: 5 }}
+            checked={extraNseDetails?.NOMINEE_OPTED === "Y"}
+            checkedColor={Colors.BLACK}
+            uncheckedColor={Colors.BLACK}
+            onPress={() => {
+              setExtraNseDetails({
+                ...extraNseDetails,
+                NOMINEE_OPTED:
+                  extraNseDetails?.NOMINEE_OPTED === "Y" ? "N" : "Y",
+              });
+            }}
+          />
+
+          {extraNseDetails?.NOMINEE_OPTED === "Y" ? (
+            <>
+              <Text style={styles.occupation}>
+                {"Nominee PAN"}
+                <Text style={styles.error}>*</Text>
+              </Text>
+              <MyTextInput
+                placeholder={"Nominee PAN"}
+                value={extraNseDetails?.NOM1_PAN}
+                maxLength={10}
+                onChangeText={(nominate1pan) => {
+                  setExtraNseDetails({
+                    ...extraNseDetails,
+                    NOM1_PAN: nominate1pan,
+                  });
+                }}
+              />
+            </>
+          ) : null}
+
+          <TouchableOpacity
+            onPress={handleSubmitExtraNseDetails}
+            style={styles.botton_box}
+          >
+            <Text style={styles.get_otp}>Next</Text>
+          </TouchableOpacity>
+        </View>
+      </Overlay>
     </View>
   );
 }
@@ -381,10 +526,40 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
   },
+  overlayCloseIcon: {
+    alignSelf: "flex-end",
+    marginRight: 5,
+    marginVertical: 5,
+  },
+  nseInfoText: {
+    maxWidth: "90%",
+    fontSize: 16,
+    paddingVertical: 10,
+    marginBottom: 10,
+    borderBottomWidth: 1,
+  },
+  overlayContainer: {
+    //width: "85%",
+  },
+  error: {
+    color: "#ff0000",
+    padding: 5,
+  },
+  occupation: {
+    fontSize: 15,
+    color: Colors.DEEP_GRAY,
+    fontWeight: "bold",
+    marginTop: 10,
+  },
+  checkbox_style: {
+    marginVertical: 10,
+  },
 });
 const mapStateToProps = (state) => ({
   token: state.auth.token,
-  users: state.auth.user,
+  nseDetails: state.registration.nseDetails,
+  fatcaDetails: state.registration.fatcaDetails,
+  userDetails: state.registration.userDetails,
   cartDetails: state.cartActions.cart,
 });
 
@@ -393,6 +568,7 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
   const { AuthActions } = require("../../store/AuthRedux");
   const { CartActions } = require("../../store/CartActionsRedux");
   const { FundDetailActions } = require("../../store/FundDetailRedux");
+  const { RegistrationActions } = require("../../store/RegistrationRedux");
   return {
     ...stateProps,
     ...ownProps,
@@ -407,6 +583,9 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     },
     fundDetails: (data) => {
       FundDetailActions.fundDetails(dispatch, data);
+    },
+    updateRegister: (params, token) => {
+      RegistrationActions.updateRegister(dispatch, params, token);
     },
   };
 };
