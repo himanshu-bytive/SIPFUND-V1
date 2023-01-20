@@ -160,6 +160,8 @@ function CompleteDetailsScreen(props) {
         nominate1dob: new Date(nseDetails.nominee1_dob),
         nominate1guard_name: nseDetails.nominee1_guard_name,
         nominate1guard_pan: nseDetails.nominee1_guard_pan,
+        mobile_relation: nseDetails?.Mobile_relation || nseDetails?.mobile_relation,
+        email_relation: nseDetails?.Email_relation || nseDetails?.email_relation
       });
     }
   }, [fatcaDetails, nseDetails, userDetails]);
@@ -638,11 +640,11 @@ function CompleteDetailsScreen(props) {
           <MySelectPicker
             values={mobileEmailRelation}
             placeholder={"Select Mobile Relation"}
-            defultValue={state.phone}
-            error={errors.phone}
-            onChange={(phone) => {
-              setErrors({ ...errors, phone: null });
-              setState({ ...state, phone });
+            defultValue={state?.mobile_relation}
+            error={errors?.mobile_relation}
+            onChange={(mobile_relation) => {
+              setErrors({ ...errors, mobile_relation: null });
+              setState({ ...state, mobile_relation });
             }}
           />
 
@@ -653,11 +655,11 @@ function CompleteDetailsScreen(props) {
           <MySelectPicker
             values={mobileEmailRelation}
             placeholder={"Select email Relation"}
-            defultValue={state.mailRelation}
-            error={errors.mailRelation}
-            onChange={(mailRelation) => {
-              setErrors({ ...errors, mailRelation: null });
-              setState({ ...state, mailRelation });
+            defultValue={state?.email_relation}
+            error={errors?.email_relation}
+            onChange={(email_relation) => {
+              setErrors({ ...errors, email_relation: null });
+              setState({ ...state, email_relation });
             }}
           />
 

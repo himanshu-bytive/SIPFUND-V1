@@ -60,15 +60,15 @@ function TopRatedListScreen(props) {
   const [extraNseDetails, setExtraNseDetails] = useState();
 
   const mobileEmailRelation = [
-    { value: "Self", label: "Self" },
-    { value: "Spouse", label: "Spouse" },
-    { value: "Dependent Children", label: "Dependent Children" },
-    { value: "Dependent Siblings", label: "Dependent Siblings" },
-    { value: "Dependent Parents", label: "Dependent Parents" },
-    { value: "Guardian", label: "Guardian" },
-    { value: "PMS", label: "PMS" },
-    { value: "Custodian", label: "Custodian" },
-    { value: "POA", label: "POA" },
+    { value: "SE", label: "Self" },
+    { value: "SP", label: "Spouse" },
+    { value: "DC", label: "Dependent Children" },
+    { value: "DS", label: "Dependent Siblings" },
+    { value: "DP", label: "Dependent Parents" },
+    { value: "GD", label: "Guardian" },
+    { value: "PM", label: "PMS" },
+    { value: "CD", label: "Custodian" },
+    { value: "PO", label: "POA" },
   ];
 
   useEffect(() => {
