@@ -10,8 +10,6 @@ const types = {
 
 export const CheckoutActions = {
   checkoutButton: async (dispatch, params, token, mandate) => {
-    console.log("params",JSON.stringify(params))
-
     dispatch({ type: types.FETCH_CHECKOUT_BUTTON_PENDING, fetching: true,emandateSuccess:false });
     let citys = await SiteAPI.apiPostCall(
       `/apiData/PURCHASETRXN`,
