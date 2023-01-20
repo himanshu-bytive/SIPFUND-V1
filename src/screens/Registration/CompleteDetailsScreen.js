@@ -73,15 +73,15 @@ function CompleteDetailsScreen(props) {
     { value: "Other", label: "Other" },
   ];
   const mobileEmailRelation = [
-    { value: "Self", label: "Self" },
-    { value: "Spouse", label: "Spouse" },
-    { value: "Dependent Children", label: "Dependent Children" },
-    { value: "Dependent Siblings", label: "Dependent Siblings" },
-    { value: "Dependent Parents", label: "Dependent Parents" },
-    { value: "Guardian", label: "Guardian" },
-    { value: "PMS", label: "PMS" },
-    { value: "Custodian", label: "Custodian" },
-    { value: "POA", label: "POA" },
+    { value: "SE", label: "Self" },
+    { value: "SP", label: "Spouse" },
+    { value: "DC", label: "Dependent Children" },
+    { value: "DS", label: "Dependent Siblings" },
+    { value: "DP", label: "Dependent Parents" },
+    { value: "GD", label: "Guardian" },
+    { value: "PM", label: "PMS" },
+    { value: "CD", label: "Custodian" },
+    { value: "PO", label: "POA" },
   ];
 
   const [isDatePickerVisible, setIsDatePickerVisible] = useState(false);
@@ -396,8 +396,8 @@ function CompleteDetailsScreen(props) {
     params.nseDetails.inv_name = investor;
     params.nseDetails.pan = investorPan;
     params.nseDetails.email = email;
-    params.nseDetails["Email_relation"] = mailRelation;
-    params.nseDetails["Mobile_relation"] = phone;
+    params.nseDetails["email_relation"] = mailRelation;
+    params.nseDetails["mobile_relation"] = phone;
     params.nseDetails["NOM1_PAN"] = nominate1pan;
     params.nseDetails["NOMINEE_OPTED"] = nominate ? "Y" : "N";
     params.nseDetails.father_name = fatherName;
@@ -662,7 +662,7 @@ function CompleteDetailsScreen(props) {
           />
 
           <Text style={styles.occupation}>
-    {"Father's Name"} <Text style={styles.error}>*</Text>
+            {"Father's Name"} <Text style={styles.error}>*</Text>
           </Text>
           <MyTextInput
             placeholder={"Father's Name"}
@@ -676,7 +676,7 @@ function CompleteDetailsScreen(props) {
           />
 
           <Text style={styles.occupation}>
-    {"Mother's Name"} <Text style={styles.error}>*</Text>
+            {"Mother's Name"} <Text style={styles.error}>*</Text>
           </Text>
           <MyTextInput
             placeholder={"Mother's Name"}
