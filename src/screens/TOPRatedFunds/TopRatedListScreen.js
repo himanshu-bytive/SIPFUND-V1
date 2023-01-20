@@ -334,9 +334,8 @@ function TopRatedListScreen(props) {
           onPress={() => setShowNseInputs(false)}
         />
         <Text style={styles.nseInfoText}>
-          NSE mandates the availability of the following fields. You need to
-          fill in and verify these details before you can proceed with the
-          check-out
+          As per the regulatory requirement, the following information is
+          mandatory before processing payment.
         </Text>
         <View style={styles.overlayContainer}>
           <Text style={styles.occupation}>
