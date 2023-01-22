@@ -27,6 +27,10 @@ const types = {
   FETCH_UPDATE_REGISTER_SUCCESS: "FETCH_UPDATE_REGISTER_SUCCESS",
   FETCH_UPDATE_REGISTER_FAILURE: "FETCH_UPDATE_REGISTER_FAILURE",
 
+  FETCH_EDIT_REGISTER_PENDING: "FETCH_EDIT_REGISTER_PENDING",
+  FETCH_EDIT_REGISTER_SUCCESS: "FETCH_EDIT_REGISTER_SUCCESS",
+  FETCH_EDIT_REGISTER_FAILURE: "FETCH_EDIT_REGISTER_FAILURE",
+
   FETCH_FILE_UPLOAD_PENDING: "FETCH_FILE_UPLOAD_PENDING",
   FETCH_FILE_UPLOAD_SUCCESS: "FETCH_FILE_UPLOAD_SUCCESS",
   FETCH_FILE_UPLOAD_FAILURE: "FETCH_FILE_UPLOAD_FAILURE",
@@ -171,7 +175,30 @@ export const RegistrationActions = {
       });
     }
   },
+  updateNseRegistration: async (dispatch, params, token) => {
+    dispatch({ type: types.FETCH_EDIT_REGISTER_PENDING });
+    let data = await SiteAPI.apiPostCall(
+      "/apiData/EDITCUSTOMER",
+      params,
+      token
+    );
+    console.log("NSE Response", JSON.stringify(data, null, 2));
+    if (data.error) {
+      Alert.alert(data.message);
+      dispatch({
+        type: types.FETCH_EDIT_REGISTER_FAILURE,
+        error: data.message,
+      });
+    } else {
+      dispatch({
+        type: types.FETCH_EDIT_REGISTER_SUCCESS,
+        isExit: false,
+        isInn: data.IIN,
+      });
+    }
+  },
   updateRegister: async (dispatch, params, token) => {
+    console.log(JSON.stringify(params, null, 2))
     dispatch({ type: types.FETCH_UPDATE_REGISTER_PENDING });
     let data = await SiteAPI.apiPutCall("/user/rawData", params, token);
     if (data.error) {

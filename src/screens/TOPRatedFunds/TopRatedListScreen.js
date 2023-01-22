@@ -156,7 +156,7 @@ function TopRatedListScreen(props) {
     };
     updateRegister(updatedData, token);
     const nseData = {
-      iin: users?.IIN,
+      Iin: users?.IIN,
       inv_name: users?.name,
       Dob: nseDetails?.dob,
       ["addr1"]: nseDetails?.addr1,
