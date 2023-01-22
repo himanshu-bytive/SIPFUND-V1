@@ -41,6 +41,8 @@ function TopRatedListScreen(props) {
     fatcaDetails,
     userDetails,
     updateRegister,
+    updateNseRegistration,
+    users,
   } = props;
 
   const [cartEmpty, setCartEmpty] = useState();
@@ -153,6 +155,29 @@ function TopRatedListScreen(props) {
       fatcaDetails,
     };
     updateRegister(updatedData, token);
+    const nseData = {
+      iin: users?.IIN,
+      inv_name: users?.name,
+      Dob: nseDetails?.dob,
+      ["addr1"]: nseDetails?.addr1,
+      City: nseDetails?.city?.CITY,
+      State: nseDetails?.state?.STATE_CODE,
+      Pincode: nseDetails?.pincode,
+      Country: nseDetails?.country?.COUNTRY_CODE,
+      mobile_no: users?.mobileNo,
+      Email: users?.email,
+      bank_name: nseDetails?.bank_name?.BANK_NAME,
+      acc_no: nseDetails?.acc_no,
+      acc_type: nseDetails?.acc_type?.ACC_TYPE,
+      ifsc_code: nseDetails?.ifsc_code,
+      branch_name: nseDetails?.branch_name,
+      branch_addr1: nseDetails?.branch_addr1,
+      mobile_relation: extraNseDetails?.Mobile_relation,
+      email_relation: extraNseDetails?.Email_relation,
+      NOMINEE_OPTED: extraNseDetails?.NOMINEE_OPTED,
+      NOM1_PAN: extraNseDetails?.NOM1_PAN,
+    };
+    updateNseRegistration(nseData, token);
     setShowNseInputs(false);
   };
 
@@ -285,7 +310,6 @@ function TopRatedListScreen(props) {
           if (
             !nseDetails["Email_relation"] ||
             !nseDetails["Mobile_relation"] ||
-            !nseDetails["NOM1_PAN"] ||
             !nseDetails["NOMINEE_OPTED"]
           ) {
             handleNseDetailsUnavailability({
@@ -556,6 +580,7 @@ const styles = StyleSheet.create({
 });
 const mapStateToProps = (state) => ({
   token: state.auth.token,
+  users: state.auth.user,
   nseDetails: state.registration.nseDetails,
   fatcaDetails: state.registration.fatcaDetails,
   userDetails: state.registration.userDetails,
@@ -582,6 +607,9 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     },
     fundDetails: (data) => {
       FundDetailActions.fundDetails(dispatch, data);
+    },
+    updateNseRegistration: (params, token) => {
+      RegistrationActions.updateNseRegistration(dispatch, params, token);
     },
     updateRegister: (params, token) => {
       RegistrationActions.updateRegister(dispatch, params, token);
