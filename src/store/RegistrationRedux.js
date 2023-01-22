@@ -179,10 +179,9 @@ export const RegistrationActions = {
     dispatch({ type: types.FETCH_EDIT_REGISTER_PENDING });
     let data = await SiteAPI.apiPostCall(
       "/apiData/EDITCUSTOMER",
-      params,
+      { service_request: params },
       token
     );
-    console.log("NSE Response", JSON.stringify(data, null, 2));
     if (data.error) {
       Alert.alert(data.message);
       dispatch({
@@ -198,7 +197,6 @@ export const RegistrationActions = {
     }
   },
   updateRegister: async (dispatch, params, token) => {
-    console.log(JSON.stringify(params, null, 2))
     dispatch({ type: types.FETCH_UPDATE_REGISTER_PENDING });
     let data = await SiteAPI.apiPutCall("/user/rawData", params, token);
     if (data.error) {
