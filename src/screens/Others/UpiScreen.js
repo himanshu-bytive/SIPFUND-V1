@@ -17,12 +17,14 @@ import { AntDesign, Entypo } from "react-native-vector-icons";
 import { Image, Header, CheckBox, Overlay } from "react-native-elements";
 import WebView from "react-native-webview";
 import SiteAPI from "../../services/SiteApis";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { MySelectPicker, MyTextInput } from "../../components";
 
 function UpiScreen(props) {
   const {
     token,
     profile,
-    user,
+    users,
     checkout,
     umrn,
     getUMRN,
@@ -35,14 +37,34 @@ function UpiScreen(props) {
     getCartDetails,
     emandateOptions,
     toggleEmandatePopup,
+    nseDetails,
+    fatcaDetails,
+    userDetails,
+    updateRegister,
+    updateNseRegistration,
   } = props;
 
   const [clicked, setClicked] = useState(false);
-  let isPageActive = useRef(null)
+  let isPageActive = useRef(null);
   //const [webUrl, setWebUrl] = useState("");
   const [webViewActive, setWebViewActive] = useState(false);
   const [visibleEmandateUmrn, setVisibleEmandateUmrn] = useState(false);
   const [emandateListsUmrn, setEmandateListsUmrn] = useState([]);
+  const [showNseInputs, setShowNseInputs] = useState(false);
+  const [extraNseDetails, setExtraNseDetails] = useState();
+
+  const mobileEmailRelation = [
+    { value: "SE", label: "Self" },
+    { value: "SP", label: "Spouse" },
+    { value: "DC", label: "Dependent Children" },
+    { value: "DS", label: "Dependent Siblings" },
+    { value: "DP", label: "Dependent Parents" },
+    { value: "GD", label: "Guardian" },
+    { value: "PM", label: "PMS" },
+    { value: "CD", label: "Custodian" },
+    { value: "PO", label: "POA" },
+  ];
+
   useEffect(() => {
     if (webUrl) {
       setWebViewActive(true);
@@ -59,15 +81,16 @@ function UpiScreen(props) {
     }
   }, [isFetching, error]);
 
-  useEffect(()=>{
-    if(emandateSuccess && isPageActive.current){
-      isPageActive.current=false
+  useEffect(() => {
+    if (emandateSuccess && isPageActive.current) {
+      isPageActive.current = false;
       Alert.alert(
-       "Success", "Transaction completed successfully. Please check your E-Mail/SMS to authorize transaction.",
+        "Success",
+        "Transaction completed successfully. Please check your E-Mail/SMS to authorize transaction.",
         [
           {
             text: "Cancel",
-            onPress: () =>props.navigation.navigate("Home"),
+            onPress: () => props.navigation.navigate("Home"),
             style: "cancel",
           },
           {
@@ -78,9 +101,8 @@ function UpiScreen(props) {
           },
         ]
       );
-
     }
-  },[emandateSuccess])
+  }, [emandateSuccess]);
   const monthsArr = [
     "Jan",
     "Feb",
@@ -189,6 +211,50 @@ function UpiScreen(props) {
       }
     }
     return day;
+  };
+
+  const handleNseDetailsUnavailability = (data) => {
+    setExtraNseDetails(data);
+    setShowNseInputs(true);
+  };
+
+  const handleSubmitExtraNseDetails = () => {
+    let updatedData = {
+      nseDetails: {
+        ...nseDetails,
+        ...extraNseDetails,
+      },
+      userDetails,
+      fatcaDetails,
+    };
+    updateRegister(updatedData, token);
+
+    const nseData = {
+      iin: users?.IIN,
+      inv_name: users?.name,
+      Dob: nseDetails?.dob,
+      ["addr1"]: nseDetails?.addr1,
+      City: nseDetails?.city?.CITY,
+      State: nseDetails?.state?.STATE_CODE,
+      Pincode: nseDetails?.pincode,
+      Country: nseDetails?.country?.COUNTRY_CODE,
+      mobile_no: users?.mobileNo,
+      Email: users?.email,
+      bank_name: nseDetails?.bank_name?.BANK_NAME,
+      acc_no: nseDetails?.acc_no,
+      acc_type: nseDetails?.acc_type?.ACC_TYPE,
+      ifsc_code: nseDetails?.ifsc_code,
+      branch_name: nseDetails?.branch_name,
+      branch_addr1: nseDetails?.branch_addr1,
+      mobile_relation: extraNseDetails?.Mobile_relation,
+      email_relation: extraNseDetails?.Email_relation,
+      NOMINEE_OPTED: extraNseDetails?.NOMINEE_OPTED,
+      NOM1_PAN: extraNseDetails?.NOM1_PAN,
+    };
+
+    updateNseRegistration(nseData);
+
+    setShowNseInputs(false);
   };
 
   const getTransactions = (data) => {
@@ -359,7 +425,7 @@ function UpiScreen(props) {
         trans_count: props.navigation.state.params?.cart.length,
         trxn_acceptance: upi || mandate ? "OL" : "ALL",
         trxn_execution: " ",
-        umrn: mandate && umrn? umrn.UMRN_NO : " ",
+        umrn: mandate && umrn ? umrn.UMRN_NO : " ",
         until_cancelled: "Y",
         utr: "",
         groupId: props.navigation.state.params?.groupId,
@@ -430,6 +496,20 @@ function UpiScreen(props) {
               <View style={styles.button}>
                 <TouchableOpacity
                   onPress={() => {
+                    /* Check if details are enough for nse */
+                    if (
+                      !nseDetails["email_relation"] ||
+                      !nseDetails["mobile_relation"] ||
+                      !nseDetails["NOMINEE_OPTED"]
+                    ) {
+                      handleNseDetailsUnavailability({
+                        ["email_relation"]: nseDetails["email_relation"],
+                        ["mobile_relation"]: nseDetails["mobile_relation"],
+                        ["NOM1_PAN"]: nseDetails["NOM1_PAN"],
+                        ["NOMINEE_OPTED"]: nseDetails["NOMINEE_OPTED"] || "N",
+                      });
+                      return;
+                    }
                     let params = getParams(true, false);
                     setClicked(true);
                     //console.log(JSON.stringify(params, null, 2));
@@ -446,6 +526,19 @@ function UpiScreen(props) {
               <View style={styles.button}>
                 <TouchableOpacity
                   onPress={() => {
+                    /* Check if details are enough for nse */
+                    if (
+                      !nseDetails["email_relation"] ||
+                      !nseDetails["mobile_relation"] ||
+                      !nseDetails["NOMINEE_OPTED"]
+                    ) {
+                      handleNseDetailsUnavailability({
+                        ["email_relation"]: nseDetails["email_relation"],
+                        ["mobile_relation"]: nseDetails["mobile_relation"],
+                        ["NOMINEE_OPTED"]: nseDetails["NOMINEE_OPTED"] || "N",
+                      });
+                      return;
+                    }
                     let params = getParams(false, false);
                     setClicked(true);
                     checkout(params, token);
@@ -458,6 +551,20 @@ function UpiScreen(props) {
               <View style={styles.button}>
                 <TouchableOpacity
                   onPress={async () => {
+                    /* Check if details are enough for nse */
+                    if (
+                      !nseDetails["email_relation"] ||
+                      !nseDetails["mobile_relation"] ||
+                      !nseDetails["NOMINEE_OPTED"]
+                    ) {
+                      handleNseDetailsUnavailability({
+                        ["email_relation"]: nseDetails["email_relation"],
+                        ["mobile_relation"]: nseDetails["mobile_relation"],
+                        ["NOM1_PAN"]: nseDetails["NOM1_PAN"],
+                        ["NOMINEE_OPTED"]: nseDetails["NOMINEE_OPTED"] || "N",
+                      });
+                      return;
+                    }
                     const res = await SiteAPI.apiGetCall(
                       `/retrieveData/mandateList?iin=${user.IIN}`,
                       {},
@@ -596,7 +703,7 @@ function UpiScreen(props) {
                   };
                   setClicked(true);
                   checkout(params, token, true);
-                  isPageActive.current=true
+                  isPageActive.current = true;
                 }}
               >
                 <Text>{item}</Text>
@@ -604,6 +711,94 @@ function UpiScreen(props) {
             ))}
             <TouchableOpacity onPress={() => setVisibleEmandateUmrn(false)}>
               <Text style={styles.emaCancel}>Cancel</Text>
+            </TouchableOpacity>
+          </View>
+        </Overlay>
+        <Overlay visible={showNseInputs}>
+          <Icon
+            name="close"
+            style={styles.overlayCloseIcon}
+            size={25}
+            onPress={() => setShowNseInputs(false)}
+          />
+          <Text style={styles.nseInfoText}>
+            As per the regulatory requirement, the following information is
+            mandatory before processing payment.
+          </Text>
+          <View style={styles.overlayContainer}>
+            <Text style={styles.occupation}>
+              {"Mobile Relation"}
+              <Text style={styles.error}>*</Text>
+            </Text>
+            <MySelectPicker
+              values={mobileEmailRelation}
+              placeholder={"Select Mobile Relation"}
+              defultValue={extraNseDetails?.mobile_relation}
+              onChange={(phone) => {
+                setExtraNseDetails({
+                  ...extraNseDetails,
+                  ["mobile_relation"]: phone,
+                });
+              }}
+            />
+
+            <Text style={styles.occupation}>
+              {"Email Relation"}
+              <Text style={styles.error}>*</Text>
+            </Text>
+            <MySelectPicker
+              values={mobileEmailRelation}
+              placeholder={"Select email Relation"}
+              defultValue={extraNseDetails?.email_relation}
+              onChange={(mailRelation) => {
+                setExtraNseDetails({
+                  ...extraNseDetails,
+                  ["email_relation"]: mailRelation,
+                });
+              }}
+            />
+
+            <CheckBox
+              title="I Want to Add Nominee"
+              containerStyle={styles.checkbox_style}
+              textStyle={{ color: Colors.BLACK, fontSize: 12, marginLeft: 5 }}
+              checked={extraNseDetails?.NOMINEE_OPTED === "Y"}
+              checkedColor={Colors.BLACK}
+              uncheckedColor={Colors.BLACK}
+              onPress={() => {
+                setExtraNseDetails({
+                  ...extraNseDetails,
+                  NOMINEE_OPTED:
+                    extraNseDetails?.NOMINEE_OPTED === "Y" ? "N" : "Y",
+                });
+              }}
+            />
+
+            {extraNseDetails?.NOMINEE_OPTED === "Y" ? (
+              <>
+                <Text style={styles.occupation}>
+                  {"Nominee PAN"}
+                  <Text style={styles.error}>*</Text>
+                </Text>
+                <MyTextInput
+                  placeholder={"Nominee PAN"}
+                  value={extraNseDetails?.NOM1_PAN}
+                  maxLength={10}
+                  onChangeText={(nominate1pan) => {
+                    setExtraNseDetails({
+                      ...extraNseDetails,
+                      NOM1_PAN: nominate1pan,
+                    });
+                  }}
+                />
+              </>
+            ) : null}
+
+            <TouchableOpacity
+              onPress={handleSubmitExtraNseDetails}
+              style={styles.botton_box2}
+            >
+              <Text style={styles.get_otp2}>Next</Text>
             </TouchableOpacity>
           </View>
         </Overlay>
@@ -714,6 +909,40 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     marginVertical: 20,
   },
+  botton_box2: {
+    backgroundColor: Colors.RED,
+    marginHorizontal: 30,
+    marginVertical: 20,
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: Colors.DEEP_GRAY,
+    paddingVertical: 10,
+  },
+  get_otp2: {
+    color: Colors.WHITE,
+    fontSize: 20,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  overlayCloseIcon: {
+    alignSelf: "flex-end",
+    marginRight: 5,
+    marginVertical: 5,
+  },
+  nseInfoText: {
+    maxWidth: "90%",
+    fontSize: 16,
+    paddingVertical: 10,
+    marginBottom: 10,
+    borderBottomWidth: 1,
+  },
+  overlayContainer: {
+    //width: "85%",
+  },
+  error: {
+    color: "#ff0000",
+    padding: 5,
+  },
 });
 const mapStateToProps = (state) => ({
   token: state.auth.token,
@@ -724,7 +953,10 @@ const mapStateToProps = (state) => ({
   isFetching: state.checkout.fetching,
   error: state.checkout.error,
   webUrl: state.checkout.webUrl,
-  emandateSuccess:state.checkout.emandateSuccess
+  emandateSuccess: state.checkout.emandateSuccess,
+  nseDetails: state.registration.nseDetails,
+  fatcaDetails: state.registration.fatcaDetails,
+  userDetails: state.registration.userDetails,
 });
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
@@ -733,6 +965,7 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
   const { CheckoutActions } = require("../../store/CheckoutRedux");
   const { CartActions } = require("../../store/CartActionsRedux");
   const { EmandateActions } = require("../../store/EmandateRedux");
+  const { RegistrationActions } = require("../../store/RegistrationRedux");
   return {
     ...stateProps,
     ...ownProps,
@@ -743,7 +976,15 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
       AuthActions.getProfile(dispatch, params, token);
     },
     checkout: (params, token, mandate) => {
-      CheckoutActions.checkoutButton(dispatch, { service_request: params?.service_request, childtrans: params?.childtrans }, token, mandate);
+      CheckoutActions.checkoutButton(
+        dispatch,
+        {
+          service_request: params?.service_request,
+          childtrans: params?.childtrans,
+        },
+        token,
+        mandate
+      );
       // CheckoutActions.checkoutButton(dispatch, params, token, mandate);
     },
     getUMRN: (iin, token) => {
@@ -763,6 +1004,12 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     },
     toggleEmandatePopup: (state) => {
       EmandateActions.toggleEmandatePopup(dispatch, state);
+    },
+    updateNseRegistration: (params, token) => {
+      RegistrationActions.updateNseRegistration(dispatch, params, token);
+    },
+    updateRegister: (params, token) => {
+      RegistrationActions.updateRegister(dispatch, params, token);
     },
   };
 };
