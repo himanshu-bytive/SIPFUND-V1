@@ -307,19 +307,19 @@ function TopRatedListScreen(props) {
       <TouchableOpacity
         onPress={() => {
           /* Check if details are enough for nse */
-          if (
-            !nseDetails["Email_relation"] ||
-            !nseDetails["Mobile_relation"] ||
-            !nseDetails["NOMINEE_OPTED"]
-          ) {
-            handleNseDetailsUnavailability({
-              ["Email_relation"]: nseDetails["Email_relation"],
-              ["Mobile_relation"]: nseDetails["Mobile_relation"],
-              ["NOM1_PAN"]: nseDetails["NOM1_PAN"],
-              ["NOMINEE_OPTED"]: nseDetails["NOMINEE_OPTED"] || "N",
-            });
-            return;
-          }
+          //if (
+            //!nseDetails["Email_relation"] ||
+            //!nseDetails["Mobile_relation"] ||
+            //!nseDetails["NOMINEE_OPTED"]
+          //) {
+            //handleNseDetailsUnavailability({
+              //["Email_relation"]: nseDetails["Email_relation"],
+              //["Mobile_relation"]: nseDetails["Mobile_relation"],
+              //["NOM1_PAN"]: nseDetails["NOM1_PAN"],
+              //["NOMINEE_OPTED"]: nseDetails["NOMINEE_OPTED"] || "N",
+            //});
+            //return;
+          //}
 
           let type = getFundType();
           let tmpCart;
