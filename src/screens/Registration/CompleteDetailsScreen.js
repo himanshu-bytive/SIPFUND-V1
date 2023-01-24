@@ -160,8 +160,10 @@ function CompleteDetailsScreen(props) {
         nominate1dob: new Date(nseDetails.nominee1_dob),
         nominate1guard_name: nseDetails.nominee1_guard_name,
         nominate1guard_pan: nseDetails.nominee1_guard_pan,
-        mobile_relation: nseDetails?.Mobile_relation || nseDetails?.mobile_relation,
-        email_relation: nseDetails?.Email_relation || nseDetails?.email_relation
+        mobile_relation:
+          nseDetails?.Mobile_relation || nseDetails?.mobile_relation,
+        email_relation:
+          nseDetails?.Email_relation || nseDetails?.email_relation,
       });
     }
   }, [fatcaDetails, nseDetails, userDetails]);
@@ -219,8 +221,8 @@ function CompleteDetailsScreen(props) {
       title,
       investor,
       investorPan,
-      phone,
-      mailRelation,
+      mobile_relation,
+      email_relation,
       email,
       fatherName,
       motherName,
@@ -282,14 +284,6 @@ function CompleteDetailsScreen(props) {
     //return;
     //}
     //}
-    if (!FormValidate.isString(mailRelation)) {
-      setErrors({ ...errors, mailRelation: "Please Add a Mail Relation" });
-      return;
-    }
-    if (!FormValidate.isString(phone)) {
-      setErrors({ ...errors, phone: "Please Add a Mobile Relation" });
-      return;
-    }
     if (!FormValidate.isEmail(email)) {
       setErrors({ ...errors, email: "Please Add a Email" });
       return;
@@ -398,8 +392,8 @@ function CompleteDetailsScreen(props) {
     params.nseDetails.inv_name = investor;
     params.nseDetails.pan = investorPan;
     params.nseDetails.email = email;
-    params.nseDetails["email_relation"] = mailRelation;
-    params.nseDetails["mobile_relation"] = phone;
+    params.nseDetails["email_relation"] = email_relation;
+    params.nseDetails["mobile_relation"] = mobile_relation;
     params.nseDetails["NOM1_PAN"] = nominate1pan;
     params.nseDetails["NOMINEE_OPTED"] = nominate ? "Y" : "N";
     params.nseDetails.father_name = fatherName;
@@ -641,9 +635,9 @@ function CompleteDetailsScreen(props) {
             values={mobileEmailRelation}
             placeholder={"Select Mobile Relation"}
             defultValue={state?.mobile_relation}
-            error={errors?.mobile_relation}
+            error={errors?.phone}
             onChange={(mobile_relation) => {
-              setErrors({ ...errors, mobile_relation: null });
+              setErrors({ ...errors, phone: null });
               setState({ ...state, mobile_relation });
             }}
           />
@@ -656,9 +650,9 @@ function CompleteDetailsScreen(props) {
             values={mobileEmailRelation}
             placeholder={"Select email Relation"}
             defultValue={state?.email_relation}
-            error={errors?.email_relation}
+            error={errors?.mailRelation}
             onChange={(email_relation) => {
-              setErrors({ ...errors, email_relation: null });
+              setErrors({ ...errors, mailRelation: null });
               setState({ ...state, email_relation });
             }}
           />
