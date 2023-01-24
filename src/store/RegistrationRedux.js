@@ -213,7 +213,7 @@ export const RegistrationActions = {
             dispatch({
               type: types.FETCH_UPDATE_REGISTER_SUCCESS,
               fatcaDetails: data.data.fatcaDetails,
-              nseDetails: data.data.nseDetails,
+              nseDetails: {...params.nseDetails, ...data.data.nseDetails},
               userDetails: data.data.userDetails,
             });
           },
