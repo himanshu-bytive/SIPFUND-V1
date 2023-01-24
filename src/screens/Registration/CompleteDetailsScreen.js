@@ -284,6 +284,14 @@ function CompleteDetailsScreen(props) {
     //return;
     //}
     //}
+    if (!mobile_relation) {
+      setErrors({ ...errors, phone: "Please specify Mobile Relation" });
+      return;
+    }
+    if (!email_relation) {
+      setErrors({ ...errors, mailRelation: "Please specify Email Relation" });
+      return;
+    }
     if (!FormValidate.isEmail(email)) {
       setErrors({ ...errors, email: "Please Add a Email" });
       return;
