@@ -299,8 +299,8 @@ function CompleteDetailsBankScreen(props) {
         title: params.nseDetails.title,
         trxn_acceptance: params.nseDetails.trxn_acceptance,
         valid_pan: params.nseDetails.valid_pan,
-        email_relation: params.nseDetails?.email_relation || params.nseDetails?.Email_relation,
-        mobile_relation: params.nseDetails?.mobile_relation || params.nseDetails?.Mobile_relation
+        Email_relation: params.nseDetails?.email_relation || params.nseDetails?.Email_relation,
+        Mobile_relation: params.nseDetails?.mobile_relation || params.nseDetails?.Mobile_relation
       },
     };
     setTimeout(() => createRegister(paramsNew, token), 3000);
