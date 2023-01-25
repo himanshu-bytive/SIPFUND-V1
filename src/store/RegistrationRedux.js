@@ -1,5 +1,7 @@
 import SiteAPI from "../services/SiteApis";
 import { Alert } from "react-native";
+import axios from "axios";
+import { apiBaseUrl } from "../common/Config";
 const types = {
   GET_OCCUPATION: "GET_OCCUPATION",
 
@@ -176,24 +178,27 @@ export const RegistrationActions = {
     }
   },
   updateNseRegistration: async (dispatch, params, token) => {
-    dispatch({ type: types.FETCH_EDIT_REGISTER_PENDING });
-    let data = await SiteAPI.apiPostCall(
-      "/apiData/EDITCUSTOMER",
-      { service_request: params },
-      token
-    );
-    if (data.error) {
-      Alert.alert(data.message);
-      dispatch({
-        type: types.FETCH_EDIT_REGISTER_FAILURE,
-        error: data.message,
-      });
-    } else {
+    dispatch({
+      type: types.FETCH_EDIT_REGISTER_PENDING,
+    });
+    try {
+      axios.defaults.baseURL = apiBaseUrl;
+      await axios.post(
+        "/apiData/EDITCUSTOMER",
+        {
+          service_request: params,
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
       dispatch({
         type: types.FETCH_EDIT_REGISTER_SUCCESS,
-        isExit: false,
-        isInn: data.IIN,
       });
+    } catch (e) {
+      console.log(e);
     }
   },
   updateRegister: async (dispatch, params, token) => {
@@ -213,7 +218,7 @@ export const RegistrationActions = {
             dispatch({
               type: types.FETCH_UPDATE_REGISTER_SUCCESS,
               fatcaDetails: data.data.fatcaDetails,
-              nseDetails: {...params.nseDetails, ...data.data.nseDetails},
+              nseDetails: { ...params.nseDetails, ...data.data.nseDetails },
               userDetails: data.data.userDetails,
             });
           },
@@ -305,6 +310,7 @@ const initialState = {
   updateSuccess: false,
   uploadSuccess: false,
   documentUri: null,
+  mailSent: null,
 };
 
 export const reducer = (state = initialState, action) => {
@@ -326,6 +332,7 @@ export const reducer = (state = initialState, action) => {
     isInn,
     isExit,
     documentUri,
+    mailSent,
   } = action;
   switch (type) {
     case types.FETCH_USERDETAILS_PENDING:
@@ -333,6 +340,7 @@ export const reducer = (state = initialState, action) => {
     case types.FETCH_FILE_UPLOAD_PENDING:
     case types.FETCH_UPDATE_REGISTER_PENDING:
     case types.FETCH_CREATE_REGISTER_PENDING:
+    case types.FETCH_EDIT_REGISTER_PENDING:
     case types.FETCH_PINCODE_INFO_PENDING:
     case types.FETCH_BANK_PENDING:
     case types.FETCH_CITY_PENDING: {
@@ -349,6 +357,7 @@ export const reducer = (state = initialState, action) => {
     case types.FETCH_FILE_UPLOAD_FAILURE:
     case types.FETCH_UPDATE_REGISTER_FAILURE:
     case types.FETCH_CREATE_REGISTER_FAILURE:
+    case types.FETCH_EDIT_REGISTER_FAILURE:
     case types.FETCH_PINCODE_INFO_FAILURE:
     case types.FETCH_BANK_FAILURE:
     case types.FETCH_CITY_FAILURE: {
@@ -358,6 +367,7 @@ export const reducer = (state = initialState, action) => {
         addSuccess: false,
         updateSuccess: false,
         uploadSuccess: false,
+        mailSent: false,
         error,
       };
     }
@@ -426,6 +436,14 @@ export const reducer = (state = initialState, action) => {
         nseDetails,
         userDetails,
         isInn: null,
+      };
+    }
+    case types.FETCH_EDIT_REGISTER_SUCCESS: {
+      return {
+        ...state,
+        isFetching: false,
+        error: null,
+        mailSent: true,
       };
     }
     case types.FETCH_FILE_UPLOAD_SUCCESS: {

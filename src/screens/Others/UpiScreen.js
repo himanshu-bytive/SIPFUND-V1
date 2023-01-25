@@ -25,6 +25,7 @@ function UpiScreen(props) {
     token,
     profile,
     users,
+    user,
     checkout,
     umrn,
     getUMRN,
@@ -42,6 +43,7 @@ function UpiScreen(props) {
     userDetails,
     updateRegister,
     updateNseRegistration,
+    mailSent,
   } = props;
 
   const [clicked, setClicked] = useState(false);
@@ -52,6 +54,7 @@ function UpiScreen(props) {
   const [emandateListsUmrn, setEmandateListsUmrn] = useState([]);
   const [showNseInputs, setShowNseInputs] = useState(false);
   const [extraNseDetails, setExtraNseDetails] = useState();
+  const [alreadySubmitted, setAlreadySubmitted] = useState(false);
 
   const mobileEmailRelation = [
     { value: "SE", label: "Self" },
@@ -219,15 +222,15 @@ function UpiScreen(props) {
   };
 
   const handleSubmitExtraNseDetails = () => {
-    let updatedData = {
-      nseDetails: {
-        ...nseDetails,
-        ...extraNseDetails,
-      },
-      userDetails,
-      fatcaDetails,
-    };
-    updateRegister(updatedData, token);
+    //let updatedData = {
+    //nseDetails: {
+    //...nseDetails,
+    //...extraNseDetails,
+    //},
+    //userDetails,
+    //fatcaDetails,
+    //};
+    //updateRegister(updatedData, token);
 
     const nseData = {
       Iin: users?.IIN,
@@ -256,6 +259,15 @@ function UpiScreen(props) {
 
     setShowNseInputs(false);
   };
+
+  useEffect(() => {
+    if (mailSent) {
+      Alert.alert(
+        "Request Submitted",
+        "Verification e-mail has been triggered from NSE to your registered email ID. Please authorize the changes of nominee details to proceed further with the payment."
+      );
+    }
+  }, [mailSent]);
 
   const getTransactions = (data) => {
     let formatted = [];
@@ -497,18 +509,20 @@ function UpiScreen(props) {
                 <TouchableOpacity
                   onPress={() => {
                     /* Check if details are enough for nse */
-                    if (
-                      !nseDetails["email_relation"] ||
-                      !nseDetails["mobile_relation"] ||
-                      !nseDetails["NOMINEE_OPTED"]
-                    ) {
-                      handleNseDetailsUnavailability({
-                        ["email_relation"]: nseDetails["email_relation"],
-                        ["mobile_relation"]: nseDetails["mobile_relation"],
-                        ["NOM1_PAN"]: nseDetails["NOM1_PAN"],
-                        ["NOMINEE_OPTED"]: nseDetails["NOMINEE_OPTED"] || "N",
-                      });
-                      return;
+                    if (!alreadySubmitted) {
+                      if (
+                        !nseDetails["email_relation"] ||
+                        !nseDetails["mobile_relation"] ||
+                        !nseDetails["NOMINEE_OPTED"]
+                      ) {
+                        handleNseDetailsUnavailability({
+                          ["email_relation"]: nseDetails["email_relation"],
+                          ["mobile_relation"]: nseDetails["mobile_relation"],
+                          ["NOM1_PAN"]: nseDetails["NOM1_PAN"],
+                          ["NOMINEE_OPTED"]: nseDetails["NOMINEE_OPTED"] || "N",
+                        });
+                        return;
+                      }
                     }
                     let params = getParams(true, false);
                     setClicked(true);
@@ -527,17 +541,19 @@ function UpiScreen(props) {
                 <TouchableOpacity
                   onPress={() => {
                     /* Check if details are enough for nse */
-                    if (
-                      !nseDetails["email_relation"] ||
-                      !nseDetails["mobile_relation"] ||
-                      !nseDetails["NOMINEE_OPTED"]
-                    ) {
-                      handleNseDetailsUnavailability({
-                        ["email_relation"]: nseDetails["email_relation"],
-                        ["mobile_relation"]: nseDetails["mobile_relation"],
-                        ["NOMINEE_OPTED"]: nseDetails["NOMINEE_OPTED"] || "N",
-                      });
-                      return;
+                    if (!alreadySubmitted) {
+                      if (
+                        !nseDetails["email_relation"] ||
+                        !nseDetails["mobile_relation"] ||
+                        !nseDetails["NOMINEE_OPTED"]
+                      ) {
+                        handleNseDetailsUnavailability({
+                          ["email_relation"]: nseDetails["email_relation"],
+                          ["mobile_relation"]: nseDetails["mobile_relation"],
+                          ["NOMINEE_OPTED"]: nseDetails["NOMINEE_OPTED"] || "N",
+                        });
+                        return;
+                      }
                     }
                     let params = getParams(false, false);
                     setClicked(true);
@@ -552,21 +568,23 @@ function UpiScreen(props) {
                 <TouchableOpacity
                   onPress={async () => {
                     /* Check if details are enough for nse */
-                    if (
-                      !nseDetails["email_relation"] ||
-                      !nseDetails["mobile_relation"] ||
-                      !nseDetails["NOMINEE_OPTED"]
-                    ) {
-                      handleNseDetailsUnavailability({
-                        ["email_relation"]: nseDetails["email_relation"],
-                        ["mobile_relation"]: nseDetails["mobile_relation"],
-                        ["NOM1_PAN"]: nseDetails["NOM1_PAN"],
-                        ["NOMINEE_OPTED"]: nseDetails["NOMINEE_OPTED"] || "N",
-                      });
-                      return;
+                    if (!alreadySubmitted) {
+                      if (
+                        !nseDetails["email_relation"] ||
+                        !nseDetails["mobile_relation"] ||
+                        !nseDetails["NOMINEE_OPTED"]
+                      ) {
+                        handleNseDetailsUnavailability({
+                          ["email_relation"]: nseDetails["email_relation"],
+                          ["mobile_relation"]: nseDetails["mobile_relation"],
+                          ["NOM1_PAN"]: nseDetails["NOM1_PAN"],
+                          ["NOMINEE_OPTED"]: nseDetails["NOMINEE_OPTED"] || "N",
+                        });
+                        return;
+                      }
                     }
                     const res = await SiteAPI.apiGetCall(
-                      `/retrieveData/mandateList?iin=${user.IIN}`,
+                      `/retrieveData/mandateList?iin=${users.IIN}`,
                       {},
                       token
                     );
@@ -654,8 +672,8 @@ function UpiScreen(props) {
                   }}
                 >
                   <Text style={styles.textkn}>
-                    {user?.name
-                      ? `${user?.name[0]}${user?.name.split(" ").pop()[0]}`
+                    {users?.name
+                      ? `${users?.name[0]}${users?.name.split(" ").pop()[0]}`
                       : ""}
                   </Text>
                 </View>
@@ -800,6 +818,14 @@ function UpiScreen(props) {
             >
               <Text style={styles.get_otp2}>Next</Text>
             </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                setAlreadySubmitted(true);
+                setShowNseInputs(false);
+              }}
+            >
+              <Text style={styles.link}>I have already submitted</Text>
+            </TouchableOpacity>
           </View>
         </Overlay>
       </View>
@@ -943,6 +969,12 @@ const styles = StyleSheet.create({
     color: "#ff0000",
     padding: 5,
   },
+  link: {
+    color: "red",
+    alignSelf: "center",
+    marginTop: -10,
+    marginBottom: 10,
+  },
 });
 const mapStateToProps = (state) => ({
   token: state.auth.token,
@@ -957,6 +989,7 @@ const mapStateToProps = (state) => ({
   nseDetails: state.registration.nseDetails,
   fatcaDetails: state.registration.fatcaDetails,
   userDetails: state.registration.userDetails,
+  mailSent: state.registration.mailSent,
 });
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
