@@ -21,7 +21,7 @@ export const AddMoreFundsActions = {
       token
     );
     if (data.error) {
-      Alert.alert(data.message);
+      if(data.message) Alert.alert(data.message);
       dispatch({ type: types.FETCH_FETCH_FUNDS_FAILURE, error: data.message });
     } else {
       if (data.results.length == 0) {

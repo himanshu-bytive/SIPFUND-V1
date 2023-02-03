@@ -24,7 +24,7 @@ export const OwnerChoiceActions = {
         dispatch({ type: types.FETCH_MAIN_CATEGORY_PENDING });
         let data = await SiteAPI.apiGetCall('/product/schemecategory', {}, token);
         if (data.error) {
-            Alert.alert(data.message)
+            if(data.message) Alert.alert(data.message)
             dispatch({ type: types.FETCH_MAIN_CATEGORY_FAILURE, error: data.message });
         } else {
             dispatch({ type: types.FETCH_MAIN_CATEGORY_SUCCESS, mainCat: data.responseString });
@@ -34,7 +34,7 @@ export const OwnerChoiceActions = {
         dispatch({ type: types.FETCH_SUB_CATAGORY_PENDING });
         let data = await SiteAPI.apiGetCall(`/product/schemesubcategory/${params.catagory}`, {}, token);
         if (data.error) {
-            Alert.alert(data.message)
+            if(data.message) Alert.alert(data.message)
             dispatch({ type: types.FETCH_SUB_CATAGORY_FAILURE, error: data.message });
         } else {
             dispatch({ type: types.FETCH_SUB_CATAGORY_SUCCESS, subCat: data.responseString });
@@ -44,7 +44,7 @@ export const OwnerChoiceActions = {
         dispatch({ type: types.FETCH_FETCH_SCHEME_PENDING });
         let data = await SiteAPI.apiGetCall(`/product/productbycategory/${params.subcatagory}`, {}, token);
         if (data.error) {
-            Alert.alert(data.message)
+            if(data.message) Alert.alert(data.message)
             dispatch({ type: types.FETCH_FETCH_SCHEME_FAILURE, error: data.message });
         } else {
             dispatch({ type: types.FETCH_FETCH_SCHEME_SUCCESS, schemeCat: data.responseString });
@@ -54,7 +54,7 @@ export const OwnerChoiceActions = {
         dispatch({ type: types.FETCH_SCHEME_GO_PENDING });
         let data = await SiteAPI.apiPostCall('/morningStarApi/data', params, token);
         if (data.error) {
-            Alert.alert(data.message)
+            if(data.message) Alert.alert(data.message)
             dispatch({ type: types.FETCH_SCHEME_GO_FAILURE, error: data.message });
         } else {
             dispatch({ type: types.FETCH_SCHEME_GO_SUCCESS, choices: data.responseString });

@@ -30,7 +30,7 @@ export const TransactionHisActions = {
     );
 
     if (data.error) {
-      Alert.alert(data.message);
+      if (data?.message) Alert.alert(data.message);
       dispatch({
         type: types.FETCH_FETCH_TRANSACTION_HIS_FAILURE,
         error: data.message,

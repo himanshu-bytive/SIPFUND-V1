@@ -34,7 +34,7 @@ export const InvestmentPlanActions = {
       token
     );
     if (data.error) {
-      Alert.alert(data.message);
+      if(data.message) Alert.alert(data.message);
       dispatch({ type: types.FETCH_PLAN_NAME_FAILURE, error: data.message });
     } else {
       dispatch({
@@ -51,7 +51,7 @@ export const InvestmentPlanActions = {
       token
     );
     if (data.error) {
-      Alert.alert(data.message);
+      if(data.message) Alert.alert(data.message);
       dispatch({
         type: types.FETCH_INVESTMENT_PLAN_FAILURE,
         error: data.message,

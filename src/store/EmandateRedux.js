@@ -17,7 +17,7 @@ export const EmandateActions = {
     dispatch({ type: types.FETCH_EMANDATE_OPTIONS_PENDING });
     let data = await SiteAPI.apiGetCall(`/emandateOptions/`, {}, token);
     if (data.error) {
-      Alert.alert(data.message);
+      if(data.message) Alert.alert(data.message);
       dispatch({
         type: types.FETCH_EMANDATE_OPTIONS_FAILURE,
         error: data.message,
@@ -37,7 +37,7 @@ export const EmandateActions = {
       token
     );
     if (data.error) {
-      Alert.alert(data.message);
+      if(data.message) Alert.alert(data.message);
       dispatch({
         type: types.FETCH_EMANDATE_REGISTRATION_FAILURE,
         error: data.message,

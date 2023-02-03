@@ -27,7 +27,7 @@ export const CartActions = {
     dispatch({ type: types.FETCH_ADD_ITEM_PENDING });
     let data = await SiteAPI.apiPostCall("/addCart", {}, token);
     if (data.error) {
-      Alert.alert(data.message);
+      if(data.message) Alert.alert(data.message);
       dispatch({ type: types.FETCH_ADD_ITEM_FAILURE, error: data.message });
     } else {
       dispatch({
@@ -42,7 +42,7 @@ export const CartActions = {
     dispatch({ type: types.FETCH_DELET_CART_PENDING });
     let data = await SiteAPI.apiPostCall("/addCart/delete", params, token);
     if (data.error) {
-      Alert.alert(data.message);
+      if(data.message) Alert.alert(data.message);
       dispatch({ type: types.FETCH_DELET_CART_FAILURE, error: data.message });
     } else {
       dispatch({
@@ -57,7 +57,7 @@ export const CartActions = {
     dispatch({ type: types.FETCH_ADD_ITEM_SIP_PENDING });
     let data = await SiteAPI.apiPostCall("/addCart", params, token);
     if (data.error) {
-      Alert.alert(data.message);
+      if(data.message) Alert.alert(data.message);
       dispatch({ type: types.FETCH_ADD_ITEM_SIP_FAILURE, error: data.message });
     } else {
       console.log("Cart=", data);
@@ -73,7 +73,7 @@ export const CartActions = {
     dispatch({ type: types.FETCH_CART_DETAILS_PENDING });
     let data = await SiteAPI.apiGetCall("/addCart", {}, token);
     if (data.error) {
-      Alert.alert(data.message);
+      if(data.message) Alert.alert(data.message);
       dispatch({ type: types.FETCH_CART_DETAILS_FAILURE, error: data.message });
     } else {
       dispatch({

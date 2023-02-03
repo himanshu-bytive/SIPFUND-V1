@@ -141,7 +141,7 @@ export const RegistrationActions = {
     dispatch({ type: types.FETCH_USERDETAILS_PENDING });
     let data = await SiteAPI.apiGetCall("/user/rawData", params, tokan);
     if (data.error) {
-      Alert.alert(data.message);
+      if(data.message) Alert.alert(data.message);
       dispatch({ type: types.FETCH_USERDETAILS_FAILURE, error: data.message });
     } else {
       dispatch({
@@ -160,7 +160,7 @@ export const RegistrationActions = {
       token
     );
     if (data.error) {
-      Alert.alert(data.message);
+      if(data.message) Alert.alert(data.message);
       if (data.status == "InActive") {
         dispatch({
           type: types.FETCH_CREATE_REGISTER_SUCCESS,
@@ -254,7 +254,7 @@ export const RegistrationActions = {
     dispatch({ type: types.FETCH_UPDATE_REGISTER_PENDING });
     let data = await SiteAPI.apiPutCall("/user/rawData", params, token);
     if (data.error) {
-      Alert.alert(data.message);
+      if(data.message) Alert.alert(data.message);
       dispatch({
         type: types.FETCH_UPDATE_REGISTER_FAILURE,
         error: data.message,

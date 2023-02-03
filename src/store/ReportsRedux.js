@@ -23,7 +23,7 @@ export const ReportsActions = {
     dispatch({ type: types.FETCH_REPORT_SUMMARY_PENDING });
     let data = await SiteAPI.apiGetCall(`/reports/${params}`, {}, token);
     if (data.error) {
-      Alert.alert(data.message);
+      if(data.message) Alert.alert(data.message);
       dispatch({
         type: types.FETCH_REPORT_SUMMARY_FAILURE,
         error: data.message,
@@ -65,7 +65,7 @@ export const ReportsActions = {
     dispatch({ type: types.FETCH_REPORT_SUMMARY_PENDING });
     let data = await SiteAPI.apiGetCall(`/reports/${link}`, params, token);
     if (data.error) {
-      Alert.alert(data.message);
+      if(data.message) Alert.alert(data.message);
       dispatch({
         type: types.FETCH_REPORT_SUMMARY_FAILURE,
         error: data.message,

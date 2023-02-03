@@ -19,7 +19,7 @@ export const TopRatedActions = {
     dispatch({ type: types.FETCH_CATEGORY_PENDING });
     let data = await SiteAPI.apiGetCall("/algo-ranking/allcategory", {}, tokan);
     if (data.error) {
-      Alert.alert(data.message);
+      if(data.message) Alert.alert(data.message);
       dispatch({ type: types.FETCH_CATEGORY_FAILURE, error: data.message });
     } else {
       dispatch({ type: types.FETCH_CATEGORY_SUCCESS, category: data.response });
@@ -33,7 +33,7 @@ export const TopRatedActions = {
       tokan
     );
     if (data.error) {
-      Alert.alert(data.message);
+      if(data.message) Alert.alert(data.message);
       dispatch({ type: types.FETCH_DETAILS_FAILURE, error: data.message });
     } else {
       dispatch({ type: types.FETCH_DETAILS_SUCCESS, details: data.output });

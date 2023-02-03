@@ -17,7 +17,7 @@ export const EkycActions = {
         dispatch({ type: types.FETCH_GETLIST_PENDING });
         let data = await SiteAPI.apiGetCall(`/amcforekyc/details`, {}, token);
         if (data.error) {
-            Alert.alert(data.message)
+            if(data.message) Alert.alert(data.message)
             dispatch({ type: types.FETCH_GETLIST_FAILURE, error: data.message });
         } else {
             dispatch({ type: types.FETCH_GETLIST_SUCCESS, kycLists: data.response });
@@ -27,7 +27,7 @@ export const EkycActions = {
         dispatch({ type: types.FETCH_POST_REQUEST_PENDING });
         let data = await SiteAPI.apiPostCall(`/apiData/eKYC_REGISTRATION`, params, token);
         if (data.error) {
-            Alert.alert(data.message)
+            if(data.message) Alert.alert(data.message)
             dispatch({ type: types.FETCH_POST_REQUEST_FAILURE, error: data.message });
         } else {
             dispatch({ type: types.FETCH_POST_REQUEST_SUCCESS, kycDetails: data.Data[0].eKyclink });

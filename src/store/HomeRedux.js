@@ -25,7 +25,7 @@ export const HomeActions = {
         dispatch({ type: types.FETCH_STEPS_PENDING });
         let data = await SiteAPI.apiGetCall('/flags/step-state', params, tokan);
         if (data.error) {
-            Alert.alert(data.message)
+            if(data.message) Alert.alert(data.message)
             dispatch({ type: types.FETCH_STEPS_FAILURE, error: data.message });
         } else {
             dispatch({ type: types.FETCH_STEPS_SUCCESS, steps: data.signUpSteps });
@@ -35,7 +35,7 @@ export const HomeActions = {
         dispatch({ type: types.FETCH_HOMEDATA_PENDING });
         let data = await SiteAPI.apiGetCall('/retrieveData', params, tokan);
         if (data.error) {
-            Alert.alert(data.message)
+            if(data.message) Alert.alert(data.message)
             dispatch({ type: types.FETCH_HOMEDATA_FAILURE, error: data.message });
         } else {
             dispatch({ type: types.FETCH_HOMEDATA_SUCCESS, home: data });
@@ -45,7 +45,7 @@ export const HomeActions = {
         dispatch({ type: types.FETCH_UPDATE_PAN_PENDING });
         let data = await SiteAPI.apiPostCall('/user/userPan', params, tokan);
         if (data.error) {
-            Alert.alert(data.message)
+            if(data.message) Alert.alert(data.message)
             // dispatch({ type: types.FETCH_UPDATE_PAN_FAILURE, error: data.message });
             dispatch({ type: types.FETCH_UPDATE_PAN_SUCCESS, pan: params.pan });
         } else {

@@ -116,7 +116,7 @@ export const SwitchActions = {
     dispatch({ type: types.FETCH_FET_TRANSACTION_DETAILS_PENDING });
     let data = await SiteAPI.apiPostCall("/operationData", params, token);
     if (data.error) {
-      Alert.alert(data.message);
+      if(data.message) Alert.alert(data.message);
       dispatch({
         type: types.FETCH_FET_TRANSACTION_DETAILS_FAILURE,
         error: data.message,
@@ -139,7 +139,7 @@ export const SwitchActions = {
       token
     );
     if (data.error) {
-      Alert.alert(data.message);
+      if(data.message) Alert.alert(data.message);
       dispatch({
         type: types.FETCH_SCHEME_DETAILS_FAILURE,
         error: data.message,
@@ -211,7 +211,7 @@ export const SwitchActions = {
     );
     console.log("Data=", data);
     if (data.error) {
-      Alert.alert(data.message);
+      if(data.message) Alert.alert(data.message);
       dispatch({
         type: types.SWITCH_CHECKOUT_FAILURE,
         error: data.message,
@@ -240,7 +240,7 @@ export const SwitchActions = {
     );
     console.log("Data=", data);
     if (data.error) {
-      Alert.alert(data.message);
+      if(data.message) Alert.alert(data.message);
       dispatch({
         type: types.REDEEM_CHECKOUT_FAILURE,
         error: data.message,
