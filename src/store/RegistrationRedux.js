@@ -234,7 +234,7 @@ export const RegistrationActions = {
       if (data?.data?.Data) {
         Alert.alert(
           "Request Submitted",
-          "Verification e-mail has been triggered from NSE to your registered email ID. Please authorize the changes of nominee details to proceed further with the payment."
+          "Verification e-mail has been triggered from NSE to your registered email ID. Please authorize the changes to proceed further with the payment."
         );
         dispatch({
           type: types.FETCH_EDIT_REGISTER_SUCCESS,
