@@ -320,7 +320,9 @@ function UpiScreen(props) {
       branch_addr3: updatedNseData?.BRANCH_ADDRESS3,
       mobile_relation: extraNseDetails?.mobile_relation,
       email_relation: extraNseDetails?.email_relation,
-      NOMINEE_OPTED: extraNseDetails?.NOMINEE_OPTED,
+      NOMINEE_OPTED: updatedNseData?.NOM1_NAME
+        ? "Y"
+        : extraNseDetails?.NOMINEE_OPTED,
       NOM1_PAN: extraNseDetails?.NOM1_PAN,
       broker_code: updatedNseData?.BROK_DLR_CODE,
     };
@@ -838,41 +840,50 @@ function UpiScreen(props) {
               }}
             />
 
-            <CheckBox
-              title="I Want to Add Nominee"
-              containerStyle={styles.checkbox_style}
-              textStyle={{ color: Colors.BLACK, fontSize: 12, marginLeft: 5 }}
-              checked={extraNseDetails?.NOMINEE_OPTED === "Y"}
-              checkedColor={Colors.BLACK}
-              uncheckedColor={Colors.BLACK}
-              onPress={() => {
-                setExtraNseDetails({
-                  ...extraNseDetails,
-                  NOMINEE_OPTED:
-                    extraNseDetails?.NOMINEE_OPTED === "Y" ? "N" : "Y",
-                });
-              }}
-            />
-
-            {extraNseDetails?.NOMINEE_OPTED === "Y" ? (
+            {updatedNseData?.NOM1_NAME ? null : (
               <>
-                <Text style={styles.occupation}>
-                  {"Nominee PAN"}
-                  <Text style={styles.error}>*</Text>
-                </Text>
-                <MyTextInput
-                  placeholder={"Nominee PAN"}
-                  value={extraNseDetails?.NOM1_PAN}
-                  maxLength={10}
-                  onChangeText={(nominate1pan) => {
+                <CheckBox
+                  title="I Want to Add Nominee"
+                  containerStyle={styles.checkbox_style}
+                  textStyle={{
+                    color: Colors.BLACK,
+                    fontSize: 12,
+                    marginLeft: 5,
+                  }}
+                  checked={extraNseDetails?.NOMINEE_OPTED === "Y"}
+                  checkedColor={Colors.BLACK}
+                  uncheckedColor={Colors.BLACK}
+                  onPress={() => {
                     setExtraNseDetails({
                       ...extraNseDetails,
-                      NOM1_PAN: nominate1pan,
+                      NOMINEE_OPTED:
+                        extraNseDetails?.NOMINEE_OPTED === "Y" ? "N" : "Y",
                     });
                   }}
                 />
+                <>
+                  {extraNseDetails?.NOMINEE_OPTED === "Y" ? (
+                    <>
+                      <Text style={styles.occupation}>
+                        {"Nominee PAN"}
+                        <Text style={styles.error}>*</Text>
+                      </Text>
+                      <MyTextInput
+                        placeholder={"Nominee PAN"}
+                        value={extraNseDetails?.NOM1_PAN}
+                        maxLength={10}
+                        onChangeText={(nominate1pan) => {
+                          setExtraNseDetails({
+                            ...extraNseDetails,
+                            NOM1_PAN: nominate1pan,
+                          });
+                        }}
+                      />
+                    </>
+                  ) : null}
+                </>
               </>
-            ) : null}
+            )}
 
             <TouchableOpacity
               onPress={handleSubmitExtraNseDetails}
