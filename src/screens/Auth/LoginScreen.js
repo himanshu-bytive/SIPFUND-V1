@@ -64,7 +64,6 @@ function LoginScreen(props) {
 
   useEffect(() => {
     if (wrongPassCount) {
-      console.log("##", wrongPassCount);
       if (wrongPassCount >= 3) {
         ToastAndroid.show(
           "Looks like you've forgotten your password!",
