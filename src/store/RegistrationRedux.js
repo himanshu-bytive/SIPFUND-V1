@@ -240,12 +240,14 @@ export const RegistrationActions = {
           type: types.FETCH_EDIT_REGISTER_SUCCESS,
         });
       } else {
+        Alert.alert("Error", "We encountered some error making the request.");
         dispatch({
           type: types.FETCH_EDIT_REGISTER_FAILURE,
         });
       }
     } catch (e) {
-      console.log(JSON.stringify(e, null, 2));
+      Alert.alert("Error", "We encountered some error making the request.");
+      console.log(e);
     }
   },
   updateRegister: async (dispatch, params, token) => {
