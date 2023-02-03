@@ -43,7 +43,8 @@ function UpiScreen(props) {
     userDetails,
     updateRegister,
     updateNseRegistration,
-    mailSent,
+    fetchNseData,
+    updatedNseData,
   } = props;
 
   const [clicked, setClicked] = useState(false);
@@ -83,6 +84,18 @@ function UpiScreen(props) {
       props.navigation.navigate("Home");
     }
   }, [isFetching, error]);
+
+  useEffect(() => {
+    if (token) {
+      fetchNseData(token);
+    }
+  }, [token]);
+
+  useEffect(() => {
+    if (updatedNseData) {
+      console.log("kjbsfj", JSON.stringify(updatedNseData, null, 2));
+    }
+  }, [updatedNseData]);
 
   useEffect(() => {
     if (emandateSuccess && isPageActive.current) {
@@ -233,41 +246,89 @@ function UpiScreen(props) {
     //updateRegister(updatedData, token);
 
     const nseData = {
+      title: updatedNseData?.TITLE,
+      occupation: updatedNseData?.OCCUPATION_CODE,
+      mfu_can: updatedNseData?.MFU_CAN,
+      father_name: updatedNseData?.FATHER_NAME,
+      mother_name: updatedNseData?.MOTHER_NAME,
+      res_phone: "",
+      res_fax: "",
+      off_phone: "",
+      off_fax: "",
+      nri_addr1: "",
+      nri_addr2: "",
+      nri_addr3: "",
+      nri_city: "",
+      nri_state: "",
+      nri_pincode: "",
+      nri_country: "",
+      branch_addr2: "",
+      branch_addr3: "",
+      branch_city: updatedNseData?.BRANCH_CITY,
+      branch_pincode: updatedNseData?.BRANCH_PINCODE,
+      branch_country: updatedNseData?.BRANCH_COUNTRY,
+      no_of_nominee: updatedNseData?.NOMINEE_COUNT,
+      nominee1_type: "",
+      nominee1_name: extraNseDetails?.NOMINEE_OPTED
+        ? updatedNseData?.NOM1_NAME
+        : "",
+      nominee1_dob: "",
+      nominee1_addr1: updatedNseData?.NOM1_ADDRESS1,
+      nominee1_addr2: updatedNseData?.NOM1_ADDRESS2,
+      nominee1_addr3: updatedNseData?.NOM1_ADDRESS3,
+      nominee1_city: updatedNseData?.NOM1_CITY,
+      nominee1_state: updatedNseData?.NOM1_STATE,
+      nominee1_pincode: updatedNseData?.NOM1_PINCODE,
+      nominee1_relation: updatedNseData?.NOM1_RELATION,
+      nominee1_percent: updatedNseData?.NOM1_PERCENTAGE,
+      nominee1_guard_name: "",
+      nominee1_guard_pan: "",
+      nominee2_type: "N",
+      nominee2_name: "",
+      nominee2_dob: "",
+      nominee2_relation: "",
+      nominee2_percent: 0,
+      nominee2_guard_name: "",
+      nominee2_guard_pan: "",
+      nominee3_type: "N",
+      nominee3_Name: "",
+      nominee3_dob: "",
+      nominee3_relation: "",
+      nominee3_percent: 0,
+      nominee3_guard_name: "",
+      nominee3_guard_pan: "",
+      dp_id: "",
       Iin: users?.IIN,
-      inv_name: users?.name,
-      Dob: nseDetails?.dob,
-      ["addr1"]: nseDetails?.addr1,
-      City: nseDetails?.city?.CITY,
-      State: nseDetails?.state?.STATE_CODE,
-      Pincode: nseDetails?.pincode,
-      Country: nseDetails?.country?.COUNTRY_CODE,
-      mobile_no: users?.mobileNo,
-      Email: users?.email,
-      bank_name: nseDetails?.bank_name?.BANK_NAME,
-      acc_no: nseDetails?.acc_no,
-      acc_type: nseDetails?.acc_type?.ACC_TYPE,
-      ifsc_code: nseDetails?.ifsc_code,
-      branch_name: nseDetails?.branch_name,
-      branch_addr1: nseDetails?.branch_addr1,
-      mobile_relation: extraNseDetails?.Mobile_relation,
-      email_relation: extraNseDetails?.Email_relation,
+      inv_name: updatedNseData?.INVESTOR_NAME,
+      Dob: updatedNseData?.DATE_OF_BIRTH,
+      addr1: updatedNseData?.ADDRESS1,
+      addr2: updatedNseData?.ADDRESS2,
+      addr3: updatedNseData?.ADDRESS3,
+      City: updatedNseData?.CITY,
+      State: updatedNseData?.STATE,
+      Pincode: updatedNseData?.PINCODE,
+      Country: updatedNseData?.COUNTRY,
+      mobile_no: updatedNseData?.MOBILE_NO,
+      Email: updatedNseData?.EMAIL,
+      bank_name: updatedNseData?.BANK_NAME,
+      acc_no: updatedNseData?.AC_NO,
+      acc_type: updatedNseData?.AC_TYPE,
+      ifsc_code: updatedNseData?.IFSC_CODE,
+      branch_name: updatedNseData?.BRANCH_NAME,
+      branch_addr1: updatedNseData?.BRANCH_ADDRESS1,
+      branch_addr2: updatedNseData?.BRANCH_ADDRESS2,
+      branch_addr3: updatedNseData?.BRANCH_ADDRESS3,
+      mobile_relation: extraNseDetails?.mobile_relation,
+      email_relation: extraNseDetails?.email_relation,
       NOMINEE_OPTED: extraNseDetails?.NOMINEE_OPTED,
       NOM1_PAN: extraNseDetails?.NOM1_PAN,
+      broker_code: updatedNseData?.BROK_DLR_CODE,
     };
 
-    updateNseRegistration(nseData);
+    updateNseRegistration(nseData, token);
 
     setShowNseInputs(false);
   };
-
-  useEffect(() => {
-    if (mailSent) {
-      Alert.alert(
-        "Request Submitted",
-        "Verification e-mail has been triggered from NSE to your registered email ID. Please authorize the changes of nominee details to proceed further with the payment."
-      );
-    }
-  }, [mailSent]);
 
   const getTransactions = (data) => {
     let formatted = [];
@@ -509,8 +570,9 @@ function UpiScreen(props) {
                 <TouchableOpacity
                   onPress={() => {
                     /* Check if details are enough for nse */
-                    if (!alreadySubmitted) {
+                    if (true || !alreadySubmitted) {
                       if (
+                        true ||
                         !nseDetails["email_relation"] ||
                         !nseDetails["mobile_relation"] ||
                         !nseDetails["NOMINEE_OPTED"]
@@ -989,7 +1051,7 @@ const mapStateToProps = (state) => ({
   nseDetails: state.registration.nseDetails,
   fatcaDetails: state.registration.fatcaDetails,
   userDetails: state.registration.userDetails,
-  mailSent: state.registration.mailSent,
+  updatedNseData: state.registration.updatedNseData,
 });
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
@@ -1043,6 +1105,9 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     },
     updateRegister: (params, token) => {
       RegistrationActions.updateRegister(dispatch, params, token);
+    },
+    fetchNseData: (token) => {
+      RegistrationActions.fetchNseData(dispatch, token);
     },
   };
 };

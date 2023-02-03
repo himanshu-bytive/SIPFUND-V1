@@ -1,7 +1,7 @@
 import SiteAPI from "../services/SiteApis";
 import { Alert } from "react-native";
 import axios from "axios";
-import { apiBaseUrl } from "../common/Config";
+import Config from "../common/Config";
 const types = {
   GET_OCCUPATION: "GET_OCCUPATION",
 
@@ -40,6 +40,10 @@ const types = {
   FETCH_DOC_PENDING: "FETCH_DOC_PENDING",
   FETCH_DOC_SUCCESS: "FETCH_DOC_SUCCESS",
   FETCH_DOC_FAILURE: "FETCH_DOC_FAILURE",
+
+  FETCH_UPDATED_NSE_DATA_PENDING: "FETCH_UPDATED_NSE_DATA_PENDING",
+  FETCH_UPDATED_NSE_DATA_FAILURE: "FETCH_UPDATE_REGISTER_FAILURE",
+  FETCH_UPDATED_NSE_DATA_SUCCESS: "FETCH_UPDATED_NSE_DATA_SUCCESS",
 
   SET_URI: "SET_URI",
 };
@@ -177,28 +181,71 @@ export const RegistrationActions = {
       });
     }
   },
+  fetchNseData: async (dispatch, token) => {
+    try {
+      dispatch({
+        type: types.FETCH_UPDATED_NSE_DATA_PENDING,
+      });
+      const data = await axios.post(
+        `https://sipfund.com/api/apiData/IINDETAILS`,
+        {
+          service_request: {
+            iin: "",
+          },
+        },
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+      if (data?.data?.Data) {
+        dispatch({
+          type: types.FETCH_UPDATED_NSE_DATA_SUCCESS,
+          updatedNseData: data.data?.Data,
+        });
+      } else {
+        dispatch({
+          type: types.FETCH_UPDATED_NSE_DATA_FAILURE,
+        });
+      }
+    } catch (e) {
+      dispatch({
+        type: types.FETCH_UPDATED_NSE_DATA_FAILURE,
+      });
+      console.log(e);
+    }
+  },
   updateNseRegistration: async (dispatch, params, token) => {
+    params = { service_request: params };
     dispatch({
       type: types.FETCH_EDIT_REGISTER_PENDING,
     });
     try {
-      axios.defaults.baseURL = apiBaseUrl;
-      await axios.post(
-        "/apiData/EDITCUSTOMER",
-        {
-          service_request: params,
-        },
+      const data = await axios.post(
+        `https://sipfund.com/api/apiData/EDITCUSTOMER`,
+        params,
         {
           headers: {
-            Authorization: "Bearer " + token,
+            Authorization: token,
           },
         }
       );
-      dispatch({
-        type: types.FETCH_EDIT_REGISTER_SUCCESS,
-      });
+      if (data?.data?.Data) {
+        Alert.alert(
+          "Request Submitted",
+          "Verification e-mail has been triggered from NSE to your registered email ID. Please authorize the changes of nominee details to proceed further with the payment."
+        );
+        dispatch({
+          type: types.FETCH_EDIT_REGISTER_SUCCESS,
+        });
+      } else {
+        dispatch({
+          type: types.FETCH_EDIT_REGISTER_FAILURE,
+        });
+      }
     } catch (e) {
-      console.log(e);
+      console.log(JSON.stringify(e, null, 2));
     }
   },
   updateRegister: async (dispatch, params, token) => {
@@ -311,6 +358,7 @@ const initialState = {
   uploadSuccess: false,
   documentUri: null,
   mailSent: null,
+  updatedNseData: null,
 };
 
 export const reducer = (state = initialState, action) => {
@@ -333,6 +381,7 @@ export const reducer = (state = initialState, action) => {
     isExit,
     documentUri,
     mailSent,
+    updatedNseData,
   } = action;
   switch (type) {
     case types.FETCH_USERDETAILS_PENDING:
@@ -342,6 +391,7 @@ export const reducer = (state = initialState, action) => {
     case types.FETCH_CREATE_REGISTER_PENDING:
     case types.FETCH_EDIT_REGISTER_PENDING:
     case types.FETCH_PINCODE_INFO_PENDING:
+    case types.FETCH_UPDATED_NSE_DATA_PENDING:
     case types.FETCH_BANK_PENDING:
     case types.FETCH_CITY_PENDING: {
       return {
@@ -460,6 +510,14 @@ export const reducer = (state = initialState, action) => {
         isFetching: false,
         error: null,
         documents,
+      };
+    }
+    case types.FETCH_UPDATED_NSE_DATA_SUCCESS: {
+      return {
+        ...state,
+        isFetching: false,
+        error: null,
+        updatedNseData,
       };
     }
 
