@@ -92,12 +92,6 @@ function UpiScreen(props) {
   }, [token]);
 
   useEffect(() => {
-    if (updatedNseData) {
-      console.log("kjbsfj", JSON.stringify(updatedNseData, null, 2));
-    }
-  }, [updatedNseData]);
-
-  useEffect(() => {
     if (emandateSuccess && isPageActive.current) {
       isPageActive.current = false;
       Alert.alert(
