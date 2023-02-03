@@ -243,6 +243,7 @@ const initialState = {
   password: false,
   panNumber: null,
   profile: null,
+  wrongPassCount: 0,
 };
 
 export const reducer = (state = initialState, action) => {
@@ -281,12 +282,19 @@ export const reducer = (state = initialState, action) => {
     case types.FETCH_RESEND_OTP_FAILURE:
     case types.FETCH_VERIFY_FAILURE:
     case types.FETCH_FORGET_PASS_FAILURE:
-    case types.FETCH_OTP_FAILURE:
+    case types.FETCH_OTP_FAILURE: {
+      return {
+        ...state,
+        isFetching: false,
+        error,
+      };
+    }
     case types.FETCH_LOGIN_FAILURE: {
       return {
         ...state,
         isFetching: false,
         error,
+        wrongPassCount: parseInt(state?.wrongPassCount) + 1,
       };
     }
     case types.FETCH_VERIFY_SUCCESS: {
@@ -368,6 +376,7 @@ export const reducer = (state = initialState, action) => {
         isFetching: false,
         user,
         token: `Bearer ${token}`,
+        wrongPassCount: 0,
       };
     }
     case types.LOGOUT:

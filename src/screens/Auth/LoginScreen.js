@@ -34,6 +34,7 @@ function LoginScreen(props) {
     profile,
     userDetails,
     appToken,
+    wrongPassCount,
   } = props;
 
   const [visible, setVisible] = useState(false);
@@ -60,6 +61,19 @@ function LoginScreen(props) {
 
     getPassword();
   }, [phone]);
+
+  useEffect(() => {
+    if (wrongPassCount) {
+      console.log("##", wrongPassCount);
+      if (wrongPassCount >= 3) {
+        ToastAndroid.show(
+          "Looks like you've forgotten your password!",
+          ToastAndroid.LONG
+        );
+        props.navigation.navigate("forgotpassword");
+      }
+    }
+  }, [wrongPassCount]);
 
   useEffect(() => {
     if (token && pageActive.current) {
@@ -289,6 +303,7 @@ const mapStateToProps = (state) => ({
   profile: state.auth.profile,
   userDetails: state.registration.userDetails,
   appToken: state.notification.token,
+  wrongPassCount: state.auth.wrongPassCount,
 });
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
