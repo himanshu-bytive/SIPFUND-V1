@@ -187,7 +187,7 @@ export const RegistrationActions = {
         type: types.FETCH_UPDATED_NSE_DATA_PENDING,
       });
       const data = await axios.post(
-        `https://sipfund.com/api/apiData/IINDETAILS`,
+        `${Config.apiBaseUrl}/apiData/IINDETAILS`,
         {
           service_request: {
             iin: "",
@@ -223,7 +223,7 @@ export const RegistrationActions = {
     });
     try {
       const data = await axios.post(
-        `https://sipfund.com/api/apiData/EDITCUSTOMER`,
+        `${Config.apiBaseUrl}/apiData/EDITCUSTOMER`,
         params,
         {
           headers: {
