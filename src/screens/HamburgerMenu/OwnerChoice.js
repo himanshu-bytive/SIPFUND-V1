@@ -314,7 +314,7 @@ function OwnerChoice(props) {
   };
 
   const backAction = () => {
-    props.navigation.navigate("dashboard");
+    props?.navigation?.navigate("dashboard");
     return true;
   };
 
