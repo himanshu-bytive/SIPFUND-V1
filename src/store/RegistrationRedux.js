@@ -141,7 +141,7 @@ export const RegistrationActions = {
     dispatch({ type: types.FETCH_USERDETAILS_PENDING });
     let data = await SiteAPI.apiGetCall("/user/rawData", params, tokan);
     if (data.error) {
-      if(data.message) Alert.alert(data.message);
+      if (data.message) Alert.alert(data.message);
       dispatch({ type: types.FETCH_USERDETAILS_FAILURE, error: data.message });
     } else {
       dispatch({
@@ -160,7 +160,7 @@ export const RegistrationActions = {
       token
     );
     if (data.error) {
-      if(data.message) Alert.alert(data.message);
+      if (data.message) Alert.alert(data.message);
       if (data.status == "InActive") {
         dispatch({
           type: types.FETCH_CREATE_REGISTER_SUCCESS,
@@ -181,7 +181,7 @@ export const RegistrationActions = {
       });
     }
   },
-  fetchNseData: async (dispatch, token) => {
+  fetchNseData: async (dispatch, iin, token) => {
     try {
       dispatch({
         type: types.FETCH_UPDATED_NSE_DATA_PENDING,
@@ -190,7 +190,7 @@ export const RegistrationActions = {
         `${Config.apiBaseUrl}/apiData/IINDETAILS`,
         {
           service_request: {
-            iin: "",
+            iin,
           },
         },
         {
@@ -254,7 +254,7 @@ export const RegistrationActions = {
     dispatch({ type: types.FETCH_UPDATE_REGISTER_PENDING });
     let data = await SiteAPI.apiPutCall("/user/rawData", params, token);
     if (data.error) {
-      if(data.message) Alert.alert(data.message);
+      if (data.message) Alert.alert(data.message);
       dispatch({
         type: types.FETCH_UPDATE_REGISTER_FAILURE,
         error: data.message,

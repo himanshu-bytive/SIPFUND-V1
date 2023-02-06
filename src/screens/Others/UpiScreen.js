@@ -87,7 +87,7 @@ function UpiScreen(props) {
 
   useEffect(() => {
     if (token) {
-      fetchNseData(token);
+      fetchNseData(user?.IIN, token);
     }
   }, [token]);
 
@@ -422,6 +422,23 @@ function UpiScreen(props) {
     }
   };
 
+  const showNseDetailsAlert = () => {
+    Alert.alert(
+      "Details Missing!",
+      "Verification e-mails are being triggered by NSE every week to your registered e-mail ID. Please verify to proceed further with the payment.",
+      [
+        {
+          text: "Go Back to HomeScreen",
+          onPress: () => props.navigation.navigate("Home"),
+        },
+        {
+          text: "I have already verified",
+          onPress: () => setAlreadySubmitted(true),
+        },
+      ]
+    );
+  };
+
   const getParams = (upi, mandate) => {
     return {
       service_request: {
@@ -566,19 +583,12 @@ function UpiScreen(props) {
                 <TouchableOpacity
                   onPress={() => {
                     /* Check if details are enough for nse */
-                    if (true || !alreadySubmitted) {
+                    if (!alreadySubmitted) {
                       if (
-                        true ||
-                        !nseDetails["email_relation"] ||
-                        !nseDetails["mobile_relation"] ||
-                        !nseDetails["NOMINEE_OPTED"]
+                        !updatedNseData?.MOBILE_REL ||
+                        !updatedNseData?.EMAIL_REL
                       ) {
-                        handleNseDetailsUnavailability({
-                          ["email_relation"]: nseDetails["email_relation"],
-                          ["mobile_relation"]: nseDetails["mobile_relation"],
-                          ["NOM1_PAN"]: nseDetails["NOM1_PAN"],
-                          ["NOMINEE_OPTED"]: nseDetails["NOMINEE_OPTED"] || "N",
-                        });
+                        showNseDetailsAlert();
                         return;
                       }
                     }
@@ -601,15 +611,10 @@ function UpiScreen(props) {
                     /* Check if details are enough for nse */
                     if (!alreadySubmitted) {
                       if (
-                        !nseDetails["email_relation"] ||
-                        !nseDetails["mobile_relation"] ||
-                        !nseDetails["NOMINEE_OPTED"]
+                        !updatedNseData?.MOBILE_REL ||
+                        !updatedNseData?.EMAIL_REL
                       ) {
-                        handleNseDetailsUnavailability({
-                          ["email_relation"]: nseDetails["email_relation"],
-                          ["mobile_relation"]: nseDetails["mobile_relation"],
-                          ["NOMINEE_OPTED"]: nseDetails["NOMINEE_OPTED"] || "N",
-                        });
+                        showNseDetailsAlert();
                         return;
                       }
                     }
@@ -628,16 +633,10 @@ function UpiScreen(props) {
                     /* Check if details are enough for nse */
                     if (!alreadySubmitted) {
                       if (
-                        !nseDetails["email_relation"] ||
-                        !nseDetails["mobile_relation"] ||
-                        !nseDetails["NOMINEE_OPTED"]
+                        !updatedNseData?.MOBILE_REL ||
+                        !updatedNseData?.EMAIL_REL
                       ) {
-                        handleNseDetailsUnavailability({
-                          ["email_relation"]: nseDetails["email_relation"],
-                          ["mobile_relation"]: nseDetails["mobile_relation"],
-                          ["NOM1_PAN"]: nseDetails["NOM1_PAN"],
-                          ["NOMINEE_OPTED"]: nseDetails["NOMINEE_OPTED"] || "N",
-                        });
+                        showNseDetailsAlert();
                         return;
                       }
                     }
@@ -833,51 +832,6 @@ function UpiScreen(props) {
                 });
               }}
             />
-
-            {updatedNseData?.NOM1_NAME ? null : (
-              <>
-                <CheckBox
-                  title="I Want to Add Nominee"
-                  containerStyle={styles.checkbox_style}
-                  textStyle={{
-                    color: Colors.BLACK,
-                    fontSize: 12,
-                    marginLeft: 5,
-                  }}
-                  checked={extraNseDetails?.NOMINEE_OPTED === "Y"}
-                  checkedColor={Colors.BLACK}
-                  uncheckedColor={Colors.BLACK}
-                  onPress={() => {
-                    setExtraNseDetails({
-                      ...extraNseDetails,
-                      NOMINEE_OPTED:
-                        extraNseDetails?.NOMINEE_OPTED === "Y" ? "N" : "Y",
-                    });
-                  }}
-                />
-                <>
-                  {extraNseDetails?.NOMINEE_OPTED === "Y" ? (
-                    <>
-                      <Text style={styles.occupation}>
-                        {"Nominee PAN"}
-                        <Text style={styles.error}>*</Text>
-                      </Text>
-                      <MyTextInput
-                        placeholder={"Nominee PAN"}
-                        value={extraNseDetails?.NOM1_PAN}
-                        maxLength={10}
-                        onChangeText={(nominate1pan) => {
-                          setExtraNseDetails({
-                            ...extraNseDetails,
-                            NOM1_PAN: nominate1pan,
-                          });
-                        }}
-                      />
-                    </>
-                  ) : null}
-                </>
-              </>
-            )}
 
             <TouchableOpacity
               onPress={handleSubmitExtraNseDetails}
@@ -1111,8 +1065,8 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     updateRegister: (params, token) => {
       RegistrationActions.updateRegister(dispatch, params, token);
     },
-    fetchNseData: (token) => {
-      RegistrationActions.fetchNseData(dispatch, token);
+    fetchNseData: (iin, token) => {
+      RegistrationActions.fetchNseData(dispatch, iin, token);
     },
   };
 };
