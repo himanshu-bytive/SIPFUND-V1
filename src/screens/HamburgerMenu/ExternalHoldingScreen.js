@@ -52,11 +52,11 @@ function HoldingsScreen(props) {
       for (let item of extHolding.externalTrnx) {
         data.push(item);
         investment += Number(item.investedAmt);
-        currentValue += Number(item.currentValue);
+        currentValue += isNaN(Number(item.currentValue)) ? 0 : Number(item.currentValue);
         profit += Number(
-          (parseFloat(item.nav_value) -
-            parseFloat(item.trxnDetails[0].purprice)) *
-            parseFloat(item.trxnDetails[0].units)
+          (parseFloat(item?.nav_value ? item?.nav_value : 0) -
+            parseFloat(item.trxnDetails[0].purprice ? item.trxnDetails[0].purprice : 0)) *
+            parseFloat(item.trxnDetails[0].units ? item.trxnDetails[0].units : 0)
         );
       }
       setData(data);
@@ -219,7 +219,7 @@ function HoldingsScreen(props) {
                 <View style={styles.value_sec}>
                   <View style={styles.folio_sec}>
                     <Text style={styles.folio}>
-                      {item.currentValue.toFixed(3)}
+                      {item?.currentValue ? item?.currentValue?.toFixed(3) : '0.00'}
                     </Text>
                     <Text style={styles.folio}>Market Value</Text>
                     <Text style={styles.folio}>
@@ -231,9 +231,9 @@ function HoldingsScreen(props) {
                     <View style={{ flexDirection: "row" }}>
                       <Text style={[styles.folio, styles.green]}>
                         {(
-                          (parseFloat(item.nav_value) -
-                            parseFloat(item.trxnDetails[0].purprice)) *
-                          parseFloat(item.trxnDetails[0].units)
+                          (parseFloat(item?.nav_value ? item?.nav_value : 0) -
+                            parseFloat(item.trxnDetails[0].purprice ? item.trxnDetails[0].purprice : 0)) *
+                          parseFloat(item.trxnDetails[0].units ? item.trxnDetails[0].units : 0)
                         ).toFixed(2)}
                       </Text>
                       <AntDesign name="caretup" size={15} color="#5DA753" />
@@ -244,8 +244,8 @@ function HoldingsScreen(props) {
                   <View style={styles.folio_sec}>
                     <Text style={[styles.folio, styles.green]}>
                       {(
-                        (parseFloat(item.nav_value) /
-                          parseFloat(item.trxnDetails[0].purprice)) *
+                        (parseFloat(item?.nav_value ? item?.nav_value : 0) /
+                          parseFloat(item.trxnDetails[0].purprice ? item.trxnDetails[0].purprice : 0)) *
                         100
                       ).toFixed(2)}
                     </Text>
