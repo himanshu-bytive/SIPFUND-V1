@@ -50,10 +50,6 @@ function LoginScreen(props) {
         if (!password) return;
 
         setState({ ...state, password });
-        ToastAndroid.show(
-          "Your password was automatically retrieved!",
-          ToastAndroid.LONG
-        );
       } catch (e) {
         console.log(e);
       }
