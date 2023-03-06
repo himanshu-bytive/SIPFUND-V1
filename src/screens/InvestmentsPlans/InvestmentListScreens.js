@@ -478,6 +478,7 @@ function InvestmentListScreens(props) {
                             keyboardType={"numeric"}
                             maxLength={8}
                             placeholder={"0"}
+                            placeholderTextColor={"#000"}
                             onChangeText={(v) => {
                               let data = myInvestlist;
                               data[category][index].sip = v;
@@ -725,7 +726,7 @@ const styles = StyleSheet.create({
   },
   no: {
     fontSize: 15,
-    color: Colors.DEEP_GRAY,
+    color: Colors.BLACK,
   },
   new: {
     fontSize: 18,
