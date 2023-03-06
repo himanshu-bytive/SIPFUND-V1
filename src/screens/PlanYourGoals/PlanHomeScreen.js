@@ -7,6 +7,7 @@ import {
   Text,
   BackHandler,
   TextInput,
+  Dimensions,
 } from "react-native";
 import { connect } from "react-redux";
 import { Styles, Config, Colors, FormValidate, Utility } from "../../common";
@@ -59,6 +60,8 @@ function PlanHomeScreen(props) {
   };
 
   const [updated, setUpdated] = useState(false);
+
+  const scrollViewRef = useRef();
 
   useEffect(() => {
     const backAction = () => {
@@ -128,6 +131,10 @@ function PlanHomeScreen(props) {
       setShowFunds(true);
     }
     setEnableButton(false);
+    scrollViewRef.current.scrollTo({
+      x: 0,
+      y: Dimensions.get("window").height * 0.9,
+    });
   };
 
   async function switchTabs() {
@@ -246,7 +253,7 @@ function PlanHomeScreen(props) {
           />
         }
       />
-      <ScrollView style={Styles.containerScroll}>
+      <ScrollView ref={scrollViewRef} style={Styles.containerScroll}>
         {/* SIP_sec */}
 
         <View style={styles.education}>
