@@ -49,7 +49,6 @@ function OwnChoiceHoldings(props) {
             </TouchableOpacity>
           }
           backgroundColor={Colors.PEACH}
-          backgroundColor={Colors.PEACH}
           centerComponent={
             <Image
               source={require("../../../assets/icon.png")}
@@ -320,7 +319,7 @@ const styles = StyleSheet.create({
   rate_2: {
     color: Colors.WHITE,
     fontWeight: "bold",
-    fontSize: 17,
+    fontSize: 15,
     marginTop: 10,
   },
   Current_Value: {
