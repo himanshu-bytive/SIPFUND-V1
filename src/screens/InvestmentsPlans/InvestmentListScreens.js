@@ -473,6 +473,7 @@ function InvestmentListScreens(props) {
                                 marginLeft: 5,
                                 borderRadius: 5,
                                 minWidth: 50,
+                                backgroundColor: "#ff000050",
                               },
                             ]}
                             keyboardType={"numeric"}
@@ -730,6 +731,7 @@ const styles = StyleSheet.create({
   },
   new: {
     fontSize: 18,
+    color: Colors.BLACK,
   },
   more_funds: {
     fontSize: 18,
