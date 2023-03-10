@@ -34,6 +34,34 @@ function OwnChoiceHoldings(props) {
     summary?.ownchoice ? summary?.ownchoice : []
   );
   const [visible, setVisible] = useState(null);
+  const [sum, setSum] = useState(0.0);
+  const [scrollViewHeight, setScrollViewHeight] = useState(0.0);
+
+  const scrollViewRef = useRef();
+
+  useEffect(() => {
+    if (data) {
+      let sum = 0.0;
+      for (let item of data) {
+        sum += parseFloat(item?.currentValue);
+      }
+      if (sum > -0.1 || sum < 0.1) {
+        sum = 0.0;
+      }
+      setSum(sum);
+    }
+  }, [data]);
+
+  const onScrollViewLayout = (e) => {
+    const { height } = e.nativeEvent.layout;
+    setScrollViewHeight(height + Dimensions.get("window").height);
+  };
+
+  const handleAddInvestment = () => {
+    if (scrollViewHeight && scrollViewRef.current) {
+      scrollViewRef.current.scrollTo({ x: 0, y: scrollViewHeight });
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -71,10 +99,28 @@ function OwnChoiceHoldings(props) {
       </View>
 
       {/* container_box_sec */}
-      <ScrollView style={styles.containerScroll}>
+      <ScrollView
+        style={styles.containerScroll}
+        ref={scrollViewRef}
+        onLayout={onScrollViewLayout}
+      >
         {data.length > 0 && (
           <Text style={styles.Investments}>My Investments</Text>
         )}
+
+        <View>
+          <Text style={styles.totalAmount}>{`Amount: ₹ ${sum.toFixed(
+            2
+          )}`}</Text>
+          <TouchableOpacity
+            style={styles.addInvestmentButton}
+            onPress={handleAddInvestment}
+          >
+            <Text style={[styles.totalAmount, { color: "white" }]}>
+              Add Investment
+            </Text>
+          </TouchableOpacity>
+        </View>
 
         <View style={styles.mainbox}>
           {data.map((item, key) => (
@@ -362,6 +408,19 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     marginTop: 10,
     marginBottom: 5,
+  },
+  totalAmount: {
+    textAlign: "center",
+    fontSize: 18,
+    color: Colors.BLACK,
+    marginVertical: 10,
+  },
+  addInvestmentButton: {
+    backgroundColor: Colors.RED,
+    width: 200,
+    alignSelf: "center",
+    borderRadius: 5,
+    marginVertical: 10,
   },
 });
 
