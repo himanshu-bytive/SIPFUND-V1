@@ -331,7 +331,7 @@ function PlanHomeScreen(props) {
                 {
                   borderWidth: 1,
                   marginLeft: 3,
-                  height: 31,
+                  height: 40,
                   padding: 5,
                   width: 75,
                   marginRight: 10,
@@ -399,7 +399,7 @@ function PlanHomeScreen(props) {
                 {
                   borderWidth: 1,
                   marginRight: 3,
-                  height: 30,
+                  height: 40,
                   width: 65,
                   padding: 5,
                   marginBottom: -10,
@@ -440,7 +440,7 @@ function PlanHomeScreen(props) {
                 {
                   borderWidth: 1,
                   marginRight: 3,
-                  height: 30,
+                  height: 40,
                   width: 65,
                   padding: 5,
                   marginBottom: -10,
@@ -484,7 +484,7 @@ function PlanHomeScreen(props) {
                 {
                   borderWidth: 1,
                   marginLeft: 3,
-                  height: 31,
+                  height: 40,
                   width: 75,
                   marginRight: 15,
                   padding: 5,
