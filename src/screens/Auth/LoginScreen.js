@@ -1,11 +1,10 @@
-import React, { useState, useRef, useEffect, useContext } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   StyleSheet,
   ScrollView,
   View,
   TouchableOpacity,
   KeyboardAvoidingView,
-  Platform,
   Text,
   TextInput,
   ActivityIndicator,
@@ -31,7 +30,6 @@ function LoginScreen(props) {
     getUserDetails,
     user,
     phone,
-    profile,
     userDetails,
     appToken,
     wrongPassCount,
@@ -112,7 +110,15 @@ function LoginScreen(props) {
   };
 
   return (
-    <>
+    <KeyboardAvoidingView
+      style={{
+        flex: 1,
+        flexDirection: "column",
+        backgroundColor: "#fff",
+      }}
+      behavior="position"
+      enabled
+    >
       <Header
         leftComponent={
           <TouchableOpacity
@@ -196,7 +202,7 @@ function LoginScreen(props) {
           </View>
         </View>
       </ScrollView>
-    </>
+    </KeyboardAvoidingView>
   );
 }
 
