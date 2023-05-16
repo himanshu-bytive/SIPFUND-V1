@@ -1,15 +1,12 @@
-import React, { useState, useRef, useEffect, useContext } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   StyleSheet,
   ScrollView,
   View,
   TouchableOpacity,
   KeyboardAvoidingView,
-  Platform,
   Text,
   ActivityIndicator,
-  Keyboard,
-  Dimensions,
 } from "react-native";
 import moment from "moment";
 import { connect } from "react-redux";
@@ -299,8 +296,12 @@ function CompleteDetailsBankScreen(props) {
         title: params.nseDetails.title,
         trxn_acceptance: params.nseDetails.trxn_acceptance,
         valid_pan: params.nseDetails.valid_pan,
-        Email_relation: params.nseDetails?.email_relation || params.nseDetails?.Email_relation,
-        Mobile_relation: params.nseDetails?.mobile_relation || params.nseDetails?.Mobile_relation
+        Email_relation:
+          params.nseDetails?.email_relation ||
+          params.nseDetails?.Email_relation,
+        Mobile_relation:
+          params.nseDetails?.mobile_relation ||
+          params.nseDetails?.Mobile_relation,
       },
     };
     setTimeout(() => createRegister(paramsNew, token), 3000);
@@ -315,23 +316,6 @@ function CompleteDetailsBankScreen(props) {
       props.navigation.navigate("UploadDocument");
     }
   };
-
-  const [keyboardHeight, setKeyboardHeight] = useState(0);
-
-  useEffect(() => {
-    const showSubscription = Keyboard.addListener("keyboardDidShow", (e) => {
-      setKeyboardHeight(parseFloat(e.endCoordinates.height));
-    });
-    const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
-      setKeyboardHeight(0);
-    });
-
-    return () => {
-      showSubscription.remove();
-      hideSubscription.remove();
-    };
-  }, []);
-
   return (
     <>
       <Header
@@ -365,16 +349,11 @@ function CompleteDetailsBankScreen(props) {
         </View>
       )}
       <KeyboardAvoidingView
-        style={{
-          flex: 1,
-          height: Dimensions.get("window").height - keyboardHeight,
-        }}
+        style={styles.container}
+        behavior="position"
+        enabled
       >
-        <ScrollView
-          contentContainerStyle={{
-            marginBottom: keyboardHeight,
-          }}
-        >
+        <ScrollView>
           <View style={styles.heading_sec}>
             <Text style={styles.heading}>
               Your bank account details are required as they need to be linked
@@ -461,7 +440,7 @@ function CompleteDetailsBankScreen(props) {
           <View
             style={{
               borderWidth: 6,
-              borderColor: "#EAE9EE",
+              borderColor: "#fff",
               marginVertical: 10,
             }}
           ></View>
@@ -514,26 +493,26 @@ function CompleteDetailsBankScreen(props) {
           )}
 
           {/* click_box */}
-        </ScrollView>
-        <View style={styles.footer}>
-          <View style={styles.click_box}>
-            <TouchableOpacity
-              onPress={() => props.navigation.goBack()}
-              style={styles.botton_box}
-            >
-              <Text style={styles.get_otp}>Previous</Text>
-            </TouchableOpacity>
-            {isFetching ? (
-              <View style={styles.botton_box}>
-                <ActivityIndicator size={30} color={Colors.WHITE} />
-              </View>
-            ) : (
-              <TouchableOpacity onPress={onAction} style={styles.botton_box}>
-                <Text style={styles.get_otp}>Next</Text>
+          <View style={styles.footer}>
+            <View style={styles.click_box}>
+              <TouchableOpacity
+                onPress={() => props.navigation.goBack()}
+                style={styles.botton_box}
+              >
+                <Text style={styles.get_otp}>Previous</Text>
               </TouchableOpacity>
-            )}
+              {isFetching ? (
+                <View style={styles.botton_box}>
+                  <ActivityIndicator size={30} color={Colors.WHITE} />
+                </View>
+              ) : (
+                <TouchableOpacity onPress={onAction} style={styles.botton_box}>
+                  <Text style={styles.get_otp}>Next</Text>
+                </TouchableOpacity>
+              )}
+            </View>
           </View>
-        </View>
+        </ScrollView>
       </KeyboardAvoidingView>
       <Overlay
         isVisible={visible}
@@ -568,10 +547,14 @@ function CompleteDetailsBankScreen(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#fff",
+    justifyContent: "space-between",
   },
   header: {
     borderBottomColor: Colors.BLACK,
     borderBottomWidth: 1,
+    backgroundColor: "#fff",
+    zIndex: 100,
   },
   container_sec: {
     padding: 10,
@@ -620,8 +603,6 @@ const styles = StyleSheet.create({
   },
   footer: {
     alignItems: "center",
-    paddingVertical: 10,
-    backgroundColor: "#EAE9EE",
   },
   click_box: {
     flexDirection: "row",
