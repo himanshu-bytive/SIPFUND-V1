@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useContext } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   StyleSheet,
   ScrollView,
@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   ActivityIndicator,
-  Platform,
   Text,
   Keyboard,
   Dimensions,
@@ -164,15 +163,7 @@ function CompleteDetailsAddressScreen(props) {
   }, []);
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={[
-        styles.container,
-        {
-          height: Dimensions.get("window").height - keyboardHeight,
-        },
-      ]}
-    >
+    <KeyboardAvoidingView behavior={"height"} enabled style={styles.container}>
       <Header
         leftComponent={
           <TouchableOpacity
@@ -304,7 +295,7 @@ function CompleteDetailsAddressScreen(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#EAE9EE",
+    backgroundColor: "#fff",
   },
   header: {
     borderBottomColor: Colors.BLACK,
@@ -351,8 +342,6 @@ const styles = StyleSheet.create({
   },
   footer: {
     alignItems: "center",
-    paddingVertical: 10,
-    backgroundColor: "#EAE9EE",
   },
   click_box: {
     flexDirection: "row",
@@ -387,7 +376,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
   const { dispatch } = dispatchProps;
   const { RegistrationActions } = require("../../store/RegistrationRedux");
-  const { HomeActions } = require("../../store/HomeRedux");
   return {
     ...stateProps,
     ...ownProps,
