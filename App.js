@@ -9,6 +9,7 @@ import { persistStore } from "redux-persist";
 import { PersistGate } from "redux-persist/es/integration/react";
 import * as Notifications from "expo-notifications";
 import Constants from "expo-constants";
+import appsFlyer from "react-native-appsflyer";
 
 let store = null;
 const middleware = [thunk];
@@ -18,6 +19,21 @@ let persistor = persistStore(store);
 export default function App() {
   const [assetsLoaded, setAssetsLoaded] = useState(false);
   const [updateMsg, setUpdateMsg] = useState("");
+
+  appsFlyer.initSdk(
+    {
+      devKey: "kGByPQmZsG9qUkwxJ2dRa8",
+      isDebug: true,
+      onInstallConversionDataListener: true, //Optional
+      onDeepLinkListener: true, //Optional
+    },
+    (result) => {
+      console.log(result);
+    },
+    (error) => {
+      console.error(error);
+    }
+  );
 
   Notifications.setNotificationHandler({
     handleNotification: async () => ({

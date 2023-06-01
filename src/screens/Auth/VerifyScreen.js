@@ -22,6 +22,7 @@ import { MaterialIcons } from "react-native-vector-icons";
 import { useInternetStatus } from "../../components/CheckConnection";
 import DeviceInfo from "react-native-device-info";
 const width = Dimensions.get("window").width;
+import appsFlyer from "react-native-appsflyer";
 
 function VerifyScreen(props) {
   const pageActive = useRef(false);
@@ -150,6 +151,22 @@ function VerifyScreen(props) {
   });
 
   const onAction = async (ph) => {
+    const eventName = "add_phone";
+    const eventValues = {
+      phone: phone,
+    };
+
+    appsFlyer.logEvent(
+      eventName,
+      eventValues,
+      (res) => {
+        console.log(res);
+      },
+      (err) => {
+        console.error(err);
+      }
+    );
+
     let phone = ph ? ph : state.phone;
     if (phone === "") {
       phoneInput.current.focus();
