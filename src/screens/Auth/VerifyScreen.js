@@ -151,28 +151,29 @@ function VerifyScreen(props) {
   });
 
   const onAction = async (ph) => {
-    const eventName = "add_phone";
-    const eventValues = {
-      phone: phone,
-    };
-
-    appsFlyer.logEvent(
-      eventName,
-      eventValues,
-      (res) => {
-        console.log(res);
-      },
-      (err) => {
-        console.error(err);
-      }
-    );
-
     let phone = ph ? ph : state.phone;
     if (phone === "") {
       phoneInput.current.focus();
       setError({ ...errors, phone: "Please enter phone number" });
       return;
     }
+
+    const eventName = "add_phone";
+    const eventValues = {
+      phone: ph ? ph : state.phone,
+    };
+
+    appsFlyer.logEvent(
+      eventName,
+      eventValues,
+      (res) => {
+        console.log("######## AppsFlyer #######", res);
+      },
+      (err) => {
+        console.error("######## AppsFlyer #######", err);
+      }
+    );
+
     if (FormValidate.isPhone(phone)) {
       pageActive.current = true;
       let params = {

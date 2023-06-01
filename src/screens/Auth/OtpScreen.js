@@ -20,6 +20,7 @@ import { Colors } from "../../common";
 import { OtpInputs } from "../../components";
 const width = Dimensions.get("window").width;
 import OTPInputView from "@twotalltotems/react-native-otp-input";
+import appsFlyer from "react-native-appsflyer";
 
 function OtpScreen(props) {
   const pageActive = useRef(false);
@@ -119,6 +120,19 @@ function OtpScreen(props) {
         },
       };
       pageActive.current = true;
+
+      const eventName = "add_otp";
+      appsFlyer.logEvent(
+        eventName,
+        params,
+        (res) => {
+          console.log("######## AppsFlyer #######", res);
+        },
+        (err) => {
+          console.error("######## AppsFlyer #######", err);
+        }
+      );
+
       otp(params);
       setVerificationCode("");
     }

@@ -18,6 +18,7 @@ import * as Location from "expo-location";
 import { Styles, Config, Colors, FormValidate } from "../../common";
 import { Ionicons, AntDesign } from "react-native-vector-icons";
 import { Image, Header, CheckBox, colors } from "react-native-elements";
+import appsFlyer from "react-native-appsflyer";
 
 function CreateAccountScreen(props) {
   const {
@@ -178,6 +179,19 @@ function CreateAccountScreen(props) {
         pincode: displayCurrentAddress?.pincode,
       },
     };
+
+    const eventName = "signup";
+    appsFlyer.logEvent(
+      eventName,
+      params,
+      (res) => {
+        console.log("######## AppsFlyer #######", res);
+      },
+      (err) => {
+        console.error("######## AppsFlyer #######", err);
+      }
+    );
+
     creatAccount(params);
     // setState({ ...state, email: "", password: "", referenceCode: "", term: false });
   };
@@ -229,8 +243,10 @@ function CreateAccountScreen(props) {
             <Text style={styles.error}>{errors.password}</Text>
           )}
           <View style={styles.passwordValidationContainer}>
-            {validatePass(state.password).map((item,index) => (
-              <Text key={index} style={styles.passwordValidationText}>{item}</Text>
+            {validatePass(state.password).map((item, index) => (
+              <Text key={index} style={styles.passwordValidationText}>
+                {item}
+              </Text>
             ))}
           </View>
           <TouchableOpacity

@@ -21,6 +21,7 @@ import {
   FontAwesome5,
 } from "react-native-vector-icons";
 import { Header, CheckBox } from "react-native-elements";
+import appsFlyer from "react-native-appsflyer";
 
 function PanScreen(props) {
   const pageActive = useRef(false);
@@ -57,6 +58,20 @@ function PanScreen(props) {
       mobileNo: phone,
       pan: state.pannumber.toUpperCase(),
     };
+
+    const eventName = "add_pan";
+
+    appsFlyer.logEvent(
+      eventName,
+      params,
+      (res) => {
+        console.log("######## AppsFlyer #######", res);
+      },
+      (err) => {
+        console.error("######## AppsFlyer #######", err);
+      }
+    );
+
     updatePan(params, token);
     setState({ ...state, pannumber: "" });
   };
