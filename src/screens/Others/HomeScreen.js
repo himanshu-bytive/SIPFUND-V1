@@ -17,6 +17,7 @@ import { Entypo, AntDesign } from "react-native-vector-icons";
 import { Header, Overlay, CheckBox, Input } from "react-native-elements";
 import Cart from "../../components/Cart";
 import WebView from "react-native-webview";
+import appsFlyer from "react-native-appsflyer";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
@@ -280,6 +281,18 @@ function HomeScreen(props) {
             <TouchableOpacity
               key={key}
               onPress={() => {
+                const eventName = "goals_clicked";
+
+                appsFlyer.logEvent(
+                  eventName,
+                  item,
+                  (res) => {
+                    console.log("######## AppsFlyer #######", res);
+                  },
+                  (err) => {
+                    console.error("######## AppsFlyer #######", err);
+                  }
+                );
                 toggleLoading(true);
                 singleDetails(item, token);
                 pageActiveGoles.current = true;

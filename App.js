@@ -23,7 +23,7 @@ export default function App() {
   appsFlyer.initSdk(
     {
       devKey: "kGByPQmZsG9qUkwxJ2dRa8",
-      isDebug: true,
+      isDebug: false,
       onInstallConversionDataListener: true, //Optional
       onDeepLinkListener: true, //Optional
     },

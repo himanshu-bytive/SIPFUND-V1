@@ -29,6 +29,7 @@ import {
 import { Image, Header, CheckBox, Overlay } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import appsFlyer from "react-native-appsflyer";
 
 function TopRatedListScreen(props) {
   const {
@@ -258,6 +259,18 @@ function TopRatedListScreen(props) {
                 fromSIP={true}
                 item={item}
                 onPress={() => {
+                  const eventName = "top_rated_fund_clicked";
+
+                  appsFlyer.logEvent(
+                    eventName,
+                    item,
+                    (res) => {
+                      console.log("######## AppsFlyer #######", res);
+                    },
+                    (err) => {
+                      console.error("######## AppsFlyer #######", err);
+                    }
+                  );
                   fundDetails(item);
                   props.navigation.navigate("FundsDetails", {
                     fromScreen: "TopRatedList",
@@ -277,6 +290,18 @@ function TopRatedListScreen(props) {
                 deleteItem={deleteItem}
                 item={item}
                 onPress={() => {
+                  const eventName = "top_rated_fund_clicked";
+
+                  appsFlyer.logEvent(
+                    eventName,
+                    item,
+                    (res) => {
+                      console.log("######## AppsFlyer #######", res);
+                    },
+                    (err) => {
+                      console.error("######## AppsFlyer #######", err);
+                    }
+                  );
                   fundDetails(item);
                   props.navigation.navigate("FundsDetails", {
                     fromScreen: "TopRatedList",
@@ -308,17 +333,17 @@ function TopRatedListScreen(props) {
         onPress={() => {
           /* Check if details are enough for nse */
           //if (
-            //!nseDetails["Email_relation"] ||
-            //!nseDetails["Mobile_relation"] ||
-            //!nseDetails["NOMINEE_OPTED"]
+          //!nseDetails["Email_relation"] ||
+          //!nseDetails["Mobile_relation"] ||
+          //!nseDetails["NOMINEE_OPTED"]
           //) {
-            //handleNseDetailsUnavailability({
-              //["Email_relation"]: nseDetails["Email_relation"],
-              //["Mobile_relation"]: nseDetails["Mobile_relation"],
-              //["NOM1_PAN"]: nseDetails["NOM1_PAN"],
-              //["NOMINEE_OPTED"]: nseDetails["NOMINEE_OPTED"] || "N",
-            //});
-            //return;
+          //handleNseDetailsUnavailability({
+          //["Email_relation"]: nseDetails["Email_relation"],
+          //["Mobile_relation"]: nseDetails["Mobile_relation"],
+          //["NOM1_PAN"]: nseDetails["NOM1_PAN"],
+          //["NOMINEE_OPTED"]: nseDetails["NOMINEE_OPTED"] || "N",
+          //});
+          //return;
           //}
 
           let type = getFundType();

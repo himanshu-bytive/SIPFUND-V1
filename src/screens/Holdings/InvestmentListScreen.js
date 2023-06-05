@@ -22,6 +22,7 @@ import {
 } from "react-native-vector-icons";
 import { Image, Header, CheckBox } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
+import appsFlyer from "react-native-appsflyer";
 
 function InvestmentListScreen(props) {
   const pageActiveInvest = useRef(false);
@@ -49,6 +50,20 @@ function InvestmentListScreen(props) {
   //}, [summary]);
 
   const investDetails = (item) => {
+    const eventName = "investment_plan_clicked";
+
+    appsFlyer.logEvent(
+      eventName,
+      {
+        item,
+      },
+      (res) => {
+        console.log("######## AppsFlyer #######", res);
+      },
+      (err) => {
+        console.error("######## AppsFlyer #######", err);
+      }
+    );
     InvestmentSummaryDetails(item);
     props.navigation.navigate("InvestDetail");
   };

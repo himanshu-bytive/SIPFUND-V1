@@ -22,12 +22,25 @@ import {
   FontAwesome5,
 } from "react-native-vector-icons";
 import { Image, Header, CheckBox } from "react-native-elements";
+import appsFlyer from "react-native-appsflyer";
 
 function GoalsListScreen(props) {
   const { users, summary, goalSummaryDetails } = props;
   const [data, setData] = useState(summary?.goals ? summary?.goals : []);
 
   const GoalDetailPage = (item) => {
+    const eventName = "goals_clicked";
+
+    appsFlyer.logEvent(
+      eventName,
+      item,
+      (res) => {
+        console.log("######## AppsFlyer #######", res);
+      },
+      (err) => {
+        console.error("######## AppsFlyer #######", err);
+      }
+    );
     goalSummaryDetails(item);
     props.navigation.navigate("GoalDetail");
   };
