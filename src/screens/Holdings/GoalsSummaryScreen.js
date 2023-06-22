@@ -20,12 +20,36 @@ function GoalsSummaryScreen(props) {
   const [data, setData] = useState(
     summary?.holdings?.summary ? summary?.holdings?.summary : {}
   );
+  const [currentValue, setCurrentValue] = useState(0);
+  const [invested, setInvested] = useState(0);
+  const [ProfitLoss, setProfitLoss] = useState(0);
 
   useEffect(() => {
     if (token) {
       goalSummary({ phoneNumber: users?.mobileNo }, token);
     }
   }, [token]);
+
+  useEffect(() => {
+    if (summary.length > 0) {
+      var investedValue = 0;
+      var current = 0;
+      var investedValue = 0;
+      var data = summary?.map((item, index) => {
+        investedValue = investedValue + item?.amount;
+        current =
+          parseFloat(current) +
+          parseFloat(item?.nseProduct?.productCurrentNavValue);
+      });
+      console.log(
+        "🚀 ~ file: GoalsSummaryScreen.js:38 ~ data ~ investedValue:",
+        investedValue
+      );
+      setInvested(investedValue);
+      setCurrentValue(current);
+      // alert("3");
+    }
+  }, [summary]);
 
   const plansAndGoalsData = () => {
     if (summary?.goals && summary?.goals.length > 0) {
@@ -130,30 +154,37 @@ function GoalsSummaryScreen(props) {
               Value as of {moment(new Date()).format("DD-MM-YYYY")}
             </Text>
             <Text style={styles.rupees}>
-              ₹{" "}
-              {parseInt(summary?.summary?.currentValue)
+              ₹ {currentValue && currentValue?.toFixed(2)}
+              {/* {parseInt(summary?.summary?.currentValue)
                 ? summary?.summary?.currentValue
-                : "0.00"}
+                : "0.00"} */}
             </Text>
             <Text style={styles.value}>Current Value</Text>
           </View>
 
           <View style={styles.value_sec}>
             <View style={styles.Profit}>
-              <Text style={styles.investment}>{`₹ ${
+              <Text style={styles.investment}>
+                {invested}
+                {/* {`₹ ${
                 summary?.summary?.totalinvestment
                   ? summary?.summary?.totalinvestment
                   : 0
-              }`}</Text>
+              }`} */}
+              </Text>
               <Text style={styles.investment2}>Investment</Text>
             </View>
             <View style={styles.Profit}>
               <Text style={styles.investment}>
                 ₹{" "}
-                {(
-                  summary?.summary?.currentValue -
-                  summary?.summary?.totalinvestment
-                ).toFixed(2)}
+                {summary?.summary?.currentValue -
+                  summary?.summary?.totalinvestment >
+                0
+                  ? (
+                      summary?.summary?.currentValue -
+                      summary?.summary?.totalinvestment
+                    ).toFixed(2)
+                  : 0}
               </Text>
               <Text style={styles.investment2}>Profit/Loss</Text>
             </View>

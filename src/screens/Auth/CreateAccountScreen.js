@@ -231,7 +231,7 @@ function CreateAccountScreen(props) {
           <TextInput
             ref={passwordInput}
             style={styles.inputsec}
-            placeholder={"Password"}
+            placeholder={"Set Password"}
             secureTextEntry={true}
             onChangeText={(password) => {
               setError({ ...errors, password: null });

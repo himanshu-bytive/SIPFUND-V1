@@ -37,9 +37,9 @@ function InvestmentListScreens(props) {
     myInvestments,
     fundDetails,
   } = props;
+
   const [categories, setCategories] = useState([]);
   const [dates, setDates] = useState({});
-
   useEffect(() => {
     setCategories(Object.keys(myInvestlist));
   }, [props.navigation.state.params?.refresh, myInvestlist]);
@@ -305,7 +305,7 @@ function InvestmentListScreens(props) {
             }}
           />
         )*/}
-        {categories.map((category) => {
+        {categories.map((category, CatIndex) => {
           return (
             <>
               <Text
@@ -485,6 +485,7 @@ function InvestmentListScreens(props) {
                               data[category][index].sip = v;
                               myInvestments(data);
                             }}
+                            defaultValue={JSON.stringify(configs?.invest / 4)}
                           />
                         </View>
                       </View>

@@ -547,7 +547,7 @@ function SideMenu(props) {
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() => Linking.openURL(`tel:+917064442444`)}
+          onPress={() => Linking.openURL(`tel:+919513355663`)}
           style={[styles.profile_sec, styles.profile]}
         >
           <View>

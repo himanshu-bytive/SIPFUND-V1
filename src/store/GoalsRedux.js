@@ -44,7 +44,7 @@ export const GoalsActions = {
       token
     );
     if (data.error) {
-      if(data.message) Alert.alert(data.message);
+      if (data.message) Alert.alert(data.message);
       dispatch({ type: types.FETCH_GOAL_DETAILS_FAILURE, error: data.message });
     } else {
       dispatch({
@@ -67,7 +67,7 @@ export const GoalsActions = {
       token
     );
     if (data.error) {
-      if (data.message !== "") if(data.message) Alert.alert(data.message);
+      if (data.message !== "") if (data.message) Alert.alert(data.message);
       dispatch({
         type: types.FETCH_SINGLE_DETAILS_FAILURE,
         error: data.message,
@@ -140,12 +140,13 @@ export const GoalsActions = {
   goalSummary: async (dispatch, params, token) => {
     dispatch({ type: types.FETCH_SUMMARY_PENDING });
     let data = await SiteAPI.apiGetCall(
-      `/investments/planGoalInvestmentsDashboard`,
+      `/retrieveData`,
+      // `/investments/dashboard`,
       {},
       token
     );
     if (data.error) {
-      if(data.message) Alert.alert(data.message);
+      if (data.message) Alert.alert(data.message);
       dispatch({
         type: types.FETCH_SUMMARY_FAILURE,
         error: data.message,
