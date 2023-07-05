@@ -40,9 +40,19 @@ function InvestmentListScreens(props) {
 
   const [categories, setCategories] = useState([]);
   const [dates, setDates] = useState({});
+  const [sumTotal, setSumTotal] = useState([]);
   useEffect(() => {
     setCategories(Object.keys(myInvestlist));
   }, [props.navigation.state.params?.refresh, myInvestlist]);
+
+  useEffect(() => {
+    categories.map((category, CatIndex) => {
+      myInvestlist[category].map((item, index) => {
+        let data = myInvestlist;
+        data[category][index].sip = configs?.invest / categories?.length;
+      });
+    });
+  }, [categories]);
 
   const getSip = (value) => {
     if (!isNaN(value)) {
@@ -483,9 +493,12 @@ function InvestmentListScreens(props) {
                             onChangeText={(v) => {
                               let data = myInvestlist;
                               data[category][index].sip = v;
+                              // alert(JSON.stringify(data));
                               myInvestments(data);
                             }}
-                            defaultValue={JSON.stringify(configs?.invest / 4)}
+                            defaultValue={JSON.stringify(
+                              configs?.invest / categories?.length
+                            )}
                           />
                         </View>
                       </View>
@@ -504,6 +517,7 @@ function InvestmentListScreens(props) {
       <TouchableOpacity
         onPress={() => {
           /* Calculate sum of all the investments */
+          // var total = sumTotal.reduce((a, b) => a + b);
           let sum = 0;
           for (let category in categories) {
             for (let item in myInvestlist[categories[category]]) {
@@ -522,7 +536,6 @@ function InvestmentListScreens(props) {
               sum = sum + amount;
             }
           }
-
           if (sum > Number(configs.invest)) {
             Alert.alert(
               "Amount exceeds total",
@@ -568,7 +581,9 @@ function InvestmentListScreens(props) {
               }
             }
             let params = getParams(data, sum);
+            // alert(JSON.stringify(params));
             //newInvestment(params, token);
+            // return;
             props.navigation.navigate("InvestmentSubmit", {
               isLumpsum: props.navigation.state.params.isLumpsum,
               params,

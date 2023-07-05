@@ -16,13 +16,14 @@ import { Image, Header, CheckBox } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
 
 function GoalsSummaryScreen(props) {
-  const { isFetching, token, goalSummary, users, summary } = props;
+  const { isFetching, token, goalSummary, users, summary, userDetails } = props;
+  console.log(
+    "🚀 ~ file: GoalsSummaryScreen.js:20 ~ GoalsSummaryScreen ~ userDetails:",
+    userDetails
+  );
   const [data, setData] = useState(
     summary?.holdings?.summary ? summary?.holdings?.summary : {}
   );
-  const [currentValue, setCurrentValue] = useState(0);
-  const [invested, setInvested] = useState(0);
-  const [ProfitLoss, setProfitLoss] = useState(0);
 
   useEffect(() => {
     if (token) {
@@ -30,24 +31,37 @@ function GoalsSummaryScreen(props) {
     }
   }, [token]);
 
+  const [currentValue, setCurrentValue] = useState(0);
+  const [InvestedValue, setInvestedValue] = useState(0);
+  const [ProfitLoss, setProfitLoss] = useState(0);
+
   useEffect(() => {
-    if (summary.length > 0) {
-      var investedValue = 0;
-      var current = 0;
-      var investedValue = 0;
-      var data = summary?.map((item, index) => {
-        investedValue = investedValue + item?.amount;
-        current =
-          parseFloat(current) +
-          parseFloat(item?.nseProduct?.productCurrentNavValue);
+    if (summary?.length > 0) {
+      var investment = 0;
+      var currentVal = 0;
+      var proLoss = 0;
+      summary?.map((item, index) => {
+        // investment =
+        //   parseFloat(investment) + item?.investedAmt
+        //     ? parseFloat(item?.investedAmt)
+        //     : 0;
+        investment =
+          parseFloat(investment) + parseFloat(item?.investedAmt?.toFixed(2));
+        currentVal =
+          parseFloat(currentVal) + parseFloat(item?.currentValue?.toFixed(2));
+        // currentVal =
+        //   parseFloat(currentVal) + item?.currentValue
+        //     ? parseFloat(item?.currentValue?.toFixed(2))
+        //     : 0;
       });
+      proLoss = parseFloat(currentVal) - parseFloat(investment);
       console.log(
-        "🚀 ~ file: GoalsSummaryScreen.js:38 ~ data ~ investedValue:",
-        investedValue
+        "🚀 ~ file: GoalsSummaryScreen.js:39 ~ summary?.map ~ investment:",
+        investment?.toFixed(2)
       );
-      setInvested(investedValue);
-      setCurrentValue(current);
-      // alert("3");
+      setCurrentValue(currentVal?.toFixed(2));
+      setInvestedValue(investment?.toFixed(2));
+      setProfitLoss(proLoss?.toFixed(2));
     }
   }, [summary]);
 
@@ -154,7 +168,7 @@ function GoalsSummaryScreen(props) {
               Value as of {moment(new Date()).format("DD-MM-YYYY")}
             </Text>
             <Text style={styles.rupees}>
-              ₹ {currentValue && currentValue?.toFixed(2)}
+              ₹ {currentValue}
               {/* {parseInt(summary?.summary?.currentValue)
                 ? summary?.summary?.currentValue
                 : "0.00"} */}
@@ -164,27 +178,21 @@ function GoalsSummaryScreen(props) {
 
           <View style={styles.value_sec}>
             <View style={styles.Profit}>
-              <Text style={styles.investment}>
-                {invested}
-                {/* {`₹ ${
-                summary?.summary?.totalinvestment
-                  ? summary?.summary?.totalinvestment
-                  : 0
-              }`} */}
-              </Text>
+              <Text style={styles.investment}>{`₹ ${
+                InvestedValue
+                // summary?.summary?.totalinvestment
+                //   ? summary?.summary?.totalinvestment
+                //   : 0
+              }`}</Text>
               <Text style={styles.investment2}>Investment</Text>
             </View>
             <View style={styles.Profit}>
               <Text style={styles.investment}>
-                ₹{" "}
-                {summary?.summary?.currentValue -
-                  summary?.summary?.totalinvestment >
-                0
-                  ? (
-                      summary?.summary?.currentValue -
-                      summary?.summary?.totalinvestment
-                    ).toFixed(2)
-                  : 0}
+                ₹ {ProfitLoss}
+                {/* {(
+                  summary?.summary?.currentValue -
+                  summary?.summary?.totalinvestment
+                ).toFixed(2)} */}
               </Text>
               <Text style={styles.investment2}>Profit/Loss</Text>
             </View>

@@ -138,8 +138,9 @@ export const GoalsActions = {
     }
   },
   goalSummary: async (dispatch, params, token) => {
+    console.log("🚀 ~ file: GoalsRedux.js:141 ~ goalSummary: ~ token:", token);
     dispatch({ type: types.FETCH_SUMMARY_PENDING });
-    let data = await SiteAPI.apiGetCall(
+    let data = await SiteAPI.apiPostCall(
       `/retrieveData`,
       // `/investments/dashboard`,
       {},
@@ -153,7 +154,10 @@ export const GoalsActions = {
         summary: [],
       });
     } else {
-      dispatch({ type: types.FETCH_SUMMARY_SUCCESS, summary: data?.data });
+      dispatch({
+        type: types.FETCH_SUMMARY_SUCCESS,
+        summary: data?.responseString,
+      });
     }
   },
   goalSummaryDetails: async (dispatch, summaryDetails) => {

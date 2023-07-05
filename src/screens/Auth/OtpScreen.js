@@ -21,14 +21,24 @@ import { OtpInputs } from "../../components";
 const width = Dimensions.get("window").width;
 import OTPInputView from "@twotalltotems/react-native-otp-input";
 import appsFlyer from "react-native-appsflyer";
+import NotificationService from "../../../NotificationService";
 
 function OtpScreen(props) {
   const pageActive = useRef(false);
-  const { otp, resendOtp, phone, isFetching, signUpSteps, appToken } = props;
+  const {
+    otp,
+    resendOtp,
+    phone,
+    isFetching,
+    signUpSteps,
+    // appToken
+  } = props;
   const [locationServiceEnabled, setLocationServiceEnabled] = useState(false);
   const [displayCurrentAddress, setDisplayCurrentAddress] = useState([]);
+  const [appToken, setAppToken] = useState("-");
 
   useEffect(() => {
+    new NotificationService(onRegister);
     const backAction = () => {
       return true;
     };
@@ -40,6 +50,12 @@ function OtpScreen(props) {
 
     return () => backHandler.remove();
   }, []);
+
+  const onRegister = (token) => {
+    if (token) {
+      setAppToken(token);
+    }
+  };
 
   /* Auto read OTP */
   useEffect(() => {

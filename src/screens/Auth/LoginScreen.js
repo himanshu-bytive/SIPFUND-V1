@@ -19,6 +19,7 @@ import {
 } from "react-native-vector-icons";
 import { Image, Header } from "react-native-elements";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import NotificationService from "../../../NotificationService";
 
 function LoginScreen(props) {
   const pageActive = useRef(false);
@@ -31,14 +32,15 @@ function LoginScreen(props) {
     user,
     phone,
     userDetails,
-    appToken,
+    // appToken,
     wrongPassCount,
   } = props;
-
   const [visible, setVisible] = useState(false);
-
+  const [appToken, setAppToken] = useState("-");
   /* Retrieve password if saved */
   useEffect(() => {
+    new NotificationService(onRegister);
+
     if (!phone) return;
 
     const getPassword = async () => {
@@ -55,6 +57,11 @@ function LoginScreen(props) {
 
     getPassword();
   }, [phone]);
+  const onRegister = (token) => {
+    if (token) {
+      setAppToken(token);
+    }
+  };
 
   useEffect(() => {
     if (wrongPassCount) {

@@ -1,7 +1,8 @@
 export default {
   // apiBaseUrl: 'https://www.sipfund.com/api',
-  //apiBaseUrl: "https://sipfund.com/api",
-  apiBaseUrl: "https://uat.sipfund.com/api",
+  // apiBaseUrl: "https://sipfund.com/api",
+  // apiBaseUrl: "https://uat.sipfund.com/api",
+  apiBaseUrl: "https://api.sipfund.com/api",
   uploadPath: "/",
   loginToken: "Basic U2lwRnVuZC1JZDpTaXBGdW5kLVNlY3JldA==",
   groupIds: {

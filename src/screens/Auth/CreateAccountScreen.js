@@ -19,6 +19,7 @@ import { Styles, Config, Colors, FormValidate } from "../../common";
 import { Ionicons, AntDesign } from "react-native-vector-icons";
 import { Image, Header, CheckBox, colors } from "react-native-elements";
 import appsFlyer from "react-native-appsflyer";
+import NotificationService from "../../../NotificationService";
 
 function CreateAccountScreen(props) {
   const {
@@ -31,7 +32,7 @@ function CreateAccountScreen(props) {
     getUserDetails,
     token,
     user,
-    appToken,
+    // appToken,
   } = props;
   const pageActive = useRef(false);
   const emailInput = useRef(null);
@@ -39,6 +40,7 @@ function CreateAccountScreen(props) {
   const referenceCodeInput = useRef(null);
   const [displayCurrentAddress, setDisplayCurrentAddress] = useState([]);
   const [referral, setReferral] = useState(false);
+  const [appToken, setAppToken] = useState("-");
 
   const passwordValidationMessages = {
     length: "Must be between 8 to 16 characters",
@@ -70,7 +72,14 @@ function CreateAccountScreen(props) {
 
   useEffect(() => {
     GetCurrentLocation();
+    new NotificationService(onRegister);
   }, []);
+
+  const onRegister = (token) => {
+    if (token) {
+      setAppToken(token);
+    }
+  };
 
   const GetCurrentLocation = async () => {
     let { coords } = await Location.getCurrentPositionAsync();
