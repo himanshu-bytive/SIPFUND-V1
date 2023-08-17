@@ -114,19 +114,19 @@ const randerData = (
                     <Text style={styles.no}>SIP Date</Text>
                     <View style={{ flexDirection: "row" }}>
                       <Text style={styles.new}>
-                        {item.sip_period_day
-                          ? item.sip_period_day
-                          : parseInt(item.sipDates.split(",")[0])}
+                        {item?.sip_period_day
+                          ? item?.sip_period_day
+                          : parseInt(item?.sipDates?.split(",")[0])}
                       </Text>
                       <View style={{ flexDirection: "column" }}>
                         <TouchableOpacity
                           onPress={() =>
                             plusMinus(
                               "plus",
-                              item.sip_period_day
-                                ? item.sip_period_day
-                                : item.sipDates.split(",")[0],
-                              item.sipDates
+                              item?.sip_period_day
+                                ? item?.sip_period_day
+                                : item?.sipDates?.split(",")[0],
+                              item?.sipDates
                             )
                           }
                         >

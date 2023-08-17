@@ -51,7 +51,7 @@ export const SideMenuActions = {
       tokan
     );
     if (data.error) {
-      if(data.message) Alert.alert(data.message);
+      if (data.message) Alert.alert(data.message);
       dispatch({ type: types.FETCH_ADD_FAILURE, error: data.message });
     } else {
       alert(data?.responseString);
@@ -63,7 +63,7 @@ export const SideMenuActions = {
     let data = await SiteAPI.apiPutCall("/user", params, tokan);
     console.log(data);
     if (data.error) {
-      if(data.message) Alert.alert(data.message);
+      if (data.message) Alert.alert(data.message);
       dispatch({ type: types.FETCH_UPDATE_FAILURE, error: data.message });
     } else {
       dispatch({ type: types.FETCH_UPDATE_SUCCESS, details: data.output });
@@ -79,7 +79,7 @@ export const SideMenuActions = {
     let dataConfig = await SiteAPI.apiGetCall("/referral-config", {}, tokan);
     console.log(data, dataConfig, "abcd");
     if (data.error || dataConfig.error) {
-      if(data.message) Alert.alert(data.message);
+      if (data.message) Alert.alert(data.message);
       dispatch({ type: types.FETCH_REFER_FAILURE, error: data.message });
     } else {
       dispatch({
@@ -97,13 +97,15 @@ export const SideMenuActions = {
       tokan
     );
     if (data.error) {
-      if(data.message) Alert.alert(data.message);
+      if (data.message) Alert.alert(data.message);
       dispatch({ type: types.FETCH_REFER_PASS_FAILURE, error: data.message });
     } else {
       dispatch({ type: types.FETCH_REFER_PASS_SUCCESS });
     }
   },
   getReferralLink: async (dispatch, params) => {
+    console.log("🚀 ~ file: SideMenuRedux.js:74 ~ getRefer: ~ sdfsd:", "sdfsd");
+
     console.log("PARAMS=", params);
     dispatch({ type: types.FETCH_REFERRAL_PENDING });
     try {

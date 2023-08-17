@@ -28,6 +28,10 @@ const types = {
   FETCH_SUMMARY_SUCCESS: "FETCH_SUMMARY_SUCCESS",
   FETCH_SUMMARY_FAILURE: "FETCH_SUMMARY_FAILURE",
 
+  FETCH_SUMMARY_RETRIEVE_PENDING: "FETCH_SUMMARY_RETRIEVE_PENDING",
+  FETCH_SUMMARY_RETRIEVE_SUCCESS: "FETCH_SUMMARY_RETRIEVE_SUCCESS",
+  FETCH_SUMMARY_RETRIEVE_FAILURE: "FETCH_SUMMARY_RETRIEVE_FAILURE",
+
   FETCH_SUMMARY_DETAILS: "FETCH_SUMMARY_DETAILS",
   FETCH_SUMMARY_DETAILS_INVESTMENT: "FETCH_SUMMARY_DETAILS_INVESTMENT",
 
@@ -137,12 +141,32 @@ export const GoalsActions = {
       }
     }
   },
-  goalSummary: async (dispatch, params, token) => {
-    console.log("🚀 ~ file: GoalsRedux.js:141 ~ goalSummary: ~ token:", token);
-    dispatch({ type: types.FETCH_SUMMARY_PENDING });
+  goalSummaryRetrieve: async (dispatch, params, token) => {
+    dispatch({ type: types.FETCH_SUMMARY_RETRIEVE_PENDING });
     let data = await SiteAPI.apiPostCall(
       `/retrieveData`,
       // `/investments/dashboard`,
+      {},
+      token
+    );
+    if (data.error) {
+      if (data.message) Alert.alert(data.message);
+      dispatch({
+        type: types.FETCH_SUMMARY_RETRIEVE_FAILURE,
+        error: data.message,
+        summary: [],
+      });
+    } else {
+      dispatch({
+        type: types.FETCH_SUMMARY_RETRIEVE_SUCCESS,
+        summary: data?.responseString,
+      });
+    }
+  },
+  goalSummary: async (dispatch, params, token) => {
+    dispatch({ type: types.FETCH_SUMMARY_PENDING });
+    let data = await SiteAPI.apiGetCall(
+      `/investments/planGoalInvestmentsDashboard`,
       {},
       token
     );
@@ -154,10 +178,7 @@ export const GoalsActions = {
         summary: [],
       });
     } else {
-      dispatch({
-        type: types.FETCH_SUMMARY_SUCCESS,
-        summary: data?.responseString,
-      });
+      dispatch({ type: types.FETCH_SUMMARY_SUCCESS, summary: data?.data });
     }
   },
   goalSummaryDetails: async (dispatch, summaryDetails) => {
@@ -300,6 +321,14 @@ export const reducer = (state = initialState, action) => {
         isFetching: false,
         error: null,
         summary,
+      };
+    }
+    case types.FETCH_SUMMARY_RETRIEVE_SUCCESS: {
+      return {
+        ...state,
+        isFetching: false,
+        error: null,
+        summaryRetrieve: summary,
       };
     }
     case types.FETCH_SUMMARY_DETAILS: {

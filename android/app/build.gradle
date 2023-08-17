@@ -135,8 +135,8 @@ android {
         applicationId 'com.octrax.sipfund'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 55
-        versionName '1.0.42'
+        versionCode 59
+        versionName '1.0.45'
     }
     splits {
         abi {
@@ -233,7 +233,7 @@ dependencies {
     }
 }
 
-// Run this once to be able to run the application with BUCK
+// Run this once to be able to run the ap plication with BUCK
 // puts all compile dependencies into folder libs for BUCK to use
 task copyDownloadableDepsToLibs(type: Copy) {
     from configurations.compile

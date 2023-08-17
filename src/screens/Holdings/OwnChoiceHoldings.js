@@ -29,7 +29,18 @@ import { OwnerChoice } from "..";
 import Cart from "../../components/Cart";
 
 function OwnChoiceHoldings(props) {
-  const { isFetching, token, goalSummary, users, summary } = props;
+  const {
+    isFetching,
+    token,
+    goalSummary,
+    users,
+    summary,
+    navigation: { state },
+  } = props;
+  console.log(
+    "🚀 ~ file: OwnChoiceHoldings.js:33 ~ OwnChoiceHoldings ~ currentValue:",
+    state?.params?.currentValue
+  );
   const [data, setData] = useState(
     summary?.ownchoice ? summary?.ownchoice : []
   );
@@ -41,11 +52,15 @@ function OwnChoiceHoldings(props) {
 
   useEffect(() => {
     if (data) {
+      console.log(
+        "🚀 ~ file: OwnChoiceHoldings.js:44 ~ useEffect ~ data:",
+        data
+      );
       let sum = 0.0;
       for (let item of data) {
         sum += parseFloat(item?.currentValue);
       }
-      if (sum > -0.1 || sum < 0.1) {
+      if (sum < -0.1 || sum < 0.1) {
         sum = 0.0;
       }
       setSum(sum);
@@ -109,17 +124,12 @@ function OwnChoiceHoldings(props) {
         )}
 
         <View>
-          <Text style={styles.totalAmount}>{`Amount: ₹ ${sum.toFixed(
+          <Text
+            style={styles.totalAmount}
+          >{`Amount: ₹ ${state?.params?.currentValue}`}</Text>
+          {/* <Text style={styles.totalAmount}>{`Amount: ₹ ${sum.toFixed(
             2
-          )}`}</Text>
-          <TouchableOpacity
-            style={styles.addInvestmentButton}
-            onPress={handleAddInvestment}
-          >
-            <Text style={[styles.totalAmount, { color: "white" }]}>
-              Add Investment
-            </Text>
-          </TouchableOpacity>
+          )}`}</Text> */}
         </View>
 
         <View style={styles.mainbox}>
@@ -211,6 +221,14 @@ function OwnChoiceHoldings(props) {
               )}
             </View>
           ))}
+          <TouchableOpacity
+            style={styles.addInvestmentButton}
+            onPress={handleAddInvestment}
+          >
+            <Text style={[styles.totalAmount, { color: "white" }]}>
+              Add Investment
+            </Text>
+          </TouchableOpacity>
         </View>
 
         <Text style={styles.Investments}>Invest Now</Text>

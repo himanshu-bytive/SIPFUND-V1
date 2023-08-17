@@ -53,9 +53,14 @@ export const AuthActions = {
   verify: async (dispatch, params) => {
     dispatch({ type: types.FETCH_VERIFY_PENDING });
     let data = await SiteAPI.apiPostCall("/auth/verify", params);
-    console.log("verifuf", data);
+    console.log(
+      "🚀 ~ file: AuthRedux.js:56 ~ verify: ~ data:",
+      data,
+      " . ",
+      params
+    );
     if (data.error) {
-      if(data.message) Alert.alert(data.message);
+      if (data.message) Alert.alert(data.message);
       dispatch({ type: types.FETCH_VERIFY_FAILURE, error: data.message });
     } else {
       // Alert.alert("SIP Fund", data.responseString, [
@@ -77,7 +82,7 @@ export const AuthActions = {
     dispatch({ type: types.FETCH_OTP_PENDING });
     let data = await SiteAPI.apiPostCall("/auth/validate", params);
     if (data.error) {
-      if(data.message) Alert.alert(data.message);
+      if (data.message) Alert.alert(data.message);
       dispatch({ type: types.FETCH_OTP_FAILURE, error: data.message });
     } else {
       Alert.alert("SIP Fund", data.responseString, [
@@ -98,7 +103,7 @@ export const AuthActions = {
     dispatch({ type: types.FETCH_RESEND_OTP_PENDING });
     let data = await SiteAPI.apiPostCall("/auth/resend", params);
     if (data.error) {
-      if(data.message) Alert.alert(data.message);
+      if (data.message) Alert.alert(data.message);
       dispatch({ type: types.FETCH_RESEND_OTP_FAILURE, error: data.message });
     } else {
       Alert.alert("SIP Fund", data.responseString, [
@@ -115,7 +120,7 @@ export const AuthActions = {
     dispatch({ type: types.FETCH_CHANGE_PASSWORD_PENDING });
     let data = await SiteAPI.apiPutCall("/password/changePassword", params);
     if (data.error) {
-      if(data.message) Alert.alert(data.message);
+      if (data.message) Alert.alert(data.message);
       dispatch({
         type: types.FETCH_CHANGE_PASSWORD_FAILURE,
         error: data.message,
@@ -139,7 +144,7 @@ export const AuthActions = {
     dispatch({ type: types.FETCH_PAN_NUMBER_PENDING });
     let data = await SiteAPI.apiPostCall("/user/userPan", params);
     if (data.error) {
-      if(data.message) Alert.alert(data.message);
+      if (data.message) Alert.alert(data.message);
       dispatch({ type: types.FETCH_PAN_NUMBER_FAILURE, error: data.message });
     } else {
       Alert.alert("SIP Fund", data.responseString, [
@@ -159,7 +164,7 @@ export const AuthActions = {
     dispatch({ type: types.FETCH_FORGET_PASS_PENDING });
     let data = await SiteAPI.apiPostCall("/password/forgotPassword", params);
     if (data.error) {
-      if(data.message) Alert.alert(data.message);
+      if (data.message) Alert.alert(data.message);
       dispatch({ type: types.FETCH_FORGET_PASS_FAILURE, error: data.message });
     } else {
       Alert.alert("SIP Fund", data.responseString, [
@@ -176,7 +181,7 @@ export const AuthActions = {
     dispatch({ type: types.FETCH_LOGIN_PENDING });
     let data = await SiteAPI.apiPostCall("/token", params, token);
     if (data.error) {
-      if(data.message) Alert.alert(data.message);
+      if (data.message) Alert.alert(data.message);
       dispatch({ type: types.FETCH_LOGIN_FAILURE, error: data.message });
     } else {
       /* Save the password to storage */
@@ -196,7 +201,7 @@ export const AuthActions = {
     dispatch({ type: types.FETCH_CREAT_ACCOUNT_PENDING });
     let data = await SiteAPI.apiPostCall("/auth", params);
     if (data.error) {
-      if(data.message) Alert.alert(data.message);
+      if (data.message) Alert.alert(data.message);
       dispatch({
         type: types.FETCH_CREAT_ACCOUNT_FAILURE,
         error: data.message,

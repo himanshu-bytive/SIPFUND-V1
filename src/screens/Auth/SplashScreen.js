@@ -42,7 +42,7 @@ function SplashScreen(props) {
   useEffect(() => {
     axios
       //.get(`${apiBaseUrl}/user/getAppVersion`)
-      .get("http://uat.sipfund.com/api/user/getAppVersion")
+      .get(apiBaseUrl + "/user/getAppVersion")
       .then((res) => {
         const { data } = res;
         if (isUpdateAvailable(data.Version)) {

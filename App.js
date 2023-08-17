@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, Linking } from "react";
 import AppContainer from "./src/navigation/AppNavigator";
 import { StatusBar, SafeAreaView, Platform } from "react-native";
 import { Provider } from "react-redux";
@@ -139,7 +139,7 @@ export default function App() {
   // }
 
   useEffect(() => {
-    onLoad();
+    // onLoad();
   }, []);
 
   const onLoad = async () => {
@@ -162,6 +162,18 @@ export default function App() {
       }
     }
   };
+
+  // console.log("🚀 ~ file: App.js:167 ~ App ~ url:", url)
+  // const url = Linking.useURL();
+
+  // useEffect(() => {
+  // //   Linking.addEventListener("url", ({ url }) => {
+  // //     console.log(
+  // //       "🚀 ~ file: App.js:169 ~ Linking.addEventListener ~ url:",
+  // //       url
+  // //     );
+  // //   });
+  // }, []);
 
   return (
     <Provider store={store}>

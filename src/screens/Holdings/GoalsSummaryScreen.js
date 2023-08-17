@@ -16,10 +16,19 @@ import { Image, Header, CheckBox } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
 
 function GoalsSummaryScreen(props) {
-  const { isFetching, token, goalSummary, users, summary, userDetails } = props;
+  const {
+    isFetching,
+    token,
+    goalSummary,
+    users,
+    summary,
+    userDetails,
+    goalSummaryRetrieve,
+    summaryRetrieve,
+  } = props;
   console.log(
     "🚀 ~ file: GoalsSummaryScreen.js:20 ~ GoalsSummaryScreen ~ userDetails:",
-    userDetails
+    summaryRetrieve
   );
   const [data, setData] = useState(
     summary?.holdings?.summary ? summary?.holdings?.summary : {}
@@ -28,6 +37,7 @@ function GoalsSummaryScreen(props) {
   useEffect(() => {
     if (token) {
       goalSummary({ phoneNumber: users?.mobileNo }, token);
+      goalSummaryRetrieve({ phoneNumber: users?.mobileNo }, token);
     }
   }, [token]);
 
@@ -36,11 +46,11 @@ function GoalsSummaryScreen(props) {
   const [ProfitLoss, setProfitLoss] = useState(0);
 
   useEffect(() => {
-    if (summary?.length > 0) {
+    if (summaryRetrieve?.length > 0) {
       var investment = 0;
       var currentVal = 0;
       var proLoss = 0;
-      summary?.map((item, index) => {
+      summaryRetrieve?.map((item, index) => {
         // investment =
         //   parseFloat(investment) + item?.investedAmt
         //     ? parseFloat(item?.investedAmt)
@@ -63,7 +73,7 @@ function GoalsSummaryScreen(props) {
       setInvestedValue(investment?.toFixed(2));
       setProfitLoss(proLoss?.toFixed(2));
     }
-  }, [summary]);
+  }, [summaryRetrieve]);
 
   const plansAndGoalsData = () => {
     if (summary?.goals && summary?.goals.length > 0) {
@@ -251,7 +261,11 @@ function GoalsSummaryScreen(props) {
 
         {/* Own Choice...sec */}
         <TouchableOpacity
-          onPress={() => props.navigation.navigate("OwnChoiceHoldings")}
+          onPress={() =>
+            props.navigation.navigate("OwnChoiceHoldings", {
+              currentValue: currentValue,
+            })
+          }
         >
           <View style={styles.education_2}>
             <View style={styles.education_sec}>
@@ -412,6 +426,7 @@ const mapStateToProps = (state) => ({
   users: state.auth.user,
   isFetching: state.goals.isFetching,
   summary: state.goals.summary,
+  summaryRetrieve: state.goals.summaryRetrieve,
 });
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
@@ -422,6 +437,9 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     ...ownProps,
     goalSummary: (params, token) => {
       GoalsActions.goalSummary(dispatch, params, token);
+    },
+    goalSummaryRetrieve: (params, token) => {
+      GoalsActions.goalSummaryRetrieve(dispatch, params, token);
     },
   };
 };
