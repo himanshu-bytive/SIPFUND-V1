@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { useState, useRef, useEffect, useContext } from "react";
 import {
   StyleSheet,
@@ -529,7 +531,9 @@ function CompleteDetailsScreen(props) {
                 size={25}
               />
             </TouchableOpacity>
-            <View
+            <TouchableOpacity
+              activeOpacity={0.5}
+              onPress={() => setIsDatePickerVisible(true)}
               style={{
                 flex: 1,
               }}
@@ -542,7 +546,10 @@ function CompleteDetailsScreen(props) {
                   marginTop: 5,
                   fontSize: 18,
                   borderBottomWidth: 1,
+                  color: "black",
                 }}
+                editable={false}
+                selectTextOnFocus={false}
                 value={state.dob ? getDateInHuman(state.dob) : ""}
                 onChangeText={(dob) => {
                   // console.log("DOB=", dob.length);
@@ -556,7 +563,7 @@ function CompleteDetailsScreen(props) {
               <Text style={{ ...styles.error, marginLeft: 5 }}>
                 {errors?.dob}
               </Text>
-            </View>
+            </TouchableOpacity>
           </View>
           <DateTimePickerModal
             isVisible={isDatePickerVisible}

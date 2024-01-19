@@ -1,3 +1,5 @@
+/** @format */
+
 export default {
   // apiBaseUrl: 'https://www.sipfund.com/api',
   apiBaseUrl: "https://sipfund.com/api", //Prod

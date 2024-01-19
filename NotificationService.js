@@ -1,3 +1,5 @@
+/** @format */
+
 import messaging from "@react-native-firebase/messaging";
 // import notifee from "@notifee/react-native";
 export default class NotificationService {
@@ -54,10 +56,6 @@ export default class NotificationService {
     messaging()
       .getToken()
       .then((fcmToken) => {
-        console.log(
-          "🚀 ~ file: NotificationService.js:57 ~ NotificationService ~ .then ~ fcmToken:",
-          fcmToken
-        );
         onRegister(fcmToken);
       });
   }

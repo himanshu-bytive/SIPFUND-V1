@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { useState, useEffect } from "react";
 import { TouchableOpacity, Text, StyleSheet, View } from "react-native";
 import { connect } from "react-redux";

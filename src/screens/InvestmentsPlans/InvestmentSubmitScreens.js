@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { useState, useRef, useEffect, useContext } from "react";
 import {
   StyleSheet,
@@ -149,7 +151,7 @@ function InvestmentSubmitScreens(props) {
                         style={styles.Hybrid}
                       />
                       <Text numberOfLines={2} style={styles.sbi_text}>
-                        {item.name}
+                        {item?.name}
                       </Text>
                       <Text style={styles.price}>₹ {item.sip}</Text>
                     </View>
@@ -188,9 +190,28 @@ function InvestmentSubmitScreens(props) {
           //groupType: "Investment Plans",
           //groupName: investment.investmentPlan,
           //});
-          newInvestment(props.navigation.state.params?.params, token);
+
+          var empIds = "";
+          var empIds2 = "0";
+
+          var filteredArray =
+            props?.navigation?.state?.params?.params?.holdings.filter(function (
+              itm
+            ) {
+              return empIds.indexOf(itm.amount) == -1;
+            });
+          var filteredArray2 =
+            props?.navigation?.state?.params?.params?.holdings.filter(function (
+              itm
+            ) {
+              return empIds2.indexOf(itm.amount) == -1;
+            });
+          props.navigation.state.params.params.holdings = filteredArray2;
+          newInvestment(props.navigation.state.params.params, token);
           setPaymentInitiated(true);
-          getCartDetails(token);
+          setTimeout(() => {
+            getCartDetails(token);
+          }, 1000);
         }}
         style={styles.botton_box}
       >

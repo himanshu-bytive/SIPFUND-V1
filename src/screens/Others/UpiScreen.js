@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { useEffect, useRef, useState } from "react";
 import {
   StyleSheet,
@@ -19,6 +21,7 @@ import WebView from "react-native-webview";
 import SiteAPI from "../../services/SiteApis";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { MySelectPicker, MyTextInput } from "../../components";
+import moment from "moment";
 
 function UpiScreen(props) {
   const {
@@ -56,6 +59,15 @@ function UpiScreen(props) {
   const [showNseInputs, setShowNseInputs] = useState(false);
   const [extraNseDetails, setExtraNseDetails] = useState();
   const [alreadySubmitted, setAlreadySubmitted] = useState(false);
+  const [res, setRes] = useState([]);
+  useEffect(async () => {
+    const response = await SiteAPI.apiGetCall(
+      `/retrieveData/mandateList?iin=${users.IIN}`,
+      {},
+      token
+    );
+    setRes(response);
+  }, []);
 
   const mobileEmailRelation = [
     { value: "SE", label: "Self" },
@@ -139,10 +151,11 @@ function UpiScreen(props) {
     );
   };
   const endDate = () => {
-    const date = new Date();
+    var new_date = moment().add("days", 1).add(30, "y").format("DD-MMM-YYYY");
+    return new_date;
 
     return (
-      ("00" + date.getDate()).match(/\d{2}$/) +
+      ("00" + date.getDate() + 1).match(/\d{2}$/) +
       "-" +
       monthsArr[date.getMonth()] +
       "-" +
@@ -336,7 +349,7 @@ function UpiScreen(props) {
       format = {
         ...i,
         folio: "",
-        sip_amount: data[item].amount,
+        sip_amount: parseInt(data[item].amount),
       };
       //if (props.navigation.state.params.fromCart) {
       //format = {
@@ -443,14 +456,18 @@ function UpiScreen(props) {
     return {
       service_request: {
         ac_no: profile?.AC_NO,
-        ach_amt: props.navigation.state.params?.sum,
+        ach_amt: res?.responseString?.length
+          ? props?.navigation?.state.params?.sum
+          : 100000,
         ach_enddate: endDate(),
         ach_fromdate: fromDate(),
         advisory_charge: " ",
         bank: profile?.BANK_NAME,
         billdesk_bank: profile?.BANK_NAME,
         cheque_deposit_mode: " ",
-        Client_callback_url: "www.sipfund.com",
+        Client_callback_url:
+          "http://sipfund.com/SIP-Login/build/app/index.html#/paymentStatus",
+        // Client_callback_url: "www.sipfund.com",
         dd_charge: " ",
         debit_amount_type: "M",
         demat_user: "N",
@@ -582,7 +599,6 @@ function UpiScreen(props) {
               <View style={styles.button}>
                 <TouchableOpacity
                   onPress={() => {
-                    /* Check if details are enough for nse */
                     if (!alreadySubmitted) {
                       if (
                         !updatedNseData?.MOBILE_REL ||
@@ -594,7 +610,6 @@ function UpiScreen(props) {
                     }
                     let params = getParams(true, false);
                     setClicked(true);
-                    //console.log(JSON.stringify(params, null, 2));
                     checkout(params, token);
                   }}
                   style={[styles.botton_box, styles.botton_box_none]}
@@ -640,11 +655,6 @@ function UpiScreen(props) {
                         return;
                       }
                     }
-                    const res = await SiteAPI.apiGetCall(
-                      `/retrieveData/mandateList?iin=${users.IIN}`,
-                      {},
-                      token
-                    );
 
                     if (!res.validFlag) {
                       alert("Something went wrong!");

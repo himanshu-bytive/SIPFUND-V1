@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { useState, useRef, useEffect, useContext } from "react";
 import {
   StyleSheet,
@@ -30,6 +32,7 @@ import { Image, Header, CheckBox, Overlay } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import appsFlyer from "react-native-appsflyer";
+import Toast from "react-native-simple-toast";
 
 function TopRatedListScreen(props) {
   const {
@@ -74,13 +77,153 @@ function TopRatedListScreen(props) {
     { value: "PO", label: "POA" },
   ];
 
+  useEffect(() => {}, []);
+
   useEffect(() => {
-    getCartDetails(token);
+    const unsubscribe = props.navigation.addListener("didFocus", () => {
+      getCartDetails(token);
+
+      // The screen is focused
+      // Call any action
+    });
+
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return unsubscribe;
   }, []);
+
+  const monthsArr = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
+  const sipFromDate = (sipDay, ifFullDate = true) => {
+    if (ifFullDate) {
+      const NDate = new Date(sipDay);
+      sipDay = NDate.getDate();
+    }
+    const date = new Date();
+
+    let day = date.getDate();
+    let month = date.getMonth();
+    let year = date.getFullYear();
+
+    if (month === 11) {
+      month = 0;
+      year = year + 1;
+    } else {
+      month += 1;
+    }
+
+    if (day > sipDay) {
+      if (month === 11) {
+        month = 0;
+        year = year + 1;
+      } else {
+        month += 1;
+      }
+    }
+
+    return (
+      ("00" + sipDay).match(/\d{2}$/) + "-" + monthsArr[month] + "-" + year
+    );
+  };
+  const sipEndDate = (sipDay, ifFullDate = true) => {
+    if (ifFullDate) {
+      const NDate = new Date(sipDay);
+      sipDay = NDate.getDate();
+    }
+    const date = new Date();
+
+    let day = date.getDate();
+    let month = date.getMonth();
+    let year = date.getFullYear();
+
+    if (month === 11) {
+      month = 0;
+      year = year + 1;
+    } else {
+      month += 1;
+    }
+
+    if (day > sipDay) {
+      if (month === 11) {
+        month = 0;
+        year = year + 1;
+      } else {
+        month += 1;
+      }
+    }
+
+    return (
+      ("00" + sipDay).match(/\d{2}$/) +
+      "-" +
+      monthsArr[month] +
+      "-" +
+      `${parseInt(year) + 30}`
+    );
+  };
+
+  const [tempCartState, setTempCartState] = useState([]);
+
+  const onChangeDate = (e, index) => {
+    if (
+      index != null &&
+      index != "null" &&
+      e != null &&
+      e != "null" &&
+      cart[index]?.trxn_nature == "S"
+    ) {
+      if (cart[index] && ("0" + cart[index].sip_period_day).slice(-2) != e) {
+        cart[index].sip_from_date = sipFromDate(e, false);
+        cart[index].sip_end_date = sipEndDate(e, false);
+        cart[index].sip_period_day = ("0" + e).slice(-2);
+        setCart(cart);
+        setTempCartState(cart);
+        setSelectTab("LUMPSUMS");
+        setTimeout(() => {
+          setSelectTab("SIP");
+        }, 100);
+      }
+      return;
+    }
+  };
+
+  const [lumSumCart, setLumSumCart] = useState([]);
 
   useEffect(() => {
     if (cartDetails) {
-      setCart(cartDetails.cartDetails);
+      var newArr = [];
+      var LumSumArr = [];
+      cartDetails.cartDetails?.map((item, index) => {
+        if (item?.trxn_nature == "S") {
+          newArr.push(item);
+        } else {
+          LumSumArr.push(item);
+        }
+      });
+      setCart(newArr);
+      setLumSumCart(LumSumArr);
+      console.log(
+        "🚀 ~ file: TopRatedListScreen.js:237 ~ useEffect ~ newArr:",
+        JSON.stringify(newArr)
+      );
+      // setCart(cartDetails.cartDetails);
+      // setLumSumCart(cartDetails.cartDetails);
+      var newCart = newArr?.map((item, index) => {
+        item.sip_from_date = sipFromDate(item?.sip_from_date);
+        item.sip_end_date = sipEndDate(item?.sip_end_date);
+        return item;
+      });
 
       let sip = 0;
       let lump = 0;
@@ -96,6 +239,13 @@ function TopRatedListScreen(props) {
     }
   }, [cartDetails]);
 
+  useEffect(() => {
+    console.log(
+      "🚀 ~ file: TopRatedListScreen.js:239 ~ useEffect ~ cart:",
+      JSON.stringify(cart)
+    );
+  }, [cart]);
+
   const deleteItem = (key) => {
     let data = cart;
     for (let item in data) {
@@ -108,7 +258,23 @@ function TopRatedListScreen(props) {
         break;
       }
     }
-    ToastAndroid.show("Item deleted succesfully!", ToastAndroid.LONG);
+    Toast.show("Item deleted succesfully!", Toast.LONG);
+    props.navigation.replace("TopRatedList", { currentTab: selectTab });
+  };
+
+  const deleteLumSumItem = (key) => {
+    let data = lumSumCart;
+    for (let item in data) {
+      if (data[item].product_name === key) {
+        console.log(data[item]);
+        let params = [data[item]._id];
+        deleteItemFromCart(params, token);
+        delete data[item];
+        getCartDetails(token);
+        break;
+      }
+    }
+    Toast.show("Item deleted succesfully!", Toast.LONG);
     props.navigation.replace("TopRatedList", { currentTab: selectTab });
   };
 
@@ -118,9 +284,21 @@ function TopRatedListScreen(props) {
 
   useEffect(() => {
     let type = getFundType();
-    if (!cart || cart.filter((item) => item.trxn_nature === type).length === 0)
-      setCartEmpty(true);
-    else setCartEmpty(false);
+    if (selectTab === "SIP") {
+      if (
+        !cart ||
+        cart.filter((item) => item.trxn_nature === type).length === 0
+      ) {
+        setCartEmpty(true);
+      } else setCartEmpty(false);
+    } else {
+      if (
+        !lumSumCart ||
+        lumSumCart.filter((item) => item.trxn_nature === type).length === 0
+      ) {
+        setCartEmpty(true);
+      } else setCartEmpty(false);
+    }
   }, [selectTab, cart]);
 
   const [folio, setFolio] = useState();
@@ -249,45 +427,55 @@ function TopRatedListScreen(props) {
         </View>
 
         {selectTab === "SIP" &&
-          cart &&
+          cart?.length > 0 &&
           cart
             .filter((item) => item.trxn_nature === "S")
-            .map((item, key) => (
-              <TopRatedFundType
-                key={item?._id}
-                deleteItem={deleteItem}
-                fromSIP={true}
-                item={item}
-                onPress={() => {
-                  const eventName = "top_rated_fund_clicked";
+            .map((item, key) => {
+              return (
+                <>
+                  {/* <Text>{JSON.stringify(item)}</Text> */}
+                  <TopRatedFundType
+                    key={item?._id}
+                    deleteItem={deleteItem}
+                    fromSIP={true}
+                    onChangeDate={onChangeDate}
+                    item={item}
+                    index={key}
+                    sip_from_date={cart[key]?.sip_from_date}
+                    onPress={() => {
+                      const eventName = "top_rated_fund_clicked";
 
-                  appsFlyer.logEvent(
-                    eventName,
-                    item,
-                    (res) => {
-                      console.log("######## AppsFlyer #######", res);
-                    },
-                    (err) => {
-                      console.error("######## AppsFlyer #######", err);
-                    }
-                  );
-                  fundDetails(item);
-                  props.navigation.navigate("FundsDetails", {
-                    fromScreen: "TopRatedList",
-                  });
-                }}
-                folio={folio}
-                setFolio={(val) => setFolio(val)}
-              />
-            ))}
+                      appsFlyer.logEvent(
+                        eventName,
+                        item,
+                        (res) => {
+                          console.log("######## AppsFlyer #######", res);
+                        },
+                        (err) => {
+                          console.error("######## AppsFlyer #######", err);
+                        }
+                      );
+
+                      item.amcName = item?.amc_name;
+                      fundDetails(item);
+                      props.navigation.navigate("FundsDetails", {
+                        fromScreen: "TopRatedList",
+                      });
+                    }}
+                    folio={folio}
+                    setFolio={(val) => setFolio(val)}
+                  />
+                </>
+              );
+            })}
         {selectTab === "LUMPSUM" &&
-          cart &&
-          cart
+          lumSumCart &&
+          lumSumCart
             .filter((item) => item.trxn_nature === "N")
             .map((item, key) => (
               <TopRatedFundType
                 key={item?._id}
-                deleteItem={deleteItem}
+                deleteItem={deleteLumSumItem}
                 item={item}
                 onPress={() => {
                   const eventName = "top_rated_fund_clicked";
@@ -316,7 +504,7 @@ function TopRatedListScreen(props) {
       (selectTab === "SIP" &&
         cart.filter((item) => item.trxn_nature === "S").length === 0) ||
       (selectTab === "LUMPSUM" &&
-        cart.filter((item) => item.trxn_nature === "N").length === 0) ? (
+        lumSumCart.filter((item) => item.trxn_nature === "N").length === 0) ? (
         <View style={{ flexGrow: 1, alignSelf: "center" }}>
           <Text style={{ fontSize: 20 }}>{"No items in the cart"}</Text>
         </View>
@@ -347,23 +535,42 @@ function TopRatedListScreen(props) {
           //}
 
           let type = getFundType();
+
           let tmpCart;
           if (paymentCart?.cartDetails) {
             tmpCart = paymentCart?.cartDetails;
+          } else if (tempCartState?.length > 0) {
+            tmpCart = tempCartState;
           } else {
             tmpCart = cart;
           }
-          if (
-            !tmpCart ||
-            tmpCart.filter((item) => item.trxn_nature === type).length === 0
-          ) {
-            Alert.alert("Cart Empty", "There are no funds to check-out!");
+          if (selectTab === "SIP") {
+            if (
+              !tmpCart ||
+              tmpCart.filter((item) => item.trxn_nature === type).length === 0
+            ) {
+              Alert.alert("Cart Empty", "There are no funds to check-out!");
+            } else {
+              props.navigation.navigate("TopRatedSubmit", {
+                cart: tmpCart.filter((item) => item.trxn_nature === type),
+                isLumpsum: type === "N" ? true : false,
+                planName: props.navigation.state.params?.planName,
+              });
+            }
           } else {
-            props.navigation.navigate("TopRatedSubmit", {
-              cart: tmpCart.filter((item) => item.trxn_nature === type),
-              isLumpsum: type === "N" ? true : false,
-              planName: props.navigation.state.params?.planName,
-            });
+            if (
+              !lumSumCart ||
+              lumSumCart.filter((item) => item.trxn_nature === type).length ===
+                0
+            ) {
+              Alert.alert("Cart Empty", "There are no funds to check-out!");
+            } else {
+              props.navigation.navigate("TopRatedSubmit", {
+                cart: lumSumCart,
+                isLumpsum: type === "N" ? true : false,
+                planName: props.navigation.state.params?.planName,
+              });
+            }
           }
         }}
         style={[

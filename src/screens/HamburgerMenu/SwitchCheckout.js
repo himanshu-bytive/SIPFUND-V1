@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { useState, useRef, useEffect, useContext } from "react";
 import {
   StyleSheet,
@@ -19,6 +21,7 @@ import { connect } from "react-redux";
 import { Styles, Config, Colors, FormValidate } from "../../common";
 import { Entypo, AntDesign, MaterialIcons } from "react-native-vector-icons";
 import { Header, Overlay, CheckBox, SearchBar } from "react-native-elements";
+import Toast from "react-native-simple-toast";
 
 function SwitchCheckout(props) {
   const {
@@ -38,7 +41,7 @@ function SwitchCheckout(props) {
 
   useEffect(() => {
     if (switchTransactionSucces === true) {
-      ToastAndroid.show("Transaction Happen Succesfully", ToastAndroid.LONG);
+      Toast.show("Transaction Happen Succesfully", Toast.LONG);
       setSwitchTransactionSucces(false);
       props.navigation.navigate("dashboard");
     }

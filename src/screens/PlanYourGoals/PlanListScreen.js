@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { useState, useRef, useEffect, useContext } from "react";
 import {
   StyleSheet,
@@ -87,6 +89,7 @@ function PlanListScreen(props) {
 
     if (month === 11) {
       month = 0;
+      year = year + 1;
     } else {
       month += 1;
     }
@@ -113,6 +116,7 @@ function PlanListScreen(props) {
 
     if (month === 11) {
       month = 0;
+      year = year + 1;
     } else {
       month += 1;
     }
@@ -167,6 +171,7 @@ function PlanListScreen(props) {
         ? goals[i].schemeInfo?.allocationAmount.toFixed(0)
         : 0;
       a.amount = amount;
+      a.sip_amount = amount;
       delete a.name;
       if (!isNaN(amount) && parseInt(amount) != 0) {
         dat.push(a);
@@ -272,27 +277,29 @@ function PlanListScreen(props) {
         }`}</Text>
       </View>
 
-      <GoalFundType
-        data={mygolelist}
-        myGoles={myGoles}
-        selectedOption={isLumpsum === true ? "LUMPSUM" : "SIP"}
-        onPress={(item) => {
-          fundDetails(item);
-          //disableFunds();
-          navigation.navigate("FundsDetails", {
-            fromScreen: "PlanHome",
-          });
-        }}
-        handleDelete={handleDelete}
-        showModified={showModified}
-      />
+      {mygolelist && (
+        <GoalFundType
+          data={mygolelist}
+          myGoles={myGoles}
+          selectedOption={isLumpsum === true ? "LUMPSUM" : "SIP"}
+          onPress={(item) => {
+            fundDetails(item);
+            //disableFunds();
+            navigation.navigate("FundsDetails", {
+              fromScreen: "PlanHome",
+            });
+          }}
+          handleDelete={handleDelete}
+          showModified={showModified}
+        />
+      )}
       <TouchableOpacity
         onPress={() => {
           //disableFunds();
           navigation.navigate("PlanSearch", { isLumpsum: isLumpsum });
         }}
       >
-        <Text style={styles.add}>I would like to add more funds</Text>
+        {/* <Text style={styles.add}>I would like to add more funds</Text> */}
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
@@ -329,9 +336,31 @@ function PlanListScreen(props) {
 
           if (goals) {
             for (let item in goals) {
+              console.log(
+                "🚀 ~ file: PlanListScreen.js:351 ~ goals[item].schemeInfo.default_min_amount:",
+                goals[item].schemeInfo.default_min_amount,
+                JSON.stringify(
+                  goals[item]?.schemeInfo?.allocationAmountModifiled
+                )
+                // goals[item]?.schemeInfo?.sip
+                //   ? goals[item]?.schemeInfo?.sip
+                //   : goals[item]?.schemeInfo?.allocationAmount
+              );
+
+              console.log(
+                parseInt(
+                  goals[item]?.schemeInfo?.sip
+                    ? goals[item]?.schemeInfo?.sip
+                    : goals[item]?.schemeInfo?.allocationAmountModifiled
+                ) < parseInt(goals[item]?.schemeInfo?.default_min_amount)
+              );
+
               if (
-                parseInt(goals[item].schemeInfo.sip) <
-                parseInt(goals[item].schemeInfo.default_min_amount)
+                parseInt(
+                  goals[item]?.schemeInfo?.sip
+                    ? goals[item]?.schemeInfo?.sip
+                    : goals[item]?.schemeInfo?.allocationAmountModifiled
+                ) < parseInt(goals[item]?.schemeInfo?.default_min_amount)
               ) {
                 alert("Amount is less than minimum amount");
                 return;

@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { useState, useRef, useEffect, useContext } from "react";
 import {
   StyleSheet,
@@ -23,6 +25,7 @@ import {
 import { Image, Header, CheckBox } from "react-native-elements";
 import { MyImage, InvestmentFundType } from "../../components";
 import Cart from "../../components/Cart";
+import RNPickerSelect from "react-native-picker-select";
 
 function InvestmentListScreens(props) {
   const pageActive = useRef(false);
@@ -37,6 +40,8 @@ function InvestmentListScreens(props) {
     myInvestments,
     fundDetails,
   } = props;
+  // const focusInput = useRef(null);
+  const focusInput = React.createRef();
 
   const [categories, setCategories] = useState([]);
   const [dates, setDates] = useState({});
@@ -46,12 +51,12 @@ function InvestmentListScreens(props) {
   }, [props.navigation.state.params?.refresh, myInvestlist]);
 
   useEffect(() => {
-    categories.map((category, CatIndex) => {
-      myInvestlist[category].map((item, index) => {
-        let data = myInvestlist;
-        data[category][index].sip = configs?.invest / categories?.length;
-      });
-    });
+    // categories.map((category, CatIndex) => {
+    //   myInvestlist[category].map((item, index) => {
+    //     let data = myInvestlist;
+    //     data[category][index].sip = configs?.invest / categories?.length;
+    //   });
+    // });
   }, [categories]);
 
   const getSip = (value) => {
@@ -108,6 +113,7 @@ function InvestmentListScreens(props) {
 
     if (month === 11) {
       month = 0;
+      year = year + 1;
     } else {
       month += 1;
     }
@@ -134,6 +140,7 @@ function InvestmentListScreens(props) {
 
     if (month === 11) {
       month = 0;
+      year = year + 1;
     } else {
       month += 1;
     }
@@ -170,9 +177,15 @@ function InvestmentListScreens(props) {
     let formatted = [];
     let format = {};
     for (let item in data) {
-      let day = dates[`${data[item].fund_type}${item}`]
-        ? dates[`${data[item].fund_type}${item}`]
-        : parseInt(data[item]?.sipDates.split(",")[0]);
+      // const NewSipDates = data[item].sipDates;
+      // var defaultDate = parseInt(NewSipDates.split(",")[0]);
+      // defaultDate = ("0" + defaultDate).slice(-2);
+      let day = data[item]?.date
+        ? data[item]?.date
+        : ("0" + parseInt(data[item]?.sipDates.split(",")[0])).slice(-2);
+      // let day = dates[`${data[item].fund_type}${item}`]
+      //   ? dates[`${data[item].fund_type}${item}`]
+      //   : parseInt(data[item]?.sipDates.split(",")[0]);
       format = {
         category: getFundCategory(data[item]?.isin),
         amount: data[item].sip,
@@ -186,6 +199,7 @@ function InvestmentListScreens(props) {
         folio: "",
         sip_amount: data[item].sip,
         sip_period_day: day,
+        // sip_from_date: "01-Feb-2024",
         sip_from_date: sipFromDate(day),
         sip_end_date: sipEndDate(day),
       };
@@ -243,6 +257,81 @@ function InvestmentListScreens(props) {
     return newValue;
   };
 
+  const [defaultValue, setDefaultValue] = useState("");
+  const [newTotal, setNewTotal] = useState(configs?.invest);
+
+  useEffect(() => {
+    var totalArr = [];
+    categories.map((category, CatIndex) => {
+      myInvestlist[category].map((item, index) => {
+        totalArr.push(item);
+      });
+    });
+
+    if (categories?.length > 0) {
+      var newDefaultValue =
+        parseInt(configs?.invest) / parseInt(totalArr?.length);
+      if (newDefaultValue % 500 != 0 && newDefaultValue != null) {
+        newDefaultValue = Math.round(newDefaultValue / 500) * 500;
+
+        var totalVal = newDefaultValue * totalArr?.length;
+        var totalArr = [];
+        var newArr = categories.map((category, CatIndex) => {
+          var arr = myInvestlist[category].map((item, index) => {
+            let data = myInvestlist;
+            totalArr.push(item);
+            data[category][index].sip = newDefaultValue;
+            return item;
+          });
+          return arr;
+        });
+
+        setNewTotal(Math.round(newDefaultValue * totalArr.length));
+        var totalReminder = newDefaultValue * totalArr.length - configs?.invest;
+        Alert.alert(
+          "Alert Title",
+          `Your total investment amount will be ${
+            totalReminder > 0 ? "increased" : "decreased"
+          } by ₹${Math.abs(
+            newDefaultValue * totalArr.length - configs?.invest
+          )} in order to satisfy the scheme(s) minimum investment amount. Would you like to continue with this increased amount?`,
+          [{ text: "OK", onPress: () => {} }]
+        );
+
+        console.log(
+          "🚀 ~ file: InvestmentListScreens.js:282 ~ myInvestlist[category].map ~ item:",
+          JSON.stringify(totalArr)
+        );
+        // myInvestments(newArr);
+        // categories.map((category, CatIndex) => {
+        //   myInvestlist[category].map((item, index) => {
+        //     let data = myInvestlist;
+        //     console.log(
+        //       "🚀 ~ file: InvestmentListScreens.js:281 ~ useEffect ~ data:",
+        //       data
+        //     );
+        //     data[category][index].sip = newDefaultValue;
+        //   });
+        // });
+      } else {
+        var newDefaultValue =
+          parseInt(configs?.invest) / parseInt(totalArr?.length);
+        var newArr = categories.map((category, CatIndex) => {
+          return myInvestlist[category].map((item, index) => {
+            let data = myInvestlist;
+            data[category][index].sip = newDefaultValue;
+            return data;
+          });
+        });
+        console.log(
+          "🚀 ~ file: InvestmentListScreens.js:312 ~ myInvestlist[category].map ~ myInvestlist:",
+          newArr
+        );
+      }
+      setDefaultValue(JSON.stringify(newDefaultValue));
+    }
+  }, [categories]);
+
   return (
     <View style={styles.container}>
       <Header
@@ -291,7 +380,7 @@ function InvestmentListScreens(props) {
                 ? "SIP Per Month"
                 : "LumpSum Amount"}
             </Text>
-            <Text style={styles.amount_text}>₹ {configs.invest}</Text>
+            <Text style={styles.amount_text}>₹ {newTotal}</Text>
           </View>
         </View>
         {/* {console.log("CONFIGS=", configs)} */}
@@ -324,187 +413,302 @@ function InvestmentListScreens(props) {
                 {category}
               </Text>
               {myInvestlist[category] &&
-                myInvestlist[category].map((item, index) => (
-                  <View key={item?.productCode} style={styles.axis_asset}>
-                    <View
-                      style={[
-                        styles.company,
-                        {
-                          justifyContent:
-                            item?.type === "new"
-                              ? "space-between"
-                              : "flex-start",
-                        },
-                      ]}
-                    >
-                      <Image
-                        source={{ uri: item?.imagePath }}
-                        style={styles.axisimg}
-                      />
-                      <View style={styles.management}>
-                        <Text numberOfLines={1} style={styles.axis}>
-                          {item?.name}
-                        </Text>
-                        {/*<Text style={styles.moderately}>
-                          {item?.productCode}
-                        </Text>*/}
-                      </View>
-                      <AntDesign
-                        style={{
-                          display: item?.type === "new" ? "flex" : "none",
-                        }}
-                        name="delete"
-                        size={24}
-                        color="#C0392B"
-                        onPress={() => handleDelete(item?.isin)}
-                      />
-                    </View>
-
-                    <View style={styles.border_sec}>
-                      <View style={styles.border}>
-                        <View
+                myInvestlist[category].map((item, index) => {
+                  var sipDates =
+                    myInvestlist[category][index].sipDates.split(",");
+                  var newDates = sipDates.map((object) => {
+                    return {
+                      label: object,
+                      value: object,
+                    };
+                  });
+                  var defaultDate = parseInt(item?.sipDates.split(",")[0]);
+                  defaultDate = ("0" + defaultDate).slice(-2);
+                  return (
+                    <View key={item?.productCode} style={styles.axis_asset}>
+                      <View
+                        style={[
+                          styles.company,
+                          {
+                            justifyContent:
+                              item?.type === "new"
+                                ? "space-between"
+                                : "flex-start",
+                          },
+                        ]}
+                      >
+                        <Image
+                          source={{ uri: item?.imagePath }}
+                          style={styles.axisimg}
+                        />
+                        <View style={styles.management}>
+                          <Text numberOfLines={1} style={styles.axis}>
+                            {item?.name}
+                          </Text>
+                          {/*<Text style={styles.moderately}>
+                            {item?.productCode}
+                          </Text>*/}
+                        </View>
+                        <AntDesign
                           style={{
-                            borderWidth: 1,
-                            borderColor: Colors.DEEP_GRAY,
+                            display: item?.type === "new" ? "flex" : "none",
                           }}
-                        ></View>
+                          name="delete"
+                          size={24}
+                          color="#C0392B"
+                          onPress={() => handleDelete(item?.isin)}
+                        />
                       </View>
-                      <View style={styles.icons}>
-                        <TouchableOpacity
-                          style={styles.circle}
-                          onPress={() => {
-                            fundDetails(item);
-                            props.navigation.navigate("FundsDetails", {
-                              fromScreen: "InvestmentList",
-                            });
-                          }}
-                        >
-                          <AntDesign name="right" size={30} color="#C0392B" />
-                        </TouchableOpacity>
-                      </View>
-                    </View>
 
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <View style={styles.select}>
-                        <Text style={styles.no}>Min Investment</Text>
-                        <Text>
-                          ₹
-                          {props.navigation.state.params?.isLumpsum
-                            ? item?.lumpsum_min_amount
-                            : item?.sip_min_amount}
-                        </Text>
+                      <View style={styles.border_sec}>
+                        <View style={styles.border}>
+                          <View
+                            style={{
+                              borderWidth: 1,
+                              borderColor: Colors.DEEP_GRAY,
+                            }}
+                          ></View>
+                        </View>
+                        <View style={styles.icons}>
+                          <TouchableOpacity
+                            style={styles.circle}
+                            onPress={() => {
+                              fundDetails(item);
+                              props.navigation.navigate("FundsDetails", {
+                                fromScreen: "InvestmentList",
+                              });
+                            }}
+                          >
+                            <AntDesign name="right" size={30} color="#C0392B" />
+                          </TouchableOpacity>
+                        </View>
                       </View>
-                      {configs?.selectedOption &&
-                        configs?.selectedOption === "SIP" && (
-                          <View style={styles.select}>
-                            <Text style={styles.no}>SIP Date</Text>
-                            <View style={{ flexDirection: "row" }}>
-                              <Text style={styles.new}>
-                                {dates[`${category}${index}`]
-                                  ? dates[`${category}${index}`]
-                                  : parseInt(item?.sipDates.split(",")[0])}
-                              </Text>
-                              <View style={{ flexDirection: "column" }}>
-                                <TouchableOpacity
-                                  onPress={() => {
-                                    let data = myInvestlist;
-                                    let date = data[category][index]?.date
-                                      ? data[category][index]?.date
-                                      : parseInt(item?.sipDates.split(",")[0]);
-                                    let modifiedDate = plusMinus(
-                                      "plus",
-                                      date,
-                                      data[category][index].sipDates
-                                    );
-                                    data[category][index].date = modifiedDate;
-                                    setDates({
-                                      ...dates,
-                                      [`${category}${index}`]: modifiedDate,
-                                    });
-                                    myInvestments(data);
-                                  }}
+
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <View style={styles.select}>
+                          <Text style={styles.no}>Min Investment</Text>
+                          <Text>
+                            ₹
+                            {props.navigation.state.params?.isLumpsum
+                              ? item?.lumpsum_min_amount
+                              : item?.sip_min_amount}
+                          </Text>
+                        </View>
+                        {configs?.selectedOption &&
+                          configs?.selectedOption === "SIP" && (
+                            <View style={styles.select}>
+                              <Text style={styles.no}>SIP Date</Text>
+
+                              {/* <Text style={styles.no}>
+                                {myInvestlist[category][index].sipDates.split(
+                                  ","
+                                )}
+                              </Text> */}
+                              <View style={styles.returnsbox}>
+                                <View
+                                  style={
+                                    {
+                                      // width: "48%",
+                                      // height: 120,
+                                      // alignItems: "center",
+                                      // borderWidth: 1,
+                                    }
+                                  }
                                 >
-                                  <AntDesign
-                                    name="caretup"
-                                    size={15}
-                                    color="#C0392B"
+                                  <RNPickerSelect
+                                    ref={focusInput}
+                                    placeholder={{
+                                      label: "Select a Date",
+                                      value: null,
+                                    }}
+                                    style={{
+                                      inputIOS: styles.dropDown,
+                                      inputAndroid: styles.dropDown,
+                                      placeholder: styles.dropDown,
+                                      height: 120,
+                                    }}
+                                    useNativeAndroidPickerStyle={false}
+                                    onValueChange={(value) => {
+                                      let data = myInvestlist;
+                                      let date = data[category][index]?.date
+                                        ? data[category][index]?.date
+                                        : parseInt(
+                                            item?.sipDates.split(",")[0]
+                                          );
+
+                                      data[category][index].date = value;
+                                      setDates({
+                                        ...dates,
+                                        [`${category}${index}`]: value,
+                                      });
+                                      myInvestments(data);
+                                    }}
+                                    value={
+                                      dates[`${category}${index}`]
+                                        ? dates[`${category}${index}`]
+                                        : defaultDate
+                                    }
+                                    // value={
+                                    //   dates[`${category}${index}`]
+                                    //     ? dates[`${category}${index}`]
+                                    //     : parseInt(item?.sipDates.split(",")[0])
+                                    // }
+                                    items={newDates}
+                                    Icon={() => {
+                                      // if (icon) return icon;
+                                      return (
+                                        <AntDesign
+                                          name="caretdown"
+                                          size={15}
+                                          style={{
+                                            marginTop: 7,
+                                            marginRight: -10,
+                                          }}
+                                          color="#C0392B"
+                                        />
+                                      );
+                                    }}
+                                    // Icon={() => {
+                                    //   return (
+
+                                    //   );
+                                    // }}
                                   />
-                                </TouchableOpacity>
-                                <TouchableOpacity
-                                  onPress={() => {
-                                    let data = myInvestlist;
-                                    let date = data[category][index]?.date
-                                      ? data[category][index]?.date
-                                      : parseInt(item?.sipDates.split(",")[0]);
-                                    let modifiedDate = plusMinus(
-                                      "minus",
-                                      date,
-                                      data[category][index].sipDates
-                                    );
-                                    data[category][index].date = modifiedDate;
-                                    setDates({
-                                      ...dates,
-                                      [`${category}${index}`]: modifiedDate,
-                                    });
-                                    myInvestments(data);
+                                </View>
+                                {/* <TouchableOpacity
+                                  style={{
+                                    zIndex: 1,
+                                    width: 20,
+                                    borderWidth: 1,
                                   }}
                                 >
                                   <AntDesign
                                     name="caretdown"
                                     size={15}
+                                    style={{
+                                      marginTop: 7,
+                                      marginRight: -20,
+                                    }}
                                     color="#C0392B"
                                   />
-                                </TouchableOpacity>
+                                </TouchableOpacity> */}
                               </View>
+                              {/* <View style={{ flexDirection: "row" }}>
+                                <Text style={styles.new}>
+                                  {dates[`${category}${index}`]
+                                    ? dates[`${category}${index}`]
+                                    : parseInt(item?.sipDates.split(",")[0])}
+                                </Text>
+                                <View style={{ flexDirection: "column" }}>
+                                  <TouchableOpacity
+                                    onPress={() => {
+                                      let data = myInvestlist;
+                                      let date = data[category][index]?.date
+                                        ? data[category][index]?.date
+                                        : parseInt(
+                                            item?.sipDates.split(",")[0]
+                                          );
+                                      let modifiedDate = plusMinus(
+                                        "plus",
+                                        date,
+                                        data[category][index].sipDates
+                                      );
+                                      data[category][index].date = modifiedDate;
+                                      setDates({
+                                        ...dates,
+                                        [`${category}${index}`]: modifiedDate,
+                                      });
+                                      myInvestments(data);
+                                    }}
+                                  >
+                                    <AntDesign
+                                      name="caretup"
+                                      size={15}
+                                      color="#C0392B"
+                                    />
+                                  </TouchableOpacity>
+                                  <TouchableOpacity
+                                    onPress={() => {
+                                      let data = myInvestlist;
+                                      let date = data[category][index]?.date
+                                        ? data[category][index]?.date
+                                        : parseInt(
+                                            item?.sipDates.split(",")[0]
+                                          );
+                                      let modifiedDate = plusMinus(
+                                        "minus",
+                                        date,
+                                        data[category][index].sipDates
+                                      );
+                                      data[category][index].date = modifiedDate;
+                                      setDates({
+                                        ...dates,
+                                        [`${category}${index}`]: modifiedDate,
+                                      });
+                                      myInvestments(data);
+                                    }}
+                                  >
+                                    <AntDesign
+                                      name="caretdown"
+                                      size={15}
+                                      color="#C0392B"
+                                    />
+                                  </TouchableOpacity>
+                                </View>
+                              </View> */}
                             </View>
-                          </View>
-                        )}
+                          )}
 
-                      <View style={styles.select}>
-                        <Text style={styles.no}>
-                          {configs.selectedOption === "SIP"
-                            ? "SIP Amount"
-                            : "Amount"}
-                        </Text>
-                        <View
-                          style={{ flexDirection: "row", alignItems: "center" }}
-                        >
-                          <Text style={styles.new}>₹</Text>
-                          <TextInput
-                            style={[
-                              styles.new,
-                              {
-                                paddingHorizontal: 5,
-                                marginLeft: 5,
-                                borderRadius: 5,
-                                minWidth: 50,
-                                backgroundColor: "#ff000050",
-                              },
-                            ]}
-                            keyboardType={"numeric"}
-                            maxLength={8}
-                            placeholder={"0"}
-                            placeholderTextColor={"#000"}
-                            onChangeText={(v) => {
-                              let data = myInvestlist;
-                              data[category][index].sip = v;
-                              // alert(JSON.stringify(data));
-                              myInvestments(data);
+                        <View style={styles.select}>
+                          <Text style={styles.no}>
+                            {configs.selectedOption === "SIP"
+                              ? "SIP Amount"
+                              : "Amount"}
+                          </Text>
+                          <View
+                            style={{
+                              flexDirection: "row",
+                              alignItems: "center",
                             }}
-                            defaultValue={JSON.stringify(
-                              configs?.invest / categories?.length
-                            )}
-                          />
+                          >
+                            <Text style={styles.new}>₹</Text>
+                            <TextInput
+                              style={[
+                                styles.new,
+                                {
+                                  paddingHorizontal: 5,
+                                  marginLeft: 5,
+                                  borderRadius: 5,
+                                  minWidth: 50,
+                                  backgroundColor: "#ff000050",
+                                },
+                              ]}
+                              keyboardType={"numeric"}
+                              maxLength={8}
+                              placeholder={"0"}
+                              placeholderTextColor={"#000"}
+                              onChangeText={(v) => {
+                                let data = myInvestlist;
+                                data[category][index].sip = v;
+                                // alert(JSON.stringify(data));
+                                myInvestments(data);
+                              }}
+                              defaultValue={defaultValue}
+                              // defaultValue={JSON.stringify(
+                              //   configs?.invest / categories?.length
+                              // )}
+                            />
+                          </View>
                         </View>
                       </View>
                     </View>
-                  </View>
-                ))}
+                  );
+                })}
             </>
           );
         })}
@@ -512,7 +716,7 @@ function InvestmentListScreens(props) {
       <TouchableOpacity
         onPress={() => props.navigation.navigate("InvestmentSearch")}
       >
-        <Text style={styles.more_funds}>I would like to add more funds</Text>
+        {/* <Text style={styles.more_funds}>I would like to add more funds</Text> */}
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
@@ -569,7 +773,7 @@ function InvestmentListScreens(props) {
               ],
               { cancelable: false }
             );
-          } else if (sum < Number(configs.invest)) {
+          } else if (sum < Number(defaultValue)) {
             alert("Invested amount less than the total!");
           } else {
             let data = [];
@@ -581,6 +785,7 @@ function InvestmentListScreens(props) {
               }
             }
             let params = getParams(data, sum);
+            // return;
             // alert(JSON.stringify(params));
             //newInvestment(params, token);
             // return;
@@ -767,6 +972,14 @@ const styles = StyleSheet.create({
     borderColor: Colors.DEEP_GRAY,
     paddingLeft: 2,
   },
+  dropDown: {
+    color: Colors.BLACK,
+    width: 100,
+    height: 25,
+    alignSelf: "center",
+    textAlign: "center",
+  },
+  returnsbox: { flexDirection: "row" },
 });
 const mapStateToProps = (state) => ({
   token: state.auth.token,

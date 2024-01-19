@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { useState, useRef, useEffect, useContext } from "react";
 import {
   StyleSheet,
@@ -19,6 +21,7 @@ import PortfolioSummary from "./PortfolioSummary";
 import RiskRating from "./RiskRating";
 import ExpenseRatio from "./ExpenseRatio";
 import FundManagers from "./FundManagers";
+import Toast from "react-native-simple-toast";
 
 function FundDetailScreen(props) {
   const [fundType, setFundType] = useState([
@@ -82,7 +85,7 @@ function FundDetailScreen(props) {
         <View style={styles.submit}>
           <TouchableOpacity
             onPress={() => {
-              ToastAndroid.show("Fund Selected!", ToastAndroid.SHORT);
+              Toast.show("Fund Selected!", Toast.SHORT);
               props.goBack();
             }}
           >

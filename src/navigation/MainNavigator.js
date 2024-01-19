@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { useState, useRef, useEffect, useContext } from "react";
 import { Image, View } from "react-native";
 import { createStackNavigator } from "react-navigation-stack";
@@ -37,6 +39,7 @@ import {
   ReferEarnScreen,
   AmountHistoryScreen,
   NotificationScreen,
+  NotificationViewScreen,
   RelationshipScreen,
   RmNotFoundScreen,
   ReportsScreen,
@@ -454,6 +457,12 @@ export const OthersStack = createStackNavigator(
     },
     Notifications: {
       screen: NotificationScreen,
+      navigationOptions: {
+        headerShown: false,
+      },
+    },
+    NotificationView: {
+      screen: NotificationViewScreen,
       navigationOptions: {
         headerShown: false,
       },

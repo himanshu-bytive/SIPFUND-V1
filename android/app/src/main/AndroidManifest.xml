@@ -79,7 +79,8 @@
         <action android:name="android.intent.action.VIEW" />
         <category android:name="android.intent.category.DEFAULT" />
         <category android:name="android.intent.category.BROWSABLE" />
-        <data android:scheme="com.sipfund.app" />
+        <data android:host="eks24.app.goo.gl" 
+        android:scheme="https" />
       </intent-filter>
     </activity>
     <activity

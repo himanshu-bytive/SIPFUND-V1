@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { useState, useRef, useEffect } from "react";
 import {
   StyleSheet,
@@ -20,6 +22,7 @@ import {
 import { Image, Header } from "react-native-elements";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import NotificationService from "../../../NotificationService";
+import Toast from "react-native-simple-toast";
 
 function LoginScreen(props) {
   const pageActive = useRef(false);
@@ -66,10 +69,7 @@ function LoginScreen(props) {
   useEffect(() => {
     if (wrongPassCount) {
       if (wrongPassCount >= 3) {
-        ToastAndroid.show(
-          "Looks like you've forgotten your password!",
-          ToastAndroid.LONG
-        );
+        Toast.show("Looks like you've forgotten your password!", Toast.LONG);
         props.navigation.navigate("forgotpassword");
       }
     }

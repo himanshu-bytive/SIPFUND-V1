@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { useState, useRef, useEffect, useContext } from "react";
 import {
   StyleSheet,
@@ -139,7 +141,7 @@ function RelationshipScreen(props) {
               <FontAwesome name="whatsapp" size={30} color="#4CAF50" />
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => Linking.openURL("mailto:support@example.com")}
+              onPress={() => Linking.openURL("mailto:" + rmDetails?.data.email)}
             >
               <Entypo name="mail" size={30} color="#646365" />
             </TouchableOpacity>

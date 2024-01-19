@@ -1,3 +1,5 @@
+/** @format */
+
 import axios from "axios";
 import React, { useState, useRef, useEffect, useContext } from "react";
 import {
@@ -16,7 +18,8 @@ import { check, PERMISSIONS, request, RESULTS } from "react-native-permissions";
 import { connect } from "react-redux";
 import DeviceInfo from "react-native-device-info";
 import { Colors } from "../../common";
-import { apiBaseUrl } from "../../common/Config";
+import apiBaseUrl from "../../common/Config";
+import Toast from "react-native-simple-toast";
 
 function SplashScreen(props) {
   const { logout, resetData, setToken } = props;
@@ -40,9 +43,11 @@ function SplashScreen(props) {
   }
 
   useEffect(() => {
+    // alert(JSON.stringify(apiBaseUrl?.apiBaseUrl) + "/user/getAppVersion");
+    // return;
     axios
       //.get(`${apiBaseUrl}/user/getAppVersion`)
-      .get(apiBaseUrl + "/user/getAppVersion")
+      .get(apiBaseUrl?.apiBaseUrl + "/user/getAppVersion")
       .then((res) => {
         const { data } = res;
         if (isUpdateAvailable(data.Version)) {
@@ -82,12 +87,42 @@ function SplashScreen(props) {
   }, [updateAvailable]);
 
   useEffect(() => {
+    try {
+      // Linking.getInitialURL().then((url) => {
+      //   if (url) {
+      //     // handleOpenURL({ url });
+      //   }
+      // });
+      // alert("Shadab");
+      // Linking.addEventListener("url", ({ url }, nn) => {
+      // Handle the deep link URL
+      // const route = url.replace(/.*?:\/\//g, "");
+      // const routeName = route.split("/")[0];
+      // if (routeName === "details") {
+      //   const itemId = route.split("/")[1];
+      //   // Navigate to the Details screen with the item ID
+      //   const navigation = AppNavigator.router.getNavigator("root");
+      //   if (navigation) {
+      //     navigation.navigate("Details", { itemId });
+      //   }
+      // }
+      // });
+    } catch (error) {
+      alert("dfdsfdssssssssssssssdfdsfdssssssssssssssdfdsfdssssssssssssss");
+    }
+  });
+  const handleDeepLink = (url) => {
+    alert("qwerty");
+  };
+
+  useEffect(() => {
     if (updateAvailable === undefined) {
       return;
     }
 
     if (updateAvailable) {
-      ToastAndroid.show("Please update the app!", ToastAndroid.LONG);
+      Toast.show("Please update the app!", Toast.LONG);
+      return;
     }
 
     logout();

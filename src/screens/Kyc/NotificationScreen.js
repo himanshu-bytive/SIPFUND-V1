@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { useState, useRef, useEffect, useContext } from "react";
 import {
   StyleSheet,
@@ -8,8 +10,9 @@ import {
   Text,
   Dimensions,
   KeyboardAvoidingView,
-  TextInput,
+  Alert,
   ActivityIndicator,
+  StatusBar,
 } from "react-native";
 import { connect } from "react-redux";
 import { Styles, Config, Colors, FormValidate } from "../../common";
@@ -27,36 +30,177 @@ import { ScrollView } from "react-native-gesture-handler";
 import Cart from "../../components/Cart";
 
 function NotificationScreen(props) {
+  const {
+    isFetching,
+    getNotifications,
+    readNotifications,
+    token,
+    notificationData,
+    deleteNotifications,
+    delLoading,
+  } = props;
+
+  // useEffect(() => {
+  // }, []);
+
+  useEffect(() => {
+    const unsubscribe = props?.navigation.addListener("didFocus", () => {
+      getNotifications(token);
+    });
+
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return unsubscribe;
+  }, []);
+
+  useEffect(() => {
+    getNotifications(token);
+  }, []);
+
+  const deleteConfirm = (id) => {
+    Alert.alert("SIP Fund", "Do you want to delete this notification", [
+      {
+        text: "Cancel",
+        onPress: () => {},
+      },
+      {
+        text: "Yes",
+        onPress: () => {
+          deleteNotifications(id, token);
+        },
+      },
+    ]);
+    //
+  };
+
   return (
     <View style={styles.container}>
       {/* header  */}
+      <StatusBar
+        animated={true}
+        backgroundColor="pink"
+        barStyle="light-content"
+      />
       <Header
         leftComponent={
           <TouchableOpacity
-            onPress={() => props.navigation.navigate("Home")}
-            style={{ marginTop: 20 }}
+            onPress={() => props.navigation.goBack()}
+            style={{ marginTop: 5 }}
           >
-            <AntDesign name={"arrowleft"} size={30} color={Colors.RED} />
+            <AntDesign name={"arrowleft"} size={20} color={Colors.WHITE} />
           </TouchableOpacity>
         }
-        backgroundColor={Colors.PEACH}
-        backgroundColor={Colors.LIGHT_WHITE}
+        // backgroundColor={Colors.PEACH}
+        backgroundColor={Colors.RED}
+        height={100}
         centerComponent={
-          <Image
-            source={require("../../../assets/icon.png")}
-            style={styles.logimg}
-          />
+          <Text
+            style={{ color: Colors.WHITE, fontSize: 20, fontWeight: "800" }}
+          >
+            Notifications
+          </Text>
+          //   <Image
+          //     source={require("../../../assets/icon.png")}
+          //     style={styles.logimg}
+          //   />
         }
-        rightComponent={
-          <Cart
-            nav={() => {
-              props.navigation.navigate("TopRatedList");
-            }}
-          />
-        }
+        // rightComponent={
+        //   <Cart
+        //     nav={() => {
+        //       props.navigation.navigate("TopRatedList");
+        //     }}
+        //   />
+        // }
       />
+
+      {isFetching && (
+        <View
+          style={{
+            backgroundColor: "#fffe",
+            width: Dimensions.get("window").width,
+            height: Dimensions.get("window").height,
+            position: "absolute",
+            zIndex: 100,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <ActivityIndicator size={60} color="black" />
+        </View>
+      )}
+
       <ScrollView>
-        <View style={styles.contain}>
+        {notificationData?.map((item, index) => (
+          <TouchableOpacity
+            style={[
+              styles.notificationContainer,
+              {
+                backgroundColor: item?.notification?.isRead
+                  ? "white"
+                  : "#FFF2EF",
+              },
+            ]}
+            onPress={() => {
+              // alert("ddd");
+              props.navigation.navigate("NotificationView", item);
+            }}
+          >
+            <View style={styles.rowItems}>
+              <View style={styles.contentRight}>
+                <View style={styles.rowItems}>
+                  {item?.notificationtemplate?.image ? (
+                    <Image
+                      source={{ uri: item?.notificationtemplate?.image }}
+                      style={{
+                        height: 50,
+                        width: 50,
+                        // backgroundColor: "gray",
+                        borderWidth: 0.5,
+                        borderRadius: 25,
+                        marginRight: 5,
+                      }}
+                    />
+                  ) : (
+                    <>
+                      <View
+                        style={{
+                          height: 50,
+                          width: 50,
+                          backgroundColor: "gray",
+                          borderRadius: 25,
+                          marginRight: 5,
+                        }}
+                      ></View>
+                    </>
+                  )}
+                  <View>
+                    <Text style={styles.heading}>
+                      {item?.notificationtemplate?.name}
+                    </Text>
+                    <Text
+                      numberOfLines={1}
+                      style={{ width: Dimensions.get("window").width / 1.5 }}
+                    >
+                      {item?.notificationtemplate?.message}
+                    </Text>
+                  </View>
+                </View>
+              </View>
+              <TouchableOpacity
+                style={styles.contentLeft}
+                activeOpacity={0.5}
+                onPress={() => {
+                  deleteConfirm(item?.notification?.id);
+                }}
+              >
+                <Image
+                  source={require("../../../assets/Frame.png")}
+                  style={styles.imageStyle}
+                />
+              </TouchableOpacity>
+            </View>
+          </TouchableOpacity>
+        ))}
+        {/* <View style={styles.contain}>
           <View style={styles.sipfund_sec}>
             <Text style={styles.nametext}>VISHNU DARIRA</Text>
             <Text style={styles.nametext}>
@@ -76,7 +220,7 @@ function NotificationScreen(props) {
             source={require("../../../assets/icon.png")}
             style={styles.bottomlogimg}
           />
-        </View>
+        </View> */}
       </ScrollView>
     </View>
   );
@@ -113,20 +257,57 @@ const styles = StyleSheet.create({
     height: 67,
     width: 212,
   },
+  rowItems: {
+    flexDirection: "row",
+    // justifyContent: "space-between",
+    alignItems: "center",
+  },
+  contentRight: {
+    width: "80%",
+    height: 70,
+    padding: 10,
+  },
+  contentLeft: {
+    width: "20%",
+    height: 70,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  imageStyle: { height: 20, width: 20 },
+  heading: { fontSize: 16, fontWeight: "bold" },
+  notificationContainer: {
+    height: 70,
+    width: "100%",
+    backgroundColor: "#FFF2EF",
+    borderBottomWidth: 0.2,
+  },
 });
 const mapStateToProps = (state) => ({
   token: state.auth.token,
   users: state.auth.users,
+  isFetching: state.sideMenu.isFetching,
+  delLoading: state.sideMenu.delLoading,
+  notificationData: state.sideMenu.notificationData,
 });
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
   const { dispatch } = dispatchProps;
   const { AuthActions } = require("../../store/AuthRedux");
+  const { SideMenuActions } = require("../../store/SideMenuRedux");
   return {
     ...stateProps,
     ...ownProps,
     logOut: () => {
       AuthActions.logOut(dispatch);
+    },
+    getNotifications: (token) => {
+      SideMenuActions.getNotifications(dispatch, token);
+    },
+    readNotifications: (params, token) => {
+      SideMenuActions.readNotifications(dispatch, params, token);
+    },
+    deleteNotifications: (params, token) => {
+      SideMenuActions.deleteNotifications(dispatch, params, token);
     },
   };
 };

@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { useState, useRef, useEffect, useContext } from "react";
 import {
   StyleSheet,
@@ -109,10 +111,10 @@ function OtpScreen(props) {
         setDisplayCurrentAddress({
           latitude: latitude,
           longitude: longitude,
-          address: item.name,
-          city: item.city,
-          state: item.street,
-          pincode: item.postalCode,
+          address: item?.name,
+          city: item?.city,
+          state: item?.street,
+          pincode: item?.postalCode,
         });
       }
     }

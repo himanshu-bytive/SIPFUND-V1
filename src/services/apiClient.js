@@ -1,3 +1,5 @@
+/** @format */
+
 import { Alert, NativeModules } from "react-native";
 const axios = require("axios");
 class ApiClient {
@@ -60,8 +62,12 @@ class ApiClient {
             ) {
               message = error.response.data.Data[0].return_msg;
             } else if (error?.response?.data?.Data) {
-              message = error.response.data.Data.return_msg;
-              status = error.response.data.Data.Status;
+              message = error.response.data.Data.return_msg
+                ? error.response.data.Data.return_msg
+                : error.response.data.Data.Status_Desc;
+              status = error.response.data.Data.Status
+                ? error.response.data.Data.Status
+                : 400;
             } else if (error.response?.data?.responseString) {
               message = error.response?.data?.responseString;
             } else if (error.response?.data?.message) {

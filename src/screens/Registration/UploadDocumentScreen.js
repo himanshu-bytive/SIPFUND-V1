@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { useState, useRef, useEffect, useContext } from "react";
 import {
   StyleSheet,
@@ -117,6 +119,7 @@ function UploadDocumentScreen(props) {
     user?.userDetails?.ekycIsDone ? documentsKyc : documents
   );
   const carosuelref = useRef();
+  const [reUploadInd, setReUploadInd] = useState([]);
 
   useEffect(() => {
     const backAction = () => {
@@ -266,7 +269,15 @@ function UploadDocumentScreen(props) {
           <Text style={styles.we_need}>We need the Required Documents</Text>
           {document.map((item, key) => (
             <View key={key} style={styles.pan_sec}>
-              {docs && <MyImagePicker items={item} docs={docs} />}
+              {docs && (
+                <MyImagePicker
+                  items={item}
+                  docs={docs}
+                  setReUploadInd={setReUploadInd}
+                  reUploadInd={reUploadInd}
+                  navigation={props.navigation}
+                />
+              )}
             </View>
           ))}
         </View>

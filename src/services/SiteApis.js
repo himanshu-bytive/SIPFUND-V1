@@ -1,3 +1,5 @@
+/** @format */
+
 import { Platform, Alert } from "react-native";
 import Config from "../common/Config";
 import ApiClient from "./apiClient";
@@ -23,6 +25,11 @@ const SiteApis = {
   apiPostCall: async (api, params, token) => {
     try {
       const response = await Api.post(api, params, { token });
+      console.log(
+        "🚀 ~ file: SiteApis.js:29 ~ apiGetCall: ~ response:",
+        JSON.stringify(response?.body),
+        api
+      );
       if (response.statusCode === 200) {
         return response.body;
       } else {
@@ -47,6 +54,24 @@ const SiteApis = {
   apiGetCall: async (api, params, token) => {
     try {
       const response = await Api.get(api, params, { token });
+      console.log(
+        "🚀 ~ file: SiteApis.js:52 ~ apiGetCall: ~ response:",
+        JSON.stringify(response?.body),
+        api,
+        token
+      );
+      if (response.statusCode === 200) {
+        return response.body;
+      } else {
+        throw response.body;
+      }
+    } catch (err) {
+      return err;
+    }
+  },
+  apiDelCall: async (api, params, token) => {
+    try {
+      const response = await Api.delete(api, params, { token });
       if (response.statusCode === 200) {
         return response.body;
       } else {
@@ -83,7 +108,9 @@ const SiteApis = {
       body: formData,
     })
       .then((response) => response.text())
-      .then((result) => JSON.parse(result))
+      .then((result) => {
+        return JSON.parse(result);
+      })
       .catch((error) => {
         return { error: true, message: error };
       });

@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { useState, useRef, useEffect } from "react";
 import {
   StyleSheet,
@@ -349,8 +351,9 @@ function CompleteDetailsBankScreen(props) {
         </View>
       )}
       <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={styles.container}
-        behavior="position"
+        // behavior="position"
         enabled
       >
         <ScrollView>
@@ -365,6 +368,77 @@ function CompleteDetailsBankScreen(props) {
 
           {/* state_sec */}
           <View style={styles.container_sec}>
+            <Text style={styles.occupation}>
+              Account Type <Text style={styles.error}>*</Text>
+            </Text>
+            <MySelectPicker
+              values={accountTypeList}
+              defultValue={state.accountType}
+              error={errors.accountType}
+              placeholder={"Select A/C type"}
+              onChange={(accountType) => {
+                setErrors({ ...errors, accountType: null });
+                setState({ ...state, accountType });
+              }}
+            />
+
+            <Text style={styles.occupation}>
+              Account No. <Text style={styles.error}>*</Text>
+            </Text>
+            <MyTextInput
+              keyboardType="numeric"
+              maxLength={16}
+              value={state.accountNumber}
+              error={errors.accountNumber}
+              onChangeText={(accountNumber) => {
+                setErrors({ ...errors, accountNumber: null });
+                setState({ ...state, accountNumber });
+              }}
+            />
+
+            <Text style={styles.occupation}>
+              IFSC Code <Text style={styles.error}>*</Text>
+            </Text>
+            <MyTextInput
+              value={state.ifsc}
+              error={errors.ifsc}
+              autoCapitalize={"characters"}
+              maxLength={11}
+              onChangeText={(ifsc) => {
+                setErrors({ ...errors, ifsc: null });
+                setState({ ...state, ifsc });
+              }}
+            />
+
+            <View style={{ alignItems: "center" }}>
+              {isFetching ? (
+                <View style={styles.botton_box}>
+                  <ActivityIndicator size={30} color={Colors.WHITE} />
+                </View>
+              ) : (
+                <TouchableOpacity
+                  onPress={() => {
+                    if (
+                      state.accountNumber.length < 9 ||
+                      state.accountNumber.length > 21
+                    ) {
+                      setErrors({
+                        ...errors,
+                        accountNumber: "Please Add a Valid Value",
+                      });
+                    } else {
+                      getBankDetails(state.ifsc, token);
+                      setErrors({ ...errors, showBank: null });
+                    }
+                  }}
+                  style={[styles.botton_box, { marginTop: 10 }]}
+                >
+                  <Text style={styles.get_otp}>Fetch Bank Details</Text>
+                </TouchableOpacity>
+              )}
+            </View>
+          </View>
+          {/* <View style={styles.container_sec}>
             <Text style={styles.occupation}>
               Account Type <Text style={styles.error}>*</Text>
             </Text>
@@ -434,7 +508,7 @@ function CompleteDetailsBankScreen(props) {
                 </TouchableOpacity>
               )}
             </View>
-          </View>
+          </View> */}
 
           {/* botton_box_sec */}
           <View

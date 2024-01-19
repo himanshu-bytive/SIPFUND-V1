@@ -1,3 +1,5 @@
+/** @format */
+
 import SiteAPI from "../services/SiteApis";
 import { Alert } from "react-native";
 import axios from "axios";
@@ -28,6 +30,18 @@ const types = {
   FETCH_REFERRAL_PENDING: "FETCH_REFERRAL_PENDING",
   FETCH_REFERRAL_SUCCESS: "FETCH_REFERRAL_SUCCESS",
   FETCH_REFERRAL_FAILURE: "FETCH_REFERRAL_FAILURE",
+
+  FETCH_NOTIFICATION_PENDING: "FETCH_NOTIFICATION_PENDING",
+  FETCH_NOTIFICATION_SUCCESS: "FETCH_NOTIFICATION_SUCCESS",
+  FETCH_NOTIFICATION_FAILURE: "FETCH_NOTIFICATION_FAILURE",
+
+  FETCH_NOTIFICATION_READ_PENDING: "FETCH_NOTIFICATION_READ_PENDING",
+  FETCH_NOTIFICATION_READ_SUCCESS: "FETCH_NOTIFICATION_READ_SUCCESS",
+  FETCH_NOTIFICATION_READ_FAILURE: "FETCH_NOTIFICATION_READ_FAILURE",
+
+  FETCH_NOTIFICATION_DELETED_PENDING: "FETCH_NOTIFICATION_DELETED_PENDING",
+  FETCH_NOTIFICATION_DELETED_SUCCESS: "FETCH_NOTIFICATION_DELETED_SUCCESS",
+  FETCH_NOTIFICATION_DELETED_FAILURE: "FETCH_NOTIFICATION_DELETED_FAILURE",
 };
 export const SideMenuActions = {
   resetData() {
@@ -104,8 +118,6 @@ export const SideMenuActions = {
     }
   },
   getReferralLink: async (dispatch, params) => {
-    console.log("🚀 ~ file: SideMenuRedux.js:74 ~ getRefer: ~ sdfsd:", "sdfsd");
-
     console.log("PARAMS=", params);
     dispatch({ type: types.FETCH_REFERRAL_PENDING });
     try {
@@ -125,6 +137,63 @@ export const SideMenuActions = {
       dispatch({ type: types.FETCH_REFERRAL_FAILURE, error: err.message });
     }
   },
+  getNotifications: async (dispatch, tokan) => {
+    dispatch({ type: types.FETCH_NOTIFICATION_PENDING });
+    try {
+      let data = await SiteAPI.apiGetCall("/notification/mobile", {}, tokan);
+      dispatch({
+        type: types.FETCH_NOTIFICATION_SUCCESS,
+        notificationData: data?.results,
+      });
+    } catch (err) {
+      console.log("ERR=", err.message);
+      Alert.alert(err.message);
+      dispatch({ type: types.FETCH_NOTIFICATION_FAILURE, error: err.message });
+    }
+  },
+  readNotifications: async (dispatch, params, tokan) => {
+    dispatch({ type: types.FETCH_NOTIFICATION_READ_PENDING });
+    try {
+      let data = await SiteAPI.apiPutCall(
+        "/notification/mobile/" + params,
+        { params },
+        tokan
+      );
+      dispatch({
+        type: types.FETCH_NOTIFICATION_READ_SUCCESS,
+        notificationData: data?.results,
+      });
+    } catch (err) {
+      console.log("ERR=", err.message);
+      Alert.alert(err.message);
+      dispatch({
+        type: types.FETCH_NOTIFICATION_READ_FAILURE,
+        error: err.message,
+      });
+    }
+  },
+  deleteNotifications: async (dispatch, params, tokan) => {
+    dispatch({ type: types.FETCH_NOTIFICATION_DELETED_PENDING });
+    try {
+      let data = await SiteAPI.apiDelCall(
+        "/notification/mobile/" + params,
+        { params },
+        tokan
+      );
+      dispatch({
+        type: types.FETCH_NOTIFICATION_DELETED_SUCCESS,
+        // notificationData: data?.results,
+      });
+      SideMenuActions.getNotifications(dispatch, tokan);
+    } catch (err) {
+      console.log("ERR=", err.message);
+      Alert.alert(err.message);
+      dispatch({
+        type: types.FETCH_NOTIFICATION_DELETED_FAILURE,
+        error: err.message,
+      });
+    }
+  },
 };
 
 const initialState = {
@@ -135,6 +204,8 @@ const initialState = {
   refers: null,
   refersConfig: null,
   referralLink: null,
+  notificationData: [],
+  delLoading: false,
 };
 
 export const reducer = (state = initialState, action) => {
@@ -146,10 +217,13 @@ export const reducer = (state = initialState, action) => {
     refers,
     refersConfig,
     referralLink,
+    notificationData,
   } = action;
   switch (type) {
     case types.FETCH_REFER_PASS_PENDING:
     case types.FETCH_REFER_PENDING:
+    case types.FETCH_NOTIFICATION_PENDING:
+    case types.FETCH_NOTIFICATION_READ_PENDING:
     case types.FETCH_UPDATE_PENDING:
     case types.FETCH_ADD_PENDING:
     case types.FETCH_DATA_PENDING:
@@ -170,6 +244,24 @@ export const reducer = (state = initialState, action) => {
         ...state,
         isFetching: false,
         error,
+      };
+    }
+    case types.FETCH_NOTIFICATION_DELETED_PENDING: {
+      return {
+        delLoading: true,
+      };
+    }
+    case types.FETCH_NOTIFICATION_DELETED_SUCCESS: {
+      return {
+        delLoading: false,
+      };
+    }
+    case types.FETCH_NOTIFICATION_DELETED_FAILURE: {
+      return {
+        ...state,
+        delLoading: false,
+        isFetching: true,
+        error: null,
       };
     }
     case types.FETCH_DATA_SUCCESS: {
@@ -212,6 +304,14 @@ export const reducer = (state = initialState, action) => {
         isFetching: false,
         error: null,
         referralLink,
+      };
+    }
+    case types.FETCH_NOTIFICATION_SUCCESS: {
+      return {
+        ...state,
+        isFetching: false,
+        error: null,
+        notificationData,
       };
     }
 

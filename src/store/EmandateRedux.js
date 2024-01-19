@@ -1,3 +1,5 @@
+/** @format */
+
 import SiteAPI from "../services/SiteApis";
 import { Alert, Linking } from "react-native";
 const types = {
@@ -17,7 +19,7 @@ export const EmandateActions = {
     dispatch({ type: types.FETCH_EMANDATE_OPTIONS_PENDING });
     let data = await SiteAPI.apiGetCall(`/emandateOptions/`, {}, token);
     if (data.error) {
-      if(data.message) Alert.alert(data.message);
+      if (data.message) Alert.alert(data.message);
       dispatch({
         type: types.FETCH_EMANDATE_OPTIONS_FAILURE,
         error: data.message,
@@ -36,14 +38,20 @@ export const EmandateActions = {
       params,
       token
     );
+
     if (data.error) {
-      if(data.message) Alert.alert(data.message);
+      if (data.message) {
+        Alert.alert("SIP Fund", data.message, [
+          { text: "OK", onPress: () => {} },
+        ]);
+      }
       dispatch({
         type: types.FETCH_EMANDATE_REGISTRATION_FAILURE,
         error: data.message,
       });
     } else {
       //Linking.openURL(data.Data[0].eMandatelink);
+      // alert(data.Data[0].eMandatelink);
       dispatch({
         type: types.FETCH_EMANDATE_REGISTRATION_SUCCESS,
         emandateDetails: data.response,

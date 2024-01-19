@@ -1,3 +1,5 @@
+/** @format */
+
 import SiteAPI from "../services/SiteApis";
 import { Alert } from "react-native";
 import axios from "axios";

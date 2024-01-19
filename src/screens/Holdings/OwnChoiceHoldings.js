@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { useState, useRef, useEffect, useContext } from "react";
 import {
   StyleSheet,
@@ -37,10 +39,6 @@ function OwnChoiceHoldings(props) {
     summary,
     navigation: { state },
   } = props;
-  console.log(
-    "🚀 ~ file: OwnChoiceHoldings.js:33 ~ OwnChoiceHoldings ~ currentValue:",
-    state?.params?.currentValue
-  );
   const [data, setData] = useState(
     summary?.ownchoice ? summary?.ownchoice : []
   );
@@ -52,10 +50,6 @@ function OwnChoiceHoldings(props) {
 
   useEffect(() => {
     if (data) {
-      console.log(
-        "🚀 ~ file: OwnChoiceHoldings.js:44 ~ useEffect ~ data:",
-        data
-      );
       let sum = 0.0;
       for (let item of data) {
         sum += parseFloat(item?.currentValue);

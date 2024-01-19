@@ -10,6 +10,7 @@ import {
   KeyboardAvoidingView,
   TextInput,
   ActivityIndicator,
+  Linking,
 } from "react-native";
 import { connect } from "react-redux";
 import { Styles, Config, Colors, FormValidate } from "../../common";
@@ -25,6 +26,7 @@ import {
 import { Image, Header, ListItem, Overlay } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
 import Cart from "../../components/Cart";
+// import Share from "react-native-share";
 
 const listTop = [
   {
@@ -90,20 +92,28 @@ function ReferEarnScreen(props) {
 
   const onShare = async () => {
     try {
-      const result = await Share.share({
-        message: referralLink,
-      });
-      if (result.action === Share.sharedAction) {
-        if (result.activityType) {
-          // shared with activity type of result.activityType
-        } else {
-          // shared
+      if (referralLink) {
+        const result = await Share.share({
+          message:
+            "Download the SIP Fund app - Your Financial Planning and Management Companion* \n\n\n How to Join: \n\n Step 1: Download the SIP Fund App using my referral link: " +
+            referralLink +
+            " \n\n Step 2: Sign up and complete your profile and documentation.\n\n Step 3: Start Your Investor Journey! \n\n Why Choose SIP Fund? \n • Access a diverse range of high-performing funds.\n • Expert financial insights and personalized investment strategies. \n • Connect with like-minded investors in our community. \n • Enjoy a user-friendly interface for seamless investing.\n\n For more details, please visit www.sipfund.com or please reach out to the SIP Fund Team at +919980850054. \n\n Join the thriving community of Indian investors growing their wealth with SIP Fund. \n\n Thank you.",
+          // message: referralLink,
+        });
+        if (result.action === Share.sharedAction) {
+          if (result.activityType) {
+            // shared with activity type of result.activityType
+          } else {
+            // shared
+          }
+        } else if (result.action === Share.dismissedAction) {
+          // dismissed
         }
-      } else if (result.action === Share.dismissedAction) {
-        // dismissed
+      } else {
+        alert("Kindly start investing to unlock your refferal code.");
       }
     } catch (error) {
-      alert(error.message);
+      alert("Kindly start investing to unlock your refferal code.");
     }
   };
 
@@ -200,38 +210,168 @@ function ReferEarnScreen(props) {
                   <Entypo name={"share"} size={30} color={Colors.GREEN_2} />
                 </TouchableOpacity>
               </View>
-              <TouchableOpacity onPress={onShare} style={styles.social}>
-                <FontAwesome
-                  style={styles.social_icon}
-                  name={"whatsapp"}
-                  size={40}
-                  color={Colors.DEEP_GRAY_1}
-                />
-                <Entypo
-                  style={styles.social_icon}
-                  name={"facebook-with-circle"}
-                  size={40}
-                  color={Colors.DEEP_GRAY_1}
-                />
-                <Entypo
-                  style={styles.social_icon}
-                  name={"mail-with-circle"}
-                  size={40}
-                  color={Colors.DEEP_GRAY_1}
-                />
-                <Entypo
-                  style={styles.social_icon}
-                  name={"twitter-with-circle"}
-                  size={40}
-                  color={Colors.DEEP_GRAY_1}
-                />
-                <FontAwesome
-                  style={styles.social_icon}
-                  name={"stack-exchange"}
-                  size={40}
-                  color={Colors.DEEP_GRAY_1}
-                />
-              </TouchableOpacity>
+              <View style={styles.social}>
+                <TouchableOpacity
+                  onPress={() => {
+                    if (referralLink) {
+                      Linking.openURL(
+                        "whatsapp://send?text=*Download the SIP Fund app - Your Financial Planning and Management Companion* \n\n\n *How to Join:* \n\n *Step 1:* Download the SIP Fund App using my referral link: " +
+                          referralLink +
+                          " \n\n *Step 2:* Sign up and complete your profile and documentation.\n\n *Step 3:* Start Your Investor Journey! \n\n *Why Choose SIP Fund?* \n • Access a diverse range of high-performing funds.\n • Expert financial insights and personalized investment strategies. \n • Connect with like-minded investors in our community. \n • Enjoy a user-friendly interface for seamless investing.\n\n For more details, please visit www.sipfund.com or please reach out to the SIP Fund Team at +919980850054. \n\n Join the thriving community of Indian investors growing their wealth with SIP Fund.* \n\n *Thank you.*"
+                      );
+                    } else {
+                      onShare();
+                    }
+                  }}
+                >
+                  <FontAwesome
+                    style={styles.social_icon}
+                    name={"whatsapp"}
+                    size={40}
+                    color={Colors.DEEP_GRAY_1}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    if (referralLink) {
+                      Linking.openURL(
+                        "fb-messenger://share?link=" +
+                          referralLink +
+                          "&app_id=com.octrax.sipfund"
+                      );
+                    } else {
+                      onShare();
+                    }
+
+                    // Share.shareSingle({
+                    //   title: "Title",
+                    //   message: "Hello",
+                    //   social: Share.Social.FACEBOOK,
+                    // }).catch(console.warn);
+                    // alert(JSON.stringify(Share));
+                    return;
+                    Share.shareSingle({
+                      title: "shareVia",
+                      message: "I am message",
+                      caption: "I am a caption",
+                      url: "https://www.google.com",
+                      social: Share.Social.FACEBOOK,
+                      contentDescription: "Facebook sharing is easy!",
+                      quote: "I am quote",
+                      type: "url",
+                    });
+                  }}
+                >
+                  <Entypo
+                    style={styles.social_icon}
+                    name={"facebook-with-circle"}
+                    size={40}
+                    color={Colors.DEEP_GRAY_1}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    if (referralLink) {
+                      Linking.openURL(
+                        "mailto:?subject=Referral&body=Download the SIP Fund app - Your Financial Planning and Management Companion* \n\n\n How to Join: \n\n Step 1: Download the SIP Fund App using my referral link: " +
+                          referralLink +
+                          " \n\n Step 2: Sign up and complete your profile and documentation.\n\n Step 3: Start Your Investor Journey! \n\n Why Choose SIP Fund? \n • Access a diverse range of high-performing funds.\n • Expert financial insights and personalized investment strategies. \n • Connect with like-minded investors in our community. \n • Enjoy a user-friendly interface for seamless investing.\n\n For more details, please visit www.sipfund.com or please reach out to the SIP Fund Team at +919980850054. \n\n Join the thriving community of Indian investors growing their wealth with SIP Fund. \n\n Thank you."
+                      );
+                    } else {
+                      onShare();
+                    }
+                  }}
+                >
+                  <Entypo
+                    style={styles.social_icon}
+                    name={"mail-with-circle"}
+                    size={40}
+                    color={Colors.DEEP_GRAY_1}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    if (referralLink) {
+                      Linking.openURL(
+                        "https://twitter.com/intent/tweet?text=Download the SIP Fund app - Your Financial Planning and Management Companion* \n\n\n How to Join: \n\n Step 1: Download the SIP Fund App using my referral link: " +
+                          referralLink +
+                          " \n\n Step 2: Sign up and complete your profile and documentation.\n\n Step 3: Start Your Investor Journey! \n\n Why Choose SIP Fund? \n • Access a diverse range of high-performing funds.\n • Expert financial insights and personalized investment strategies. \n • Connect with like-minded investors in our community. \n • Enjoy a user-friendly interface for seamless investing.\n\n For more details, please visit www.sipfund.com or please reach out to the SIP Fund Team at +919980850054. \n\n Join the thriving community of Indian investors growing their wealth with SIP Fund. \n\n Thank you."
+                      );
+                    } else {
+                      onShare();
+                    }
+                  }}
+                >
+                  <Entypo
+                    style={styles.social_icon}
+                    name={"twitter-with-circle"}
+                    size={40}
+                    color={Colors.DEEP_GRAY_1}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    if (referralLink) {
+                      Linking.openURL(
+                        `sms:${""}?body=${
+                          "Download the SIP Fund app - Your Financial Planning and Management Companion* \n\n\n How to Join: \n\n Step 1: Download the SIP Fund App using my referral link: " +
+                          referralLink +
+                          " \n\n Step 2: Sign up and complete your profile and documentation.\n\n Step 3: Start Your Investor Journey! \n\n Why Choose SIP Fund? \n • Access a diverse range of high-performing funds.\n • Expert financial insights and personalized investment strategies. \n • Connect with like-minded investors in our community. \n • Enjoy a user-friendly interface for seamless investing.\n\n For more details, please visit www.sipfund.com or please reach out to the SIP Fund Team at +919980850054. \n\n Join the thriving community of Indian investors growing their wealth with SIP Fund. \n\n Thank you."
+                        }`
+                      );
+                    } else {
+                      onShare();
+                    }
+                  }}
+                >
+                  <FontAwesome
+                    style={styles.social_icon}
+                    name={"stack-exchange"}
+                    size={40}
+                    color={Colors.DEEP_GRAY_1}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={async () => {
+                    if (referralLink) {
+                      await Share.share({
+                        message:
+                          "Download the SIP Fund app - Your Financial Planning and Management Companion* \n\n\n How to Join: \n\n Step 1: Download the SIP Fund App using my referral link: " +
+                          referralLink +
+                          " \n\n Step 2: Sign up and complete your profile and documentation.\n\n Step 3: Start Your Investor Journey! \n\n Why Choose SIP Fund? \n • Access a diverse range of high-performing funds.\n • Expert financial insights and personalized investment strategies. \n • Connect with like-minded investors in our community. \n • Enjoy a user-friendly interface for seamless investing.\n\n For more details, please visit www.sipfund.com or please reach out to the SIP Fund Team at +919980850054. \n\n Join the thriving community of Indian investors growing their wealth with SIP Fund. \n\n Thank you.",
+                        // url: "https://www.example.com",
+                        // title: "Title of the shared content",
+                      });
+                    } else {
+                      onShare();
+                    }
+                    // Linking.openURL(
+                    //   `instagram-stories://share?sharedSticker.backgroundImage=`
+                    // );
+                    // const options = {
+                    //   title: "XYZ",
+                    //   message: "HELLO",
+                    //   social: "INSTAGRAM",
+                    // };
+                    // Share.shareSingle({
+                    //   title: "shareData.title",
+                    //   message: "shareData.description",
+                    //   // url: state.shareImage,
+                    //   subject: "shareData.title",
+                    //   social: "INSTAGRAM",
+                    //   // type: 'image/*'  // required for sharing to INSTAGRAM
+                    // });
+                    // await Share.shareSingle(options);
+                  }}
+                >
+                  <FontAwesome
+                    style={styles.social_icon}
+                    name={"instagram"}
+                    size={40}
+                    color={Colors.DEEP_GRAY_1}
+                  />
+                </TouchableOpacity>
+              </View>
               <View style={styles.border}></View>
             </View>
 

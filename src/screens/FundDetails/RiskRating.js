@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { connect } from "react-redux";
@@ -211,7 +213,9 @@ function RiskRating(props) {
             fontWeight: "bold",
           }}
         >
-          {detailsInfo[0]?.api["FSCBI-IndianRiskLevel"]}
+          {detailsInfo?.length > 0
+            ? detailsInfo[0]?.api["FSCBI-IndianRiskLevel"]
+            : ""}
         </Text>
       </View>
       <Text style={styles.Upside}>MPT Statistics</Text>
@@ -643,7 +647,7 @@ function RiskRating(props) {
               numberOfLines={3}
               style={[styles.headerCell, { width: "30%" }]}
             >
-              {item.name}
+              {item?.name}
             </Text>
             <View style={styles.bodyCellUpDown}>
               <View

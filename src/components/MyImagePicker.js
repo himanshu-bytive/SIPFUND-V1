@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { useState, useRef, useEffect } from "react";
 import * as ImagePicker from "react-native-image-picker";
 import { Camera, requestCameraPermissionsAsync } from "expo-camera";
@@ -19,9 +21,20 @@ import { Button } from "react-native-paper";
 import RNPickerSelect from "react-native-picker-select";
 import DocumentInstructions from "./DocumentInstructions";
 import Colors from "../common/Colors";
+import { withNavigationFocus } from "react-navigation";
+import Toast from "react-native-simple-toast";
 
 const MyImagePicker = (props) => {
-  const { items, docs, token, fileUpload, fileUploadSign } = props;
+  const {
+    items,
+    docs,
+    token,
+    fileUpload,
+    fileUploadSign,
+    reUploadInd,
+    setReUploadInd,
+    navigation,
+  } = props;
   const selList = [
     {
       value: "Aadhaar Card Front",
@@ -43,6 +56,17 @@ const MyImagePicker = (props) => {
   const signBox = useRef(null);
 
   const addressVerificationDocs = ["AA1", "AA2", "DL"];
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("didFocus", () => {
+      setReUploadInd([]);
+      // The screen is focused
+      // Call any action
+    });
+
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return unsubscribe;
+  }, []);
 
   const docVerificationCompleted = (fileType) => {
     if (fileType === "") {
@@ -110,7 +134,7 @@ const MyImagePicker = (props) => {
       mediaTypes: "photo",
       allowsEditing: true,
       aspect: [4, 3],
-      quality: 1,
+      // quality: 0,
     });
 
     let fileType;
@@ -179,6 +203,40 @@ const MyImagePicker = (props) => {
     }
   };
 
+  const FileIcons = ({ item }) => (
+    <>
+      <TouchableOpacity
+        style={{ marginRight: 10 }}
+        onPress={() => {
+          if (item?.name !== null) {
+            setCamera(true);
+          } else {
+            Toast.show("You need to select a document first!", Toast.LONG);
+          }
+        }}
+      >
+        <Entypo name={"camera"} size={22} color="#000000" />
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => {
+          if (item?.name !== null) {
+            pickImage();
+          } else {
+            Toast.show("You need to select a document first!", Toast.LONG);
+          }
+        }}
+      >
+        <Entypo name={item?.type} size={22} color="#000000" />
+      </TouchableOpacity>
+    </>
+  );
+
+  const ShowReupload = (item) => {
+    var isTrue = reUploadInd?.find((items) => {
+      return items == item?.fileType;
+    });
+    return isTrue;
+  };
   return (
     <View
       style={{
@@ -188,7 +246,7 @@ const MyImagePicker = (props) => {
       }}
     >
       <View
-        style={{ flexDirection: "row", alignItems: "center", width: "70%" }}
+        style={{ flexDirection: "row", alignItems: "center", width: "66%" }}
       >
         {item?.icon}
         {item?.multi ? (
@@ -255,7 +313,7 @@ const MyImagePicker = (props) => {
           (docVerificationCompleted(item?.fileType) ? (
             <TouchableOpacity
               onPress={() => {
-                ToastAndroid.show("Verification Pending!", ToastAndroid.SHORT);
+                Toast.show("Verification Pending!", Toast.SHORT);
               }}
             >
               <FontAwesome
@@ -268,7 +326,7 @@ const MyImagePicker = (props) => {
           ) : (
             <TouchableOpacity
               onPress={() => {
-                ToastAndroid.show("Document Verified", ToastAndroid.SHORT);
+                Toast.show("Document Verified", Toast.SHORT);
               }}
             >
               <FontAwesome
@@ -281,53 +339,85 @@ const MyImagePicker = (props) => {
           ))}
       </View>
       <View style={{ width: "15%" }}>
+        {/* <Text>{img}</Text> */}
         {img && <Image source={{ uri: img }} style={styles.image} />}
       </View>
       <View
-        pointerEvents={
-          docVerificationCompleted(item?.fileType) !== undefined
-            ? "none"
-            : "auto"
-        }
-        style={{
-          opacity:
-            docVerificationCompleted(item?.fileType) !== undefined ? 0.25 : 1,
-        }}
+      // pointerEvents={
+      //   docVerificationCompleted(item?.fileType) !== undefined
+      //     ? "none"
+      //     : "auto"
+      // }
+      // style={{
+      //   opacity:
+      //     docVerificationCompleted(item?.fileType) !== undefined ? 0.25 : 1,
+      // }}
       >
         {item?.type == "attachment" ? (
           <View style={{ flexDirection: "row" }}>
-            <TouchableOpacity
-              style={{ marginRight: 10 }}
-              onPress={() => {
-                if (item?.name !== null) {
-                  setCamera(true);
-                } else {
-                  ToastAndroid.show(
-                    "You need to select a document first!",
-                    ToastAndroid.LONG
-                  );
-                }
-              }}
-            >
-              <Entypo name={"camera"} size={22} color="#000000" />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                if (item?.name !== null) {
-                  pickImage();
-                } else {
-                  ToastAndroid.show(
-                    "You need to select a document first!",
-                    ToastAndroid.LONG
-                  );
-                }
-              }}
-            >
-              <Entypo name={item?.type} size={22} color="#000000" />
-            </TouchableOpacity>
+            {docVerificationCompleted(item?.fileType) == undefined ? (
+              <FileIcons item={item} />
+            ) : (
+              <>
+                {ShowReupload(item) == undefined ? (
+                  <TouchableOpacity
+                    style={{ marginRight: 10 }}
+                    activeOpacity={0.5}
+                    onPress={() => {
+                      // docs.responseString.documents[doc]?.status === "PENDING"
+                      setReUploadInd((current) => [...current, item?.fileType]);
+                    }}
+                    // onPress={() => alert("sdfds")}
+                  >
+                    <Text>Re-upload</Text>
+                  </TouchableOpacity>
+                ) : (
+                  <FileIcons item={item} />
+                )}
+
+                {/* <Text
+                  onPress={() => {
+                    setReUploadInd(["A1"]);
+                  }}
+                >
+                  {JSON.stringify(reUploadInd)}
+                </Text> */}
+                {/* {reUploadInd?.find((items) =>
+                  items == item?.fileType ? (
+                    <>
+
+                    <FileIcons item={item} />
+                    </>
+                  ) : (
+                    <TouchableOpacity
+                      style={{ marginRight: 10 }}
+                      activeOpacity={0.5}
+                      onPress={() => {
+                        // docs.responseString.documents[doc]?.status === "PENDING"
+                        setReUploadInd((current) => [
+                          ...current,
+                          item?.fileType,
+                        ]);
+
+                        alert(JSON.stringify(reUploadInd));
+                      }}
+                      // onPress={() => alert("sdfds")}
+                    >
+                      <Text>Re-upload</Text>
+                    </TouchableOpacity>
+                  )
+                )} */}
+              </>
+            )}
           </View>
         ) : (
-          <TouchableOpacity onPress={() => setSign(true)}>
+          <TouchableOpacity
+            onPress={async () => {
+              setSign(true);
+              const result = await signBox.current;
+              return;
+            }}
+          >
             <AntDesign name="form" size={22} color="#000000" />
           </TouchableOpacity>
         )}
@@ -480,12 +570,16 @@ const MyImagePicker = (props) => {
           setSign(false);
         }}
       >
-        <SignatureScreen
-          ref={signBox}
-          imageType="image/jpeg"
-          onOK={signImage}
-          onEmpty={() => setSign(false)}
-        />
+        <View style={{ flex: 1 }}>
+          <SignatureScreen
+            ref={signBox}
+            imageType="image/png"
+            onOK={signImage}
+            saveImageFileInExtStorage={false}
+            onEmpty={() => setSign(false)}
+            backgroundColor="transparent"
+          />
+        </View>
       </Modal>
     </View>
   );

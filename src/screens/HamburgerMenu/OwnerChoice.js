@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { useState, useRef, useEffect, useContext } from "react";
 import {
   StyleSheet,
@@ -17,6 +19,8 @@ import { AntDesign } from "react-native-vector-icons";
 import { Image, Header, Overlay } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
 import Cart from "../../components/Cart";
+import RNPickerSelect from "react-native-picker-select";
+import Toast from "react-native-simple-toast";
 
 function OwnerChoice(props) {
   const pageActive = useRef(false);
@@ -43,10 +47,11 @@ function OwnerChoice(props) {
   const [subcatList, setSubCatList] = useState([]);
   const [schemeList, setSchemeList] = useState([]);
   const [dataAvailable, setDataAvailable] = useState(false);
+  const focusInput = React.createRef();
 
   useEffect(() => {
     if (addItemSucces) {
-      ToastAndroid.show("Cart Succesfully Created", ToastAndroid.LONG);
+      Toast.show("Cart Succesfully Created", Toast.LONG);
       setAddItemSucces();
     }
   }, [addItemSucces]);
@@ -144,6 +149,129 @@ function OwnerChoice(props) {
     "Oct",
     "Nov",
     "Dec",
+  ];
+
+  const selList = [
+    {
+      value: "01",
+      label: "01",
+    },
+    {
+      value: "02",
+      label: "02",
+    },
+    {
+      value: "03",
+      label: "03",
+    },
+    {
+      value: "04",
+      label: "04",
+    },
+    {
+      value: "05",
+      label: "05",
+    },
+    {
+      value: "06",
+      label: "06",
+    },
+    {
+      value: "07",
+      label: "07",
+    },
+    {
+      value: "08",
+      label: "08",
+    },
+    {
+      value: "09",
+      label: "09",
+    },
+    {
+      value: "10",
+      label: "10",
+    },
+    {
+      value: "11",
+      label: "11",
+    },
+    {
+      value: "12",
+      label: "12",
+    },
+    {
+      value: "13",
+      label: "13",
+    },
+    {
+      value: "14",
+      label: "14",
+    },
+    {
+      value: "15",
+      label: "15",
+    },
+    {
+      value: "16",
+      label: "16",
+    },
+    {
+      value: "17",
+      label: "17",
+    },
+    {
+      value: "18",
+      label: "18",
+    },
+    {
+      value: "19",
+      label: "19",
+    },
+    {
+      value: "20",
+      label: "20",
+    },
+    {
+      value: "21",
+      label: "21",
+    },
+    {
+      value: "22",
+      label: "22",
+    },
+    {
+      value: "23",
+      label: "23",
+    },
+    {
+      value: "24",
+      label: "24",
+    },
+    {
+      value: "25",
+      label: "25",
+    },
+    {
+      value: "26",
+      label: "26",
+    },
+    {
+      value: "27",
+      label: "27",
+    },
+    {
+      value: "28",
+      label: "28",
+    },
+    {
+      value: "29",
+      label: "29",
+    },
+    {
+      value: "30",
+      label: "30",
+    },
   ];
 
   const [visible, setVisible] = useState(false);
@@ -244,6 +372,7 @@ function OwnerChoice(props) {
 
     if (month === 11) {
       month = 0;
+      year = year + 1;
     } else {
       month += 1;
     }
@@ -270,6 +399,7 @@ function OwnerChoice(props) {
 
     if (month === 11) {
       month = 0;
+      year = year + 1;
     } else {
       month += 1;
     }
@@ -617,10 +747,71 @@ function OwnerChoice(props) {
                   </View>
                   <View style={styles.amount_sec}>
                     <Text style={styles.amount_tex}>Date</Text>
-                    <View style={[styles.bordersec, { flexDirection: "row" }]}>
-                      <Text style={styles.new}>{states.date}</Text>
-                      <View>
-                        <TouchableOpacity
+                    {/* <View style={[styles.bordersec, { flexDirection: "row" }]}> */}
+                    {/* <Text style={styles.new}>{states.date}</Text> */}
+                    <View>
+                      {/* <View style={{ marginTop: 10 }}> */}
+                      <RNPickerSelect
+                        ref={focusInput}
+                        placeholder={{
+                          label: "Select a Date",
+                          value: null,
+                        }}
+                        style={{
+                          inputIOS: [styles.dropDown, { marginTop: 15 }],
+                          inputAndroid: styles.dropDown,
+                          placeholder: styles.dropDown,
+                          // height: 250,
+                          // zIndex: 1,
+                        }}
+                        defultValue={"01"}
+                        useNativeAndroidPickerStyle={false}
+                        onValueChange={(value) => {
+                          // setStates({ ...states, value });
+                          setStates({ ...states, date: value });
+
+                          // let data = myInvestlist;
+                          // let date = data[category][index]?.date
+                          //   ? data[category][index]?.date
+                          //   : parseInt(
+                          //       item?.sipDates.split(",")[0]
+                          //     );
+                          // data[category][index].date = value;
+                          // setDates({
+                          //   ...dates,
+                          //   [`${category}${index}`]: value,
+                          // });
+                          // myInvestments(data);
+                        }}
+                        // value={"01"}
+                        // value={
+                        //   dates[`${category}${index}`]
+                        //     ? dates[`${category}${index}`]
+                        //     : parseInt(item?.sipDates.split(",")[0])
+                        // }
+                        items={selList}
+                        Icon={() => {
+                          // if (icon) return icon;
+                          return (
+                            <AntDesign
+                              name="caretdown"
+                              size={15}
+                              style={{
+                                marginTop: 15,
+                                marginRight: -25,
+                              }}
+                              color="#C0392B"
+                            />
+                          );
+                        }}
+                        // Icon={() => {
+                        //   return (
+
+                        //   );
+                        // }}
+                      />
+                      {/* </View> */}
+                      {/* <TouchableOpacity
                           onPress={() => plusMinus("plus", states.date)}
                         >
                           <AntDesign name="caretup" size={15} color="#C0392B" />
@@ -633,8 +824,8 @@ function OwnerChoice(props) {
                             size={15}
                             color="#C0392B"
                           />
-                        </TouchableOpacity>
-                      </View>
+                        </TouchableOpacity> */}
+                      {/* </View> */}
                     </View>
                   </View>
                 </View>
@@ -866,6 +1057,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   amount_tex: { fontSize: 18 },
+  dropDown: {
+    color: Colors.BLACK,
+    fontSize: 16,
+  },
 });
 
 const mapStateToProps = (state) => ({

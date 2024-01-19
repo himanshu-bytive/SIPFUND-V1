@@ -1,3 +1,5 @@
+/** @format */
+
 import SiteAPI from "../services/SiteApis";
 import { Alert } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -53,12 +55,6 @@ export const AuthActions = {
   verify: async (dispatch, params) => {
     dispatch({ type: types.FETCH_VERIFY_PENDING });
     let data = await SiteAPI.apiPostCall("/auth/verify", params);
-    console.log(
-      "🚀 ~ file: AuthRedux.js:56 ~ verify: ~ data:",
-      data,
-      " . ",
-      params
-    );
     if (data.error) {
       if (data.message) Alert.alert(data.message);
       dispatch({ type: types.FETCH_VERIFY_FAILURE, error: data.message });
@@ -167,7 +163,7 @@ export const AuthActions = {
       if (data.message) Alert.alert(data.message);
       dispatch({ type: types.FETCH_FORGET_PASS_FAILURE, error: data.message });
     } else {
-      Alert.alert("SIP Fund", data.responseString, [
+      Alert.alert("SIP Fund", data.message, [
         {
           text: "OK",
           onPress: () => {

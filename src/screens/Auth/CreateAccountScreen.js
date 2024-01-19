@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { useState, useRef, useEffect, useContext } from "react";
 import {
   StyleSheet,
@@ -20,6 +22,7 @@ import { Ionicons, AntDesign } from "react-native-vector-icons";
 import { Image, Header, CheckBox, colors } from "react-native-elements";
 import appsFlyer from "react-native-appsflyer";
 import NotificationService from "../../../NotificationService";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function CreateAccountScreen(props) {
   const {
@@ -52,21 +55,21 @@ function CreateAccountScreen(props) {
 
   const validatePass = (pass) => {
     let validationMessages = [];
-    if (pass.length < 8 || pass.length > 16) {
-      validationMessages.push(passwordValidationMessages.length);
-    }
-    if (pass.match(/[A-Z]/g) === null) {
-      validationMessages.push(passwordValidationMessages.caps);
-    }
-    if (pass.match(/[a-z]/g) === null) {
-      validationMessages.push(passwordValidationMessages.small);
-    }
-    if (pass.match(/[0-9]/g) === null) {
-      validationMessages.push(passwordValidationMessages.number);
-    }
-    if (pass.match(/\W+/) === null) {
-      validationMessages.push(passwordValidationMessages.specialChar);
-    }
+    // if (pass.length < 8 || pass.length > 16) {
+    //   validationMessages.push(passwordValidationMessages.length);
+    // }
+    // if (pass.match(/[A-Z]/g) === null) {
+    //   validationMessages.push(passwordValidationMessages.caps);
+    // }
+    // if (pass.match(/[a-z]/g) === null) {
+    //   validationMessages.push(passwordValidationMessages.small);
+    // }
+    // if (pass.match(/[0-9]/g) === null) {
+    //   validationMessages.push(passwordValidationMessages.number);
+    // }
+    // if (pass.match(/\W+/) === null) {
+    //   validationMessages.push(passwordValidationMessages.specialChar);
+    // }
     return validationMessages;
   };
 
@@ -93,10 +96,10 @@ function CreateAccountScreen(props) {
         setDisplayCurrentAddress({
           latitude: latitude,
           longitude: longitude,
-          address: item.name,
-          city: item.city,
-          state: item.street,
-          pincode: item.postalCode,
+          address: item?.name,
+          city: item?.city,
+          state: item?.street,
+          pincode: item?.postalCode,
         });
       }
     }
@@ -139,7 +142,19 @@ function CreateAccountScreen(props) {
       //}
       props.navigation.navigate("Home");
     }
+
+    getRef();
   }, [token, user]);
+
+  const getRef = async () => {
+    var referenceCode = await AsyncStorage.getItem("referenceCode");
+    if (referenceCode) {
+      referenceCode = JSON.parse(referenceCode);
+      // setReferenceCode(referenceCodeVal);
+      setState({ ...state, referenceCode });
+      setReferral(true);
+    }
+  };
 
   const [state, setState] = useState({
     email: "",

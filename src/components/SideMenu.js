@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { useState, useRef, useEffect, useContext } from "react";
 import {
   StyleSheet,
@@ -24,6 +26,7 @@ import {
   FontAwesome,
 } from "react-native-vector-icons";
 import { Overlay, Header, CheckBox } from "react-native-elements";
+import Toast from "react-native-simple-toast";
 
 function SideMenu(props) {
   const pageActiveKyc = useRef(false);
@@ -121,6 +124,7 @@ function SideMenu(props) {
   const handlEemandate = (value) => {
     setVisibleEmandate(false);
     setVisibleEmandateValue(value);
+    props.navigation.navigate("Explore");
   };
 
   const handlEemandateValue = () => {
@@ -302,7 +306,7 @@ function SideMenu(props) {
           onPress={() => props.navigation.navigate("dashboard")}
           style={styles.profile_sec}
         >
-          <View>
+          <View style={styles.sideIcon}>
             <AntDesign name={"appstore1"} size={30} color={Colors.RED} />
           </View>
           <View>
@@ -314,7 +318,7 @@ function SideMenu(props) {
           onPress={() => props.navigation.navigate("Profile")}
           style={[styles.profile_sec, styles.profile]}
         >
-          <View>
+          <View style={styles.sideIcon}>
             <FontAwesome
               name={"user-o"}
               size={30}
@@ -330,7 +334,7 @@ function SideMenu(props) {
           onPress={() => props.navigation.navigate("ReferEarn")}
           style={[styles.profile_sec, styles.profile]}
         >
-          <View>
+          <View style={styles.sideIcon}>
             <MaterialCommunityIcons
               name={"wallet-giftcard"}
               size={30}
@@ -347,15 +351,12 @@ function SideMenu(props) {
             if (steps < 6) {
               props.navigation.navigate("RegisterDetails");
             } else {
-              ToastAndroid.show(
-                "Your registration is already completed!",
-                ToastAndroid.LONG
-              );
+              Toast.show("Your registration is already completed!", Toast.LONG);
             }
           }}
           style={[styles.profile_sec, styles.profile]}
         >
-          <View>
+          <View style={styles.sideIcon}>
             <FontAwesome
               name={"user-o"}
               size={30}
@@ -370,10 +371,7 @@ function SideMenu(props) {
         <TouchableOpacity
           onPress={() => {
             if (profile?.ACTIVATION_STATUS == "YES") {
-              ToastAndroid.show(
-                "Your account is already active",
-                ToastAndroid.LONG
-              );
+              Toast.show("Your account is already active", Toast.LONG);
               return;
             }
             if (steps >= 4 && steps < 6) {
@@ -384,7 +382,7 @@ function SideMenu(props) {
           }}
           style={[styles.profile_sec, styles.profile]}
         >
-          <View>
+          <View style={styles.sideIcon}>
             <AntDesign
               name={"filetext1"}
               size={30}
@@ -400,7 +398,7 @@ function SideMenu(props) {
           onPress={() => props.navigation.navigate("Relationship")}
           style={[styles.profile_sec, styles.profile]}
         >
-          <View>
+          <View style={styles.sideIcon}>
             <FontAwesome
               name={"stack-exchange"}
               size={30}
@@ -417,16 +415,13 @@ function SideMenu(props) {
         <TouchableOpacity
           onPress={() => {
             if (profile?.ACTIVATION_STATUS == "YES") {
-              ToastAndroid.show(
-                "Your account is already active.",
-                ToastAndroid.LONG
-              );
+              Toast.show("Your account is already active.", Toast.LONG);
               return;
             }
             if (steps < 4) {
-              ToastAndroid.show(
+              Toast.show(
                 "We didn't find any investment account for your PAN",
-                ToastAndroid.LONG
+                Toast.LONG
               );
             } else {
               props.navigation.navigate("UploadDocument");
@@ -434,7 +429,7 @@ function SideMenu(props) {
           }}
           style={[styles.profile_sec, styles.profile]}
         >
-          <View>
+          <View style={styles.sideIcon}>
             <MaterialCommunityIcons
               name={"file-upload"}
               size={30}
@@ -457,14 +452,14 @@ function SideMenu(props) {
 
             if (userDetails?.IIN && profile?.KYC_STATUS === "Y") {
               if (profile?.ACTIVATION_STATUS === "YES") {
-                ToastAndroid.show(
+                Toast.show(
                   "Your KYC is already registered and your account is active. You can start your investment journey now",
-                  ToastAndroid.LONG
+                  Toast.LONG
                 );
               } else {
-                ToastAndroid.show(
+                Toast.show(
                   "Your KYC is already registered. Please upload the documents in the documents section to proceed with your account activation",
-                  ToastAndroid.LONG
+                  Toast.LONG
                 );
               }
             } else if (userDetails?.IIN) {
@@ -476,7 +471,7 @@ function SideMenu(props) {
           }}
           style={[styles.profile_sec, styles.profile]}
         >
-          <View>
+          <View style={styles.sideIcon}>
             <MaterialCommunityIcons
               name={"account-search"}
               size={30}
@@ -499,7 +494,7 @@ function SideMenu(props) {
           }}
           style={[styles.profile_sec, styles.profile]}
         >
-          <View>
+          <View style={styles.sideIcon}>
             <Entypo name={"hair-cross"} size={30} color={Colors.GRAY_LIGHT_4} />
           </View>
           <View>
@@ -511,7 +506,7 @@ function SideMenu(props) {
           onPress={() => props.navigation.navigate("Notifications")}
           style={[styles.profile_sec, styles.profile]}
         >
-          <View>
+          <View style={styles.sideIcon}>
             <FontAwesome name={"bell"} size={30} color={Colors.GRAY_LIGHT_4} />
           </View>
           <View>
@@ -523,7 +518,7 @@ function SideMenu(props) {
           onPress={() => props.navigation.navigate("Reports")}
           style={[styles.profile_sec, styles.profile]}
         >
-          <View>
+          <View style={styles.sideIcon}>
             <AntDesign name={"profile"} size={30} color={Colors.GRAY_LIGHT_4} />
           </View>
           <View>
@@ -538,7 +533,7 @@ function SideMenu(props) {
           onPress={() => Linking.openURL("mailto:info@sipfund.com")}
           style={[styles.profile_sec, styles.profile]}
         >
-          <View>
+          <View style={styles.sideIcon}>
             <Entypo name={"mail"} size={30} color={Colors.GRAY_LIGHT_4} />
           </View>
           <View>
@@ -550,7 +545,7 @@ function SideMenu(props) {
           onPress={() => Linking.openURL(`tel:+919513355663`)}
           style={[styles.profile_sec, styles.profile]}
         >
-          <View>
+          <View style={styles.sideIcon}>
             <FontAwesome name={"phone"} size={30} color={Colors.GRAY_LIGHT_4} />
           </View>
           <View>
@@ -562,7 +557,7 @@ function SideMenu(props) {
           onPress={() => props.navigation.navigate("AboutUs")}
           style={[styles.profile_sec, styles.profile]}
         >
-          <View>
+          <View style={styles.sideIcon}>
             <FontAwesome
               name={"address-book"}
               size={30}
@@ -589,7 +584,7 @@ function SideMenu(props) {
           }}
           style={[styles.profile_sec, styles.profile]}
         >
-          <View>
+          <View style={styles.sideIcon}>
             <Feather name={"log-out"} size={30} color={Colors.GRAY_LIGHT_4} />
           </View>
           <View>
@@ -687,6 +682,9 @@ const styles = StyleSheet.create({
     fontSize: 15,
     marginHorizontal: 10,
     marginVertical: 20,
+  },
+  sideIcon: {
+    width: 30,
   },
 });
 

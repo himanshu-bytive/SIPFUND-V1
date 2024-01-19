@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { useState, useRef, useEffect, useContext } from "react";
 import {
   StyleSheet,
@@ -87,7 +89,10 @@ function FundsHomeScreen(props) {
     //setLabels(Utility.getDatesBetweenDates(firstDay, lastDay));
     fundChartList(
       {
-        ISIN: fundDetail?.isin,
+        ISIN:
+          props.navigation.state.params?.fromScreen == "TopRatedList"
+            ? fundDetail?.productISIN
+            : fundDetail?.isin,
         from: moment(firstDay).format("YYYY-MM-DD"),
         to: moment(lastDay).format("YYYY-MM-DD"),
       },
@@ -111,7 +116,10 @@ function FundsHomeScreen(props) {
       //setLabels(Utility.getDatesBetweenDates(firstDay, lastDay));
       fundChartList(
         {
-          ISIN: fundDetail?.isin,
+          ISIN:
+            props.navigation.state.params?.fromScreen == "TopRatedList"
+              ? fundDetail?.productISIN
+              : fundDetail?.isin,
           from: moment(firstDay).format("YYYY-MM-DD"),
           to: moment(lastDay).format("YYYY-MM-DD"),
         },
@@ -122,33 +130,41 @@ function FundsHomeScreen(props) {
 
   useEffect(() => {
     if (token) {
-      fundDetailsList({ ISIN: fundDetail?.isin }, token);
+      fundDetailsList(
+        {
+          ISIN:
+            props.navigation.state.params?.fromScreen == "TopRatedList"
+              ? fundDetail?.productISIN
+              : fundDetail?.isin,
+        },
+        token
+      );
       refreshFunds(selectTab);
     }
   }, [token, fundDetail]);
 
   useEffect(() => {
-    if(detailsInfo){
-    let detailedPortFolio = detailsInfo ? detailsInfo[0].api : {};
-    let navPercentage = detailedPortFolio["DP-NAVChangePercentage"]
-      ? Number(detailedPortFolio["DP-NAVChangePercentage"]).toFixed(2)
-      : 0;
-    let assets = detailedPortFolio["PSRP-TotalMarketValueNet"]
-      ? Number(detailedPortFolio["PSRP-TotalMarketValueNet"]).toFixed(2)
-      : 0;
-    let invest = detailedPortFolio["PI-MinimumInitial"]
-      ? Number(detailedPortFolio["PI-MinimumInitial"]).toFixed(2)
-      : 0;
-    let category = detailedPortFolio["DP-CategoryName"]
-      ? detailedPortFolio["DP-CategoryName"]
-      : "";
-    setInception(
-      Number(detailsInfo[0].api["DP-ReturnSinceInception"]).toFixed(2)
-    );
-    setNavPercentage(navPercentage);
-    setAssets(assets);
-    setInvest(invest);
-    setCategory(category);
+    if (detailsInfo) {
+      let detailedPortFolio = detailsInfo ? detailsInfo[0].api : {};
+      let navPercentage = detailedPortFolio["DP-NAVChangePercentage"]
+        ? Number(detailedPortFolio["DP-NAVChangePercentage"]).toFixed(2)
+        : 0;
+      let assets = detailedPortFolio["PSRP-TotalMarketValueNet"]
+        ? Number(detailedPortFolio["PSRP-TotalMarketValueNet"]).toFixed(2)
+        : 0;
+      let invest = detailedPortFolio["PI-MinimumInitial"]
+        ? Number(detailedPortFolio["PI-MinimumInitial"]).toFixed(2)
+        : 0;
+      let category = detailedPortFolio["DP-CategoryName"]
+        ? detailedPortFolio["DP-CategoryName"]
+        : "";
+      setInception(
+        Number(detailsInfo[0].api["DP-ReturnSinceInception"]).toFixed(2)
+      );
+      setNavPercentage(navPercentage);
+      setAssets(assets);
+      setInvest(invest);
+      setCategory(category);
     }
   }, [detailsInfo]);
 

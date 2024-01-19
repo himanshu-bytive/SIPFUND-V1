@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { useState, useRef, useEffect, useContext } from "react";
 import {
   StyleSheet,
@@ -13,7 +15,7 @@ import {
 } from "react-native";
 import { connect } from "react-redux";
 import { Styles, Config, Colors, FormValidate } from "../../common";
-
+import DeviceInfo from "react-native-device-info";
 import { Ionicons, AntDesign, Entypo } from "react-native-vector-icons";
 import { Image, Header, CheckBox, colors } from "react-native-elements";
 
@@ -70,12 +72,14 @@ function AboutUsScreen(props) {
           </Text>
         </View>
         <View style={styles.singletext}>
-          <Text style={styles.Mutualfund}>Version 1.0.33</Text>
+          <Text style={styles.Mutualfund}>
+            Version {DeviceInfo?.getVersion()}
+          </Text>
         </View>
 
         <View style={{ marginTop: 50 }}>
           <Text style={styles.get_otp}>
-            Copyrights © 2021 All Rights Reserved by SIP Fund.{" "}
+            Copyrights © 2023 All Rights Reserved by SIP Fund.{" "}
           </Text>
         </View>
       </View>

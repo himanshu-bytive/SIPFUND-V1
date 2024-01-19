@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { useState, useRef, useEffect } from "react";
 import {
   StyleSheet,
@@ -271,7 +273,7 @@ function CompleteDetailsAddressScreen(props) {
           styles.footer,
           {
             position: "absolute",
-            top: Dimensions.get("window").height - keyboardHeight - 65,
+            top: Dimensions.get("window").height / 1.2,
             alignSelf: "center",
           },
         ]}

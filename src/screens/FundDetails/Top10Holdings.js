@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { useState, useRef, useEffect, useContext } from "react";
 import {
   StyleSheet,
@@ -44,7 +46,9 @@ function Top10Holdings(props) {
     let topHoldings = [];
     let totalWeight = 0;
     for (let i = 0; i < 5; i++) {
-      totalWeight += parseFloat(detailedPortFolio[i].Weighting);
+      totalWeight += parseFloat(
+        detailedPortFolio?.length > 0 ? detailedPortFolio[i].Weighting : 0
+      );
       topHoldings.push(detailedPortFolio[i]);
     }
     setTopHoldings(topHoldings);
@@ -76,9 +80,9 @@ function Top10Holdings(props) {
                 justifyContent: "space-between",
               }}
             >
-              <Text style={styles.bodyCell}>{item.Name}</Text>
+              <Text style={styles.bodyCell}>{item?.Name}</Text>
               <Text style={[styles.bodyCellRight]}>
-                {Number(item.Weighting).toFixed(2)}%
+                {Number(item?.Weighting).toFixed(2)}%
               </Text>
             </View>
           </View>

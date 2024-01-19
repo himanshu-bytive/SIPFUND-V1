@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { useState, useRef, useEffect, useContext } from "react";
 import {
   StyleSheet,
@@ -18,6 +20,7 @@ import { Header, Overlay, CheckBox, Input } from "react-native-elements";
 import Cart from "../../components/Cart";
 import WebView from "react-native-webview";
 import appsFlyer from "react-native-appsflyer";
+import moment from "moment";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
@@ -50,6 +53,10 @@ function HomeScreen(props) {
     clearEmandateLink,
     investmentFetching,
     planFetching,
+    summary,
+    summaryRetrieve,
+    goalSummary,
+    goalSummaryRetrieve,
   } = props;
 
   const [loading, toggleLoading] = useState(false);
@@ -80,6 +87,8 @@ function HomeScreen(props) {
       cartDetails(token);
       allPlans(token);
       goalDetails(token);
+      // goalSummary({ phoneNumber: users?.mobileNo }, token);
+      // goalSummaryRetrieve({ phoneNumber: users?.mobileNo }, token);
     }
   }, [token]);
 
@@ -134,6 +143,28 @@ function HomeScreen(props) {
   //   return () =>
   //     BackHandler.removeEventListener("hardwareBackPress", backAction);
   // }, []);
+
+  const [currentValue, setCurrentValue] = useState(0);
+  const [InvestedValue, setInvestedValue] = useState(0);
+  const [ProfitLoss, setProfitLoss] = useState(0);
+
+  useEffect(() => {
+    if (summaryRetrieve?.length > 0) {
+      var investment = 0;
+      var currentVal = 0;
+      var proLoss = 0;
+      summaryRetrieve?.map((item, index) => {
+        investment =
+          parseFloat(investment) + parseFloat(item?.investedAmt?.toFixed(2));
+        currentVal =
+          parseFloat(currentVal) + parseFloat(item?.currentValue?.toFixed(2));
+      });
+      proLoss = parseFloat(currentVal) - parseFloat(investment);
+      setCurrentValue(currentVal?.toFixed(2));
+      setInvestedValue(investment?.toFixed(2));
+      setProfitLoss(proLoss?.toFixed(2));
+    }
+  }, [summaryRetrieve]);
 
   return (
     <View style={styles.container}>
@@ -274,6 +305,46 @@ function HomeScreen(props) {
             </View>
           ))}
         {/* plan your goals section */}
+        {/* 
+        {steps > 5 && (
+          <>
+            <Text style={styles.Plan}>Holdings</Text>
+            <View style={styles.education1}>
+              <View style={{ alignItems: "center" }}>
+                <Text style={styles.child5}>Summary</Text>
+                <Text style={styles.value}>
+                  Value as of {moment(new Date()).format("DD-MM-YYYY")}
+                </Text>
+                <Text style={styles.rupees}>
+                  ₹ {currentValue}
+                  
+                </Text>
+                <Text style={styles.value}>Current Value</Text>
+              </View>
+
+              <View style={styles.value_sec}>
+                <View style={styles.Profit}>
+                  <Text style={styles.investment}>{`₹ ${
+                    InvestedValue
+                    // summary?.summary?.totalinvestment
+                    //   ? summary?.summary?.totalinvestment
+                    //   : 0
+                  }`}</Text>
+                  <Text style={styles.investment2}>Investment</Text>
+                </View>
+                <View style={styles.Profit}>
+                  <Text style={styles.investment}>
+                    ₹ {ProfitLoss}
+                   
+                  </Text>
+                  <Text style={styles.investment2}>Profit/Loss</Text>
+                </View>
+              </View>
+            </View>
+          </>
+        )}
+        */}
+
         <Text style={styles.Plan}>Plan Your GOALS</Text>
 
         <ScrollView horizontal={true}>
@@ -523,7 +594,11 @@ function HomeScreen(props) {
             <View style={styles.singletext}>
               <Entypo name="dot-single" size={40} color="#FFCE00" />
               <Text
-                onPress={() => loadUrl("https://www.sipfund.com/faq.html")}
+                onPress={() =>
+                  loadUrl(
+                    "https://sipfund.com/SIP-Login/build/app/index.html#/SIPFund_FAQ"
+                  )
+                }
                 style={styles.Mutualfund}
               >
                 What is a Mutual Fund?
@@ -532,7 +607,11 @@ function HomeScreen(props) {
             <View style={styles.singletext}>
               <Entypo name="dot-single" size={40} color="#FFCE00" />
               <Text
-                onPress={() => loadUrl("https://www.sipfund.com/faq.html")}
+                onPress={() =>
+                  loadUrl(
+                    "https://sipfund.com/SIP-Login/build/app/index.html#/SIPFund_FAQ"
+                  )
+                }
                 style={styles.Mutualfund}
               >
                 What is Open Ended Fund?
@@ -541,7 +620,11 @@ function HomeScreen(props) {
           </View>
 
           <TouchableOpacity
-            onPress={() => loadUrl("https://www.sipfund.com/faq.html")}
+            onPress={() =>
+              loadUrl(
+                "https://sipfund.com/SIP-Login/build/app/index.html#/SIPFund_FAQ"
+              )
+            }
             style={styles.botton_box}
           >
             <Text style={styles.get_otp}>MORE FAQ’s</Text>
@@ -861,7 +944,7 @@ function HomeScreen(props) {
               <TouchableOpacity
                 onPress={() => {
                   setWebViewActive(false);
-                  clearEmandateLink();
+                  // clearEmandateLink();
                 }}
                 style={{ marginTop: 20 }}
               >
@@ -884,7 +967,7 @@ function HomeScreen(props) {
               />
             }
           />
-          <WebView source={{ uri: webUrl }} />
+          <WebView source={{ uri: webUrl }} javaScriptEnabled={true} />
         </View>
       )}
     </View>
@@ -1021,18 +1104,18 @@ const styles = StyleSheet.create({
   },
   investment: {
     borderRadius: 20,
-    backgroundColor: Colors.WHITE,
-    width: "30%",
+    // backgroundColor: Colors.WHITE,
+    // width: "30%",
     alignItems: "center",
     margin: 7,
     shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.23,
-    shadowRadius: 2.62,
-    elevation: 4,
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 4,
+    // },
+    // shadowOpacity: 0.23,
+    // shadowRadius: 2.62,
+    // elevation: 4,
   },
   term: {
     width: "100%",
@@ -1263,6 +1346,46 @@ const styles = StyleSheet.create({
     marginLeft: 15,
     color: Colors.RED,
   },
+  education1: {
+    // marginTop: -140,
+    marginHorizontal: 20,
+    borderWidth: 2,
+    borderStyle: "solid",
+    borderColor: Colors.GRAY_LIGHT,
+    marginVertical: 10,
+    padding: 10,
+    backgroundColor: Colors.WHITE,
+    borderRadius: 10,
+  },
+  value_sec: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 10,
+  },
+  child5: {
+    fontSize: 25,
+    fontWeight: "bold",
+  },
+  value: {
+    fontSize: 12,
+    fontWeight: "bold",
+    // paddingVertical: 5,
+    color: Colors.DEEP_GRAY,
+  },
+  rupees: {
+    fontSize: 20,
+    color: Colors.RED,
+    fontWeight: "bold",
+  },
+  Profit: {
+    alignItems: "center",
+  },
+  investment2: {
+    fontSize: 12,
+    fontWeight: "bold",
+    color: Colors.DEEP_GRAY,
+    marginVertical: 10,
+  },
 });
 
 const mapStateToProps = (state) => ({
@@ -1281,6 +1404,8 @@ const mapStateToProps = (state) => ({
   emandateFetching: state.emandate.isFetching,
   investmentFetching: state.investmentplan.isFetching,
   planFetching: state.goals.isFetching,
+  summary: state.goals.summary,
+  summaryRetrieve: state.goals.summaryRetrieve,
 });
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
@@ -1318,6 +1443,12 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     },
     clearEmandateLink: () => {
       EmandateActions.clearEmandateLink(dispatch);
+    },
+    goalSummary: (params, token) => {
+      GoalsActions.goalSummary(dispatch, params, token);
+    },
+    goalSummaryRetrieve: (params, token) => {
+      GoalsActions.goalSummaryRetrieve(dispatch, params, token);
     },
   };
 };

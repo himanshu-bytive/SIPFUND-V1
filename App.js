@@ -1,6 +1,8 @@
+/** @format */
+
 import React, { useState, useEffect, useRef, Linking } from "react";
 import AppContainer from "./src/navigation/AppNavigator";
-import { StatusBar, SafeAreaView, Platform } from "react-native";
+import { StatusBar, SafeAreaView, Platform, LogBox } from "react-native";
 import { Provider } from "react-redux";
 import thunk from "redux-thunk";
 import reducers from "./src/store";
@@ -10,7 +12,7 @@ import { PersistGate } from "redux-persist/es/integration/react";
 // import * as Notifications from "expo-notifications";
 import Constants from "expo-constants";
 import appsFlyer from "react-native-appsflyer";
-import { firebase } from "@react-native-firebase/messaging";
+// import { firebase } from "@react-native-firebase/messaging";
 import NotificationService from "./NotificationService";
 import { requestNotifications } from "react-native-permissions";
 
@@ -22,21 +24,22 @@ let persistor = persistStore(store);
 export default function App() {
   const [assetsLoaded, setAssetsLoaded] = useState(false);
   const [updateMsg, setUpdateMsg] = useState("");
+  LogBox.ignoreLogs(["Warning: ..."]);
+  LogBox.ignoreAllLogs();
   useEffect(() => {
-    requestNotifications(["alert", "sound"]).then(({ status, settings }) => {});
-    new NotificationService(onRegister);
+    // requestNotifications(["alert", "sound"]).then(({ status, settings }) => {});
+    // new NotificationService(onRegister);
   }, []);
 
   useEffect(() => {
-    const unsubscribe = firebase
-      .messaging()
-      .onMessage(async (remoteMessage) => {});
-    firebase
-      .messaging()
-      .subscribeToTopic("63aab25cb5b99563a2d45819")
-      .then(() => {});
-
-    return () => unsubscribe;
+    // const unsubscribe = firebase
+    //   .messaging()
+    //   .onMessage(async (remoteMessage) => {});
+    // firebase
+    //   .messaging()
+    //   .subscribeToTopic("63aab25cb5b99563a2d45819")
+    //   .then(() => {});
+    // return () => unsubscribe;
   }, []);
   const onRegister = (token) => {
     if (token) {
@@ -162,18 +165,6 @@ export default function App() {
       }
     }
   };
-
-  // console.log("🚀 ~ file: App.js:167 ~ App ~ url:", url)
-  // const url = Linking.useURL();
-
-  // useEffect(() => {
-  // //   Linking.addEventListener("url", ({ url }) => {
-  // //     console.log(
-  // //       "🚀 ~ file: App.js:169 ~ Linking.addEventListener ~ url:",
-  // //       url
-  // //     );
-  // //   });
-  // }, []);
 
   return (
     <Provider store={store}>

@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { useState, useRef, useEffect, useContext } from "react";
 import {
   StyleSheet,
@@ -6,6 +8,7 @@ import {
   TouchableOpacity,
   Text,
   ActivityIndicator,
+  Platform,
 } from "react-native";
 import moment from "moment";
 import { connect } from "react-redux";
@@ -26,10 +29,6 @@ function GoalsSummaryScreen(props) {
     goalSummaryRetrieve,
     summaryRetrieve,
   } = props;
-  console.log(
-    "🚀 ~ file: GoalsSummaryScreen.js:20 ~ GoalsSummaryScreen ~ userDetails:",
-    summaryRetrieve
-  );
   const [data, setData] = useState(
     summary?.holdings?.summary ? summary?.holdings?.summary : {}
   );
@@ -65,10 +64,6 @@ function GoalsSummaryScreen(props) {
         //     : 0;
       });
       proLoss = parseFloat(currentVal) - parseFloat(investment);
-      console.log(
-        "🚀 ~ file: GoalsSummaryScreen.js:39 ~ summary?.map ~ investment:",
-        investment?.toFixed(2)
-      );
       setCurrentValue(currentVal?.toFixed(2));
       setInvestedValue(investment?.toFixed(2));
       setProfitLoss(proLoss?.toFixed(2));
@@ -144,7 +139,7 @@ function GoalsSummaryScreen(props) {
           backgroundColor: "#f7dfd6",
           alignItems: "center",
           paddingBottom: 120,
-          top: 108,
+          top: Platform.OS == "ios" ? "10%" : 108,
           borderBottomLeftRadius: 50,
           borderBottomRightRadius: 50,
         }}

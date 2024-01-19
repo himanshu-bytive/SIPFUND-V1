@@ -1,13 +1,17 @@
+/** @format */
+
 import SiteAPI from "../services/SiteApis";
 import { Alert, Linking, ToastAndroid } from "react-native";
 import * as FileSystem from "expo-file-system";
 import * as Sharing from "expo-sharing";
-import { Buffer } from "buffer";
+// import { Buffer } from "buffer";
 //import * as Permissions from "expo-permissions";
 //import * as MediaLibrary from "expo-media-library";
 import apiBaseUrl from "../common/Config";
 import axios from "axios";
 import RNFetchBlob from "react-native-fetch-blob";
+import Toast from "react-native-simple-toast";
+
 const types = {
   FETCH_REPORT_SUMMARY_PENDING: "FETCH_REPORT_SUMMARY_PENDING",
   FETCH_REPORT_SUMMARY_SUCCESS: "FETCH_REPORT_SUMMARY_SUCCESS",
@@ -22,8 +26,9 @@ export const ReportsActions = {
   downloadReport: async (dispatch, params, token) => {
     dispatch({ type: types.FETCH_REPORT_SUMMARY_PENDING });
     let data = await SiteAPI.apiGetCall(`/reports/${params}`, {}, token);
+    console.log("🚀 ~ downloadReport: ~ data:", JSON.stringify(data));
     if (data.error) {
-      if(data.message) Alert.alert(data.message);
+      if (data.message) Alert.alert(data.message);
       dispatch({
         type: types.FETCH_REPORT_SUMMARY_FAILURE,
         error: data.message,
@@ -34,9 +39,15 @@ export const ReportsActions = {
         alert(data?.message);
       }
       dispatch({ type: types.FETCH_REPORT_SUMMARY_SUCCESS, urls: data });
+      const { dirs } = RNFetchBlob.fs;
+      console.log("🚀 ~ downloadReport: ~ dirs:", data.path);
       if (data.path) {
         //Linking.openURL(data.path);
         //let dirs = RNFetchBlob.fs.dirs;
+        let fileName = data.path.includes("capital-gain/")
+          ? data.path.split("capital-gain/").pop()
+          : data.path.split("reports/live-portfolio/").pop();
+        console.log("🚀 ~ downloadReport: ~ fileName:", fileName);
         RNFetchBlob.config({
           addAndroidDownloads: {
             useDownloadManager: true, // <-- this is the only thing required
@@ -44,6 +55,7 @@ export const ReportsActions = {
             notification: true,
             // Optional, but recommended since android DownloadManager will fail when
             // the url does not contains a file extension, by default the mime type will be text/plain
+            path: `${dirs.DownloadDir}/${fileName}`,
             mime: "application/pdf",
             description: "File downloaded by download manager.",
           },
@@ -54,9 +66,10 @@ export const ReportsActions = {
             //some headers ..
           })
           .then(() => {
+            // alert("dddd");
             // the path should be dirs.DocumentDir + 'path-to-file.anything'
             //Linking.openURL(res.path());
-            ToastAndroid.show("File downloaded", ToastAndroid.LONG);
+            Toast.show("File downloaded", Toast.LONG);
           });
       }
     }
@@ -65,7 +78,7 @@ export const ReportsActions = {
     dispatch({ type: types.FETCH_REPORT_SUMMARY_PENDING });
     let data = await SiteAPI.apiGetCall(`/reports/${link}`, params, token);
     if (data.error) {
-      if(data.message) Alert.alert(data.message);
+      if (data.message) Alert.alert(data.message);
       dispatch({
         type: types.FETCH_REPORT_SUMMARY_FAILURE,
         error: data.message,

@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { useState, useRef, useEffect, useContext } from "react";
 import {
   StyleSheet,
@@ -24,6 +26,7 @@ import {
 import { Image, Header, CheckBox, Overlay } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
 import Cart from "../../components/Cart";
+import Toast from "react-native-simple-toast";
 
 // const filterList = [
 //   { name: "1M", label: "1M Returns", value: "1m", status: false },
@@ -143,7 +146,7 @@ function TopRatedHomeScreen(props) {
 
   useEffect(() => {
     if (addItemSucces) {
-      ToastAndroid.show("Cart Succesfully Created", ToastAndroid.LONG);
+      Toast.show("Cart Succesfully Created", Toast.LONG);
       setAddItemSucces();
     }
   }, [addItemSucces]);
@@ -193,6 +196,7 @@ function TopRatedHomeScreen(props) {
   //   }
   //   return monthsArr[month - 1];
   // };
+  const focusInput = React.createRef();
 
   const [selectCat, setSelectCat] = useState("Equity");
   const [selectSubCat, setSelectSubCat] = useState("Consumption");
@@ -233,7 +237,7 @@ function TopRatedHomeScreen(props) {
 
   const [states, setStates] = useState({
     amount: "",
-    date: 5,
+    date: "01",
     productName: "",
     productCode: "",
     amcCode: "",
@@ -241,7 +245,32 @@ function TopRatedHomeScreen(props) {
     imagePath: "",
     minimumSIPAmount: 0,
     minimumLumpsumAmount: 0,
+    dates: [],
   });
+
+  useEffect(() => {
+    if (props.navigation) {
+      const focusListener = props.navigation.addListener("willFocus", () => {
+        setStates({
+          ...states,
+          amount: "",
+          dates: [
+            {
+              value: "01",
+              label: "01",
+            },
+          ],
+        });
+      });
+
+      const blurListener = props.navigation.addListener("willBlur", () => {});
+
+      return () => {
+        focusListener.remove();
+        blurListener.remove();
+      };
+    }
+  }, [props.navigation]);
 
   const invest = (
     imagePath,
@@ -250,7 +279,8 @@ function TopRatedHomeScreen(props) {
     productCode,
     productName,
     minimumSIPAmount,
-    minimumLumpsumAmount
+    minimumLumpsumAmount,
+    newDates
   ) => {
     setStates({
       ...states,
@@ -262,6 +292,7 @@ function TopRatedHomeScreen(props) {
       minimumSIPAmount,
       minimumLumpsumAmount,
       groupType: "toprated",
+      dates: newDates,
     });
     setVisible(!visible);
   };
@@ -275,6 +306,7 @@ function TopRatedHomeScreen(props) {
 
     if (month === 11) {
       month = 0;
+      year = year + 1;
     } else {
       month += 1;
     }
@@ -301,6 +333,7 @@ function TopRatedHomeScreen(props) {
 
     if (month === 11) {
       month = 0;
+      year = year + 1;
     } else {
       month += 1;
     }
@@ -389,6 +422,11 @@ function TopRatedHomeScreen(props) {
         groupType: "toprated",
       },
     };
+    console.log(
+      "🚀 ~ file: TopRatedHomeScreen.js:420 ~ addToCartSip ~ params:",
+      states
+    );
+
     toggleOverlay();
     addItomToSip(params, token);
     getCartDetails(token);
@@ -466,7 +504,142 @@ function TopRatedHomeScreen(props) {
     }
   }, [category, selectCat]);
 
+  const [newDateState, setNewDateState] = useState([]);
+
+  useEffect(() => {
+    var newDates = [...Array(29)].map((item, index) => {
+      return {
+        label: index + 1,
+        value: index + 1,
+      };
+    });
+    setNewDateState(newDates);
+  }, []);
+
   const [fundTypes, setFundTypes] = useState([]);
+
+  const selList = [
+    {
+      value: "01",
+      label: "01",
+    },
+    {
+      value: "02",
+      label: "02",
+    },
+    {
+      value: "03",
+      label: "03",
+    },
+    {
+      value: "04",
+      label: "04",
+    },
+    {
+      value: "05",
+      label: "05",
+    },
+    {
+      value: "06",
+      label: "06",
+    },
+    {
+      value: "07",
+      label: "07",
+    },
+    {
+      value: "08",
+      label: "08",
+    },
+    {
+      value: "09",
+      label: "09",
+    },
+    {
+      value: "10",
+      label: "10",
+    },
+    {
+      value: "11",
+      label: "11",
+    },
+    {
+      value: "12",
+      label: "12",
+    },
+    {
+      value: "13",
+      label: "13",
+    },
+    {
+      value: "14",
+      label: "14",
+    },
+    {
+      value: "15",
+      label: "15",
+    },
+    {
+      value: "16",
+      label: "16",
+    },
+    {
+      value: "17",
+      label: "17",
+    },
+    {
+      value: "18",
+      label: "18",
+    },
+    {
+      value: "19",
+      label: "19",
+    },
+    {
+      value: "20",
+      label: "20",
+    },
+    {
+      value: "21",
+      label: "21",
+    },
+    {
+      value: "22",
+      label: "22",
+    },
+    {
+      value: "23",
+      label: "23",
+    },
+    {
+      value: "24",
+      label: "24",
+    },
+    {
+      value: "25",
+      label: "25",
+    },
+    {
+      value: "26",
+      label: "26",
+    },
+    {
+      value: "27",
+      label: "27",
+    },
+    {
+      value: "28",
+      label: "28",
+    },
+    {
+      value: "29",
+      label: "29",
+    },
+    {
+      value: "30",
+      label: "30",
+    },
+  ];
 
   return (
     <View style={styles.container}>
@@ -554,14 +727,20 @@ function TopRatedHomeScreen(props) {
                   }
                 }
                 style={{
-                  inputIOS: styles.dropDown,
+                  inputIOS: [styles.dropDown, { marginTop: 5 }],
                   inputAndroid: styles.dropDown,
                   placeholder: styles.dropDown,
                 }}
                 useNativeAndroidPickerStyle={false}
-                onValueChange={(value) => updateFilterSelection(value)}
-                value={filterValue}
-                items={filter}
+                onValueChange={(value) => {
+                  updateFilterSelection(value);
+                }}
+                // value={{
+                //   label: "Select a Item",
+                //   value: null,
+                // }}
+                // value={states?.dates}
+                items={filterList}
                 Icon={() => {
                   return (
                     <AntDesign
@@ -587,7 +766,14 @@ function TopRatedHomeScreen(props) {
                 <View style={styles.company}>
                   <TouchableOpacity
                     style={{ flexDirection: "row", alignItems: "center" }}
-                    onPress={() => openFundDetails(item)}
+                    onPress={() => {
+                      console.log(
+                        "🚀 ~ file: TopRatedHomeScreen.js:779 ~ TopRatedHomeScreen ~ item:",
+                        JSON.stringify(item)
+                      );
+
+                      openFundDetails(item);
+                    }}
                   >
                     <Image
                       source={{ uri: item.imagePath }}
@@ -606,6 +792,14 @@ function TopRatedHomeScreen(props) {
                   </TouchableOpacity>
                   <TouchableOpacity
                     onPress={() => {
+                      var newDates = item?.sipDates;
+                      newDates = newDates.split(",");
+                      var newDates = newDates.map((object) => {
+                        return {
+                          label: ("0" + object.replace(/\s/g, "")).slice(-2),
+                          value: ("0" + object.replace(/\s/g, "")).slice(-2),
+                        };
+                      });
                       invest(
                         item.imagePath,
                         item.amcCode,
@@ -617,8 +811,15 @@ function TopRatedHomeScreen(props) {
                           : parseInt(item?.minimumSIPAmount),
                         parseInt(item?.minimumLumpsumAmount) < 1000
                           ? 1000
-                          : parseInt(item?.minimumLumpsumAmount)
+                          : parseInt(item?.minimumLumpsumAmount),
+                        newDates
                       );
+
+                      // setStates({ ...states, dates: newDates });
+                      // console.log(
+                      //   "🚀 ~ file: TopRatedHomeScreen.js:799 ~ TopRatedHomeScreen ~ states:",
+                      //   states
+                      // );
                     }}
                     style={styles.botton_box}
                   >
@@ -677,7 +878,7 @@ function TopRatedHomeScreen(props) {
                 }
                 style={styles.rupees}
               />
-              <Text style={styles.rupees_text}>{item.name}</Text>
+              <Text style={styles.rupees_text}>{item?.name}</Text>
             </TouchableOpacity>
           ))}
         </View>
@@ -745,7 +946,49 @@ function TopRatedHomeScreen(props) {
                 </View>
                 <View style={styles.amount_sec}>
                   <Text style={styles.amount_tex}>Date</Text>
-                  <View style={[styles.bordersec, { flexDirection: "row" }]}>
+                  <View style={{ marginTop: 10 }}>
+                    <RNPickerSelect
+                      ref={focusInput}
+                      placeholder={{
+                        label: "Select a Date",
+                        value: null,
+                      }}
+                      style={{
+                        inputIOS: styles.dropDown,
+                        inputAndroid: styles.dropDown,
+                        placeholder: styles.dropDown,
+                        height: 120,
+                        zIndex: 1,
+                      }}
+                      useNativeAndroidPickerStyle={false}
+                      onValueChange={(value) => {
+                        setStates({ ...states, date: value });
+                      }}
+                      value={states?.date}
+                      items={states?.dates}
+                      // items={selList}
+                      Icon={() => {
+                        return (
+                          <AntDesign
+                            name="caretdown"
+                            size={15}
+                            style={{
+                              marginTop: 7,
+                              marginRight: -10,
+                            }}
+                            color="#C0392B"
+                          />
+                        );
+                      }}
+                      // Icon={() => {
+                      //   return (
+
+                      //   );
+                      // }}
+                    />
+                  </View>
+
+                  {/* <View style={[styles.bordersec, { flexDirection: "row" }]}>
                     <Text style={styles.new}>{states.date}</Text>
                     <View>
                       <TouchableOpacity
@@ -759,7 +1002,7 @@ function TopRatedHomeScreen(props) {
                         <AntDesign name="caretdown" size={15} color="#C0392B" />
                       </TouchableOpacity>
                     </View>
-                  </View>
+                  </View> */}
                 </View>
               </View>
 

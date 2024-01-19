@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { useState, useRef, useEffect, useContext } from "react";
 import {
   StyleSheet,
@@ -162,7 +164,9 @@ function PlanSubmitScreen(props) {
           //newInvestment(props.navigation.state.params?.params, token);
           newInvestment(props.navigation.state.params?.params, token);
           setPaymentInitiated(true);
-          getCartDetails(token);
+          setTimeout(() => {
+            getCartDetails(token);
+          }, 1000);
         }}
         style={styles.botton_box}
       >

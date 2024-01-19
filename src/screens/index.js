@@ -1,3 +1,5 @@
+/** @format */
+
 import SplashScreen from "./Auth/SplashScreen";
 import VerifyScreen from "./Auth/VerifyScreen";
 import OtpScreen from "./Auth/OtpScreen";
@@ -30,6 +32,7 @@ import ProfileScreen from "./Kyc/ProfileScreen";
 import ExistingScreen from "./Kyc/ExistingScreen";
 import ReferEarnScreen from "./Kyc/ReferEarnScreen";
 import NotificationScreen from "./Kyc/NotificationScreen";
+import NotificationViewScreen from "./Kyc/NotificationViewScreen";
 import RelationshipScreen from "./Kyc/RelationshipScreen";
 import RmNotFoundScreen from "./Kyc/RmNotFoundScreen";
 import ReportsScreen from "./Kyc/ReportsScreen";
@@ -110,6 +113,7 @@ export {
   ExistingScreen,
   ReferEarnScreen,
   NotificationScreen,
+  NotificationViewScreen,
   RelationshipScreen,
   RmNotFoundScreen,
   ReportsScreen,

@@ -78,6 +78,7 @@ import com.android.build.OutputFile
  */
 
 project.ext.react = [
+    nodeExecutableAndArgs : ["/usr/local/bin/node"],
     enableHermes: (findProperty('expo.jsEngine') ?: "jsc") == "hermes",
     cliPath: new File(["node", "--print", "require.resolve('react-native/package.json')"].execute(null, rootDir).text.trim()).getParentFile().getAbsolutePath() + "/cli.js",
     hermesCommand: new File(["node", "--print", "require.resolve('hermes-engine/package.json')"].execute(null, rootDir).text.trim()).getParentFile().getAbsolutePath() + "/%OS-BIN%/hermesc",
@@ -135,8 +136,8 @@ android {
         applicationId 'com.octrax.sipfund'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 59
-        versionName '1.0.45'
+        versionCode 68
+        versionName '1.0.49'
     }
     splits {
         abi {
@@ -187,6 +188,13 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
+    // implementation "com.facebook.react:react-native:0.58.3"
+
+    //   implementation project(path: ":@react-native-firebase_dynamic-links")
+
+      implementation 'com.google.firebase:firebase-dynamic-links:20.0.0'
+    // implementation 'com.google.firebase:firebase-appindexing:20.0.0'
+
 
     def isGifEnabled = (findProperty('expo.gif.enabled') ?: "") == "true";
     def isWebpEnabled = (findProperty('expo.webp.enabled') ?: "") == "true";

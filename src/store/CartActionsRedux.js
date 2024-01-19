@@ -1,3 +1,5 @@
+/** @format */
+
 import SiteAPI from "../services/SiteApis";
 import { Alert } from "react-native";
 const types = {
@@ -27,7 +29,7 @@ export const CartActions = {
     dispatch({ type: types.FETCH_ADD_ITEM_PENDING });
     let data = await SiteAPI.apiPostCall("/addCart", {}, token);
     if (data.error) {
-      if(data.message) Alert.alert(data.message);
+      if (data.message) Alert.alert(data.message);
       dispatch({ type: types.FETCH_ADD_ITEM_FAILURE, error: data.message });
     } else {
       dispatch({
@@ -42,7 +44,7 @@ export const CartActions = {
     dispatch({ type: types.FETCH_DELET_CART_PENDING });
     let data = await SiteAPI.apiPostCall("/addCart/delete", params, token);
     if (data.error) {
-      if(data.message) Alert.alert(data.message);
+      if (data.message) Alert.alert(data.message);
       dispatch({ type: types.FETCH_DELET_CART_FAILURE, error: data.message });
     } else {
       dispatch({
@@ -57,7 +59,7 @@ export const CartActions = {
     dispatch({ type: types.FETCH_ADD_ITEM_SIP_PENDING });
     let data = await SiteAPI.apiPostCall("/addCart", params, token);
     if (data.error) {
-      if(data.message) Alert.alert(data.message);
+      if (data.message) Alert.alert(data.message);
       dispatch({ type: types.FETCH_ADD_ITEM_SIP_FAILURE, error: data.message });
     } else {
       console.log("Cart=", data);
@@ -72,8 +74,12 @@ export const CartActions = {
   cartDetails: async (dispatch, token) => {
     dispatch({ type: types.FETCH_CART_DETAILS_PENDING });
     let data = await SiteAPI.apiGetCall("/addCart", {}, token);
+    console.log(
+      "🚀 ~ file: CartActionsRedux.js:77 ~ cartDetails: ~ data:",
+      JSON.stringify(data)
+    );
     if (data.error) {
-      if(data.message) Alert.alert(data.message);
+      if (data.message) Alert.alert(data.message);
       dispatch({ type: types.FETCH_CART_DETAILS_FAILURE, error: data.message });
     } else {
       dispatch({
