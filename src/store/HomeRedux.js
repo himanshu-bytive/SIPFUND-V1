@@ -1,4 +1,6 @@
 import SiteAPI from "../services/SiteApis";
+const { SideMenuActions } = require("../store/SideMenuRedux");
+
 import { Alert } from "react-native";
 const types = {
   RESETDATA: "RESETDATA",
@@ -15,6 +17,8 @@ const types = {
   FETCH_UPDATE_PAN_PENDING: "FETCH_UPDATE_PAN_PENDING",
   FETCH_UPDATE_PAN_SUCCESS: "FETCH_UPDATE_PAN_SUCCESS",
   FETCH_UPDATE_PAN_FAILURE: "FETCH_UPDATE_PAN_FAILURE",
+
+  FETCH_IIN_EXIST:"FETCH_IIN_EXIST"
 };
 export const HomeActions = {
   resetData() {
@@ -23,6 +27,7 @@ export const HomeActions = {
   getsteps: async (dispatch, params, tokan) => {
     dispatch({ type: types.FETCH_STEPS_PENDING });
     let data = await SiteAPI.apiGetCall("/flags/step-state", params, tokan);
+    console.log((await SiteAPI.apiGetCall("/flags/step-state", params, tokan)),'/flags/step-stateshadab');
     if (data.error) {
       if (data.message) Alert.alert(data.message);
       dispatch({ type: types.FETCH_STEPS_FAILURE, error: data.message });
@@ -61,6 +66,47 @@ export const HomeActions = {
     return;
     // let data = await SiteAPI.apiPostCall("/user/userPan", params, tokan);
   },
+  checkPANNumber: async (dispatch, params, tokan) => {
+
+    let data1 = await SiteAPI.apiGetCall(`/user/getIINonPAN?pan=${params.pan}`);
+    
+
+    if (data1?.vaildFlag) {
+      const newParams ={
+        iin: data1?.data[0]?.CUSTOMER_ID,
+      pan: params.pan,
+      }
+      
+      Alert.alert("Account Already Exist", "PAN No. "+params.pan.toUpperCase()+" already have IIN. Do you want to sync your account?", [
+        {
+          text: "Cancel",
+          onPress: () => {HomeActions.updatePan(dispatch,params, tokan)},
+        },
+        {
+          text: "Sync Account",
+          onPress: () => {
+            SideMenuActions.updateInn(dispatch,newParams,tokan)
+            setTimeout(() => params?.navigation.navigate("UploadDocument"), 1000);
+          },
+        },
+        
+      ])
+    } else {
+      HomeActions.updatePan(dispatch,params, tokan);
+      // dispatch({ type: types.FETCH_UPDATE_PAN_PENDING });
+
+      // let data = await SiteAPI.apiPostCall("/user/userPan", params, tokan);
+      // if (data.error) {
+      //   if (data.message) Alert.alert(data.message);
+      //   // dispatch({ type: types.FETCH_UPDATE_PAN_FAILURE, error: data.message });
+      //   dispatch({ type: types.FETCH_UPDATE_PAN_SUCCESS, pan: params.pan });
+      // } else {
+      //   dispatch({ type: types.FETCH_UPDATE_PAN_SUCCESS, pan: data.data });
+      // }
+    }
+    return;
+    // let data = await SiteAPI.apiPostCall("/user/userPan", params, tokan);
+  },
 };
 
 const initialState = {
@@ -69,6 +115,7 @@ const initialState = {
   steps: null,
   home: null,
   pan: null,
+  iinExist:false
 };
 
 export const reducer = (state = initialState, action) => {
@@ -90,6 +137,17 @@ export const reducer = (state = initialState, action) => {
         ...state,
         isFetching: false,
         error,
+      };
+    }
+    // case type.:
+    //  return{
+    //   ...state,
+    //  } ;
+    // }
+    case types.FETCH_IIN_EXIST: {
+      return {
+        ...state,
+        iinExist: true,
       };
     }
     case types.FETCH_STEPS_SUCCESS: {

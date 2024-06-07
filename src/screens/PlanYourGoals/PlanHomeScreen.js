@@ -650,7 +650,7 @@ function PlanHomeScreen(props) {
                 }}
               ></View>
               <Text style={styles.datered}>
-                ₹{Number(requiredInvestment).toFixed(0)}
+                ₹{Number(lumpsumAmount).toFixed(0)}
               </Text>
             </View>
 

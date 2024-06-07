@@ -25,11 +25,7 @@ const SiteApis = {
   apiPostCall: async (api, params, token) => {
     try {
       const response = await Api.post(api, params, { token });
-      console.log(
-        "🚀 ~ file: SiteApis.js:29 ~ apiGetCall: ~ response:",
-        JSON.stringify(response?.body),
-        api
-      );
+      
       if (response.statusCode === 200) {
         return response.body;
       } else {
@@ -52,14 +48,15 @@ const SiteApis = {
     }
   },
   apiGetCall: async (api, params, token) => {
+    if (api == "/bank/custbanklist")
+      console.log(
+        "🚀 ~ apiGetCall: ~ api, params, token:",
+        api + " . " + JSON.stringify(params) + " . " + token
+      );
     try {
       const response = await Api.get(api, params, { token });
-      console.log(
-        "🚀 ~ file: SiteApis.js:52 ~ apiGetCall: ~ response:",
-        JSON.stringify(response?.body),
-        api,
-        token
-      );
+      console.log(api, params,'api, params');
+      // if (api == "/bank/custbanklist")
       if (response.statusCode === 200) {
         return response.body;
       } else {

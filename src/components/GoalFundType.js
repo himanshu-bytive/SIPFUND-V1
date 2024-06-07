@@ -149,15 +149,9 @@ const randerData = (
                                 : defaultDate
                             }
                             onChange={(e) => {
-                              console.log(
-                                "🚀 ~ file: GoalFundType.js:151 ~ {schemeInfo.map ~ e:",
-                                e
-                              );
+                             
                             }}
-                            // onChange={(e) => {
-                            //   console.log("🚀 ~ file: GoalFundType.js:152 ~ {schemeInfo.map ~ k:", k)
-                            //   onChange(k, e, "sip_period_day");
-                            // }}
+                            
                             k={k}
                           />
                           {/* <RNPickerSelect
@@ -369,15 +363,21 @@ const RenderData1 = ({
           </View>
           <View>
             {schemeInfo.map((item, key) => {
-              var newDates = item?.sipDates.split(",");
-              var newDates = newDates.map((object) => {
-                return {
-                  label: ("0" + object.replace(/\s/g, "")).slice(-2),
-                  value: ("0" + object.replace(/\s/g, "")).slice(-2),
-                };
-              });
-              var defaultDate = parseInt(item?.sipDates.split(",")[0]);
-              defaultDate = ("0" + defaultDate).slice(-2);
+              var newDates = [];
+              var defaultDate = "01";
+              if (item?.sipDates) {
+                var newDates = item?.sipDates ? item?.sipDates?.split(",") : [];
+                var newDates =
+                  newDates?.length > 0 &&
+                  newDates.map((object) => {
+                    return {
+                      label: ("0" + object.replace(/\s/g, "")).slice(-2),
+                      value: ("0" + object.replace(/\s/g, "")).slice(-2),
+                    };
+                  });
+                var defaultDate = parseInt(item?.sipDates.split(",")[0]);
+                defaultDate = ("0" + defaultDate).slice(-2);
+              }
               return (
                 <View key={key} style={styles.axis_asset}>
                   <View style={styles.company}>

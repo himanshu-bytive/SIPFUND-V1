@@ -274,6 +274,10 @@ function InvestmentListScreens(props) {
       if (newDefaultValue % 500 != 0 && newDefaultValue != null) {
         newDefaultValue = Math.round(newDefaultValue / 500) * 500;
 
+        if (Math.round(newDefaultValue / 500) * 500 <= 0) {
+          newDefaultValue = parseInt(500);
+        }
+
         var totalVal = newDefaultValue * totalArr?.length;
         var totalArr = [];
         var newArr = categories.map((category, CatIndex) => {
@@ -298,18 +302,12 @@ function InvestmentListScreens(props) {
           [{ text: "OK", onPress: () => {} }]
         );
 
-        console.log(
-          "🚀 ~ file: InvestmentListScreens.js:282 ~ myInvestlist[category].map ~ item:",
-          JSON.stringify(totalArr)
-        );
+        
         // myInvestments(newArr);
         // categories.map((category, CatIndex) => {
         //   myInvestlist[category].map((item, index) => {
         //     let data = myInvestlist;
-        //     console.log(
-        //       "🚀 ~ file: InvestmentListScreens.js:281 ~ useEffect ~ data:",
-        //       data
-        //     );
+        //     
         //     data[category][index].sip = newDefaultValue;
         //   });
         // });
@@ -323,10 +321,7 @@ function InvestmentListScreens(props) {
             return data;
           });
         });
-        console.log(
-          "🚀 ~ file: InvestmentListScreens.js:312 ~ myInvestlist[category].map ~ myInvestlist:",
-          newArr
-        );
+       
       }
       setDefaultValue(JSON.stringify(newDefaultValue));
     }
@@ -418,8 +413,8 @@ function InvestmentListScreens(props) {
                     myInvestlist[category][index].sipDates.split(",");
                   var newDates = sipDates.map((object) => {
                     return {
-                      label: object,
-                      value: object,
+                      label: ("0" + object).slice(-2),
+                      value: ("0" + object).slice(-2)
                     };
                   });
                   var defaultDate = parseInt(item?.sipDates.split(",")[0]);

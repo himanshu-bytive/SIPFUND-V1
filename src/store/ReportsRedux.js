@@ -25,8 +25,8 @@ function getFileUri(name) {
 export const ReportsActions = {
   downloadReport: async (dispatch, params, token) => {
     dispatch({ type: types.FETCH_REPORT_SUMMARY_PENDING });
+    Toast.show("Downloading...", Toast.LONG);
     let data = await SiteAPI.apiGetCall(`/reports/${params}`, {}, token);
-    console.log("🚀 ~ downloadReport: ~ data:", JSON.stringify(data));
     if (data.error) {
       if (data.message) Alert.alert(data.message);
       dispatch({
@@ -40,14 +40,12 @@ export const ReportsActions = {
       }
       dispatch({ type: types.FETCH_REPORT_SUMMARY_SUCCESS, urls: data });
       const { dirs } = RNFetchBlob.fs;
-      console.log("🚀 ~ downloadReport: ~ dirs:", data.path);
       if (data.path) {
         //Linking.openURL(data.path);
         //let dirs = RNFetchBlob.fs.dirs;
         let fileName = data.path.includes("capital-gain/")
           ? data.path.split("capital-gain/").pop()
           : data.path.split("reports/live-portfolio/").pop();
-        console.log("🚀 ~ downloadReport: ~ fileName:", fileName);
         RNFetchBlob.config({
           addAndroidDownloads: {
             useDownloadManager: true, // <-- this is the only thing required
@@ -107,7 +105,7 @@ export const reducer = (state = initialState, action) => {
     case types.FETCH_REPORT_SUMMARY_PENDING: {
       return {
         ...state,
-        isFetching: true,
+        // isFetching: true,
         error: null,
       };
     }

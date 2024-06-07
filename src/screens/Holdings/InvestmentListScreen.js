@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { useState, useRef, useEffect, useContext } from "react";
 import {
   StyleSheet,
@@ -154,7 +156,7 @@ function InvestmentListScreen(props) {
                   width="70"
                   height="70"
                   svg={true}
-                  sector={item?.plan === "Sectoral Funds" ? true : false}
+                  sector={item?.plan === "Sectoral Mutual Funds" ? true : false}
                   url={item?.planImagePath}
                 />
                 <Text style={styles.Longterm}>{item?.plan}</Text>

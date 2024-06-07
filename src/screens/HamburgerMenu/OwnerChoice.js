@@ -278,13 +278,13 @@ function OwnerChoice(props) {
   const [selectTab, setSelectTab] = useState("SIP");
   const [states, setStates] = useState({
     amount: "5000",
-    date: 5,
+    // date: 5,
     productName: "",
     productCode: "",
     amcCode: "",
     amcName: "",
     imagePath: "",
-    date: 1,
+    date: "01",
   });
 
   const invest = (
@@ -295,7 +295,8 @@ function OwnerChoice(props) {
     productName,
     sipDates
   ) => {
-    const date = parseInt(sipDates.split(",")[0]);
+    let date = parseInt(sipDates.split(",")[0]);
+    date = date.toString().length < 2 ? "0" + date : date;
     setStates({
       ...states,
       productCode,
@@ -361,7 +362,9 @@ function OwnerChoice(props) {
     console.log(params);
     addItomToSip(params, token);
     setVisible(false);
-    getCartDetails(token);
+    setTimeout(() => {
+      getCartDetails(token);
+    }, 1000);
   };
   const sipFromDate = (sipDay) => {
     const date = new Date();
@@ -746,7 +749,7 @@ function OwnerChoice(props) {
                     </View>
                   </View>
                   <View style={styles.amount_sec}>
-                    <Text style={styles.amount_tex}>Date</Text>
+                    <Text style={styles.amount_tex}></Text>
                     {/* <View style={[styles.bordersec, { flexDirection: "row" }]}> */}
                     {/* <Text style={styles.new}>{states.date}</Text> */}
                     <View>
@@ -764,6 +767,7 @@ function OwnerChoice(props) {
                           // height: 250,
                           // zIndex: 1,
                         }}
+                        value={states?.date}
                         defultValue={"01"}
                         useNativeAndroidPickerStyle={false}
                         onValueChange={(value) => {
@@ -797,7 +801,7 @@ function OwnerChoice(props) {
                               name="caretdown"
                               size={15}
                               style={{
-                                marginTop: 15,
+                                marginTop: 5,
                                 marginRight: -25,
                               }}
                               color="#C0392B"

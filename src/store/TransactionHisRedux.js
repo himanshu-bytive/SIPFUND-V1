@@ -36,7 +36,6 @@ export const TransactionHisActions = {
         error: data.message,
       });
     } else {
-      // console.log("Transaction Data=", data);
       dispatch({
         type: types.FETCH_FETCH_TRANSACTION_HIS_SUCCESS,
         transactionHistory: data.Data,

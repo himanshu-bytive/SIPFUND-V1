@@ -248,9 +248,12 @@ function TopRatedHomeScreen(props) {
     dates: [],
   });
 
+  const [price, setPrice] = useState("");
+
   useEffect(() => {
     if (props.navigation) {
       const focusListener = props.navigation.addListener("willFocus", () => {
+        setPrice("");
         setStates({
           ...states,
           amount: "",
@@ -375,10 +378,17 @@ function TopRatedHomeScreen(props) {
   };
 
   const addToCartLumpSum = () => {
-    if (states.amount < states?.minimumLumpsumAmount) {
-      alert("Amount is less than minimum amount");
-      return;
+    let priceNew = price;
+    if(parseInt(price) >= 0){
+      if (price < states?.minimumLumpsumAmount) {
+        alert("Amount is less than minimum amount");
+        return;
+      }
     }
+    else{
+      priceNew = states?.minimumLumpsumAmount
+    }
+   
     let params = {
       cartDetails: {
         trxn_nature: "N",
@@ -388,8 +398,8 @@ function TopRatedHomeScreen(props) {
         product_code: states.productCode,
         product_name: states.productName,
         reinvest: "Z",
-        amount: states.amount,
-        sip_amount: states.amount,
+        amount: priceNew,
+        sip_amount: price,
         image_path: states.imagePath,
         groupType: "toprated",
       },
@@ -399,10 +409,17 @@ function TopRatedHomeScreen(props) {
     getCartDetails(token);
   };
   const addToCartSip = () => {
-    if (states.amount < states?.minimumSIPAmount) {
-      alert("Amount is less than minimum amount");
-      return;
+    let priceNew = price;
+    if(parseInt(price) >= 0){
+      if (price < states?.minimumSIPAmount) {
+        alert("Amount is less than minimum amount");
+        return;
+      }
     }
+    else{
+      priceNew = states?.minimumSIPAmount
+    }
+    
     let params = {
       cartDetails: {
         trxn_nature: "S",
@@ -410,26 +427,24 @@ function TopRatedHomeScreen(props) {
         sip_from_date: sipFromDate(states.date),
         sip_freq: "OM",
         sip_end_date: sipEndDate(states.date),
-        sip_amount: states.amount,
+        sip_amount: priceNew,
         reinvest: "Z",
         product_name: states.productName,
         product_code: states.productCode,
         folio: "",
-        amount: states.amount,
+        amount: priceNew,
         amc_name: states.amcName,
         amc: states.amcCode,
         image_path: states.imagePath,
         groupType: "toprated",
       },
     };
-    console.log(
-      "🚀 ~ file: TopRatedHomeScreen.js:420 ~ addToCartSip ~ params:",
-      states
-    );
 
+    // setTimeout(() => {
     toggleOverlay();
     addItomToSip(params, token);
     getCartDetails(token);
+    // }, 1000);
   };
 
   const openFundDetails = (item) => {
@@ -458,7 +473,8 @@ function TopRatedHomeScreen(props) {
 
   const removeSpecialChars = (val) => {
     let string = val.replace(/[&\/\\#,+()$~%.'":*?<>{}₹]/g, "");
-    setStates({ ...states, amount: string });
+    // setStates({ ...states, amount: string });
+    setPrice(string);
   };
 
   function changeNumberFormat(number, decimals, recursiveCall) {
@@ -767,10 +783,7 @@ function TopRatedHomeScreen(props) {
                   <TouchableOpacity
                     style={{ flexDirection: "row", alignItems: "center" }}
                     onPress={() => {
-                      console.log(
-                        "🚀 ~ file: TopRatedHomeScreen.js:779 ~ TopRatedHomeScreen ~ item:",
-                        JSON.stringify(item)
-                      );
+                      
 
                       openFundDetails(item);
                     }}
@@ -814,12 +827,7 @@ function TopRatedHomeScreen(props) {
                           : parseInt(item?.minimumLumpsumAmount),
                         newDates
                       );
-
-                      // setStates({ ...states, dates: newDates });
-                      // console.log(
-                      //   "🚀 ~ file: TopRatedHomeScreen.js:799 ~ TopRatedHomeScreen ~ states:",
-                      //   states
-                      // );
+                      // setPrice(item?.minimumSIPAmount);
                     }}
                     style={styles.botton_box}
                   >
@@ -911,7 +919,10 @@ function TopRatedHomeScreen(props) {
                   : styles.buttom_botton
               }
             >
-              <TouchableOpacity onPress={() => toggleTab("LUMPSUM")}>
+              <TouchableOpacity onPress={() => {
+                toggleTab("LUMPSUM");
+
+                }}>
                 <Text
                   style={
                     selectTab == "LUMPSUM" ? styles.sip_text2 : styles.sip_text
@@ -937,7 +948,8 @@ function TopRatedHomeScreen(props) {
                   <View style={styles.bordersec}>
                     <TextInput
                       keyboardType={"numeric"}
-                      value={numberWithCommas(states.amount)}
+                      // value={numberWithCommas(price)}
+                      value={price?numberWithCommas(price):numberWithCommas(states?.minimumSIPAmount)}
                       onChangeText={(amount) => removeSpecialChars(amount)}
                       placeholder="₹0"
                       style={styles.amount_tex2}
@@ -1031,7 +1043,8 @@ function TopRatedHomeScreen(props) {
                   <View style={styles.bordersec}>
                     <TextInput
                       keyboardType={"numeric"}
-                      value={numberWithCommas(states.amount)}
+                      // value={numberWithCommas(price)}
+                      value={price?numberWithCommas(price):numberWithCommas(states?.minimumLumpsumAmount)}
                       onChangeText={(amount) => removeSpecialChars(amount)}
                       placeholder="₹0"
                       style={styles.amount_tex2}

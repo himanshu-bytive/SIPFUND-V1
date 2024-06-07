@@ -1,12 +1,15 @@
+/** @format */
+
 import React from "react";
-import { Image } from "react-native";
+import { Image, Text } from "react-native";
 import { SvgUri } from "react-native-svg";
+import FastImage from "react-native-fast-image";
 
 const MyImage = (props) => {
   const { svg, url, width, height, style, aspectRatio, sector } = props;
   if (sector) {
     return (
-      <Image
+      <FastImage
         source={require("../../assets/sector.png")}
         style={{
           resizeMode: "contain",
@@ -22,32 +25,39 @@ const MyImage = (props) => {
     return (
       <>
         {height ? (
-          <SvgUri
-            style={{ resizeMode: "contain", alignSelf: "center" }}
-            width={width}
-            height={height ? height : 0}
-            uri={url}
-          />
+          <>
+            <SvgUri
+              style={{ resizeMode: "contain", alignSelf: "center" }}
+              width={width}
+              height={height ? height : 0}
+              uri={url}
+            />
+          </>
         ) : (
-          <SvgUri
-            style={{
-              resizeMode: "contain",
-              alignSelf: "center",
-              aspectRatio: 1,
-            }}
-            width={width}
-            uri={url}
-          />
+          <>
+            <SvgUri
+              style={{
+                resizeMode: "contain",
+                alignSelf: "center",
+                aspectRatio: 1,
+              }}
+              width={width}
+              uri={url}
+            />
+          </>
         )}
       </>
     );
   }
   return (
-    <Image
-      source={{ uri: url }}
-      // source={require('../../assets/moderate-funds.png')}
-      style={style}
-    />
+    <>
+      <Text>{url}</Text>
+      <FastImage
+        source={{ uri: url, priority: FastImage.priority.normal }}
+        // source={require('../../assets/moderate-funds.png')}
+        style={style}
+      />
+    </>
   );
 };
 

@@ -49,6 +49,14 @@ let documentsKyc = [
     icon: <FontAwesome5 name="credit-card" size={18} color="#EE4248" />,
   },
   {
+    name: "Aadhaar Card Front",
+    multi: true,
+    fileType: "AA1",
+    info: "Upload Select Doc",
+    type: "attachment",
+    icon: <AntDesign name="idcard" size={20} color="#EE4248" />,
+  },
+  {
     name: "Cancelled Cheque",
     fileType: "CH",
     info: "Upload Cancelled Cheque",
@@ -114,10 +122,12 @@ function UploadDocumentScreen(props) {
     uploadSuccess,
     isFetching,
     setUri,
+    userDetails
   } = props;
   const [document, setDocument] = useState(
-    user?.userDetails?.ekycIsDone ? documentsKyc : documents
+    docs?.responseString?.ekycIsDone ? documentsKyc :documents 
   );
+  console.log(JSON.stringify(document));
   const carosuelref = useRef();
   const [reUploadInd, setReUploadInd] = useState([]);
 
@@ -135,6 +145,7 @@ function UploadDocumentScreen(props) {
   }, []);
 
   useEffect(() => {
+    
     if (token) {
       getDocuments(token);
     }
@@ -269,6 +280,10 @@ function UploadDocumentScreen(props) {
           <Text style={styles.we_need}>We need the Required Documents</Text>
           {document.map((item, key) => (
             <View key={key} style={styles.pan_sec}>
+              {/* {
+                userDetails?.ekycIsDone?
+                :
+              } */}
               {docs && (
                 <MyImagePicker
                   items={item}
@@ -369,6 +384,7 @@ const mapStateToProps = (state) => ({
   uploadSuccess: state.registration.uploadSuccess,
   steps: state.home.steps,
   user: state.home.user,
+  userDetails: state.registration.userDetails,
 });
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {

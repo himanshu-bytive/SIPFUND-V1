@@ -44,12 +44,34 @@ function GoalsSummaryScreen(props) {
   const [InvestedValue, setInvestedValue] = useState(0);
   const [ProfitLoss, setProfitLoss] = useState(0);
 
+  const getData = () => {
+    if (summaryRetrieve?.currentValue && summaryRetrieve?.totalInvestment) {
+      setCurrentValue(parseFloat(summaryRetrieve?.currentValue.toFixed(2)));
+      setInvestedValue(parseFloat(summaryRetrieve?.totalInvestment.toFixed(2)));
+      setProfitLoss(
+        (
+          parseFloat(summaryRetrieve?.currentValue.toFixed(2)) -
+          parseFloat(summaryRetrieve?.totalInvestment.toFixed(2))
+        ).toFixed(2)
+      );
+    } else {
+      setCurrentValue(0);
+      setInvestedValue(0);
+      setProfitLoss(0);
+    }
+  };
+
   useEffect(() => {
+    getData();
+    return;
     if (summaryRetrieve?.length > 0) {
       var investment = 0;
       var currentVal = 0;
       var proLoss = 0;
       summaryRetrieve?.map((item, index) => {
+        if (index == 0) {
+          console.log("🚀 ~ summaryRetrieve?.map ~ item?.currentValue:", item);
+        }
         // investment =
         //   parseFloat(investment) + item?.investedAmt
         //     ? parseFloat(item?.investedAmt)
@@ -64,6 +86,7 @@ function GoalsSummaryScreen(props) {
         //     : 0;
       });
       proLoss = parseFloat(currentVal) - parseFloat(investment);
+      console.log("🚀 ~ useEffect ~ currentVal:", currentVal);
       setCurrentValue(currentVal?.toFixed(2));
       setInvestedValue(investment?.toFixed(2));
       setProfitLoss(proLoss?.toFixed(2));

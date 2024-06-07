@@ -147,7 +147,7 @@ function AddExternalHoldingScreen(props) {
       folioNo: folio,
       tradDate: transation.getTime(),
       amount: amount,
-      trxnType: "NEWPUR",
+      trxnType: selectTab == "SIP"?"sip":"NEWPUR",
       trxnMetaData: {},
       isinNo: product.ISIN,
       type: "",
@@ -160,6 +160,7 @@ function AddExternalHoldingScreen(props) {
       };
       params.type = "sip";
     }
+    console.log("🚀 ~ onAction ~ params:", JSON.stringify(params))
     addExternalHoldingLumpsum(params, token);
     pageActive.current = true;
   };

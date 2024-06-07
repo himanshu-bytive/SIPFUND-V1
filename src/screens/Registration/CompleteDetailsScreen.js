@@ -12,6 +12,7 @@ import {
   Keyboard,
   Dimensions,
   TextInput,
+  Alert,
 } from "react-native";
 import { connect } from "react-redux";
 import moment from "moment";
@@ -107,6 +108,8 @@ function CompleteDetailsScreen(props) {
     nominate1pan: "",
     nominate1guard_name: "",
     nominate1guard_pan: "",
+    mobile_relation:"SE",
+    email_relation:"SE"
   });
 
   const [errors, setErrors] = useState({
@@ -163,9 +166,9 @@ function CompleteDetailsScreen(props) {
         nominate1guard_name: nseDetails.nominee1_guard_name,
         nominate1guard_pan: nseDetails.nominee1_guard_pan,
         mobile_relation:
-          nseDetails?.Mobile_relation || nseDetails?.mobile_relation,
+          (nseDetails?.Mobile_relation || nseDetails?.mobile_relation)?nseDetails?.Mobile_relation || nseDetails?.mobile_relation:"SE",
         email_relation:
-          nseDetails?.Email_relation || nseDetails?.email_relation,
+          (nseDetails?.Email_relation || nseDetails?.email_relation)?nseDetails?.Email_relation || nseDetails?.email_relation:'SE'
       });
     }
   }, [fatcaDetails, nseDetails, userDetails]);
@@ -240,7 +243,8 @@ function CompleteDetailsScreen(props) {
       nominate1guard_pan,
     } = state;
     if (!occupation) {
-      setErrors({ ...errors, occupation: "Please Select a Value" });
+      alert("Please select Occupation");
+      setErrors({ ...errors, occupation: "Please select Occupation" });
       return;
     }
     //if (!dob || dob == null || dob == "") {
@@ -252,26 +256,33 @@ function CompleteDetailsScreen(props) {
       d = moment(d).format("DD-MM-YYYY");
     }
     if (!dob || dob == null || dob == "" || !FormValidate.isValidDate(d)) {
+      alert("Please Enter a valid Date");
       setErrors({ ...errors, dob: "Please Enter a valid Date" });
       return;
     }
     if (!title) {
-      setErrors({ ...errors, title: "Please Select a Value" });
+      alert("Please Select Title");
+      setErrors({ ...errors, title: "Please Select Title" });
       return;
     }
     if (!FormValidate.isString(investor)) {
-      setErrors({ ...errors, investor: "Please Add a Value" });
+      alert("Please Enter Investor Name");
+      setErrors({ ...errors, investor: "Please Enter Investor Name" });
       return;
     }
     if (!FormValidate.validateName(investor)) {
+      alert("Please Add a Valid Name");
       setErrors({ ...errors, investor: "Please Add a Valid Name" });
       return;
     }
     if (!investorPan) {
-      setErrors({ ...errors, investorPan: "Please Add a Value" });
+      alert("Please Add PAN Number");
+      setErrors({ ...errors, investorPan: "Please Add PAN Number" });
       return;
     }
     if (!FormValidate.validatePan(investorPan)) {
+      alert("Please Add Valid PAN");
+
       setErrors({ ...errors, investorPan: "Please Add Valid PAN" });
       return;
     }
@@ -287,61 +298,94 @@ function CompleteDetailsScreen(props) {
     //}
     //}
     if (!mobile_relation) {
+      alert("Please specify Mobile Relation");
       setErrors({ ...errors, phone: "Please specify Mobile Relation" });
       return;
     }
     if (!email_relation) {
+      alert("Please specify Email Relation");
       setErrors({ ...errors, mailRelation: "Please specify Email Relation" });
       return;
     }
     if (!FormValidate.isEmail(email)) {
+      alert("Please Add a Email");
       setErrors({ ...errors, email: "Please Add a Email" });
       return;
     }
     if (!FormValidate.isString(fatherName)) {
+      alert("Please Add Fathers Name");
       setErrors({ ...errors, fatherName: "Please Add Fathers Name" });
       return;
     }
     if (!FormValidate.validateName(fatherName)) {
+      alert("Please Add a Valid Fathers Name");
       setErrors({ ...errors, fatherName: "Please Add a Valid Fathers Name" });
       return;
     }
     if (!FormValidate.isString(motherName)) {
+      alert("Please Add Mothers Name");
       setErrors({ ...errors, motherName: "Please Add Mothers Name" });
       return;
     }
     if (!FormValidate.validateName(motherName)) {
+      alert("Please Add a Valid Mothers Name");
       setErrors({ ...errors, motherName: "Please Add a Valid Mothers Name" });
       return;
     }
     if (!income) {
-      setErrors({ ...errors, income: "Please Select a Value" });
+      alert("Please Select a Annual Income");
+      setErrors({ ...errors, income: "Please Select a Annual Income" });
       return;
     }
     if (!pep) {
-      setErrors({ ...errors, pep: "Please Select a Value" });
+      alert("Please Select PEP");
+      setErrors({ ...errors, pep: "Please Select PEP" });
       return;
     }
     if (nominate) {
       if (!FormValidate.isString(nominate1name)) {
-        setErrors({ ...errors, nominate1name: "Please Add Nominate Name" });
+        alert("Please Add Nominee Name");
+        setErrors({ ...errors, nominate1name: "Please Add Nominee Name" });
         return;
       }
       if (!FormValidate.validateName(nominate1name)) {
+        alert("Please Add Validate Nominee Name");
         setErrors({
           ...errors,
-          nominate1name: "Please Add Validate Nominate Name",
+          nominate1name: "Please Add Validate Nominee Name",
         });
         return;
       }
       if (!nominate1relation) {
-        setErrors({ ...errors, nominate1relation: "Please Select a Value" });
+        alert("Please Select Nominee Relationship");
+        setErrors({
+          ...errors,
+          nominate1relation: "Please Select Nominee Relationship",
+        });
         return;
       }
-      if (!FormValidate.validatePan(nominate1pan)) {
+      // if (!nominate1pan) {
+      //   alert("Please Select Nominee Pan");
+      //   setErrors({ ...errors, nominate1relation: "Please Select a Value" });
+      //   return;
+      // }
+      // alert(!FormValidate.validatePan(nominate1pan) ? 1 : 2);
+      // return;
+      if (!nominateMinor && !nominate1pan) {
+        alert("Please Add Nominee PAN");
+
         setErrors({
           ...errors,
           nominate1pan: "Please Add Valid Nominee PAN",
+        });
+        return;
+      }
+      if (!nominateMinor && !FormValidate.validatePan(nominate1pan)) {
+        alert("Please Enter Valid Nominee PAN");
+
+        setErrors({
+          ...errors,
+          nominate1pan: "Please Enter Valid Nominee PAN",
         });
         return;
       }
@@ -350,35 +394,42 @@ function CompleteDetailsScreen(props) {
       const difference = new Date(Date.now() - state.nominate1dob);
       const age = difference.getUTCFullYear() - 1970;
       if (age >= 18) {
+        alert("Nominee is not a minor");
         setErrors({ ...errors, nominate1dob: "Nominee is not a minor" });
         return;
       }
       if (!nominate1dob || nominate1dob == null) {
+        alert("Please Select a Date");
         setErrors({ ...errors, nominate1dob: "Please Select a Date" });
         return;
       }
       if (!nominate1guard_name) {
+        alert("Please Add Nominate Guardian Name");
         setErrors({
           ...errors,
-          nominate1guard_name: "Please Add Nominate Guard Name",
+          nominate1guard_name: "Please Add Nominate Guardian Name",
         });
         return;
       }
       if (!FormValidate.validateName(nominate1guard_name)) {
+        alert("Please Add Validate Nominate Guardian NAME");
+
         setErrors({
           ...errors,
           nominate1guard_name: "Please Add Validate Nominate Guard NAME",
         });
         return;
       }
-      if (!nominate1guard_pan) {
-        setErrors({
-          ...errors,
-          nominate1guard_pan: "Please Add Nominate Guard PAN",
-        });
-        return;
-      }
+      // if (!nominate1guard_pan) {
+      //   setErrors({
+      //     ...errors,
+      //     nominate1guard_pan: "Please Add Nominate Guard PAN",
+      //   });
+      //   return;
+      // }
       if (!FormValidate.validatePan(nominate1guard_pan)) {
+        alert("Please Add Validate Nominate Guard PAN");
+
         setErrors({
           ...errors,
           nominate1guard_pan: "Please Add Validate Nominate Guard PAN",
@@ -643,7 +694,7 @@ function CompleteDetailsScreen(props) {
           />
 
           <Text style={styles.occupation}>
-            {"Mobile Relation"}
+            {"Mobile Relation"} 
             <Text style={styles.error}>*</Text>
           </Text>
           <MySelectPicker
@@ -789,7 +840,7 @@ function CompleteDetailsScreen(props) {
 
             <Text style={styles.occupation}>
               {"Nominee PAN"}
-              <Text style={styles.error}>*</Text>
+              {!state.nominateMinor && <Text style={styles.error}>*</Text>}
             </Text>
             <MyTextInput
               placeholder={"Nominee PAN"}
@@ -800,6 +851,7 @@ function CompleteDetailsScreen(props) {
                 setErrors({ ...errors, nominate1pan: null });
                 setState({ ...state, nominate1pan });
               }}
+              autoCapitalize={true}
             />
           </View>
         )}
@@ -832,7 +884,8 @@ function CompleteDetailsScreen(props) {
             />
 
             <Text style={styles.occupation}>
-              Nominee Guardian PAN <Text style={styles.error}>*</Text>
+              Nominee Guardian PAN
+              <Text style={styles.error}>*</Text>
             </Text>
             <MyTextInput
               placeholder={"Nominee Guardian PAN"}

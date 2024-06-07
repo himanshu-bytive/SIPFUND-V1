@@ -45,9 +45,12 @@ class ApiClient {
       }
       axios(options)
         .then((response) => {
+          if (url == "/bank/custbanklist")
+            console.log("🚀 ~ ApiClient ~ .then ~ response:", response);
           resolve({ statusCode: response.status, body: response.data });
         })
         .catch((error) => {
+          console.log("🚀 ~ ApiClient ~ returnnewPromise ~ error:", error);
           if (error.response) {
             // Request made and server responded
             if (error.response.data === "Unauthorized") {

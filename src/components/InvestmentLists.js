@@ -1,8 +1,31 @@
+/** @format */
+
 import React, { useState, useRef, useEffect, useContext } from "react";
-import { StyleSheet, View, Image, TouchableOpacity, Text } from "react-native";
+import {
+  Platform,
+  StyleSheet,
+  View,
+  Image,
+  TouchableOpacity,
+  Text,
+} from "react-native";
 import { Colors } from "../common";
 import MyImage from "./MyImage";
 export default function InvestmentLists(props) {
+  const optimizeImages = [
+    "https://res.cloudinary.com/dfwm0qaiv/image/upload/v1706781443/i3lhjgrxrew1w30lyosc.svg",
+    "https://res.cloudinary.com/dfwm0qaiv/image/upload/v1706781443/i3lhjgrxrew1w30lyosc.svg",
+    "https://res.cloudinary.com/dfwm0qaiv/image/upload/v1706781443/i3lhjgrxrew1w30lyosc.svg",
+    "https://res.cloudinary.com/dfwm0qaiv/image/upload/v1706781443/i3lhjgrxrew1w30lyosc.svg",
+    "https://res.cloudinary.com/dfwm0qaiv/image/upload/v1706775290/jkeo2n67lz9lscerbjyt.svg",
+    "https://res.cloudinary.com/dfwm0qaiv/image/upload/v1706781443/i3lhjgrxrew1w30lyosc.svg",
+    "https://res.cloudinary.com/dfwm0qaiv/image/upload/v1706781443/i3lhjgrxrew1w30lyosc.svg",
+    "https://res.cloudinary.com/dfwm0qaiv/image/upload/v1706781443/i3lhjgrxrew1w30lyosc.svg",
+    "https://res.cloudinary.com/dfwm0qaiv/image/upload/v1706781443/i3lhjgrxrew1w30lyosc.svg",
+    "https://res.cloudinary.com/dfwm0qaiv/image/upload/v1706781443/i3lhjgrxrew1w30lyosc.svg",
+    "https://res.cloudinary.com/dfwm0qaiv/image/upload/v1706781443/i3lhjgrxrew1w30lyosc.svg",
+    "https://res.cloudinary.com/dfwm0qaiv/image/upload/v1706781443/i3lhjgrxrew1w30lyosc.svg",
+  ];
   const { data, counts, onPress } = props;
   if (counts) {
     return (
@@ -14,7 +37,7 @@ export default function InvestmentLists(props) {
                 onPress={() => onPress(item)}
                 style={{ width: "100%" }}
               >
-                {item.plan === "Sectoral Funds" ? (
+                {item.plan === "Sectoral Mutual Funds" ? (
                   <Image
                     source={require("../../assets/sector.png")}
                     style={{
@@ -43,7 +66,8 @@ export default function InvestmentLists(props) {
               onPress={() => onPress(item)}
               style={{ width: "100%" }}
             >
-              {item.plan === "Sectoral Funds" ? (
+              {/* <Text>{item.plan}</Text> */}
+              {item.plan === "Sectoral Mutual Funds" ? (
                 <Image
                   source={require("../../assets/sector.png")}
                   style={{
@@ -55,12 +79,28 @@ export default function InvestmentLists(props) {
                   }}
                 />
               ) : (
-                <MyImage
-                  width={50}
-                  height={50}
-                  svg={true}
-                  url={item?.planImagePath}
-                />
+                <>
+                  {/* <Text>
+                    {optimizeImages[key]} {data?.length}
+                  </Text> */}
+                  <MyImage
+                    width={50}
+                    height={50}
+                    svg={true}
+                    // url={
+                    //   // optimizeImages[key]
+                    //   //   ? optimizeImages[key]
+                    //   //   :
+                    //   optimizeImages[key]
+                    // }
+                    style={{ height: 50, width: 60, marginLeft: 10 }}
+                    url={
+                      Platform.OS == "ios"
+                        ? item?.iosplanImagePath
+                        : item?.planImagePath
+                    }
+                  />
+                </>
               )}
               <Text style={styles.long}>{item.plan}</Text>
             </TouchableOpacity>

@@ -437,6 +437,12 @@ export const OthersStack = createStackNavigator(
         headerShown: false,
       },
     },
+    BankAccount: {
+      screen: CompleteDetailsBankScreen,
+      navigationOptions: {
+        headerShown: false,
+      },
+    },
     Upi: {
       screen: UpiScreen,
       navigationOptions: {
@@ -708,7 +714,7 @@ export const RootNavigator = createDrawerNavigator(
     },
   },
   {
-    drawerWidth: 300,
+    drawerWidth: 330,
     initialRouteName: "HomeTab",
     contentComponent: SideMenu,
     navigationOptions: {

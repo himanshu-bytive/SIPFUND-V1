@@ -96,18 +96,28 @@ function CompleteDetailsAddressScreen(props) {
   }, [statess, citys]);
 
   useEffect(() => {
-    if (pincodeInfo && pincodeInfo.stateCode) {
-      getCitys(pincodeInfo.stateCode, token);
+    if (pincodeInfo && pincodeInfo?.stateCode) {
+      
+      // getCitys(pincodeInfo.stateCode, token);
       setState({
         ...state,
-        states: pincodeInfo.stateCode,
-        city: pincodeInfo.cityName,
+        states: pincodeInfo?.stateCode,
+        city: pincodeInfo?.cityName,
       });
     }
   }, [pincodeInfo]);
 
+  useEffect(() => {
+    setState({
+      ...state,
+      // states: pincodeInfo.stateCode,
+      city: pincodeInfo?.cityName,
+    });
+  }, [cityList])
+  
+
   const getStateCitys = async (pincode) => {
-    if (pincode && pincode.length > 5) {
+    if (pincode && pincode?.length > 5) {
       getPincode(pincode, token);
     }
   };
@@ -224,8 +234,10 @@ function CompleteDetailsAddressScreen(props) {
             error={errors.pincode}
             onChangeText={(pincode) => {
               setErrors({ ...errors, pincode: null });
-              setState({ ...state, pincode });
+              setState({ ...state, pincode:pincode,states:null, city: "" });
               getStateCitys(pincode);
+              // setErrors({ ...errors, states: null });
+                  // setState({ ...state, states:null, city: "" });
             }}
           />
 
@@ -249,9 +261,10 @@ function CompleteDetailsAddressScreen(props) {
           )}
 
           {/* Investor Name_sec */}
-          {state.pincode != "" && state.pincode.length > 5 && (
+          {state.pincode != "" && state.pincode.length > 5  && (
             <View>
               <Text style={styles.occupation}>
+                {/* {state.city} */}
                 City <Text style={styles.error}>*</Text>
               </Text>
               <MySelectPicker

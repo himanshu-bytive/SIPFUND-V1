@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { useState, useRef, useEffect, useContext } from "react";
 import {
   StyleSheet,
@@ -27,6 +29,7 @@ import { color } from "react-native-elements/dist/helpers";
 import Cart from "../../components/Cart";
 
 function TopRatedSubmitScreen(props) {
+  console.log("🚀 ~ TopRatedSubmitScreen ~ props:", JSON.stringify(props));
   const [sum, setSum] = useState(0);
   const [cart, setCart] = useState([]);
   const { users } = props;

@@ -47,6 +47,7 @@ function TopRatedListScreen(props) {
     updateRegister,
     updateNseRegistration,
     users,
+    isFetching,
   } = props;
 
   const [cartEmpty, setCartEmpty] = useState();
@@ -198,6 +199,18 @@ function TopRatedListScreen(props) {
     }
   };
 
+  const onChangeFolio = (e, index, type) => {
+    if (type == "SIP") {
+      cart[index].folio = e ? e : "";
+    } else {
+      lumSumCart[index].folio = e ? e : "";
+      console.log(
+        "🚀 ~ onChangeFolio ~ lumSumCart:",
+        JSON.stringify(lumSumCart)
+      );
+    }
+  };
+
   const [lumSumCart, setLumSumCart] = useState([]);
 
   useEffect(() => {
@@ -212,11 +225,8 @@ function TopRatedListScreen(props) {
         }
       });
       setCart(newArr);
+      // setLoading(false);
       setLumSumCart(LumSumArr);
-      console.log(
-        "🚀 ~ file: TopRatedListScreen.js:237 ~ useEffect ~ newArr:",
-        JSON.stringify(newArr)
-      );
       // setCart(cartDetails.cartDetails);
       // setLumSumCart(cartDetails.cartDetails);
       var newCart = newArr?.map((item, index) => {
@@ -239,22 +249,29 @@ function TopRatedListScreen(props) {
     }
   }, [cartDetails]);
 
-  useEffect(() => {
-    console.log(
-      "🚀 ~ file: TopRatedListScreen.js:239 ~ useEffect ~ cart:",
-      JSON.stringify(cart)
-    );
-  }, [cart]);
+  // const [loading, setLoading] = useState(false);
 
   const deleteItem = (key) => {
+    // setLoading(true);
     let data = cart;
     for (let item in data) {
       if (data[item].product_name === key) {
+        let find = data.findIndex((item, index) => {
+          return item?.product_name == key;
+        });
+
         console.log(data[item]);
         let params = [data[item]._id];
         deleteItemFromCart(params, token);
         delete data[item];
-        getCartDetails(token);
+        setTimeout(() => {
+          getCartDetails(token);
+        }, 10);
+
+        // getCartDetails(token);
+        data.splice(find, 1);
+        setCart(data);
+        console.log("🚀 ~ deleteItem ~ data[item]:", JSON.stringify(find));
         break;
       }
     }
@@ -270,7 +287,10 @@ function TopRatedListScreen(props) {
         let params = [data[item]._id];
         deleteItemFromCart(params, token);
         delete data[item];
-        getCartDetails(token);
+        setTimeout(() => {
+          getCartDetails(token);
+        }, 10);
+        // getCartDetails(token);
         break;
       }
     }
@@ -301,7 +321,7 @@ function TopRatedListScreen(props) {
     }
   }, [selectTab, cart]);
 
-  const [folio, setFolio] = useState();
+  const [folio, setFolio] = useState("");
 
   useEffect(() => {
     if (folio?.folio && cart) {
@@ -312,7 +332,7 @@ function TopRatedListScreen(props) {
           fund.folio = folio?.folio;
           tmp.splice(i, 1);
           tmp = [...tmp, fund];
-          //setPaymentCart(tmp);
+          setPaymentCart(tmp);
           return;
         }
       }
@@ -420,54 +440,74 @@ function TopRatedListScreen(props) {
         <View style={styles.fund_sec}>
           <Text style={styles.investment}>
             {selectTab === "SIP" ? "Monthly Investment" : "One Time Investment"}
+            {/* {isFetching ? 1 : 2} */}
           </Text>
           <Text style={styles.price}>
             ₹ {selectTab === "SIP" ? sipTotal : lumpsumTotal}
           </Text>
         </View>
+        {/* isFetching */}
+        {isFetching ? (
+          <View
+            style={{
+              height: Dimensions.get("window").width,
 
-        {selectTab === "SIP" &&
-          cart?.length > 0 &&
-          cart
-            .filter((item) => item.trxn_nature === "S")
-            .map((item, key) => {
-              return (
-                <>
-                  {/* <Text>{JSON.stringify(item)}</Text> */}
-                  <TopRatedFundType
-                    key={item?._id}
-                    deleteItem={deleteItem}
-                    fromSIP={true}
-                    onChangeDate={onChangeDate}
-                    item={item}
-                    index={key}
-                    sip_from_date={cart[key]?.sip_from_date}
-                    onPress={() => {
-                      const eventName = "top_rated_fund_clicked";
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <ActivityIndicator size={30} color={Colors.RED} />
+          </View>
+        ) : (
+          <>
+            {selectTab === "SIP" &&
+              cart?.length > 0 &&
+              cart
+                .filter((item) => item.trxn_nature === "S")
+                .map((item, key) => {
+                  return (
+                    <>
+                      {/* <Text>{JSON.stringify(item)}</Text> */}
+                      <TopRatedFundType
+                        key={item?._id}
+                        deleteItem={deleteItem}
+                        fromSIP={true}
+                        onChangeDate={onChangeDate}
+                        item={item}
+                        index={key}
+                        sip_from_date={cart[key]?.sip_from_date}
+                        onPress={() => {
+                          const eventName = "top_rated_fund_clicked";
 
-                      appsFlyer.logEvent(
-                        eventName,
-                        item,
-                        (res) => {
-                          console.log("######## AppsFlyer #######", res);
-                        },
-                        (err) => {
-                          console.error("######## AppsFlyer #######", err);
-                        }
-                      );
+                          appsFlyer.logEvent(
+                            eventName,
+                            item,
+                            (res) => {
+                              console.log("######## AppsFlyer #######", res);
+                            },
+                            (err) => {
+                              console.error("######## AppsFlyer #######", err);
+                            }
+                          );
 
-                      item.amcName = item?.amc_name;
-                      fundDetails(item);
-                      props.navigation.navigate("FundsDetails", {
-                        fromScreen: "TopRatedList",
-                      });
-                    }}
-                    folio={folio}
-                    setFolio={(val) => setFolio(val)}
-                  />
-                </>
-              );
-            })}
+                          item.amcName = item?.amc_name;
+                          fundDetails(item);
+                          props.navigation.navigate("FundsDetails", {
+                            fromScreen: "TopRatedList",
+                          });
+                        }}
+                        folio={folio}
+                        setFolio={setFolio}
+                        newFolio={"Test"}
+                        onChangeFolio={onChangeFolio}
+                        type={selectTab}
+                      />
+                    </>
+                  );
+                })}
+          </>
+        )}
+
         {selectTab === "LUMPSUM" &&
           lumSumCart &&
           lumSumCart
@@ -477,6 +517,7 @@ function TopRatedListScreen(props) {
                 key={item?._id}
                 deleteItem={deleteLumSumItem}
                 item={item}
+                index={key}
                 onPress={() => {
                   const eventName = "top_rated_fund_clicked";
 
@@ -497,6 +538,8 @@ function TopRatedListScreen(props) {
                 }}
                 folio={folio}
                 setFolio={(val) => setFolio(val)}
+                onChangeFolio={onChangeFolio}
+                type={selectTab}
               />
             ))}
       </ScrollView>
@@ -513,7 +556,7 @@ function TopRatedListScreen(props) {
       )}
 
       <TouchableOpacity
-        onPress={() => props.navigation.navigate("TopRatedHome")}
+        onPress={() => props.navigation.navigate("TopRatedHome", { users })}
       >
         <Text style={styles.more_funds}>I would like to add more funds</Text>
       </TouchableOpacity>
@@ -544,7 +587,22 @@ function TopRatedListScreen(props) {
           } else {
             tmpCart = cart;
           }
+
           if (selectTab === "SIP") {
+            cart?.map((item, index) => {
+              if (!cart[index].hasOwnProperty("folio")) {
+                cart[index].folio = "";
+              }
+            });
+            // if (tmpCart.length > 0) {
+            //   tmpCart?.map((item, index) => {
+            //     if (folio) {
+            //       item.folio = folio;
+            //     } else {
+            //       item.folio = "";
+            //     }
+            //   });
+            // }
             if (
               !tmpCart ||
               tmpCart.filter((item) => item.trxn_nature === type).length === 0
@@ -555,9 +613,24 @@ function TopRatedListScreen(props) {
                 cart: tmpCart.filter((item) => item.trxn_nature === type),
                 isLumpsum: type === "N" ? true : false,
                 planName: props.navigation.state.params?.planName,
+                // folio: folio,
               });
             }
           } else {
+            // if (lumSumCart.length > 0) {
+            //   lumSumCart?.map((item, index) => {
+            //     if (folio) {
+            //       item.folio = folio;
+            //     } else {
+            //       item.folio = "";
+            //     }
+            //   });
+            // }
+            lumSumCart?.map((item, index) => {
+              if (!lumSumCart[index].hasOwnProperty("folio")) {
+                lumSumCart[index].folio = "";
+              }
+            });
             if (
               !lumSumCart ||
               lumSumCart.filter((item) => item.trxn_nature === type).length ===
@@ -817,6 +890,7 @@ const mapStateToProps = (state) => ({
   fatcaDetails: state.registration.fatcaDetails,
   userDetails: state.registration.userDetails,
   cartDetails: state.cartActions.cart,
+  isFetching: state.cartActions.isFetching,
 });
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {

@@ -37,6 +37,8 @@ const types = {
   FETCH_SUMMARY_DETAILS: "FETCH_SUMMARY_DETAILS",
   FETCH_SUMMARY_DETAILS_INVESTMENT: "FETCH_SUMMARY_DETAILS_INVESTMENT",
 
+  EMPTY_SUMMERY: "EMPTY_SUMMERY",
+
   SET_PLAN_YOUR_GOALS_DETAILS: "SET_PLAN_YOUR_GOAL_DETAILS",
   SET_CHILD_NAME: "SET_CHILD_NAME",
 };
@@ -145,9 +147,9 @@ export const GoalsActions = {
   },
   goalSummaryRetrieve: async (dispatch, params, token) => {
     dispatch({ type: types.FETCH_SUMMARY_RETRIEVE_PENDING });
-    let data = await SiteAPI.apiPostCall(
-      `/retrieveData`,
-      // `/investments/dashboard`,
+    let data = await SiteAPI.apiGetCall(
+      // `/retrieveData`,
+      `/investments/dashboard`,
       {},
       token
     );
@@ -161,9 +163,18 @@ export const GoalsActions = {
     } else {
       dispatch({
         type: types.FETCH_SUMMARY_RETRIEVE_SUCCESS,
-        summary: data?.responseString,
+        summary: data?.data,
+        // summary: data?.responseString,
       });
     }
+  },
+
+  clearSummery: async (dispatch, params, token) => {
+    dispatch({
+      type: types.EMPTY_SUMMERY,
+      summary: {},
+      // summary: data?.responseString,
+    });
   },
   goalSummary: async (dispatch, params, token) => {
     dispatch({ type: types.FETCH_SUMMARY_PENDING });
@@ -331,6 +342,15 @@ export const reducer = (state = initialState, action) => {
         isFetching: false,
         error: null,
         summaryRetrieve: summary,
+      };
+    }
+
+    case types.EMPTY_SUMMERY: {
+      return {
+        ...state,
+        isFetching: false,
+        error: null,
+        summaryRetrieve: {},
       };
     }
     case types.FETCH_SUMMARY_DETAILS: {

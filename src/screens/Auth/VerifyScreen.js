@@ -30,13 +30,19 @@ function VerifyScreen(props) {
   const pageActive = useRef(false);
   const phoneInput = useRef(null);
   const [displayCurrentAddress, setDisplayCurrentAddress] = useState([]);
-  const { verify, isFetching, signUpSteps, phones, setToken } = props;
+  const { verify, isFetching, signUpSteps, phones, setToken, clearSummery } =
+    props;
 
   useEffect(() => {
-    const getPhoneNumber = () => {
-      DeviceInfo.getPhoneNumber().then((phone) => {
-        console.log(phone);
-        if (!isNaN(phone) && phones.length === 0) {
+    const getPhoneNumber = async () => {
+      await DeviceInfo.getPhoneNumber().then((phone) => {
+        // alert(JSON.stringify(phone))
+        if (
+          (!isNaN(phone) &&
+          phone != null &&
+          phone != "" &&phone.length>=10) &&
+          phones.length === 0
+        ) {
           Alert.alert(
             "Phone Number",
             `Do you want to use ${phone} to register?`,
@@ -175,6 +181,8 @@ function VerifyScreen(props) {
         console.error("######## AppsFlyer #######", err);
       }
     );
+
+    clearSummery({}, "");
 
     if (FormValidate.isPhone(phone)) {
       pageActive.current = true;
@@ -410,6 +418,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
   const { dispatch } = dispatchProps;
   const { AuthActions } = require("../../store/AuthRedux");
+  const { GoalsActions } = require("../../store/GoalsRedux");
+
   const {
     PushNotificationActions,
   } = require("../../store/PushNotificationRedux");
@@ -421,6 +431,9 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
       AuthActions.verify(dispatch, params);
     },
     setToken: (token) => dispatch(PushNotificationActions.setToken(token)),
+    clearSummery: (params, token) => {
+      GoalsActions.clearSummery(dispatch, params, token);
+    },
   };
 };
 export default connect(

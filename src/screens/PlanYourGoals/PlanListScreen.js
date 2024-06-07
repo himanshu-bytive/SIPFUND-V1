@@ -336,16 +336,7 @@ function PlanListScreen(props) {
 
           if (goals) {
             for (let item in goals) {
-              console.log(
-                "🚀 ~ file: PlanListScreen.js:351 ~ goals[item].schemeInfo.default_min_amount:",
-                goals[item].schemeInfo.default_min_amount,
-                JSON.stringify(
-                  goals[item]?.schemeInfo?.allocationAmountModifiled
-                )
-                // goals[item]?.schemeInfo?.sip
-                //   ? goals[item]?.schemeInfo?.sip
-                //   : goals[item]?.schemeInfo?.allocationAmount
-              );
+
 
               console.log(
                 parseInt(

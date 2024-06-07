@@ -20,11 +20,16 @@ const TopRatedFundType = (props) => {
     onChangeDate,
     index,
     sip_from_date,
+    folio,
+    setFolio,
+    onChangeFolio,
+    type,
+    key
   } = props;
 
   const [values, setValues] = useState([]);
 
-  const [folio, setFolio] = useState();
+  const [folio1, setFolio1] = useState();
 
   const focusInput = React.createRef();
 
@@ -98,7 +103,7 @@ const TopRatedFundType = (props) => {
 
         <View style={styles.selectfolio_sec}>
           <MySelectPicker
-            defultValue={folio}
+            defultValue={folio1}
             values={values}
             placeholder={
               values
@@ -107,7 +112,10 @@ const TopRatedFundType = (props) => {
                   : "New Folio"
                 : "New Folio"
             }
-            onChange={(val) => setFolio(val)}
+            onChange={(val) => {
+              setFolio1(val);
+              onChangeFolio(val, index, type);
+            }}
             style={{
               fontSize: 12,
               color: "#888",

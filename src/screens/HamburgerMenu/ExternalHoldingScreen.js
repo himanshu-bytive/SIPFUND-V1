@@ -26,11 +26,18 @@ const FormData = require("form-data");
 import Dialog from "react-native-dialog";
 
 function HoldingsScreen(props) {
-  const { token, users, userDetails, fetchExtHoldings, extHolding } = props;
+  const {
+    token,
+    users,
+    userDetails,
+    fetchExtHoldings,
+    extHolding,
+    isFetching,
+  } = props;
   const [data, setData] = useState([]);
-  const [investment, setInvestment] = useState(999.95);
-  const [currentValue, setCurrentValue] = useState(1532.69);
-  const [profit, setProfit] = useState(532.74);
+  const [investment, setInvestment] = useState();
+  const [currentValue, setCurrentValue] = useState();
+  const [profit, setProfit] = useState();
 
   const [passwordDialog, setPasswordDialog] = useState(false);
   const [fileToUpload, setFileToUpload] = useState();
@@ -52,13 +59,20 @@ function HoldingsScreen(props) {
       for (let item of extHolding.externalTrnx) {
         data.push(item);
         investment += Number(item.investedAmt);
-        currentValue += isNaN(Number(item.currentValue)) ? 0 : Number(item.currentValue);
+        currentValue += isNaN(Number(item.currentValue))
+          ? 0
+          : Number(item.currentValue);
         profit += Number(
           (parseFloat(item?.nav_value ? item?.nav_value : 0) -
-            parseFloat(item.trxnDetails[0].purprice ? item.trxnDetails[0].purprice : 0)) *
-            parseFloat(item.trxnDetails[0].units ? item.trxnDetails[0].units : 0)
+            parseFloat(
+              item.trxnDetails[0].purprice ? item.trxnDetails[0].purprice : 0
+            )) *
+            parseFloat(
+              item.trxnDetails[0].units ? item.trxnDetails[0].units : 0
+            )
         );
       }
+      console.log("🚀 ~ useEffect ~ data:", data)
       setData(data);
       setInvestment(investment);
       setCurrentValue(currentValue);
@@ -176,85 +190,115 @@ function HoldingsScreen(props) {
           <View style={styles.investment_sec}>
             <View style={styles.blue_sec}>
               <Text style={styles.total_investment}>Total Investment</Text>
-              <Text style={styles.price}>₹ {investment.toFixed(2)}</Text>
+              <Text style={styles.price}>₹ {investment?.toFixed(2)}</Text>
             </View>
             <View style={styles.red_sec}>
               <Text style={styles.total_investment}>Current Value</Text>
-              <Text style={styles.price}>₹ {currentValue.toFixed(2)}</Text>
+              <Text style={styles.price}>₹ {currentValue?.toFixed(2)}</Text>
             </View>
             <View style={styles.green_sec}>
               <Text style={styles.total_investment}>Unrealized Profit</Text>
-              <Text style={styles.price}>₹ {profit.toFixed(2)}</Text>
+              <Text style={styles.price}>
+                ₹ {(parseInt(currentValue) - parseInt(investment)).toFixed(2)}
+              </Text>
             </View>
           </View>
 
           {/* SBI Mutual Fund_2_sec */}
-
-          {data.map((item, key) => (
-            <View key={key} style={styles.fund_sec}>
-              <View style={styles.axis_sec}>
-                <Text style={styles.axis}>{item.scheme}</Text>
-              </View>
-
-              <View style={styles.growth_sec}>
-                <Text style={styles.axis_treasury}>{item.scheme}</Text>
-                <View style={styles.value_sec}>
-                  <View style={styles.folio_sec}>
-                    <Text style={styles.folio}>{item.units.toFixed(3)}</Text>
-                    <Text style={styles.folio}>Units</Text>
+          {isFetching ? (
+            <View
+              style={{
+                flex: 1,
+                height: Dimensions.get("window").height / 2,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <ActivityIndicator size={30} color={Colors.RED} />
+            </View>
+          ) : (
+            <>
+              {data.map((item, key) => (
+                <View key={key} style={styles.fund_sec}>
+                  <View style={styles.axis_sec}>
+                    <Text style={styles.axis}>{item.scheme}</Text>
                   </View>
 
-                  <View style={styles.folio_sec}>
-                    <Text style={styles.folio}>{item.investedAmt}</Text>
-                    <Text style={styles.folio}>Invested Amount</Text>
-                  </View>
+                  <View style={styles.growth_sec}>
+                    <Text style={styles.axis_treasury}>{item.scheme}</Text>
+                    <View style={styles.value_sec}>
+                      <View style={styles.folio_sec}>
+                        <Text style={styles.folio}>
+                          {item.units.toFixed(3)}
+                        </Text>
+                        <Text style={styles.folio}>Units</Text>
+                      </View>
 
-                  <View style={styles.folio_sec}>
-                    <Text style={styles.folio}>{item.cagr}</Text>
-                    <Text style={styles.folio}>CAGR %</Text>
-                  </View>
-                </View>
+                      <View style={styles.folio_sec}>
+                        <Text style={styles.folio}>{item.investedAmt}</Text>
+                        <Text style={styles.folio}>Invested Amount</Text>
+                      </View>
 
-                {/* value_sec_end */}
-                <View style={styles.value_sec}>
-                  <View style={styles.folio_sec}>
-                    <Text style={styles.folio}>
-                      {item?.currentValue ? item?.currentValue?.toFixed(3) : '0.00'}
-                    </Text>
-                    <Text style={styles.folio}>Market Value</Text>
-                    <Text style={styles.folio}>
-                      On {moment(item.nav_date).format("DD-MM-YYYY")}
-                    </Text>
-                  </View>
-
-                  <View style={styles.folio_sec}>
-                    <View style={{ flexDirection: "row" }}>
-                      <Text style={[styles.folio, styles.green]}>
-                        {(
-                          (parseFloat(item?.nav_value ? item?.nav_value : 0) -
-                            parseFloat(item.trxnDetails[0].purprice ? item.trxnDetails[0].purprice : 0)) *
-                          parseFloat(item.trxnDetails[0].units ? item.trxnDetails[0].units : 0)
-                        ).toFixed(2)}
-                      </Text>
-                      <AntDesign name="caretup" size={15} color="#5DA753" />
+                      <View style={styles.folio_sec}>
+                        <Text style={styles.folio}>{item.cagr}</Text>
+                        <Text style={styles.folio}>CAGR %</Text>
+                      </View>
                     </View>
-                    <Text style={styles.folio}>Unrealized Profit</Text>
-                  </View>
 
-                  <View style={styles.folio_sec}>
-                    <Text style={[styles.folio, styles.green]}>
-                      {(
+                    {/* value_sec_end */}
+                    <View style={styles.value_sec}>
+                      <View style={styles.folio_sec}>
+                        <Text style={styles.folio}>
+                          {item?.currentValue
+                            ? item?.currentValue?.toFixed(3)
+                            : "0.00"}
+                        </Text>
+                        <Text style={styles.folio}>Market Value</Text>
+                        <Text style={styles.folio}>
+                          On {moment(item.nav_date).format("DD-MM-YYYY")}
+                        </Text>
+                      </View>
+
+                      <View style={styles.folio_sec}>
+                        <View style={{ flexDirection: "row" }}>
+                          <Text style={[styles.folio, styles.green]}>
+                          {item?.currentValue
+                            ? (item?.currentValue?.toFixed(2) - item.investedAmt).toFixed(2)
+                            : "0.00"}
+                             {/* {item.investedAmt}
+                            {(
+                              parseInt(currentValue) - parseInt(investment)
+                            ).toFixed(2)} */}
+                          </Text>
+                          <AntDesign name="caretup" size={15} color="#5DA753" />
+                        </View>
+                        <Text style={styles.folio}>Unrealized Profit</Text>
+                      </View>
+
+                      <View style={styles.folio_sec}>
+                        <Text style={[styles.folio, styles.green]}>
+                          {/* {item?.profitLoss} */}
+                          {((item?.currentValue?.toFixed(2) - item.investedAmt).toFixed(2)*100/(item.investedAmt).toFixed(2)).toFixed(2)}
+                          {/* {((item?.investedAmt.toFixed(2) /
+                          item?.currentValue.toFixed(2))*100).toFixed(2)}  */}
+                          {/* {(
+                            (item?.currentValue?.toFixed(2) /
+                            item.investedAmt?.toFixed(2)) *100
+                          ).toFixed(2)} */}
+                          {/* {(
                         (parseFloat(item?.nav_value ? item?.nav_value : 0) /
                           parseFloat(item.trxnDetails[0].purprice ? item.trxnDetails[0].purprice : 0)) *
                         100
-                      ).toFixed(2)}
-                    </Text>
-                    <Text style={styles.folio}>Unrealized Profit %</Text>
+                      ).toFixed(2)} */}
+                        </Text>
+                        <Text style={styles.folio}>Unrealized Profit %</Text>
+                      </View>
+                    </View>
                   </View>
                 </View>
-              </View>
-            </View>
-          ))}
+              ))}
+            </>
+          )}
 
           {/* External Holding_ end */}
         </View>
@@ -424,6 +468,7 @@ const mapStateToProps = (state) => ({
   users: state.auth.user,
   userDetails: state.registration.userDetails,
   extHolding: state.switch.extHolding,
+  isFetching: state.switch.isFetching,
 });
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {

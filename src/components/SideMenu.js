@@ -51,6 +51,10 @@ function SideMenu(props) {
     isInn,
     popupVisible,
     toggleEmandatePopup,
+    clearSummery,
+    rmDetails,
+    getrm,
+    users,
   } = props;
   const [img, setImg] = useState(null);
   const [visibleKyc, setVisibleKyc] = useState(false);
@@ -67,6 +71,11 @@ function SideMenu(props) {
   //setEnableKyc(true);
   //}
   //}, [userDetails]);
+
+  useEffect(() => {
+    getrm(token);
+    // pageActive.current = true;
+  }, []);
 
   useEffect(() => {
     if (popupVisible) {
@@ -329,6 +338,17 @@ function SideMenu(props) {
             <Text style={[styles.know_text, styles.know]}>Profile</Text>
           </View>
         </TouchableOpacity>
+        {/* <TouchableOpacity
+          onPress={() => props.navigation.navigate("BankAccount")}
+          style={[styles.profile_sec, styles.profile]}
+        >
+          <View style={styles.sideIcon}>
+            <FontAwesome name={"bank"} size={28} color={Colors.GRAY_LIGHT_4} />
+          </View>
+          <View>
+            <Text style={[styles.know_text, styles.know]}>Add New Bank</Text>
+          </View>
+        </TouchableOpacity> */}
 
         <TouchableOpacity
           onPress={() => props.navigation.navigate("ReferEarn")}
@@ -348,10 +368,24 @@ function SideMenu(props) {
 
         <TouchableOpacity
           onPress={() => {
-            if (steps < 6) {
-              props.navigation.navigate("RegisterDetails");
+            if (users?.pan) {
+              if (steps === 3) {
+                props.navigation.navigate("RegisterDetails");
+              } else if (steps < 6) {
+                props.navigation.navigate("UploadDocument");
+              } else {
+                Toast.show(
+                  "Your registration is already completed!",
+                  Toast.LONG
+                );
+              }
+              // props.navigation.navigate(
+              //   steps === 3
+              //     ? "RegisterDetails"
+              //     : "UploadDocument"
+              // )
             } else {
-              Toast.show("Your registration is already completed!", Toast.LONG);
+              props.navigation.navigate("Pan");
             }
           }}
           style={[styles.profile_sec, styles.profile]}
@@ -370,6 +404,7 @@ function SideMenu(props) {
 
         <TouchableOpacity
           onPress={() => {
+            // props.navigation.navigate("Existing");
             if (profile?.ACTIVATION_STATUS == "YES") {
               Toast.show("Your account is already active", Toast.LONG);
               return;
@@ -542,7 +577,15 @@ function SideMenu(props) {
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() => Linking.openURL(`tel:+919513355663`)}
+          // onPress={() => Linking.openURL(`tel:+919513355663`)}
+          onPress={() => {
+            // alert(rmDetails?.data.mobileNo);
+            Linking.openURL(
+              rmDetails?.data.mobileNo
+                ? "tel:" + rmDetails?.data.mobileNo
+                : `tel:+919513355663`
+            );
+          }}
           style={[styles.profile_sec, styles.profile]}
         >
           <View style={styles.sideIcon}>
@@ -578,7 +621,10 @@ function SideMenu(props) {
               },
               {
                 text: "OK",
-                onPress: () => props.navigation.navigate("splash"),
+                onPress: () => {
+                  clearSummery({}, token);
+                  props.navigation.navigate("splash");
+                },
               },
             ]);
           }}
@@ -703,12 +749,17 @@ const mapStateToProps = (state) => ({
   popupVisible: state.emandate.popupVisible,
   profile: state.auth.profile,
   isInn: state.registration.isInn,
+  rmDetails: state.sideMenu.rmDetails,
+  users: state.auth.user,
 });
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
   const { dispatch } = dispatchProps;
   const { EkycActions } = require("../store/EkycRedux");
   const { EmandateActions } = require("../store/EmandateRedux");
   const { AuthActions } = require("../store/AuthRedux");
+  const { GoalsActions } = require("../store/GoalsRedux");
+  const { SideMenuActions } = require("../store/SideMenuRedux");
+
   return {
     ...stateProps,
     ...ownProps,
@@ -729,6 +780,12 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     },
     toggleEmandatePopup: (state) => {
       EmandateActions.toggleEmandatePopup(dispatch, state);
+    },
+    clearSummery: (params, token) => {
+      GoalsActions.clearSummery(dispatch, params, token);
+    },
+    getrm: (token) => {
+      SideMenuActions.getrm(dispatch, token);
     },
   };
 };

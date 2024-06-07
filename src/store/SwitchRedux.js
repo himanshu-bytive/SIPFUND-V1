@@ -85,11 +85,16 @@ export const SwitchActions = {
     }
   },
   addExternalHoldingLumpsum: async (dispatch, params, token) => {
+    console.log((params.type = "sip")
+        ? "/externalTransactions"
+        // : "/externalTransactions",
+        : "/externalTransactions/uploadsntrn")
     dispatch({ type: types.FETCH_EXT_HOLD_ADD_LUM_PENDING });
     const date = new Date();
     let data = await SiteAPI.apiPostCall(
       (params.type = "sip")
         ? "/externalTransactions"
+        // : "/externalTransactions",
         : "/externalTransactions/uploadsntrn",
       {
         ...params,

@@ -104,8 +104,8 @@ const MyImagePicker = (props) => {
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestCameraPermissionsAsync();
-      console.log("status", status);
-      if (status !== "granted") {
+      // console.log("status", status);
+      if (status != "granted") {
         Alert.alert("Sorry, we need camera permissions to make this work!");
       }
     })();
@@ -113,14 +113,15 @@ const MyImagePicker = (props) => {
 
   // Check Camera Permissions
   useEffect(() => {
-    (async () => {
-      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-      if (status !== "granted") {
-        Alert.alert(
-          "Sorry, we need camera roll permissions to make this work!"
-        );
-      }
-    })();
+    // (async () => {
+    //   const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    //   alert(status)
+    //   if (status != "granted") {
+    //     Alert.alert(
+    //       "Sorry, we need camera roll permissions to make this work!"
+    //     );
+    //   }
+    // })();
   }, []);
 
   useEffect(() => {

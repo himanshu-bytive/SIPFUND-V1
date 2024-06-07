@@ -9,6 +9,10 @@ import {
   KeyboardAvoidingView,
   Text,
   ActivityIndicator,
+  Alert,
+  Modal,
+  SafeAreaView,
+  PermissionsAndroid,
 } from "react-native";
 import moment from "moment";
 import { connect } from "react-redux";
@@ -17,10 +21,17 @@ import { MySelectPicker, MyTextInput } from "../../components";
 import { AntDesign } from "react-native-vector-icons";
 import { Image, Header, Overlay } from "react-native-elements";
 import Cart from "../../components/Cart";
+import * as ImagePicker from "react-native-image-picker";
+import RNPickerSelect from "react-native-picker-select";
+import { Camera } from "expo-camera";
+import { Button } from "react-native-paper";
+import RNFetchBlob from "react-native-fetch-blob";
 
-function CompleteDetailsBankScreen(props) {
+function CompleteDetailsBankScreen(props, route) {
   const pageActive = useRef(false);
   const [visible, setVisible] = useState(false);
+  const [img, setImg] = useState(null);
+
   const {
     token,
     isFetching,
@@ -31,14 +42,28 @@ function CompleteDetailsBankScreen(props) {
     nseDetails,
     userDetails,
     accountTypes,
+    settings,
     banks,
     getBankDetails,
     bankDetails,
     isInn,
     isExit,
+    FatcaKYC,
+    getAccountType,
+    bankTypeDetails,
+    getProofOfAccount,
+    proofOfAccount,
   } = props;
+  console.log(
+    "🚀 ~ CompleteDetailsBankScreen ~ proofOfAccount:",
+    proofOfAccount
+  );
   const [accountTypeList, setAccountTypeList] = useState([]);
+  const [proof_of_account, setProof_of_account] = useState([]);
   const [bankList, setBankList] = useState([]);
+  const [camera, setCamera] = useState(false);
+  const [type, setType] = useState(Camera.Constants.Type.back);
+  const [cameraRef, setCameraRef] = useState(null);
 
   const [state, setState] = useState({
     showBank: false,
@@ -48,6 +73,7 @@ function CompleteDetailsBankScreen(props) {
     bank: "",
     branchName: "",
     branchAddress: "",
+    proofOfAccountSelected: "",
   });
 
   const [errors, setErrors] = useState({
@@ -68,13 +94,83 @@ function CompleteDetailsBankScreen(props) {
   }, [isInn]);
 
   useEffect(() => {
+    getAccountType();
+    getProofOfAccount();
+    if (banks.length <= 0) {
+      settings(token);
+    }
+    requestCameraPermission();
+  }, []);
+
+  async function requestCameraPermission() {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.CAMERA,
+        {
+          title: "Camera Permission",
+          message: "This app needs access to your camera to take photos.",
+          buttonPositive: "OK",
+        }
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log("Camera permission granted");
+      } else {
+        console.log("Camera permission denied");
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  }
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibrary({
+      mediaTypes: "photo",
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    if (!result.didCancel) {
+      const base64 = await imageToBase64(result?.assets[0]?.uri);
+      setImg(base64);
+    }
+  };
+
+  const cameraImage = async (image) => {
+    let fileType;
+
+    let params = {
+      file: image,
+      fileType,
+    };
+    // fileUpload(params, token);
+    const base64 = await imageToBase64(image?.uri);
+    setImg(base64);
+  };
+
+  async function imageToBase64(imageUri) {
+    try {
+      const base64Data = await RNFetchBlob.fs.readFile(imageUri, "base64");
+      return `data:image/jpeg;base64,${base64Data}`;
+    } catch (error) {
+      console.error("Error converting image to base64:", error);
+      return null;
+    }
+  }
+
+  useEffect(() => {
     if (fatcaDetails || nseDetails || userDetails) {
       // console.log(fatcaDetails, nseDetails, userDetails)
       setTimeout(() => {
         setState({
-          accountType: nseDetails.acc_type.ACC_TYPE,
-          accountNumber: nseDetails.acc_no,
-          ifsc: nseDetails.ifsc_code,
+          accountType:
+            !props?.navigation?.state?.params?.newBankAccount &&
+            nseDetails.acc_type.ACC_TYPE,
+          accountNumber:
+            !props?.navigation?.state?.params?.newBankAccount &&
+            nseDetails.acc_no,
+          ifsc:
+            !props?.navigation?.state?.params?.newBankAccount &&
+            nseDetails.ifsc_code,
           bank: nseDetails.bank_name.BANK_CODE,
           branchName: nseDetails.branch_name,
           branchAddress: nseDetails.branch_addr1,
@@ -84,14 +180,23 @@ function CompleteDetailsBankScreen(props) {
   }, [fatcaDetails, nseDetails, userDetails]);
 
   useEffect(() => {
-    if (accountTypes) {
-      const accountTypeList = accountTypes
-        ? accountTypes.map((item) => ({
-            value: item.ACC_TYPE,
-            label: String(item.DESCRIPTION),
+    if (bankTypeDetails) {
+      const accountTypeList = bankTypeDetails
+        ? bankTypeDetails.map((item) => ({
+            value: item.code,
+            label: String(item.description),
           }))
         : [];
       setAccountTypeList(accountTypeList);
+    }
+    if (proofOfAccount) {
+      const proofOfAccountLocal = proofOfAccount
+        ? proofOfAccount.map((item) => ({
+            value: item.code,
+            label: String(item.description),
+          }))
+        : [];
+      setProof_of_account(proofOfAccountLocal);
     }
     if (banks) {
       const bankList = banks
@@ -114,7 +219,7 @@ function CompleteDetailsBankScreen(props) {
         branchAddress: bankDetails.address,
       });
     }
-  }, [accountTypes, banks, bankDetails]);
+  }, [accountTypes, banks, bankDetails, bankTypeDetails]);
 
   const onAction = async () => {
     const {
@@ -306,8 +411,82 @@ function CompleteDetailsBankScreen(props) {
           params.nseDetails?.Mobile_relation,
       },
     };
-    setTimeout(() => createRegister(paramsNew, token), 3000);
+    const FatcaObj = {
+      service_request: {
+        pan: params.nseDetails.pan,
+        tax_status: "",
+        investor_name: params.nseDetails.inv_name,
+        chkExempIndValid: "Y",
+        editor_id: "",
+        KYC_availability: "Y",
+        FATCA_availability: "Y",
+        UBO_availability: "N",
+        ubo_applicable_count: "0",
+        KYC: {
+          app_income_code: fatcaDetails?.app_income?.APP_INCOME_CODE,
+          net_worth_sign: "",
+          net_worth: "",
+          net_worth_date: "",
+          pep: fatcaDetails?.pep?.code,
+          occ_code: params?.nseDetails?.occupation?.OCCUPATION_CODE,
+          source_wealth: fatcaDetails?.source_wealth?.CODE,
+          corp_servs: "",
+          aadhaar_rp: "",
+        },
+        Fatca: {
+          dob: params.nseDetails.dob
+            ? moment(params.nseDetails.dob).format("DD-MMM-YYYY")
+            : "",
+          addr_type: params?.fatcaDetails?.addr_type?.code,
+          data_src: "E",
+          log_name: params.nseDetails.email,
+          country_of_birth: "IND",
+          place_birth: params?.fatcaDetails?.place_birth?.STATE_NAME,
+          tax_residency: "",
+          country_tax_residency1: "",
+          tax_payer_identityno1: "",
+          id1_type: "",
+          country_tax_residency2: "",
+          tax_payer_identityno2: "",
+          id2_type: "",
+          country_tax_residency3: "",
+          tax_payer_identityno3: "",
+          id3_type: "",
+          country_tax_residency4: "",
+          tax_payer_identityno4: "",
+          id4_type: "",
+          ffi_drnfe: "N",
+          nffe_catg: "N",
+          nature_bus: " ",
+          act_nfe_subcat: " ",
+          stock_exchange: " ",
+          listed_company: " ",
+          us_person: "N",
+          exemp_code: " ",
+          giin_applicable: "N",
+          giin: " ",
+          giin_exem_cat: " ",
+          sponcer_entity: " ",
+          giin_not_app: "N",
+          fatca_dec_received: "Y",
+        },
+        occupation: params?.nseDetails?.occupation?.OCCUPATION_CODE,
+        city: params.nseDetails.city.CITY,
+      },
+    };
+
+    // setTimeout(() => createRegister(paramsNew, token), 3000);
+    setTimeout(() => {
+      if (!props?.navigation?.state?.params?.newBankAccount) {
+        createRegister(paramsNew, token);
+        setTimeout(() => {
+          FatcaKYC(FatcaObj, token);
+        }, 5000);
+      } else {
+      }
+    }, 3000);
     pageActive.current = true;
+    return;
   };
 
   const onComplete = () => {
@@ -318,6 +497,83 @@ function CompleteDetailsBankScreen(props) {
       props.navigation.navigate("UploadDocument");
     }
   };
+
+  const onActionNewBank = async () => {
+    console.log(
+      "🚀 ~ onActionNewBank ~ bankDetails:",
+      JSON.stringify(bankDetails)
+    );
+
+    const {
+      accountType,
+      accountNumber,
+      ifsc,
+      bank,
+      branchName,
+      branchAddress,
+      showBank,
+    } = state;
+    if (!accountType) {
+      setErrors({ ...errors, accountType: "Please Select a Value" });
+      return;
+    }
+    if (!accountNumber) {
+      setErrors({ ...errors, accountNumber: "Please Add a Value" });
+      return;
+    }
+    if (accountNumber.length < 9 || accountNumber.length > 21) {
+      setErrors({ ...errors, accountNumber: "Please Add a Valid Value" });
+      return;
+    }
+    if (!ifsc) {
+      setErrors({ ...errors, ifsc: "Please Add a Value" });
+      return;
+    }
+    if (ifsc.length < 9 || ifsc.length > 20) {
+      setErrors({ ...errors, ifsc: "Please Add a Valid Value" });
+      return;
+    }
+    if (!showBank) {
+      setErrors({ ...errors, showBank: "Please Fetch Bank Details" });
+      return;
+    }
+    if (!bank) {
+      setErrors({ ...errors, bank: "Please Select a Value" });
+      return;
+    }
+    if (!branchName) {
+      setErrors({ ...errors, branchName: "Please Add a Value" });
+      return;
+    }
+    if (!branchAddress) {
+      setErrors({ ...errors, branchAddress: "Please Add a Value" });
+      return;
+    }
+
+    let params = { ...{ nseDetails }, ...{ fatcaDetails }, ...{ userDetails } };
+
+    var obj = {
+      process_flag: "I",
+      iin: user?.IIN,
+      acc_no: accountNumber,
+      acc_type: accountType,
+      ifsc_code: ifsc,
+      micr_no: bankDetails?.micrCode,
+      bank_name: bank,
+      branch_name: branchName,
+      branch_address1: branchAddress,
+      branch_city: bankDetails?.city,
+      branch_country: "IND",
+      branch_pincode: bankDetails?.pincode ? bankDetails?.pincode : "",
+      proof_of_account: state?.proofOfAccountSelected,
+      acc_rel: "G",
+      default_bank: "Y",
+      image: img,
+    };
+    console.log("🚀 ~ onActionNewBank ~ obj:", obj);
+    createRegister(obj, token);
+  };
+
   return (
     <>
       <Header
@@ -409,6 +665,7 @@ function CompleteDetailsBankScreen(props) {
                 setState({ ...state, ifsc });
               }}
             />
+
 
             <View style={{ alignItems: "center" }}>
               {isFetching ? (
@@ -567,25 +824,233 @@ function CompleteDetailsBankScreen(props) {
           )}
 
           {/* click_box */}
-          <View style={styles.footer}>
-            <View style={styles.click_box}>
-              <TouchableOpacity
-                onPress={() => props.navigation.goBack()}
-                style={styles.botton_box}
-              >
-                <Text style={styles.get_otp}>Previous</Text>
-              </TouchableOpacity>
-              {isFetching ? (
-                <View style={styles.botton_box}>
-                  <ActivityIndicator size={30} color={Colors.WHITE} />
-                </View>
-              ) : (
-                <TouchableOpacity onPress={onAction} style={styles.botton_box}>
-                  <Text style={styles.get_otp}>Next</Text>
+          {!props?.navigation?.state?.params?.newBankAccount ? (
+            <View style={styles.footer}>
+              <View style={styles.click_box}>
+                <TouchableOpacity
+                  onPress={() => props.navigation.goBack()}
+                  style={styles.botton_box}
+                >
+                  <Text style={styles.get_otp}>Previous</Text>
                 </TouchableOpacity>
-              )}
+                {isFetching ? (
+                  <View style={styles.botton_box}>
+                    <ActivityIndicator size={30} color={Colors.WHITE} />
+                  </View>
+                ) : (
+                  <TouchableOpacity
+                    onPress={onAction}
+                    style={styles.botton_box}
+                  >
+                    <Text style={styles.get_otp}>Next</Text>
+                  </TouchableOpacity>
+                )}
+              </View>
             </View>
-          </View>
+          ) : (
+            <>
+              {/* <TouchableOpacity
+                
+                style={{ marginVertical: 10 }}
+              > */}
+                {props?.navigation?.state?.params?.newBankAccount && (
+              <View style={{ marginBottom: 10,marginHorizontal:10 }}>
+                <Text style={styles.occupation}>
+                  Proof Of Account <Text style={styles.error}>*</Text>
+                </Text>
+                <MySelectPicker
+                  values={proof_of_account}
+                  defultValue={state?.proofOfAccountSelected}
+                  error={errors.accountType}
+                  placeholder={"Select Proof of Account"}
+                  onChange={(proofOfAccountSelected) => {
+                    console.log(
+                      "🚀 ~ CompleteDetailsBankScreen ~ proofOfAccountSelected:",
+                      proofOfAccountSelected
+                    );
+                    setErrors({ ...errors, accountType: null });
+                    setState({ ...state, proofOfAccountSelected });
+                  }}
+                />
+              </View>
+            )}
+              <TouchableOpacity
+                // onPress={onActionNewBank}
+                onPress={() =>
+                  Alert.alert("SIP Fund", "Document", [
+                    {
+                      text: "Cancel",
+                      onPress: () => {},
+                    },
+                    {
+                      text: "Camera",
+                      onPress: () => {
+                        setCamera(true);
+                      },
+                    },
+                    {
+                      text: "Document",
+                      onPress: () => {
+                        pickImage();
+                      },
+                    },
+                  ])
+                }
+                style={[
+                  styles.botton_box,
+                  { width: "87%", alignSelf: "center", marginVertical: 20 },
+                ]}
+              >
+                <Text style={styles.get_otp}>Attach Document</Text>
+              </TouchableOpacity>
+              {img && (
+                <>
+                  <Image
+                    source={{ uri: img }}
+                    style={{ height: 80, width: 80, marginLeft: 30 }}
+                  />
+                  <Text style={[styles.error, { textAlign: "center" }]}>
+                    Document attached*
+                  </Text>
+                </>
+              )}
+              <Modal
+                animationType="slide"
+                transparent={true}
+                visible={camera}
+                onRequestClose={() => {
+                  setCamera(false);
+                }}
+              >
+                <SafeAreaView style={StyleSheet.absoluteFill}>
+                  <Camera
+                    style={{ flex: 1 }}
+                    ratio="16:9"
+                    // flashMode={Camera.Constants.FlashMode.on}
+                    type={type}
+                    ref={(ref) => {
+                      setCameraRef(ref);
+                    }}
+                  >
+                    <View
+                      style={{
+                        flex: 1,
+                        backgroundColor: "transparent",
+                        justifyContent: "flex-end",
+                      }}
+                    >
+                      <View
+                        style={{
+                          backgroundColor: "black",
+                          flexDirection: "row",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <Button
+                          icon="close"
+                          style={{ marginLeft: 12 }}
+                          mode="outlined"
+                          color="white"
+                          onPress={() => {
+                            setCamera(false);
+                          }}
+                        >
+                          Close
+                        </Button>
+                        <TouchableOpacity
+                          onPress={async () => {
+                            if (cameraRef) {
+                              let photo = await cameraRef.takePictureAsync();
+                              // alert(JSON.stringify(photo));
+                              cameraImage(photo);
+                              // setImg(photo);
+                              setCamera(false);
+                            }
+                          }}
+                        >
+                          <View
+                            style={{
+                              borderWidth: 2,
+                              borderRadius: 50,
+                              borderColor: "white",
+                              height: 50,
+                              width: 50,
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              marginBottom: 16,
+                              marginTop: 16,
+                            }}
+                          >
+                            <View
+                              style={{
+                                borderWidth: 2,
+                                borderRadius: 50,
+                                borderColor: "white",
+                                height: 40,
+                                width: 40,
+                                backgroundColor: "white",
+                              }}
+                            ></View>
+                          </View>
+                        </TouchableOpacity>
+                        <Button
+                          icon="axis-z-rotate-clockwise"
+                          style={{ marginRight: 12 }}
+                          mode="outlined"
+                          color="white"
+                          onPress={() => {
+                            setType(
+                              type === Camera.Constants.Type.back
+                                ? Camera.Constants.Type.front
+                                : Camera.Constants.Type.back
+                            );
+                          }}
+                        >
+                          {type === Camera.Constants.Type.back
+                            ? "Front"
+                            : "Back "}
+                        </Button>
+                      </View>
+                    </View>
+                  </Camera>
+                </SafeAreaView>
+              </Modal>
+              {/* <Image
+                  source={
+                    // img
+                    //   ? { uri: img }
+                    // :
+                    require("../../../assets/profile_img.png")
+                  }
+                  style={{ height: 120, width: 120 }}
+                /> */}
+              {/* </TouchableOpacity> */}
+              <View style={styles.footer}>
+                <View style={styles.click_box}>
+                  {/* <TouchableOpacity
+                  onPress={() => props.navigation.goBack()}
+                  style={styles.botton_box}
+                >
+                  <Text style={styles.get_otp}>Previous</Text>
+                </TouchableOpacity> */}
+                  {isFetching ? (
+                    <View style={[styles.botton_box, { width: "100%" }]}>
+                      <ActivityIndicator size={30} color={Colors.WHITE} />
+                    </View>
+                  ) : (
+                    <TouchableOpacity
+                      onPress={onActionNewBank}
+                      style={[styles.botton_box, { width: "100%" }]}
+                    >
+                      <Text style={styles.get_otp}>Submit</Text>
+                    </TouchableOpacity>
+                  )}
+                </View>
+              </View>
+            </>
+          )}
         </ScrollView>
       </KeyboardAvoidingView>
       <Overlay
@@ -707,6 +1172,8 @@ const mapStateToProps = (state) => ({
   bankDetails: state.registration.bankDetails,
   isExit: state.registration.isExit,
   isInn: state.registration.isInn,
+  bankTypeDetails: state.registration.bankTypeDetails,
+  proofOfAccount: state.registration.proofOfAccount,
 });
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
@@ -719,11 +1186,23 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     getBankDetails: (code, token) => {
       RegistrationActions.getBankDetails(dispatch, code, token);
     },
+    getAccountType: (code, token) => {
+      RegistrationActions.getAccountType(dispatch, code, token);
+    },
+    getProofOfAccount: (code, token) => {
+      RegistrationActions.getProofOfAccount(dispatch, code, token);
+    },
     createRegister: (params, token) => {
       RegistrationActions.createRegister(dispatch, params, token);
     },
+    FatcaKYC: (params, token) => {
+      RegistrationActions.FatcaKYC(dispatch, params, token);
+    },
     updateRegister: (params, token) => {
       RegistrationActions.updateRegister(dispatch, params, token);
+    },
+    settings: (token) => {
+      RegistrationActions.settings(dispatch, token);
     },
   };
 };

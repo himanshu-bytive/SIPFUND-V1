@@ -15,6 +15,8 @@ const types = {
   FETCH_BANK_SUCCESS: "FETCH_OTP_SUCCESS",
   FETCH_BANK_FAILURE: "FETCH_BANK_FAILURE",
 
+  FETCH_BANK_TYPES_SUCCESS: "FETCH_BANK_TYPES_SUCCESS",
+
   FETCH_PINCODE_INFO_PENDING: "FETCH_PINCODE_INFO_PENDING",
   FETCH_PINCODE_INFO_SUCCESS: "FETCH_PINCODE_INFO_SUCCESS",
   FETCH_PINCODE_INFO_FAILURE: "FETCH_PINCODE_INFO_FAILURE",
@@ -26,6 +28,10 @@ const types = {
   FETCH_CREATE_REGISTER_PENDING: "FETCH_CREATE_REGISTER_PENDING",
   FETCH_CREATE_REGISTER_SUCCESS: "FETCH_CREATE_REGISTER_SUCCESS",
   FETCH_CREATE_REGISTER_FAILURE: "FETCH_CREATE_REGISTER_FAILURE",
+
+  FETCH_CREATE_FATCA_PENDING: "FETCH_CREATE_FATCA_PENDING",
+  FETCH_CREATE_FATCA_SUCCESS: "FETCH_CREATE_FATCA_SUCCESS",
+  FETCH_CREATE_FATCA_FAILURE: "FETCH_CREATE_FATCA_FAILURE",
 
   FETCH_UPDATE_REGISTER_PENDING: "FETCH_UPDATE_REGISTER_PENDING",
   FETCH_UPDATE_REGISTER_SUCCESS: "FETCH_UPDATE_REGISTER_SUCCESS",
@@ -47,14 +53,18 @@ const types = {
   FETCH_UPDATED_NSE_DATA_FAILURE: "FETCH_UPDATE_REGISTER_FAILURE",
   FETCH_UPDATED_NSE_DATA_SUCCESS: "FETCH_UPDATED_NSE_DATA_SUCCESS",
 
+  PROOF_OF_ACCOUNT_PENDING: "PROOF_OF_ACCOUNT_PENDING",
+  PROOF_OF_ACCOUNT_FAILURE: "PROOF_OF_ACCOUNT_FAILURE",
+  PROOF_OF_ACCOUNT_SUCCESS: "PROOF_OF_ACCOUNT_SUCCESS",
+
   SET_URI: "SET_URI",
 };
 
 export const RegistrationActions = {
   settings: async (dispatch, token) => {
-    let occupation = await SiteAPI.apiGetCall("/apiData/Occupation", {}, token);
+    let occupation = await SiteAPI.apiGetCall("/nsemasterapi/getOccupation", {}, token);
     let income = await SiteAPI.apiGetCall(
-      "/apiData/ApplicableIncome",
+      "/nsemasterapi/getapplicableincome",
       {},
       token
     );
@@ -139,6 +149,22 @@ export const RegistrationActions = {
       }
     }
   },
+
+  getAccountType: async (dispatch, code, token) => {
+    let banks = await SiteAPI.apiGetCall(`/bank/accounttypelist`, {}, token);
+    dispatch({
+      type: types.FETCH_BANK_TYPES_SUCCESS,
+      bankTypeDetails: banks?.response,
+    });
+  },
+  getProofOfAccount: async (dispatch, code, token) => {
+    let data = await SiteAPI.apiGetCall(`/bank/proofofacctlist`, {}, token);
+    dispatch({
+      type: types.PROOF_OF_ACCOUNT_SUCCESS,
+      proofOfAccount: data?.response,
+    });
+  },
+  
   getUserDetails: async (dispatch, params, tokan) => {
     dispatch({ type: types.FETCH_USERDETAILS_PENDING });
     let data = await SiteAPI.apiGetCall("/user/rawData", params, tokan);
@@ -155,9 +181,13 @@ export const RegistrationActions = {
     }
   },
   createRegister: async (dispatch, params, token) => {
+    if (params?.hasOwnProperty("process_flag")) {
+    }
     dispatch({ type: types.FETCH_CREATE_REGISTER_PENDING });
     let data = await SiteAPI.apiPostCall(
-      "/apiData/CREATECUSTOMER",
+      params?.hasOwnProperty("process_flag")
+        ? "/bank/addbankdetail"
+        : "/apiData/CREATECUSTOMER",
       params,
       token
     );
@@ -179,8 +209,43 @@ export const RegistrationActions = {
       dispatch({
         type: types.FETCH_CREATE_REGISTER_SUCCESS,
         isExit: false,
-        isInn: data.IIN,
+        isInn: params?.hasOwnProperty("process_flag")
+          ? data?.user?.iin
+          : data.IIN,
       });
+      if (!params?.hasOwnProperty("process_flag")) {
+        FatcaKYC(dispatch, params.FatcaObj, token);
+      }
+    }
+  },
+  FatcaKYC: async (dispatch, params, token) => {
+    dispatch({ type: types.FETCH_CREATE_FATCA_PENDING });
+    let data = await SiteAPI.apiPostCall(
+      "/apiData/FATCAKYCUBOREG",
+      params,
+      token
+    );
+
+    if (data.error) {
+      if (data.message) Alert.alert(data.message);
+      // if (data.status == "InActive") {
+      //   dispatch({
+      //     type: types.FETCH_CREATE_REGISTER_SUCCESS,
+      //     isExit: true,
+      //     isInn: String(data.message).split("-")[1],
+      //   });
+      // } else {
+      //   dispatch({
+      //     type: types.FETCH_CREATE_REGISTER_FAILURE,
+      //     error: data.message,
+      //   });
+      // }
+    } else {
+      // dispatch({
+      //   type: types.FETCH_CREATE_REGISTER_SUCCESS,
+      //   isExit: false,
+      //   isInn: data.IIN,
+      // });
     }
   },
   fetchNseData: async (dispatch, iin, token) => {
@@ -278,14 +343,13 @@ export const RegistrationActions = {
     }
   },
   fileUpload: async (dispatch, params, token) => {
-    //console.log(JSON.stringify(params, null, 2));
     dispatch({ type: types.FETCH_FILE_UPLOAD_PENDING });
     let data = await SiteAPI.uploadImgApi(
       `/documents/uploads?docType=${params.fileType}`,
       params.file,
       token
     );
-    //console.log(JSON.stringify(data, null, 2));
+
     if (!data.validFlag) {
       alert(data.responseString);
       //Alert.alert("SIP Fund", JSON.stringify(data.message), [
@@ -352,6 +416,8 @@ const initialState = {
   accountTypes: [],
   banks: [],
   bankDetails: {},
+  bankTypeDetails: [],
+  typeOfAccount:[],
   fatcaDetails: null,
   nseDetails: null,
   userDetails: null,
@@ -386,6 +452,8 @@ export const reducer = (state = initialState, action) => {
     documentUri,
     mailSent,
     updatedNseData,
+    bankTypeDetails,
+    proofOfAccount
   } = action;
   switch (type) {
     case types.FETCH_USERDETAILS_PENDING:
@@ -393,6 +461,7 @@ export const reducer = (state = initialState, action) => {
     case types.FETCH_FILE_UPLOAD_PENDING:
     case types.FETCH_UPDATE_REGISTER_PENDING:
     case types.FETCH_CREATE_REGISTER_PENDING:
+    case types.FETCH_CREATE_FATCA_PENDING:
     case types.FETCH_EDIT_REGISTER_PENDING:
     case types.FETCH_PINCODE_INFO_PENDING:
     case types.FETCH_UPDATED_NSE_DATA_PENDING:
@@ -459,6 +528,19 @@ export const reducer = (state = initialState, action) => {
         isFetching: false,
         error: null,
         bankDetails,
+      };
+    }
+
+    case types.FETCH_BANK_TYPES_SUCCESS: {
+      return {
+        ...state,
+        bankTypeDetails,
+      };
+    }
+    case types.PROOF_OF_ACCOUNT_SUCCESS: {
+      return {
+        ...state,
+        proofOfAccount,
       };
     }
     case types.FETCH_USERDETAILS_SUCCESS: {

@@ -41,6 +41,8 @@ const types = {
   FETCH_PROFILE_PENDING: "FETCH_PROFILE_PENDING",
   FETCH_PROFILE_SUCCESS: "FETCH_PROFILE_SUCCESS",
   FETCH_PROFILE_FAILURE: "FETCH_PROFILE_FAILURE",
+
+  FETCH_IIN_BANK_SUCCESS: "FETCH_IIN_BANK_SUCCESS",
 };
 
 const storeData = async (key, value) => {
@@ -176,6 +178,9 @@ export const AuthActions = {
   login: async (dispatch, params, token) => {
     dispatch({ type: types.FETCH_LOGIN_PENDING });
     let data = await SiteAPI.apiPostCall("/token", params, token);
+    console.log('====================================');
+    console.log(JSON.stringify(data));
+    console.log('====================================');
     if (data.error) {
       if (data.message) Alert.alert(data.message);
       dispatch({ type: types.FETCH_LOGIN_FAILURE, error: data.message });
@@ -223,6 +228,27 @@ export const AuthActions = {
   getProfile: async (dispatch, params, token) => {
     dispatch({ type: types.FETCH_PROFILE_PENDING });
     let data = await SiteAPI.apiPostCall("/apiData/IINDETAILS", params, token);
+
+    if (params?.service_request?.iin > 0 && params?.service_request?.iin) {
+      let data1 = await SiteAPI.apiGetCall(
+        "/bank/custbanklist?iin=" + params?.service_request?.iin,
+        {},
+        token
+      );
+      if (data.error) {
+        dispatch({ type: types.FETCH_PROFILE_FAILURE, error: data1.message });
+      } else {
+
+        dispatch({ type: types.FETCH_IIN_BANK_SUCCESS, iinBank: data1.data });
+      }
+      if (data.error) {
+        //if(data.message) Alert.alert(data.message)
+        dispatch({ type: types.FETCH_PROFILE_FAILURE, error: data.message });
+      } else {
+        dispatch({ type: types.FETCH_PROFILE_SUCCESS, profile: data.Data });
+      }
+      return;
+    }
     if (data.error) {
       //if(data.message) Alert.alert(data.message)
       dispatch({ type: types.FETCH_PROFILE_FAILURE, error: data.message });
@@ -245,6 +271,7 @@ const initialState = {
   panNumber: null,
   profile: null,
   wrongPassCount: 0,
+  iinBank: [],
 };
 
 export const reducer = (state = initialState, action) => {
@@ -258,6 +285,7 @@ export const reducer = (state = initialState, action) => {
     token,
     panNumber,
     profile,
+    iinBank,
   } = action;
   switch (type) {
     case types.FETCH_PROFILE_PENDING:
@@ -369,6 +397,13 @@ export const reducer = (state = initialState, action) => {
         isFetching: false,
         error: null,
         profile,
+      };
+    }
+
+    case types.FETCH_IIN_BANK_SUCCESS: {
+      return {
+        ...state,
+        iinBank,
       };
     }
     case types.FETCH_LOGIN_SUCCESS: {

@@ -309,7 +309,9 @@ function CreateAccountScreen(props) {
             title={
               <TouchableOpacity
                 onPress={() =>
-                  Linking.openURL("https://sipfund.com/termofuse.html")
+                  Linking.openURL(
+                    "https://sipfund.com/SipFund_Terms&Conditions.html"
+                  )
                 }
               >
                 <Text style={{ color: Colors.RED }}>Terms & Conditions</Text>

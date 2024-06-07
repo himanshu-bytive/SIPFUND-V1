@@ -32,6 +32,7 @@
     android:allowBackup="true"
     android:theme="@style/AppTheme"
     android:usesCleartextTraffic="true"
+    android:hardwareAccelerated="true"
   >
     <meta-data
       android:name="expo.modules.notifications.default_notification_color"
@@ -70,6 +71,7 @@
       android:windowSoftInputMode="adjustResize"
       android:theme="@style/Theme.App.SplashScreen"
       android:screenOrientation="portrait"
+      android:hardwareAccelerated="true"
     >
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
