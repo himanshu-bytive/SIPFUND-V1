@@ -370,8 +370,53 @@ function HomeScreen(props) {
           </>
         )}
         */}
+        
+        <Text style={styles.roted_text}>Top Rated Funds</Text>
+        <TouchableOpacity
+          onPress={() => props.navigation.navigate("TopRatedHome")}
+        >
+          <View style={[styles.education, styles.education_roted]}>
+            <View style={styles.child_sec}>
+              <FastImage
+                source={require("../../../assets/term7.png")}
+                style={styles.fund_img}
+              />
+            </View>
+            <View style={styles.education_sec}>
+              <Text style={styles.child}>Get Top Rated Funds</Text>
+              <Text style={styles.child_text}>
+                At SIPFund.com we help you in choosing the best for you!
+              </Text>
+            </View>
+          </View>
+        </TouchableOpacity>
 
+        <View style={styles.border}></View>
 
+        {/* investment section */}
+        <Text style={styles.Plan}>Investment Plans</Text>
+        <InvestmentLists
+          data={investments}
+          onPress={(item) => {
+            toggleLoading(true);
+            investmentPlans(item, token);
+            pageActiveInvest.current = true;
+          }}
+        />
+        {/*<View style={{ alignItems: "center" }}>
+          <TouchableOpacity
+            onPress={() => props.navigation.navigate("InvestmentListAll")}
+          >
+            <View style={styles.all_plan}>
+              <Text style={styles.all_plan_text}>See All Investment Plan</Text>
+              <AntDesign name="down" size={20} color="#C0392B" />
+            </View>
+          </TouchableOpacity>
+        </View>*/}
+
+        <View style={styles.border}></View>
+
+        {/* Top roted fund section */}
         <ScrollView horizontal={true}>
           {goals.map((item, key) => (
             <TouchableOpacity
@@ -417,53 +462,6 @@ function HomeScreen(props) {
             </TouchableOpacity>
           ))}
         </ScrollView>
-
-        <View style={styles.border}></View>
-
-        {/* investment section */}
-        <Text style={styles.Plan}>Investment Plans</Text>
-        <InvestmentLists
-          data={investments}
-          onPress={(item) => {
-            toggleLoading(true);
-            investmentPlans(item, token);
-            pageActiveInvest.current = true;
-          }}
-        />
-        {/*<View style={{ alignItems: "center" }}>
-          <TouchableOpacity
-            onPress={() => props.navigation.navigate("InvestmentListAll")}
-          >
-            <View style={styles.all_plan}>
-              <Text style={styles.all_plan_text}>See All Investment Plan</Text>
-              <AntDesign name="down" size={20} color="#C0392B" />
-            </View>
-          </TouchableOpacity>
-        </View>*/}
-
-        <View style={styles.border}></View>
-
-        {/* Top roted fund section */}
-
-        <Text style={styles.roted_text}>Top Rated Funds</Text>
-        <TouchableOpacity
-          onPress={() => props.navigation.navigate("TopRatedHome")}
-        >
-          <View style={[styles.education, styles.education_roted]}>
-            <View style={styles.child_sec}>
-              <FastImage
-                source={require("../../../assets/term7.png")}
-                style={styles.fund_img}
-              />
-            </View>
-            <View style={styles.education_sec}>
-              <Text style={styles.child}>Get Top Rated Funds</Text>
-              <Text style={styles.child_text}>
-                At SIPFund.com we help you in choosing the best for you!
-              </Text>
-            </View>
-          </View>
-        </TouchableOpacity>
         <View style={styles.roted_border}></View>
         <View style={styles.border}></View>
 
