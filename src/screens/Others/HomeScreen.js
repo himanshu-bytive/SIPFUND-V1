@@ -22,6 +22,7 @@ import Cart from "../../components/Cart";
 import WebView from "react-native-webview";
 import appsFlyer from "react-native-appsflyer";
 import FastImage from "react-native-fast-image";
+import SuggestionInput from "../../components/Search";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
@@ -58,6 +59,7 @@ function HomeScreen(props) {
     summaryRetrieve,
     goalSummary,
     goalSummaryRetrieve,
+    fundDetails,
   } = props;
   // console.log("🚀 ~ HomeScreen ~ investments:", JSON.stringify(investments));
 
@@ -202,6 +204,10 @@ function HomeScreen(props) {
             <ActivityIndicator color={Colors.BLACK} size="large" />
           </View>
         ))}
+      <SuggestionInput
+        navigate={props.navigation.navigate}
+        fundDetails={fundDetails}
+      />
       <ScrollView style={styles.containerScroll}>
         {/* <Text>
           {users?.hasOwnProperty("users") ? 1 : 0}
@@ -1460,6 +1466,7 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
   const { GoalsActions } = require("../../store/GoalsRedux");
   const { InvestmentPlanActions } = require("../../store/InvestmentPlanRedux");
   const { EmandateActions } = require("../../store/EmandateRedux");
+  const { FundDetailActions } = require("../../store/FundDetailRedux");
   return {
     ...stateProps,
     ...ownProps,
@@ -1493,6 +1500,9 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     },
     goalSummaryRetrieve: (params, token) => {
       GoalsActions.goalSummaryRetrieve(dispatch, params, token);
+    },
+    fundDetails: (data) => {
+      FundDetailActions.fundDetails(dispatch, data);
     },
   };
 };
