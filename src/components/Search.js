@@ -75,13 +75,15 @@ const SuggestionInput = ({ navigate, fundDetails }) => {
         onChangeText={setInputText}
         placeholder="Search..."
       />
-      <FontAwesome5
-        style={styles.crossIcon}
-        name="times-circle"
-        size={20}
-        color="#838280"
-        onPress={handleBlur}
-      />
+      {inputText ? (
+        <FontAwesome5
+          style={styles.crossIcon}
+          name="times-circle"
+          size={20}
+          color="#838280"
+          onPress={handleBlur}
+        />
+      ) : null}
       {showSuggestions && (
         <View style={styles.suggestionContainer}>
           <FlatList
