@@ -64,6 +64,7 @@ function HomeScreen(props) {
   const [loading, toggleLoading] = useState(false);
   const [webUrl, setWebUrl] = useState("");
   const [webViewActive, setWebViewActive] = useState(false);
+  const [showMorePlans, setShowMorePlans] = useState(false);
 
   useEffect(() => {
     setWebViewActive(false);
@@ -370,7 +371,7 @@ function HomeScreen(props) {
           </>
         )}
         */}
-        
+
         <Text style={styles.roted_text}>Top Rated Funds</Text>
         <TouchableOpacity
           onPress={() => props.navigation.navigate("TopRatedHome")}
@@ -396,13 +397,19 @@ function HomeScreen(props) {
         {/* investment section */}
         <Text style={styles.Plan}>Investment Plans</Text>
         <InvestmentLists
-          data={investments}
+          data={showMorePlans ? investments : investments.slice(0, 4)}
           onPress={(item) => {
             toggleLoading(true);
             investmentPlans(item, token);
             pageActiveInvest.current = true;
           }}
         />
+        <TouchableOpacity
+          style={styles.showMorePlansContainer}
+          onPress={() => setShowMorePlans(!showMorePlans)}
+        >
+          <Text style={styles.showMorePlansText}>{showMorePlans ? "Show less" : "Show more"}</Text>
+        </TouchableOpacity>
         {/*<View style={{ alignItems: "center" }}>
           <TouchableOpacity
             onPress={() => props.navigation.navigate("InvestmentListAll")}
@@ -1415,6 +1422,14 @@ const styles = StyleSheet.create({
     color: Colors.DEEP_GRAY,
     marginVertical: 10,
   },
+  showMorePlansContainer: {
+    marginHorizontal: 20,
+    alignSelf: "flex-end"
+  },
+  showMorePlansText: {
+    color: "gray",
+    fontSize: 15
+  }
 });
 
 const mapStateToProps = (state) => ({
