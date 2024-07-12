@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
   container: {
     marginHorizontal: 20,
     marginTop: 20,
-    marginBottom: 5,
+    marginBottom: -10,
   },
   input: {
     height: 50,

@@ -378,11 +378,11 @@ function HomeScreen(props) {
         )}
         */}
 
-        <Text style={styles.roted_text}>Top Rated Funds</Text>
+        <Text style={[styles.roted_text, {marginVertical: 0, marginBottom: -15}]}>Top Rated Funds</Text>
         <TouchableOpacity
           onPress={() => props.navigation.navigate("TopRatedHome")}
         >
-          <View style={[styles.education, styles.education_roted]}>
+          <View style={[styles.education, styles.education_roted, { marginBottom: 0}]}>
             <View style={styles.child_sec}>
               <FastImage
                 source={require("../../../assets/term7.png")}
