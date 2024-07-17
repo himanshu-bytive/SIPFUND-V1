@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Text,
   ToastAndroid,
+  TextInput,
 } from "react-native";
 import { connect } from "react-redux";
 import { Styles, Config, Colors, FormValidate } from "../../common";
@@ -22,6 +23,24 @@ import RiskRating from "./RiskRating";
 import ExpenseRatio from "./ExpenseRatio";
 import FundManagers from "./FundManagers";
 import Toast from "react-native-simple-toast";
+import {Overlay} from "react-native-elements";
+import RNPickerSelect from "react-native-picker-select";
+import axios from "axios";
+
+const monthsArr = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
 
 function FundDetailScreen(props) {
   const [fundType, setFundType] = useState([
@@ -34,12 +53,244 @@ function FundDetailScreen(props) {
     { text: "Risk & Rating", show: false },
     { text: "Expense Ratio", show: false },
   ]);
+  const [visible, setVisible] = useState(false);
+  const [selectTab, setSelectTab] = useState("SIP");
+  const [price, setPrice] = useState("");
+  const [states, setStates] = useState({
+    amount: "",
+    date: "01",
+    productName: "",
+    productCode: "",
+    amcCode: "",
+    amcName: "",
+    imagePath: "",
+    minimumSIPAmount: 0,
+    minimumLumpsumAmount: 0,
+    dates: [],
+  });
+  const [item, setItem] = useState({});
+
+  const {token, detailsInfo, addItomToSip, getCartDetails} = props;
+
+  const focusInput = React.createRef();
+
+  const toggleOverlay = () => {
+    setVisible(!visible);
+  }
+
+  const invest = (
+    imagePath,
+    amcCode,
+    amcName,
+    productCode,
+    productName,
+    minimumSIPAmount,
+    minimumLumpsumAmount,
+    newDates
+  ) => {
+    setStates({
+      ...states,
+      productCode,
+      productName,
+      amcCode,
+      amcName,
+      imagePath,
+      minimumSIPAmount,
+      minimumLumpsumAmount,
+      groupType: "toprated",
+      dates: newDates,
+    });
+    setVisible(!visible);
+  };
+
+  const sipFromDate = (sipDay) => {
+    const date = new Date();
+
+    let day = date.getDate();
+    let month = date.getMonth();
+    let year = date.getFullYear();
+
+    if (month === 11) {
+      month = 0;
+      year = year + 1;
+    } else {
+      month += 1;
+    }
+
+    if (day > sipDay) {
+      if (month === 11) {
+        month = 0;
+        year = year + 1;
+      } else {
+        month += 1;
+      }
+    }
+
+    return (
+      ("00" + sipDay).match(/\d{2}$/) + "-" + monthsArr[month] + "-" + year
+    );
+  };
+
+  const sipEndDate = (sipDay) => {
+    const date = new Date();
+
+    let day = date.getDate();
+    let month = date.getMonth();
+    let year = date.getFullYear();
+
+    if (month === 11) {
+      month = 0;
+      year = year + 1;
+    } else {
+      month += 1;
+    }
+
+    if (day > sipDay) {
+      if (month === 11) {
+        month = 0;
+        year = year + 1;
+      } else {
+        month += 1;
+      }
+    }
+
+    return (
+      ("00" + sipDay).match(/\d{2}$/) +
+      "-" +
+      monthsArr[month] +
+      "-" +
+      `${parseInt(year) + 30}`
+    );
+  };
+
+  const toggleTab = (tab) => {
+    setSelectTab(tab);
+  }
+
+  const numberWithCommas = (x) => {
+    x = x.toString();
+    var lastThree = x.substring(x.length - 3);
+    var otherNumbers = x.substring(0, x.length - 3);
+    if (otherNumbers != "") lastThree = "," + lastThree;
+    var res =
+      "₹" + otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree;
+    return res;
+  }
+
+  const removeSpecialChars = (val) => {
+    let string = val.replace(/[&\/\\#,+()$~%.'":*?<>{}₹]/g, "");
+    setPrice(string);
+  };
+
+  const addToCartLumpSum = () => {
+    let priceNew = price;
+    if(parseInt(price) >= 0){
+      if (price < states?.minimumLumpsumAmount) {
+        alert("Amount is less than minimum amount");
+        return;
+      }
+    }
+    else{
+      priceNew = states?.minimumLumpsumAmount
+    }
+   
+    let params = {
+      cartDetails: {
+        trxn_nature: "N",
+        amc: states.amcCode,
+        amc_name: states.amcName,
+        folio: "",
+        product_code: states.productCode,
+        product_name: states.productName,
+        reinvest: "Z",
+        amount: priceNew,
+        sip_amount: price,
+        image_path: states.imagePath,
+        groupType: "toprated",
+      },
+    };
+    toggleOverlay();
+    addItomToSip(params, token);
+    getCartDetails(token);
+  };
+
+  const addToCartSip = () => {
+    let priceNew = price;
+    if(parseInt(price) >= 0){
+      if (price < states?.minimumSIPAmount) {
+        alert("Amount is less than minimum amount");
+        return;
+      }
+    }
+    else{
+      priceNew = states?.minimumSIPAmount
+    }
+    
+    let params = {
+      cartDetails: {
+        trxn_nature: "S",
+        sip_period_day: states.date,
+        sip_from_date: sipFromDate(states.date),
+        sip_freq: "OM",
+        sip_end_date: sipEndDate(states.date),
+        sip_amount: priceNew,
+        reinvest: "Z",
+        product_name: states.productName,
+        product_code: states.productCode,
+        folio: "",
+        amount: priceNew,
+        amc_name: states.amcName,
+        amc: states.amcCode,
+        image_path: states.imagePath,
+        groupType: "toprated",
+      },
+    };
+
+    toggleOverlay();
+    addItomToSip(params, token);
+    getCartDetails(token);
+  };
+
+  useEffect(() => {
+    if (props.navigation) {
+      const focusListener = props.navigation.addListener("willFocus", () => {
+        setPrice("");
+        setStates({
+          ...states,
+          amount: "",
+          dates: [
+            {
+              value: "01",
+              label: "01",
+            },
+          ],
+        });
+      });
+
+      const blurListener = props.navigation.addListener("willBlur", () => {});
+
+      return () => {
+        focusListener.remove();
+        blurListener.remove();
+      };
+    }
+  }, [props.navigation]);
 
   const toggleFundType = (key) => {
     let values = JSON.parse(JSON.stringify(fundType));
     values[key].show = !values[key].show;
     setFundType(values);
   };
+
+  const getFundData = async (isin) => {
+    const {data} = await axios.get(`http://159.65.145.3:8085/api/minmax/search?isin=${isin}`);
+
+    setItem(data?.responseString);
+  }
+
+  useEffect(() => {
+    getFundData(detailsInfo[0]?._id);
+  }, [detailsInfo[0]?._id])
 
   return (
     <View style={styles.contain_box}>
@@ -93,6 +344,185 @@ function FundDetailScreen(props) {
           </TouchableOpacity>
         </View>
       )}
+      <Overlay isVisible={visible} onBackdropPress={toggleOverlay}>
+        <View style={styles.pop_top}>
+          <View style={styles.click_sec}>
+            <View
+              style={
+                selectTab == "SIP"
+                  ? styles.buttom_botton2
+                  : styles.buttom_botton
+              }
+            >
+              <TouchableOpacity onPress={() => toggleTab("SIP")}>
+                <Text
+                  style={
+                    selectTab == "SIP" ? styles.sip_text2 : styles.sip_text
+                  }
+                >
+                  SIP
+                </Text>
+              </TouchableOpacity>
+            </View>
+            <View
+              style={
+                selectTab == "LUMPSUM"
+                  ? styles.buttom_botton2
+                  : styles.buttom_botton
+              }
+            >
+              <TouchableOpacity onPress={() => {
+                toggleTab("LUMPSUM");
+
+                }}>
+                <Text
+                  style={
+                    selectTab == "LUMPSUM" ? styles.sip_text2 : styles.sip_text
+                  }
+                >
+                  Lumpsum
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          {selectTab == "SIP" && (
+            <View>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-evenly",
+                }}
+              >
+                <View style={styles.amount_sec}>
+                  <Text style={styles.amount_tex}>Amount</Text>
+                  <View style={styles.bordersec}>
+                    <TextInput
+                      keyboardType={"numeric"}
+                      value={price?numberWithCommas(price):numberWithCommas(states?.minimumSIPAmount)}
+                      onChangeText={(amount) => removeSpecialChars(amount)}
+                      placeholder="₹0"
+                      style={styles.amount_tex2}
+                    />
+                  </View>
+                </View>
+                <View style={styles.amount_sec}>
+                  <Text style={styles.amount_tex}>Date</Text>
+                  <View style={{ marginTop: 10 }}>
+                    <RNPickerSelect
+                      ref={focusInput}
+                      placeholder={{
+                        label: "Select a Date",
+                        value: null,
+                      }}
+                      style={{
+                        inputIOS: styles.dropDown,
+                        inputAndroid: styles.dropDown,
+                        placeholder: styles.dropDown,
+                        height: 120,
+                        zIndex: 1,
+                      }}
+                      useNativeAndroidPickerStyle={false}
+                      onValueChange={(value) => {
+                        setStates({ ...states, date: value });
+                      }}
+                      value={states?.date}
+                      items={states?.dates}
+                      // items={selList}
+                      Icon={() => {
+                        return (
+                          <AntDesign
+                            name="caretdown"
+                            size={15}
+                            style={{
+                              marginTop: 7,
+                              marginRight: -10,
+                            }}
+                            color="#C0392B"
+                          />
+                        );
+                      }}
+                    />
+                  </View>
+
+                </View>
+              </View>
+
+              <View style={{ alignItems: "center" }}>
+                <TouchableOpacity
+                  onPress={addToCartSip}
+                  style={styles.buttom_botton2box}
+                >
+                  <Text style={styles.sip_text2}>Add To Cart</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          )}
+
+          {selectTab == "LUMPSUM" && (
+            <View>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  paddingHorizontal: 50,
+                }}
+              >
+                <View style={styles.amount_sec}>
+                  <Text style={styles.amount_tex}>Amount</Text>
+                  <View style={styles.bordersec}>
+                    <TextInput
+                      keyboardType={"numeric"}
+                      value={price?numberWithCommas(price):numberWithCommas(states?.minimumLumpsumAmount)}
+                      onChangeText={(amount) => removeSpecialChars(amount)}
+                      placeholder="₹0"
+                      style={styles.amount_tex2}
+                    />
+                  </View>
+                </View>
+              </View>
+
+              <View style={{ alignItems: "center" }}>
+                <TouchableOpacity
+                  onPress={addToCartLumpSum}
+                  style={styles.buttom_botton2box}
+                >
+                  <Text style={styles.sip_text2}>Add To Cart</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          )}
+        </View>
+      </Overlay>
+      <TouchableOpacity
+        style={[styles.botton_box, {width: "100%", marginHorizontal: 0}]}
+        onPress={() => {
+          var newDates = item?.sipDates;
+          newDates = newDates.split(",");
+          var newDates = newDates.map((object) => {
+            return {
+              label: ("0" + object.replace(/\s/g, "")).slice(-2),
+              value: ("0" + object.replace(/\s/g, "")).slice(-2),
+            };
+          });
+          invest(
+            item.productAMCImage,
+            item.amcCode,
+            item.amcName,
+            item.productCode,
+            item.productName,
+            parseInt(item?.minimumSIPAmount) < 1000
+              ? 1000
+              : parseInt(item?.minimumSIPAmount),
+            parseInt(item?.minimumLumpsumAmount) < 1000
+              ? 1000
+              : parseInt(item?.minimumLumpsumAmount),
+            newDates
+          );
+        }}
+      >
+        <Text style={styles.get_otp}>INVEST</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -259,21 +689,100 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     marginBottom: 20,
   },
+  pop_top: { width: "85%" },
+  click_sec: {
+    flexDirection: "row",
+    paddingVertical: 20,
+    justifyContent: "space-evenly",
+  },
+  buttom_botton: {
+    width: "45%",
+    borderWidth: 1,
+    borderColor: Colors.RED,
+    borderRadius: 5,
+    marginHorizontal: 2,
+    alignItems: "center",
+  },
+  buttom_botton2: {
+    width: "45%",
+    borderRadius: 5,
+    backgroundColor: Colors.RED,
+    marginHorizontal: 2,
+    alignItems: "center",
+  },
+  sip_text: {
+    fontSize: 17,
+    color: Colors.RED,
+    fontWeight: "bold",
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+  },
+  sip_text2: {
+    fontSize: 17,
+    color: Colors.WHITE,
+    fontWeight: "bold",
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+  },
+  amount_sec: { alignItems: "center" },
+  bordersec: {
+    borderWidth: 1,
+    borderColor: Colors.GRAY_DEEP_1,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    marginTop: 3,
+  },
+  new: {
+    fontSize: 18,
+    fontWeight: "bold",
+    padding: 3,
+  },
+  buttom_botton2box: {
+    alignItems: "center",
+    borderRadius: 5,
+    backgroundColor: Colors.RED,
+    marginLeft: 2,
+    alignItems: "center",
+    marginVertical: 20,
+    paddingHorizontal: 20,
+  },
+  amount_tex2: {
+    color: Colors.DEEP_GRAY,
+    width: 120,
+    textAlign: "center",
+    paddingVertical: 3,
+    fontSize: 18,
+  },
+  amount_tex: { fontSize: 18 },
+  fundRisk: {
+    fontSize: 12,
+  },
+  dropDown: {
+    color: Colors.BLACK,
+  },
 });
 
 const mapStateToProps = (state) => ({
   token: state.auth.token,
   users: state.auth.users,
+  detailsInfo: state.fundDetail.detailsInfo,
 });
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
   const { dispatch } = dispatchProps;
   const { AuthActions } = require("../../store/AuthRedux");
+  const { CartActions } = require("../../store/CartActionsRedux");
   return {
     ...stateProps,
     ...ownProps,
     logOut: () => {
       AuthActions.logOut(dispatch);
+    },
+    addItomToSip: (params, token) => {
+      CartActions.addItomToSip(dispatch, params, token);
+    },
+    getCartDetails: (token) => {
+      CartActions.cartDetails(dispatch, token);
     },
   };
 };
