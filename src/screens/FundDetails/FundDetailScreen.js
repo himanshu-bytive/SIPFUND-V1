@@ -289,8 +289,10 @@ function FundDetailScreen(props) {
   }
 
   useEffect(() => {
-    getFundData(detailsInfo[0]?._id);
-  }, [detailsInfo[0]?._id])
+    if(detailsInfo?.length) {
+      getFundData(detailsInfo[0]?._id);
+    }
+  }, [detailsInfo])
 
   return (
     <View style={styles.contain_box}>
