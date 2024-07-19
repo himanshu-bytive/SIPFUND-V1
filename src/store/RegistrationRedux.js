@@ -77,8 +77,8 @@ export const RegistrationActions = {
     let bank = await SiteAPI.apiGetCall("/apiData/Bank", {}, token);
     let amc = await SiteAPI.apiGetCall("/amcforekyc/details", {}, token);
     if (
-      occupation.Data &&
-      income.Data &&
+      occupation &&
+      income &&
       state.Data &&
       accountType.Data &&
       bank.Data &&
@@ -86,8 +86,8 @@ export const RegistrationActions = {
     ) {
       dispatch({
         type: types.GET_OCCUPATION,
-        occupations: occupation.Data.occupation_master,
-        incomes: income.Data.Applicable_Income,
+        occupations: occupation,
+        incomes: income,
         states: state.Data.state_master,
         accountTypes: accountType.Data.account_type,
         banks: bank.Data.bank_master,
