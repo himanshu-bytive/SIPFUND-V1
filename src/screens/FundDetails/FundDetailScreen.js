@@ -509,8 +509,8 @@ function FundDetailScreen(props) {
           });
           invest(
             item.productAMCImage,
-            item.amcCode,
-            item.amcName,
+            item.productAmcCode,
+            item.productAmcName,
             item.productCode,
             item.productName,
             parseInt(item?.minimumSIPAmount) < 1000
