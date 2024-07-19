@@ -378,7 +378,7 @@ function HomeScreen(props) {
         )}
         */}
 
-        <Text style={[styles.roted_text, {marginVertical: 0, marginBottom: -15}]}>Top Rated Funds</Text>
+        <Text style={[styles.Plan, {marginTop: 15, marginBottom: -15}]}>Top Rated Funds</Text>
         <TouchableOpacity
           onPress={() => props.navigation.navigate("TopRatedHome")}
         >
@@ -430,7 +430,7 @@ function HomeScreen(props) {
         <View style={styles.border}></View>
 
         {/* Top roted fund section */}
-        <Text style={[styles.roted_text, {marginTop: 10, marginBottom: -5}]}>Plan Your Goals</Text>
+        <Text style={styles.Plan}>Plan Your Goals</Text>
         <ScrollView horizontal={true}>
           {goals.map((item, key) => (
             <TouchableOpacity
