@@ -70,8 +70,7 @@ export const HomeActions = {
 
     let data1 = await SiteAPI.apiGetCall(`/user/getIINonPAN?pan=${params.pan}`);
     
-
-    if (data1?.vaildFlag) {
+    if (data1?.validflag) {
       const newParams ={
         iin: data1?.data[0]?.CUSTOMER_ID,
       pan: params.pan,
