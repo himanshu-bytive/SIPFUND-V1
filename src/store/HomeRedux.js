@@ -84,6 +84,7 @@ export const HomeActions = {
         {
           text: "Sync Account",
           onPress: () => {
+            HomeActions.updatePan(dispatch,params, tokan)
             SideMenuActions.updateInn(dispatch,newParams,tokan)
             setTimeout(() => params?.navigation.navigate("UploadDocument"), 1000);
           },
