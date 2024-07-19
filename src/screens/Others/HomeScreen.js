@@ -431,7 +431,7 @@ function HomeScreen(props) {
 
         {/* Top roted fund section */}
         <Text style={styles.Plan}>Plan Your Goals</Text>
-        <ScrollView horizontal={true}>
+        <ScrollView horizontal={true} style={{marginHorizontal: 16}}>
           {goals.map((item, key) => (
             <TouchableOpacity
               key={key}
