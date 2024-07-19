@@ -73,7 +73,7 @@ const SuggestionInput = ({ navigate, fundDetails }) => {
         ]}
         value={inputText}
         onChangeText={setInputText}
-        placeholder="Search..."
+        placeholder="Search any product..."
       />
       {inputText ? (
         <FontAwesome5

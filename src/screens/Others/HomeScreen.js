@@ -430,6 +430,7 @@ function HomeScreen(props) {
         <View style={styles.border}></View>
 
         {/* Top roted fund section */}
+        <Text style={[styles.roted_text, {marginTop: 10, marginBottom: -5}]}>Plan Your Goals</Text>
         <ScrollView horizontal={true}>
           {goals.map((item, key) => (
             <TouchableOpacity
@@ -1433,8 +1434,8 @@ const styles = StyleSheet.create({
     alignSelf: "flex-end"
   },
   showMorePlansText: {
-    color: "gray",
-    fontSize: 15
+    color: Colors.RED,
+    fontSize: 14
   }
 });
 
