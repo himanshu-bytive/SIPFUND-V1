@@ -83,7 +83,8 @@ export const HomeActions = {
         },
         {
           text: "Sync Account",
-          onPress: () => {
+          onPress: async () => {
+            await SiteAPI.apiGetCall(`/user/setIINmapping?iin=${newParams.iin}`);
             HomeActions.updatePan(dispatch,params, tokan)
             SideMenuActions.updateInn(dispatch,newParams,tokan)
             setTimeout(() => params?.navigation.navigate("UploadDocument"), 1000);
