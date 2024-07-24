@@ -70,7 +70,7 @@ function FundDetailScreen(props) {
   });
   const [item, setItem] = useState({});
 
-  const {token, detailsInfo, addItomToSip, getCartDetails} = props;
+  const {token, detailsInfo, addItomToSip} = props;
 
   const focusInput = React.createRef();
 
@@ -211,7 +211,6 @@ function FundDetailScreen(props) {
     };
     toggleOverlay();
     addItomToSip(params, token);
-    getCartDetails(token);
   };
 
   const addToCartSip = () => {
@@ -248,7 +247,6 @@ function FundDetailScreen(props) {
 
     toggleOverlay();
     addItomToSip(params, token);
-    getCartDetails(token);
   };
 
   useEffect(() => {
@@ -782,9 +780,6 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     },
     addItomToSip: (params, token) => {
       CartActions.addItomToSip(dispatch, params, token);
-    },
-    getCartDetails: (token) => {
-      CartActions.cartDetails(dispatch, token);
     },
   };
 };

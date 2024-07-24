@@ -63,6 +63,7 @@ export const CartActions = {
       dispatch({ type: types.FETCH_ADD_ITEM_SIP_FAILURE, error: data.message });
     } else {
       console.log("Cart=", data);
+      CartActions.cartDetails(dispatch, token);
       dispatch({
         type: types.FETCH_ADD_ITEM_SIP_SUCCESS,
         phone: params.mobileNo,
