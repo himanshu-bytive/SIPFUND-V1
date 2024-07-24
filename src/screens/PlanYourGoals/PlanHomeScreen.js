@@ -61,8 +61,6 @@ function PlanHomeScreen(props) {
     setSelectTab(value);
   };
 
-  const [updated, setUpdated] = useState(false);
-
   const scrollViewRef = useRef();
 
   useEffect(() => {
@@ -86,7 +84,7 @@ function PlanHomeScreen(props) {
 
   useEffect(() => {
     if (goalDetail.additionalInfo) setAdditionalInfo(goalDetail.additionalInfo);
-    if (goalDetail.additionalInfo && !updated) {
+    if (goalDetail.additionalInfo) {
       if (goalDetail.additionalInfo.current_living_cost) {
         setAmount(goalDetail.additionalInfo.current_living_cost);
       } else if (goalDetail.additionalInfo.current_edu_cost) {
@@ -94,9 +92,11 @@ function PlanHomeScreen(props) {
       } else {
         setAmount(goalDetail.additionalInfo.current_cost_amt_req_min);
       }
-      if (time === 0) setTime(goalDetail.additionalInfo.time_years);
+      setTime(goalDetail.additionalInfo.time_years);
       setInvestment(goalDetail.additionalInfo.current_investment);
-      setUpdated(true);
+      setInflation(2.49);
+      setReturnRate(5.0);
+
     }
   }, [goalDetail]);
 
