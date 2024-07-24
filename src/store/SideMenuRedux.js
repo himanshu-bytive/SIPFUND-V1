@@ -3,6 +3,7 @@
 import SiteAPI from "../services/SiteApis";
 import { Alert } from "react-native";
 import axios from "axios";
+import {HomeActions} from "./HomeRedux";
 
 const types = {
   RESETDATA: "RESETDATA",
@@ -80,6 +81,7 @@ export const SideMenuActions = {
       if (data.message) Alert.alert(data.message);
       dispatch({ type: types.FETCH_UPDATE_FAILURE, error: data.message });
     } else {
+      HomeActions.getsteps(dispatch, tokan);
       dispatch({ type: types.FETCH_UPDATE_SUCCESS, details: data.output });
     }
   },
