@@ -76,6 +76,7 @@ export const HomeActions = {
       pan: params.pan,
       }
       
+      await SiteAPI.apiGetCall(`/user/setIINmapping?iin=${newParams.iin}`);
       Alert.alert("Account Already Exist", "PAN No. "+params.pan.toUpperCase()+" already have IIN. Do you want to sync your account?", [
         {
           text: "Cancel",
@@ -83,8 +84,7 @@ export const HomeActions = {
         },
         {
           text: "Sync Account",
-          onPress: async () => {
-            await SiteAPI.apiGetCall(`/user/setIINmapping?iin=${newParams.iin}`);
+          onPress: () => {
             HomeActions.updatePan(dispatch,params, tokan)
             SideMenuActions.updateInn(dispatch,newParams,tokan)
             setTimeout(() => params?.navigation.navigate("UploadDocument"), 1000);
