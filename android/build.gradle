@@ -22,15 +22,23 @@ buildscript {
         // kotlinVersion = "1.6.0"
     }
     repositories {
-        google()
         mavenCentral()
-        jcenter()
+        google()
+        maven {
+          url = uri("https://plugins.gradle.org/m2/")
+        }
+        jcenter() {
+            content {
+                includeModule("com.theartofdev.edmodo", "android-image-cropper")
+            }
+        }
+        // jcenter()
     }
     dependencies {
 
-         classpath 'com.google.gms:google-services:4.3.3'
-        classpath("com.android.tools.build:gradle:4.1.0")
-                classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.google.gms:google-services:4.3.3'
+        classpath 'com.android.tools.build:gradle:4.1.0'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
 
 
@@ -63,6 +71,11 @@ project.ext {
   ])
 }
 
+configurations.all {
+    resolutionStrategy {
+        force 'com.android.tools.build:gradle:4.0.1'
+    }
+}
 allprojects {
     repositories {
         configurations.all {
@@ -83,7 +96,15 @@ allprojects {
 
         google()
         mavenCentral()
-        jcenter()
+         maven {
+          url = uri("https://plugins.gradle.org/m2/")
+        }
+         jcenter() {
+            content {
+                includeModule("com.theartofdev.edmodo", "android-image-cropper")
+            }
+        }
+        // jcenter()
         maven { url 'https://www.jitpack.io' }
     }
 }
