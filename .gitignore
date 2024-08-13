@@ -71,4 +71,7 @@ buck-out/
 web-build/
 dist/
 
+# configs
+.prettierrc
+
 # @end expo-cli
