@@ -58,11 +58,19 @@ const types = {
   PROOF_OF_ACCOUNT_SUCCESS: "PROOF_OF_ACCOUNT_SUCCESS",
 
   SET_URI: "SET_URI",
+
+  FETCH_NOMINEE_RELATIONSHIP_PENDING: "FETCH_NOMINEE_RELATIONSHIP_PENDING",
+  FETCH_NOMINEE_RELATIONSHIP_SUCCESS: "FETCH_NOMINEE_RELATIONSHIP_SUCCESS",
+  FETCH_NOMINEE_RELATIONSHIP_FAILURE: "FETCH_NOMINEE_RELATIONSHIP_FAILURE",
 };
 
 export const RegistrationActions = {
   settings: async (dispatch, token) => {
-    let occupation = await SiteAPI.apiGetCall("/nsemasterapi/getOccupation", {}, token);
+    let occupation = await SiteAPI.apiGetCall(
+      "/nsemasterapi/getOccupation",
+      {},
+      token
+    );
     let income = await SiteAPI.apiGetCall(
       "/nsemasterapi/getapplicableincome",
       {},
@@ -164,7 +172,7 @@ export const RegistrationActions = {
       proofOfAccount: data?.response,
     });
   },
-  
+
   getUserDetails: async (dispatch, params, tokan) => {
     dispatch({ type: types.FETCH_USERDETAILS_PENDING });
     let data = await SiteAPI.apiGetCall("/user/rawData", params, tokan);
@@ -403,6 +411,32 @@ export const RegistrationActions = {
   setUri: (dispatch, params) => {
     dispatch({ type: types.SET_URI, documentUri: params });
   },
+
+  fetchNomineeRelationship: async (dispatch, list) => {
+    dispatch({
+      type: types.FETCH_NOMINEE_RELATIONSHIP_PENDING,
+    });
+
+    let data = await SiteAPI.apiGetCall(`/nsemasterapi/getNomineeRelationship`);
+
+    if (data.error) {
+      if (data.message) Alert.alert(data.message);
+      dispatch({
+        type: types.FETCH_NOMINEE_RELATIONSHIP_FAILURE,
+        error: data.message,
+      });
+    } else if (data?.responseData) {
+      let remappingOfResponse = data?.responseData.map((item) => ({
+        value: item,
+        label: item,
+      }));
+
+      dispatch({
+        type: types.FETCH_NOMINEE_RELATIONSHIP_SUCCESS,
+        nomineeRelationship: remappingOfResponse,
+      });
+    }
+  },
 };
 
 const initialState = {
@@ -417,7 +451,7 @@ const initialState = {
   banks: [],
   bankDetails: {},
   bankTypeDetails: [],
-  typeOfAccount:[],
+  typeOfAccount: [],
   fatcaDetails: null,
   nseDetails: null,
   userDetails: null,
@@ -429,6 +463,7 @@ const initialState = {
   documentUri: null,
   mailSent: null,
   updatedNseData: null,
+  nomineeRelationship: [],
 };
 
 export const reducer = (state = initialState, action) => {
@@ -453,7 +488,8 @@ export const reducer = (state = initialState, action) => {
     mailSent,
     updatedNseData,
     bankTypeDetails,
-    proofOfAccount
+    proofOfAccount,
+    nomineeRelationship,
   } = action;
   switch (type) {
     case types.FETCH_USERDETAILS_PENDING:
@@ -466,6 +502,7 @@ export const reducer = (state = initialState, action) => {
     case types.FETCH_PINCODE_INFO_PENDING:
     case types.FETCH_UPDATED_NSE_DATA_PENDING:
     case types.FETCH_BANK_PENDING:
+    case types.FETCH_NOMINEE_RELATIONSHIP_PENDING:
     case types.FETCH_CITY_PENDING: {
       return {
         ...state,
@@ -483,6 +520,7 @@ export const reducer = (state = initialState, action) => {
     case types.FETCH_EDIT_REGISTER_FAILURE:
     case types.FETCH_PINCODE_INFO_FAILURE:
     case types.FETCH_BANK_FAILURE:
+    case types.FETCH_NOMINEE_RELATIONSHIP_FAILURE:
     case types.FETCH_CITY_FAILURE: {
       return {
         ...state,
@@ -604,6 +642,13 @@ export const reducer = (state = initialState, action) => {
         isFetching: false,
         error: null,
         updatedNseData,
+      };
+    }
+
+    case types.FETCH_NOMINEE_RELATIONSHIP_SUCCESS: {
+      return {
+        ...state,
+        nomineeRelationship,
       };
     }
 

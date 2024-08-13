@@ -51,30 +51,12 @@ function CompleteDetailsScreen(props) {
     incomes,
     updateSuccess,
     isFetching,
+    fetchTheNomineeRelationshipList,
+    relationList,
   } = props;
   const [occupationsList, setOccupationsList] = useState([]);
   const [incomesList, setIncomesList] = useState([]);
-  const relationList = [
-    { value: "Father", label: "Father" },
-    { value: "Mother", label: "Mother" },
-    { value: "Brother", label: "Brother" },
-    { value: "Sister", label: "Sister" },
-    { value: "Daughter", label: "Daughter" },
-    { value: "Wife", label: "Wife" },
-    { value: "Husband", label: "Husband" },
-    { value: "Son Daughter", label: "Son Daughter" },
-    { value: "Father-in-law", label: "Father-in-law" },
-    { value: "Mother-in-law", label: "Mother-in-law" },
-    { value: "Son-in-law", label: "Son-in-law" },
-    { value: "Daughter-in-law", label: "Daughter-in-law" },
-    { value: "Uncle", label: "Uncle" },
-    { value: "Aunt", label: "Aunt" },
-    { value: "Niece", label: "Niece" },
-    { value: "Nephew", label: "Nephew" },
-    { value: "Grand Father", label: "Grand Father" },
-    { value: "Grand Mother", label: "Grand Mother" },
-    { value: "Other", label: "Other" },
-  ];
+
   const mobileEmailRelation = [
     { value: "SE", label: "Self" },
     { value: "SP", label: "Spouse" },
@@ -108,8 +90,8 @@ function CompleteDetailsScreen(props) {
     nominate1pan: "",
     nominate1guard_name: "",
     nominate1guard_pan: "",
-    mobile_relation:"SE",
-    email_relation:"SE"
+    mobile_relation: "SE",
+    email_relation: "SE",
   });
 
   const [errors, setErrors] = useState({
@@ -136,6 +118,7 @@ function CompleteDetailsScreen(props) {
 
   useEffect(() => {
     settings(token);
+    fetchTheNomineeRelationshipList();
   }, []);
 
   useEffect(() => {
@@ -166,9 +149,13 @@ function CompleteDetailsScreen(props) {
         nominate1guard_name: nseDetails.nominee1_guard_name,
         nominate1guard_pan: nseDetails.nominee1_guard_pan,
         mobile_relation:
-          (nseDetails?.Mobile_relation || nseDetails?.mobile_relation)?nseDetails?.Mobile_relation || nseDetails?.mobile_relation:"SE",
+          nseDetails?.Mobile_relation || nseDetails?.mobile_relation
+            ? nseDetails?.Mobile_relation || nseDetails?.mobile_relation
+            : "SE",
         email_relation:
-          (nseDetails?.Email_relation || nseDetails?.email_relation)?nseDetails?.Email_relation || nseDetails?.email_relation:'SE'
+          nseDetails?.Email_relation || nseDetails?.email_relation
+            ? nseDetails?.Email_relation || nseDetails?.email_relation
+            : "SE",
       });
     }
   }, [fatcaDetails, nseDetails, userDetails]);
@@ -694,7 +681,7 @@ function CompleteDetailsScreen(props) {
           />
 
           <Text style={styles.occupation}>
-            {"Mobile Relation"} 
+            {"Mobile Relation"}
             <Text style={styles.error}>*</Text>
           </Text>
           <MySelectPicker
@@ -1029,6 +1016,7 @@ const mapStateToProps = (state) => ({
   occupations: state.registration.occupations,
   incomes: state.registration.incomes,
   updateSuccess: state.registration.updateSuccess,
+  relationList: state.registration.nomineeRelationship,
 });
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
@@ -1042,6 +1030,10 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
     },
     updateRegister: (params, token) => {
       RegistrationActions.updateRegister(dispatch, params, token);
+    },
+
+    fetchTheNomineeRelationshipList: () => {
+      RegistrationActions.fetchNomineeRelationship(dispatch);
     },
   };
 };
