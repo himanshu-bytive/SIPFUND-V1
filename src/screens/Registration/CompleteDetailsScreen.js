@@ -53,7 +53,10 @@ function CompleteDetailsScreen(props) {
     isFetching,
     fetchTheNomineeRelationshipList,
     relationList,
+    minor_gaurdian_relationship_list,
+    fetchMinorGaurdianRelationshipList,
   } = props;
+
   const [occupationsList, setOccupationsList] = useState([]);
   const [incomesList, setIncomesList] = useState([]);
 
@@ -92,6 +95,7 @@ function CompleteDetailsScreen(props) {
     nominate1guard_pan: "",
     mobile_relation: "SE",
     email_relation: "SE",
+    minor_gaurdian_relationship: "",
   });
 
   const [errors, setErrors] = useState({
@@ -119,6 +123,7 @@ function CompleteDetailsScreen(props) {
   useEffect(() => {
     settings(token);
     fetchTheNomineeRelationshipList();
+    fetchMinorGaurdianRelationshipList();
   }, []);
 
   useEffect(() => {
@@ -225,6 +230,7 @@ function CompleteDetailsScreen(props) {
       nominate1name,
       nominate1pan,
       nominate1relation,
+      minor_gaurdian_relationship,
       nominate1dob,
       nominate1guard_name,
       nominate1guard_pan,
@@ -348,6 +354,15 @@ function CompleteDetailsScreen(props) {
         setErrors({
           ...errors,
           nominate1relation: "Please Select Nominee Relationship",
+        });
+        return;
+      }
+
+      if (!minor_gaurdian_relationship) {
+        alert("Please Select Nominee Gaurdian Relationship");
+        setErrors({
+          ...errors,
+          minor_gaurdian_relationship: "Please Select Nominee Relationship",
         });
         return;
       }
@@ -871,6 +886,21 @@ function CompleteDetailsScreen(props) {
             />
 
             <Text style={styles.occupation}>
+              Nominee Gaudian Relationship <Text style={styles.error}>*</Text>
+            </Text>
+            <View style={styles.padTheContainer}>
+              <MySelectPicker
+                values={minor_gaurdian_relationship_list}
+                placeholder={"Select Gaudian Relationship"}
+                defultValue={state.minor_gaurdian_relationship}
+                error={errors.minor_gaurdian_relationship}
+                onChange={(minor_gaurdian_relationship) => {
+                  setState({ ...state, minor_gaurdian_relationship });
+                }}
+              />
+            </View>
+
+            <Text style={styles.occupation}>
               Nominee Guardian PAN
               <Text style={styles.error}>*</Text>
             </Text>
@@ -964,6 +994,9 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 5,
   },
+  padTheContainer: {
+    paddingHorizontal: 5,
+  },
   dd: { marginLeft: 8 },
   AVVPJ6708P: {
     marginTop: 10,
@@ -1017,6 +1050,8 @@ const mapStateToProps = (state) => ({
   incomes: state.registration.incomes,
   updateSuccess: state.registration.updateSuccess,
   relationList: state.registration.nomineeRelationship,
+  minor_gaurdian_relationship_list:
+    state.registration.minorGaurdianRelationship,
 });
 
 const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
@@ -1034,6 +1069,9 @@ const mapDispatchToProps = (stateProps, dispatchProps, ownProps) => {
 
     fetchTheNomineeRelationshipList: () => {
       RegistrationActions.fetchNomineeRelationship(dispatch);
+    },
+    fetchMinorGaurdianRelationshipList: () => {
+      RegistrationActions.fetchMinorGaurdianRelationship(dispatch);
     },
   };
 };

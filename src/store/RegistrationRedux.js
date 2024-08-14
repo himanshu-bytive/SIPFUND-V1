@@ -62,6 +62,10 @@ const types = {
   FETCH_NOMINEE_RELATIONSHIP_PENDING: "FETCH_NOMINEE_RELATIONSHIP_PENDING",
   FETCH_NOMINEE_RELATIONSHIP_SUCCESS: "FETCH_NOMINEE_RELATIONSHIP_SUCCESS",
   FETCH_NOMINEE_RELATIONSHIP_FAILURE: "FETCH_NOMINEE_RELATIONSHIP_FAILURE",
+
+  FETCH_MINOR_RELATIONSHIP_PENDING: "FETCH_MINOR_RELATIONSHIP_PENDING",
+  FETCH_MINOR_RELATIONSHIP_SUCCESS: "FETCH_MINOR_RELATIONSHIP_SUCCESS",
+  FETCH_MINOR_RELATIONSHIP_FAILURE: "FETCH_MINOR_RELATIONSHIP_FAILURE",
 };
 
 export const RegistrationActions = {
@@ -437,6 +441,34 @@ export const RegistrationActions = {
       });
     }
   },
+
+  fetchMinorGaurdianRelationship: async (dispatch, list) => {
+    dispatch({
+      type: types.FETCH_MINOR_RELATIONSHIP_PENDING,
+    });
+
+    let data = await SiteAPI.apiGetCall(
+      `/nsemasterapi/getMinorGuardianRelationship`
+    );
+
+    if (data.error) {
+      if (data.message) Alert.alert(data.message);
+      dispatch({
+        type: types.FETCH_MINOR_RELATIONSHIP_FAILURE,
+        error: data.message,
+      });
+    } else if (data?.responseData) {
+      let remappingOfResponse = data?.responseData.map((item) => ({
+        value: item.MINOR_GUARD_REL_CODE,
+        label: item.MINOR_GUARD_REL,
+      }));
+
+      dispatch({
+        type: types.FETCH_MINOR_RELATIONSHIP_SUCCESS,
+        minorGaurdianRelationship: remappingOfResponse,
+      });
+    }
+  },
 };
 
 const initialState = {
@@ -464,6 +496,7 @@ const initialState = {
   mailSent: null,
   updatedNseData: null,
   nomineeRelationship: [],
+  minorGaurdianRelationship: [],
 };
 
 export const reducer = (state = initialState, action) => {
@@ -490,6 +523,7 @@ export const reducer = (state = initialState, action) => {
     bankTypeDetails,
     proofOfAccount,
     nomineeRelationship,
+    minorGaurdianRelationship,
   } = action;
   switch (type) {
     case types.FETCH_USERDETAILS_PENDING:
@@ -503,6 +537,7 @@ export const reducer = (state = initialState, action) => {
     case types.FETCH_UPDATED_NSE_DATA_PENDING:
     case types.FETCH_BANK_PENDING:
     case types.FETCH_NOMINEE_RELATIONSHIP_PENDING:
+    case types.FETCH_MINOR_RELATIONSHIP_PENDING:
     case types.FETCH_CITY_PENDING: {
       return {
         ...state,
@@ -521,6 +556,7 @@ export const reducer = (state = initialState, action) => {
     case types.FETCH_PINCODE_INFO_FAILURE:
     case types.FETCH_BANK_FAILURE:
     case types.FETCH_NOMINEE_RELATIONSHIP_FAILURE:
+    case types.FETCH_MINOR_RELATIONSHIP_FAILURE:
     case types.FETCH_CITY_FAILURE: {
       return {
         ...state,
@@ -649,6 +685,14 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         nomineeRelationship,
+      };
+    }
+
+    case types.FETCH_MINOR_RELATIONSHIP_SUCCESS: {
+      return {
+        ...state,
+        // ni,
+        minorGaurdianRelationship,
       };
     }
 
