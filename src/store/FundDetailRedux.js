@@ -24,6 +24,10 @@ export const FundDetailActions = {
       params,
       token
     );
+    // console.log(
+    //   "🚀 ~ file: FundDetailRedux.js:27 ~ fundChartList: ~ data:",
+    //   JSON.stringify(data, null, 2)
+    // );
     if (data.error) {
       dispatch({ type: types.FETCH_CHART_FAILURE, error: data.message });
     } else {

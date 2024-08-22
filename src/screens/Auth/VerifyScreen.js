@@ -38,9 +38,10 @@ function VerifyScreen(props) {
       await DeviceInfo.getPhoneNumber().then((phone) => {
         // alert(JSON.stringify(phone))
         if (
-          (!isNaN(phone) &&
+          !isNaN(phone) &&
           phone != null &&
-          phone != "" &&phone.length>=10) &&
+          phone != "" &&
+          phone.length >= 10 &&
           phones.length === 0
         ) {
           Alert.alert(

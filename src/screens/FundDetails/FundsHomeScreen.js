@@ -65,6 +65,10 @@ function FundsHomeScreen(props) {
   const [navPercentage, setNavPercentage] = useState(0);
   const [labels, setLabels] = useState(["", "", "", ""]);
   const [datasets, setDatasets] = useState([0, 0, 0, 0]);
+  console.log(
+    "🚀 ~ file: FundsHomeScreen.js:68 ~ FundsHomeScreen ~ datasets:",
+    datasets
+  );
   const [inception, setInception] = useState(0);
 
   const refreshFunds = (value) => {
@@ -257,19 +261,24 @@ function FundsHomeScreen(props) {
           ...label,
           `${day.split("-")[1]}/${day.split("-")[0].slice(2)}`,
         ];
-        data = [...data, parseFloat(detailsMap[index].v)];
+        data = [...data, parseFloat(detailsMap[index]?.v)];
       }
       //if (data[data.length - 1] !== parseFloat(detailsMap[detailsMap.length - 1].v)) {
       //data.pop()
       //data = [...data, parseFloat(detailsMap[detailsMap.length - 1].v)]
       //}
+      console.log(
+        " label[label.length - 1] =>",
+        label?.[label.length - 1],
+        data
+      );
       if (
-        label[label.length - 1] !==
-        `${detailsMap[detailsMap.length - 1].d.split("-")[1]}/${detailsMap[
-          detailsMap.length - 1
-        ]?.d
-          .split("-")[0]
-          .slice(2)}`
+        label?.[label.length - 1] &&
+        detailsMap.length &&
+        label?.[label.length - 1] !==
+          `${
+            detailsMap?.[detailsMap.length - 1]?.d.split("-")[1]
+          }/${detailsMap?.[detailsMap.length - 1]?.d.split("-")[0].slice(2)}`
       ) {
         label.push(
           `${detailsMap[detailsMap.length - 1].d.split("-")[1]}/${detailsMap[
@@ -278,10 +287,24 @@ function FundsHomeScreen(props) {
             .split("-")[0]
             .slice(2)}`
         );
-        data.push(parseFloat(detailsMap[detailsMap.length - 1].v));
+        data.push(
+          detailsMap?.[detailsMap.length - 1]?.v
+            ? parseFloat(detailsMap?.[detailsMap.length - 1]?.v)
+            : 0
+        );
       }
       setLabels(label);
-      setDatasets(data);
+      console.log(
+        "🚀 ~ file: FundsHomeScreen.js:295 ~ calculateMap ~ data:",
+        data
+      );
+      setDatasets(() => {
+        if (data.length) {
+          return data;
+        } else {
+          return [0, 0, 0, 0];
+        }
+      });
     }
   };
 

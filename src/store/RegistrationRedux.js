@@ -330,6 +330,10 @@ export const RegistrationActions = {
     }
   },
   updateRegister: async (dispatch, params, token) => {
+    console.log(
+      "🚀 ~ file: RegistrationRedux.js:333 ~ updateRegister: ~ params,:",
+      params
+    );
     dispatch({ type: types.FETCH_UPDATE_REGISTER_PENDING });
     let data = await SiteAPI.apiPutCall("/user/rawData", params, token);
     if (data.error) {

@@ -161,6 +161,7 @@ function CompleteDetailsScreen(props) {
           nseDetails?.Email_relation || nseDetails?.email_relation
             ? nseDetails?.Email_relation || nseDetails?.email_relation
             : "SE",
+        minor_gaurdian_relationship: nseDetails.nominee1_guard_relation,
       });
     }
   }, [fatcaDetails, nseDetails, userDetails]);
@@ -358,11 +359,12 @@ function CompleteDetailsScreen(props) {
         return;
       }
 
-      if (!minor_gaurdian_relationship) {
+      if (!minor_gaurdian_relationship && state.nominateMinor) {
         alert("Please Select Nominee Gaurdian Relationship");
         setErrors({
           ...errors,
-          minor_gaurdian_relationship: "Please Select Nominee Relationship",
+          minor_gaurdian_relationship:
+            "Please Select Nominee Gaurdian Relationship ",
         });
         return;
       }
@@ -478,6 +480,7 @@ function CompleteDetailsScreen(props) {
       (params.nseDetails.nominee1_guard_name = nominate1guard_name);
     params.nseDetails.nominee1_guard_pan = nominate1guard_pan.toUpperCase();
     params.nseDetails.nominee1_type = nominateMinor ? "Y" : "N";
+    params.nseDetails.nominee1_guard_relation = minor_gaurdian_relationship;
     updateRegister(params, token);
     pageActive.current = true;
   };
@@ -851,7 +854,10 @@ function CompleteDetailsScreen(props) {
               error={errors.nominate1pan}
               onChangeText={(nominate1pan) => {
                 setErrors({ ...errors, nominate1pan: null });
-                setState({ ...state, nominate1pan });
+                setState({
+                  ...state,
+                  nominate1pan: nominate1pan.toUpperCase(),
+                });
               }}
               autoCapitalize={true}
             />
@@ -886,7 +892,7 @@ function CompleteDetailsScreen(props) {
             />
 
             <Text style={styles.occupation}>
-              Nominee Gaudian Relationship <Text style={styles.error}>*</Text>
+              Nominee Gaurdian Relationship <Text style={styles.error}>*</Text>
             </Text>
             <View style={styles.padTheContainer}>
               <MySelectPicker
@@ -896,6 +902,10 @@ function CompleteDetailsScreen(props) {
                 error={errors.minor_gaurdian_relationship}
                 onChange={(minor_gaurdian_relationship) => {
                   setState({ ...state, minor_gaurdian_relationship });
+                  setErrors({
+                    ...errors,
+                    minor_gaurdian_relationship: null,
+                  });
                 }}
               />
             </View>

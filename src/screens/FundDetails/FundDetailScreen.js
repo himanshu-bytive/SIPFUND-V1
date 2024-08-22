@@ -23,10 +23,9 @@ import RiskRating from "./RiskRating";
 import ExpenseRatio from "./ExpenseRatio";
 import FundManagers from "./FundManagers";
 import Toast from "react-native-simple-toast";
-import {Overlay} from "react-native-elements";
+import { Overlay } from "react-native-elements";
 import RNPickerSelect from "react-native-picker-select";
 import axios from "axios";
-
 const monthsArr = [
   "Jan",
   "Feb",
@@ -55,7 +54,7 @@ function FundDetailScreen(props) {
   ]);
   const [visible, setVisible] = useState(false);
   const [selectTab, setSelectTab] = useState("SIP");
-  const [price, setPrice] = useState("");
+  const [price, setPrice] = useState(0);
   const [states, setStates] = useState({
     amount: "",
     date: "01",
@@ -70,13 +69,13 @@ function FundDetailScreen(props) {
   });
   const [item, setItem] = useState({});
 
-  const {token, detailsInfo, addItomToSip} = props;
+  const { token, detailsInfo, addItomToSip } = props;
 
   const focusInput = React.createRef();
 
   const toggleOverlay = () => {
     setVisible(!visible);
-  }
+  };
 
   const invest = (
     imagePath,
@@ -88,6 +87,7 @@ function FundDetailScreen(props) {
     minimumLumpsumAmount,
     newDates
   ) => {
+    setPrice(() => minimumSIPAmount);
     setStates({
       ...states,
       productCode,
@@ -165,7 +165,7 @@ function FundDetailScreen(props) {
 
   const toggleTab = (tab) => {
     setSelectTab(tab);
-  }
+  };
 
   const numberWithCommas = (x) => {
     x = x.toString();
@@ -175,25 +175,31 @@ function FundDetailScreen(props) {
     var res =
       "₹" + otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree;
     return res;
-  }
+  };
 
   const removeSpecialChars = (val) => {
-    let string = val.replace(/[&\/\\#,+()$~%.'":*?<>{}₹]/g, "");
-    setPrice(string);
+    let string = val
+      .replace(/[&\/\\#,+()$~%.'":*?<>{}₹]/g, "")
+      .replace(/^0+(?=\d)/, "");
+
+    if (string) {
+      setPrice(() => string);
+    } else {
+      setPrice(() => 0);
+    }
   };
 
   const addToCartLumpSum = () => {
     let priceNew = price;
-    if(parseInt(price) >= 0){
+    if (parseInt(price) >= 0) {
       if (price < states?.minimumLumpsumAmount) {
         alert("Amount is less than minimum amount");
         return;
       }
+    } else {
+      priceNew = states?.minimumLumpsumAmount;
     }
-    else{
-      priceNew = states?.minimumLumpsumAmount
-    }
-   
+
     let params = {
       cartDetails: {
         trxn_nature: "N",
@@ -215,16 +221,14 @@ function FundDetailScreen(props) {
 
   const addToCartSip = () => {
     let priceNew = price;
-    if(parseInt(price) >= 0){
+    if (parseInt(price) >= 0) {
       if (price < states?.minimumSIPAmount) {
         alert("Amount is less than minimum amount");
         return;
       }
+    } else {
+      priceNew = states?.minimumSIPAmount;
     }
-    else{
-      priceNew = states?.minimumSIPAmount
-    }
-    
     let params = {
       cartDetails: {
         trxn_nature: "S",
@@ -281,16 +285,18 @@ function FundDetailScreen(props) {
   };
 
   const getFundData = async (isin) => {
-    const {data} = await axios.get(`http://159.65.145.3:8085/api/minmax/search?isin=${isin}`);
+    const { data } = await axios.get(
+      `http://159.65.145.3:8085/api/minmax/search?isin=${isin}`
+    );
 
     setItem(data?.responseString);
-  }
+  };
 
   useEffect(() => {
-    if(detailsInfo?.length) {
-      getFundData(detailsInfo[0]?._id);
+    if (detailsInfo?.length) {
+      getFundData(detailsInfo?.[0]?._id);
     }
-  }, [detailsInfo])
+  }, [detailsInfo]);
 
   return (
     <View style={styles.contain_box}>
@@ -371,10 +377,11 @@ function FundDetailScreen(props) {
                   : styles.buttom_botton
               }
             >
-              <TouchableOpacity onPress={() => {
-                toggleTab("LUMPSUM");
-
-                }}>
+              <TouchableOpacity
+                onPress={() => {
+                  toggleTab("LUMPSUM");
+                }}
+              >
                 <Text
                   style={
                     selectTab == "LUMPSUM" ? styles.sip_text2 : styles.sip_text
@@ -399,7 +406,7 @@ function FundDetailScreen(props) {
                   <View style={styles.bordersec}>
                     <TextInput
                       keyboardType={"numeric"}
-                      value={price?numberWithCommas(price):numberWithCommas(states?.minimumSIPAmount)}
+                      value={numberWithCommas(price)}
                       onChangeText={(amount) => removeSpecialChars(amount)}
                       placeholder="₹0"
                       style={styles.amount_tex2}
@@ -410,6 +417,7 @@ function FundDetailScreen(props) {
                   <Text style={styles.amount_tex}>Date</Text>
                   <View style={{ marginTop: 10 }}>
                     <RNPickerSelect
+                      fixAndroidTouchableBug
                       ref={focusInput}
                       placeholder={{
                         label: "Select a Date",
@@ -419,7 +427,6 @@ function FundDetailScreen(props) {
                         inputIOS: styles.dropDown,
                         inputAndroid: styles.dropDown,
                         placeholder: styles.dropDown,
-                        height: 120,
                         zIndex: 1,
                       }}
                       useNativeAndroidPickerStyle={false}
@@ -444,7 +451,6 @@ function FundDetailScreen(props) {
                       }}
                     />
                   </View>
-
                 </View>
               </View>
 
@@ -473,7 +479,7 @@ function FundDetailScreen(props) {
                   <View style={styles.bordersec}>
                     <TextInput
                       keyboardType={"numeric"}
-                      value={price?numberWithCommas(price):numberWithCommas(states?.minimumLumpsumAmount)}
+                      value={numberWithCommas(price)}
                       onChangeText={(amount) => removeSpecialChars(amount)}
                       placeholder="₹0"
                       style={styles.amount_tex2}
@@ -495,10 +501,10 @@ function FundDetailScreen(props) {
         </View>
       </Overlay>
       <TouchableOpacity
-        style={[styles.botton_box, {width: "100%", marginHorizontal: 0}]}
+        style={[styles.botton_box, { width: "100%", marginHorizontal: 0 }]}
         onPress={() => {
-          var newDates = item?.sipDates;
-          newDates = newDates.split(",");
+          var newDates = item?.sipDates ?? [];
+          newDates = newDates?.split(",");
           var newDates = newDates.map((object) => {
             return {
               label: ("0" + object.replace(/\s/g, "")).slice(-2),
@@ -759,6 +765,8 @@ const styles = StyleSheet.create({
   },
   dropDown: {
     color: Colors.BLACK,
+    paddingRight: 5,
+    paddingTop: 3,
   },
 });
 

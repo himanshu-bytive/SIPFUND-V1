@@ -178,9 +178,9 @@ export const AuthActions = {
   login: async (dispatch, params, token) => {
     dispatch({ type: types.FETCH_LOGIN_PENDING });
     let data = await SiteAPI.apiPostCall("/token", params, token);
-    console.log('====================================');
+    console.log("====================================");
     console.log(JSON.stringify(data));
-    console.log('====================================');
+    console.log("====================================");
     if (data.error) {
       if (data.message) Alert.alert(data.message);
       dispatch({ type: types.FETCH_LOGIN_FAILURE, error: data.message });
@@ -238,7 +238,6 @@ export const AuthActions = {
       if (data.error) {
         dispatch({ type: types.FETCH_PROFILE_FAILURE, error: data1.message });
       } else {
-
         dispatch({ type: types.FETCH_IIN_BANK_SUCCESS, iinBank: data1.data });
       }
       if (data.error) {

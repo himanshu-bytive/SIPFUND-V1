@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "export NODE_OPTIONS=--openssl-legacy-provider && expo start --dev-client",
+    "start": "export NODE_OPTIONS=--openssl-legacy-provider && react-native start",
     "android": "expo run:android",
     "ios": "expo run:ios",
     "web": "expo start --web",
