@@ -9,7 +9,7 @@ buildscript {
          buildToolsVersion = "33.0.0"
         minSdkVersion = 22
         compileSdkVersion = 33
-        targetSdkVersion = 33
+        targetSdkVersion = 34
         googlePlayServicesAuthVersion = "19.2.0"
 
 

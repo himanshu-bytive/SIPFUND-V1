@@ -136,8 +136,8 @@ android {
         applicationId 'com.octrax.sipfund'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 75
-        versionName '1.0.55'
+        versionCode 77
+        versionName '1.0.56'
     }
     splits {
         abi {
@@ -189,6 +189,8 @@ dependencies {
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
     // implementation "com.facebook.react:react-native:0.58.3"
+    implementation 'org.jetbrains:annotations:16.0.2'
+
 
     //   implementation project(path: ":@react-native-firebase_dynamic-links")
 
