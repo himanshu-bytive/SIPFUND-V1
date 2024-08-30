@@ -216,121 +216,121 @@ function HomeScreen(props) {
           IIN:- {users?.IIN}
         </Text> */}
         <>
-        {/* <Text>{JSON.stringify(users)}</Text> */}
+          {/* <Text>{JSON.stringify(users)}</Text> */}
           {steps && steps < 5 && steps >= 0 && (
             <>
               {(users?.hasOwnProperty("users") && !users?.IIN) ||
                 (steps < 5 && (
                   <>
-                  <View
-                    style={
-                      users?.IIN && steps > 5
-                        ? styles.home_top_completed
-                        : styles.home_top
-                    }
-                  >
                     <View
-                      style={{
-                        alignItems: "center",
-                        marginBottom: 20,
-                        //alignItems: users?.IIN && steps > 3 ? "flex-start" : "center",
-                        flexDirection:
-                          users?.IIN && steps > 5 ? "row" : "column",
-                      }}
+                      style={
+                        users?.IIN && steps > 5
+                          ? styles.home_top_completed
+                          : styles.home_top
+                      }
                     >
-                      <Image
-                        source={require("../../../assets/Hello.png")}
-                        style={
-                          users?.IIN && steps > 5
-                            ? styles.Helloimgsmall
-                            : styles.Helloimg
-                        }
-                      />
                       <View
                         style={{
-                          flexDirection: "column",
-                          justifyContent: "center",
+                          alignItems: "center",
+                          marginBottom: 20,
+                          //alignItems: users?.IIN && steps > 3 ? "flex-start" : "center",
+                          flexDirection:
+                            users?.IIN && steps > 5 ? "row" : "column",
                         }}
                       >
-                        {users?.pan ||
-                        props.navigation.state.params?.refresh ? (
-                          <View
-                            style={{
-                              alignItems:
-                                users?.IIN && steps > 5
-                                  ? "flex-start"
-                                  : "center",
-                              marginTop: 12,
-                            }}
-                          >
-                            <Text
-                              style={[
-                                styles.HelloIinvestor,
-                                {
-                                  opacity: users?.IIN && steps > 3 ? 0.5 : 1,
-                                },
-                              ]}
+                        <Image
+                          source={require("../../../assets/Hello.png")}
+                          style={
+                            users?.IIN && steps > 5
+                              ? styles.Helloimgsmall
+                              : styles.Helloimg
+                          }
+                        />
+                        <View
+                          style={{
+                            flexDirection: "column",
+                            justifyContent: "center",
+                          }}
+                        >
+                          {users?.pan ||
+                          props.navigation.state.params?.refresh ? (
+                            <View
+                              style={{
+                                alignItems:
+                                  users?.IIN && steps > 5
+                                    ? "flex-start"
+                                    : "center",
+                                marginTop: 12,
+                              }}
                             >
-                              {users?.IIN && steps > 5
-                                ? "Congratulations"
-                                : users?.name
-                                ? `Hello, ${users?.name}`
-                                : `Hello, Investor`}
-                            </Text>
+                              <Text
+                                style={[
+                                  styles.HelloIinvestor,
+                                  {
+                                    opacity: users?.IIN && steps > 3 ? 0.5 : 1,
+                                  },
+                                ]}
+                              >
+                                {users?.IIN && steps > 5
+                                  ? "Congratulations"
+                                  : users?.name
+                                  ? `Hello, ${users?.name}`
+                                  : `Hello, Investor`}
+                              </Text>
+                              <Text
+                                style={[
+                                  styles.HelloIinvestor1,
+                                  {
+                                    marginTop: users?.IIN && steps > 3 ? 5 : 15,
+                                    marginBottom:
+                                      users?.IIN && steps > 3 ? 15 : 0,
+                                  },
+                                ]}
+                              >
+                                {users?.IIN && steps > 5
+                                  ? "Your Account is Active"
+                                  : "You're almost ready to Invest"}
+                              </Text>
+                            </View>
+                          ) : (
+                            <></>
+                          )}
+                          {users?.IIN && steps > 5 ? (
                             <Text
-                              style={[
-                                styles.HelloIinvestor1,
-                                {
-                                  marginTop: users?.IIN && steps > 3 ? 5 : 15,
-                                  marginBottom:
-                                    users?.IIN && steps > 3 ? 15 : 0,
-                                },
-                              ]}
+                              onPress={() => props.navigation.navigate("Owner")}
+                              style={styles.startInvestmentText}
                             >
-                              {users?.IIN && steps > 5
-                                ? "Your Account is Active"
-                                : "You're almost ready to Invest"}
+                              + Start Investing
                             </Text>
-                          </View>
-                        ) : (
-                          <></>
-                        )}
-                        {users?.IIN && steps > 5 ? (
-                          <Text
-                            onPress={() => props.navigation.navigate("Owner")}
-                            style={styles.startInvestmentText}
-                          >
-                            + Start Investing
-                          </Text>
-                        ) : (
-                          <TouchableOpacity
-                            onPress={() => {
-                              if (
-                                users?.pan ||
+                          ) : (
+                            <TouchableOpacity
+                              onPress={() => {
+                                if (
+                                  users?.pan ||
+                                  props.navigation.state.params?.refresh
+                                ) {
+                                  props.navigation.navigate(
+                                    steps === 3
+                                      ? "RegisterDetails"
+                                      : "UploadDocument"
+                                  );
+                                } else {
+                                  props.navigation.navigate("Pan");
+                                }
+                              }}
+                              style={styles.botton_box}
+                            >
+                              <Text style={styles.get_otp}>
+                                {users?.pan ||
                                 props.navigation.state.params?.refresh
-                              ) {
-                                props.navigation.navigate(
-                                  steps === 3
-                                    ? "RegisterDetails"
-                                    : "UploadDocument"
-                                );
-                              } else {
-                                props.navigation.navigate("Pan");
-                              }
-                            }}
-                            style={styles.botton_box}
-                          >
-                            <Text style={styles.get_otp}>
-                              {users?.pan ||
-                              props.navigation.state.params?.refresh
-                                ? "COMPLETE ACCOUNT SETUP"
-                                : "Create Account"}
-                            </Text>
-                          </TouchableOpacity>
-                        )}
+                                  ? "COMPLETE ACCOUNT SETUP"
+                                  : "Create Account"}
+                              </Text>
+                            </TouchableOpacity>
+                          )}
+                        </View>
                       </View>
                     </View>
-                  </View>
                   </>
                 ))}
             </>
@@ -378,11 +378,19 @@ function HomeScreen(props) {
         )}
         */}
 
-        <Text style={[styles.Plan, {marginTop: 15, marginBottom: -15}]}>Top Rated Funds</Text>
+        <Text style={[styles.Plan, { marginTop: 15, marginBottom: -15 }]}>
+          Top Rated Funds
+        </Text>
         <TouchableOpacity
           onPress={() => props.navigation.navigate("TopRatedHome")}
         >
-          <View style={[styles.education, styles.education_roted, { marginBottom: 0}]}>
+          <View
+            style={[
+              styles.education,
+              styles.education_roted,
+              { marginBottom: 0 },
+            ]}
+          >
             <View style={styles.child_sec}>
               <FastImage
                 source={require("../../../assets/term7.png")}
@@ -414,7 +422,9 @@ function HomeScreen(props) {
           style={styles.showMorePlansContainer}
           onPress={() => setShowMorePlans(!showMorePlans)}
         >
-          <Text style={styles.showMorePlansText}>{showMorePlans ? "Show less" : "Show more"}</Text>
+          <Text style={styles.showMorePlansText}>
+            {showMorePlans ? "Show less" : "Show more"}
+          </Text>
         </TouchableOpacity>
         {/*<View style={{ alignItems: "center" }}>
           <TouchableOpacity
@@ -431,7 +441,7 @@ function HomeScreen(props) {
 
         {/* Top roted fund section */}
         <Text style={styles.Plan}>Plan Your Goals</Text>
-        <ScrollView horizontal={true} style={{marginHorizontal: 16}}>
+        <ScrollView horizontal={true} style={{ marginHorizontal: 16 }}>
           {goals.map((item, key) => (
             <TouchableOpacity
               key={key}
@@ -1431,12 +1441,12 @@ const styles = StyleSheet.create({
   },
   showMorePlansContainer: {
     marginHorizontal: 20,
-    alignSelf: "flex-end"
+    alignSelf: "flex-end",
   },
   showMorePlansText: {
     color: Colors.RED,
-    fontSize: 14
-  }
+    fontSize: 14,
+  },
 });
 
 const mapStateToProps = (state) => ({

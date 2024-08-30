@@ -3,6 +3,8 @@ const { SideMenuActions } = require("../store/SideMenuRedux");
 
 import { Alert } from "react-native";
 import { AuthActions } from "./AuthRedux";
+import { RegistrationActions } from "./RegistrationRedux";
+let timeoutRef;
 const types = {
   RESETDATA: "RESETDATA",
 
@@ -28,10 +30,6 @@ export const HomeActions = {
   getsteps: async (dispatch, params, tokan) => {
     dispatch({ type: types.FETCH_STEPS_PENDING });
     let data = await SiteAPI.apiGetCall("/flags/step-state", params, tokan);
-    console.log(
-      await SiteAPI.apiGetCall("/flags/step-state", params, tokan),
-      "/flags/step-stateshadab"
-    );
     if (data.error) {
       if (data.message) Alert.alert(data.message);
       dispatch({ type: types.FETCH_STEPS_FAILURE, error: data.message });
@@ -61,8 +59,8 @@ export const HomeActions = {
       let data = await SiteAPI.apiPostCall("/user/userPan", params, tokan);
       if (data.error) {
         if (data.message) Alert.alert(data.message);
-        // dispatch({ type: types.FETCH_UPDATE_PAN_FAILURE, error: data.message });
-        dispatch({ type: types.FETCH_UPDATE_PAN_SUCCESS, pan: params.pan });
+        dispatch({ type: types.FETCH_UPDATE_PAN_FAILURE, error: data.message });
+        // dispatch({ type: types.FETCH_UPDATE_PAN_SUCCESS, pan: params.pan });
       } else {
         dispatch({ type: types.FETCH_UPDATE_PAN_SUCCESS, pan: data.data });
       }
@@ -80,32 +78,15 @@ export const HomeActions = {
       };
 
       await SiteAPI.apiGetCall(`/user/setIINmapping?iin=${newParams.iin}`);
-      Alert.alert(
-        "Account Already Exist",
-        "PAN No. " +
-          params.pan.toUpperCase() +
-          " already have IIN. Do you want to sync your account?",
-        [
-          {
-            text: "Cancel",
-            onPress: () => {
-              HomeActions.updatePan(dispatch, params, tokan);
-            },
-          },
-          {
-            text: "Sync Account",
-            onPress: () => {
-              HomeActions.updatePan(dispatch, params, tokan);
-              SideMenuActions.updateInn(dispatch, newParams, tokan);
-              // AuthActions.getProfile(dispatch, params, tokan);
-              setTimeout(
-                () => params?.navigation.navigate("UploadDocument"),
-                1000
-              );
-            },
-          },
-        ]
-      );
+      if (timeoutRef) {
+        clearTimeout(timeoutRef);
+      }
+      timeoutRef = setTimeout(() => {
+        HomeActions.updatePan(dispatch, params, tokan);
+        SideMenuActions.updateInn(dispatch, newParams, tokan);
+        AuthActions.getProfile(dispatch, params, tokan);
+        RegistrationActions.getDocuments(dispatch, tokan);
+      }, 1000);
     } else {
       HomeActions.updatePan(dispatch, params, tokan);
       // dispatch({ type: types.FETCH_UPDATE_PAN_PENDING });
@@ -130,7 +111,7 @@ const initialState = {
   steps: null,
   home: null,
   pan: null,
-  iinExist:false
+  iinExist: false,
 };
 
 export const reducer = (state = initialState, action) => {
