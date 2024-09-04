@@ -24,7 +24,7 @@ const TopRatedFundType = (props) => {
     setFolio,
     onChangeFolio,
     type,
-    key
+    key,
   } = props;
 
   const [values, setValues] = useState([]);
@@ -71,7 +71,12 @@ const TopRatedFundType = (props) => {
       {/* {item?.amount > 0 && ( */}
       <View style={styles.axis_asset}>
         <View style={styles.company}>
-          <Image source={{ uri: item?.image_path }} style={styles.axisimg} />
+          <Image
+            source={{
+              uri: `https://sipfund.sfo2.digitaloceanspaces.com/product-AMC-images/${item?.image_path}`,
+            }}
+            style={styles.axisimg}
+          />
           <View style={styles.management}>
             <Text style={styles.axis}>{item?.product_name}</Text>
             <Text style={styles.moderately}>Moderately High Risk</Text>
