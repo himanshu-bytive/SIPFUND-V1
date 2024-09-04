@@ -87,7 +87,11 @@ function FundDetailScreen(props) {
     minimumLumpsumAmount,
     newDates
   ) => {
-    setPrice(() => minimumSIPAmount);
+    if (selectTab === "SIP") {
+      setPrice(() => states.minimumSIPAmount);
+    } else if (selectTab === "LUMPSUM") {
+      setPrice(() => states.minimumLumpsumAmount);
+    }
     setStates({
       ...states,
       productCode,
@@ -164,6 +168,11 @@ function FundDetailScreen(props) {
   };
 
   const toggleTab = (tab) => {
+    if (tab === "SIP") {
+      setPrice(() => states.minimumSIPAmount);
+    } else if (tab === "LUMPSUM") {
+      setPrice(() => states.minimumLumpsumAmount);
+    }
     setSelectTab(tab);
   };
 
