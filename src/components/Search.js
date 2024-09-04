@@ -51,6 +51,8 @@ const SuggestionInput = ({ navigate, fundDetails }) => {
     navigate("FundsDetails", {
       fromScreen: "Home",
     });
+
+    setInputText("");
   };
 
   const handleBlur = () => {
