@@ -663,7 +663,9 @@ function UpiScreen(props) {
                   }}
                 >
                   <Text style={{ fontSize: 22 }}>
-                    Your Payment is successful
+                    Your Payment is
+                    {PaymentStatus !== undefined &&
+                      PaymentStatus.toLowercase() === "success"}
                   </Text>
                   <View
                     style={{
