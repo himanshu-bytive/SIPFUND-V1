@@ -146,7 +146,7 @@ function TopRatedHomeScreen(props) {
 
   useEffect(() => {
     if (addItemSucces) {
-      Toast.show("Cart Succesfully Created", Toast.LONG);
+      Toast.show("Added to Cart Succesfully", Toast.LONG);
       setAddItemSucces();
     }
   }, [addItemSucces]);
@@ -379,16 +379,15 @@ function TopRatedHomeScreen(props) {
 
   const addToCartLumpSum = () => {
     let priceNew = price;
-    if(parseInt(price) >= 0){
+    if (parseInt(price) >= 0) {
       if (price < states?.minimumLumpsumAmount) {
         alert("Amount is less than minimum amount");
         return;
       }
+    } else {
+      priceNew = states?.minimumLumpsumAmount;
     }
-    else{
-      priceNew = states?.minimumLumpsumAmount
-    }
-   
+
     let params = {
       cartDetails: {
         trxn_nature: "N",
@@ -410,16 +409,15 @@ function TopRatedHomeScreen(props) {
   };
   const addToCartSip = () => {
     let priceNew = price;
-    if(parseInt(price) >= 0){
+    if (parseInt(price) >= 0) {
       if (price < states?.minimumSIPAmount) {
         alert("Amount is less than minimum amount");
         return;
       }
+    } else {
+      priceNew = states?.minimumSIPAmount;
     }
-    else{
-      priceNew = states?.minimumSIPAmount
-    }
-    
+
     let params = {
       cartDetails: {
         trxn_nature: "S",
@@ -783,8 +781,6 @@ function TopRatedHomeScreen(props) {
                   <TouchableOpacity
                     style={{ flexDirection: "row", alignItems: "center" }}
                     onPress={() => {
-                      
-
                       openFundDetails(item);
                     }}
                   >
@@ -919,10 +915,11 @@ function TopRatedHomeScreen(props) {
                   : styles.buttom_botton
               }
             >
-              <TouchableOpacity onPress={() => {
-                toggleTab("LUMPSUM");
-
-                }}>
+              <TouchableOpacity
+                onPress={() => {
+                  toggleTab("LUMPSUM");
+                }}
+              >
                 <Text
                   style={
                     selectTab == "LUMPSUM" ? styles.sip_text2 : styles.sip_text
@@ -949,7 +946,11 @@ function TopRatedHomeScreen(props) {
                     <TextInput
                       keyboardType={"numeric"}
                       // value={numberWithCommas(price)}
-                      value={price?numberWithCommas(price):numberWithCommas(states?.minimumSIPAmount)}
+                      value={
+                        price
+                          ? numberWithCommas(price)
+                          : numberWithCommas(states?.minimumSIPAmount)
+                      }
                       onChangeText={(amount) => removeSpecialChars(amount)}
                       placeholder="₹0"
                       style={styles.amount_tex2}
@@ -1044,7 +1045,11 @@ function TopRatedHomeScreen(props) {
                     <TextInput
                       keyboardType={"numeric"}
                       // value={numberWithCommas(price)}
-                      value={price?numberWithCommas(price):numberWithCommas(states?.minimumLumpsumAmount)}
+                      value={
+                        price
+                          ? numberWithCommas(price)
+                          : numberWithCommas(states?.minimumLumpsumAmount)
+                      }
                       onChangeText={(amount) => removeSpecialChars(amount)}
                       placeholder="₹0"
                       style={styles.amount_tex2}

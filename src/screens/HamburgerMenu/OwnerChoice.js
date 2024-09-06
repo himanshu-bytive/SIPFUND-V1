@@ -51,7 +51,7 @@ function OwnerChoice(props) {
 
   useEffect(() => {
     if (addItemSucces) {
-      Toast.show("Cart Succesfully Created", Toast.LONG);
+      Toast.show("Added to Cart Succesfully", Toast.LONG);
       setAddItemSucces();
     }
   }, [addItemSucces]);
