@@ -24,7 +24,7 @@ import Cart from "../../components/Cart";
 const reports = [
   {
     number: "1.",
-    title: "Live Portfolio Report",
+    title: "Sipfund holding Report",
     link: "Download",
     api: "live-portfolio-report-summary",
   },
@@ -45,7 +45,7 @@ const reports = [
 const tax = [
   {
     number: "1.",
-    title: "Live Portfolio Report",
+    title: "Sipfund holding Report",
     link: "Download",
     api: "live-portfolio-report-details",
   },
