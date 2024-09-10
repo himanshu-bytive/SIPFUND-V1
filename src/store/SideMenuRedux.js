@@ -77,7 +77,10 @@ export const SideMenuActions = {
     dispatch({ type: types.FETCH_UPDATE_PENDING });
     let data = await SiteAPI.apiPutCall("/user", params, tokan);
     if (data.error) {
-      if (data.message) Alert.alert(data.message);
+      // if (data.message) {
+      // this alert gives message of "IIN is already exists with another account "
+      // Alert.alert(data.message);
+      // }
       dispatch({ type: types.FETCH_UPDATE_FAILURE, error: data.message });
     } else {
       HomeActions.getsteps(dispatch, params, tokan);

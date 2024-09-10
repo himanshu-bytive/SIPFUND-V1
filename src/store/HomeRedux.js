@@ -50,6 +50,7 @@ export const HomeActions = {
   updatePan: async (dispatch, params, tokan) => {
     let data1 = await SiteAPI.apiPostCall("/auth/verifypan", params, tokan);
     if (data1?.validFlag) {
+      // this gives alert as "your pan is already registered"
       Alert.alert(data1?.responseString);
       return;
       // dispatch({ type: types.FETCH_UPDATE_PAN_FAIL });
