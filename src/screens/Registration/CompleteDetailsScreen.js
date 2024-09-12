@@ -23,6 +23,7 @@ import { Image, Header, CheckBox } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import Cart from "../../components/Cart";
+import { getDateInHuman } from "../../utils/getDateInFormat";
 
 const titleList = [
   { value: "Mr", label: "Mr." },
@@ -186,31 +187,6 @@ function CompleteDetailsScreen(props) {
       setIncomesList(incomesList);
     }
   }, [occupations, incomes]);
-
-  const getDateInHuman = (date) => {
-    if (date.toString().length < 10) return date;
-    let d;
-    if (isNaN(date)) {
-      d = new Date(
-        `${date.toString().split("-")[2]}-${date.toString().split("-")[1]}-${
-          date.toString().split("-")[0]
-        }`
-      );
-    } else {
-      d = new Date(date);
-    }
-    const dateString = moment(d).format("DD-MM-YYYY");
-    if (dateString == "Invalid date") {
-      const tmp = new Date(
-        `${date.toString().split("-")[2]}-${date.toString().split("-")[1]}-${
-          date.toString().split("-")[0]
-        }`
-      );
-      console.log(moment(tmp).format("DD-MM-YYYY"));
-      return moment(tmp).format("DD-MM-YYYY");
-    }
-    return dateString;
-  };
 
   const onAction = async () => {
     const {
