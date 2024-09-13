@@ -50,7 +50,6 @@ class ApiClient {
           resolve({ statusCode: response.status, body: response.data });
         })
         .catch((error) => {
-          console.log("🚀 ~ ApiClient ~ returnnewPromise ~ error:", error);
           if (error.response) {
             // Request made and server responded
             if (error.response.data === "Unauthorized") {

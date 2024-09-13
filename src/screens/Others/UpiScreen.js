@@ -22,6 +22,7 @@ import SiteAPI from "../../services/SiteApis";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { MySelectPicker, MyTextInput } from "../../components";
 import moment from "moment";
+import { capitalizeWord } from "../../utils/generalPurposeFunctions";
 
 function UpiScreen(props) {
   const {
@@ -608,6 +609,7 @@ function UpiScreen(props) {
     }
   };
 
+  // console.log("PaymentStatus=============>", PaymentStatus);
   return (
     <>
       {isFetching && (
@@ -663,11 +665,7 @@ function UpiScreen(props) {
                   }}
                 >
                   <Text style={{ fontSize: 22 }}>
-                    Your Payment is
-                    {PaymentStatus !== undefined &&
-                    PaymentStatus.toLowercase() === "success"
-                      ? "Successful"
-                      : "Failed"}
+                    Your Payment is {`${capitalizeWord(PaymentStatus)}`}
                   </Text>
                   <View
                     style={{
