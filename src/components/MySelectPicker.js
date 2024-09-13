@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Platform } from "react-native";
 import RNPickerSelect from "react-native-picker-select";
 import { AntDesign } from "react-native-vector-icons";
 import { Styles, Config, Colors, FormValidate } from "../common";
@@ -15,7 +15,17 @@ const MySelectPicker = (props) => {
     style,
     containerStyle,
     icon,
+    mainWrapperContainerStyle,
+    iconStyle,
   } = props;
+
+  const extraProps =
+    Platform.OS === "android"
+      ? {
+          fixAndroidTouchableBug: true,
+          useNativeAndroidPickerStyle: false,
+        }
+      : {};
 
   useEffect(() => {
     if (error) {
@@ -25,7 +35,13 @@ const MySelectPicker = (props) => {
 
   return (
     <View>
-      <View style={styles.container}>
+      <View
+        style={
+          mainWrapperContainerStyle
+            ? mainWrapperContainerStyle
+            : styles.container
+        }
+      >
         <RNPickerSelect
           ref={focusInput}
           placeholder={{
@@ -37,7 +53,6 @@ const MySelectPicker = (props) => {
             inputAndroid: containerStyle ? containerStyle : styles.custom,
             placeholder: style ? style : styles.custom,
           }}
-          useNativeAndroidPickerStyle={false}
           onValueChange={(value) => onChange(value)}
           value={defultValue}
           items={values}
@@ -45,13 +60,14 @@ const MySelectPicker = (props) => {
             if (icon) return icon;
             return (
               <AntDesign
-                style={{ right: 10 }}
+                style={iconStyle ? iconStyle : { right: 10 }}
                 name="down"
                 color={"#444"}
                 size={18}
               />
             );
           }}
+          {...extraProps}
         />
       </View>
       {error && <Text style={styles.error}>{error}</Text>}

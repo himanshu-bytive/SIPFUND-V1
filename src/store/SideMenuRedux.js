@@ -285,7 +285,7 @@ export const reducer = (state = initialState, action) => {
       };
     }
     case types.FETCH_UPDATE_SUCCESS: {
-      Alert.alert("Thanks for creating  your investors account!");
+      // Alert.alert("Thanks for creating  your investors account!");
       return {
         ...state,
         isFetching: false,
