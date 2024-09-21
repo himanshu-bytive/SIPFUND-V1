@@ -9,7 +9,8 @@ import * as Sharing from "expo-sharing";
 //import * as MediaLibrary from "expo-media-library";
 import apiBaseUrl from "../common/Config";
 import axios from "axios";
-import RNFetchBlob from "react-native-fetch-blob";
+import RNFetchBlob from "rn-fetch-blob";
+// import RNFetchBlob from "react-native-fetch-blob";
 import Toast from "react-native-simple-toast";
 
 const types = {

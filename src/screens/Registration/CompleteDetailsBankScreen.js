@@ -25,7 +25,7 @@ import * as ImagePicker from "react-native-image-picker";
 import RNPickerSelect from "react-native-picker-select";
 import { Camera } from "expo-camera";
 import { Button } from "react-native-paper";
-import RNFetchBlob from "react-native-fetch-blob";
+import RNFetchBlob from "rn-fetch-blob";
 
 function CompleteDetailsBankScreen(props, route) {
   const pageActive = useRef(false);
@@ -666,7 +666,6 @@ function CompleteDetailsBankScreen(props, route) {
               }}
             />
 
-
             <View style={{ alignItems: "center" }}>
               {isFetching ? (
                 <View style={styles.botton_box}>
@@ -853,27 +852,27 @@ function CompleteDetailsBankScreen(props, route) {
                 
                 style={{ marginVertical: 10 }}
               > */}
-                {props?.navigation?.state?.params?.newBankAccount && (
-              <View style={{ marginBottom: 10,marginHorizontal:10 }}>
-                <Text style={styles.occupation}>
-                  Proof Of Account <Text style={styles.error}>*</Text>
-                </Text>
-                <MySelectPicker
-                  values={proof_of_account}
-                  defultValue={state?.proofOfAccountSelected}
-                  error={errors.accountType}
-                  placeholder={"Select Proof of Account"}
-                  onChange={(proofOfAccountSelected) => {
-                    console.log(
-                      "🚀 ~ CompleteDetailsBankScreen ~ proofOfAccountSelected:",
-                      proofOfAccountSelected
-                    );
-                    setErrors({ ...errors, accountType: null });
-                    setState({ ...state, proofOfAccountSelected });
-                  }}
-                />
-              </View>
-            )}
+              {props?.navigation?.state?.params?.newBankAccount && (
+                <View style={{ marginBottom: 10, marginHorizontal: 10 }}>
+                  <Text style={styles.occupation}>
+                    Proof Of Account <Text style={styles.error}>*</Text>
+                  </Text>
+                  <MySelectPicker
+                    values={proof_of_account}
+                    defultValue={state?.proofOfAccountSelected}
+                    error={errors.accountType}
+                    placeholder={"Select Proof of Account"}
+                    onChange={(proofOfAccountSelected) => {
+                      console.log(
+                        "🚀 ~ CompleteDetailsBankScreen ~ proofOfAccountSelected:",
+                        proofOfAccountSelected
+                      );
+                      setErrors({ ...errors, accountType: null });
+                      setState({ ...state, proofOfAccountSelected });
+                    }}
+                  />
+                </View>
+              )}
               <TouchableOpacity
                 // onPress={onActionNewBank}
                 onPress={() =>

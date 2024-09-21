@@ -81,8 +81,8 @@
         <action android:name="android.intent.action.VIEW" />
         <category android:name="android.intent.category.DEFAULT" />
         <category android:name="android.intent.category.BROWSABLE" />
-        <data android:host="eks24.app.goo.gl" 
-        android:scheme="https" />
+        <data android:host="eks24.app.goo.gl"
+          android:scheme="https" />
       </intent-filter>
     </activity>
     <activity
@@ -90,7 +90,8 @@
     />
     <activity
       android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-      android:theme="@style/Base.Theme.AppCompat"
-    />
+      android:theme="@style/Base.Theme.AppCompat">
+    </activity>
+
   </application>
 </manifest>
