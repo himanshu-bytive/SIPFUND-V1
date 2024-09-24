@@ -75,3 +75,5 @@ dist/
 .prettierrc
 
 # @end expo-cli
+
+.env
