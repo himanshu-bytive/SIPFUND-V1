@@ -58,7 +58,7 @@ export const AuthActions = {
     dispatch({ type: types.FETCH_VERIFY_PENDING });
     let data = await SiteAPI.apiPostCall("/auth/verify", params);
     if (data.error) {
-      if (data.message) Alert.alert(data.message.message);
+      if (data.message) Alert.alert(data.message);
       dispatch({ type: types.FETCH_VERIFY_FAILURE, error: data.message });
     } else {
       // Alert.alert("SIP Fund", data.responseString, [
