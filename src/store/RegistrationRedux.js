@@ -4,6 +4,7 @@ import SiteAPI from "../services/SiteApis";
 import { Alert } from "react-native";
 import axios from "axios";
 import Config from "../common/Config";
+import { AuthActions } from "./AuthRedux";
 const types = {
   GET_OCCUPATION: "GET_OCCUPATION",
 
@@ -194,8 +195,11 @@ export const RegistrationActions = {
   },
   createRegister: async (dispatch, params, token) => {
     if (params?.hasOwnProperty("process_flag")) {
+      // Handle process_flag if needed
     }
+  
     dispatch({ type: types.FETCH_CREATE_REGISTER_PENDING });
+  
     let data = await SiteAPI.apiPostCall(
       params?.hasOwnProperty("process_flag")
         ? "/bank/addbankdetail"
@@ -203,6 +207,7 @@ export const RegistrationActions = {
       params,
       token
     );
+  
     if (data.error) {
       if (data.message) Alert.alert(data.message);
       if (data.status == "InActive") {
@@ -225,11 +230,21 @@ export const RegistrationActions = {
           ? data?.user?.iin
           : data.IIN,
       });
+  
+      // Check if this is the CREATECUSTOMER API call
       if (!params?.hasOwnProperty("process_flag")) {
+        // Call AuthActions.getProfile with the newParams
+        const newParams = { iin: data.IIN }; // Adjust as necessary
+        console.log("YES HITTING USER API",data.IIN);
+        
+        await AuthActions.getProfile(dispatch, { service_request: newParams }, token);
+        
+        // Optionally handle the response from getProfile here
         FatcaKYC(dispatch, params.FatcaObj, token);
       }
     }
   },
+  
   FatcaKYC: async (dispatch, params, token) => {
     dispatch({ type: types.FETCH_CREATE_FATCA_PENDING });
     let data = await SiteAPI.apiPostCall(

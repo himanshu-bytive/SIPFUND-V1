@@ -301,7 +301,7 @@ function TopRatedListScreen(props) {
   const getFundType = () => {
     return selectTab === "SIP" ? "S" : "N";
   };
-
+  const getKey = (item, key) => item?._id || key;
   useEffect(() => {
     let type = getFundType();
     if (selectTab === "SIP") {
@@ -469,7 +469,7 @@ function TopRatedListScreen(props) {
                     <>
                       {/* <Text>{JSON.stringify(item)}</Text> */}
                       <TopRatedFundType
-                        key={item?._id}
+                        key={getKey(item, key)}
                         deleteItem={deleteItem}
                         fromSIP={true}
                         onChangeDate={onChangeDate}
@@ -514,7 +514,7 @@ function TopRatedListScreen(props) {
             .filter((item) => item.trxn_nature === "N")
             .map((item, key) => (
               <TopRatedFundType
-                key={item?._id}
+                key={getKey(item, key)}
                 deleteItem={deleteLumSumItem}
                 item={item}
                 index={key}

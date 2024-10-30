@@ -15,7 +15,7 @@ import appsFlyer from "react-native-appsflyer";
 // import { firebase } from "@react-native-firebase/messaging";
 import NotificationService from "./NotificationService";
 import { requestNotifications } from "react-native-permissions";
-
+import 'react-native-devsettings/withAsyncStorage';
 let store = null;
 const middleware = [thunk];
 store = compose(applyMiddleware(...middleware))(createStore)(reducers);

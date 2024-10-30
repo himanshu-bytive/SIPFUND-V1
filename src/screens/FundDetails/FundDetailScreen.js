@@ -295,7 +295,7 @@ function FundDetailScreen(props) {
 
   const getFundData = async (isin) => {
     const { data } = await axios.get(
-      `http://159.65.145.3:8085/api/minmax/search?isin=${isin}`
+      `https://sipfund.com/api/minmax/search?isin=${isin}`
     );
 
     setItem(data?.responseString);
@@ -512,14 +512,24 @@ function FundDetailScreen(props) {
       <TouchableOpacity
         style={[styles.botton_box, { width: "100%", marginHorizontal: 0 }]}
         onPress={() => {
-          var newDates = item?.sipDates ?? [];
-          newDates = newDates?.split(",");
-          var newDates = newDates.map((object) => {
-            return {
-              label: ("0" + object.replace(/\s/g, "")).slice(-2),
-              value: ("0" + object.replace(/\s/g, "")).slice(-2),
-            };
-          });
+          // Use the optional chaining and default to an empty array
+          var newDates = item?.sipDates;
+
+          // Check if newDates is an array or a string
+          if (Array.isArray(newDates)) {
+            newDates = newDates.map((date) => date.trim());
+          } else if (typeof newDates === "string") {
+            newDates = newDates.split(",").map((date) => date.trim());
+          } else {
+            newDates = []; // Fallback to an empty array if it's neither
+          }
+
+          // Map over newDates to format it
+          newDates = newDates.map((object) => ({
+            label: ("0" + object).slice(-2),
+            value: ("0" + object).slice(-2),
+          }));
+
           invest(
             item.productAMCImage,
             item.productAmcCode,

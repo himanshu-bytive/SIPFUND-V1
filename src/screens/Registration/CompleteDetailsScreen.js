@@ -835,7 +835,7 @@ function CompleteDetailsScreen(props) {
                   nominate1pan: nominate1pan.toUpperCase(),
                 });
               }}
-              autoCapitalize={true}
+              autoCapitalize="characters"
             />
           </View>
         )}

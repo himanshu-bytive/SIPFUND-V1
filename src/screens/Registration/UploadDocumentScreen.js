@@ -14,6 +14,7 @@ import Carousel from "react-native-snap-carousel";
 import { connect } from "react-redux";
 import { Styles, Config, Colors, FormValidate } from "../../common";
 import { MyImagePicker } from "../../components";
+
 import {
   MaterialIcons,
   AntDesign,
@@ -130,7 +131,18 @@ function UploadDocumentScreen(props) {
   console.log(JSON.stringify(document));
   const carosuelref = useRef();
   const [reUploadInd, setReUploadInd] = useState([]);
-
+  const [showLoader, setShowLoader] = useState(false);
+  useEffect(() => {
+    setShowLoader(true); // Show loader immediately on mount
+  
+    const hideTimer = setTimeout(() => {
+      setShowLoader(false); // Hide loader after 5 seconds
+    }, 3000); // 5 seconds for hiding the loader
+  
+    // Cleanup for the hide timer
+    return () => clearTimeout(hideTimer);
+  }, []); // Only runs on mount
+  
   useEffect(() => {
     const backAction = () => {
       return true;
@@ -255,7 +267,7 @@ function UploadDocumentScreen(props) {
           />
         }
       />
-      {isFetching && (
+      {showLoader && (
         <View style={Styles.loading}>
           <ActivityIndicator color={Colors.BLACK} size="large" />
         </View>

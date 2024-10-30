@@ -52,7 +52,6 @@ function TopRatedFundsScreen(props) {
             </TouchableOpacity>
           }
           backgroundColor={Colors.PEACH}
-          backgroundColor={Colors.PEACH}
           centerComponent={
             <Image
               source={require("../../../assets/icon.png")}

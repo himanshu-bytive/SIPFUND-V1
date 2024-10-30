@@ -196,6 +196,7 @@ export const AuthActions = {
     }
   },
   logout() {
+    AsyncStorage.removeItem("USERNAME");
     return { type: types.LOGOUT };
   },
   creatAccount: async (dispatch, params) => {
@@ -228,7 +229,8 @@ export const AuthActions = {
   getProfile: async (dispatch, params, token) => {
     dispatch({ type: types.FETCH_PROFILE_PENDING });
     let data = await SiteAPI.apiPostCall("/apiData/IINDETAILS", params, token);
-
+    console.log("Yes Data Got",data.Data.INVESTOR_NAME);
+    const UserName = AsyncStorage.setItem("USERNAME",data.Data.INVESTOR_NAME);
     if (params?.service_request?.iin > 0 && params?.service_request?.iin) {
       let data1 = await SiteAPI.apiGetCall(
         "/bank/custbanklist?iin=" + params?.service_request?.iin,

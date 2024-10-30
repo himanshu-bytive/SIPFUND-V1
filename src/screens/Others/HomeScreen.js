@@ -23,6 +23,7 @@ import WebView from "react-native-webview";
 import appsFlyer from "react-native-appsflyer";
 import FastImage from "react-native-fast-image";
 import SuggestionInput from "../../components/Search";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
@@ -67,11 +68,40 @@ function HomeScreen(props) {
   const [webUrl, setWebUrl] = useState("");
   const [webViewActive, setWebViewActive] = useState(false);
   const [showMorePlans, setShowMorePlans] = useState(false);
-
+  const [username, setUsername] = useState('');
+  const [isUsernameFetched, setIsUsernameFetched] = useState(false);
   useEffect(() => {
     setWebViewActive(false);
   }, []);
+  
+  useEffect(() => {
+    const fetchUsername = async () => {
+      try {
+        const storedUsername = await AsyncStorage.getItem("USERNAME");
+        if (storedUsername) {
+          setUsername(storedUsername);
+          setIsUsernameFetched(true); 
+          console.log("Hi", storedUsername);
+        }
+      } catch (error) {
+        console.error('Error retrieving username:', error);
+      }
+    };
 
+    fetchUsername(); // Initial fetch
+
+    const intervalId = setInterval(() => {
+      if (!isUsernameFetched) {
+        fetchUsername(); // Only fetch if not fetched yet
+      } else {
+        clearInterval(intervalId); // Clear the interval if username is fetched
+      }
+    }, 2000); // Poll every 2 seconds
+
+    return () => clearInterval(intervalId); // Clear interval on unmount
+  }, [isUsernameFetched]); // Add isUsernameFetched to the dependency array
+
+  
   const loadUrl = (url) => {
     setWebViewActive(true);
     setWebUrl(url);
@@ -271,10 +301,10 @@ function HomeScreen(props) {
                                   },
                                 ]}
                               >
-                                {users?.IIN && steps > 5
+                                {username && steps > 5
                                   ? "Congratulations"
-                                  : users?.name
-                                  ? `Hello, ${users?.name}`
+                                  : username
+                                  ? `Hello, ${username}`
                                   : `Hello, Investor`}
                               </Text>
                               <Text
@@ -310,7 +340,7 @@ function HomeScreen(props) {
                                   props.navigation.state.params?.refresh
                                 ) {
                                   props.navigation.navigate(
-                                    steps === 3
+                                    !username
                                       ? "RegisterDetails"
                                       : "UploadDocument"
                                   );

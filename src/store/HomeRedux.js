@@ -58,6 +58,8 @@ export const HomeActions = {
       dispatch({ type: types.FETCH_UPDATE_PAN_PENDING });
 
       let data = await SiteAPI.apiPostCall("/user/userPan", params, tokan);
+      console.log("Helloooow",data);
+      
       if (data.error) {
         if (data.message) Alert.alert(data.message);
         dispatch({ type: types.FETCH_UPDATE_PAN_FAILURE, error: data.message });
@@ -70,8 +72,10 @@ export const HomeActions = {
     // let data = await SiteAPI.apiPostCall("/user/userPan", params, tokan);
   },
   checkPANNumber: async (dispatch, params, tokan) => {
+    console.log("PanNumber",params.pan);
     let data1 = await SiteAPI.apiGetCall(`/user/getIINonPAN?pan=${params.pan}`);
-
+    console.log("Got Data",data1);
+    
     if (data1?.validflag) {
       const newParams = {
         iin: data1?.data[0]?.CUSTOMER_ID,
@@ -85,7 +89,7 @@ export const HomeActions = {
       timeoutRef = setTimeout(() => {
         HomeActions.updatePan(dispatch, params, tokan);
         SideMenuActions.updateInn(dispatch, newParams, tokan);
-        AuthActions.getProfile(dispatch, params, tokan);
+        AuthActions.getProfile(dispatch,{ service_request: { iin: newParams.iin  } }, tokan);
         RegistrationActions.getDocuments(dispatch, tokan);
       }, 1000);
     } else {
